@@ -1,0 +1,76 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.ant-layout-header .logo {
+  float: left;
+  margin: 4px 30px 4px 0;
+  width: 120px;
+  height: 56px;
+}
+
+.ant-layout-header .logo img {
+  width: 100%;
+  height: 100%;
+  vertical-align: baseline;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.tools-wrapper {
+  padding: 10px 0;
+}
+
+.tools-wrapper .ant-btn {
+  margin-top:  8px;
+  margin-right: 8px;
+}
+
+.tools-wrapper .ant-btn:last-child {
+  margin-right: 0;
+}
+
+.table-wrapper {
+  margin-top: 20px;
+}
+
+.table-wrapper .ant-table {
+  overflow: auto;
+}
+
+.table-wrapper .ant-table tbody tr {
+  cursor: pointer;
+}
+
+.table-wrapper .ant-table-bordered .ant-table-thead > tr > th {
+  white-space: nowrap;
+}
+
+.ant-select-dropdown-menu-item {
+  white-space: normal !important;
+}
+
+.detail-form-wrapper > .ant-row > .ant-form-item-label.ant-col-xs-24.ant-col-sm-8 {
+  width: 200px;
+  margin-right: 10px;
+}
+
+.detail-form-wrapper .readonly-text {
+  padding: 9px 11px;
+  white-space: normal;
+  word-wrap: break-word;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.detail-form-wrapper .ant-upload-list-item-done .ant-upload-list-item-info > span {
+  height: 100%;
+}
+
+.build-modal-detail .detail-form-wrapper {
+  width: auto;
+}

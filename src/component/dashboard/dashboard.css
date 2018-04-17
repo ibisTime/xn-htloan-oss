@@ -1,0 +1,54 @@
+.dashboard-layout .trigger {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  cursor: pointer;
+  transition: color .3s;
+}
+.dashboard-layout .trigger:hover {
+  color: #1890ff;
+}
+
+.dashboard-layout .header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  left: 0;
+  z-index: 1;
+}
+
+.dashboard-layout .ant-menu-dark.ant-menu-horizontal {
+  border-bottom: none;
+}
+
+.dashboard-layout .left-slider {
+  position: fixed;
+  left: 0;
+  top: 64px;
+  bottom: 0;
+  background: #fff;
+  overflow: auto;
+}
+
+.dashboard-layout .right-layout {
+  padding: 0px 24px 24px;
+  position: relative;
+  margin-left: 200px;
+  margin-top: 64px;
+}
+
+.dashboard-layout .right-layout.collapsed {
+  margin-left: 80px;
+}
+
+.dashboard-layout .full-right-content {
+  margin-left: 0 !important;
+  padding-top: 24px;
+}
+
+.dashboard-layout .right-content {
+  background: #fff;
+  padding: 24px;
+  margin: 0px;
+  min-height: 280px;
+}
