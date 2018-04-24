@@ -1,18 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Select, Input, Button, Tooltip, Icon, Spin, Upload,
-  Modal, Cascader, DatePicker, Table } from 'antd';
+  Modal, Cascader, DatePicker, Table, Row, Col } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import E from 'wangeditor';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
 import { formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat,
-  tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg } from 'common/js/util';
+  tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg } from 'common/js/util';
 import { UPLOAD_URL, PIC_PREFIX, formItemLayout, tailFormItemLayout } from './config';
 import fetch from 'common/js/fetch';
 import cityData from 'common/js/lib/city';
-import ModalDetail from 'common/js/build-modal-detail';
 import locale from './lib/date-locale';
 
 moment.locale('zh-cn');
@@ -34,7 +33,7 @@ const fileUploadBtn = (
   </Button>
 );
 
-export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToProps = {}) => (WrapComponent) => {
+export const O2MDetailWrapper = (mapStateToProps = state => state, mapDispatchToProps = {}) => (WrapComponent) => {
   return (
     @Form.create()
     @connect(mapStateToProps, mapDispatchToProps)
@@ -54,12 +53,10 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
           token: '',
           textareas: {},
           fetching: {},
-          o2mSKeys: {},
           searchData: {},
           modalVisible: false,
           modalOptions: {}
         };
-        this.o2mFirst = {};
         this.textareas = {};
       }
       componentDidMount() {
@@ -112,9 +109,11 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
           ...this.options,
           ...options
         };
-        if (this.first) {
+        this.props.initStates({ code: this.options.code, view: this.options.view });
+        if (this.options.useData) {
+          this.props.setPageData(this.options.useData);
+        } else {
           this.options.code && this.options.detailCode && this.getDetailInfo();
-          this.props.initStates({ code: this.options.code, view: this.options.view });
         }
         const children = [];
         this.options.fields.forEach(f => {
@@ -169,8 +168,6 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
             } else {
               values[v.field] = values[v.field] ? values[v.field].format(format) : values[v.field];
             }
-          } else if (v.type === 'o2m') {
-            values[v.field] = this.props.pageData[v.field];
           }
         });
         return values;
@@ -247,8 +244,8 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
         }
       }
       getUploadData = (file) => {
-        return { token: this.state.token };
         // const { token } = this.state;
+        return { token: this.state.token };
         // let sourceLink = file.name;
         // let idx = sourceLink.lastIndexOf('.');
         // let name = sourceLink.slice(0, idx);
@@ -337,8 +334,6 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
         let rules = this.getRules(item);
         let initVal = this.getRealValue(item);
         switch(type) {
-          case 'o2m':
-            return this.getTableItem(item, initVal, rules, getFieldDecorator);
           case 'select':
             // 解析select的数据，如详情查询返回userId，则根据该字段的配置把它解析成可以读懂的信息
             if (item.pageCode && initVal && !this.getItemByType[item.field]) {
@@ -366,213 +361,6 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
           default:
             return this.getInputComp(item, initVal, rules, getFieldDecorator);
         }
-      }
-      onSelectChange = (selectedRowKeys, key) => {
-        this.setState((prevState, props) => ({
-          o2mSKeys: {
-            ...prevState.o2mSKeys,
-            [key]: selectedRowKeys
-          }
-        }));
-      }
-      getTableItem(item, initVal, rules, getFieldDecorator) {
-        const columns = this.getTableColumns(item);
-        const { o2mSKeys } = this.state;
-        o2mSKeys[item.field] = o2mSKeys[item.field] || [];
-        const dataSource = initVal || [];
-        const selectedRowKeys = o2mSKeys[item.field];
-        const rowSelection = {
-          selectedRowKeys,
-          onChange: (selectedRowKeys) => this.onSelectChange(selectedRowKeys, item.field)
-        };
-        const hasSelected = selectedRowKeys.length > 0;
-        return (
-          <FormItem key={item.field} {...formItemLayout} label={this.getLabel(item)}>
-            {this.getTableBtn(item, hasSelected)}
-            <Table {...this.getTableProps(rowSelection, columns, item, dataSource)} />
-          </FormItem>
-        );
-      }
-      getTableProps(rowSelection, columns, item, dataSource) {
-        const props = {
-          columns,
-          dataSource,
-          rowSelection,
-          bordered: true,
-          rowKey: record => record[item.options.rowKey || 'code']
-        };
-        if (item.options.scroll) {
-          props.scroll = item.options.scroll;
-        }
-        return props;
-      }
-      getTableBtn(item, hasSelected) {
-        if (!item.options.buttons) {
-          let _this = this;
-          item.options.buttons = [{
-            title: '确认',
-            handler: (params, doFetching, cancelFetching, handleCancel) => {
-              let key = item.rowKey || 'code';
-              params[key] = isUndefined(params[key]) ? new Date().getTime() : params[key];
-              let arr = _this.props.pageData[item.field] || [];
-              _this.props.setPageData({
-                ..._this.props.pageData,
-                [item.field]: [...arr, params]
-              });
-              setTimeout(() => {
-                _this.setState((prevState, props) => ({
-                  o2mSKeys: { ...prevState.o2mSKeys, [item.field]: [params[key]] }
-                }));
-              }, 300);
-              handleCancel();
-            },
-            check: true
-          }];
-        }
-        return item.readonly ? null : (
-          <div style={{ marginBottom: 16 }}>
-            {item.options.add ? <Button
-              type="primary"
-              style={{marginRight: 20}}
-              onClick={() => {
-                this.setState({
-                  modalVisible: true,
-                  modalOptions: {
-                    ...item.options,
-                    useData: null,
-                    code: null
-                  }
-                });
-              }}
-            >新增</Button> : null}
-            {item.options.edit ? <Button
-              type="primary"
-              disabled={!hasSelected}
-              style={{marginRight: 20}}
-              onClick={() => {
-                let keys = this.state.o2mSKeys[item.field];
-                if (!keys.length || keys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                  return;
-                }
-                let key = keys[0];
-                let keyName = item.rowKey || 'code';
-                let useData = this.props.pageData[item.field].filter((v) => v[keyName] === key)[0];
-                this.setState({
-                  modalVisible: true,
-                  modalOptions: {
-                    ...item.options,
-                    code: key,
-                    useData
-                  }
-                });
-              }}
-            >修改</Button> : null}
-            {item.options.delete ? <Button
-              type="primary"
-              disabled={!hasSelected}
-              style={{marginRight: 20}}
-              onClick={() => {
-                let keys = this.state.o2mSKeys[item.field];
-                if (!keys.length || keys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                  return;
-                }
-                let key = keys[0];
-                let keyName = item.rowKey || 'code';
-                let arr = this.props.pageData[item.field].filter((v) => v[keyName] !== key);
-                this.props.setPageData({
-                  ...this.props.pageData,
-                  [item.field]: arr
-                });
-                this.setState((prevState, props) => ({
-                  o2mSKeys: { ...prevState.o2mSKeys, [item.field]: [] }
-                }));
-              }}
-            >删除</Button> : null}
-          </div>
-        );
-      }
-      getTableColumns(item) {
-        const columns = item.options.fields;
-        let first = this.o2mFirst[item.field];
-        first = isUndefined(first) ? true : first;
-        let result = [];
-        columns.forEach(f => {
-          let obj = {
-            title: f.title,
-            dataIndex: f.field
-          };
-          if (f.type === 'datetime') {
-            obj.render = (v) => {
-              return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateTimeFormat(v)}</span> : dateTimeFormat(v);
-            };
-          } else if (f.type === 'date') {
-            obj.render = (v) => {
-              return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateFormat(v)}</span> : dateFormat(v);
-            };
-          } else if (f.type === 'select') {
-            if (f.key) {
-              f.keyName = f.keyName || 'dkey';
-              f.valueName = f.valueName || 'dvalue';
-            }
-            if (!f.data) {
-              f.data = this.state.searchData[f.field];
-              first && this.getO2MSelectData(f);
-            } else if (!this.state.searchData[f.field]) {
-              this.setSearchData({ data: f.data, key: f.field });
-            }
-            obj.render = (value) => {
-              let val = '';
-              if (value && f.data) {
-                let item = f.data.find(v => v[f.keyName] === value);
-                val = item
-                  ? item[f.valueName]
-                    ? item[f.valueName]
-                    : tempString(f.valueName, item)
-                  : '';
-              }
-              return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{val}</span> : val;
-            };
-          } else if (f.type === 'img') {
-            obj.render = (value) => <img style={{maxWidth: 25, maxHeight: 25}} src={PIC_PREFIX + value}/>;
-          }
-          if (f.amount) {
-            obj.render = (v, d) => <span style={{whiteSpace: 'nowrap'}}>{moneyFormat(v, d)}</span>;
-          }
-          if (!obj.render) {
-            if (f.render) {
-              obj.render = f.render;
-            } else {
-              obj.render = (v) => f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{v}</span> : v;
-            }
-          }
-          if (f.fixed) {
-            obj.fixed = f.fixed;
-            obj.width = f.width || 100;
-          }
-          result.push(obj);
-        });
-        this.o2mFirst[item.field] = false;
-        return result;
-      }
-      // 获取select框的数据
-      getO2MSelectData(item) {
-        if (item.key) {
-          getDictList({ parentKey: item.key, bizType: item.keyCode }).then(data => {
-            this.setSearchData({ data, key: item.field });
-          }).catch(() => {});
-        } else if (item.listCode) {
-          let param = item.params || {};
-          fetch(item.listCode, param).then(data => {
-            this.setSearchData({ data, key: item.field });
-          }).catch(() => {});
-        }
-      }
-      setSearchData({data, key}) {
-        this.setState((prevState, props) => ({
-          searchData: {...prevState.searchData, [key]: data}
-        }));
       }
       getDateItem(item, initVal, rules, getFieldDecorator, isTime = false) {
         let format = isTime ? DATETIME_FORMAT : DATE_FORMAT;
@@ -829,8 +617,7 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
             uid: key,
             name: key,
             status: 'done',
-            url: isImg ? formatImg(key) : formatFile(key),
-            thumbUrl: isImg ? formatImg(key) : formatFile(key)
+            url: isImg ? formatImg(key) : formatFile(key)
           }));
         }
         return initValue;
@@ -841,8 +628,10 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
         try {
           if (item._keys) {
             result = this.getValFromKeys(item);
-          } else if (!isUndefined(item.value)) {
-            result = item.value;
+          } else {
+            if (!((this.options.code || this.options.useData) && !item.hidden)) {
+              result = item.value;
+            }
           }
           if (item.type === 'citySelect') {
             result = this.getCityVal(item, result);
@@ -1013,14 +802,7 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
       }
       render() {
         return (
-          <div>
             <WrapComponent {...this.props} buildDetail={this.buildDetail}></WrapComponent>
-            <ModalDetail
-              title='设置阈值'
-              visible={this.state.modalVisible}
-              hideModal={() => this.setState({modalVisible: false})}
-              options={this.state.modalOptions}></ModalDetail>
-          </div>
         );
       }
     }

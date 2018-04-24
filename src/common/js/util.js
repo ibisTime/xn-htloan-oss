@@ -123,19 +123,42 @@ export function dateTimeFormat(date) {
  * @param money
  * @param format
  */
-export function moneyFormat(money, format = 8, coin) {
-  var unit = coin === 'SC' ? '1e24' : '1e18';
-  if (isUndefined(money)) {
+export function moneyFormat(money, format) {
+  var flag = true;
+  if (isNaN(money)) {
     return '-';
   }
-  format = typeof format === 'object' ? 8 : format;
-  money = new BigDecimal(money);
-  money = money.divide(new BigDecimal(unit), format, MathContext.ROUND_DOWN).toString();
-  // money = money.replace(/^(.+\..*[^0])0+$/, '$1').replace(/^(.+)\.0+$/, '$1');
+  if (money < 0) {
+    money = -1 * money;
+    flag = false;
+  }
+  if (isUndefined(format) || typeof format === 'object') {
+    format = 2;
+  }
+  // 钱除以1000并保留两位小数
+  money = (money / 1000).toString();
+  var reg = new RegExp('(\\.\\d{' + format + '})\\d+', 'ig');
+  money = money.replace(reg, '$1');
+  money = parseFloat(money).toFixed(format);
   // 千分位转化
   var re = /\d{1,3}(?=(\d{3})+$)/g;
   money = money.replace(/^(\d+)((\.\d+)?)$/, (s, s1, s2) => (s1.replace(re, '$&,') + s2));
+  if (!flag) {
+    money = '-' + money;
+  }
   return money;
+  // var unit = coin === 'SC' ? '1e24' : '1e18';
+  // if (isUndefined(money)) {
+  //   return '-';
+  // }
+  // format = typeof format === 'object' ? 8 : format;
+  // money = new BigDecimal(money);
+  // money = money.divide(new BigDecimal(unit), format, MathContext.ROUND_DOWN).toString();
+  // // money = money.replace(/^(.+\..*[^0])0+$/, '$1').replace(/^(.+)\.0+$/, '$1');
+  // // 千分位转化
+  // var re = /\d{1,3}(?=(\d{3})+$)/g;
+  // money = money.replace(/^(\d+)((\.\d+)?)$/, (s, s1, s2) => (s1.replace(re, '$&,') + s2));
+  // return money;
 }
 
 /**
