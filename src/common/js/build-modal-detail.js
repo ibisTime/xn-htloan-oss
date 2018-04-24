@@ -9,9 +9,9 @@ import {
   restore
 } from '@redux/modal/build-modal-detail';
 import fetch from 'common/js/fetch';
-import { DetailWrapper } from 'common/js/build-detail';
+import { O2MDetailWrapper } from 'common/js/build-o2m-detail';
 
-@DetailWrapper(
+@O2MDetailWrapper(
   state => state.modalDetail,
   { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
 )
@@ -43,7 +43,7 @@ export default class ModalDetail extends React.Component {
       options.buttons = options.buttons.map(v => ({
         ...v,
         handler: (params) => {
-          v.handler(params, this.props.doFetching, this.props.cancelFetching);
+          v.handler(params, this.props.doFetching, this.props.cancelFetching, this.handleCancel);
         }
       }));
       options.buttons.push({
@@ -60,6 +60,7 @@ export default class ModalDetail extends React.Component {
         visible={visible}
         title={title}
         onCancel={this.handleCancel}
+        style={{minWidth: 820}}
         footer={null}>
         {this.props.buildDetail(options)}
       </Modal>

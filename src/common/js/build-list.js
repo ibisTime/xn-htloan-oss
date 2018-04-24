@@ -5,6 +5,7 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import { moneyFormat, dateTimeFormat, dateFormat, tempString,
   showWarnMsg, showSucMsg, showDelConfirm } from 'common/js/util';
+import { PIC_PREFIX } from 'common/js/config';
 import { getOwnerBtns } from 'api/menu';
 import { getDictList } from 'api/dict';
 import fetch from 'common/js/fetch';
@@ -59,9 +60,13 @@ export const listWrapper = (mapStateToProps = state => state, mapDispatchToProps
             dataIndex: f.field
           };
           if (f.type === 'datetime') {
-            obj.render = dateTimeFormat;
+            obj.render = (v) => {
+              return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateTimeFormat(v)}</span> : dateTimeFormat(v);
+            };
           } else if (f.type === 'date') {
-            obj.render = dateFormat;
+            obj.render = (v) => {
+              return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateFormat(v)}</span> : dateFormat(v);
+            };
           } else if (f.type === 'select') {
             if (f.key) {
               f.keyName = f.keyName || 'dkey';
@@ -74,21 +79,29 @@ export const listWrapper = (mapStateToProps = state => state, mapDispatchToProps
               this.props.setSearchData({ data: f.data, key: f.field });
             }
             obj.render = (value) => {
+              let val = '';
               if (value && f.data) {
                 let item = f.data.find(v => v[f.keyName] === value);
-                return item
+                val = item
                   ? item[f.valueName]
                     ? item[f.valueName]
                     : tempString(f.valueName, item)
                   : '';
               }
-              return '';
+              return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{val}</span> : val;
             };
+          } else if (f.type === 'img') {
+            obj.render = (value) => <img src={PIC_PREFIX + value}/>;
           }
-          if (f.formatter) {
-            obj.render = f.formatter;
-          } else if (f.amount) {
+          if (f.amount) {
             obj.render = (v, d) => <span style={{whiteSpace: 'nowrap'}}>{moneyFormat(v, d)}</span>;
+          }
+          if (!obj.render) {
+            if (f.render) {
+              obj.render = f.render;
+            } else {
+              obj.render = (v) => f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{v}</span> : v;
+            }
           }
           columns.push(obj);
         });
