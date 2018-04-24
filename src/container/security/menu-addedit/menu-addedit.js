@@ -8,7 +8,8 @@ import {
   restore
 } from '@redux/security/menu-addedit';
 import { getQueryString } from 'common/js/util';
-import { DetailWrapper } from 'common/js/build-detail';
+import { DetailWrapper, beforeDetail } from 'common/js/build-detail';
+// import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
   state => state.securityMenuAddEdit,
@@ -68,6 +69,9 @@ class MenuAddEdit extends React.Component {
     return this.props.buildDetail({
       fields,
       code: this.code,
+      // beforeDetail: (param) => {
+      //   param['companyCode'] = COMPANY_CODE;
+      // },
       view: this.view,
       detailCode: 805002,
       addCode: 805003,

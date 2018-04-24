@@ -1,5 +1,5 @@
 import fetch from 'common/js/fetch';
-import { COMPANY_CODE } from 'common/js/config';
+// import {  } from 'common/js/config';
 
 /**
  * 获取数据字典列表
@@ -12,8 +12,7 @@ export function getDictList({ parentKey, bizType = 627076 }) {
   }
   // 625907/805906
   return fetch(bizType, {
-    parentKey,
-    companyCode: COMPANY_CODE
+    parentKey
   }).then(data => {
     getDictList[parentKey] = data;
     return data;

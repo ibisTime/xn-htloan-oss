@@ -6,16 +6,15 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/security/role-addedit';
+} from '@redux/security/sysParam-addedit';
 import { getQueryString } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
-  state => state.securityRoleAddEdit,
+  state => state.securitySysParamAddEdit,
   { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
 )
-class MenuAddEdit extends React.Component {
+class SysParamAddEdit extends React.Component {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
@@ -23,34 +22,27 @@ class MenuAddEdit extends React.Component {
   }
   render() {
     const fields = [{
-      field: 'kind',
-      value: 1,
-      hidden: true
-    }, {
-      title: '角色名称',
-      field: 'name',
-      required: true,
-      maxlength: 30
-    }, {
-      title: '角色等级',
-      field: 'level',
-      required: true,
-      type: 'select',
-      key: 'role_level'
-    }, {
-      title: '备注',
       field: 'remark',
-      maxlength: 250
+      title: '参数名',
+      readonly: true
+    }, {
+      title: '参数值',
+      field: 'cvalue'
+    }, {
+      title: '最近修改时间',
+      field: 'updateDatetime',
+      type: 'datetime',
+      readonly: true
     }];
     return this.props.buildDetail({
       fields,
+      key: 'id',
       code: this.code,
       view: this.view,
-      detailCode: 805022,
-      addCode: 627040,
-      editCode: 630002
+      detailCode: '627086',
+      editCode: '627081'
     });
   }
 }
 
-export default MenuAddEdit;
+export default SysParamAddEdit;

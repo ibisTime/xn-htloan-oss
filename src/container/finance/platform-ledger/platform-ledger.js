@@ -11,7 +11,7 @@ import {
 } from '@redux/finance/platform-ledger';
 import { listWrapper } from 'common/js/build-list';
 import { getQueryString, getUserId, dateTimeFormat } from 'common/js/util';
-import { COMPANY_CODE } from 'common/js/config';
+// import { COMPANY_CODE } from 'common/js/config';
 
 @listWrapper(
   state => ({
@@ -81,8 +81,8 @@ class Ledger extends React.Component {
         accountNumber: this.accountCode,
         type: 'P',
         kind: 0,
-        currency: 'ETH',
-        companyCode: COMPANY_CODE
+        currency: 'ETH'
+        // companyCode: COMPANY_CODE
       }
     });
   }

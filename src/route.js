@@ -18,10 +18,49 @@ const ROUTES = [
     component: asyncComponent(() => import('container/security/menu-addedit/menu-addedit'))
   },
   {
+    path: '/system/user',
+    component: asyncComponent(() => import('container/security/user/user'))
+  },
+  {
+    path: '/system/sysPara',
+    component: asyncComponent(() => import('container/security/sysParam/sysParam'))
+  },
+  {
+    path: '/system/sysPara/addedit',
+    component: asyncComponent(() => import('container/security/sysParam-addedit/sysParam-addedit'))
+  },
+  {
+    path: '/system/dataDict',
+    component: asyncComponent(() => import('container/security/dataDict/dataDict'))
+  },
+  {
+    path: '/system/dataDict/dataDict-addedit',
+    component: asyncComponent(() => import('container/security/dataDict-addedit/dataDict-addedit'))
+  },
+  {
+    path: '/system/user/addedit',
+    component: asyncComponent(() => import('container/security/user-addedit/user-addedit'))
+  },
+  {
     path: '/public/aboutus_addedit',
     component: asyncComponent(() => import('container/public/aboutus-addedit/aboutus-addedit'))
   },
-
+  {
+    path: '/public/hotLine_addedit',
+    component: asyncComponent(() => import('container/public/hotLine-addedit/hotLine-addedit'))
+  },
+  {
+    path: '/public/time_addedit',
+    component: asyncComponent(() => import('container/public/time-addedit/time-addedit'))
+  },
+  {
+    path: '/public/notice',
+    component: asyncComponent(() => import('container/public/notice/notice'))
+  },
+  {
+    path: '/public/notice/addedit',
+    component: asyncComponent(() => import('container/public/notice-addedit/notice-addedit'))
+  },
   {
     path: '/security/role',
     component: asyncComponent(() => import('container/security/role/role'))

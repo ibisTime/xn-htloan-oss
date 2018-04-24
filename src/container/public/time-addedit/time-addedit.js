@@ -6,27 +6,27 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/public/aboutus-addedit';
+} from '@redux/public/time-addedit';
 import { showSucMsg } from 'common/js/util';
-import { DetailWrapper, beforeDetail } from 'common/js/build-detail';
+import { DetailWrapper } from 'common/js/build-detail';
 // import { COMPANY_CODE } from 'common/js/config';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
-  state => state.publicAboutusAddEdit,
+  state => state.publicTimeAddEdit,
   { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
 )
-class AboutusAddEdit extends React.Component {
+class TimeAddEdit extends React.Component {
   render() {
     const fields = [{
       field: 'id',
       hidden: true
     }, {
       field: 'remark',
-      value: '关于我们',
+      value: '服务时间',
       hidden: true
     }, {
-      title: '角色名称',
+      title: '内容',
       field: 'cvalue',
       type: 'textarea',
       required: true
@@ -34,8 +34,10 @@ class AboutusAddEdit extends React.Component {
     return this.props.buildDetail({
       fields,
       key: 'ckey',
-      code: 'about_us',
+      code: 'service_time',
+      view: false,
       detailCode: 627087,
+      editCode: 627081,
       // beforeDetail: (param) => {
       //   param['companyCode'] = COMPANY_CODE;
       // },
@@ -54,4 +56,4 @@ class AboutusAddEdit extends React.Component {
   }
 }
 
-export default AboutusAddEdit;
+export default TimeAddEdit;

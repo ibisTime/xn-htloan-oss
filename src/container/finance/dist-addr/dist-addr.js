@@ -11,7 +11,7 @@ import {
   setSearchData
 } from '@redux/finance/dist-addr';
 import { listWrapper } from 'common/js/build-list';
-import { COMPANY_CODE } from 'common/js/config';
+// import { COMPANY_CODE } from 'common/js/config';
 import { showWarnMsg, showSucMsg } from 'common/js/util';
 import ModalDetail from 'common/js/build-modal-detail';
 import fetch from 'common/js/fetch';
@@ -41,7 +41,8 @@ class DistAddr extends React.Component {
       field: 'userId',
       type: 'select',
       pageCode: '805120',
-      params: { kind: 'C', companyCode: COMPANY_CODE },
+      // params: { kind: 'C', companyCode: COMPANY_CODE },
+       params: { kind: 'C' },
       keyName: 'userId',
       valueName: '{{mobile.DATA}}--{{nickname.DATA}}',
       searchName: 'mobile',
@@ -104,8 +105,8 @@ class DistAddr extends React.Component {
             fields,
             pageCode: 802105,
             searchParams: {
-              type: 'X',
-              companyCode: COMPANY_CODE
+              type: 'X'
+              // companyCode: COMPANY_CODE
             },
             btnEvent: {
               diviLedger: (selectedRowKeys, selectedRows) => {

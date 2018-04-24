@@ -9,7 +9,7 @@ import {
 } from '@redux/demo/credit-addedit';
 import { getQueryString } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
-import { COMPANY_CODE } from 'common/js/config';
+// import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
   state => state.creditAddEdit,

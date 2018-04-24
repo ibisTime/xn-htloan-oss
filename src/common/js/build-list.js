@@ -151,16 +151,20 @@ export const listWrapper = (mapStateToProps = state => state, mapDispatchToProps
       getRealSearchParams(params) {
         let result = {};
         this.options.fields.forEach(v => {
-          let format = v.type === 'date' ? DATE_FORMAT : DATETIME_FORMAT;
-          if (v.rangedate) {
-            let bDate = params[v.field] ? [...params[v.field]] : [];
-            if (bDate.length) {
-              v.rangedate.forEach((d, index) => {
-                result[d] = bDate[index].format(format);
-              });
+          if (v.type === 'date' || v.type === 'datetime') {
+            let format = v.type === 'date' ? DATE_FORMAT : DATETIME_FORMAT;
+            if (v.rangedate) {
+              let bDate = params[v.field] ? [...params[v.field]] : [];
+              if (bDate.length) {
+                v.rangedate.forEach((d, index) => {
+                  result[d] = bDate[index].format(format);
+                });
+              }
+            } else {
+              result[v.field] = params[v.field] ? params[v.field].format(format) : params[v.field];
             }
           } else {
-            result[v.field] = params[v.field] ? params[v.field].format(format) : params[v.field];
+            result[v.field] = params[v.field];
           }
         });
         return result;

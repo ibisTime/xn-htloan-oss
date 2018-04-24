@@ -6,36 +6,35 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/public/aboutus-addedit';
+} from '@redux/public/hotLine-addedit';
 import { showSucMsg } from 'common/js/util';
-import { DetailWrapper, beforeDetail } from 'common/js/build-detail';
+import { DetailWrapper } from 'common/js/build-detail';
 // import { COMPANY_CODE } from 'common/js/config';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
-  state => state.publicAboutusAddEdit,
+  state => state.publicHotLineAddEdit,
   { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
 )
-class AboutusAddEdit extends React.Component {
+class HotLineAddEdit extends React.Component {
   render() {
     const fields = [{
       field: 'id',
       hidden: true
     }, {
-      field: 'remark',
-      value: '关于我们',
-      hidden: true
-    }, {
-      title: '角色名称',
+      title: '内容',
       field: 'cvalue',
-      type: 'textarea',
       required: true
+    }, {
+      field: 'remark',
+      hidden: true,
+      value: '服务热线'
     }];
     return this.props.buildDetail({
       fields,
+      detailCode: 630025,
       key: 'ckey',
-      code: 'about_us',
-      detailCode: 627087,
+      ckey: 'telephone',
       // beforeDetail: (param) => {
       //   param['companyCode'] = COMPANY_CODE;
       // },
@@ -44,7 +43,7 @@ class AboutusAddEdit extends React.Component {
         check: true,
         handler: (params) => {
           this.props.doFetching();
-          fetch(627081, params).then(() => {
+          fetch(627087, params).then(() => {
             showSucMsg('操作成功');
             this.props.cancelFetching();
           }).catch(this.props.cancelFetching);
@@ -54,4 +53,4 @@ class AboutusAddEdit extends React.Component {
   }
 }
 
-export default AboutusAddEdit;
+export default HotLineAddEdit;

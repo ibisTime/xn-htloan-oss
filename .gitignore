@@ -1,0 +1,4 @@
+/dist/
+.project
+node_modules/
+static/

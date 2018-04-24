@@ -13,7 +13,8 @@ app.use('/api', function (req, res) {
   // var url = 'http://121.43.101.148:4101/forward-service/api';
   // var url = 'http://47.96.161.183:4001/forward-service/api';
   // var url = 'http://47.96.161.183:4401/forward-service/api';
-  var url = 'http://106.14.173.9:4301/forward-service/api';
+  // var url = 'http://47.96.161.183:4301/forward-service/api';
+  var url = 'http://39.104.89.43:2401/forward-service/api';
   var _body = req.body;
   var param = 'code=' + _body.code + '&json=' + encodeURIComponent(_body.json);
   console.log(param);

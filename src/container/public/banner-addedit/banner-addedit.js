@@ -9,7 +9,7 @@ import {
 } from '@redux/public/banner-addedit';
 import { getQueryString } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
-import { COMPANY_CODE } from 'common/js/config';
+// import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
   state => state.publicBannerAddEdit,
@@ -28,8 +28,8 @@ class BannerAddEdit extends React.Component {
       hidden: true
     }, {
       field: 'companyCode',
-      hidden: true,
-      value: COMPANY_CODE
+      hidden: true
+      // value: COMPANY_CODE
     }, {
       field: 'type',
       value: 2,

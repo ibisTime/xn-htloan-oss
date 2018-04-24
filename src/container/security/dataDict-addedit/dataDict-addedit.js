@@ -6,16 +6,15 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/security/role-addedit';
+} from '@redux/security/dataDict-addedit';
 import { getQueryString } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
-  state => state.securityRoleAddEdit,
+  state => state.securityDataDictAddEdit,
   { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
 )
-class MenuAddEdit extends React.Component {
+class DataDictAddEdit extends React.Component {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
@@ -23,20 +22,27 @@ class MenuAddEdit extends React.Component {
   }
   render() {
     const fields = [{
-      field: 'kind',
-      value: 1,
-      hidden: true
-    }, {
-      title: '角色名称',
-      field: 'name',
+      title: '种类',
+      field: 'parentKey',
       required: true,
-      maxlength: 30
+      listCode: '627076',
+      params: {
+        type: 0
+      },
+      keyName: 'dkey',
+      valueName: 'dvalue',
+      defaultOption: '选此创建种类'
     }, {
-      title: '角色等级',
-      field: 'level',
+      title: '字典键',
+      field: 'dkey',
       required: true,
-      type: 'select',
-      key: 'role_level'
+      readonly: true,
+      maxlength: 15
+    }, {
+      title: '字典值',
+      field: 'dvalue',
+      required: true,
+      maxlength: 15
     }, {
       title: '备注',
       field: 'remark',
@@ -44,13 +50,12 @@ class MenuAddEdit extends React.Component {
     }];
     return this.props.buildDetail({
       fields,
-      code: this.code,
-      view: this.view,
-      detailCode: 805022,
-      addCode: 627040,
-      editCode: 630002
+      key: 'id',
+      detailCode: 627077,
+      addCode: 627070,
+      editCode: 627072
     });
   }
 }
 
-export default MenuAddEdit;
+export default DataDictAddEdit;

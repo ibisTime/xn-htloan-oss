@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import cookies from 'browser-cookies';
 import { Form, Select, Input, Button, Tooltip, Icon, Spin, Upload,
   Modal, Cascader, DatePicker } from 'antd';
 import moment from 'moment';
@@ -165,6 +166,7 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
             }
           }
         });
+        values.updater = values.updater || cookies.get('userName');
         return values;
       }
       customSubmit = (handler) => {
@@ -630,14 +632,23 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
       getRealDateVal(item, result) {
         let format = item.type === 'date' ? DATE_FORMAT : DATETIME_FORMAT;
         let format1 = item.type === 'date' ? dateFormat : dateTimeFormat;
+        let readonly = this.options.view || item.readonly;
+        if (readonly) {
+          return item.rangedate
+            ? this.getRangeDateVal(item, result, format, format1, readonly)
+            : result ? format1(result, format) : null;
+        }
         return item.rangedate
           ? this.getRangeDateVal(item, result, format, format1)
           : result ? moment(dateTimeFormat(result), format) : null;
       }
-      getRangeDateVal(item, result, format, fn) {
+      getRangeDateVal(item, result, format, fn, readonly) {
         let dates = item._keys && result ? result : this.props.pageData;
         let start = dates[item.rangedate[0]];
         let end = dates[item.rangedate[1]];
+        if (readonly) {
+          return start ? fn(start, format) + '~' + fn(end, format) : null;
+        }
         return start ? [moment(fn(start), format), moment(fn(end), format)] : null;
       }
       getCityVal(item, result) {

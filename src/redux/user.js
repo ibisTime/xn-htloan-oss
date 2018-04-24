@@ -1,6 +1,6 @@
 import fetch from 'common/js/fetch';
 import { setUser, getUserId, setRoleInfo } from 'common/js/util';
-import { COMPANY_CODE } from 'common/js/config';
+// import { COMPANY_CODE } from 'common/js/config';
 
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGOUT = 'LOGOUT';
@@ -72,11 +72,11 @@ export function login({ loginName, loginPwd }) {
   return dispatch => {
     dispatch(doFetching());
     // 805050
-    fetch(627300, {
+    fetch(630201, {
       loginName,
       loginPwd,
-      kind: 'P',
-      companyCode: COMPANY_CODE
+      kind: 'P'
+      // companyCode: COMPANY_CODE
     }).then(data => {
       setUser(data);
       dispatch(loginSuccess());

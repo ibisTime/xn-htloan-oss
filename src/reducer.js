@@ -6,9 +6,19 @@ import { securityRole } from './redux/security/role';
 import { securityRoleAddEdit } from './redux/security/role-addedit';
 import { securityMenu } from './redux/security/menu';
 import { securityMenuAddEdit } from './redux/security/menu-addedit';
+import { securitySysParam } from './redux/security/sysParam';
+import { securitySysParamAddEdit } from './redux/security/sysParam-addedit';
+import { securityUser } from './redux/security/user';
+import { securityUserAddEdit } from './redux/security/user-addedit';
+import { securityDataDict } from './redux/security/dataDict';
+import { securityDataDictAddEdit } from './redux/security/dataDict-addedit';
 import { publicBanner } from './redux/public/banner';
 import { publicBannerAddEdit } from './redux/public/banner-addedit';
 import { publicAboutusAddEdit } from './redux/public/aboutus-addedit';
+import { publicHotLineAddEdit } from './redux/public/hotLine-addedit';
+import { publicTimeAddEdit } from './redux/public/time-addedit';
+import { publicNotice } from './redux/public/notice';
+import { publicNoticeAddEdit } from './redux/public/notice-addedit';
 import { generalTextParam } from './redux/general/text-param';
 import { generalTextParamAddEdit } from './redux/general/text-param-addedit';
 import { financeAccount } from './redux/finance/account';
@@ -28,9 +38,19 @@ export default combineReducers({
   securityRoleAddEdit,
   securityMenu,
   securityMenuAddEdit,
+  securityUser,
+  securitySysParam,
+  securitySysParamAddEdit,
+  securityUserAddEdit,
+  securityDataDict,
+  securityDataDictAddEdit,
+  publicHotLineAddEdit,
   publicBanner,
   publicBannerAddEdit,
   publicAboutusAddEdit,
+  publicTimeAddEdit,
+  publicNotice,
+  publicNoticeAddEdit,
   generalTextParam,
   generalTextParamAddEdit,
   financeAccount,
@@ -39,6 +59,5 @@ export default combineReducers({
   financePlatformLedger,
   financeDistAddr,
   financeDistAddrLedger,
-
   creditAddEdit
 });
