@@ -35,7 +35,7 @@ class AboutusAddEdit extends React.Component {
       fields,
       key: 'ckey',
       code: 'about_us',
-      detailCode: 627087,
+      detailCode: 630007,
       // beforeDetail: (param) => {
       //   param['companyCode'] = COMPANY_CODE;
       // },
@@ -44,7 +44,7 @@ class AboutusAddEdit extends React.Component {
         check: true,
         handler: (params) => {
           this.props.doFetching();
-          fetch(627081, params).then(() => {
+          fetch(630000, params).then(() => {
             showSucMsg('操作成功');
             this.props.cancelFetching();
           }).catch(this.props.cancelFetching);

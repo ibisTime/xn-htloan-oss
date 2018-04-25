@@ -32,7 +32,7 @@ class Menu extends React.Component {
       title: '父菜单编号',
       field: 'parentCode',
       type: 'select',
-      listCode: '630025',
+      listCode: '630016',
       params: { type: 1 },
       keyName: 'code',
       valueName: '{{code.DATA}} {{name.DATA}}',
@@ -58,7 +58,7 @@ class Menu extends React.Component {
       title: '备注',
       field: 'remark'
     }];
-    return this.props.buildList({ fields, pageCode: 627055, deleteCode: 627051 });
+    return this.props.buildList({ fields, pageCode: 630015, deleteCode: 630001 });
   }
 }
 

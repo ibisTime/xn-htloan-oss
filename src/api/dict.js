@@ -6,7 +6,7 @@ import fetch from 'common/js/fetch';
  * @param parentKey
  * @param bizType
  */
-export function getDictList({ parentKey, bizType = 627076 }) {
+export function getDictList({ parentKey, bizType = 630036 }) {
   if (getDictList[parentKey]) {
     return Promise.resolve(getDictList[parentKey]);
   }

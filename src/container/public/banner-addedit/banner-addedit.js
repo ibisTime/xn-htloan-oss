@@ -90,9 +90,9 @@ class BannerAddEdit extends React.Component {
       fields,
       code: this.code,
       view: this.view,
-      detailCode: 627037,
-      addCode: 627030,
-      editCode: 627032
+      detailCode: 630001,
+      addCode: 630000,
+      editCode: 630002
     });
   }
 }

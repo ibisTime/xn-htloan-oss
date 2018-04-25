@@ -27,7 +27,7 @@ class MenuAddEdit extends React.Component {
       field: 'parentCode',
       required: true,
       type: 'select',
-      listCode: '805001',
+      listCode: '630016',
       params: { type: 1 },
       keyName: 'code',
       valueName: '{{code.DATA}} {{name.DATA}}'
@@ -69,13 +69,10 @@ class MenuAddEdit extends React.Component {
     return this.props.buildDetail({
       fields,
       code: this.code,
-      // beforeDetail: (param) => {
-      //   param['companyCode'] = COMPANY_CODE;
-      // },
       view: this.view,
-      detailCode: 805002,
-      addCode: 805003,
-      editCode: 805005
+      detailCode: 630017,
+      addCode: 630010,
+      editCode: 630012
     });
   }
 }

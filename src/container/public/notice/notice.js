@@ -52,7 +52,7 @@ class Notice extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 804040,
+      pageCode: 630015,
       searchParams: {
         channelType: '4'
         // fromSystemCode: SYSTEM_CODE

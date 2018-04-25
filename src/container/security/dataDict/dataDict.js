@@ -29,7 +29,7 @@ class DataDict extends React.Component {
       field: 'parentKey',
       title: '种类',
       type: 'select',
-      listCode: '627076',
+      listCode: '630036',
       params: {
         type: 0
       },

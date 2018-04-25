@@ -90,6 +90,10 @@ const ROUTES = [
     component: asyncComponent(() => import('container/public/banner-addedit/banner-addedit'))
   },
   {
+    path: '/biz/brand',
+    component: asyncComponent(() => import('container/biz/carSale/brand'))
+  },
+  {
     path: '/general/textParam',
     component: asyncComponent(() => import('container/general/text-param/text-param'))
   },

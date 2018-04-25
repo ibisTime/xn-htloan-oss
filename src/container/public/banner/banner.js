@@ -45,8 +45,8 @@ class Banner extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 627035,
-      deleteCode: 627031,
+      pageCode: 630015,
+      deleteCode: 630001,
       searchParams: {
         // companyCode: COMPANY_CODE,
         type: 2

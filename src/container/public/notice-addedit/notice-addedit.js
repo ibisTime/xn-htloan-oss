@@ -36,7 +36,7 @@ class NoticeAddEdit extends React.Component {
     }, {
       title: '针对人群',
       field: 'toKind',
-      keyCode: '627076',
+      keyCode: '630036',
       type: 'select',
       key: 'user_kind'
     }, {

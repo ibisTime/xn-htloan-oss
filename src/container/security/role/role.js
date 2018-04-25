@@ -57,7 +57,7 @@ class Role extends React.Component {
         }
       }
     };
-    return this.props.buildList({ fields, btnEvent, pageCode: 630016, deleteCode: 630001 });
+    return this.props.buildList({ fields, btnEvent, pageCode: 630015, deleteCode: 630001 });
   }
 }
 

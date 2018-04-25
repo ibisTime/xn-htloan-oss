@@ -71,12 +71,9 @@ export function getUser() {
 export function login({ loginName, loginPwd }) {
   return dispatch => {
     dispatch(doFetching());
-    // 805050
-    fetch(630201, {
+    fetch(630052, {
       loginName,
-      loginPwd,
-      kind: 'P'
-      // companyCode: COMPANY_CODE
+      loginPwd
     }).then(data => {
       setUser(data);
       dispatch(loginSuccess());
@@ -92,8 +89,7 @@ export function login({ loginName, loginPwd }) {
 }
 
 function _getUser() {
-  // 805121
-  return fetch(627230, {
+  return fetch(630077, {
     userId: getUserId()
   });
 }

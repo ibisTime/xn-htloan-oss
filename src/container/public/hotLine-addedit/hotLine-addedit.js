@@ -43,7 +43,7 @@ class HotLineAddEdit extends React.Component {
         check: true,
         handler: (params) => {
           this.props.doFetching();
-          fetch(627087, params).then(() => {
+          fetch(630002, params).then(() => {
             showSucMsg('操作成功');
             this.props.cancelFetching();
           }).catch(this.props.cancelFetching);

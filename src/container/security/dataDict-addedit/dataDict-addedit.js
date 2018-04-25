@@ -25,7 +25,7 @@ class DataDictAddEdit extends React.Component {
       title: '种类',
       field: 'parentKey',
       required: true,
-      listCode: '627076',
+      listCode: '630036',
       params: {
         type: 0
       },

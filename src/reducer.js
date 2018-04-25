@@ -19,6 +19,7 @@ import { publicHotLineAddEdit } from './redux/public/hotLine-addedit';
 import { publicTimeAddEdit } from './redux/public/time-addedit';
 import { publicNotice } from './redux/public/notice';
 import { publicNoticeAddEdit } from './redux/public/notice-addedit';
+import { bizBrand } from './redux/biz/brand';
 import { generalTextParam } from './redux/general/text-param';
 import { generalTextParamAddEdit } from './redux/general/text-param-addedit';
 import { financeAccount } from './redux/finance/account';
@@ -51,6 +52,7 @@ export default combineReducers({
   publicTimeAddEdit,
   publicNotice,
   publicNoticeAddEdit,
+  bizBrand,
   generalTextParam,
   generalTextParamAddEdit,
   financeAccount,
