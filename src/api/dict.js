@@ -10,7 +10,6 @@ export function getDictList({ parentKey, bizType = 630036 }) {
   if (getDictList[parentKey]) {
     return Promise.resolve(getDictList[parentKey]);
   }
-  // 625907/805906
   return fetch(bizType, {
     parentKey
   }).then(data => {

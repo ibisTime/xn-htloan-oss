@@ -704,6 +704,7 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
       }
       getFileComp(item, initVal, rules, getFieldDecorator, isImg) {
         let initValue = this.getFileInitVal(initVal);
+        console.log(initValue);
         return (
           item.hidden ? null : (
             <FormItem key={item.field} {...formItemLayout} label={this.getLabel(item)}>
@@ -899,7 +900,7 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
         item._keys.forEach(key => {
           _value = isUndefined(_value[key]) ? emptyObj : _value[key];
         });
-        return _value;
+        return (item.type === 'img' || item.type === 'file') && _value === emptyObj ? '' : _value;
       }
       getUploadBtn(item, isImg) {
         let btn = isImg ? imgUploadBtn : fileUploadBtn;

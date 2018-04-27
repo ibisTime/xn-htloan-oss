@@ -31,15 +31,24 @@ class Role extends React.Component {
       title: '角色等级',
       field: 'level',
       type: 'select',
-      key: 'role_level',
+      data: [{
+        dkey: '1',
+        dvalue: '运维'
+      }, {
+        dkey: '2',
+        dvalue: '运营'
+      }, {
+        dkey: '3',
+        dvalue: '客户'
+      }],
       keyName: 'dkey',
       valueName: 'dvalue',
       search: true
     }, {
-      title: '更新人',
+      title: '最近更新人',
       field: 'updater'
     }, {
-      title: '更新时间',
+      title: '最近更新时间',
       field: 'updateDatetime',
       type: 'datetime'
     }, {
@@ -57,7 +66,7 @@ class Role extends React.Component {
         }
       }
     };
-    return this.props.buildList({ fields, btnEvent, pageCode: 630015, deleteCode: 630001 });
+    return this.props.buildList({ fields, btnEvent, pageCode: 630005, deleteCode: 630001 });
   }
 }
 

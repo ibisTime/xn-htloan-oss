@@ -24,11 +24,9 @@ class NoticeAddEdit extends React.Component {
     const fields = [{
       field: 'fromSystemCode',
       hidden: true
-      // value: COMPANY_CODE
     }, {
       field: 'toSystemCode',
       hidden: true
-      // value: COMPANY_CODE
     }, {
       field: 'smsType',
       hidden: true,

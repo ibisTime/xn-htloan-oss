@@ -32,18 +32,16 @@ class HotLineAddEdit extends React.Component {
     }];
     return this.props.buildDetail({
       fields,
-      detailCode: 630025,
-      key: 'ckey',
-      ckey: 'telephone',
-      // beforeDetail: (param) => {
-      //   param['companyCode'] = COMPANY_CODE;
-      // },
+      key: 'key',
+      code: 'telephone',
+      detailCode: 630047,
+      editCode: 630042,
       buttons: [{
         title: '保存',
         check: true,
         handler: (params) => {
           this.props.doFetching();
-          fetch(630002, params).then(() => {
+          fetch(630042, params).then(() => {
             showSucMsg('操作成功');
             this.props.cancelFetching();
           }).catch(this.props.cancelFetching);

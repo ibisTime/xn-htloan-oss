@@ -11,7 +11,8 @@ import {
 } from '@redux/biz/brand';
 import { listWrapper } from 'common/js/build-list';
 import { showWarnMsg, showSucMsg } from 'common/js/util';
-import { Button, Upload } from 'antd';
+import { Button, Upload, Modal } from 'antd';
+import { lowerFrame, onShelf } from 'api/biz';
 
 @listWrapper(
   state => ({
@@ -37,24 +38,14 @@ class Brand extends React.Component {
       field: 'status',
       search: true,
       type: 'select',
-      data: [{
-        key: 0,
-        value: '待上架'
-      }, {
-        key: 1,
-        value: '已上架'
-      }, {
-        key: 2,
-        value: '已下架'
-      }],
-      keyName: 'key',
-      valueName: 'value'
+      key: 'status'
     }, {
       title: '最新修改人',
       field: 'updater'
     }, {
       title: '最新修改时间',
-      field: 'updateDatetime'
+      field: 'updateDatetime',
+      type: 'datetime'
     }, {
       title: '备注',
       field: 'remark'
@@ -62,33 +53,45 @@ class Brand extends React.Component {
     return this.props.buildList({
       fields,
       pageCode: 630405,
-      addCode: 630400,
-      editCode: 630403,
       btnEvent: {
-        onShelf: (selectedRowKeys, selectedRows) => {
-          if (!selectedRowKeys.length) {
+        lower: (key, item) => {
+          if (!key || !key.length || !item || !item.length) {
             showWarnMsg('请选择记录');
-          } else if (this.options.singleSelect && selectedRowKeys.length > 1) {
-            showWarnMsg('请选择一条记录');
           } else {
-            this.props.doFetching();
-            fetch(630403, selectedRowKeys[0], selectedRows.updater, selectedRows.remark).then(() => {
-              showSucMsg('上架成功');
-              this.props.cancelFetching();
-            }).catch(this.props.cancelFetching);
+            Modal.confirm({
+              okText: '确认',
+              cancelText: '取消',
+              content: '确定下架？',
+              onOk: () => {
+                this.props.doFetching();
+                return lowerFrame(key[0]).then(() => {
+                  this.props.cancelFetching();
+                  showWarnMsg('操作成功');
+                }).catch(() => {
+                  this.props.cancelFetching();
+                });
+              }
+            });
           }
         },
-        downShelf: (selectedRowKeys, selectedRows) => {
-          if (!selectedRowKeys.length) {
+        onShelf: (key, item) => {
+          if (!key || !key.length || !item || !item.length) {
             showWarnMsg('请选择记录');
-          } else if (this.options.singleSelect && selectedRowKeys.length > 1) {
-            showWarnMsg('请选择一条记录');
           } else {
-            this.props.doFetching();
-            fetch(630404, selectedRowKeys[0], selectedRows.updater, selectedRows.remark).then(() => {
-              showSucMsg('下架成功');
-              this.props.cancelFetching();
-            }).catch(this.props.cancelFetching);
+            Modal.confirm({
+              okText: '确认',
+              cancelText: '取消',
+              content: '确定上架？',
+              onOk: () => {
+                this.props.doFetching();
+                return onShelf(key[0]).then(() => {
+                  this.props.cancelFetching();
+                  showWarnMsg('操作成功');
+                }).catch(() => {
+                  this.props.cancelFetching();
+                });
+              }
+            });
           }
         }
       }

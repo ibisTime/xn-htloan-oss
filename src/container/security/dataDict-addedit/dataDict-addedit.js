@@ -22,16 +22,14 @@ class DataDictAddEdit extends React.Component {
   }
   render() {
     const fields = [{
-      title: '种类',
+      title: '父菜单编号',
       field: 'parentKey',
-      required: true,
       listCode: '630036',
       params: {
         type: 0
       },
       keyName: 'dkey',
-      valueName: 'dvalue',
-      defaultOption: '选此创建种类'
+      valueName: 'dvalue'
     }, {
       title: '字典键',
       field: 'dkey',
@@ -51,9 +49,10 @@ class DataDictAddEdit extends React.Component {
     return this.props.buildDetail({
       fields,
       key: 'id',
-      detailCode: 627077,
-      addCode: 627070,
-      editCode: 627072
+      code: this.code,
+      view: this.view,
+      editCode: 630032,
+      detailCode: 630037
     });
   }
 }

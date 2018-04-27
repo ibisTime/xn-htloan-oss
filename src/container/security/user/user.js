@@ -37,7 +37,7 @@ class User extends React.Component {
       title: '角色',
       field: 'roleCode',
       type: 'select',
-      listCode: '627046',
+      listCode: '630006',
       keyName: 'code',
       valueName: 'name',
       search: true
@@ -47,17 +47,14 @@ class User extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 627355,
+      pageCode: 630075,
       rowKey: 'userId',
-      searchParams: {
-        kind: 'P'
-      },
       btnEvent: {
         reset: (key, item) => {
           if (!key || !key.length || !item || !item.length) {
             showWarnMsg('请选择记录');
           } else {
-            this.props.history.push(`/system/user/pwd_reset?userId=${key[0]}&loginName=${item[0].loginName}`);
+            this.props.history.push(`/system/user/pwd_reset?userId=${key[0]}`);
           }
         },
         rock: (key, item) => {
@@ -84,7 +81,7 @@ class User extends React.Component {
           if (!key || !key.length || !item || !item.length) {
             showWarnMsg('请选择记录');
           } else {
-            this.props.history.push(`/system/user/role?userId=${key[0]}&loginName=${item[0].loginName}&kind=${item[0].kind}`);
+            this.props.history.push(`/system/user/role?userId=${key[0]}`);
           }
         }
       }

@@ -22,6 +22,14 @@ const ROUTES = [
     component: asyncComponent(() => import('container/security/user/user'))
   },
   {
+    path: '/system/user/role',
+    component: asyncComponent(() => import('container/security/user/assign'))
+  },
+  {
+    path: '/system/user/pwd_reset',
+    component: asyncComponent(() => import('container/security/user/pwdReset'))
+  },
+  {
     path: '/system/sysPara',
     component: asyncComponent(() => import('container/security/sysParam/sysParam'))
   },
@@ -34,7 +42,7 @@ const ROUTES = [
     component: asyncComponent(() => import('container/security/dataDict/dataDict'))
   },
   {
-    path: '/system/dataDict/dataDict-addedit',
+    path: '/system/dataDict/addedit',
     component: asyncComponent(() => import('container/security/dataDict-addedit/dataDict-addedit'))
   },
   {
@@ -90,8 +98,40 @@ const ROUTES = [
     component: asyncComponent(() => import('container/public/banner-addedit/banner-addedit'))
   },
   {
+    path: '/biz/memberInquiries',
+    component: asyncComponent(() => import('container/biz/administration/memberInquiries'))
+  },
+  {
     path: '/biz/brand',
     component: asyncComponent(() => import('container/biz/carSale/brand'))
+  },
+  {
+    path: '/biz/brand/addedit',
+    component: asyncComponent(() => import('container/biz/carSale/brand-addedit'))
+  },
+  {
+    path: '/biz/carSeries',
+    component: asyncComponent(() => import('container/biz/carSale/carSeries'))
+  },
+  {
+    path: '/biz/carSeries/addedit',
+    component: asyncComponent(() => import('container/biz/carSale/carSeries-addedit'))
+  },
+  {
+    path: '/biz/carShape',
+    component: asyncComponent(() => import('container/biz/carSale/carShape'))
+  },
+  {
+    path: '/biz/carShape/addedit',
+    component: asyncComponent(() => import('container/biz/carSale/carShape-addedit'))
+  },
+  {
+    path: '/biz/handleApply',
+    component: asyncComponent(() => import('container/biz/carSale/handleApply'))
+  },
+  {
+    path: '/biz/carLoanBusiness',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/carLoanBusiness'))
   },
   {
     path: '/general/textParam',

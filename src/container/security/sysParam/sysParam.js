@@ -39,11 +39,8 @@ class SysParam extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 627085,
+      pageCode: 630045,
       rowKey: 'id'
-      // searchParams: {
-      //   companyCode: COMPANY_CODE
-      // }
     });
   }
 }

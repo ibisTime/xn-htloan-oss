@@ -6,16 +6,16 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/biz/brand-addedit';
+} from '@redux/biz/carSeries-addedit';
 import { getQueryString } from 'common/js/util';
 import { DetailWrapper, beforeDetail } from 'common/js/build-detail';
 // import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
-  state => state.bizBrandAddEdit,
+  state => state.bizCarSeriesAddEdit,
   { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
 )
-class BrandAddedit extends React.Component {
+class CarSeriesAddEdit extends React.Component {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
@@ -23,36 +23,31 @@ class BrandAddedit extends React.Component {
   }
   render() {
     const fields = [{
-      field: 'logo',
-      title: 'logo',
+      field: 'brandCode',
+      title: '品牌',
+      type: 'select',
+      search: true,
+      listCode: 630406,
+      keyName: 'code',
+      valueName: 'name'
+    }, {
+      field: 'name',
+      title: '名称',
+      required: true
+    }, {
+      title: '价格区间',
+      field: 'price',
+      required: true
+    }, {
+      title: '广告图',
+      field: 'advPic',
       type: 'img',
       required: true,
       single: true
     }, {
-      field: 'description',
-      title: '品牌介绍'
-    }, {
-      title: '名称',
-      field: 'name',
+      title: '广告标语',
+      field: 'slogan',
       required: true
-    }, {
-      title: '字母顺序',
-      field: 'letter',
-      type: 'select',
-      required: true,
-      search: true,
-      data: [{
-        key: '0',
-        value: 'A'
-      }, {
-        key: '1',
-        value: 'B'
-      }, {
-        key: '2',
-        value: 'C'
-      }],
-      keyName: 'key',
-      valueName: 'value'
     }, {
       title: '备注',
       field: 'remark'
@@ -61,11 +56,11 @@ class BrandAddedit extends React.Component {
       fields,
       code: this.code,
       view: this.view,
-      addCode: 630400,
-      editCode: 630402,
-      detailCode: 630407
+      addCode: 630410,
+      editCode: 630412,
+      detailCode: 630417
     });
   }
 }
 
-export default BrandAddedit;
+export default CarSeriesAddEdit;

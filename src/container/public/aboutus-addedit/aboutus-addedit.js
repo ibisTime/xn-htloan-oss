@@ -33,18 +33,15 @@ class AboutusAddEdit extends React.Component {
     }];
     return this.props.buildDetail({
       fields,
-      key: 'ckey',
+      key: 'key',
       code: 'about_us',
-      detailCode: 630007,
-      // beforeDetail: (param) => {
-      //   param['companyCode'] = COMPANY_CODE;
-      // },
+      detailCode: 630047,
       buttons: [{
         title: '保存',
         check: true,
         handler: (params) => {
           this.props.doFetching();
-          fetch(630000, params).then(() => {
+          fetch(630042, params).then(() => {
             showSucMsg('操作成功');
             this.props.cancelFetching();
           }).catch(this.props.cancelFetching);

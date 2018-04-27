@@ -6,48 +6,47 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/security/user-addedit';
+} from '@redux/security/pwdReset';
 import { getQueryString } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
-  state => state.securityUserAddEdit,
+  state => state.securityPwdReset,
   { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
 )
-class UserAddEdit extends React.Component {
+class PwdReset extends React.Component {
   constructor(props) {
     super(props);
-    this.code = getQueryString('code', this.props.location.search);
+    this.code = getQueryString('userId', this.props.location.search);
+    this.loginName = getQueryString('loginName', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
   }
   render() {
     const fields = [{
-      title: '登录名',
+      field: 'userId',
+      hidden: true,
+      value: this.code
+    }, {
       field: 'loginName',
-      search: true,
-      maxlength: 30,
-      required: true
+      title: '用户名',
+      readonly: true
     }, {
-      title: '密码',
+      title: '新密码',
       field: 'loginPwd',
-      search: true,
-      required: true
+      type: 'password'
     }, {
-      title: '手机号',
-      field: 'mobile',
-      required: true
+      title: '备注',
+      field: 'remark'
     }];
-
     return this.props.buildDetail({
       fields,
       key: 'userId',
       code: this.code,
       view: this.view,
-      addCode: 630051,
-      editCode: 630058,
-      detailCode: 630077
+      detailCode: 630077,
+      editCode: 630056
     });
   }
 }
 
-export default UserAddEdit;
+export default PwdReset;

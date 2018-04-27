@@ -30,9 +30,6 @@ class DataDict extends React.Component {
       title: '种类',
       type: 'select',
       listCode: '630036',
-      params: {
-        type: 0
-      },
       keyName: 'dkey',
       valueName: 'dvalue'
     }, {
@@ -56,11 +53,8 @@ class DataDict extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 627075,
+      pageCode: 630035,
       rowKey: 'id'
-      // searchParams: {
-      //   companyCode: COMPANY_CODE
-      // }
     });
   }
 }

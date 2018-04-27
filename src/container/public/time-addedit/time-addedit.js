@@ -33,20 +33,17 @@ class TimeAddEdit extends React.Component {
     }];
     return this.props.buildDetail({
       fields,
-      key: 'ckey',
+      key: 'key',
       code: 'service_time',
       view: false,
-      detailCode: 627087,
-      editCode: 627081,
-      // beforeDetail: (param) => {
-      //   param['companyCode'] = COMPANY_CODE;
-      // },
+      detailCode: 630047,
+      editCode: 630042,
       buttons: [{
         title: '保存',
         check: true,
         handler: (params) => {
           this.props.doFetching();
-          fetch(627081, params).then(() => {
+          fetch(630032, params).then(() => {
             showSucMsg('操作成功');
             this.props.cancelFetching();
           }).catch(this.props.cancelFetching);

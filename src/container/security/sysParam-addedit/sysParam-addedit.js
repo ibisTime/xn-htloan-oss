@@ -39,8 +39,8 @@ class SysParamAddEdit extends React.Component {
       key: 'id',
       code: this.code,
       view: this.view,
-      detailCode: '627086',
-      editCode: '627081'
+      detailCode: '630046',
+      editCode: '630042'
     });
   }
 }

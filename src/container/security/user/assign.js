@@ -6,51 +6,49 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/security/role-addedit';
+} from '@redux/security/assign';
 import { getQueryString } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
-  state => state.securityRoleAddEdit,
+  state => state.securityAssign,
   { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
 )
-class MenuAddEdit extends React.Component {
+class Assign extends React.Component {
   constructor(props) {
     super(props);
-    this.code = getQueryString('code', this.props.location.search);
+    this.code = getQueryString('userId', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
   }
   render() {
     const fields = [{
-      field: 'kind',
-      value: 1,
-      hidden: true
+      title: '用户名',
+      field: 'loginName',
+      readonly: true,
+      required: true
     }, {
-      title: '角色名称',
-      field: 'name',
-      required: true,
-      maxlength: 30
-    }, {
-      title: '角色等级',
-      field: 'level',
-      required: true,
+      title: '角色编号',
+      field: 'roleCode',
       type: 'select',
-      key: 'role_level'
+      required: true,
+      listCode: 630006,
+      keyName: 'code',
+      valueName: 'name'
     }, {
       title: '备注',
       field: 'remark',
       maxlength: 250
     }];
+
     return this.props.buildDetail({
       fields,
+      key: 'userId',
       code: this.code,
       view: this.view,
-      detailCode: 630007,
-      addCode: 630000,
-      editCode: 630002
+      editCode: 630058,
+      detailCode: 630077
     });
   }
 }
 
-export default MenuAddEdit;
+export default Assign;

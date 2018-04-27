@@ -9,6 +9,8 @@ import { securityMenuAddEdit } from './redux/security/menu-addedit';
 import { securitySysParam } from './redux/security/sysParam';
 import { securitySysParamAddEdit } from './redux/security/sysParam-addedit';
 import { securityUser } from './redux/security/user';
+import { securityAssign } from './redux/security/assign';
+import { securityPwdReset } from './redux/security/pwdReset';
 import { securityUserAddEdit } from './redux/security/user-addedit';
 import { securityDataDict } from './redux/security/dataDict';
 import { securityDataDictAddEdit } from './redux/security/dataDict-addedit';
@@ -19,7 +21,15 @@ import { publicHotLineAddEdit } from './redux/public/hotLine-addedit';
 import { publicTimeAddEdit } from './redux/public/time-addedit';
 import { publicNotice } from './redux/public/notice';
 import { publicNoticeAddEdit } from './redux/public/notice-addedit';
+import { bizMemberInquiries } from './redux/biz/memberInquiries';
 import { bizBrand } from './redux/biz/brand';
+import { bizBrandAddEdit } from './redux/biz/brand-addedit';
+import { bizCarSeries } from './redux/biz/carSeries';
+import { bizCarSeriesAddEdit } from './redux/biz/carSeries-addedit';
+import { bizCarShape } from './redux/biz/carShape';
+import { bizHandleApply } from './redux/biz/handleApply';
+import { bizCarShapeAddEdit } from './redux/biz/carShape-addedit';
+import { bizCarLoanBusiness } from './redux/biz/carLoanBusiness';
 import { generalTextParam } from './redux/general/text-param';
 import { generalTextParamAddEdit } from './redux/general/text-param-addedit';
 import { financeAccount } from './redux/finance/account';
@@ -40,6 +50,8 @@ export default combineReducers({
   securityMenu,
   securityMenuAddEdit,
   securityUser,
+  securityAssign,
+  securityPwdReset,
   securitySysParam,
   securitySysParamAddEdit,
   securityUserAddEdit,
@@ -52,7 +64,15 @@ export default combineReducers({
   publicTimeAddEdit,
   publicNotice,
   publicNoticeAddEdit,
+  bizMemberInquiries,
   bizBrand,
+  bizBrandAddEdit,
+  bizCarSeries,
+  bizCarSeriesAddEdit,
+  bizCarShape,
+  bizCarShapeAddEdit,
+  bizHandleApply,
+  bizCarLoanBusiness,
   generalTextParam,
   generalTextParamAddEdit,
   financeAccount,
