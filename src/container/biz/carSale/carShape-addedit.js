@@ -27,23 +27,19 @@ class CarShapeAddEdit extends React.Component {
       title: '品牌',
       type: 'select',
       search: true,
-      data: [{
-        key: '0',
-        value: '2018款1'
-      }, {
-        key: '1',
-        value: '2018款2'
-      }, {
-        key: '2',
-        value: '2018款3'
-      }],
-      keyName: 'key',
-      valueName: 'value',
+      listCode: 630406,
+      keyName: 'code',
+      valueName: 'name',
       required: true
     }, {
       title: '车系',
       field: 'brandCode',
-      required: true
+      type: 'select',
+      search: true,
+      required: true,
+      listCode: 630416,
+      keyName: 'code',
+      valueName: 'name'
     }, {
       field: 'name',
       title: '名称',

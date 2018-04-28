@@ -50,6 +50,75 @@ class BrandAddedit extends React.Component {
       }, {
         key: '2',
         value: 'C'
+      }, {
+        key: '3',
+        value: 'D'
+      }, {
+        key: '4',
+        value: 'E'
+      }, {
+        key: '5',
+        value: 'F'
+      }, {
+        key: '6',
+        value: 'G'
+      }, {
+        key: '7',
+        value: 'H'
+      }, {
+        key: '8',
+        value: 'I'
+      }, {
+        key: '9',
+        value: 'G'
+      }, {
+        key: '2',
+        value: 'K'
+      }, {
+        key: '10',
+        value: 'L'
+      }, {
+        key: '11',
+        value: 'M'
+      }, {
+        key: '12',
+        value: 'N'
+      }, {
+        key: '13',
+        value: 'O'
+      }, {
+        key: '14',
+        value: 'P'
+      }, {
+        key: '15',
+        value: 'Q'
+      }, {
+        key: '16',
+        value: 'L'
+      }, {
+        key: '17',
+        value: 'S'
+      }, {
+        key: '18',
+        value: 'T'
+      }, {
+        key: '19',
+        value: 'U'
+      }, {
+        key: '20',
+        value: 'V'
+      }, {
+        key: '21',
+        value: 'W'
+      }, {
+        key: '22',
+        value: 'X'
+      }, {
+        key: '23',
+        value: 'Y'
+      }, {
+        key: '24',
+        value: 'Z'
       }],
       keyName: 'key',
       valueName: 'value'

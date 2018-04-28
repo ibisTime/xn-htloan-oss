@@ -9,10 +9,9 @@ import {
 } from '@redux/biz/memberInquiries-addedit';
 import { getQueryString } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
-  state => state.BizMemberInquiriesAddEdit,
+  state => state.bizMemberInquiriesAddedit,
   { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
 )
 class MemberInquiriesAddEdit extends React.Component {
@@ -23,76 +22,37 @@ class MemberInquiriesAddEdit extends React.Component {
   }
   render() {
     const fields = [{
+      title: '用户编号',
+      field: 'userId'
+    }, {
+      title: '手机号',
+      field: 'mobile'
+    }, {
+      title: '推荐人',
+      field: 'refereeMobile'
+    }, {
+      title: '姓名',
+      field: 'realName',
+      search: true
+    }, {
+      title: '身份证',
+      field: 'idNo'
+    }, {
+      title: '状态',
       field: 'status',
-      value: 1,
-      hidden: true
-    }, {
-      field: 'companyCode',
-      hidden: true
-      // value: COMPANY_CODE
-    }, {
-      field: 'type',
-      value: 2,
-      hidden: true
-    }, {
-      field: 'belong',
-      value: 1,
-      hidden: true
-    }, {
-      field: 'parentCode',
-      value: 0,
-      hidden: true
-    }, {
-      field: 'contentType',
-      value: 1,
-      hidden: true
-    }, {
-      field: 'isCompanyEdit',
-      value: 0,
-      hidden: true
-    }, {
-      title: 'banner名称',
-      field: 'name',
-      required: true
-    }, {
-      title: '位置',
-      field: 'location',
+      search: true,
       type: 'select',
-      // key: 'banner_location',
-      data: [{
-        dkey: 'index_banner',
-        dvalue: '首页'
-      }],
-      keyName: 'dkey',
-      valueName: 'dvalue',
-      value: 'index_banner',
-      required: true
-    }, {
-      title: '顺序',
-      field: 'orderNo',
-      help: '数字越小，排序越靠前',
-      required: true
-    }, {
-      title: 'banner图片',
-      field: 'pic',
-      type: 'img',
-      required: true,
-      single: true
-    }, {
-      title: 'url地址',
-      field: 'url'
+      key: 'status'
     }, {
       title: '备注',
-      field: 'remark',
-      maxlength: 250
+      field: 'ramark'
     }];
     return this.props.buildDetail({
       fields,
+      key: 'userId',
       code: this.code,
       view: this.view,
-      detailCode: 630001,
-      addCode: 630000,
-      editCode: 630002
+      detailCode: 630207
     });
   }
 }

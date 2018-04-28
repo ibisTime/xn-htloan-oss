@@ -30,6 +30,7 @@ import { bizCarShape } from './redux/biz/carShape';
 import { bizHandleApply } from './redux/biz/handleApply';
 import { bizCarShapeAddEdit } from './redux/biz/carShape-addedit';
 import { bizCarLoanBusiness } from './redux/biz/carLoanBusiness';
+import { bizMemberInquiriesAddedit } from './redux/biz/memberInquiries-addedit';
 import { generalTextParam } from './redux/general/text-param';
 import { generalTextParamAddEdit } from './redux/general/text-param-addedit';
 import { financeAccount } from './redux/finance/account';
@@ -73,6 +74,7 @@ export default combineReducers({
   bizCarShapeAddEdit,
   bizHandleApply,
   bizCarLoanBusiness,
+  bizMemberInquiriesAddedit,
   generalTextParam,
   generalTextParamAddEdit,
   financeAccount,

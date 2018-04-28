@@ -10,6 +10,7 @@ import {
   setSearchData
 } from '@redux/biz/carSeries';
 import { listWrapper } from 'common/js/build-list';
+import OnOrDownShelf from 'component/onordownshelf/onordownshelf';
 import { showWarnMsg, showSucMsg } from 'common/js/util';
 import { Button, Upload, Modal } from 'antd';
 import { lowerFrameSys, onShelfSys } from 'api/biz';
@@ -25,6 +26,16 @@ import { lowerFrameSys, onShelfSys } from 'api/biz';
   }
 )
 class CarSeries extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      shelfVisible: false,
+      selectKey: ''
+    };
+  }
+  setShelfVisible = (shelfVisible) => {
+    this.setState({ shelfVisible });
+  }
   render() {
     const fields = [{
       title: '名称',
@@ -54,52 +65,56 @@ class CarSeries extends React.Component {
       title: '备注',
       field: 'remark'
     }];
-    return this.props.buildList({
-      fields,
-      pageCode: 630415,
-      btnEvent: {
-        lowerSys: (key, item) => {
-          if (!key || !key.length || !item || !item.length) {
-            showWarnMsg('请选择记录');
-          } else {
-            Modal.confirm({
-              okText: '确认',
-              cancelText: '取消',
-              content: '确定下架？',
-              onOk: () => {
-                this.props.doFetching();
-                return lowerFrameSys(key[0]).then(() => {
-                  this.props.cancelFetching();
-                  showWarnMsg('操作成功');
-                }).catch(() => {
-                  this.props.cancelFetching();
-                });
-              }
-            });
-          }
-        },
-        onShelfSys: (key, item) => {
-          if (!key || !key.length || !item || !item.length) {
-            showWarnMsg('请选择记录');
-          } else {
-            Modal.confirm({
-              okText: '确认',
-              cancelText: '取消',
-              content: '确定上架？',
-              onOk: () => {
-                this.props.doFetching();
-                return onShelfSys(key[0]).then(() => {
-                  this.props.cancelFetching();
-                  showWarnMsg('操作成功');
-                }).catch(() => {
-                  this.props.cancelFetching();
-                });
-              }
-            });
-          }
+    const btnEvent = {
+      lowerSys: (key, item) => {
+        if (!key || !key.length || !item || !item.length) {
+          showWarnMsg('请选择记录');
+        } else if (item[0].status !== '1') {
+          showWarnMsg('该状态不可下架');
+        } else {
+          Modal.confirm({
+            okText: '确认',
+            cancelText: '取消',
+            content: '确定下架？',
+            onOk: () => {
+              this.props.doFetching();
+              return lowerFrameSys(key[0]).then(() => {
+                this.props.cancelFetching();
+                showWarnMsg('操作成功');
+              }).catch(() => {
+                this.props.cancelFetching();
+              });
+            }
+          });
+        }
+      },
+      onShelfSys: (key, item) => {
+        if (!key || !key.length || !item || !item.length) {
+          showWarnMsg('请选择记录');
+        } else if (item[0].status === '1') {
+          showWarnMsg('该状态不可上架');
+        } else {
+          this.setState({
+            selectKey: key[0],
+            shelfVisible: true
+          });
         }
       }
-    });
+    };
+    return (
+      <div>
+        {this.props.buildList({
+          fields,
+          btnEvent,
+          pageCode: 630415
+        })}
+        <OnOrDownShelf
+          selectKey={this.state.selectKey}
+          addCode={630413}
+          shelfVisible={this.state.shelfVisible}
+          setShelfVisible={this.setShelfVisible} />
+      </div>
+    );
   }
 }
 

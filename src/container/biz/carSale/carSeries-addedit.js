@@ -29,7 +29,8 @@ class CarSeriesAddEdit extends React.Component {
       search: true,
       listCode: 630406,
       keyName: 'code',
-      valueName: 'name'
+      valueName: 'name',
+      required: true
     }, {
       field: 'name',
       title: '名称',

@@ -8,7 +8,7 @@ import E from 'wangeditor';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
 import { formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat,
-  tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg } from 'common/js/util';
+  tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, getUserName } from 'common/js/util';
 import { UPLOAD_URL, PIC_PREFIX, formItemLayout, tailFormItemLayout } from './config';
 import fetch from 'common/js/fetch';
 import cityData from 'common/js/lib/city';
@@ -147,7 +147,8 @@ export const O2MDetailWrapper = (mapStateToProps = state => state, mapDispatchTo
           return false;
         }
         areaKeys.forEach(v => values[v] = this.textareas[v].editorContent);
-        values[this.options.key || 'code'] = this.props.code || '';
+        let key = this.options.key || 'code';
+        values[key] = isUndefined(values[key]) ? this.props.code || '' : values[key];
         this.options.fields.forEach(v => {
           if (v.amount) {
             values[v.field] = moneyParse(values[v.field], v.amountRate);
@@ -170,6 +171,7 @@ export const O2MDetailWrapper = (mapStateToProps = state => state, mapDispatchTo
             }
           }
         });
+        values.updater = values.updater || getUserName();
         return values;
       }
       customSubmit = (handler) => {
@@ -244,18 +246,7 @@ export const O2MDetailWrapper = (mapStateToProps = state => state, mapDispatchTo
         }
       }
       getUploadData = (file) => {
-        // const { token } = this.state;
         return { token: this.state.token };
-        // let sourceLink = file.name;
-        // let idx = sourceLink.lastIndexOf('.');
-        // let name = sourceLink.slice(0, idx);
-        // let suffix = sourceLink.slice(idx + 1);
-        // name = name + '_' + new Date().getTime();
-        // suffix = suffix.toLowerCase();
-        // return {
-        //   token,
-        //   key: name + '.' + suffix
-        // };
       }
       getDetailInfo() {
         let key = this.options.key || 'code';
@@ -472,6 +463,7 @@ export const O2MDetailWrapper = (mapStateToProps = state => state, mapDispatchTo
         );
       }
       getInputComp(item, initVal, rules, getFieldDecorator) {
+        console.log(initVal);
         return (
           <FormItem
             className={item.hidden ? 'hidden' : ''}

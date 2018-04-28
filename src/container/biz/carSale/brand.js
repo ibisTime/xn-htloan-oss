@@ -57,6 +57,8 @@ class Brand extends React.Component {
         lower: (key, item) => {
           if (!key || !key.length || !item || !item.length) {
             showWarnMsg('请选择记录');
+          } else if (item[0].status !== '1') {
+            showWarnMsg('该状态不可下架');
           } else {
             Modal.confirm({
               okText: '确认',
@@ -77,6 +79,8 @@ class Brand extends React.Component {
         onShelf: (key, item) => {
           if (!key || !key.length || !item || !item.length) {
             showWarnMsg('请选择记录');
+          } else if (item[0].status === '1') {
+            showWarnMsg('该状态不可上架');
           } else {
             Modal.confirm({
               okText: '确认',

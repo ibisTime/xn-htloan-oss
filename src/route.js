@@ -134,6 +134,10 @@ const ROUTES = [
     component: asyncComponent(() => import('container/biz/carLoanRepay/carLoanBusiness'))
   },
   {
+    path: '/biz/memberInquiries/addedit',
+    component: asyncComponent(() => import('container/biz/administration/memberInquiries-addedit'))
+  },
+  {
     path: '/general/textParam',
     component: asyncComponent(() => import('container/general/text-param/text-param'))
   },

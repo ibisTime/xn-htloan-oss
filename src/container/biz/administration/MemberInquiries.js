@@ -52,13 +52,18 @@ class MemberInquiries extends React.Component {
       field: ''
     }, {
       title: '状态',
+      field: 'status',
       search: true,
-      type: 'select'
+      type: 'select',
+      key: 'status'
     }, {
       title: '备注',
       field: 'ramark'
     }];
     return this.props.buildList({
+      fields,
+      rowKey: 'userId',
+      pageCode: 630205
     });
   }
 }

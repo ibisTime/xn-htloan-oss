@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import cookies from 'browser-cookies';
 import { Form, Select, Input, Button, Tooltip, Icon, Spin, Upload,
   Modal, Cascader, DatePicker, Table } from 'antd';
 import moment from 'moment';
@@ -9,7 +8,7 @@ import E from 'wangeditor';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
 import { formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat,
-  tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg } from 'common/js/util';
+  tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg, getUserName } from 'common/js/util';
 import { UPLOAD_URL, PIC_PREFIX, formItemLayout, tailFormItemLayout } from './config';
 import fetch from 'common/js/fetch';
 import cityData from 'common/js/lib/city';
@@ -149,7 +148,8 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
           return false;
         }
         areaKeys.forEach(v => values[v] = this.textareas[v].editorContent);
-        values[this.options.key || 'code'] = this.props.code || '';
+        let key = this.options.key || 'code';
+        values[key] = isUndefined(values[key]) ? this.props.code || '' : values[key];
         this.options.fields.forEach(v => {
           if (v.amount) {
             values[v.field] = moneyParse(values[v.field], v.amountRate);
@@ -174,7 +174,7 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
             values[v.field] = this.props.pageData[v.field];
           }
         });
-        values.updater = values.updater || cookies.get('userName');
+        values.updater = values.updater || getUserName();
         return values;
       }
       customSubmit = (handler) => {
@@ -250,17 +250,6 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
       }
       getUploadData = (file) => {
         return { token: this.state.token };
-        // const { token } = this.state;
-        // let sourceLink = file.name;
-        // let idx = sourceLink.lastIndexOf('.');
-        // let name = sourceLink.slice(0, idx);
-        // let suffix = sourceLink.slice(idx + 1);
-        // name = name + '_' + new Date().getTime();
-        // suffix = suffix.toLowerCase();
-        // return {
-        //   token,
-        //   key: name + '.' + suffix
-        // };
       }
       getDetailInfo() {
         let key = this.options.key || 'code';
@@ -704,7 +693,6 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
       }
       getFileComp(item, initVal, rules, getFieldDecorator, isImg) {
         let initValue = this.getFileInitVal(initVal);
-        console.log(initValue);
         return (
           item.hidden ? null : (
             <FormItem key={item.field} {...formItemLayout} label={this.getLabel(item)}>
