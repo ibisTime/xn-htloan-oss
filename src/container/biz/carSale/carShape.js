@@ -43,7 +43,7 @@ class CarShape extends React.Component {
       search: true
     }, {
       title: '品牌',
-      field: 'brandName',
+      field: 'brandCode',
       search: true,
       type: 'select',
       listCode: 630406,

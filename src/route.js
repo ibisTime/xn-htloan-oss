@@ -138,6 +138,18 @@ const ROUTES = [
     component: asyncComponent(() => import('container/biz/administration/memberInquiries-addedit'))
   },
   {
+    path: '/wares/category',
+    component: asyncComponent(() => import('container/wares/category/category'))
+  },
+  {
+    path: '/wares/commodity',
+    component: asyncComponent(() => import('container/wares/commodity/commodity'))
+  },
+  {
+    path: '/wares/order',
+    component: asyncComponent(() => import('container/wares/order/order'))
+  },
+  {
     path: '/general/textParam',
     component: asyncComponent(() => import('container/general/text-param/text-param'))
   },

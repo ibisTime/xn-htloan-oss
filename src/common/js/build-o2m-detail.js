@@ -463,7 +463,6 @@ export const O2MDetailWrapper = (mapStateToProps = state => state, mapDispatchTo
         );
       }
       getInputComp(item, initVal, rules, getFieldDecorator) {
-        console.log(initVal);
         return (
           <FormItem
             className={item.hidden ? 'hidden' : ''}
