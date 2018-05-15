@@ -10,8 +10,6 @@ export default function fetch(code, param = {}) {
   const url = '/api';
 
   const data = {
-    // systemCode: SYSTEM_CODE,
-    // companyCode: SYSTEM_CODE,
     token: cookies.get('token') || '',
     // updater: cookies.get('userName'),
     ...param
