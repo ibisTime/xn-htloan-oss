@@ -12,7 +12,7 @@ import {
 import { listWrapper } from 'common/js/build-list';
 import { showWarnMsg, showSucMsg } from 'common/js/util';
 import { Button, Upload, Modal } from 'antd';
-import { lowerFrame, onShelf } from 'api/biz';
+import { receiveGoods, cancelBill } from 'api/biz';
 
 @listWrapper(
   state => ({
@@ -28,55 +28,106 @@ class Order extends React.Component {
   render() {
     const fields = [{
       title: '编号',
-      field: 'name',
+      field: 'code',
       search: true
     }, {
       title: '下单人',
-      field: ''
-    }, {
-      title: '手机号',
-      field: ''
+      field: 'applyUser',
+      search: true
     }, {
       title: '商品名称',
-      field: ''
+      render: (v, d) => {
+        return d.productOrderList.productName;
+      }
     }, {
       title: '购买数量',
-      field: 'letter'
+      render: (v, d) => {
+        return d.productOrderList.price;
+      }
     }, {
       title: '订单价格',
-      field: ''
+      render: (v, d) => {
+        return d.productOrderList.quantity;
+      }
     }, {
       title: '首付',
-      field: 'status',
-      search: true,
-      type: 'select',
-      key: 'status'
+      field: 'sfAmount'
     }, {
       title: '贷款金额',
-      field: 'updater'
+      field: 'loanAmount'
     }, {
       title: '分期期数',
-      field: 'updateDatetime',
-      type: 'datetime'
-    }, {
-      title: '还款卡号',
-      field: 'remark'
+      field: 'periods'
     }, {
       title: '发货时间',
-      field: 'remark'
+      field: 'deliveryDatetime',
+      type: 'datetime'
     }, {
       title: '收货时间',
-      field: 'remark'
+      field: 'signDatetime',
+      type: 'datetime'
     }, {
       title: '状态',
-      field: 'remark'
+      field: 'status',
+      key: 'status'
     }, {
       title: '备注',
       field: 'remark'
     }];
     return this.props.buildList({
       fields,
-      pageCode: 808065
+      pageCode: 808065,
+      btnEvent: {
+        shipments: (selectedRowKeys, selectedRows) => {
+          if (!selectedRowKeys.length) {
+            showWarnMsg('请选择记录');
+          } else if (selectedRowKeys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else {
+            this.props.history.push(`/wares/order/goods?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
+          }
+        },
+        receiveGoods: (key, item) => {
+          if (!key || !key.length || !item || !item.length) {
+            showWarnMsg('请选择记录');
+          } else {
+            Modal.confirm({
+              okText: '确认',
+              cancelText: '取消',
+              content: '确定收货成功？',
+              onOk: () => {
+                this.props.doFetching();
+                return receiveGoods(key[0]).then(() => {
+                  this.props.cancelFetching();
+                  showWarnMsg('操作成功');
+                }).catch(() => {
+                  this.props.cancelFetching();
+                });
+              }
+            });
+          }
+        },
+        cancel: (key, item) => {
+          if (!key || !key.length || !item || !item.length) {
+            showWarnMsg('请选择记录');
+          } else {
+            Modal.confirm({
+              okText: '确认',
+              cancelText: '取消',
+              content: '确定取消订单？',
+              onOk: () => {
+                this.props.doFetching();
+                return cancelBill(key[0]).then(() => {
+                  this.props.cancelFetching();
+                  showWarnMsg('操作成功');
+                }).catch(() => {
+                  this.props.cancelFetching();
+                });
+              }
+            });
+          }
+        }
+      }
     });
   }
 }

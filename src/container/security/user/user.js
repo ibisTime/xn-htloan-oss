@@ -47,7 +47,7 @@ class User extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 630075,
+      pageCode: 630065,
       rowKey: 'userId',
       btnEvent: {
         reset: (key, item) => {

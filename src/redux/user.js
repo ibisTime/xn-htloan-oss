@@ -1,6 +1,5 @@
 import fetch from 'common/js/fetch';
-import { setUser, getUserId, setRoleInfo } from 'common/js/util';
-// import { COMPANY_CODE } from 'common/js/config';
+import { setUser, getUserId, setRoleInfo, getRoleCode, getUserName } from 'common/js/util';
 
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGOUT = 'LOGOUT';
@@ -12,9 +11,9 @@ const initState = {
   fetching: false,
   redirectTo: '',
   msg: '',
-  userId: '',
-  userName: '',
-  roleCode: '',
+  userId: getUserId() || '',
+  loginName: getUserName() || '',
+  roleCode: getRoleCode() || '',
   kind: ''
 };
 
@@ -68,12 +67,13 @@ export function getUser() {
 }
 
 // 登录
-export function login({ loginName, loginPwd }) {
+export function login({ loginName, loginPwd, type = 'P' }) {
   return dispatch => {
     dispatch(doFetching());
-    fetch(630052, {
+    fetch(630051, {
       loginName,
-      loginPwd
+      loginPwd,
+      type
     }).then(data => {
       setUser(data);
       dispatch(loginSuccess());
@@ -89,7 +89,7 @@ export function login({ loginName, loginPwd }) {
 }
 
 function _getUser() {
-  return fetch(630077, {
+  return fetch(630067, {
     userId: getUserId()
   });
 }

@@ -10,6 +10,8 @@ export default function fetch(code, param = {}) {
   const url = '/api';
 
   const data = {
+    // systemCode: SYSTEM_CODE,
+    // companyCode: SYSTEM_CODE,
     token: cookies.get('token') || '',
     // updater: cookies.get('userName'),
     ...param
@@ -38,7 +40,7 @@ export default function fetch(code, param = {}) {
   });
 }
 
-function logout() {
+export function logout() {
   clearUser();
   showErrMsg('登录超时，请重新登录!');
   window.location.href = '/login';

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Form, Modal, Button } from 'antd';
 import {
   initStates,
@@ -9,13 +10,9 @@ import {
   restore
 } from '@redux/modal/build-modal-detail';
 import fetch from 'common/js/fetch';
-import { O2MDetailWrapper } from 'common/js/build-o2m-detail';
+import DetailComp from './lib/DetailComp';
 
-@O2MDetailWrapper(
-  state => state.modalDetail,
-  { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
-)
-export default class ModalDetail extends React.Component {
+class ModalDetail extends DetailComp {
   constructor(props) {
     super(props);
     this.props.restore();
@@ -62,8 +59,13 @@ export default class ModalDetail extends React.Component {
         onCancel={this.handleCancel}
         style={{minWidth: 820}}
         footer={null}>
-        {this.props.buildDetail(options)}
+        {this.buildDetail(options)}
       </Modal>
     );
   }
 }
+
+export default Form.create()(
+  connect(state => state.modalDetail,
+    { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
+  )(ModalDetail));

@@ -58,7 +58,7 @@ class Menu extends React.Component {
       title: '备注',
       field: 'remark'
     }];
-    return this.props.buildList({ fields, pageCode: 630015, deleteCode: 630001 });
+    return this.props.buildList({ fields, pageCode: 630015, deleteCode: 630011 });
   }
 }
 

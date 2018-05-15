@@ -1,6 +1,11 @@
 import cookies from 'browser-cookies';
-import { message, Modal } from 'antd';
-import { PIC_PREFIX } from './config';
+import {
+  message,
+  Modal
+} from 'antd';
+import {
+  PIC_PREFIX
+} from './config';
 import './lib/BigDecimal';
 
 /**
@@ -8,7 +13,10 @@ import './lib/BigDecimal';
  * @param userId
  * @param token
  */
-export function setUser({ userId, token }) {
+export function setUser({
+  userId,
+  token
+}) {
   cookies.set('userId', userId);
   cookies.set('token', token);
 }
@@ -25,7 +33,12 @@ export function getUserId() {
 }
 
 // 设置用户角色信息
-export function setRoleInfo({ roleCode, kind, level, loginName }) {
+export function setRoleInfo({
+  roleCode,
+  kind,
+  level,
+  loginName
+}) {
   cookies.set('roleCode', roleCode);
   // cookies.set('loginKind', kind);
   // cookies.set('roleLevel', level);
@@ -195,7 +208,7 @@ export function multiply(a, b) {
  * @param suffix
  */
 export function formatFile(urls, suffix = '') {
-  if(!urls) {
+  if (!urls) {
     return '';
   }
   let url = urls.split(/\|\|/)[0];
@@ -224,7 +237,7 @@ export function isUndefined(value) {
 }
 
 export function tempString(str, data) {
-  return str.replace(/\{\{(\w+)\.DATA\}\}/gi, function(matchs) {
+  return str.replace(/\{\{(\w+)\.DATA\}\}/gi, function (matchs) {
     var returns = data[matchs.replace(/\{\{(\w+)\.DATA\}\}/, '$1')];
     return isUndefined(returns) ? '' : returns;
   });
@@ -246,7 +259,11 @@ export function showErrMsg(msg, time = 2) {
   showMsg(msg, 'error', time);
 }
 
-export function showConfirm({ okType = 'primary', onOk, onCancel }) {
+export function showConfirm({
+  okType = 'primary',
+  onOk,
+  onCancel
+}) {
   Modal.confirm({
     okType,
     title: '您确定要删除该条记录吗?',
@@ -262,6 +279,13 @@ export function showConfirm({ okType = 'primary', onOk, onCancel }) {
   });
 }
 
-export function showDelConfirm({ onOk, onCancel }) {
-  showConfirm({ okType: 'danger', onOk, onCancel });
+export function showDelConfirm({
+  onOk,
+  onCancel
+}) {
+  showConfirm({
+    okType: 'danger',
+    onOk,
+    onCancel
+  });
 }
