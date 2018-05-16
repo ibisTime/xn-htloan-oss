@@ -20,7 +20,11 @@ import { getQueryString, getUserId, dateTimeFormat } from 'common/js/util';
   { setTableData, clearSearchParam, doFetching, setBtnList,
     cancelFetching, setPagination, setSearchParam, setSearchData }
 )
-class PlatformLedger extends React.Component {
+class AccountLedger extends React.Component {
+  constructor(props) {
+    super(props);
+    this.accountCode = getQueryString('accountNumber', this.props.location.search);
+  }
   render() {
     const fields = [{
       title: '户名',
@@ -68,16 +72,20 @@ class PlatformLedger extends React.Component {
       rangedate: ['createDatetimeStart', 'createDatetimeEnd'],
       formatter: dateTimeFormat,
       search: true
+    }, {
+      title: '关联单号',
+      field: 'refNo'
     }];
     return this.props.buildList({
       fields,
       pageCode: 802520,
       searchParams: {
         type: 'P',
-        kind: 0
+        kind: 0,
+        accountNumber: this.accountNumber
       }
     });
   }
 }
 
-export default PlatformLedger;
+export default AccountLedger;

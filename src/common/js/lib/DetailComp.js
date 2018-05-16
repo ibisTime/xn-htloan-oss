@@ -985,8 +985,8 @@ export default class DetailComponent extends React.Component {
     }
     if (item.integer) {
       rules.push({
-        type: /^-?\d+$/,
-        message: '请输入合法的整数'
+        pattern: /^-?\d+$/,
+        message: '请输入整数'
       });
     }
     if (item.idCard) {

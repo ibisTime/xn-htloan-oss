@@ -29,7 +29,7 @@ class UpDown extends React.Component {
         title: 'UI次序',
         required: true,
         help: '数字越小，排序越靠前',
-        'Z+': true,
+        integer: true,
         maxlength: 30
       }],
       addCode: biz

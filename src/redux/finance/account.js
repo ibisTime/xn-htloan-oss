@@ -1,27 +1,27 @@
-import { getPageAccount, getEthStatistics } from 'api/account';
+import { getPageAccount } from 'api/account';
 
 const PREFIX = 'FINANCE_ACCOUNT_';
-const SET_TABLE_DATA = PREFIX + 'SET_TABLE_DATA';
-const SET_ETH_ACCOUNT = PREFIX + 'SET_ETH_ACCOUNT';
-const SET_ETH_COLD_ACCOUNT = PREFIX + 'SET_ETH_COLD_ACCOUNT';
+const SET_CNY_ACCOUNT = PREFIX + 'SET_CNY_ACCOUNT';
+const SET_TG_ACCOUNT = PREFIX + 'SET_TG_ACCOUNT';
+const SET_JF_ACCOUNT = PREFIX + 'SET_JF_ACCOUNT';
 const LOADING = PREFIX + 'LOADING';
 const CANCEL_LOADING = PREFIX + 'CANCEL_LOADING';
 
 const initState = {
-  tableList: [],
-  ethAccount: {},
-  ethColdAccount: {},
+  cnyAccount: {},
+  tgAccount: {},
+  jfAccount: {},
   fetching: true
 };
 
 export function financeAccount(state = initState, action) {
   switch(action.type) {
-    case SET_TABLE_DATA:
-      return {...state, tableList: action.payload};
-    case SET_ETH_ACCOUNT:
-      return {...state, ethAccount: action.payload};
-    case SET_ETH_COLD_ACCOUNT:
-      return {...state, ethColdAccount: action.payload};
+    case SET_CNY_ACCOUNT:
+      return {...state, cnyAccount: action.payload};
+    case SET_TG_ACCOUNT:
+      return {...state, tgAccount: action.payload};
+    case SET_JF_ACCOUNT:
+      return {...state, jfAccount: action.payload};
     case LOADING:
       return {...state, fetching: true};
     case CANCEL_LOADING:
@@ -41,19 +41,19 @@ function cancelFetching() {
   return { type: CANCEL_LOADING };
 }
 
-// 设置平台ETH冷钱包
-function setEthColdAccount(data) {
-  return { type: SET_ETH_COLD_ACCOUNT, payload: data };
+// 设置平台盈亏账户
+function setCnyAccount(data) {
+  return { type: SET_CNY_ACCOUNT, payload: data };
 }
 
-// 设置平台ETH盈亏账户
-function setEthAccount(data) {
-  return { type: SET_ETH_ACCOUNT, payload: data };
+// 设置平台托管账户
+function setTgAccount(data) {
+  return { type: SET_TG_ACCOUNT, payload: data };
 }
 
-// 设置table的数据
-function setTableData(data) {
-  return { type: SET_TABLE_DATA, payload: data };
+// 设置平台积分账户
+function setJfAccount(data) {
+  return { type: SET_JF_ACCOUNT, payload: data };
 }
 
 // 查询账户列表
@@ -65,47 +65,21 @@ function queryPageAccount() {
   });
 }
 
-function getTableInfo(infos) {
-  return [{
-    code: 0,
-    name: '平台所有币',
-    amount: infos.totalCount
-  }, {
-    code: 1,
-    name: '客户未归集总额',
-    amount: infos.toCollectCount
-  }, {
-    code: 2,
-    name: '当前散取地址余额',
-    amount: infos.toWithdrawCount
-  }, {
-    code: 3,
-    name: '历史归集总额',
-    amount: infos.totolCollectCount
-  }, {
-    code: 4,
-    name: '历史散取总额',
-    amount: infos.totolWithdrawCount
-  }];
-}
-
 // 初始化页面数据
 export function initData() {
   return dispatch => {
     dispatch(doFetching());
-    Promise.all([
-      queryPageAccount(),
-      getEthStatistics()
-    ]).then(([accounts, infos]) => {
+    queryPageAccount().then((accounts) => {
       dispatch(cancelFetching());
       accounts.list.forEach(account => {
-        if (account.accountNumber === 'SYS_ACOUNT_ETH_COLD') {
-          dispatch(setEthColdAccount(account));
-        } else if (account.accountNumber === 'SYS_ACOUNT_ETH') {
-          dispatch(setEthAccount(account));
+        if (account.accountNumber === 'SYS_ACOUNT_CNY') {
+          dispatch(setCnyAccount(account));
+        } else if (account.accountNumber === 'SYS_ACOUNT_CNY_TG') {
+          dispatch(setTgAccount(account));
+        } else if (account.accountNumber === 'SYS_ACOUNT_JF') {
+          dispatch(setJfAccount(account));
         }
       });
-      dispatch(setTableData(getTableInfo(infos)));
     }).catch(() => dispatch(cancelFetching()));
   };
 }

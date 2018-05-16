@@ -8,29 +8,31 @@ import {
   doFetching,
   cancelFetching,
   setSearchData
-} from '@redux/finance/platform-ledger';
+} from '@redux/finance/user-flows';
 import { listWrapper } from 'common/js/build-list';
-import { getQueryString, getUserId, dateTimeFormat } from 'common/js/util';
+import { getQueryString, showWarnMsg, dateTimeFormat } from 'common/js/util';
 
 @listWrapper(
   state => ({
-    ...state.financePlatformLedger,
-    parentCode: state.menu.subMenuCode
+    ...state.financeUserFlows
   }),
   { setTableData, clearSearchParam, doFetching, setBtnList,
     cancelFetching, setPagination, setSearchParam, setSearchData }
 )
-class PlatformLedger extends React.Component {
+class UserFlows extends React.Component {
+  constructor(props) {
+    super(props);
+    this.accountNumber = getQueryString('code', this.props.location.search);
+  }
   render() {
     const fields = [{
       title: '户名',
-      field: 'realName',
-      search: true
+      field: 'realName'
     }, {
       title: '币种',
       field: 'currency',
       type: 'select',
-      key: 'coin'
+      key: 'currency'
     }, {
       title: '渠道',
       field: 'channelType',
@@ -68,16 +70,23 @@ class PlatformLedger extends React.Component {
       rangedate: ['createDatetimeStart', 'createDatetimeEnd'],
       formatter: dateTimeFormat,
       search: true
+    }, {
+      title: '关联单号',
+      field: 'refNo'
     }];
     return this.props.buildList({
       fields,
-      pageCode: 802520,
+      pageCode: 802524,
       searchParams: {
-        type: 'P',
-        kind: 0
-      }
+        accountNumber: this.accountNumber
+      },
+      buttons: [{
+        code: 'back',
+        name: '返回',
+        handler: () => this.props.history.go(-1)
+      }]
     });
   }
 }
 
-export default PlatformLedger;
+export default UserFlows;

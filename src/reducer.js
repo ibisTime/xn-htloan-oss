@@ -32,14 +32,18 @@ import { bizCarShapeAddEdit } from './redux/biz/carShape-addedit';
 import { bizMemberInquiriesAddedit } from './redux/biz/memberInquiries-addedit';
 import { generalTextParam } from './redux/general/text-param';
 import { generalTextParamAddEdit } from './redux/general/text-param-addedit';
+/** ***** 财务管理start ***** **/
+// 会员账户--账户查询
+import { financeUserAccount } from './redux/finance/user-account';
+// 会员账户--账户查询--流水
+import { financeUserFlows } from './redux/finance/user-flows';
+// 会员账户--流水查询
+import { financeAllUserFlows } from './redux/finance/all-user-flows';
 import { financeAccount } from './redux/finance/account';
-import { financeLedger } from './redux/finance/ledger';
 import { financeLedgerAddEdit } from '@redux/finance/ledger-addedit';
 import { financePlatformLedger } from '@redux/finance/platform-ledger';
-import { financeDistAddr } from '@redux/finance/dist-addr';
-import { financeDistAddrLedger } from '@redux/finance/dist-addr-ledger';
 import { creditAddEdit } from '@redux/demo/credit-addedit';
-
+/** ***** 财务管理end ***** **/
 //  车贷业务管理 + 详情
 import { bizCarLoanBusiness } from './redux/biz/carLoanBusiness';
 import { bizCarLoanBusinessAddedit } from '@redux/biz/carLoanBusiness-addedit';
@@ -135,12 +139,11 @@ export default combineReducers({
   bizMemberInquiriesAddedit,
   generalTextParam,
   generalTextParamAddEdit,
+  financeUserAccount,
+  financeUserFlows,
+  financeAllUserFlows,
   financeAccount,
-  financeLedger,
-  financeLedgerAddEdit,
   financePlatformLedger,
-  financeDistAddr,
-  financeDistAddrLedger,
   creditAddEdit,
   bizCarLoanBusiness,
   bizCarLoanBusinessAddedit,

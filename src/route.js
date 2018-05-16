@@ -10,6 +10,10 @@ const ROUTES = [
     component: asyncComponent(() => import('container/security/role-addedit/role-addedit'))
   },
   {
+    path: '/system/role/menu',
+    component: asyncComponent(() => import('container/security/role-menu/role-menu'))
+  },
+  {
     path: '/system/menu',
     component: asyncComponent(() => import('container/security/menu/menu'))
   },
@@ -68,26 +72,6 @@ const ROUTES = [
   {
     path: '/public/notice/addedit',
     component: asyncComponent(() => import('container/public/notice-addedit/notice-addedit'))
-  },
-  {
-    path: '/security/role',
-    component: asyncComponent(() => import('container/security/role/role'))
-  },
-  {
-    path: '/security/role/addedit',
-    component: asyncComponent(() => import('container/security/role-addedit/role-addedit'))
-  },
-  {
-    path: '/security/role/menu',
-    component: asyncComponent(() => import('container/security/role-menu/role-menu'))
-  },
-  {
-    path: '/security/menu',
-    component: asyncComponent(() => import('container/security/menu/menu'))
-  },
-  {
-    path: '/security/menu/addedit',
-    component: asyncComponent(() => import('container/security/menu-addedit/menu-addedit'))
   },
   {
     path: '/public/banner',
@@ -149,17 +133,28 @@ const ROUTES = [
     path: '/general/textParam/addedit',
     component: asyncComponent(() => import('container/general/text-param-addedit/text-param-addedit'))
   },
+  // 会员账户 -- 账户查询
+  {
+    path: '/finance/userAccount',
+    component: asyncComponent(() => import('container/finance/user-account/user-account'))
+  },
+  // 会员账户 -- 账户查询 -- 流水
+  {
+    path: '/finance/userAccount/flows',
+    component: asyncComponent(() => import('container/finance/user-flows/user-flows'))
+  },
+  // 会员账户 -- 流水查询
+  {
+    path: '/finance/userLedger',
+    component: asyncComponent(() => import('container/finance/all-user-flows/all-user-flows'))
+  },
   {
     path: '/finance/breakBalance',
     component: asyncComponent(() => import('container/finance/account/account'))
   },
   {
     path: '/finance/breakBalance/ledger',
-    component: asyncComponent(() => import('container/finance/ledger/ledger'))
-  },
-  {
-    path: '/finance/breakBalance/ledger/addedit',
-    component: asyncComponent(() => import('container/finance/ledger-addedit/ledger-addedit'))
+    component: asyncComponent(() => import('container/finance/account-ledger/account-ledger'))
   },
   {
     path: '/finance/platform_ledger',
@@ -168,14 +163,6 @@ const ROUTES = [
   {
     path: '/finance/platform_ledger/addedit',
     component: asyncComponent(() => import('container/finance/ledger-addedit/ledger-addedit'))
-  },
-  {
-    path: '/finance/diviAddress',
-    component: asyncComponent(() => import('container/finance/dist-addr/dist-addr'))
-  },
-  {
-    path: '/finance/diviAddress/ledger',
-    component: asyncComponent(() => import('container/finance/dist-addr-ledger/dist-addr-ledger'))
   },
   //  车贷业务管理
   {

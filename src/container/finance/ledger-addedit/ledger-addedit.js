@@ -47,21 +47,21 @@ class LedgerAddEdit extends React.Component {
       title: '业务类型',
       field: 'bizType',
       type: 'select',
-      key: 'jour_biz_type'
+      key: 'biz_type'
     }, {
       title: '生成说明',
       field: 'bizNote'
     }, {
       title: '变动金额',
-      field: 'transAmountString',
+      field: 'transAmount',
       amount: true
     }, {
       title: '变动前金额',
-      field: 'preAmountString',
+      field: 'preAmount',
       amount: true
     }, {
       title: '变动后金额',
-      field: 'postAmountString',
+      field: 'postAmount',
       amount: true
     }, {
       title: '金额変动时间',

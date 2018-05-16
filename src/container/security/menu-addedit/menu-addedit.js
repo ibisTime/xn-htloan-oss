@@ -60,7 +60,7 @@ class MenuAddEdit extends React.Component {
       field: 'orderNo',
       help: '数字越小，排序越靠前',
       required: true,
-      'Z+': true
+      integer: true
     }, {
       title: '备注',
       field: 'remark',
