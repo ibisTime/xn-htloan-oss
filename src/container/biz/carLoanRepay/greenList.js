@@ -32,34 +32,38 @@ class greenList extends React.Component {
     const fields = [
       {
         title: '业务编号',
-        field: 'code'
+        field: 'code',
+        search: true
       }, {
         title: '贷款人',
         field: 'realName',
-        search: true
+        search: true,
+        render: (v, d) => {
+          return d.user.realName;
+        }
       }, {
-        title: '预期日期',
-        field: 'periods',
-        type: 'data'
+        title: '逾期日期',
+        field: 'repayDatetime',
+        type: 'date'
       }, {
         title: '标识日期',
-        field: 'monthAmount',
-        type: 'data'
+        field: 'overdueHandleDatetime',
+        type: 'date'
       }, {
         title: '清收成本(元)',
-        field: 'status',
+        field: 'totalFee',
         amount: true
       }, {
         title: '未还清收成本(元)',
-        field: 'remark',
+        field: 'restTotalCost',
         amount: true
       }, {
-        title: '保证金(元)',
-        field: 'remark',
+        title: '再次逾期保证金(元)',
+        field: 'overdueDeposit',
         amount: true
       }, {
         title: '可退保证金(元)',
-        field: 'remark',
+        field: 'shouldDeposit',
         amount: true
       }
     ];
@@ -67,10 +71,10 @@ class greenList extends React.Component {
         fields,
         pageCode: 630540,
         searchParams: {
-          status: 4
+          status: '4'
         },
         btnEvent: {
-          refundplan: (selectedRowKeys, selectedRows) => {
+          payment: (selectedRowKeys, selectedRows) => {
             if (!selectedRowKeys.length) {
               showWarnMsg('请选择记录');
             } else if (selectedRowKeys.length > 1) {

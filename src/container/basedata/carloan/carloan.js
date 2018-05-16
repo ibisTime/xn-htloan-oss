@@ -28,15 +28,17 @@ class Carloan extends React.Component {
   render() {
     const fields = [{
       title: '期数',
-      field: 'name',
-      search: true
+      field: 'ckey'
     }, {
       title: '利率（%）',
-      field: 'letter'
+      field: 'cvalue'
     }];
     return this.props.buildList({
       fields,
-      pageCode: 630405
+      pageCode: 630045,
+      searchParams: {
+        type: 'car_periods'
+      }
     });
   }
 }

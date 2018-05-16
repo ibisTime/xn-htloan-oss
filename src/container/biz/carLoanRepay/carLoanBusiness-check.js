@@ -172,6 +172,11 @@ class carLoanBusinessCheck extends React.Component {
             }).catch(this.props.cancelFetching);
           },
           check: true
+        }, {
+          title: '返回',
+          handler: (param) => {
+            this.props.history.go(-1);
+          }
         }]
       });
   }

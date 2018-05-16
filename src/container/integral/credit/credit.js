@@ -35,17 +35,18 @@ class Credit extends React.Component {
       field: 'letter'
     }, {
       title: '数值',
-      field: 'status',
-      search: true,
-      type: 'select',
-      key: 'status'
+      field: 'cvalue',
+      amount: true
     }, {
       title: '备注',
-      field: 'updater'
+      field: 'remark'
     }];
     return this.props.buildList({
       fields,
-      pageCode: 630405
+      pageCode: 630045,
+      serchParams: {
+        type: 'credit_rule'
+      }
     });
   }
 }

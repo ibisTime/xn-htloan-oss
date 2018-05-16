@@ -97,7 +97,7 @@ class Order extends React.Component {
               content: '确定收货成功？',
               onOk: () => {
                 this.props.doFetching();
-                return receiveGoods(key[0]).then(() => {
+                return receiveGoods(key[0], item.user.userId).then(() => {
                   this.props.cancelFetching();
                   showWarnMsg('操作成功');
                 }).catch(() => {

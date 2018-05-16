@@ -40,52 +40,51 @@ class historyBusinessManage extends React.Component {
         search: true
       }, {
         title: '手机号',
-        field: 'mobile',
-        type: 'data'
+        field: 'mobile'
       }, {
         title: '车辆',
-        field: 'monthAmount',
-        amount: true
+        field: 'monthAmount'
       }, {
         title: '贷款银行',
-        field: 'status',
-        amount: true
+        field: 'loanBank'
       }, {
         title: '贷款金额',
-        field: 'remark',
+        field: 'loanAmount',
         amount: true
       }, {
         title: '剩余欠款',
-        field: 'remark',
+        field: 'restAmount',
         amount: true
       }, {
         title: '未还清成本',
-        field: 'remark'
+        field: 'restTotalCost',
+        amount: true
       }, {
         title: '累计逾期期数',
-        field: 'remark'
+        field: 'totalOverdueCount'
       }, {
         title: '贷款开始时间',
-        field: 'remark',
-        type: 'data'
+        field: 'loanStartDatetime',
+        type: 'date'
       }, {
         title: '贷款结束时间',
-        field: 'remark',
-        type: 'data'
+        field: 'loanEndDatetime',
+        type: 'date'
       }, {
         title: '结束时间',
-        field: 'remark',
-        type: 'data'
+        field: 'closeDatetime',
+        type: 'date'
       }, {
         title: '状态',
         field: 'status',
         search: true,
-        type: 'select'
+        type: 'select',
+        key: 'status'
       }
     ];
     return this.props.buildList({
         fields,
-        pageCode: 630505
+        pageCode: 630520
       });
   }
 }

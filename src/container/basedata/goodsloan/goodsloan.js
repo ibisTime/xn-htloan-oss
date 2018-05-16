@@ -36,7 +36,10 @@ class Goodsloan extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 630405
+      pageCode: 630045,
+      searchParams: {
+        type: 'product_periods'
+      }
     });
   }
 }

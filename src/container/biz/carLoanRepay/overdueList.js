@@ -9,10 +9,21 @@ import {
   cancelFetching,
   setSearchData
 } from '@redux/biz/overdueList';
-import {listWrapper} from 'common/js/build-list';
-import {showWarnMsg, showSucMsg} from 'common/js/util';
-import {Button, Upload, Modal} from 'antd';
-import {sendMsg} from 'api/biz';
+import {
+  listWrapper
+} from 'common/js/build-list';
+import {
+  showWarnMsg,
+  showSucMsg
+} from 'common/js/util';
+import {
+  Button,
+  Upload,
+  Modal
+} from 'antd';
+import {
+  sendMsg
+} from 'api/biz';
 
 @listWrapper(state => ({
   ...state.bizOverdueList,
@@ -29,71 +40,92 @@ import {sendMsg} from 'api/biz';
 })
 class overdueList extends React.Component {
   render() {
-    const fields = [
-      {
-        title: '业务编号1121',
-        field: 'code',
-        key: 'code'
-      }, {
-        title: '贷款人',
-        field: 'realName',
-        search: true,
-        render: (v, d) => {
-          return d.user.realName;
-        }
-      }, {
-        title: '期数',
-        field: 'periods'
-      }, {
-        title: '逾期期数',
-        field: 'totalOverdueCount'
-      }, {
-        title: '逾期金额',
-        field: 'overdueAmount'
-      }, {
-        title: '逾期日期',
-        field: 'repayDatetime',
-        type: 'data'
+    const fields = [{
+      title: '业务编号',
+      field: 'code',
+      key: 'code'
+    }, {
+      title: '贷款人',
+      field: 'realName',
+      search: true,
+      render: (v, d) => {
+        return d.user.realName;
       }
-    ];
+    }, {
+      title: '期数',
+      field: 'periods'
+    }, {
+      title: '逾期期数',
+      field: 'totalOverdueCount',
+      render: (v, d) => {
+        return d.repayBiz.curOverdueCount;
+      }
+    }, {
+      title: '逾期金额',
+      field: 'overdueAmount'
+    }, {
+      title: '逾期日期',
+      field: 'repayDatetime',
+      type: 'data'
+    }];
     return this.props.buildList({
-        fields,
-        pageCode: 630540,
-        searchParams: {
-          status: 2
+      fields,
+      pageCode: 630540,
+      searchParams: {
+        status: 2
+      },
+      btnEvent: {
+        message: (key, item) => {
+          if (!key || !key.length || !item || !item.length) {
+            showWarnMsg('请选择记录');
+          } else {
+            Modal.confirm({
+              okText: '确认',
+              cancelText: '取消',
+              content: '确定发送？',
+              onOk: () => {
+                this.props.doFetching();
+                return sendMsg(key[0], '0').then(() => {
+                  this.props.cancelFetching();
+                  showWarnMsg('操作成功');
+                }).catch(() => {
+                  this.props.cancelFetching();
+                });
+              }
+            });
+          }
         },
-        btnEvent: {
-          lower: (key, item) => {
-            if (!key || !key.length || !item || !item.length) {
-              showWarnMsg('请选择记录');
-            } else {
-              Modal.confirm({
-                okText: '确认',
-                cancelText: '取消',
-                content: '确定发送？',
-                onOk: () => {
-                  this.props.doFetching();
-                  return sendMsg(key[0], '0').then(() => {
-                    this.props.cancelFetching();
-                    showWarnMsg('操作成功');
-                  }).catch(() => {
-                    this.props.cancelFetching();
-                  });
-                }
-              });
-            }
-          },
-          overdue: (selectedRowKeys, selectedRows) => {
-            if (!selectedRowKeys.length) {
-              showWarnMsg('请选择记录');
-            } else if (selectedRowKeys.length > 1) {
-              showWarnMsg('请选择一条记录');
-            } else {
-              this.props.history.push(`/biz/overdueList/dispose?staffCode=${selectedRowKeys[0]}`);
-            }
+        sendMessage: (key, item) => {
+          if (!key || !key.length || !item || !item.length) {
+            showWarnMsg('请选择记录');
+          } else {
+            Modal.confirm({
+              okText: '确认',
+              cancelText: '取消',
+              content: '确定发送？',
+              onOk: () => {
+                this.props.doFetching();
+                return sendMsg(key[0], '1').then(() => {
+                  this.props.cancelFetching();
+                  showWarnMsg('操作成功');
+                }).catch(() => {
+                  this.props.cancelFetching();
+                });
+              }
+            });
+          }
+        },
+        overdue: (selectedRowKeys, selectedRows) => {
+          if (!selectedRowKeys.length) {
+            showWarnMsg('请选择记录');
+          } else if (selectedRowKeys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else {
+            this.props.history.push(`/biz/overdueList/dispose?staffCode=${selectedRowKeys[0]}`);
           }
         }
-      });
+      }
+    });
   }
 }
 

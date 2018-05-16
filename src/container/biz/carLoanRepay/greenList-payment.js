@@ -7,8 +7,13 @@ import {
   setPageData,
   restore
 } from '@redux/biz/greenList-payment';
-import {getQueryString} from 'common/js/util';
-import {DetailWrapper, beforeDetail} from 'common/js/build-detail';
+import {
+  getQueryString
+} from 'common/js/util';
+import {
+  DetailWrapper,
+  beforeDetail
+} from 'common/js/build-detail';
 
 @DetailWrapper(state => state.bizGreenListPayment, {
   initStates,
@@ -25,53 +30,59 @@ class greenListPayment extends React.Component {
     this.view = !!getQueryString('v', this.props.location.search);
   }
   render() {
-    const fields = [
-      {
-        title: '业务编号',
-        field: 'code',
-        readonly: true
-      }, {
-        title: '贷款人',
-        render: (v, d) => {
-            return d.user.realName;
-        }
-      }, {
-        title: '逾期日期',
-        field: 'repayDatetime',
-        type: 'data',
-        readony: true
-      }, {
-        title: '标识日期',
-        field: 'realName',
-        type: 'date',
-        readonly: true
-      }, {
-        title: '为还清收成本',
-        field: 'subbranch',
-        required: true,
-        bankCard: true
-      }, {
-        title: '清收成本清单',
-        fields: [
-            {
-                title: '费用项',
-                field: 'realName'
-            }, {
-                title: '费用项',
-                field: 'realName'
-            }, {
-                title: '费用项',
-                field: 'realName'
-            }, {
-                title: '费用项',
-                field: 'realName'
-            }, {
-                title: '费用项',
-                field: 'realName'
-            }
-        ]
+    const fields = [{
+      title: '业务编号',
+      field: 'code',
+      readonly: true
+    }, {
+      field: 'user',
+      title: '贷款人',
+      formatter: (v, d) => {
+        return d.user.realName;
+      },
+      readonly: true
+    }, {
+      title: '逾期日期',
+      field: 'repayDatetime',
+      type: 'date',
+      readonly: true
+    }, {
+      title: '标识日期',
+      field: 'overdueHandleDatetime',
+      type: 'date',
+      readonly: true
+    }, {
+      title: '为还清收成本',
+      field: 'restTotalCost',
+      amount: true,
+      readonly: true
+    }, {
+      title: '清收成本清单',
+      field: 'costList',
+      type: 'o2m',
+      options: {
+        fields: [{
+          title: '费用项',
+          field: 'item'
+        }, {
+          title: '金额（元）',
+          field: 'amount',
+          amount: true
+        }, {
+          title: '备注',
+          field: 'remark'
+        }, {
+          title: '发生时间',
+          field: 'payDatetime',
+          type: 'date'
+        }, {
+          title: '状态',
+          field: 'status',
+          type: 'select',
+          key: 'status'
+        }]
       }
-    ];
+    }];
     return this
       .props
       .buildDetail({

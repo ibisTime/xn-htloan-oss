@@ -54,9 +54,8 @@ class CreditAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            addCode: 630400,
-            editCode: 630402,
-            detailCode: 630407
+            detailCode: '630046',
+            editCode: '630042'
         });
     }
 }

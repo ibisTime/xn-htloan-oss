@@ -21,15 +21,12 @@ import { publicHotLineAddEdit } from './redux/public/hotLine-addedit';
 import { publicTimeAddEdit } from './redux/public/time-addedit';
 import { publicNotice } from './redux/public/notice';
 import { publicNoticeAddEdit } from './redux/public/notice-addedit';
-import { bizMemberInquiries } from './redux/biz/memberInquiries';
 import { bizBrand } from './redux/biz/brand';
 import { bizBrandAddEdit } from './redux/biz/brand-addedit';
 import { bizCarSeries } from './redux/biz/carSeries';
 import { bizCarSeriesAddEdit } from './redux/biz/carSeries-addedit';
 import { bizCarShape } from './redux/biz/carShape';
-import { bizHandleApply } from './redux/biz/handleApply';
 import { bizCarShapeAddEdit } from './redux/biz/carShape-addedit';
-import { bizMemberInquiriesAddedit } from './redux/biz/memberInquiries-addedit';
 import { generalTextParam } from './redux/general/text-param';
 import { generalTextParamAddEdit } from './redux/general/text-param-addedit';
 /** ***** 财务管理start ***** **/
@@ -43,6 +40,23 @@ import { financeAccount } from './redux/finance/account';
 import { financeLedgerAddEdit } from '@redux/finance/ledger-addedit';
 import { financePlatformLedger } from '@redux/finance/platform-ledger';
 import { creditAddEdit } from '@redux/demo/credit-addedit';
+
+//  车贷申请单 + 处理
+import { bizHandleApply } from './redux/biz/handleApply';
+import { bizHandleApplyCheck } from './redux/biz/handleApply-check';
+
+//  历史车贷申请单 + 处理
+import { bizHistoricalApply } from './redux/biz/historicalApply';
+import { bizHistoricalApplyCheck } from './redux/biz/historicalApply-addedit';
+
+//  会员查询 + 详情
+import { bizMemberInquiries } from './redux/biz/memberInquiries';
+import { bizMemberInquiriesAddedit } from './redux/biz/memberInquiries-addedit';
+
+//  还款卡查询 + 详情
+import { bizRefundCard } from './redux/biz/refundCard';
+import { bizRefundCardAddedit } from './redux/biz/refundCard-addedit';
+
 /** ***** 财务管理end ***** **/
 //  车贷业务管理 + 详情
 import { bizCarLoanBusiness } from './redux/biz/carLoanBusiness';
@@ -103,6 +117,22 @@ import { bizIntegralAddEdit } from './redux/integral/integral-addedit';
 //  积分兑换规则 + 修改
 import { bizIntegralexchange } from './redux/integral/integralexchange';
 import { bizIntegralexchangeAddEdit } from './redux/integral/integralexchange-addedit';
+
+//  基础数据
+//  车贷期数管理 + 详情 + 修改 + 删除
+import { bizCarloan } from './redux/basedata/carloan';
+import { bizCarloanAddEdit } from './redux/basedata/carloan-addedit';
+
+//  商品期数管理 + 详情 + 修改 + 删除
+import { bizGoodsloan } from './redux/basedata/goodsloan';
+import { bizGoodsloanAddEdit } from './redux/basedata/goodsloan-addedit';
+
+//  提前还款管理
+import { bizBeforeloan } from './redux/basedata/beforeloan';
+
+//  银行管理 + 详情 + 修改 + 删除
+import { bizBank } from './redux/basedata/bank';
+import { bizBankAddEdit } from './redux/basedata/bank-addedit';
 export default combineReducers({
   user,
   menu,
@@ -172,5 +202,21 @@ export default combineReducers({
   bizCredit,
   bizIntegralAddEdit,
   bizIntegralexchange,
-  bizIntegralexchangeAddEdit
+  bizIntegralexchangeAddEdit,
+  bizCarloan,
+  bizCarloanAddEdit,
+  bizGoodsloan,
+  bizGoodsloanAddEdit,
+  bizBeforeloan,
+  bizBank,
+  bizBankAddEdit,
+  bizRefundCard,
+  bizRefundCardAddedit,
+  bizHandleApplyCheck,
+  bizHistoricalApply,
+  bizHistoricalApplyCheck,
+  bizGreenListAddedit,
+  bizRefundListAddedit,
+  bizHistoryBusinessManageAddedit,
+  bizBlackListAddedit
 });

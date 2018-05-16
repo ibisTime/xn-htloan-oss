@@ -116,6 +116,11 @@ class refundBusinessCertain extends React.Component {
           },
           check: true,
           type: 'primary'
+        }, {
+          title: '返回',
+          handler: (param) => {
+            this.props.history.go(-1);
+          }
         }]
       });
   }

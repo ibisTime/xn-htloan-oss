@@ -8,7 +8,7 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/basedata/bank';
+} from '@redux/biz/refundCard';
 import {
     listWrapper
 } from 'common/js/build-list';
@@ -28,7 +28,7 @@ import {
 
 @listWrapper(
     state => ({
-        ...state.bizBank,
+        ...state.bizRefundCard,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -41,33 +41,38 @@ import {
         setSearchData
     }
 )
-class Bank extends React.Component {
+class refundCard extends React.Component {
     render() {
         const fields = [{
-            title: '名称',
-            field: 'name',
+            title: '卡号',
+            field: 'bankcardNumber',
             search: true
         }, {
-            title: '最新修改人',
+            title: '开户行',
             field: 'letter'
         }, {
-            title: '最新修改人',
-            field: 'letter'
+            title: '户名',
+            field: 'realName',
+            search: true
         }, {
-            title: '最新修改时间',
-            field: 'letter'
+            title: '所属客户编号',
+            field: 'userId',
+            search: true
+        }, {
+            title: '状态',
+            field: 'status',
+            search: true,
+            type: 'select',
+            key: 'status'
         }, {
             title: '备注',
-            field: 'letter'
+            field: 'remark'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 630045,
-            searchParams: {
-              type: 'car_periods'
-            }
+            pageCode: 802015
         });
     }
 }
 
-export default Bank;
+export default refundCard;

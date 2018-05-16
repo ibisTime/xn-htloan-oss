@@ -7,8 +7,14 @@ import {
   setPageData,
   restore
 } from '@redux/biz/refundBusiness-changeCard';
-import {getQueryString, getUserId, showSucMsg} from 'common/js/util';
-import {DetailWrapper} from 'common/js/build-detail';
+import {
+  getQueryString,
+  getUserId,
+  showSucMsg
+} from 'common/js/util';
+import {
+  DetailWrapper
+} from 'common/js/build-detail';
 
 @DetailWrapper(state => state.bizRefundBusinessChangeCard, {
   initStates,
@@ -26,53 +32,51 @@ class refundBusinessChangeCard extends React.Component {
     this.userId = getQueryString('userId', this.props.location.search);
   }
   render() {
-    const fields = [
-      {
-        title: '贷款人',
-        readonly: true,
-        formatter: (v, d) => {
-          return d.user.realName;
-        }
-      }, {
-        title: '手机号',
-        readonly: true,
-        formatter: (v, d) => {
-          return d.user.mobile;
-        }
-      }, {
-        title: '身份证号',
-        field: 'idNo',
-        readonly: true,
-        formatter: (v, d) => {
-          return d.user.idNo;
-        }
-      }, {
-        title: '原银行卡号',
-        field: 'idNo',
-        readonly: true,
-        formatter: (v, d) => {
-          return d.loanOrder.bankcardNumber;
-        }
-      }, {
-        title: '银行卡号',
-        field: 'bankcardCode',
-        listCode: 802016,
-        params: {
-          userId: this.userId
-        },
-        keyName: 'code',
-        valueName: 'bankcardNumber',
-        type: 'select'
-      }, {
-        title: '开户行',
-        field: 'bankName',
-        select: true
-      }, {
-        title: '开户支行',
-        field: 'subbranch',
-        select: true
+    const fields = [{
+      title: '贷款人',
+      readonly: true,
+      formatter: (v, d) => {
+        return d.user.realName;
       }
-    ];
+    }, {
+      title: '手机号',
+      readonly: true,
+      formatter: (v, d) => {
+        return d.user.mobile;
+      }
+    }, {
+      title: '身份证号',
+      field: 'idNo',
+      readonly: true,
+      formatter: (v, d) => {
+        return d.user.idNo;
+      }
+    }, {
+      title: '原银行卡号',
+      field: 'idNo',
+      readonly: true,
+      formatter: (v, d) => {
+        return d.loanOrder.bankcardNumber;
+      }
+    }, {
+      title: '银行卡号',
+      field: 'bankcardCode',
+      listCode: 802016,
+      params: {
+        userId: this.userId
+      },
+      keyName: 'code',
+      valueName: 'bankcardNumber',
+      type: 'select'
+    }, {
+      title: '开户行',
+      field: 'bankName',
+      select: true
+    }, {
+      title: '开户支行',
+      field: 'subbranch',
+      select: true
+    }];
     return this
       .props
       .buildDetail({
@@ -95,6 +99,11 @@ class refundBusinessChangeCard extends React.Component {
           },
           check: true,
           type: 'primary'
+        }, {
+          title: '返回',
+          handler: (param) => {
+            this.props.history.go(-1);
+          }
         }]
       });
   }
