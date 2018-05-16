@@ -271,7 +271,7 @@ export default class ListComponent extends React.Component {
     this.props.setBtnList(btns);
   }
   // 获取页面初始化数据
-  getPageData(current = this.props.pagination.current, searchParam) {
+  getPageData = (current = this.props.pagination.current, searchParam) => {
     if (searchParam) {
       this.props.setSearchParam(searchParam);
     } else {

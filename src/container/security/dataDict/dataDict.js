@@ -11,7 +11,6 @@ import {
 } from '@redux/security/dataDict';
 import { listWrapper } from 'common/js/build-list';
 import { showWarnMsg } from 'common/js/util';
-// import { COMPANY_CODE } from 'common/js/config';
 
 @listWrapper(
   state => ({
@@ -30,8 +29,12 @@ class DataDict extends React.Component {
       title: '种类',
       type: 'select',
       listCode: '630036',
+      params: {
+        type: 0
+      },
       keyName: 'dkey',
-      valueName: 'dvalue'
+      valueName: 'dvalue',
+      search: true
     }, {
       field: 'dkey',
       title: '字典键'

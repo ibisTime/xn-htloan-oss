@@ -68,7 +68,7 @@ class User extends React.Component {
               onOk: () => {
                 this.props.doFetching();
                 return activateUser(keys[0]).then(() => {
-                  this.props.cancelFetching();
+                  this.props.getPageData();
                   showWarnMsg('操作成功');
                 }).catch(() => {
                   this.props.cancelFetching();

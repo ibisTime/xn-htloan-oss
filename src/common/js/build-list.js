@@ -7,7 +7,7 @@ export const listWrapper = (mapStateToProps = state => state, mapDispatchToProps
   return Form.create()(connect(mapStateToProps, mapDispatchToProps)(
     class ListComponent extends ListComp {
       render() {
-        return <WrapComponent {...this.props} buildList={this.buildList}></WrapComponent>;
+        return <WrapComponent {...this.props} buildList={this.buildList} getPageData={this.getPageData}></WrapComponent>;
       }
     }
   ));
