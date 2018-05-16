@@ -10,5 +10,5 @@ export function setRoleMenus(menuCodeList, roleCode) {
 }
 
 export function activateUser(userId) {
-  return fetch(630057, { userId, updater: getUserName() });
+  return fetch(630056, { userId, updater: getUserName() });
 }

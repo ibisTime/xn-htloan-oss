@@ -50,24 +50,24 @@ class User extends React.Component {
       pageCode: 630065,
       rowKey: 'userId',
       btnEvent: {
-        reset: (key, item) => {
-          if (!key || !key.length || !item || !item.length) {
+        reset: (keys, items) => {
+          if (!keys || !keys.length || !items || !items.length) {
             showWarnMsg('请选择记录');
           } else {
-            this.props.history.push(`/system/user/pwd_reset?userId=${key[0]}`);
+            this.props.history.push(`/system/user/pwd_reset?userId=${keys[0]}`);
           }
         },
-        rock: (key, item) => {
-          if (!key || !key.length || !item || !item.length) {
+        rock: (keys, items) => {
+          if (!keys || !keys.length || !items || !items.length) {
             showWarnMsg('请选择记录');
           } else {
             Modal.confirm({
               okText: '确认',
               cancelText: '取消',
-              content: '确定注销/激活？',
+              content: `确认${items[0].status === '0' ? '注销' : '激活'}用户？`,
               onOk: () => {
                 this.props.doFetching();
-                return activateUser(key[0]).then(() => {
+                return activateUser(keys[0]).then(() => {
                   this.props.cancelFetching();
                   showWarnMsg('操作成功');
                 }).catch(() => {
@@ -77,11 +77,11 @@ class User extends React.Component {
             });
           }
         },
-        assign: (key, item) => {
-          if (!key || !key.length || !item || !item.length) {
+        assign: (keys, items) => {
+          if (!keys || !keys.length || !items || !items.length) {
             showWarnMsg('请选择记录');
           } else {
-            this.props.history.push(`/system/user/role?userId=${key[0]}`);
+            this.props.history.push(`/system/user/role?userId=${keys[0]}`);
           }
         }
       }

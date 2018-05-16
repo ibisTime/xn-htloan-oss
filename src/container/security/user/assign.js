@@ -24,8 +24,11 @@ class Assign extends React.Component {
     const fields = [{
       title: '用户名',
       field: 'loginName',
-      readonly: true,
-      required: true
+      readonly: true
+    }, {
+      title: '手机号',
+      field: 'mobile',
+      readonly: true
     }, {
       title: '角色编号',
       field: 'roleCode',
@@ -45,8 +48,8 @@ class Assign extends React.Component {
       key: 'userId',
       code: this.code,
       view: this.view,
-      editCode: 630058,
-      detailCode: 630077
+      editCode: 630057,
+      detailCode: 630067
     });
   }
 }

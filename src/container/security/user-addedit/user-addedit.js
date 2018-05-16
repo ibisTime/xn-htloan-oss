@@ -22,6 +22,10 @@ class UserAddEdit extends React.Component {
   }
   render() {
     const fields = [{
+      field: 'type',
+      value: 'P',
+      hidden: true
+    }, {
       title: '登录名',
       field: 'loginName',
       search: true,
@@ -30,11 +34,20 @@ class UserAddEdit extends React.Component {
     }, {
       title: '密码',
       field: 'loginPwd',
+      type: 'password',
       search: true,
       required: true
     }, {
       title: '手机号',
       field: 'mobile',
+      required: true
+    }, {
+      title: '角色',
+      field: 'roleCode',
+      type: 'select',
+      listCode: 630006,
+      keyName: 'code',
+      valueName: 'name',
       required: true
     }];
 
@@ -43,9 +56,7 @@ class UserAddEdit extends React.Component {
       key: 'userId',
       code: this.code,
       view: this.view,
-      addCode: 630051,
-      editCode: 630058,
-      detailCode: 630077
+      addCode: 630050
     });
   }
 }

@@ -18,7 +18,6 @@ class PwdReset extends React.Component {
   constructor(props) {
     super(props);
     this.code = getQueryString('userId', this.props.location.search);
-    this.loginName = getQueryString('loginName', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
   }
   render() {
@@ -43,8 +42,8 @@ class PwdReset extends React.Component {
       key: 'userId',
       code: this.code,
       view: this.view,
-      detailCode: 630077,
-      editCode: 630056
+      detailCode: 630067,
+      editCode: 630055
     });
   }
 }
