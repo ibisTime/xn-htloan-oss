@@ -8,7 +8,11 @@ export function setRoleMenus(menuCodeList, roleCode) {
     updater: getUserName()
   });
 }
-
-export function activateUser(userId) {
+// 注销激活平台用户
+export function activateSysUser(userId) {
   return fetch(630056, { userId, updater: getUserName() });
+}
+// 注销激活c端用户
+export function activateUser(userId) {
+  return fetch(805091, { userId, updater: getUserName() });
 }

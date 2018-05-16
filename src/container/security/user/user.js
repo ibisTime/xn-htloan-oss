@@ -12,7 +12,7 @@ import {
 } from '@redux/security/user';
 import { listWrapper } from 'common/js/build-list';
 import { showWarnMsg } from 'common/js/util';
-import { activateUser } from 'api/user';
+import { activateSysUser } from 'api/user';
 
 @listWrapper(
   state => ({
@@ -67,7 +67,7 @@ class User extends React.Component {
               content: `确认${items[0].status === '0' ? '注销' : '激活'}用户？`,
               onOk: () => {
                 this.props.doFetching();
-                return activateUser(keys[0]).then(() => {
+                return activateSysUser(keys[0]).then(() => {
                   this.props.getPageData();
                   showWarnMsg('操作成功');
                 }).catch(() => {

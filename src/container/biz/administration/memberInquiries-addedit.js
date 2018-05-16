@@ -32,17 +32,15 @@ class MemberInquiriesAddEdit extends React.Component {
       field: 'refereeMobile'
     }, {
       title: '姓名',
-      field: 'realName',
-      search: true
+      field: 'realName'
     }, {
       title: '身份证',
       field: 'idNo'
     }, {
       title: '状态',
       field: 'status',
-      search: true,
       type: 'select',
-      key: 'status'
+      key: 'user_status'
     }, {
       title: '备注',
       field: 'ramark'
@@ -52,7 +50,7 @@ class MemberInquiriesAddEdit extends React.Component {
       key: 'userId',
       code: this.code,
       view: this.view,
-      detailCode: 630207
+      detailCode: 805121
     });
   }
 }

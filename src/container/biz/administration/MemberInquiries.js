@@ -1,4 +1,5 @@
 import React from 'react';
+import { Modal } from 'antd';
 import {
   setTableData,
   setPagination,
@@ -11,7 +12,7 @@ import {
 } from '@redux/biz/memberInquiries';
 import { showSucMsg, showWarnMsg } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
-import { SYSTEM_CODE } from 'common/js/config';
+import { activateUser } from 'api/user';
 
 @listWrapper(
   state => ({
@@ -32,9 +33,6 @@ class MemberInquiries extends React.Component {
       title: '手机号',
       field: 'mobile'
     }, {
-      title: '推荐人',
-      field: 'refereeMobile'
-    }, {
       title: '姓名',
       field: 'realName',
       search: true
@@ -42,20 +40,14 @@ class MemberInquiries extends React.Component {
       title: '身份证',
       field: 'idNo'
     }, {
-      title: '积分余额',
-      field: ''
-    }, {
-      title: '账户余额',
-      field: ''
-    }, {
-      title: '信用分',
-      field: ''
+      title: '推荐人',
+      field: 'refereeMobile'
     }, {
       title: '状态',
       field: 'status',
       search: true,
       type: 'select',
-      key: 'status'
+      key: 'user_status'
     }, {
       title: '备注',
       field: 'ramark'
@@ -63,7 +55,29 @@ class MemberInquiries extends React.Component {
     return this.props.buildList({
       fields,
       rowKey: 'userId',
-      pageCode: 630205
+      pageCode: 805120,
+      btnEvent: {
+        rock: (keys, items) => {
+          if (!keys || !keys.length || !items || !items.length) {
+            showWarnMsg('请选择记录');
+          } else {
+            Modal.confirm({
+              okText: '确认',
+              cancelText: '取消',
+              content: `确认${items[0].status === '0' ? '注销' : '激活'}用户？`,
+              onOk: () => {
+                this.props.doFetching();
+                return activateUser(keys[0]).then(() => {
+                  this.props.getPageData();
+                  showWarnMsg('操作成功');
+                }).catch(() => {
+                  this.props.cancelFetching();
+                });
+              }
+            });
+          }
+        }
+      }
     });
   }
 }

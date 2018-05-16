@@ -1,4 +1,5 @@
 import React from 'react';
+import XLSX from 'xlsx';
 import { Form, Select, DatePicker, Input, Button, Table } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -103,6 +104,13 @@ export default class ListComponent extends React.Component {
     this.first = false;
     this.columns = columns;
     return this.getPageComponent(searchFields);
+  }
+  // 导出表单
+  handleExport() {
+    const ws = XLSX.utils.aoa_to_sheet(this.state.data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'SheetJS');
+    XLSX.writeFile(wb, 'sheetjs.xlsx');
   }
   onSelectChange = (selectedRowKeys, selectedRows) => {
     this.setState({ selectedRowKeys, selectedRows });

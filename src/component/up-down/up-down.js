@@ -27,8 +27,9 @@ class UpDown extends React.Component {
       }, {
         field: 'orderNo',
         title: 'UI次序',
-        positive: true,
         required: true,
+        help: '数字越小，排序越靠前',
+        'Z+': true,
         maxlength: 30
       }],
       addCode: biz
