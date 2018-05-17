@@ -59,10 +59,12 @@ export default class ListComponent extends React.Component {
         obj.render = (v) => {
           return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateTimeFormat(v)}</span> : dateTimeFormat(v);
         };
+        this.addRender(f, dateTimeFormat);
       } else if (f.type === 'date') {
         obj.render = (v) => {
           return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateFormat(v)}</span> : dateFormat(v);
         };
+        this.addRender(f, dateFormat);
       } else if (f.type === 'select') {
         if (f.key) {
           f.keyName = f.keyName || 'dkey';
@@ -75,29 +77,22 @@ export default class ListComponent extends React.Component {
           this.props.setSearchData({ data: f.data, key: f.field });
         }
         obj.render = (value) => {
-          let val = '';
-          if (value && f.data) {
-            let item = f.data.find(v => v[f.keyName] === value);
-            val = item
-              ? item[f.valueName]
-                ? item[f.valueName]
-                : tempString(f.valueName, item)
-              : '';
-          }
+          let val = this.renderSelect(value, f);
           return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{val}</span> : val;
         };
+        this.addRender(f, (val) => this.renderSelect(val, f));
       } else if (f.type === 'img') {
         obj.render = (value) => <img src={PIC_PREFIX + value}/>;
       }
       if (f.amount) {
         obj.render = (v, d) => <span style={{whiteSpace: 'nowrap'}}>{moneyFormat(v, d)}</span>;
+        this.addRender(f, moneyFormat);
       }
-      if (!obj.render) {
-        if (f.render) {
-          obj.render = f.render;
-        } else {
-          obj.render = (v) => f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{v}</span> : v;
-        }
+      if (f.render) {
+        obj.render = f.render;
+      } else if (!obj.render) {
+        obj.render = (v) => f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{v}</span> : v;
+        this.addRender(f, v => v);
       }
       columns.push(obj);
     });
@@ -105,12 +100,56 @@ export default class ListComponent extends React.Component {
     this.columns = columns;
     return this.getPageComponent(searchFields);
   }
+  renderSelect(value, f) {
+    let val = '';
+    if (value && f.data) {
+      let item = f.data.find(v => v[f.keyName] === value);
+      val = item
+        ? item[f.valueName]
+          ? item[f.valueName]
+          : tempString(f.valueName, item)
+        : '';
+    }
+    return val;
+  }
+  addRender(f, func) {
+    if (!f.render) {
+      f.render = func;
+    }
+  }
   // 导出表单
   handleExport() {
-    const ws = XLSX.utils.aoa_to_sheet(this.state.data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'SheetJS');
-    XLSX.writeFile(wb, 'sheetjs.xlsx');
+    this.props.doFetching();
+    fetch(this.options.pageCode, {
+      start: 1,
+      limit: 1000000,
+      ...this.getRealSearchParams(this.props.searchParam),
+      ...this.options.searchParams
+    }).then(data => {
+      if (!data.list.length) {
+        this.props.cancelFetching();
+        showWarnMsg('暂无数据');
+        return;
+      }
+      let titles = [];
+      let bodys = [];
+      data.list.forEach((d, i) => {
+        let temp = [];
+        this.options.fields.forEach(f => {
+          if (i === 0) {
+            titles.push(f.title);
+          }
+          temp.push(f.render(d[f.field], d));
+        });
+        bodys.push(temp);
+      });
+      let result = [titles].concat(bodys);
+      const ws = XLSX.utils.aoa_to_sheet(result);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'SheetJS');
+      XLSX.writeFile(wb, '表格导出.xlsx');
+      this.props.cancelFetching();
+    }).catch(this.props.cancelFetching);
   }
   onSelectChange = (selectedRowKeys, selectedRows) => {
     this.setState({ selectedRowKeys, selectedRows });
@@ -238,6 +277,11 @@ export default class ListComponent extends React.Component {
         btnEvent.detail
           ? btnEvent.delete(this.state.selectedRowKeys, this.state.selectedRows)
           : this.delete();
+        break;
+      case 'export':
+        btnEvent.export
+          ? btnEvent.export(this.state.selectedRowKeys, this.state.selectedRows)
+          : this.handleExport();
         break;
       default:
         btnEvent[url] && btnEvent[url](this.state.selectedRowKeys, this.state.selectedRows);

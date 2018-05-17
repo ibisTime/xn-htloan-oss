@@ -270,11 +270,8 @@ export default class DetailComponent extends React.Component {
       clearTimeout(this.timeout);
       this.timeout = null;
     }
-    // 第一次页面加载的时候，如果是修改页面，则会传入key，用于获取初始的下拉框数据
-    if (!key) {
-      this.setSearchLoading(item, true);
-      this.props.setSelectData({ data: [], key: item.field });
-    }
+    this.setSearchLoading(item, true);
+    this.props.setSelectData({ data: [], key: item.field });
     let params = item.params || {};
     params.start = start;
     params.limit = limit;
@@ -282,7 +279,7 @@ export default class DetailComponent extends React.Component {
     params[key] = keyword;
     this.timeout = setTimeout(() => {
       fetch(item.pageCode, params).then(data => {
-        !key && this.setSearchLoading(item, false);
+        this.setSearchLoading(item, false);
         params.start++;
         let list = this.props.selectData[item.field] || [];
         list = start === 1 ? [] : list;
@@ -621,7 +618,6 @@ export default class DetailComponent extends React.Component {
               filterOption={false}
               onSearch={v => this.searchSelectChange({ item, keyword: v })}
               optionLabelProp="children"
-              style={{ width: 200 }}
               notFoundContent={this.state.fetching[item.field] ? <Spin size="small"/> : '暂无数据'}
               placeholder="请输入关键字搜索">
               {item.data ? item.data.map(d => (

@@ -66,7 +66,7 @@ class PlatformLedger extends React.Component {
       field: 'createDatetime',
       type: 'date',
       rangedate: ['createDatetimeStart', 'createDatetimeEnd'],
-      formatter: dateTimeFormat,
+      render: dateTimeFormat,
       search: true
     }];
     return this.props.buildList({

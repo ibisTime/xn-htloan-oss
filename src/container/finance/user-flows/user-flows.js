@@ -68,7 +68,7 @@ class UserFlows extends React.Component {
       field: 'createDatetime',
       type: 'date',
       rangedate: ['createDatetimeStart', 'createDatetimeEnd'],
-      formatter: dateTimeFormat,
+      render: dateTimeFormat,
       search: true
     }, {
       title: '关联单号',

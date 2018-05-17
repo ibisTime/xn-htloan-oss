@@ -6,15 +6,15 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/security/sysParam-addedit';
+} from '@redux/finance/enchashmentRule-addedit';
 import { getQueryString } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
-  state => state.securitySysParamAddEdit,
+  state => state.financeEnchashmentRuleAddEdit,
   { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
 )
-class SysParamAddEdit extends React.Component {
+class EnchashmentRuleAddEdit extends React.Component {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
@@ -36,6 +36,10 @@ class SysParamAddEdit extends React.Component {
       title: '参数值',
       field: 'cvalue'
     }, {
+      title: '最近修改人',
+      field: 'updater',
+      readonly: true
+    }, {
       title: '最近修改时间',
       field: 'updateDatetime',
       type: 'datetime',
@@ -52,4 +56,4 @@ class SysParamAddEdit extends React.Component {
   }
 }
 
-export default SysParamAddEdit;
+export default EnchashmentRuleAddEdit;

@@ -8,12 +8,12 @@ import {
   doFetching,
   cancelFetching,
   setSearchData
-} from '@redux/security/sysParam';
+} from '@redux/finance/enchashmentRule';
 import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
   state => ({
-    ...state.securitySysParam,
+    ...state.financeEnchashmentRule,
     parentCode: state.menu.subMenuCode
   }),
   {
@@ -21,16 +21,21 @@ import { listWrapper } from 'common/js/build-list';
     cancelFetching, setPagination, setSearchParam, setSearchData
   }
 )
-class SysParam extends React.Component {
+class EnchashmentRule extends React.Component {
   render() {
     const fields = [{
       field: 'remark',
-      title: '参数名'
+      title: '规则名称'
+    }, {
+      field: 'ckey',
+      title: '参数'
     }, {
       field: 'cvalue',
-      title: '参数值'
-    },
-    {
+      title: '数值'
+    }, {
+      field: 'updater',
+      title: '最近修改人'
+    }, {
       field: 'updateDatetime',
       title: '最近修改时间',
       type: 'datetime'
@@ -38,9 +43,12 @@ class SysParam extends React.Component {
     return this.props.buildList({
       fields,
       pageCode: 630045,
-      rowKey: 'id'
+      rowKey: 'id',
+      searchParams: {
+        type: 3
+      }
     });
   }
 }
 
-export default SysParam;
+export default EnchashmentRule;

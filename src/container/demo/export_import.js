@@ -42,6 +42,7 @@ class ExportImport extends React.Component {
       const ws = wb.Sheets[wsname];
       let data = XLSX.utils.sheet_to_json(ws, { header: 1 });
       this.setState({ data: data, cols: makeCols(ws['!ref']) });
+      console.log(data);
     };
     if (rABS) {
       reader.readAsBinaryString(file);
