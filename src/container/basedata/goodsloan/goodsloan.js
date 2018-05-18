@@ -28,11 +28,10 @@ class Goodsloan extends React.Component {
   render() {
     const fields = [{
       title: '期数',
-      field: 'name',
-      search: true
+      field: 'ckey'
     }, {
       title: '利率（%）',
-      field: 'letter'
+      field: 'cvalue'
     }];
     return this.props.buildList({
       fields,

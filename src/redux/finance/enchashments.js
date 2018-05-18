@@ -1,6 +1,6 @@
 import { commListState } from '../common';
 
-const PREFIX = 'FINANCE_ENCHASHMENT_RULE';
+const PREFIX = 'FINANCE_ENCHASHMENTS';
 const SET_BUTTON_LIST = PREFIX + 'SET_BUTTON_LIST';
 const LOADING = PREFIX + 'LOADING';
 const CANCEL_LOADING = PREFIX + 'CANCEL_LOADING';
@@ -11,7 +11,7 @@ const SET_SEARCH_PARAM = PREFIX + 'SET_SEARCH_PARAM';
 
 const initState = { ...commListState };
 
-export function financeEnchashmentRule(state = initState, action) {
+export function financeEnchashments(state = initState, action) {
   switch(action.type) {
     case SET_BUTTON_LIST:
       return {...state, btnList: action.payload};

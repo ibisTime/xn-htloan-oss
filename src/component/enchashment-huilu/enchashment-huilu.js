@@ -4,15 +4,19 @@ import { getUserName, showSucMsg } from 'common/js/util';
 import fetch from 'common/js/fetch';
 
 class EnchashmentHuilu extends React.Component {
-  approve(params, payResult) {
+  approve(params, doFetching, cancelFetching, handleCancel, payResult) {
     params.payResult = payResult;
     params.payUser = getUserName();
     params.codeList = this.props.codeList;
-    this.props.doFetching();
+    doFetching();
     fetch(802753, params).then(() => {
-      this.props.cancelFetching();
+      cancelFetching();
+      handleCancel();
       showSucMsg('操作成功');
-    }).catch(this.props.cancelFetching);
+    }).catch(() => {
+      cancelFetching();
+      handleCancel();
+    });
   }
   render() {
     const options = {
@@ -24,14 +28,14 @@ class EnchashmentHuilu extends React.Component {
       }],
       buttons: [{
         title: '通过',
-        handler: (params) => {
-          this.approve(params, 1);
+        handler: (params, doFetching, cancelFetching, handleCancel) => {
+          this.approve(params, doFetching, cancelFetching, handleCancel, 1);
         },
         check: true
       }, {
         title: '不通过',
-        handler: (params) => {
-          this.approve(params, 0);
+        handler: (params, doFetching, cancelFetching, handleCancel) => {
+          this.approve(params, doFetching, cancelFetching, handleCancel, 0);
         },
         check: true
       }]

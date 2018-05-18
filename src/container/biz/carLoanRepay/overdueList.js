@@ -66,7 +66,7 @@ class overdueList extends React.Component {
     }, {
       title: '逾期日期',
       field: 'repayDatetime',
-      type: 'data'
+      type: 'date'
     }];
     return this.props.buildList({
       fields,

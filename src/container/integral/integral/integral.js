@@ -27,25 +27,26 @@ import { lowerFrame, onShelf } from 'api/biz';
 class Integral extends React.Component {
   render() {
     const fields = [{
-      title: '规则名称',
-      field: 'name',
+      title: '项目',
+      field: 'remark',
       search: true
     }, {
       title: '规则分类',
-      field: 'letter'
+      field: '11',
+      render: (v, d) => {
+        return '积分规则';
+      }
     }, {
       title: '数值',
-      field: 'status',
-      search: true,
-      type: 'select',
-      key: 'status'
-    }, {
-      title: '备注',
-      field: 'updater'
+      field: 'cvalue',
+      amount: true
     }];
     return this.props.buildList({
       fields,
-      pageCode: 630405
+      pageCode: 630045,
+      searchParams: {
+        type: 'integral_rule'
+      }
     });
   }
 }

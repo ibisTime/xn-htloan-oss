@@ -48,9 +48,7 @@ class HandleApply extends React.Component {
       field: 'code'
     }, {
       title: '申请人',
-      field: 'userId',
-      type: 'select',
-      search: true
+      field: 'userId'
     }, {
       title: '意向车辆',
       field: 'status'
@@ -62,7 +60,8 @@ class HandleApply extends React.Component {
       field: 'sfAmount'
     }, {
       title: '申请时间',
-      field: 'createDatetime'
+      field: 'createDatetime',
+      type: 'datetime'
     }, {
       title: '车贷计算器信息',
       field: 'saleDesc'
@@ -71,7 +70,7 @@ class HandleApply extends React.Component {
       fields,
       pageCode: 630435,
       searchParams: {
-        status: '0'
+        status: '1'
       },
       btnEvent: {
         dispose: (selectedRowKeys, selectedRows) => {
@@ -80,7 +79,7 @@ class HandleApply extends React.Component {
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
           } else {
-            this.props.history.push(`/biz/handleApply/check?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
+            this.props.history.push(`/biz/handleApply/check?code=${selectedRowKeys[0]}`);
           }
         }
       }

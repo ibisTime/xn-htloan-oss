@@ -39,6 +39,13 @@ import { financeAllUserFlows } from './redux/finance/all-user-flows';
 import { financeAccount } from './redux/finance/account';
 import { financeLedgerAddEdit } from '@redux/finance/ledger-addedit';
 import { financePlatformLedger } from '@redux/finance/platform-ledger';
+import { financeEnchashmentRule } from '@redux/finance/enchashmentRule';
+import { financeEnchashmentRuleAddEdit } from '@redux/finance/enchashmentRule-addedit';
+import { financeUnderEnchashment } from '@redux/finance/underEnchashment';
+import { financeUnderEnchashmentAddEdit } from '@redux/finance/underEnchashment-addedit';
+import { financeUnderEnchashmentCheck } from '@redux/finance/underEnchashment-check';
+import { financeEnchashments } from '@redux/finance/enchashments';
+import { financeEnchashmentsAddEdit } from '@redux/finance/enchashments-addedit';
 import { creditAddEdit } from '@redux/demo/credit-addedit';
 
 //  车贷申请单 + 处理
@@ -174,6 +181,13 @@ export default combineReducers({
   financeAllUserFlows,
   financeAccount,
   financePlatformLedger,
+  financeEnchashmentRule,
+  financeEnchashmentRuleAddEdit,
+  financeUnderEnchashment,
+  financeUnderEnchashmentAddEdit,
+  financeUnderEnchashmentCheck,
+  financeEnchashments,
+  financeEnchashmentsAddEdit,
   creditAddEdit,
   bizCarLoanBusiness,
   bizCarLoanBusinessAddedit,

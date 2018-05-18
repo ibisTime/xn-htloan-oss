@@ -114,6 +114,9 @@ class refundBusiness extends React.Component {
     return this.props.buildList({
       fields,
       pageCode: 630520,
+      searchParams: {
+          status: '0'
+      },
       btnEvent: {
         refundplan: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {

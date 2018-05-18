@@ -12,6 +12,7 @@ import {
   getUserId,
   showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
   DetailWrapper
 } from 'common/js/build-detail';

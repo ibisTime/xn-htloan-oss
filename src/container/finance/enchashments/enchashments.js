@@ -8,14 +8,14 @@ import {
   doFetching,
   cancelFetching,
   setSearchData
-} from '@redux/finance/underEnchashment';
+} from '@redux/finance/enchashments';
 import { listWrapper } from 'common/js/build-list';
 import { dateTimeFormat, showWarnMsg } from 'common/js/util';
 import EnchashmentHuilu from 'component/enchashment-huilu/enchashment-huilu';
 
 @listWrapper(
   state => ({
-    ...state.financeUnderEnchashment,
+    ...state.financeEnchashments,
     parentCode: state.menu.subMenuCode
   }),
   {
@@ -23,7 +23,7 @@ import EnchashmentHuilu from 'component/enchashment-huilu/enchashment-huilu';
     cancelFetching, setPagination, setSearchParam, setSearchData
   }
 )
-class UnderEnchashment extends React.Component {
+class Enchashments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -89,51 +89,10 @@ class UnderEnchashment extends React.Component {
       render: dateTimeFormat,
       search: true
     }];
-    const btnEvent = {
-      examine: (keys, items) => {
-        if (!keys.length) {
-          showWarnMsg('请选择记录');
-        } else if (keys.length > 1) {
-          showWarnMsg('请选择一条记录');
-        } else if (items[0].status !== '1') {
-          showWarnMsg('状态不能审核!');
-        } else {
-          this.props.history.push(`/finance/underEnchashment/check?code=${keys[0]}&check=1`);
-        }
-      },
-      huilu: (keys, items) => {
-        if (!keys.length) {
-          showWarnMsg('请选择记录');
-        } else if (keys.length > 1) {
-          showWarnMsg('请选择一条记录');
-        } else {
-          for (var i = 0; i < keys.length; i++) {
-            if (items[i].status !== '3') {
-              showWarnMsg(keys[i] + '状态不能回录!');
-              return;
-            }
-          }
-          this.setState({
-            codeList: keys,
-            visible: true
-          });
-        }
-      },
-      detail: (keys, items) => {
-        if (!keys.length) {
-          showWarnMsg('请选择记录');
-        } else if (keys.length > 1) {
-          showWarnMsg('请选择一条记录');
-        } else {
-          this.props.history.push(`/finance/underEnchashment/check?code=${keys[0]}`);
-        }
-      }
-    };
     return (
       <div>
         {this.props.buildList({
           fields,
-          btnEvent,
           pageCode: 802755,
           searchParams: {
             channelType: 90
@@ -148,4 +107,4 @@ class UnderEnchashment extends React.Component {
   }
 }
 
-export default UnderEnchashment;
+export default Enchashments;

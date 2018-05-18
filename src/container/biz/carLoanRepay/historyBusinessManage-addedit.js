@@ -29,6 +29,9 @@ class historyBusinessManageAddedit extends React.Component {
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
   }
+  goDetail(data) {
+    this.props.history.push('/biz/historyBusinessManage/addedit/addedit?code=' + data);
+  }
   render() {
     const fields = [{
       title: '业务编号',
@@ -100,8 +103,11 @@ class historyBusinessManageAddedit extends React.Component {
         }, {
           title: '逾期处理',
           field: 'overdueDeposit',
-          render: () => {
-            return <a onClick={() => console.log(11)} href="javascript:void(0)">详情</a>;
+          render: (v, d) => {
+            return <a onClick = {
+              () => this.goDetail(d.code)
+            }
+            href = "javascript:void(0)" > 详情 < /a>;
           }
         }]
       }

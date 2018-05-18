@@ -12,6 +12,7 @@ import {
     showSucMsg,
     getUserId
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
@@ -27,7 +28,7 @@ import {
 class handleApplyCheck extends React.Component {
     constructor(props) {
         super(props);
-        this.code = getQueryString('staffCode', this.props.location.search);
+        this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
     }
     render() {
@@ -37,7 +38,7 @@ class handleApplyCheck extends React.Component {
             readonly: true
         }, {
             title: '申请人姓名',
-            field: 'realName',
+            field: 'userId',
             readonly: true
         }, {
             title: '意向车辆',
@@ -58,6 +59,7 @@ class handleApplyCheck extends React.Component {
         }, {
             title: '申请时间',
             field: 'createDatetime',
+            type: 'datetime',
             readonly: true
         }, {
             title: '车贷计算器信息',
@@ -78,7 +80,7 @@ class handleApplyCheck extends React.Component {
                 buttons: [{
                     title: '通过',
                     handler: (param) => {
-                        param.approveResult = '1';
+                        param.result = '0';
                         param.approveNote = this.projectCode;
                         param.handler = getUserId();
                         this.props.doFetching();
@@ -95,7 +97,7 @@ class handleApplyCheck extends React.Component {
                 }, {
                     title: '不通过',
                     handler: (param) => {
-                        param.approveResult = '0';
+                        param.approveResult = '1';
                         param.approveNote = this.projectCode;
                         param.handler = getUserId();
                         this.props.doFetching();

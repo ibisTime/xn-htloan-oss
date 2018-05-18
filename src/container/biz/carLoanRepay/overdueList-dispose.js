@@ -8,8 +8,11 @@ import {
     restore
 } from '@redux/biz/blackList-dispose';
 import {
-    getQueryString
+    getQueryString,
+    getUserId,
+    showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
@@ -58,7 +61,7 @@ class blackListDispose extends React.Component {
             readonly: true
         }, {
             title: '处理历史',
-            field: 'creditList',
+            field: 'remindLogList',
             type: 'o2m',
             options: {
                 add: true,
@@ -66,23 +69,38 @@ class blackListDispose extends React.Component {
                 delete: true,
                 fields: [{
                     title: '催收方式',
-                    field: 'status'
+                    field: 'way',
+                    type: 'select',
+                    select: true,
+                    key: 'way'
                 }, {
                     title: '催收对象',
-                    field: 'status'
+                    field: 'toUser'
                 }, {
                     title: '催收文本',
-                    field: 'status'
+                    field: 'content'
                 }, {
                     title: '催收时间',
-                    field: 'status'
+                    field: 'createDatetime'
                 }]
             }
+        }, {
+            title: '再次逾期保证金',
+            field: 'overdueDeposit'
+        }, {
+            title: '再次逾期保证金收取方式',
+            field: 'overdueDepositWay',
+            type: 'select',
+            select: true,
+            key: 'repay_way'
         }, {
             title: '清收成本清单',
             field: 'costList',
             type: 'o2m',
             options: {
+                add: true,
+                edit: true,
+                delete: true,
                 fields: [{
                     title: '费用项',
                     field: 'item'
@@ -91,17 +109,12 @@ class blackListDispose extends React.Component {
                     field: 'amount',
                     amount: true
                 }, {
-                    title: '备注',
-                    field: 'remark'
-                }, {
                     title: '发生时间',
                     field: 'payDatetime',
                     type: 'date'
                 }, {
-                    title: '状态',
-                    field: 'status',
-                    type: 'select',
-                    key: 'status'
+                    title: '备注',
+                    field: 'remark'
                 }]
             }
         }];
@@ -111,7 +124,30 @@ class blackListDispose extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                detailCode: 630541
+                detailCode: 630541,
+                buttons: [{
+                    title: '保存',
+                    handler: (param) => {
+                        param.bankcardCode = this.bankcardCode;
+                        param.code = this.code;
+                        param.updater = getUserId();
+                        this.props.doFetching();
+                        fetch(630532, param).then(() => {
+                            showSucMsg('操作成功');
+                            this.props.cancelFetching();
+                            setTimeout(() => {
+                                this.props.history.go(-1);
+                            }, 1000);
+                        }).catch(this.props.cancelFetching);
+                    },
+                    check: true,
+                    type: 'primary'
+                }, {
+                    title: '返回',
+                    handler: (param) => {
+                        this.props.history.go(-1);
+                    }
+                }]
             });
     }
 }

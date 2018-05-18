@@ -13,6 +13,7 @@ import {
     getUserId,
     getUserName
   } from 'common/js/util';
+  import fetch from 'common/js/fetch';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(state => state.bizOrderGoods, {

@@ -45,27 +45,22 @@ class Bank extends React.Component {
     render() {
         const fields = [{
             title: '名称',
-            field: 'name',
-            search: true
+            field: 'bankName'
         }, {
             title: '最新修改人',
-            field: 'letter'
-        }, {
-            title: '最新修改人',
-            field: 'letter'
+            field: 'updater'
         }, {
             title: '最新修改时间',
-            field: 'letter'
+            field: 'updateDatetime',
+            type: 'date'
         }, {
             title: '备注',
-            field: 'letter'
+            field: 'remark'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 630045,
-            searchParams: {
-              type: 'car_periods'
-            }
+            pageCode: 802015,
+            deleteCode: 802011
         });
     }
 }

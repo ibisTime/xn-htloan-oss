@@ -1,44 +1,62 @@
 import React from 'react';
 import {
-  setTableData,
-  setPagination,
-  setBtnList,
-  setSearchParam,
-  clearSearchParam,
-  doFetching,
-  cancelFetching,
-  setSearchData
+    initStates,
+    doFetching,
+    cancelFetching,
+    setSelectData,
+    setPageData,
+    restore
 } from '@redux/basedata/beforeloan';
-import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, showSucMsg } from 'common/js/util';
-import { Button, Upload, Modal } from 'antd';
-import { lowerFrame, onShelf } from 'api/biz';
+import {
+    getQueryString,
+    getUserId,
+    showSucMsg
+} from 'common/js/util';
+import fetch from 'common/js/fetch';
+import {
+    DetailWrapper
+} from 'common/js/build-detail';
 
-@listWrapper(
-  state => ({
-    ...state.bizBeforeloan,
-    parentCode: state.menu.subMenuCode
-  }),
-  {
-    setTableData, clearSearchParam, doFetching, setBtnList,
-    cancelFetching, setPagination, setSearchParam, setSearchData
-  }
+@DetailWrapper(
+    state => state.bizBeforeloan, {
+        initStates,
+        doFetching,
+        cancelFetching,
+        setSelectData,
+        setPageData,
+        restore
+    }
 )
 class Beforeloan extends React.Component {
-  render() {
-    const fields = [{
-      title: '期数',
-      field: 'name',
-      search: true
-    }, {
-      title: '利率（%）',
-      field: 'letter'
-    }];
-    return this.props.buildList({
-      fields,
-      pageCode: 630405
-    });
-  }
+    render() {
+        const fields = [{
+            field: 'tq_service',
+            title: '提前还款服务费',
+            requied: true
+        }];
+        return this.props.buildDetail({
+            fields,
+            buttons: [{
+                title: '确认',
+                handler: (param) => {
+                    fetch(630042, param).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                },
+                check: true,
+                type: 'primary'
+            }, {
+                title: '返回',
+                handler: (param) => {
+                    this.props.history.go(-1);
+                }
+            }]
+        });
+    }
 }
 
 export default Beforeloan;

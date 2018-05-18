@@ -35,27 +35,24 @@ class bankAddedit extends React.Component {
     render() {
         const fields = [{
             title: '名称',
-            field: 'name',
-            search: true
+            field: 'bankName'
         }, {
             title: '最新修改人',
-            field: 'letter'
-        }, {
-            title: '最新修改人',
-            field: 'letter'
+            field: 'updater'
         }, {
             title: '最新修改时间',
-            field: 'letter'
+            field: 'updateDatetime',
+            type: 'date'
         }, {
             title: '备注',
-            field: 'letter'
+            field: 'remark'
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            addCode: 630400,
-            editCode: 630402,
+            addCode: 802010,
+            editCode: 802012,
             detailCode: 630407
         });
     }

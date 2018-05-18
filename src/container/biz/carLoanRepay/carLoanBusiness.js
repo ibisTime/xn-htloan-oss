@@ -73,7 +73,7 @@ class Brand extends React.Component {
         field: 'status',
         search: true,
         type: 'select',
-        key: 'status'
+        key: 'loan_order_status'
       }, {
         title: '备注',
         field: 'remark'

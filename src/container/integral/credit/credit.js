@@ -28,23 +28,23 @@ class Credit extends React.Component {
   render() {
     const fields = [{
       title: '项目',
-      field: 'name',
+      field: 'remark',
       search: true
     }, {
       title: '规则分类',
-      field: 'letter'
+      field: '11',
+      render: (v, d) => {
+        return '信用分规则';
+      }
     }, {
       title: '数值',
       field: 'cvalue',
       amount: true
-    }, {
-      title: '备注',
-      field: 'remark'
     }];
     return this.props.buildList({
       fields,
       pageCode: 630045,
-      serchParams: {
+      searchParams: {
         type: 'credit_rule'
       }
     });

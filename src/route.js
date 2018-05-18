@@ -100,10 +100,12 @@ const ROUTES = [
     path: '/biz/carSeries/addedit',
     component: asyncComponent(() => import('container/biz/carSale/carSeries-addedit'))
   },
+  //  车型管理
   {
     path: '/biz/carShape',
     component: asyncComponent(() => import('container/biz/carSale/carShape'))
   },
+  //  车型管理详情
   {
     path: '/biz/carShape/addedit',
     component: asyncComponent(() => import('container/biz/carSale/carShape-addedit'))
@@ -128,9 +130,25 @@ const ROUTES = [
     path: '/biz/historicalApply/addedit',
     component: asyncComponent(() => import('container/biz/carSale/historicalApply-addedit'))
   },
+  //  会员查询
+  {
+    path: '/biz/memberInquiries',
+    component: asyncComponent(() => import('container/biz/administration/memberInquiries'))
+  },
+  //  会员详情
   {
     path: '/biz/memberInquiries/addedit',
     component: asyncComponent(() => import('container/biz/administration/memberInquiries-addedit'))
+  },
+  //  还款卡查询
+  {
+    path: '/biz/refundCard',
+    component: asyncComponent(() => import('container/biz/administration/refundCard'))
+  },
+  //  还款卡详情
+  {
+    path: '/biz/refundCard/addedit',
+    component: asyncComponent(() => import('container/biz/administration/refundCard-addedit'))
   },
   {
     path: '/wares/commodity',
@@ -178,6 +196,34 @@ const ROUTES = [
   {
     path: '/finance/platform_ledger/addedit',
     component: asyncComponent(() => import('container/finance/ledger-addedit/ledger-addedit'))
+  },
+  {
+    path: '/finance/enchashmentRule',
+    component: asyncComponent(() => import('container/finance/enchashmentRule/enchashmentRule'))
+  },
+  {
+    path: '/finance/enchashmentRule/addedit',
+    component: asyncComponent(() => import('container/finance/enchashmentRule-addedit/enchashmentRule-addedit'))
+  },
+  {
+    path: '/finance/underEnchashment',
+    component: asyncComponent(() => import('container/finance/underEnchashment/underEnchashment'))
+  },
+  {
+    path: '/finance/underEnchashment/addedit',
+    component: asyncComponent(() => import('container/finance/underEnchashment-addedit/underEnchashment-addedit'))
+  },
+  {
+    path: '/finance/underEnchashment/check',
+    component: asyncComponent(() => import('container/finance/underEnchashment-check/underEnchashment-check'))
+  },
+  {
+    path: '/finance/enchashments',
+    component: asyncComponent(() => import('container/finance/enchashments/enchashments'))
+  },
+  {
+    path: '/finance/enchashments/addedit',
+    component: asyncComponent(() => import('container/finance/enchashments-addedit/enchashments-addedit'))
   },
   //  车贷业务管理
   {
@@ -284,6 +330,11 @@ const ROUTES = [
     path: '/biz/historyBusinessManage/addedit',
     component: asyncComponent(() => import('container/biz/carLoanRepay/historyBusinessManage-addedit'))
   },
+  //  历史业务管理详情的详情
+  {
+    path: '/biz/historyBusinessManage/addedit/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/historyBusinessManage-addedit-addedit'))
+  },
   //  商品分期管理
   //  类别管理
   {
@@ -386,6 +437,22 @@ const ROUTES = [
   {
     path: '/basedata/bank/addedit',
     component: asyncComponent(() => import('container/basedata/bank/bank-addedit'))
+  },
+  //  统计分析模块
+  //  余额明细
+  {
+    path: '/statistic/balancedetail',
+    component: asyncComponent(() => import('container/analysis/statistic/balancedetail'))
+  },
+  //  在保余额
+  {
+    path: '/statistic/protect',
+    component: asyncComponent(() => import('container/analysis/statistic/protect'))
+  },
+  //  在保余额
+  {
+    path: '/statistic/protect/addedit',
+    component: asyncComponent(() => import('container/analysis/statistic/protect-addedit'))
   }
 ];
 

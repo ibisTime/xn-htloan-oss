@@ -13,3 +13,6 @@ export function getPageAccount({ start, limit, type }) {
     type
   });
 }
+export function gettotalAcount() {
+  return fetch(630900);
+}

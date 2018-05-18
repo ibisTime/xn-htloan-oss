@@ -63,7 +63,7 @@ class refundCard extends React.Component {
             field: 'status',
             search: true,
             type: 'select',
-            key: 'status'
+            key: 'bankcard'
         }, {
             title: '备注',
             field: 'remark'
