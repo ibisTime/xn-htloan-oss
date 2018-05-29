@@ -146,6 +146,25 @@ import { bizinstallGps } from './redux/biz/installGps';
 import { bizinstallGpsAddEdit } from './redux/biz/installGps-addedit';
 import { bizinstallGpsCheck } from './redux/biz/installGps-check';
 import { bizinstallGpsEnter } from './redux/biz/installGps-enter';
+
+/**
+ * 贷前管理
+ */
+// 发起征信查询
+import { loanCredit } from './redux/loan/credit';
+import { loanCreditAddedit } from './redux/loan/credit-addedit';
+
+// 准入审查
+import { loanAdmittance } from './redux/loan/admittance';
+
+// 面签审核
+import { loanFaceSign } from './redux/loan/faceSign';
+import { loanFaceSignAddedit } from './redux/loan/faceSign-addedit';
+
+// 财务垫资
+import { loanAdvMoney } from './redux/loan/advMoney';
+import { loanAdvMoneyAddedit } from './redux/loan/advMoney-addedit';
+
 export default combineReducers({
   user,
   menu,
@@ -242,5 +261,12 @@ export default combineReducers({
   bizinstallGps,
   bizinstallGpsAddEdit,
   bizinstallGpsCheck,
-  bizinstallGpsEnter
+  bizinstallGpsEnter,
+  loanCredit,
+  loanCreditAddedit,
+  loanAdmittance,
+  loanFaceSign,
+  loanFaceSignAddedit,
+  loanAdvMoney,
+  loanAdvMoneyAddedit
 });

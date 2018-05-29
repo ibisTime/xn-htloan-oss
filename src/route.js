@@ -1,480 +1,516 @@
 import asyncComponent from './component/async-component/async-component';
 
 const ROUTES = [
-  {
-    path: '/system/role',
-    component: asyncComponent(() => import('container/security/role/role'))
-  },
-  {
-    path: '/system/role/addedit',
-    component: asyncComponent(() => import('container/security/role-addedit/role-addedit'))
-  },
-  {
-    path: '/system/role/menu',
-    component: asyncComponent(() => import('container/security/role-menu/role-menu'))
-  },
-  {
-    path: '/system/menu',
-    component: asyncComponent(() => import('container/security/menu/menu'))
-  },
-  {
-    path: '/system/menu/addedit',
-    component: asyncComponent(() => import('container/security/menu-addedit/menu-addedit'))
-  },
-  {
-    path: '/system/user',
-    component: asyncComponent(() => import('container/security/user/user'))
-  },
-  {
-    path: '/system/user/role',
-    component: asyncComponent(() => import('container/security/user/assign'))
-  },
-  {
-    path: '/system/user/pwd_reset',
-    component: asyncComponent(() => import('container/security/user/pwdReset'))
-  },
+    {
+        path: '/system/role',
+        component: asyncComponent(() => import('container/security/role/role'))
+    },
+    {
+        path: '/system/role/addedit',
+        component: asyncComponent(() => import('container/security/role-addedit/role-addedit'))
+    },
+    {
+        path: '/system/role/menu',
+        component: asyncComponent(() => import('container/security/role-menu/role-menu'))
+    },
+    {
+        path: '/system/menu',
+        component: asyncComponent(() => import('container/security/menu/menu'))
+    },
+    {
+        path: '/system/menu/addedit',
+        component: asyncComponent(() => import('container/security/menu-addedit/menu-addedit'))
+    },
+    {
+        path: '/system/user',
+        component: asyncComponent(() => import('container/security/user/user'))
+    },
+    {
+        path: '/system/user/role',
+        component: asyncComponent(() => import('container/security/user/assign'))
+    },
+    {
+        path: '/system/user/pwd_reset',
+        component: asyncComponent(() => import('container/security/user/pwdReset'))
+    },
 
-  //  系统参数
-  {
-    path: '/system/sysPara',
-    component: asyncComponent(() => import('container/security/sysParam/sysParam'))
-  },
-  //  系统参数修改
-  {
-    path: '/system/sysPara/addedit',
-    component: asyncComponent(() => import('container/security/sysParam-addedit/sysParam-addedit'))
-  },
-  {
-    path: '/system/dataDict',
-    component: asyncComponent(() => import('container/security/dataDict/dataDict'))
-  },
-  {
-    path: '/system/dataDict/addedit',
-    component: asyncComponent(() => import('container/security/dataDict-addedit/dataDict-addedit'))
-  },
-  {
-    path: '/system/user/addedit',
-    component: asyncComponent(() => import('container/security/user-addedit/user-addedit'))
-  },
-  {
-    path: '/public/aboutus_addedit',
-    component: asyncComponent(() => import('container/public/aboutus-addedit/aboutus-addedit'))
-  },
-  {
-    path: '/public/hotLine_addedit',
-    component: asyncComponent(() => import('container/public/hotLine-addedit/hotLine-addedit'))
-  },
-  {
-    path: '/public/time_addedit',
-    component: asyncComponent(() => import('container/public/time-addedit/time-addedit'))
-  },
-  {
-    path: '/public/notice',
-    component: asyncComponent(() => import('container/public/notice/notice'))
-  },
-  {
-    path: '/public/notice/addedit',
-    component: asyncComponent(() => import('container/public/notice-addedit/notice-addedit'))
-  },
-  {
-    path: '/public/banner',
-    component: asyncComponent(() => import('container/public/banner/banner'))
-  },
-  {
-    path: '/public/banner/addedit',
-    component: asyncComponent(() => import('container/public/banner-addedit/banner-addedit'))
-  },
-  {
-    path: '/biz/brand',
-    component: asyncComponent(() => import('container/biz/carSale/brand'))
-  },
-  {
-    path: '/biz/brand/addedit',
-    component: asyncComponent(() => import('container/biz/carSale/brand-addedit'))
-  },
-  {
-    path: '/biz/carSeries',
-    component: asyncComponent(() => import('container/biz/carSale/carSeries'))
-  },
-  {
-    path: '/biz/carSeries/addedit',
-    component: asyncComponent(() => import('container/biz/carSale/carSeries-addedit'))
-  },
-  //  车型管理
-  {
-    path: '/biz/carShape',
-    component: asyncComponent(() => import('container/biz/carSale/carShape'))
-  },
-  //  车型管理详情
-  {
-    path: '/biz/carShape/addedit',
-    component: asyncComponent(() => import('container/biz/carSale/carShape-addedit'))
-  },
-  //  车贷申请单
-  {
-    path: '/biz/handleApply',
-    component: asyncComponent(() => import('container/biz/carSale/handleApply'))
-  },
-  //  车贷申请单 处理
-  {
-    path: '/biz/handleApply/check',
-    component: asyncComponent(() => import('container/biz/carSale/handleApply-check'))
-  },
-  //  历史车贷申请单
-  {
-    path: '/biz/historicalApply',
-    component: asyncComponent(() => import('container/biz/carSale/historicalApply'))
-  },
-  //  历史车贷申请单 详情
-  {
-    path: '/biz/historicalApply/addedit',
-    component: asyncComponent(() => import('container/biz/carSale/historicalApply-addedit'))
-  },
-  //  会员查询
-  {
-    path: '/biz/memberInquiries',
-    component: asyncComponent(() => import('container/biz/administration/MemberInquiries'))
-  },
-  //  会员详情
-  {
-    path: '/biz/memberInquiries/addedit',
-    component: asyncComponent(() => import('container/biz/administration/memberInquiries-addedit'))
-  },
-  //  还款卡查询
-  {
-    path: '/biz/refundCard',
-    component: asyncComponent(() => import('container/biz/administration/refundCard'))
-  },
-  //  还款卡详情
-  {
-    path: '/biz/refundCard/addedit',
-    component: asyncComponent(() => import('container/biz/administration/refundCard-addedit'))
-  },
-  {
-    path: '/wares/commodity',
-    component: asyncComponent(() => import('container/wares/commodity/commodity'))
-  },
-  {
-    path: '/wares/order',
-    component: asyncComponent(() => import('container/wares/order/order'))
-  },
-  {
-    path: '/general/textParam',
-    component: asyncComponent(() => import('container/general/text-param/text-param'))
-  },
-  {
-    path: '/general/textParam/addedit',
-    component: asyncComponent(() => import('container/general/text-param-addedit/text-param-addedit'))
-  },
-  // 会员账户 -- 账户查询
-  {
-    path: '/finance/userAccount',
-    component: asyncComponent(() => import('container/finance/user-account/user-account'))
-  },
-  // 会员账户 -- 账户查询 -- 流水
-  {
-    path: '/finance/userAccount/flows',
-    component: asyncComponent(() => import('container/finance/user-flows/user-flows'))
-  },
-  // 会员账户 -- 流水查询
-  {
-    path: '/finance/userLedger',
-    component: asyncComponent(() => import('container/finance/all-user-flows/all-user-flows'))
-  },
-  {
-    path: '/finance/breakBalance',
-    component: asyncComponent(() => import('container/finance/account/account'))
-  },
-  {
-    path: '/finance/breakBalance/ledger',
-    component: asyncComponent(() => import('container/finance/account-ledger/account-ledger'))
-  },
-  {
-    path: '/finance/platform_ledger',
-    component: asyncComponent(() => import('container/finance/platform-ledger/platform-ledger'))
-  },
-  {
-    path: '/finance/platform_ledger/addedit',
-    component: asyncComponent(() => import('container/finance/ledger-addedit/ledger-addedit'))
-  },
-  {
-    path: '/finance/enchashmentRule',
-    component: asyncComponent(() => import('container/finance/enchashmentRule/enchashmentRule'))
-  },
-  {
-    path: '/finance/enchashmentRule/addedit',
-    component: asyncComponent(() => import('container/finance/enchashmentRule-addedit/enchashmentRule-addedit'))
-  },
-  {
-    path: '/finance/underEnchashment',
-    component: asyncComponent(() => import('container/finance/underEnchashment/underEnchashment'))
-  },
-  {
-    path: '/finance/underEnchashment/addedit',
-    component: asyncComponent(() => import('container/finance/underEnchashment-addedit/underEnchashment-addedit'))
-  },
-  {
-    path: '/finance/underEnchashment/check',
-    component: asyncComponent(() => import('container/finance/underEnchashment-check/underEnchashment-check'))
-  },
-  {
-    path: '/finance/enchashments',
-    component: asyncComponent(() => import('container/finance/enchashments/enchashments'))
-  },
-  {
-    path: '/finance/enchashments/addedit',
-    component: asyncComponent(() => import('container/finance/enchashments-addedit/enchashments-addedit'))
-  },
-  //  车辆贷后管理
-  //  车贷业务管理
-  {
-    path: '/biz/carLoanBusiness',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/carLoanBusiness'))
-  },
-  //  车贷业务详情
-  {
-    path: '/biz/carLoanBusiness/addedit',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/carLoanBusiness-addedit'))
-  },
-  //  车贷业务审核
-  {
-    path: '/biz/carLoanBusiness/check',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/carLoanBusiness-check'))
-  },
-  //  GPS安装
-  {
-    path: '/biz/installGps',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/installGps'))
-  },
-  //  GPS安装 详情
-  {
-    path: '/biz/installGps/addedit',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/installGps-addedit'))
-  },
-  //  GPS安装 录入
-  {
-    path: '/biz/installGps/enter',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/installGps-enter'))
-  },
-  //  GPS安装 审核
-  {
-    path: '/biz/installGps/check',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/installGps-check'))
-  },
-  //  还款业务管理
-  {
-    path: '/biz/refundBusiness',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness'))
-  },
-  //  还款业务详情
-  {
-    path: '/biz/refundBusiness/addedit',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness-addedit'))
-  },
-  //  还款业务还款计划
-  {
-    path: '/biz/refundBusiness/plan',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness-plan'))
-  },
-  //  还款业务还款卡变更
-  {
-    path: '/biz/refundBusiness/changecard',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness-changeCard'))
-  },
-  //  还款业务确认结清
-  {
-    path: '/biz/refundBusiness/certain',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness-certain'))
-  },
-  //  当月还款名单
-  {
-    path: '/biz/refundList',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/refundList'))
-  },
-  //  当月还款名单详情
-  {
-    path: '/biz/refundList/addedit',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/refundList-addedit'))
-  },
-  //  逾期名单
-  {
-    path: '/biz/overdueList',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/overdueList'))
-  },
-  //  逾期名单详情
-  {
-    path: '/biz/overdueList/addedit',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/overdueList-addedit'))
-  },
-  //  逾期处理
-  {
-    path: '/biz/overdueList/dispose',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/overdueList-dispose'))
-  },
-  //  绿名单
-  {
-    path: '/biz/greenList',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/greenList'))
-  },
-  //  绿名单详情
-  {
-    path: '/biz/greenList/addedit',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/greenList-addedit'))
-  },
-  //  绿名单 缴纳清收成本
-  {
-    path: '/biz/greenList/payment',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/greenList-payment'))
-  },
-  //  黑名单
-  {
-    path: '/biz/blackList',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/blackList'))
-  },
-  //  黑名单详情
-  {
-    path: '/biz/blackList/addedit',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/blackList-addedit'))
-  },
-  //  黑名单处理
-  {
-    path: '/biz/blackList/dispose',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/blackList-dispose'))
-  },
-  //  历史业务管理
-  {
-    path: '/biz/historyBusinessManage',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/historyBusinessManage'))
-  },
-  //  历史业务管理详情
-  {
-    path: '/biz/historyBusinessManage/addedit',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/historyBusinessManage-addedit'))
-  },
-  //  历史业务管理详情的详情
-  {
-    path: '/biz/historyBusinessManage/addedit/addedit',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/historyBusinessManage-addedit-addedit'))
-  },
-  //  商品分期管理
-  //  类别管理
-  {
-    path: '/wares/category',
-    component: asyncComponent(() => import('container/wares/category/category'))
-  },
-  //  类别管理详情
-  {
-    path: '/wares/category/addedit',
-    component: asyncComponent(() => import('container/wares/category/category-addedit'))
-  },
-  //  商品管理
-  {
-    path: '/wares/commodity',
-    component: asyncComponent(() => import('container/wares/commodity/commodity'))
-  },
-  //  商品管理详情
-  {
-    path: '/wares/commodity/addedit',
-    component: asyncComponent(() => import('container/wares/commodity/commodity-addedit'))
-  },
-  //  订单管理
-  {
-    path: '/wares/order',
-    component: asyncComponent(() => import('container/wares/order/order'))
-  },
-  //  订单管理详情
-  {
-    path: '/wares/order/addedit',
-    component: asyncComponent(() => import('container/wares/order/order-addedit'))
-  },
-  //  订单管理 发货
-  {
-    path: '/wares/order/goods',
-    component: asyncComponent(() => import('container/wares/order/order-goods'))
-  },
-  //  业务规则
-  //  信用分规则
-  {
-    path: '/integral/credit',
-    component: asyncComponent(() => import('container/integral/credit/credit'))
-  },
-  //  信用分规则修改
-  {
-    path: '/integral/credit/addedit',
-    component: asyncComponent(() => import('container/integral/credit/credit-addedit'))
-  },
-  //  积分规则
-  {
-    path: '/integral/integral',
-    component: asyncComponent(() => import('container/integral/integral/integral'))
-  },
-  //  积分规则修改
-  {
-    path: '/integral/integral/addedit',
-    component: asyncComponent(() => import('container/integral/integral/integral-addedit'))
-  },
-  //  积分兑换规则
-  {
-    path: '/integral/integralexchange',
-    component: asyncComponent(() => import('container/integral/integralexchange/integralexchange'))
-  },
-  //  积分兑换规则修改
-  {
-    path: '/integral/integralexchange/addedit',
-    component: asyncComponent(() => import('container/integral/integralexchange/integralexchange-addedit'))
-  },
-  //  基础数据
-  //  车贷期数
-  {
-    path: '/basedata/carloan',
-    component: asyncComponent(() => import('container/basedata/carloan/carloan'))
-  },
-  //  车贷期数详情 + 修改
-  {
-    path: '/basedata/carloan/addedit',
-    component: asyncComponent(() => import('container/basedata/carloan/carloan-addedit'))
-  },
-  //  商品期数
-  {
-    path: '/basedata/goodsloan',
-    component: asyncComponent(() => import('container/basedata/goodsloan/goodsloan'))
-  },
-  //  商品期数详情 + 修改
-  {
-    path: '/basedata/goodsloan/addedit',
-    component: asyncComponent(() => import('container/basedata/goodsloan/goodsloan-addedit'))
-  },
-  //  提前还款
-  {
-    path: '/basedata/beforeloan',
-    component: asyncComponent(() => import('container/basedata/beforeloan/beforeloan'))
-  },
-  //  银行管理
-  {
-    path: '/basedata/bank',
-    component: asyncComponent(() => import('container/basedata/bank/bank'))
-  },
-  //  银行管理详情 + 修改
-  {
-    path: '/basedata/bank/addedit',
-    component: asyncComponent(() => import('container/basedata/bank/bank-addedit'))
-  },
-  //  统计分析模块
-  //  余额明细
-  {
-    path: '/statistic/balancedetail',
-    component: asyncComponent(() => import('container/analysis/statistic/balancedetail'))
-  },
-  //  在保余额
-  {
-    path: '/statistic/protect',
-    component: asyncComponent(() => import('container/analysis/statistic/protect'))
-  },
-  //  在保余额
-  {
-    path: '/statistic/protect/addedit',
-    component: asyncComponent(() => import('container/analysis/statistic/protect-addedit'))
-  }
+    //  系统参数
+    {
+        path: '/system/sysPara',
+        component: asyncComponent(() => import('container/security/sysParam/sysParam'))
+    },
+    //  系统参数修改
+    {
+        path: '/system/sysPara/addedit',
+        component: asyncComponent(() => import('container/security/sysParam-addedit/sysParam-addedit'))
+    },
+    {
+        path: '/system/dataDict',
+        component: asyncComponent(() => import('container/security/dataDict/dataDict'))
+    },
+    {
+        path: '/system/dataDict/addedit',
+        component: asyncComponent(() => import('container/security/dataDict-addedit/dataDict-addedit'))
+    },
+    {
+        path: '/system/user/addedit',
+        component: asyncComponent(() => import('container/security/user-addedit/user-addedit'))
+    },
+    {
+        path: '/public/aboutus_addedit',
+        component: asyncComponent(() => import('container/public/aboutus-addedit/aboutus-addedit'))
+    },
+    {
+        path: '/public/hotLine_addedit',
+        component: asyncComponent(() => import('container/public/hotLine-addedit/hotLine-addedit'))
+    },
+    {
+        path: '/public/time_addedit',
+        component: asyncComponent(() => import('container/public/time-addedit/time-addedit'))
+    },
+    {
+        path: '/public/notice',
+        component: asyncComponent(() => import('container/public/notice/notice'))
+    },
+    {
+        path: '/public/notice/addedit',
+        component: asyncComponent(() => import('container/public/notice-addedit/notice-addedit'))
+    },
+    {
+        path: '/public/banner',
+        component: asyncComponent(() => import('container/public/banner/banner'))
+    },
+    {
+        path: '/public/banner/addedit',
+        component: asyncComponent(() => import('container/public/banner-addedit/banner-addedit'))
+    },
+    {
+        path: '/biz/brand',
+        component: asyncComponent(() => import('container/biz/carSale/brand'))
+    },
+    {
+        path: '/biz/brand/addedit',
+        component: asyncComponent(() => import('container/biz/carSale/brand-addedit'))
+    },
+    {
+        path: '/biz/carSeries',
+        component: asyncComponent(() => import('container/biz/carSale/carSeries'))
+    },
+    {
+        path: '/biz/carSeries/addedit',
+        component: asyncComponent(() => import('container/biz/carSale/carSeries-addedit'))
+    },
+    //  车型管理
+    {
+        path: '/biz/carShape',
+        component: asyncComponent(() => import('container/biz/carSale/carShape'))
+    },
+    //  车型管理详情
+    {
+        path: '/biz/carShape/addedit',
+        component: asyncComponent(() => import('container/biz/carSale/carShape-addedit'))
+    },
+    //  车贷申请单
+    {
+        path: '/biz/handleApply',
+        component: asyncComponent(() => import('container/biz/carSale/handleApply'))
+    },
+    //  车贷申请单 处理
+    {
+        path: '/biz/handleApply/check',
+        component: asyncComponent(() => import('container/biz/carSale/handleApply-check'))
+    },
+    //  历史车贷申请单
+    {
+        path: '/biz/historicalApply',
+        component: asyncComponent(() => import('container/biz/carSale/historicalApply'))
+    },
+    //  历史车贷申请单 详情
+    {
+        path: '/biz/historicalApply/addedit',
+        component: asyncComponent(() => import('container/biz/carSale/historicalApply-addedit'))
+    },
+    //  会员查询
+    {
+        path: '/biz/memberInquiries',
+        component: asyncComponent(() => import('container/biz/administration/MemberInquiries'))
+    },
+    //  会员详情
+    {
+        path: '/biz/memberInquiries/addedit',
+        component: asyncComponent(() => import('container/biz/administration/memberInquiries-addedit'))
+    },
+    //  还款卡查询
+    {
+        path: '/biz/refundCard',
+        component: asyncComponent(() => import('container/biz/administration/refundCard'))
+    },
+    //  还款卡详情
+    {
+        path: '/biz/refundCard/addedit',
+        component: asyncComponent(() => import('container/biz/administration/refundCard-addedit'))
+    },
+    {
+        path: '/wares/commodity',
+        component: asyncComponent(() => import('container/wares/commodity/commodity'))
+    },
+    {
+        path: '/wares/order',
+        component: asyncComponent(() => import('container/wares/order/order'))
+    },
+    {
+        path: '/general/textParam',
+        component: asyncComponent(() => import('container/general/text-param/text-param'))
+    },
+    {
+        path: '/general/textParam/addedit',
+        component: asyncComponent(() => import('container/general/text-param-addedit/text-param-addedit'))
+    },
+    // 会员账户 -- 账户查询
+    {
+        path: '/finance/userAccount',
+        component: asyncComponent(() => import('container/finance/user-account/user-account'))
+    },
+    // 会员账户 -- 账户查询 -- 流水
+    {
+        path: '/finance/userAccount/flows',
+        component: asyncComponent(() => import('container/finance/user-flows/user-flows'))
+    },
+    // 会员账户 -- 流水查询
+    {
+        path: '/finance/userLedger',
+        component: asyncComponent(() => import('container/finance/all-user-flows/all-user-flows'))
+    },
+    {
+        path: '/finance/breakBalance',
+        component: asyncComponent(() => import('container/finance/account/account'))
+    },
+    {
+        path: '/finance/breakBalance/ledger',
+        component: asyncComponent(() => import('container/finance/account-ledger/account-ledger'))
+    },
+    {
+        path: '/finance/platform_ledger',
+        component: asyncComponent(() => import('container/finance/platform-ledger/platform-ledger'))
+    },
+    {
+        path: '/finance/platform_ledger/addedit',
+        component: asyncComponent(() => import('container/finance/ledger-addedit/ledger-addedit'))
+    },
+    {
+        path: '/finance/enchashmentRule',
+        component: asyncComponent(() => import('container/finance/enchashmentRule/enchashmentRule'))
+    },
+    {
+        path: '/finance/enchashmentRule/addedit',
+        component: asyncComponent(() => import('container/finance/enchashmentRule-addedit/enchashmentRule-addedit'))
+    },
+    {
+        path: '/finance/underEnchashment',
+        component: asyncComponent(() => import('container/finance/underEnchashment/underEnchashment'))
+    },
+    {
+        path: '/finance/underEnchashment/addedit',
+        component: asyncComponent(() => import('container/finance/underEnchashment-addedit/underEnchashment-addedit'))
+    },
+    {
+        path: '/finance/underEnchashment/check',
+        component: asyncComponent(() => import('container/finance/underEnchashment-check/underEnchashment-check'))
+    },
+    {
+        path: '/finance/enchashments',
+        component: asyncComponent(() => import('container/finance/enchashments/enchashments'))
+    },
+    {
+        path: '/finance/enchashments/addedit',
+        component: asyncComponent(() => import('container/finance/enchashments-addedit/enchashments-addedit'))
+    },
+    //  车辆贷后管理
+    //  车贷业务管理
+    {
+        path: '/biz/carLoanBusiness',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/carLoanBusiness'))
+    },
+    //  车贷业务详情
+    {
+        path: '/biz/carLoanBusiness/addedit',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/carLoanBusiness-addedit'))
+    },
+    //  车贷业务审核
+    {
+        path: '/biz/carLoanBusiness/check',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/carLoanBusiness-check'))
+    },
+    //  GPS安装
+    {
+        path: '/biz/installGps',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/installGps'))
+    },
+    //  GPS安装 详情
+    {
+        path: '/biz/installGps/addedit',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/installGps-addedit'))
+    },
+    //  GPS安装 录入
+    {
+        path: '/biz/installGps/enter',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/installGps-enter'))
+    },
+    //  GPS安装 审核
+    {
+        path: '/biz/installGps/check',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/installGps-check'))
+    },
+    //  还款业务管理
+    {
+        path: '/biz/refundBusiness',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness'))
+    },
+    //  还款业务详情
+    {
+        path: '/biz/refundBusiness/addedit',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness-addedit'))
+    },
+    //  还款业务还款计划
+    {
+        path: '/biz/refundBusiness/plan',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness-plan'))
+    },
+    //  还款业务还款卡变更
+    {
+        path: '/biz/refundBusiness/changecard',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness-changeCard'))
+    },
+    //  还款业务确认结清
+    {
+        path: '/biz/refundBusiness/certain',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness-certain'))
+    },
+    //  当月还款名单
+    {
+        path: '/biz/refundList',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/refundList'))
+    },
+    //  当月还款名单详情
+    {
+        path: '/biz/refundList/addedit',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/refundList-addedit'))
+    },
+    //  逾期名单
+    {
+        path: '/biz/overdueList',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/overdueList'))
+    },
+    //  逾期名单详情
+    {
+        path: '/biz/overdueList/addedit',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/overdueList-addedit'))
+    },
+    //  逾期处理
+    {
+        path: '/biz/overdueList/dispose',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/overdueList-dispose'))
+    },
+    //  绿名单
+    {
+        path: '/biz/greenList',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/greenList'))
+    },
+    //  绿名单详情
+    {
+        path: '/biz/greenList/addedit',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/greenList-addedit'))
+    },
+    //  绿名单 缴纳清收成本
+    {
+        path: '/biz/greenList/payment',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/greenList-payment'))
+    },
+    //  黑名单
+    {
+        path: '/biz/blackList',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/blackList'))
+    },
+    //  黑名单详情
+    {
+        path: '/biz/blackList/addedit',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/blackList-addedit'))
+    },
+    //  黑名单处理
+    {
+        path: '/biz/blackList/dispose',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/blackList-dispose'))
+    },
+    //  历史业务管理
+    {
+        path: '/biz/historyBusinessManage',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/historyBusinessManage'))
+    },
+    //  历史业务管理详情
+    {
+        path: '/biz/historyBusinessManage/addedit',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/historyBusinessManage-addedit'))
+    },
+    //  历史业务管理详情的详情
+    {
+        path: '/biz/historyBusinessManage/addedit/addedit',
+        component: asyncComponent(() => import('container/biz/carLoanRepay/historyBusinessManage-addedit-addedit'))
+    },
+    //  商品分期管理
+    //  类别管理
+    {
+        path: '/wares/category',
+        component: asyncComponent(() => import('container/wares/category/category'))
+    },
+    //  类别管理详情
+    {
+        path: '/wares/category/addedit',
+        component: asyncComponent(() => import('container/wares/category/category-addedit'))
+    },
+    //  商品管理
+    {
+        path: '/wares/commodity',
+        component: asyncComponent(() => import('container/wares/commodity/commodity'))
+    },
+    //  商品管理详情
+    {
+        path: '/wares/commodity/addedit',
+        component: asyncComponent(() => import('container/wares/commodity/commodity-addedit'))
+    },
+    //  订单管理
+    {
+        path: '/wares/order',
+        component: asyncComponent(() => import('container/wares/order/order'))
+    },
+    //  订单管理详情
+    {
+        path: '/wares/order/addedit',
+        component: asyncComponent(() => import('container/wares/order/order-addedit'))
+    },
+    //  订单管理 发货
+    {
+        path: '/wares/order/goods',
+        component: asyncComponent(() => import('container/wares/order/order-goods'))
+    },
+    //  业务规则
+    //  信用分规则
+    {
+        path: '/integral/credit',
+        component: asyncComponent(() => import('container/integral/credit/credit'))
+    },
+    //  信用分规则修改
+    {
+        path: '/integral/credit/addedit',
+        component: asyncComponent(() => import('container/integral/credit/credit-addedit'))
+    },
+    //  积分规则
+    {
+        path: '/integral/integral',
+        component: asyncComponent(() => import('container/integral/integral/integral'))
+    },
+    //  积分规则修改
+    {
+        path: '/integral/integral/addedit',
+        component: asyncComponent(() => import('container/integral/integral/integral-addedit'))
+    },
+    //  积分兑换规则
+    {
+        path: '/integral/integralexchange',
+        component: asyncComponent(() => import('container/integral/integralexchange/integralexchange'))
+    },
+    //  积分兑换规则修改
+    {
+        path: '/integral/integralexchange/addedit',
+        component: asyncComponent(() => import('container/integral/integralexchange/integralexchange-addedit'))
+    },
+    //  基础数据
+    //  车贷期数
+    {
+        path: '/basedata/carloan',
+        component: asyncComponent(() => import('container/basedata/carloan/carloan'))
+    },
+    //  车贷期数详情 + 修改
+    {
+        path: '/basedata/carloan/addedit',
+        component: asyncComponent(() => import('container/basedata/carloan/carloan-addedit'))
+    },
+    //  商品期数
+    {
+        path: '/basedata/goodsloan',
+        component: asyncComponent(() => import('container/basedata/goodsloan/goodsloan'))
+    },
+    //  商品期数详情 + 修改
+    {
+        path: '/basedata/goodsloan/addedit',
+        component: asyncComponent(() => import('container/basedata/goodsloan/goodsloan-addedit'))
+    },
+    //  提前还款
+    {
+        path: '/basedata/beforeloan',
+        component: asyncComponent(() => import('container/basedata/beforeloan/beforeloan'))
+    },
+    //  银行管理
+    {
+        path: '/basedata/bank',
+        component: asyncComponent(() => import('container/basedata/bank/bank'))
+    },
+    //  银行管理详情 + 修改
+    {
+        path: '/basedata/bank/addedit',
+        component: asyncComponent(() => import('container/basedata/bank/bank-addedit'))
+    },
+    //  统计分析模块
+    //  余额明细
+    {
+        path: '/statistic/balancedetail',
+        component: asyncComponent(() => import('container/analysis/statistic/balancedetail'))
+    },
+    //  在保余额
+    {
+        path: '/statistic/protect',
+        component: asyncComponent(() => import('container/analysis/statistic/protect'))
+    },
+    //  在保余额
+    {
+        path: '/statistic/protect/addedit',
+        component: asyncComponent(() => import('container/analysis/statistic/protect-addedit'))
+    },
+    // 贷前管理
+    // 发起征信查询
+    {
+        path: '/loan/credit',
+        component: asyncComponent(() => import('container/loan/credit/credit'))
+    },
+    // 发起征信查询  发起征信查询
+    {
+        path: '/loan/credit/addedit',
+        component: asyncComponent(() => import('container/loan/credit-addedit/credit-addedit'))
+    },
+    // 准入审查
+    {
+        path: '/loan/admittance',
+        component: asyncComponent(() => import('container/loan/admittance/admittance'))
+    },
+    // 面签审核
+    {
+        path: '/loan/faceSign',
+        component: asyncComponent(() => import('container/loan/faceSign/faceSign'))
+    },
+    // 面签审核 录入
+    {
+        path: '/loan/faceSign/addedit',
+        component: asyncComponent(() => import('container/loan/faceSign-addedit/faceSign-addedit'))
+    },
+    // 财务垫资
+    {
+        path: '/loan/advMoney',
+        component: asyncComponent(() => import('container/loan/advMoney/advMoney'))
+    },
+    // 财务垫资 垫资
+    {
+        path: '/loan/advMoney/addedit',
+        component: asyncComponent(() => import('container/loan/advMoney-addedit/advMoney-addedit'))
+    }
 ];
 
 export default ROUTES;
