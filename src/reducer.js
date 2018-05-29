@@ -70,6 +70,31 @@ import { bizCarLoanBusiness } from './redux/biz/carLoanBusiness';
 import { bizCarLoanBusinessAddedit } from '@redux/biz/carLoanBusiness-addedit';
 import { bizCarLoanBusinessCheck } from '@redux/biz/carLoanBusiness-check';
 
+//  GPS安装 + 详情 + 审核 + 录入安装信息
+import { bizinstallGps } from './redux/biz/installGps';
+import { bizinstallGpsAddEdit } from './redux/biz/installGps-addedit';
+import { bizinstallGpsCheck } from './redux/biz/installGps-check';
+import { bizinstallGpsEnter } from './redux/biz/installGps-enter';
+
+//  银行放款 + 详情 + 录入抵押信息 + 确认提交银行 + 低压完成
+import { bizBankMoney } from './redux/biz/bankMoney';
+import { bizBankMoneyAddEdit } from './redux/biz/bankMoney-addedit';
+import { bizBankMoneySettle } from './redux/biz/bankMoney-settle';
+import { bizBankMoneySub } from './redux/biz/bankMoney-sub';
+import { bizBankMoneyCertain } from './redux/biz/bankMoney-certain';
+
+//  车辆抵押 + 详情 + 车辆落户 + 确认提交银行 + 确认收款
+import { bizMortgage } from './redux/biz/mortgage';
+import { bizMortgageAddEdit } from './redux/biz/mortgage-addedit';
+import { bizMortgageEnter } from './redux/biz/mortgage-enter';
+import { bizMortgageSub } from './redux/biz/mortgage-sub';
+import { bizMortgageCertain } from './redux/biz/mortgage-certain';
+
+//  档案入党 + 详情 + 确认入党
+import { bizArchives } from './redux/biz/archives';
+import { bizArchivesAddEdit } from './redux/biz/archives-addedit';
+import { bizArchivesCertain } from './redux/biz/archives-certain';
+
 //  还款业务管理 + 详情 + 修改银行卡号 + 查看还款计划 + 确定结清
 import { bizRefundBusiness } from './redux/biz/refundBusiness';
 import { bizRefundBusinessAddedit } from './redux/biz/refundBusiness-addedit';
@@ -95,6 +120,14 @@ import { bizGreenListPayment } from './redux/biz/greenList-payment';
 import { bizBlackList } from './redux/biz/blackList';
 import { bizBlackListAddedit } from './redux/biz/blackList-addedit';
 import { bizBlackListDispose } from './redux/biz/blackList-dispose';
+
+//  红名单 + 详情 + 申请拖车 + 总经理审批 + 财务打款 + 录入拖车结果
+import { bizredList } from './redux/biz/redList';
+import { bizredListAddEdit } from './redux/biz/redList-addedit';
+import { bizredListApply } from './redux/biz/redList-apply';
+import { bizredListCheck } from './redux/biz/redList-check';
+import { bizredListPay } from './redux/biz/redList-pay';
+import { bizredListEnter } from './redux/biz/redList-enter';
 
 //  历史业务管理 + 详情
 import { bizHistoryBusinessManage } from './redux/biz/historyBusinessManage';
@@ -140,12 +173,6 @@ import { bizBeforeloan } from './redux/basedata/beforeloan';
 //  银行管理 + 详情 + 修改 + 删除
 import { bizBank } from './redux/basedata/bank';
 import { bizBankAddEdit } from './redux/basedata/bank-addedit';
-
-//  GPS安装 + 详情 + 审核 + 录入安装信息
-import { bizinstallGps } from './redux/biz/installGps';
-import { bizinstallGpsAddEdit } from './redux/biz/installGps-addedit';
-import { bizinstallGpsCheck } from './redux/biz/installGps-check';
-import { bizinstallGpsEnter } from './redux/biz/installGps-enter';
 export default combineReducers({
   user,
   menu,
@@ -242,5 +269,24 @@ export default combineReducers({
   bizinstallGps,
   bizinstallGpsAddEdit,
   bizinstallGpsCheck,
-  bizinstallGpsEnter
+  bizinstallGpsEnter,
+  bizBankMoney,
+  bizBankMoneyAddEdit,
+  bizBankMoneySettle,
+  bizBankMoneySub,
+  bizBankMoneyCertain,
+  bizMortgage,
+  bizMortgageAddEdit,
+  bizMortgageEnter,
+  bizMortgageSub,
+  bizMortgageCertain,
+  bizArchives,
+  bizArchivesAddEdit,
+  bizArchivesCertain,
+  bizredList,
+  bizredListAddEdit,
+  bizredListApply,
+  bizredListCheck,
+  bizredListPay,
+  bizredListEnter
 });

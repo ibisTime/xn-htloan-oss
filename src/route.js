@@ -261,6 +261,66 @@ const ROUTES = [
     path: '/biz/installGps/check',
     component: asyncComponent(() => import('container/biz/carLoanRepay/installGps-check'))
   },
+  //  银行放款
+  {
+    path: '/biz/bankMoney',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney'))
+  },
+  //  银行放款 详情
+  {
+    path: '/biz/bankMoney/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney-addedit'))
+  },
+  //  银行放款 车辆落户
+  {
+    path: '/biz/bankMoney/settle',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney-settle'))
+  },
+  //  银行放款 确认提交银行
+  {
+    path: '/biz/bankMoney/sub',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney-sub'))
+  },
+  //  银行放款 确认收款
+  {
+    path: '/biz/bankMoney/certain',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney-certain'))
+  },
+  //  车辆抵押
+  {
+    path: '/biz/mortgage',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/mortgage'))
+  },
+  //  车辆抵押 详情
+  {
+    path: '/biz/mortgage/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/mortgage-addedit'))
+  },
+  //  车辆抵押 录入抵押信息
+  {
+    path: '/biz/mortgage/enter',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/mortgage-enter'))
+  },
+  //  车辆抵押 确认提交银行
+  {
+    path: '/biz/mortgage/sub',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/mortgage-sub'))
+  },
+  //  档案入党
+  {
+    path: '/biz/archives',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/archives'))
+  },
+  //  档案入党 详情
+  {
+    path: '/biz/archives/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/archives-addedit'))
+  },
+  //  档案入党 确认入档
+  {
+    path: '/biz/archives/certain',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/archives-certain'))
+  },
   //  还款业务管理
   {
     path: '/biz/refundBusiness',
