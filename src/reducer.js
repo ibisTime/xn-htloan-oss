@@ -140,6 +140,12 @@ import { bizBeforeloan } from './redux/basedata/beforeloan';
 //  银行管理 + 详情 + 修改 + 删除
 import { bizBank } from './redux/basedata/bank';
 import { bizBankAddEdit } from './redux/basedata/bank-addedit';
+
+//  GPS安装 + 详情 + 审核 + 录入安装信息
+import { bizinstallGps } from './redux/biz/installGps';
+import { bizinstallGpsAddEdit } from './redux/biz/installGps-addedit';
+import { bizinstallGpsCheck } from './redux/biz/installGps-check';
+import { bizinstallGpsEnter } from './redux/biz/installGps-enter';
 export default combineReducers({
   user,
   menu,
@@ -232,5 +238,9 @@ export default combineReducers({
   bizGreenListAddedit,
   bizRefundListAddedit,
   bizHistoryBusinessManageAddedit,
-  bizBlackListAddedit
+  bizBlackListAddedit,
+  bizinstallGps,
+  bizinstallGpsAddEdit,
+  bizinstallGpsCheck,
+  bizinstallGpsEnter
 });
