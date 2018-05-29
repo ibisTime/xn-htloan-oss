@@ -57,7 +57,7 @@ import { bizHistoricalApply } from './redux/biz/historicalApply';
 import { bizHistoricalApplyCheck } from './redux/biz/historicalApply-addedit';
 
 //  会员查询 + 详情
-import { bizMemberInquiries } from './redux/biz/memberInquiries';
+import { bizMemberInquiries } from './redux/biz/MemberInquiries';
 import { bizMemberInquiriesAddedit } from './redux/biz/memberInquiries-addedit';
 
 //  还款卡查询 + 详情
