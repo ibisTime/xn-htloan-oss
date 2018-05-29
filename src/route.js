@@ -133,7 +133,7 @@ const ROUTES = [
   //  会员查询
   {
     path: '/biz/memberInquiries',
-    component: asyncComponent(() => import('container/biz/administration/memberInquiries'))
+    component: asyncComponent(() => import('container/biz/administration/MemberInquiries'))
   },
   //  会员详情
   {
@@ -225,6 +225,7 @@ const ROUTES = [
     path: '/finance/enchashments/addedit',
     component: asyncComponent(() => import('container/finance/enchashments-addedit/enchashments-addedit'))
   },
+  //  车辆贷后管理
   //  车贷业务管理
   {
     path: '/biz/carLoanBusiness',
@@ -239,6 +240,26 @@ const ROUTES = [
   {
     path: '/biz/carLoanBusiness/check',
     component: asyncComponent(() => import('container/biz/carLoanRepay/carLoanBusiness-check'))
+  },
+  //  GPS安装
+  {
+    path: '/biz/installGps',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/installGps'))
+  },
+  //  GPS安装 详情
+  {
+    path: '/biz/installGps/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/installGps-addedit'))
+  },
+  //  GPS安装 录入
+  {
+    path: '/biz/installGps/enter',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/installGps-enter'))
+  },
+  //  GPS安装 审核
+  {
+    path: '/biz/installGps/check',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/installGps-check'))
   },
   //  还款业务管理
   {

@@ -27,7 +27,7 @@ import {
         restore
     }
 )
-class installGpsChe extends React.Component {
+class installGpsCheck extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -49,8 +49,7 @@ class installGpsChe extends React.Component {
         }, {
             title: '备贷款金额',
             field: 'remark',
-            amount: true,
-            readonly: true
+            amount: true
         }, {
             title: 'GPS安装列表',
             field: 'remark',
@@ -110,4 +109,4 @@ class installGpsChe extends React.Component {
     }
 }
 
-export default installGpsCheck
+export default installGpsCheck;

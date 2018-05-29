@@ -27,7 +27,7 @@ import {
         restore
     }
 )
-class installGpsChe extends React.Component {
+class installGpsEnter extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -94,4 +94,4 @@ class installGpsChe extends React.Component {
     }
 }
 
-export default installGpsCheck
+export default installGpsEnter;
