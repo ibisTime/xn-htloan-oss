@@ -16,7 +16,6 @@ import {
 import {DetailWrapper} from 'common/js/build-detail';
 import {COMPANY_CODE} from 'common/js/config';
 import LoanCreditEnteringEdit from 'component/loanCreditEntering-edit/loanCreditEntering-edit';
-import LoanCreditReport from 'component/loanCredit-report/loanCredit-report';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
@@ -28,7 +27,6 @@ class CreditAddedit extends React.Component {
         super(props);
         this.state = {
             entryVisible: false,
-            reportVisible: false,
             creditResult: [],
             selectData: {},
             selectKey: ''
@@ -58,6 +56,10 @@ class CreditAddedit extends React.Component {
                     break;
                 }
             }
+        } else {
+            this.setState({
+                selectData: {}
+            });
         }
         this.setState({entryVisible, selectKey});
     };
@@ -77,20 +79,6 @@ class CreditAddedit extends React.Component {
         this.setState({
             creditResult
         });
-    };
-
-    // 征信报告
-    setReportVisible = (reportVisible, selectKey) => {
-        if (reportVisible) {
-            this.props.doFetching();
-            fetch(632118, {code: selectKey}).then((data) => {
-                this.props.cancelFetching();
-                this.state.selectData = data;
-                this.setState({reportVisible, selectKey});
-            }).catch(this.props.cancelFetching);
-        } else {
-            this.setState({reportVisible, selectKey});
-        }
     };
 
     render() {
@@ -120,7 +108,7 @@ class CreditAddedit extends React.Component {
             title: '银行',
             field: 'loanBankCode',
             type: 'select',
-            listCode: 802116,
+            listCode: 632037,
             keyName: 'bankCode',
             valueName: 'bankName',
             searchName: 'bankName',
@@ -326,7 +314,6 @@ class CreditAddedit extends React.Component {
                 }
             }];
         }
-        console.log(this.state.selectData);
         return (
             <div>
                 {
@@ -356,13 +343,6 @@ class CreditAddedit extends React.Component {
                                                             selectData={this.state.selectData}
                                                             setModalVisible={this.setEnteringVisible}/>) : ''
                 }
-                {
-                    (this.view) ? (<LoanCreditReport code={this.state.selectKey}
-                                                     reportVisible={this.state.reportVisible}
-                                                     selectData={this.state.selectData}
-                                                     setReportModalVisible={this.setReportVisible}/>) : ''
-                }
-
             </div>
         );
     }

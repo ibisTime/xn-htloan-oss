@@ -6,6 +6,7 @@ class LoanCreditEnteringEdit extends React.Component {
     render() {
         let {code, key = 'creditUserCode', bizCode} = this.props;
         const options = {
+            code: this.props.selectData.code,
             fields: [{
                 field: key,
                 value: code,
@@ -13,7 +14,7 @@ class LoanCreditEnteringEdit extends React.Component {
             }, {
                 title: '银行征信结果',
                 field: 'bankCreditResultPdf',
-                // type: 'img',
+                type: 'img',
                 required: true
             }],
             buttons: [{

@@ -8,7 +8,9 @@ import 'moment/locale/zh-cn';
 import {formatFile, formatImg, getQueryString, showErrMsg} from 'common/js/util';
 import {UPLOAD_URL, PIC_PREFIX, tailFormItemLayout} from 'common/js/config';
 import {getQiniuToken} from 'api/general';
+import {getListProduct} from 'api/biz';
 import locale from 'common/js/lib/date-locale';
+import {getDictList} from 'api/dict';
 
 moment.locale('zh-cn');
 const {Item} = Form;
@@ -25,6 +27,11 @@ const col55Props = {xs: 32, sm: 24, md: 12, lg: 4};
 const col24Props = {xs: 32, sm: 24, md: 24, lg: 24};
 const rules = [{
     required: true,
+    message: '必填字段'
+}];
+const rulesAmount = [{
+    required: true,
+    amount: true,
     message: '必填字段'
 }];
 const imgUploadBtn = (
@@ -54,8 +61,31 @@ class AdmittanceAddEdit extends React.Component {
             selectedRows: [],
             previewVisible: false,
             previewImage: '',
-            token: ''
+            token: '',
+            listProductData: [],
+            budgetBizTypeData: []
         };
+        this.loanBankName = '';
+    }
+
+    componentDidMount() {
+        Promise.all([
+            getListProduct(),
+            getDictList({parentKey: 'budget_orde_biz_typer'})
+        ]).then(([listProductData, budgetBizTypeData]) => {
+            this.setState({listProductData, budgetBizTypeData, fetching: false});
+        }).catch(() => this.setState({fetching: false}));
+    }
+
+    // 贷款产品change
+    prodcutChange = (code) => {
+        this.state.listProductData.map((d) => {
+            if (d.code === code) {
+                let loanBankName = d.loanBankName;
+                this.loanBankName = loanBankName;
+                return false;
+            }
+        });
     }
 
     // 获取上传按钮
@@ -237,6 +267,7 @@ class AdmittanceAddEdit extends React.Component {
             });
         }
     }
+
     onSelectChange = (selectedRowKeys, selectedRows) => {
         this.setState({selectedRowKeys, selectedRows});
     }
@@ -259,28 +290,47 @@ class AdmittanceAddEdit extends React.Component {
         return (
             <div>
                 <Form className="budget-addedit-form" onSubmit={this.handleSubmit}>
-                    <Item key='type' label="贷款产品">
+                    <Item key='loanProductCode' label="贷款产品">
                         {
-                            this.view ? <div className="readonly-text">{this.state.formData.loanProductCode}</div> : getFieldDecorator('loanProductCode', {
-                            rules,
-                            initialValue: this.code ? this.state.formData.loanProductCode : ''
-                        })(<Select>
-                            <Option key='1' value='1'>新车</Option>
-                            <Option key='2' value='2'>二手车</Option>
-                        </Select>)}
+                            this.view ? <div
+                                className="readonly-text">{this.state.formData.loanProductCode}</div> : getFieldDecorator('loanProductCode', {
+                                rules,
+                                initialValue: this.code ? this.state.formData.loanProductCode : ''
+                            })(<Select onChange={(v) => this.prodcutChange(v)}>
+                                {this.state.listProductData.map((item) => {
+                                    return <Option key={item.code} value={item.code}>{item.name}</Option>;
+                                })}
+                            </Select>)}
+                    </Item>
+                    <Item key='loanBank' label="贷款银行">
+                        <div className="readonly-text">{this.loanBankName}</div>
+                    </Item>
+                    <Item key='isAdvanceFund' label="是否垫资">
+                        {
+                            this.view ? <div
+                                className="readonly-text">{this.state.formData.isAdvanceFund}</div> : getFieldDecorator('isAdvanceFund', {
+                                rules,
+                                initialValue: this.code ? this.state.formData.isAdvanceFund : ''
+                            })(<Select>
+                                <Option key='0' value='0'>否</Option>
+                                <Option key='1' value='1'>是</Option>
+                            </Select>)}
                     </Item>
                     <Collapse defaultActiveKey={['1']}>
                         <Panel header="拟购车辆信息" key="1">
                             <Row gutter={24}>
                                 <Col {...col2Props}>
-                                    <Item key='type' label="业务种类">
-                                        {getFieldDecorator('type', {
-                                            rules,
-                                            initialValue: '1'
-                                        })(<Select>
-                                            <Option key='1' value='1'>新车</Option>
-                                            <Option key='2' value='2'>二手车</Option>
-                                        </Select>)}
+                                    <Item key='loanProductCode' label="业务种类">
+                                        {
+                                            this.view ? <div
+                                                className="readonly-text">{this.state.formData.bizType}</div> : getFieldDecorator('bizType', {
+                                                rules,
+                                                initialValue: this.code ? this.state.formData.bizType : ''
+                                            })(<Select>
+                                                {this.state.budgetBizTypeData.map((item) => {
+                                                    return <Option key={item.dkey} value={item.dkey}>{item.dvalue}</Option>;
+                                                })}
+                                            </Select>)}
                                     </Item>
                                 </Col>
                                 <Col {...col2Props}>
@@ -298,46 +348,52 @@ class AdmittanceAddEdit extends React.Component {
                             </Row>
                             <Row gutter={24}>
                                 <Col {...col2Props}>
-                                    <Item key='carXh' label="开票单位">
-                                        {getFieldDecorator('kpdw', {
-                                            rules
+                                    <Item key='invoiceCompany' label="开票单位">
+                                        {this.view ? <div className="readonly-text">{this.state.formData.invoiceCompany}</div> : getFieldDecorator('invoiceCompany', {
+                                            rules,
+                                            initialValue: this.code ? this.state.formData.invoiceCompany : ''
                                         })(<Input/>)}
                                     </Item>
                                 </Col>
                                 <Col {...col2Props}>
-                                    <Item key='carXh' label="品牌(具体)">
-                                        {getFieldDecorator('pajt', {
-                                            rules
+                                    <Item key='carBrand' label="品牌(具体)">
+                                        {this.view ? <div className="readonly-text">{this.state.formData.carBrand}</div> : getFieldDecorator('carBrand', {
+                                            rules,
+                                            initialValue: this.code ? this.state.formData.carBrand : ''
                                         })(<Input/>)}
                                     </Item>
                                 </Col>
                             </Row>
                             <Row gutter={24}>
                                 <Col {...col4Props}>
-                                    <Item key='carXh' label="市场指导价">
-                                        {getFieldDecorator('sczdj', {
-                                            rules
+                                    <Item key='originalPrice' label="市场指导价">
+                                        {this.view ? <div className="readonly-text">{this.state.formData.originalPrice}</div> : getFieldDecorator('originalPrice', {
+                                            rulesAmount,
+                                            initialValue: this.code ? this.state.formData.originalPrice : ''
                                         })(<Input/>)}
                                     </Item>
                                 </Col>
                                 <Col {...col4Props}>
-                                    <Item key='carXh' label="开票价">
-                                        {getFieldDecorator('kpj', {
-                                            rules
+                                    <Item key='invoicePrice' label="开票价">
+                                        {this.view ? <div className="readonly-text">{this.state.formData.invoicePrice}</div> : getFieldDecorator('invoicePrice', {
+                                            rulesAmount,
+                                            initialValue: this.code ? this.state.formData.invoicePrice : ''
                                         })(<Input/>)}
                                     </Item>
                                 </Col>
                                 <Col {...col4Props}>
-                                    <Item key='carXh' label="颜色">
-                                        {getFieldDecorator('ys', {
-                                            rules
+                                    <Item key='carColor' label="颜色">
+                                        {this.view ? <div className="readonly-text">{this.state.formData.carColor}</div> : getFieldDecorator('carColor', {
+                                            rules,
+                                            initialValue: this.code ? this.state.formData.carColor : ''
                                         })(<Input/>)}
                                     </Item>
                                 </Col>
                                 <Col {...col4Props}>
-                                    <Item key='carXh' label="月供(元)">
-                                        {getFieldDecorator('yg', {
-                                            rules
+                                    <Item key='invoicePrice' label="月供(元)">
+                                        {this.view ? <div className="readonly-text">{this.state.formData.invoicePrice}</div> : getFieldDecorator('invoicePrice', {
+                                            rulesAmount,
+                                            initialValue: this.code ? this.state.formData.invoicePrice : ''
                                         })(<Input/>)}
                                     </Item>
                                 </Col>
@@ -345,28 +401,37 @@ class AdmittanceAddEdit extends React.Component {
 
                             <Row gutter={24}>
                                 <Col {...col4Props}>
-                                    <Item key='carXh' label="首付金额">
-                                        {getFieldDecorator('sfje', {
-                                            rules
+                                    <Item key='firstAmount' label="首付金额">
+                                        {this.view ? <div className="readonly-text">{this.state.formData.firstAmount}</div> : getFieldDecorator('firstAmount', {
+                                            rulesAmount,
+                                            initialValue: this.code ? this.state.formData.firstAmount : ''
                                         })(<Input/>)}
                                     </Item>
                                 </Col>
                                 <Col {...col4Props}>
-                                    <Item key='carXh' label="首付比例(%)">
-                                        {getFieldDecorator('sfbl', {
-                                            rules
+                                    <Item key='firstRate' label="首付比例(%)">
+                                        {this.view ? <div className="readonly-text">{this.state.formData.firstRate}</div> : getFieldDecorator('firstRate', {
+                                            rules,
+                                            initialValue: this.code ? this.state.formData.firstRate : ''
                                         })(<Input/>)}
                                     </Item>
                                 </Col>
                                 <Col {...col4Props}>
-                                    <Item key='carXh' label="贷款额">
-                                        {getFieldDecorator('loanAmount', {
-                                            rules
+                                    <Item key='loanAmount' label="贷款额">
+                                        {this.view ? <div className="readonly-text">{this.state.formData.loanAmount}</div> : getFieldDecorator('loanAmount', {
+                                            rulesAmount,
+                                            initialValue: this.code ? this.state.formData.loanAmount : ''
                                         })(<Input/>)}
                                     </Item>
                                 </Col>
                                 <Col {...col4Props}>
-                                    <Item key='carXh' label="落户地点">
+                                    <Item key='firstRate' label="落户地点">
+                                        {this.view ? <div className="readonly-text">{this.state.formData.firstRate}</div> : getFieldDecorator('firstRate', {
+                                            rules,
+                                            initialValue: this.code ? this.state.formData.firstRate : ''
+                                        })(<Input/>)}
+                                    </Item>
+                                    <Item key='carXh' label="">
                                         {getFieldDecorator('yg', {
                                             rules
                                         })(<Input/>)}
@@ -550,8 +615,8 @@ class AdmittanceAddEdit extends React.Component {
                                     </Item>
                                 </Col>
                                 <Col {...col3Props}>
-                                    <Item key='carXh' label="企业月产值">
-                                        {getFieldDecorator('jtzycc', {
+                                    <Item key='enterpriseMonthOutput' label="企业月产值">
+                                        {getFieldDecorator('enterpriseMonthOutput', {
                                             rules
                                         })(<Input/>)}
                                     </Item>

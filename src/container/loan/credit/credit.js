@@ -59,7 +59,7 @@ class Credit extends React.Component {
             title: '贷款银行',
             field: 'loanBankCode',
             type: 'select',
-            listCode: 802116,
+            listCode: 632037,
             keyName: 'bankCode',
             valueName: 'bankName'
         }, {

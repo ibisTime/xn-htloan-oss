@@ -59,3 +59,8 @@ export function receiveGoods(code) {
 export function cancelBill(code) {
   return fetch(808053, { code, updater: getUserName() });
 }
+
+// 列表获取贷款产品
+export function getListProduct() {
+    return fetch(632177, { status: '3' });
+}
