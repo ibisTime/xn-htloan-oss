@@ -88,11 +88,13 @@ export default class ListComponent extends React.Component {
         obj.render = (v, d) => <span style={{whiteSpace: 'nowrap'}}>{moneyFormat(v, d)}</span>;
         this.addRender(f, moneyFormat);
       }
-      if (f.render) {
-        obj.render = f.render;
-      } else if (!obj.render) {
-        obj.render = (v) => f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{v}</span> : v;
-        this.addRender(f, v => v);
+      if (!obj.render) {
+        if (f.render) {
+          obj.render = f.render;
+        } else {
+          obj.render = (v) => f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{v}</span> : v;
+          this.addRender(f, v => v);
+        }
       }
       columns.push(obj);
     });
