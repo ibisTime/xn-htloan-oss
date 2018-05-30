@@ -39,7 +39,16 @@ class FaceSignAddedit extends React.Component {
             title: '客户姓名',
             field: 'username',
             required: true,
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+                let username = '';
+                d.creditUserList && d.creditUserList.map((item) => {
+                    if (item.loanRole === '1' && item.relation === '1') {
+                        username = item.userName;
+                    }
+                });
+                return username;
+            }
         }, {
             title: '业务编号',
             field: 'code',
@@ -63,16 +72,15 @@ class FaceSignAddedit extends React.Component {
             readonly: true
         }, {
             title: '面签视频',
-            field: 'xszFront',
-            type: 'img',
-            readonly: !this.isCheck,
+            field: 'interviewVideo',
+            type: 'file',
+            readonly: (this.isCheck || this.view) ? 'true' : false,
             single: true
         }, {
             title: '面签合同',
-            field: 'xszFront1',
+            field: 'interviewContract',
             type: 'img',
-            readonly: !this.isCheck,
-            single: true
+            readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
             title: '审核说明',
             field: 'approveNote',
@@ -86,10 +94,13 @@ class FaceSignAddedit extends React.Component {
                 title: '通过',
                 check: true,
                 handler: (params) => {
-                    params.approveResult = '1';
-                    params.operator = getUserId();
+                    let data = {};
+                    data.code = this.code;
+                    data.approveResult = '1';
+                    data.approveNote = params.approveNote;
+                    data.operator = getUserId();
                     this.props.doFetching();
-                    fetch(632114, params).then(() => {
+                    fetch(632124, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -101,10 +112,13 @@ class FaceSignAddedit extends React.Component {
                 title: '不通过',
                 check: true,
                 handler: (params) => {
-                    params.approveResult = '1';
-                    params.operator = getUserId();
+                    let data = {};
+                    data.code = this.code;
+                    data.approveResult = '0';
+                    data.approveNote = params.approveNote;
+                    data.operator = getUserId();
                     this.props.doFetching();
-                    fetch(632114, params).then(() => {
+                    fetch(632124, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -125,9 +139,22 @@ class FaceSignAddedit extends React.Component {
             code: this.code,
             view: this.view,
             detailCode: 632117,
-            addCode: 632110,
-            editCode: 632110,
-            buttons: buttons
+            addCode: 632123,
+            editCode: 632123,
+            buttons: buttons,
+            beforeSubmit: (params) => {
+                if (!params.interviewVideo) {
+                    showWarnMsg('请上传面签视频');
+                    return false;
+                }
+                if (!params.interviewContract) {
+                    showWarnMsg('请上传面签合同');
+                    return false;
+                }
+                delete params.loanAmount;
+                params.operator = getUserId();
+                return params;
+            }
         });
     }
 }

@@ -73,9 +73,6 @@ class Credit extends React.Component {
             title: '申请日期',
             field: 'applyDatetime',
             type: 'datetime'
-        }, {
-            title: '状态',
-            field: 'status'
         }];
         return this.props.buildList({
             fields,

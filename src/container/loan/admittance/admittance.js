@@ -111,7 +111,7 @@ class Admittance extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632115,
+            pageCode: 632135,
             searchParams: {
                 roleCode: getRoleCode()
             },
