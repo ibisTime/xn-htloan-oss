@@ -41,7 +41,6 @@ import {
 class Admittance extends React.Component {
     render() {
         const fields = [{
-
             title: '业务公司',
             field: 'gs'
         }, {
@@ -117,22 +116,22 @@ class Admittance extends React.Component {
                 roleCode: getRoleCode()
             },
             btnEvent: {
-                check: (selectedRowKeys, selectedRows) => {
+                checkCommissioner: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(`/loan/creditStart/addedit?v=1&isCheckFirst=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/admittance/check?v=1&isCheckCommissioner=1&code=${selectedRowKeys[0]}`);
                     }
                 },
-                detail: (selectedRowKeys, selectedRows) => {
+                checkDirector: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(`/loan/creditStart/addedit?v=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/admittance/check?v=1&isCheckDirector=1&code=${selectedRowKeys[0]}`);
                     }
                 }
             }
