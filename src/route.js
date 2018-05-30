@@ -401,6 +401,36 @@ const ROUTES = [
     path: '/biz/blackList/dispose',
     component: asyncComponent(() => import('container/biz/carLoanRepay/blackList-dispose'))
   },
+  //  红名单 
+  {
+    path: '/biz/redList',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/redList'))
+  },
+  //  红名单 详情
+  {
+    path: '/biz/redList/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/redList-addedit'))
+  },
+  //  红名单 拖车申请
+  {
+    path: '/biz/redList/apply',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/redList-apply'))
+  },
+  //  红名单 总经理审批
+  {
+    path: '/biz/redList/check',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/redList-check'))
+  },
+  //  红名单 财务打款
+  {
+    path: '/biz/redList/pay',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/redList-pay'))
+  },
+  //  红名单 录入拖车结果
+  {
+    path: '/biz/redList/enter',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/redList-enter'))
+  },
   //  历史业务管理
   {
     path: '/biz/historyBusinessManage',
@@ -534,43 +564,7 @@ const ROUTES = [
   {
     path: '/statistic/protect/addedit',
     component: asyncComponent(() => import('container/analysis/statistic/protect-addedit'))
-  },
-    // 贷前管理
-    // 发起征信查询
-    {
-        path: '/loan/credit',
-        component: asyncComponent(() => import('container/loan/credit/credit'))
-    },
-    // 发起征信查询  发起征信查询
-    {
-        path: '/loan/credit/addedit',
-        component: asyncComponent(() => import('container/loan/credit-addedit/credit-addedit'))
-    },
-    // 准入审查
-    {
-        path: '/loan/admittance',
-        component: asyncComponent(() => import('container/loan/admittance/admittance'))
-    },
-    // 面签审核
-    {
-        path: '/loan/faceSign',
-        component: asyncComponent(() => import('container/loan/faceSign/faceSign'))
-    },
-    // 面签审核 录入
-    {
-        path: '/loan/faceSign/addedit',
-        component: asyncComponent(() => import('container/loan/faceSign-addedit/faceSign-addedit'))
-    },
-    // 财务垫资
-    {
-        path: '/loan/advMoney',
-        component: asyncComponent(() => import('container/loan/advMoney/advMoney'))
-    },
-    // 财务垫资 垫资
-    {
-        path: '/loan/advMoney/addedit',
-        component: asyncComponent(() => import('container/loan/advMoney-addedit/advMoney-addedit'))
-    }
+  }
 ];
 
 export default ROUTES;
