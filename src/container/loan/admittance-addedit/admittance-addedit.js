@@ -425,15 +425,10 @@ class AdmittanceAddEdit extends React.Component {
                                     </Item>
                                 </Col>
                                 <Col {...col4Props}>
-                                    <Item key='firstRate' label="落户地点">
-                                        {this.view ? <div className="readonly-text">{this.state.formData.firstRate}</div> : getFieldDecorator('firstRate', {
+                                    <Item key='settleAddress' label="落户地点">
+                                        {this.view ? <div className="readonly-text">{this.state.formData.settleAddress}</div> : getFieldDecorator('settleAddress', {
                                             rules,
-                                            initialValue: this.code ? this.state.formData.firstRate : ''
-                                        })(<Input/>)}
-                                    </Item>
-                                    <Item key='carXh' label="">
-                                        {getFieldDecorator('yg', {
-                                            rules
+                                            initialValue: this.code ? this.state.formData.settleAddress : ''
                                         })(<Input/>)}
                                     </Item>
                                 </Col>
@@ -442,23 +437,26 @@ class AdmittanceAddEdit extends React.Component {
                         <Panel header="申请人信息" key="2">
                             <Row gutter={24}>
                                 <Col {...col24Props}>
-                                    <Item key='carXh' label="申请人姓名">
-                                        {getFieldDecorator('sqrname', {
-                                            rules
+                                    <Item key='applyUserName' label="申请人姓名">
+                                        {this.view ? <div className="readonly-text">{this.state.formData.applyUserName}</div> : getFieldDecorator('applyUserName', {
+                                            rules,
+                                            initialValue: this.code ? this.state.formData.applyUserName : ''
                                         })(<Input/>)}
                                     </Item>
                                 </Col>
                             </Row>
                             <Row gutter={24}>
                                 <Col {...col2Props}>
-                                    <Item key='type' label="性别">
-                                        {getFieldDecorator('sex', {
-                                            rules,
-                                            initialValue: '1'
-                                        })(<Select>
-                                            <Option key='1' value='1'>男</Option>
-                                            <Option key='2' value='2'>女</Option>
-                                        </Select>)}
+                                    <Item key='gender' label="性别">
+                                        {
+                                            this.view ? <div
+                                                className="readonly-text">{this.state.formData.gender}</div> : getFieldDecorator('gender', {
+                                                rules,
+                                                initialValue: this.code ? this.state.formData.gender : ''
+                                            })(<Select>
+                                                <Option key='1' value='1'>男</Option>
+                                                <Option key='0' value='0'>女</Option>
+                                            </Select>)}
                                     </Item>
                                 </Col>
                                 <Col {...col2Props}>
