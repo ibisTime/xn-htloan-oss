@@ -23,6 +23,13 @@ export function getMenuBtnList() {
 }
 
 /**
+ * 列表获取节点
+ */
+export function getNodeList() {
+  return fetch(630147);
+}
+
+/**
  * 根据角色列表获取菜单
  */
 export function getRoleMenuList() {
@@ -39,4 +46,12 @@ export function getRoleMenuList() {
 export function getRoleMenuBtnList(roleCode) {
   roleCode = roleCode || getRoleCode();
   return fetch(630025, { roleCode });
+}
+
+/**
+ * 根据角色列表获取节点和按钮
+ */
+export function getRoleCodeBtnList(roleCode) {
+  roleCode = roleCode || getRoleCode();
+  return fetch(630167, { roleCode });
 }
