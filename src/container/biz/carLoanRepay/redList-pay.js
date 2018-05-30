@@ -76,7 +76,7 @@ class redListaPay extends React.Component {
         }, {
             title: '打款金额',
             field: 'loanBank',
-            amount: true
+            amount: true,
             required: true
         }, {
             title: '水单',
