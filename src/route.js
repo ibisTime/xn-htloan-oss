@@ -133,7 +133,7 @@ const ROUTES = [
   //  会员查询
   {
     path: '/biz/memberInquiries',
-    component: asyncComponent(() => import('container/biz/administration/MemberInquiries'))
+    component: asyncComponent(() => import('container/biz/administration/memberInquiries'))
   },
   //  会员详情
   {
