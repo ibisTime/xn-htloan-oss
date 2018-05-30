@@ -551,6 +551,11 @@ const ROUTES = [
         path: '/loan/admittance',
         component: asyncComponent(() => import('container/loan/admittance/admittance'))
     },
+    // 准入审查 发起
+    {
+        path: '/loan/admittance/addedit',
+        component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-addedit'))
+    },
     // 面签审核
     {
         path: '/loan/faceSign',

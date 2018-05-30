@@ -6,7 +6,7 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/loan/credit-addedit';
+} from '@redux/loan/admittance-addedit';
 import {
     getQueryString,
     showWarnMsg,
@@ -20,10 +20,10 @@ import LoanCreditReport from 'component/loanCredit-report/loanCredit-report';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
-    state => state.loanCreditAddedit,
+    state => state.loanAdmittanceAddedit,
     {initStates, doFetching, cancelFetching, setSelectData, setPageData, restore}
 )
-class CreditAddedit extends React.Component {
+class AdmittanceAddedit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -37,7 +37,7 @@ class CreditAddedit extends React.Component {
         // 录入银行征信结果
         this.isEntry = !!getQueryString('isEntry', this.props.location.search);
         // 业务员初审
-        this.isCheck = !!getQueryString('isCheck', this.props.location.search);
+        this.isCheckSalesman = !!getQueryString('isCheckSalesman', this.props.location.search);
         // 准入审查
         this.isCheckFirst = !!getQueryString('isCheckFirst', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
@@ -158,12 +158,6 @@ class CreditAddedit extends React.Component {
             amount: true,
             required: true
         }, {
-            title: '二手车评估报告',
-            field: 'xsz',
-            type: 'file',
-            required: true,
-            hidden: this.newCar
-        }, {
             title: '行驶证正面',
             field: 'xszFront',
             type: 'img',
@@ -245,6 +239,31 @@ class CreditAddedit extends React.Component {
                     type: 'img',
                     single: true,
                     required: true
+                    // }, {
+                    //     title: '征信报告',
+                    //     field: 'report',
+                    //     hidden: true,
+                    //     render: (text, record) => {
+                    //         return (
+                    //             <span><a href="javascript:;" onClick={() => {
+                    //                 console.log(text, 'r', record);
+                    //             }}>查看</a></span>
+                    //         );
+                    //     }
+                    // },
+                    // {
+                    //     title: '历史贷款',
+                    //     field: 'history',
+                    //     hidden: true,
+                    //     render: (text, record) => {
+                    //         return (
+                    //             <span><a href="javascript:;" onClick={() => {
+                    //                 console.log(text, 'r', record);
+                    //             }}>查看</a></span>
+                    //         );
+                    //     },
+                    //     fixed: 'right'
+                    // }
                 }]
             }
         }, {
@@ -252,7 +271,7 @@ class CreditAddedit extends React.Component {
             field: 'accessory',
             type: 'img',
             single: true,
-            readonly: !this.isCheck,
+            readonly: !this.isCheckSalesman,
             hidden: ((!(this.isCheckySalesman || !this.isEntry || this.isCheckFirst)) || (!this.code))
         }, {
             title: '审核说明',
@@ -262,7 +281,7 @@ class CreditAddedit extends React.Component {
         }];
 
         // 业务员初审
-        if (this.isCheck) {
+        if (this.isCheckSalesman) {
             fields[5].options.fields = fields[5].options.fields.concat(creditReportFields);
 
             buttons = [{
@@ -416,4 +435,4 @@ class CreditAddedit extends React.Component {
     }
 }
 
-export default CreditAddedit;
+export default AdmittanceAddedit;
