@@ -14,6 +14,10 @@ import { securityPwdReset } from './redux/security/pwdReset';
 import { securityUserAddEdit } from './redux/security/user-addedit';
 import { securityDataDict } from './redux/security/dataDict';
 import { securityDataDictAddEdit } from './redux/security/dataDict-addedit';
+import { securityCompConstruct } from './redux/security/compConstruct';
+import { securityPost } from './redux/security/post';
+import { securityNode } from './redux/security/node';
+import { securityNodeAddEdit } from './redux/security/node-addedit';
 import { publicBanner } from './redux/public/banner';
 import { publicBannerAddEdit } from './redux/public/banner-addedit';
 import { publicAboutusAddEdit } from './redux/public/aboutus-addedit';
@@ -209,6 +213,10 @@ export default combineReducers({
   securityUserAddEdit,
   securityDataDict,
   securityDataDictAddEdit,
+  securityCompConstruct,
+  securityPost,
+  securityNode,
+  securityNodeAddEdit,
   publicHotLineAddEdit,
   publicBanner,
   publicBannerAddEdit,

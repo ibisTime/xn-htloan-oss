@@ -107,7 +107,10 @@ export default class DetailComponent extends React.Component {
       ...this.options,
       ...options
     };
-    if (this.first) {
+    if (this.options.useData) {
+      this.props.setPageData(this.options.useData);
+      this.props.initStates({ code: this.options.code, view: this.options.view });
+    } else if (this.first) {
       this.options.code && this.options.detailCode && this.getDetailInfo();
       this.props.initStates({ code: this.options.code, view: this.options.view });
     }
@@ -190,11 +193,11 @@ export default class DetailComponent extends React.Component {
       }
       let code = this.props.code ? this.options.editCode : this.options.addCode;
       this.props.doFetching();
-      fetch(code, params).then(() => {
+      fetch(code, params).then((data) => {
         showSucMsg('操作成功');
         this.props.cancelFetching();
         if (this.options.onOk) {
-          this.options.onOk();
+          this.options.onOk(data);
         } else {
           setTimeout(() => {
             this.props.history.go(-1);

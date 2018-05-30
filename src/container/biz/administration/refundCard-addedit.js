@@ -24,9 +24,10 @@ class refundCardAddedit extends React.Component {
     const fields = [{
       title: '客户姓名',
       field: 'userId',
-      listCode: 805120,
+      pageCode: 805120,
       keyName: 'userId',
       valueName: 'realName',
+      searchName: 'mobile',
       type: 'select',
       requied: true
     }, {

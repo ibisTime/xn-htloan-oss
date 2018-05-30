@@ -14,6 +14,10 @@ const ROUTES = [
     component: asyncComponent(() => import('container/security/role-menu/role-menu'))
   },
   {
+    path: '/system/role/nodemenu',
+    component: asyncComponent(() => import('container/security/node-menu/node-menu'))
+  },
+  {
     path: '/system/menu',
     component: asyncComponent(() => import('container/security/menu/menu'))
   },
@@ -32,6 +36,10 @@ const ROUTES = [
   {
     path: '/system/user/pwd_reset',
     component: asyncComponent(() => import('container/security/user/pwdReset'))
+  },
+  {
+    path: '/system/user/post',
+    component: asyncComponent(() => import('container/security/user/post'))
   },
 
   //  系统参数
@@ -55,6 +63,22 @@ const ROUTES = [
   {
     path: '/system/user/addedit',
     component: asyncComponent(() => import('container/security/user-addedit/user-addedit'))
+  },
+  {
+    path: '/system/node',
+    component: asyncComponent(() => import('container/security/node/node'))
+  },
+  {
+    path: '/system/node/addedit',
+    component: asyncComponent(() => import('container/security/node-addedit/node-addedit'))
+  },
+  {
+    path: '/system/compConstruct',
+    component: asyncComponent(() => import('container/security/compConstruct/compConstruct'))
+  },
+  {
+    path: '/system/post',
+    component: asyncComponent(() => import('container/security/post/post'))
   },
   {
     path: '/public/aboutus_addedit',

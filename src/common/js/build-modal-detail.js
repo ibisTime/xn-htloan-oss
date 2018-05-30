@@ -30,11 +30,18 @@ class ModalDetail extends DetailComp {
       fetching,
       options = {}
     } = this.props;
+    if (options.onOk) {
+      let onOk = options.onOk;
+      options.onOk = (data) => {
+        onOk(data, this.props.form.getFieldsValue());
+        this.handleCancel();
+      };
+    }
     options = {
+      onOk: this.handleCancel,
       ...options,
       okText,
-      cancelText,
-      onOk: this.handleCancel
+      cancelText
     };
     if (options.buttons) {
       options.buttons = options.buttons.map(v => ({
