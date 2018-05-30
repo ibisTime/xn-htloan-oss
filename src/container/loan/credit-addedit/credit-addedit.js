@@ -16,7 +16,6 @@ import {
 import {DetailWrapper} from 'common/js/build-detail';
 import {COMPANY_CODE} from 'common/js/config';
 import LoanCreditEnteringEdit from 'component/loanCreditEntering-edit/loanCreditEntering-edit';
-import LoanCreditReport from 'component/loanCredit-report/loanCredit-report';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
@@ -28,13 +27,12 @@ class CreditAddedit extends React.Component {
         super(props);
         this.state = {
             entryVisible: false,
-            reportVisible: false,
-            bankCreditResult: [],
+            creditResult: [],
             selectData: {},
             selectKey: ''
         };
         this.code = getQueryString('code', this.props.location.search);
-        // 录入银行征信结果
+        // 录入征信结果
         this.isEntry = !!getQueryString('isEntry', this.props.location.search);
         // 业务员初审
         this.isCheck = !!getQueryString('isCheck', this.props.location.search);
@@ -42,43 +40,45 @@ class CreditAddedit extends React.Component {
         this.isCheckFirst = !!getQueryString('isCheckFirst', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
         this.newCar = true;
+        this.creditUserListIndex = 7;
     }
 
     // 录入银行征信结果
     setEnteringVisible = (entryVisible, selectKey) => {
-        this.setState({entryVisible, selectKey});
-        for (let i = 0; i < this.state.bankCreditResult.length; i++) {
-            if (this.state.bankCreditResult[i].code === selectKey) {
-                this.state.selectData = this.state.bankCreditResult[i];
+        if (entryVisible) {
+            let creditResult = this.state.creditResult;
+            for (let i = 0; i < this.state.creditResult.length; i++) {
+                if (creditResult[i].creditUserCode === selectKey) {
+                    let selectData = creditResult[i];
+                    this.setState({
+                        selectData
+                    });
+                    break;
+                }
             }
+        } else {
+            this.setState({
+                selectData: {}
+            });
         }
+        this.setState({entryVisible, selectKey});
     };
 
     creditEntryFun = (data) => {
-        let falg = true;
-        for (let i = 0; i < this.state.bankCreditResult.length; i++) {
-            if (this.state.bankCreditResult[i].code === data.code) {
-                this.state.bankCreditResult[i] = data;
-                falg = false;
+        let creditResult = this.state.creditResult;
+        for (let i = 0; i < this.state.creditResult.length; i++) {
+            if (creditResult[i].creditUserCode === data.creditUserCode) {
+                creditResult[i] = data;
+                this.setState({
+                    creditResult
+                });
+                return;
             }
         }
-        if (falg) {
-            this.state.bankCreditResult.push(data);
-        }
-    };
-
-    // 征信报告
-    setReportVisible = (reportVisible, selectKey) => {
-        if (reportVisible) {
-            this.props.doFetching();
-            fetch(632118, {code: selectKey}).then((data) => {
-                this.props.cancelFetching();
-                this.state.selectData = data;
-                this.setState({reportVisible, selectKey});
-            }).catch(this.props.cancelFetching);
-        } else {
-            this.setState({reportVisible, selectKey});
-        }
+        creditResult.push(data);
+        this.setState({
+            creditResult
+        });
     };
 
     render() {
@@ -86,8 +86,8 @@ class CreditAddedit extends React.Component {
         let buttons = [];
 
         let entryResultFields = [{
-            title: '银行查询结果',
-            field: 'bankResult',
+            title: '银行征信结果',
+            field: 'creditResult',
             hidden: true,
             render: (text, record) => {
                 return (
@@ -98,45 +98,24 @@ class CreditAddedit extends React.Component {
             fixed: 'right'
         }];
 
-        let creditReportFields = [{
+        let creditReportField = [{
             title: '征信报告',
-            field: 'report',
-            hidden: true,
-            render: (text, record) => {
-                return (
-                    <span><a href="javascript:;"
-                             onClick={() => this.setReportVisible(true, record.code)}>查看</a></span>
-                );
-            },
-            fixed: 'right'
-        }];
-
-        let checkCourtResultFields = [{
-            title: '法院网查询结果',
-            field: 'courtResult',
-            hidden: true,
-            render: (text, record) => {
-                return (
-                    <span><a href="javascript:;" onClick={() => {
-                        console.log(text, 'r', record);
-                    }}>录入</a></span>
-                );
-            },
-            fixed: 'right'
+            field: 'bankCreditResultPdf',
+            type: 'img'
         }];
 
         let fields = [{
             title: '银行',
             field: 'loanBankCode',
             type: 'select',
-            listCode: 802116,
+            listCode: 632037,
             keyName: 'bankCode',
             valueName: 'bankName',
             searchName: 'bankName',
             required: true
         }, {
-            title: '购车途径',
-            field: 'shopWay',
+            title: '业务种类',
+            field: 'bizType',
             type: 'select',
             data: [{
                 dkey: '1',
@@ -153,13 +132,18 @@ class CreditAddedit extends React.Component {
                 _this.newCar = value === '1';
             }
         }, {
+            title: '保存/发送',
+            field: 'buttonCode',
+            value: '1',
+            hidden: true
+        }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true,
             required: true
         }, {
             title: '二手车评估报告',
-            field: 'xsz',
+            field: 'secondCarReport',
             type: 'file',
             required: true,
             hidden: this.newCar
@@ -248,103 +232,27 @@ class CreditAddedit extends React.Component {
                 }]
             }
         }, {
-            title: '附件',
-            field: 'accessory',
-            type: 'img',
-            single: true,
-            readonly: !this.isCheck,
-            hidden: ((!(this.isCheckySalesman || !this.isEntry || this.isCheckFirst)) || (!this.code))
-        }, {
             title: '审核说明',
             field: 'approveNote',
-            readonly: !this.isCheckFirst,
-            hidden: !this.isCheckFirst
+            readonly: !this.isCheck,
+            hidden: !this.isCheck
         }];
 
         // 业务员初审
         if (this.isCheck) {
-            fields[5].options.fields = fields[5].options.fields.concat(creditReportFields);
-
-            buttons = [{
-                title: '通过并发送一审',
-                check: true,
-                handler: (params) => {
-                    params.approveResult = '1';
-                    params.operator = getUserId();
-                    this.props.doFetching();
-                    fetch(632113, params).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.props.cancelFetching);
-                }
-            }, {
-                title: '退回重新征信',
-                check: true,
-                handler: (params) => {
-                    params.approveResult = '1';
-                    params.operator = getUserId();
-                    this.props.doFetching();
-                    fetch(632113, params).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.props.cancelFetching);
-                }
-            }, {
-                title: '返回',
-                handler: (param) => {
-                    this.props.history.go(-1);
-                }
-            }];
-        }
-        console.log(!(this.isCheckySalesman || !this.isEntry || this.isCheckFirst));
-
-        // 银行录入结果
-        if (this.isEntry) {
-            fields[5].options.fields = fields[5].options.fields.concat(entryResultFields);
-
-            buttons = [{
-                title: '录入',
-                check: true,
-                handler: (params) => {
-                    params.creditCode = this.code;
-                    params.bankCreditResultList = this.state.bankCreditResult;
-                    params.operator = getUserId();
-                    this.props.doFetching();
-                    fetch(632111, params).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.props.cancelFetching);
-                }
-            }, {
-                title: '返回',
-                handler: (param) => {
-                    this.props.history.go(-1);
-                }
-            }];
-        }
-
-        // 准入审查
-        if (this.isCheckFirst) {
-            fields[5].options.fields = fields[5].options.fields.concat(creditReportFields);
-            fields[5].options.fields = fields[5].options.fields.concat(checkCourtResultFields);
+            fields[this.creditUserListIndex].options.fields = fields[this.creditUserListIndex].options.fields.concat(creditReportField);
 
             buttons = [{
                 title: '通过',
                 check: true,
                 handler: (params) => {
-                    params.approveResult = '1';
-                    params.operator = getUserId();
+                    let data = {};
+                    data.code = this.code;
+                    data.approveNote = params.approveNote;
+                    data.approveResult = '1';
+                    data.operator = getUserId();
                     this.props.doFetching();
-                    fetch(632114, params).then(() => {
+                    fetch(632113, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -356,10 +264,13 @@ class CreditAddedit extends React.Component {
                 title: '不通过',
                 check: true,
                 handler: (params) => {
-                    params.approveResult = '1';
-                    params.operator = getUserId();
+                    let data = {};
+                    data.code = this.code;
+                    data.approveNote = params.approveNote;
+                    data.approveResult = '1';
+                    data.operator = getUserId();
                     this.props.doFetching();
-                    fetch(632114, params).then(() => {
+                    fetch(632113, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -375,6 +286,34 @@ class CreditAddedit extends React.Component {
             }];
         }
 
+        // 录入征信结果
+        if (this.isEntry) {
+            fields[this.creditUserListIndex].options.fields = fields[this.creditUserListIndex].options.fields.concat(entryResultFields);
+
+            buttons = [{
+                title: '录入',
+                check: true,
+                handler: (params) => {
+                    let data = {};
+                    data.creditCode = this.code;
+                    data.creditResult = this.state.creditResult;
+                    data.operator = getUserId();
+                    this.props.doFetching();
+                    fetch(632111, data).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                }
+            }, {
+                title: '返回',
+                handler: (param) => {
+                    this.props.history.go(-1);
+                }
+            }];
+        }
         return (
             <div>
                 {
@@ -404,13 +343,6 @@ class CreditAddedit extends React.Component {
                                                             selectData={this.state.selectData}
                                                             setModalVisible={this.setEnteringVisible}/>) : ''
                 }
-                {
-                    (this.view) ? (<LoanCreditReport code={this.state.selectKey}
-                                                     reportVisible={this.state.reportVisible}
-                                                     selectData={this.state.selectData}
-                                                     setReportModalVisible={this.setReportVisible}/>) : ''
-                }
-
             </div>
         );
     }

@@ -116,13 +116,13 @@ class FaceSign extends React.Component {
                 roleCode: getRoleCode()
             },
             btnEvent: {
-                checkSalesman: (selectedRowKeys, selectedRows) => {
+                check: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(`/loan/creditStart/addedit?v=1&isCheckSalesman=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/creditStart/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
                     }
                 }
             }

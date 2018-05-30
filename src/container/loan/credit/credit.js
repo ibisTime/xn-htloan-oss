@@ -59,7 +59,7 @@ class Credit extends React.Component {
             title: '贷款银行',
             field: 'loanBankCode',
             type: 'select',
-            listCode: 802116,
+            listCode: 632037,
             keyName: 'bankCode',
             valueName: 'bankName'
         }, {
@@ -90,7 +90,7 @@ class Credit extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(`/loan/creditStart/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/credit/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
                     }
                 },
                 entering: (selectedRowKeys, selectedRows) => {
@@ -99,7 +99,8 @@ class Credit extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(`/loan/creditStart/addedit?v=1&isEntry=1&code=${selectedRowKeys[0]}`);
+                        console.log(1);
+                        this.props.history.push(`/loan/credit/addedit?v=1&isEntry=1&code=${selectedRowKeys[0]}`);
                     }
                 }
             }

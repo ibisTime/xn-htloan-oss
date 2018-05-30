@@ -83,6 +83,15 @@ class User extends React.Component {
           } else {
             this.props.history.push(`/system/user/role?userId=${keys[0]}`);
           }
+        },
+        addPost: (keys, item) => {
+          if (!keys || !keys.length) {
+            showWarnMsg('请选择记录');
+          } else if (keys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else {
+            this.props.history.push(`/system/user/post?userId=${keys[0]}`);
+          }
         }
       }
     });

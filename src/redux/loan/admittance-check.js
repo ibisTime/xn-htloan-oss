@@ -1,6 +1,6 @@
 import { commDetailState } from '../common';
 
-const PREFIX = 'BASIS_ADMITTANCE_ADDEDIT_';
+const PREFIX = 'BASIS_ADMITTANCE_CHECK_';
 const SET_SELECT_DATA = PREFIX + 'SET_SELECT_DATA';
 const LOADING = PREFIX + 'LOADING';
 const CANCEL_LOADING = PREFIX + 'CANCEL_LOADING';
@@ -10,7 +10,7 @@ const RESTORE = PREFIX + 'RESTORE';
 
 const initState = { ...commDetailState };
 
-export function loanAdmittanceAddedit(state = initState, action) {
+export function loanAdmittanceCheck(state = initState, action) {
     switch(action.type) {
         case INIT_STATE:
             return {...state, ...action.payload};

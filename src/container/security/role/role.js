@@ -64,6 +64,15 @@ class Role extends React.Component {
         } else {
           this.props.history.push(`/system/role/menu?code=${selectedRowKeys[0]}&name=${selectedRows[0].name}`);
         }
+      },
+      changeNode: (selectedRowKeys, selectedRows) => {
+        if (!selectedRowKeys.length) {
+          showWarnMsg('请选择记录');
+        } else if (selectedRowKeys.length > 1) {
+          showWarnMsg('请选择一条记录');
+        } else {
+          this.props.history.push(`/system/role/nodemenu?code=${selectedRowKeys[0]}&name=${selectedRows[0].name}`);
+        }
       }
     };
     return this.props.buildList({ fields, btnEvent, pageCode: 630005, deleteCode: 630001 });

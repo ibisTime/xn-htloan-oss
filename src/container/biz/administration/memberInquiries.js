@@ -27,9 +27,6 @@ import { activateUser } from 'api/user';
 class MemberInquiries extends React.Component {
   render() {
     const fields = [{
-      title: '用户编号',
-      field: 'userId'
-    }, {
       title: '手机号',
       field: 'mobile'
     }, {
@@ -39,9 +36,6 @@ class MemberInquiries extends React.Component {
     }, {
       title: '身份证',
       field: 'idNo'
-    }, {
-      title: '推荐人',
-      field: 'refereeMobile'
     }, {
       title: '状态',
       field: 'status',

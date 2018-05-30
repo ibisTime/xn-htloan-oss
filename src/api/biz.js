@@ -69,3 +69,7 @@ export function loanGoodsPutaway(code) {
 export function loanGoodsSoldOut(code) {
   return fetch(632174, { code, updater: getUserName() });
 }
+// 列表获取贷款产品
+export function getListProduct() {
+    return fetch(632177, { status: '3' });
+}
