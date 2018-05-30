@@ -111,7 +111,7 @@ class FaceSign extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632115,
+            pageCode: 632135,
             searchParams: {
                 roleCode: getRoleCode()
             },
@@ -122,7 +122,7 @@ class FaceSign extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(`/loan/creditStart/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/faceSign/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
                     }
                 }
             }
