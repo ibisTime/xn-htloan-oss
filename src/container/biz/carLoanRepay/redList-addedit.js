@@ -32,20 +32,20 @@ class redListAddedit extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'mobile',
+            field: 'mobile'
         }, {
             title: '业务编号',
-            field: 'realName',
+            field: 'realName'
         }, {
             title: '贷款银行',
-            field: 'idNo',
+            field: 'idNo'
         }, {
             title: '贷款金额',
             field: 'sfAmount',
-            amount: true,
+            amount: true
         }, {
             title: '车辆',
-            field: 'subbranch',
+            field: 'subbranch'
         }, {
             title: '申请金额',
             field: 'sfAmount',

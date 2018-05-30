@@ -34,25 +34,44 @@ class goodsloanAddedit extends React.Component {
     }
     render() {
       const fields = [{
-        field: 'remark',
-        title: '参数名',
-        readonly: true
+        title: '公证费',
+        field: 'authFee',
+        amount: true,
+        required: true
       }, {
-        title: '参数值',
-        field: 'cvalue'
+        title: '服务费',
+        field: 'fee',
+        amount: true,
+        required: true
       }, {
-        title: '最近修改时间',
-        field: 'updateDatetime',
-        type: 'datetime',
-        readonly: true
+        title: 'GPS费用',
+        field: 'gpsFee',
+        amount: true,
+        required: true
+      }, {
+        title: '贷款银行',
+        field: 'loanBank',
+        type: 'select',
+        listCode: 802116,
+        keyName: 'id',
+        valueName: 'bankName',
+        required: true
+      }, {
+        title: '月供利率',
+        field: 'monthRate',
+        required: true
+      }, {
+        title: '名称',
+        field: 'name',
+        required: true
       }];
       return this.props.buildDetail({
         fields,
-        key: 'id',
         code: this.code,
         view: this.view,
-        detailCode: '630046',
-        editCode: '630042'
+        addCode: '632170',
+        editCode: '632172',
+        detailCode: '632176'
       });
     }
 }

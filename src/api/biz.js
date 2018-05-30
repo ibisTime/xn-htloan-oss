@@ -59,3 +59,13 @@ export function receiveGoods(code) {
 export function cancelBill(code) {
   return fetch(808053, { code, updater: getUserName() });
 }
+
+//  贷款商品上架
+export function loanGoodsPutaway(code) {
+  return fetch(632173, { code, updater: getUserName() });
+}
+
+//  贷款商品下架
+export function loanGoodsSoldOut(code) {
+  return fetch(632174, { code, updater: getUserName() });
+}

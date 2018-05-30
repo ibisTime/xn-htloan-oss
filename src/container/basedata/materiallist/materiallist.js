@@ -8,7 +8,7 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/basedata/bank';
+} from '@redux/basedata/materiallist';
 import {
     listWrapper
 } from 'common/js/build-list';
@@ -28,7 +28,7 @@ import {
 
 @listWrapper(
     state => ({
-        ...state.bizBank,
+        ...state.basedataMateriallist,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -41,13 +41,13 @@ import {
         setSearchData
     }
 )
-class Bank extends React.Component {
+class materiallist extends React.Component {
     render() {
         const fields = [{
-            title: '名称',
+            title: '节点名称',
             field: 'bankName'
         }, {
-            title: '支行',
+            title: '材料清单',
             field: 'subbranch'
         }, {
             title: '最新修改人',
@@ -56,6 +56,9 @@ class Bank extends React.Component {
             title: '最新修改时间',
             field: 'updateDatetime',
             type: 'date'
+        }, {
+            title: '备注',
+            field: 'remark'
         }];
         return this.props.buildList({
             fields,
@@ -65,4 +68,4 @@ class Bank extends React.Component {
     }
 }
 
-export default Bank;
+export default materiallist;

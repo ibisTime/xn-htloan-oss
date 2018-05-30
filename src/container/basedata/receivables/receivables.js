@@ -8,7 +8,7 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/basedata/bank';
+} from '@redux/basedata/receivables';
 import {
     listWrapper
 } from 'common/js/build-list';
@@ -28,7 +28,7 @@ import {
 
 @listWrapper(
     state => ({
-        ...state.bizBank,
+        ...state.basedataReceivables,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -41,28 +41,38 @@ import {
         setSearchData
     }
 )
-class Bank extends React.Component {
+class receivables extends React.Component {
     render() {
         const fields = [{
-            title: '名称',
+            title: '公司名称',
+            field: 'companyCode',
+            listCode: 630106,
+            params: {
+                typeList: [1]
+            },
+            type: 'select',
+            keyName: 'code',
+            valueName: 'name',
+            required: true
+        }, {
+            title: '户名',
+            field: 'realName'
+        }, {
+            title: '账号',
+            field: 'bankcardNumber'
+        }, {
+            title: '开户行',
             field: 'bankName'
         }, {
-            title: '支行',
-            field: 'subbranch'
-        }, {
-            title: '最新修改人',
-            field: 'updater'
-        }, {
-            title: '最新修改时间',
-            field: 'updateDatetime',
-            type: 'date'
+            title: '备注',
+            field: 'remark'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632035,
-            deleteCode: 632031
+            pageCode: 632005,
+            deleteCode: 632001
         });
     }
 }
 
-export default Bank;
+export default receivables;

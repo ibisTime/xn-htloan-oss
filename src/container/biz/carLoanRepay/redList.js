@@ -76,13 +76,40 @@ class redList extends React.Component {
           status: '4'
         },
         btnEvent: {
-          payment: (selectedRowKeys, selectedRows) => {
+          pay: (selectedRowKeys, selectedRows) => {
             if (!selectedRowKeys.length) {
               showWarnMsg('请选择记录');
             } else if (selectedRowKeys.length > 1) {
               showWarnMsg('请选择一条记录');
             } else {
-              this.props.history.push(`/biz/redList/payment?staffCode=${selectedRowKeys[0]}`);
+              this.props.history.push(`/biz/redList/pay?staffCode=${selectedRowKeys[0]}`);
+            }
+          },
+          check: (selectedRowKeys, selectedRows) => {
+            if (!selectedRowKeys.length) {
+              showWarnMsg('请选择记录');
+            } else if (selectedRowKeys.length > 1) {
+              showWarnMsg('请选择一条记录');
+            } else {
+              this.props.history.push(`/biz/redList/check?staffCode=${selectedRowKeys[0]}`);
+            }
+          },
+          enter: (selectedRowKeys, selectedRows) => {
+            if (!selectedRowKeys.length) {
+              showWarnMsg('请选择记录');
+            } else if (selectedRowKeys.length > 1) {
+              showWarnMsg('请选择一条记录');
+            } else {
+              this.props.history.push(`/biz/redList/enter?staffCode=${selectedRowKeys[0]}`);
+            }
+          },
+          apply: (selectedRowKeys, selectedRows) => {
+            if (!selectedRowKeys.length) {
+              showWarnMsg('请选择记录');
+            } else if (selectedRowKeys.length > 1) {
+              showWarnMsg('请选择一条记录');
+            } else {
+              this.props.history.push(`/biz/redList/apply?staffCode=${selectedRowKeys[0]}`);
             }
           }
         }
