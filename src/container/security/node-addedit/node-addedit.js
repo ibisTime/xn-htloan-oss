@@ -58,8 +58,19 @@ class NodeAddEdit extends React.Component {
       keyName: 'code',
       valueName: 'name'
     }, {
-      title: '材料清单',
-      field: 'fileList'
+        title: '材料清单',
+        field: 'fileStrs',
+        type: 'o2m',
+        hidden: this.view,
+        options: {
+            scroll: {x: 1300},
+            fields: [{
+                title: '名称',
+                field: 'content',
+                nowrap: true,
+                required: true
+            }]
+        }
     }];
     return this.state.nodeDict ? this.props.buildDetail({
       fields,

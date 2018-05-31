@@ -91,6 +91,7 @@ class archivesCertain extends React.Component {
                 param.approveResult = '1';
                 param.approveNote = this.projectCode;
                 param.approveUser = getUserId();
+                param.operator = getUserId();
                 this.props.doFetching();
                 fetch(632134, param).then(() => {
                   showSucMsg('操作成功');

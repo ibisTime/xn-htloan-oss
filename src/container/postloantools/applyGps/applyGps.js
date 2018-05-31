@@ -46,7 +46,7 @@ class applyGps extends React.Component {
     render() {
         const fields = [{
             title: '申领人',
-            field: 'applyUser'
+            field: 'applyUserName'
         }, {
             title: '申领时间',
             field: 'applyDatetime',

@@ -53,16 +53,16 @@ class nodeSetMateriallist extends React.Component {
             readonly: true
         }, {
             title: '材料清单',
-            field: 'fileList',
+            field: 'fileStrs',
             type: 'o2m',
             options: {
                 add: true,
                 edit: true,
                 delete: true,
-                scroll: {x: 1300},
+                scroll: {x: 300},
                 fields: [{
-                    title: '姓名',
-                    field: 'fileName',
+                    title: '名称',
+                    field: 'content',
                     nowrap: true,
                     required: true
                 }]

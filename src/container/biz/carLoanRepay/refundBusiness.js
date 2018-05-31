@@ -61,11 +61,8 @@ class refundBusiness extends React.Component {
         return d.user.mobile;
       }
     }, {
-      title: '车辆',
-      field: 'carCode'
-    }, {
       title: '贷款银行',
-      field: 'loanBank'
+      field: 'loanBankName'
     }, {
       title: '贷款金额',
       field: 'loanAmount',

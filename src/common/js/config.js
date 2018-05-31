@@ -1,11 +1,5 @@
-// export const SYSTEM_CODE = 'CD-COIN000017';
+export const SYSTEM_CODE = 'CD-HTWT000020';
 // export const COMPANY_CODE = 'CD-COIN000017';
-// export const SYSTEM_CODE = 'CD-ZXZX000018';
-// export const COMPANY_CODE = 'CD-ZXZX000018';
-// export const SYSTEM_CODE = 'CD-CXB000020';
-// export const COMPANY_CODE = 'CD-CXB000020';
-// export const SYSTEM_CODE = 'CD-CBH000020';
-// export const COMPANY_CODE = 'CD-CBH000020';
 // 七牛上传地址
 export const UPLOAD_URL = 'http://up-z2.qiniu.com';
 // 七牛图片前缀

@@ -45,20 +45,23 @@ class Notice extends React.Component {
       field: 'updater'
     }, {
       title: '最近修改时间',
-      field: 'updateDatetime'
+      field: 'updateDatetime',
+       type: 'datetime'
     }, {
       title: '备注',
       field: 'remark'
     }];
     return this.props.buildList({
       fields,
-      pageCode: 630015,
+      pageCode: 804040,
       searchParams: {
-        channelType: '4'
-        // fromSystemCode: SYSTEM_CODE
+        channelType: '4',
+        systemCode: SYSTEM_CODE,
+        companyCode: SYSTEM_CODE,
+        fromSystemCode: SYSTEM_CODE
       },
       btnEvent: {
-        edit2: (selectedRowKeys, selectedRows) => {
+        edit: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
