@@ -51,7 +51,15 @@ class bankMoney extends React.Component {
             search: true
         }, {
             title: '业务公司',
-            field: 'letter'
+            field: 'companyCode',
+            listCode: 630106,
+            params: {
+                typeList: [1]
+            },
+            type: 'select',
+            keyName: 'code',
+            valueName: 'name',
+            required: true
         }, {
             title: '客户姓名',
             field: 'applyUserName',
@@ -124,6 +132,15 @@ class bankMoney extends React.Component {
                   showWarnMsg('请选择一条记录');
                 } else {
                   this.props.history.push(`/biz/bankMoney/certain?code=${selectedRowKeys[0]}`);
+                }
+              },
+              enter: (selectedRowKeys, selectedRows) => {
+                if (!selectedRowKeys.length) {
+                  showWarnMsg('请选择记录');
+                } else if (selectedRowKeys.length > 1) {
+                  showWarnMsg('请选择一条记录');
+                } else {
+                  this.props.history.push(`/biz/bankMoney/enter?code=${selectedRowKeys[0]}`);
                 }
               }
             }

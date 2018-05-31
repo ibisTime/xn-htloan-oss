@@ -31,8 +31,9 @@ class rebate extends React.Component {
     render() {
         const fields = [{
             title: '返点比例',
-            field: 'budget_back_rate',
-            requied: true
+            field: 'Cvalue',
+            requied: true,
+            key: 'budget_back_rate'
         }];
         return this.props.buildDetail({
             fields,

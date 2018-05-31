@@ -31,10 +31,6 @@ class applyGpsAddedit extends React.Component {
       title: '申领个数',
       field: 'applyCount'
     }, {
-      title: '所属团队',
-      field: 'receiptBank',
-      required: true
-    }, {
       title: '申领人',
       field: 'applyUser'
     }, {
@@ -42,8 +38,7 @@ class applyGpsAddedit extends React.Component {
       field: 'applyReason'
     }, {
       title: '备注',
-      field: 'receiptBank',
-      required: true
+      field: 'remark'
     }];
     return this.props.buildDetail({
       fields,

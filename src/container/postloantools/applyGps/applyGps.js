@@ -58,15 +58,17 @@ class applyGps extends React.Component {
             search: true
         }, {
             title: '发货时间',
-            field: 'applyDatetime',
+            field: 'sendDatetime',
             type: 'datetime'
         }, {
             title: '收货时间',
-            field: 'applyDatetime',
+            field: 'receiveDatetime',
             type: 'datetime'
         }, {
             title: '状态',
             field: 'status',
+            type: 'select',
+            key: 'gps_apply_status',
             search: true
         }, {
             title: '备注',

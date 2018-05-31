@@ -61,7 +61,9 @@ class transmit extends React.Component {
             }, {
                 key: '2',
                 value: '快递'
-            }]
+            }],
+            keyName: 'key',
+            valueName: 'value'
         }, {
             title: '快递公司',
             field: 'logisticsCompany'

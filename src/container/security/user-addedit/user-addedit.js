@@ -38,8 +38,8 @@ class UserAddEdit extends React.Component {
       search: true,
       required: true
     }, {
-      title: '手机号',
-      field: 'mobile',
+      title: '真实姓名',
+      field: 'realName',
       required: true
     }, {
       title: '角色',

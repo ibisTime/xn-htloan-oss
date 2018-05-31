@@ -34,24 +34,20 @@ class bankMoneyAddedit extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'description',
+            field: 'applyUserName',
             readonly: true
         }, {
             title: '业务编号',
-            field: 'description',
-            readonly: true
-        }, {
-            title: '贷款银行',
-            field: 'name',
+            field: 'code',
             readonly: true
         }, {
             title: '贷款金额',
-            field: 'remark',
+            field: 'loanAmount',
             amount: true,
             readonly: true
         }, {
             title: '放款时间',
-            field: 'updateDatetime',
+            field: 'bankFkDatetime',
             type: 'date',
             required: true
         }, {
@@ -59,11 +55,11 @@ class bankMoneyAddedit extends React.Component {
             field: 'updateDatetime'
         }, {
             title: '收款账号',
-            field: 'remark',
+            field: 'receiptBankcardNumber',
             required: true
         }, {
             title: '收款凭证',
-            field: 'updateDatetime',
+            field: 'receiptPdf',
             type: 'img',
             required: true
         }, {

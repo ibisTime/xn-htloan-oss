@@ -34,16 +34,20 @@ class applyGpsCheck extends React.Component {
   render() {
     const fields = [{
         title: '申领个数',
-        field: 'applyCount'
+        field: 'applyCount',
+        readonly: true
       }, {
         title: '申领人',
-        field: 'applyUser'
+        field: 'applyUser',
+        readonly: true
       }, {
         title: '申领原因',
-        field: 'applyReason'
+        field: 'applyReason',
+        readonly: true
       }, {
         title: '备注',
-        field: 'remark'
+        field: 'remark',
+        readonly: true
       }, {
         title: '申领列表',
         field: 'gpsList',
