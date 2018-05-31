@@ -59,8 +59,8 @@ class ApplyAdmittance extends React.Component {
       field: 'loanBankCode',
       type: 'select',
       listCode: 632037,
-      keyName: 'bankCode',
-      valueName: 'bankName'
+      keyName: 'code',
+      valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
     }, {
       title: '贷款金额',
       field: 'loanAmount',

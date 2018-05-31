@@ -109,9 +109,8 @@ class CreditAddedit extends React.Component {
             field: 'loanBankCode',
             type: 'select',
             listCode: 632037,
-            keyName: 'bankCode',
-            valueName: 'bankName',
-            searchName: 'bankName',
+            keyName: 'code',
+            valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
             required: true
         }, {
             title: '业务种类',
