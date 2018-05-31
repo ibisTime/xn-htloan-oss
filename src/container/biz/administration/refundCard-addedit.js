@@ -22,30 +22,40 @@ class refundCardAddedit extends React.Component {
   }
   render() {
     const fields = [{
-      title: '客户姓名',
+      title: '所属客户',
       field: 'userId',
       pageCode: 805120,
       keyName: 'userId',
-      valueName: 'realName',
+      valueName: '{{mobile.DATA}} {{realName.DATA}}',
       searchName: 'mobile',
       type: 'select',
-      requied: true
+      required: true
+    }, {
+      title: '银行名称',
+      field: 'bankCode',
+      listCode: 802116,
+      type: 'select',
+      keyName: 'bankCode',
+      valueName: 'bankName',
+      required: true
+    }, {
+      title: '开户支行',
+      field: 'subbranch',
+      required: true
     }, {
       title: '户名',
       field: 'realName',
-      requied: true
-    }, {
-      title: '开户行',
-      field: 'subbranch',
-      requied: true
-    }, {
-      title: '银行名称',
-      field: 'bankName',
-      requied: true
+      required: true
     }, {
       title: '卡号',
       field: 'bankcardNumber',
-      requied: true
+      bankCard: true,
+      required: true
+    }, {
+      title: '绑定手机号',
+      field: 'bindMobile',
+      required: true,
+      mobile: true
     }, {
       title: '备注',
       field: 'ramark'
@@ -56,7 +66,12 @@ class refundCardAddedit extends React.Component {
       view: this.view,
       addCode: 802010,
       editCode: 802012,
-      detailCode: 802017
+      detailCode: 802017,
+      beforeSubmit: (params) => {
+        let bank = this.props.selectData.bankCode.find(v => v.bankCode === params.bankCode);
+        params.bankName = bank.bankName;
+        return params;
+      }
     });
   }
 }

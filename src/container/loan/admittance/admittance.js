@@ -12,7 +12,8 @@ import {
 import {
     showWarnMsg,
     showSucMsg,
-    getRoleCode
+    getRoleCode,
+    dateTimeFormat
 } from 'common/js/util';
 import {
     listWrapper
@@ -44,50 +45,33 @@ class Admittance extends React.Component {
             title: '业务公司',
             field: 'gs'
         }, {
-            title: '汽车经销商',
-            field: 'jxs'
-        }, {
             title: '客户姓名',
-            field: 'userName',
-            render: (e, t) => {
-                return (t.creditUser ? t.creditUser.userName : '-');
-            }
+            field: 'applyUserName'
         }, {
             title: '手机号',
-            field: 'mobile',
-            render: (e, t) => {
-                return (t.creditUser ? t.creditUser.mobile : '-');
-            }
+            field: 'mobile'
         }, {
             title: '贷款银行',
-            field: 'loanBankCode',
+            field: 'loanBank',
             type: 'select',
-            listCode: 802116,
-            keyName: 'bankCode',
-            valueName: 'bankName'
+            listCode: 632037,
+            keyName: 'code',
+            valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
         }, {
             title: '贷款期数',
-            field: 'loanNum'
+            field: 'loanPeriod'
         }, {
-            title: '购车途径',
-            field: 'shopWay',
+            title: '业务种类',
+            field: 'bizType',
             type: 'select',
-            data: [{
-                dkey: '1',
-                dvalue: '新车'
-            }, {
-                dkey: '2',
-                dvalue: '二手车'
-            }],
-            keyName: 'dkey',
-            valueName: 'dvalue'
+            key: 'budget_orde_biz_typer'
         }, {
             title: '是否垫资',
-            field: 'isdz',
+            field: 'isAdvanceFund',
             type: 'select',
             data: [{
                 dkey: '0',
@@ -100,27 +84,47 @@ class Admittance extends React.Component {
             valueName: 'dvalue'
         }, {
             title: '业务员',
-            field: 'salesman'
+            field: 'saleUserName'
         }, {
             title: '申请日期',
             field: 'applyDatetime',
-            type: 'datetime'
+            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
+            type: 'date',
+            render: dateTimeFormat,
+            search: true
         }, {
-            title: '状态',
-            field: 'status'
+            title: '当前节点',
+            field: 'curNodeCode',
+            type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632115,
+            pageCode: 632138,
             searchParams: {
                 roleCode: getRoleCode()
             },
             btnEvent: {
+                apply: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_04') {
+                        showWarnMsg('当前不是重新填写准入申请单节点');
+                    } else {
+                        this.props.history.push(`/loan/admittance/addedit?code=${selectedRowKeys[0]}`);
+                    }
+                },
                 checkCommissioner: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_02') {
+                        showWarnMsg('当前不是风控专员审核节点');
                     } else {
                         this.props.history.push(`/loan/admittance/check?v=1&isCheckCommissioner=1&code=${selectedRowKeys[0]}`);
                     }
@@ -130,6 +134,8 @@ class Admittance extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_03') {
+                        showWarnMsg('当前不是风控主管审核节点');
                     } else {
                         this.props.history.push(`/loan/admittance/check?v=1&isCheckDirector=1&code=${selectedRowKeys[0]}`);
                     }

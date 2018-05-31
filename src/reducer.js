@@ -186,7 +186,10 @@ import { loanCredit } from './redux/loan/credit';
 import { loanCreditAddedit } from './redux/loan/credit-addedit';
 
 // 准入审查
+import { loanApplyAdmittance } from './redux/loan/apply-admittance';
+import { loanApplyAdmittanceAddedit } from './redux/loan/apply-admittance-addedit';
 import { loanAdmittance } from './redux/loan/admittance';
+import { loanAdmittanceAddedit } from './redux/loan/admittance-addedit';
 import { loanAdmittanceCheck } from './redux/loan/admittance-check';
 
 // 面签审核
@@ -319,7 +322,10 @@ export default combineReducers({
   bizredListEnter,
   loanCredit,
   loanCreditAddedit,
+  loanApplyAdmittance,
+  loanApplyAdmittanceAddedit,
   loanAdmittance,
+  loanAdmittanceAddedit,
   loanAdmittanceCheck,
   loanFaceSign,
   loanFaceSignAddedit,

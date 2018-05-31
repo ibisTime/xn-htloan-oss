@@ -606,10 +606,14 @@ export default class DetailComponent extends React.Component {
     );
   }
   getSearchSelectItem(item, initVal, rules, getFieldDecorator) {
+    let data;
+    if (item.readonly && item.data) {
+      data = item.data.filter(v => v[item.keyName] === initVal);
+    }
     return (
       <FormItem key={item.field} {...formItemLayout} label={this.getLabel(item)}>
         {
-          item.readonly ? <div className="readonly-text">{item.data ? item.data[0][item.valueName] || tempString(item.valueName, item.data[0]) : ''}</div>
+          item.readonly ? <div className="readonly-text">{data && data.length ? data[0][item.valueName] || tempString(item.valueName, data[0]) : ''}</div>
           : getFieldDecorator(item.field, {
             rules,
             initialValue: item.data ? initVal : ''
@@ -648,10 +652,14 @@ export default class DetailComponent extends React.Component {
     );
   }
   getSelectComp(item, initVal, rules, getFieldDecorator) {
+    let data;
+    if (item.readonly && item.data) {
+      data = item.data.filter(v => v[item.keyName] === initVal);
+    }
     return (
       <FormItem key={item.field} {...formItemLayout} label={this.getLabel(item)}>
         {
-          item.readonly ? <div className="readonly-text">{item.data ? item.data[0][item.valueName] || tempString(item.valueName, item.data[0]) : ''}</div>
+          item.readonly ? <div className="readonly-text">{data && data.length ? data[0][item.valueName] || tempString(item.valueName, data[0]) : ''}</div>
           : getFieldDecorator(item.field, {
             rules,
             initialValue: item.data ? initVal : ''

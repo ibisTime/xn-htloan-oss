@@ -570,6 +570,15 @@ const ROUTES = [
         path: '/loan/credit/addedit',
         component: asyncComponent(() => import('container/loan/credit-addedit/credit-addedit'))
     },
+    // 准入申请
+    {
+      path: '/loan/applyAdmittance',
+      component: asyncComponent(() => import('container/loan/apply-admittance/apply-admittance'))
+    },
+    {
+      path: '/loan/applyAdmittance/addedit',
+      component: asyncComponent(() => import('container/loan/apply-admittance-addedit/apply-admittance-addedit'))
+    },
     // 准入审查
     {
         path: '/loan/admittance',

@@ -9,22 +9,10 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/biz/refundCard';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    showWarnMsg,
-    showSucMsg
-} from 'common/js/util';
-import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
-import {
-    lowerFrame,
-    onShelf
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg, showSucMsg } from 'common/js/util';
+import { Button, Upload, Modal } from 'antd';
+import { lowerFrame, onShelf } from 'api/biz';
 
 @listWrapper(
     state => ({
@@ -49,7 +37,8 @@ class refundCard extends React.Component {
             search: true
         }, {
             title: '开户行',
-            field: 'letter'
+            field: 'bankName',
+            render: (v, d) => d.bankName + d.subbranch
         }, {
             title: '户名',
             field: 'realName',

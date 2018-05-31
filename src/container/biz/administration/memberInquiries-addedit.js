@@ -28,9 +28,6 @@ class MemberInquiriesAddEdit extends React.Component {
       title: '手机号',
       field: 'mobile'
     }, {
-      title: '推荐人',
-      field: 'refereeMobile'
-    }, {
       title: '姓名',
       field: 'realName'
     }, {

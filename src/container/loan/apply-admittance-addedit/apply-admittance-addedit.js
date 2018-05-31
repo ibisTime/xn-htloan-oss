@@ -8,17 +8,16 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/loan/admittance-addedit';
+} from '@redux/loan/apply-admittance-addedit';
 
 @CollapseWrapper(
-  state => state.loanAdmittanceAddedit,
+  state => state.loanApplyAdmittanceAddedit,
   {initStates, doFetching, cancelFetching, setSelectData, setPageData, restore}
 )
-class AdmittanceAddEdit extends React.Component {
+class ApplyAdmittanceAddEdit extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
-        this.view = !!getQueryString('v', this.props.location.search);
     }
     render() {
       const fields = [{
@@ -275,7 +274,8 @@ class AdmittanceAddEdit extends React.Component {
           [
             {
               field: 'mateIdNo',
-              title: '身份证号'
+              title: '身份证号',
+              idCard: true
             }, {
               field: 'mateEducation',
               title: '学历',
@@ -315,7 +315,8 @@ class AdmittanceAddEdit extends React.Component {
           [
             {
               field: 'guaIdNo',
-              title: '身份证号'
+              title: '身份证号',
+              idCard: true
             }, {
               field: 'guaPhone',
               title: '固定电话'
@@ -434,9 +435,8 @@ class AdmittanceAddEdit extends React.Component {
       }];
       return this.props.buildDetail({
         fields,
+        key: 'creditCode',
         code: this.code,
-        view: this.view,
-        detailCode: 632136,
         editCode: 632120,
         beforeSubmit: (params) => {
           params.dealType = '1';
@@ -447,4 +447,4 @@ class AdmittanceAddEdit extends React.Component {
     }
 }
 
-export default AdmittanceAddEdit;
+export default ApplyAdmittanceAddEdit;

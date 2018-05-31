@@ -32,7 +32,7 @@ class Beforeloan extends React.Component {
         const fields = [{
             field: 'tq_service',
             title: '提前还款服务费',
-            requied: true
+            required: true
         }];
         return this.props.buildDetail({
             fields,
