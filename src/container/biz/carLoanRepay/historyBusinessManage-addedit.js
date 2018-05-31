@@ -80,13 +80,11 @@ class historyBusinessManageAddedit extends React.Component {
           title: '当前期数',
           field: 'curPeriods'
         }, {
-          title: '应还本金',
-          field: 'repayCapital',
-          amount: true
-        }, {
-          title: '应还利息',
+          title: '应还本息',
           field: 'repayInterest',
-          amount: true
+          render: (v, d) => {
+            return (repayCapital + repayInterest) / 1000;
+          }
         }, {
           title: '实还金额',
           field: 'payedAmount',

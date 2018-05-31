@@ -37,10 +37,16 @@ class historyBusinessManage extends React.Component {
       }, {
         title: '贷款人',
         field: 'realName',
+        render: (v, d) => {
+          return d.user.realName;
+        },
         search: true
       }, {
         title: '手机号',
-        field: 'mobile'
+        field: 'mobile',
+        render: (v, d) => {
+          return d.user.mobile;
+        }
       }, {
         title: '车辆',
         field: 'monthAmount'
