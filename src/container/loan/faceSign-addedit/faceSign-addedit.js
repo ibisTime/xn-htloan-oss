@@ -37,23 +37,17 @@ class FaceSignAddedit extends React.Component {
 
         let fields = [{
             title: '客户姓名',
-            field: 'username',
+            field: 'applyUserName',
+            required: true,
+            readonly: true
+        }, {
+            title: '业务编号',
+            field: 'code1',
             required: true,
             readonly: true,
             formatter: (v, d) => {
-                let username = '';
-                d.creditUserList && d.creditUserList.map((item) => {
-                    if (item.loanRole === '1' && item.relation === '1') {
-                        username = item.userName;
-                    }
-                });
-                return username;
+                return d.code;
             }
-        }, {
-            title: '业务编号',
-            field: 'code',
-            required: true,
-            readonly: true
         }, {
             title: '贷款银行',
             field: 'loanBankCode',
