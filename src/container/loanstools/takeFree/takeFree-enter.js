@@ -76,6 +76,7 @@ class TakeFreeEnter extends React.Component {
         }, {
             title: '金额',
             field: 'amount',
+            amount: true,
             required: true
         }, {
             title: '汇入我司账号',

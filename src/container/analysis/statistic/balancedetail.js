@@ -18,11 +18,6 @@ import {
     formatDate
 } from 'common/js/util';
 import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
-import {
     lowerFrame,
     onShelf
 } from 'api/biz';

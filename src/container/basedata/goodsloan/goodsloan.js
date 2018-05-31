@@ -13,6 +13,7 @@ import { listWrapper } from 'common/js/build-list';
 import { showWarnMsg, showSucMsg } from 'common/js/util';
 import { Button, Upload, Modal } from 'antd';
 import { loanGoodsPutaway, loanGoodsSoldOut } from 'api/biz';
+import { setTimeout } from 'core-js';
 
 @listWrapper(
   state => ({
@@ -60,7 +61,7 @@ class Goodsloan extends React.Component {
         lower: (key, item) => {
           if (!key || !key.length || !item || !item.length) {
             showWarnMsg('请选择记录');
-          } else if (item[0].status !== '1') {
+          } else if (item[0].status !== '3') {
             showWarnMsg('该状态不可下架');
           } else {
             Modal.confirm({
@@ -72,6 +73,9 @@ class Goodsloan extends React.Component {
                 return loanGoodsSoldOut(key[0]).then(() => {
                   this.props.cancelFetching();
                   showWarnMsg('操作成功');
+                  setTimeout(() => {
+                    this.props.getPageData();
+                  }, 1000);
                 }).catch(() => {
                   this.props.cancelFetching();
                 });
@@ -82,7 +86,7 @@ class Goodsloan extends React.Component {
         onShelf: (key, item) => {
           if (!key || !key.length || !item || !item.length) {
             showWarnMsg('请选择记录');
-          } else if (item[0].status === '1') {
+          } else if (item[0].status === '3') {
             showWarnMsg('该状态不可上架');
           } else {
             Modal.confirm({
@@ -94,6 +98,9 @@ class Goodsloan extends React.Component {
                 return loanGoodsPutaway(key[0]).then(() => {
                   this.props.cancelFetching();
                   showWarnMsg('操作成功');
+                  setTimeout(() => {
+                    this.props.getPageData();
+                  }, 1000);
                 }).catch(() => {
                   this.props.cancelFetching();
                 });

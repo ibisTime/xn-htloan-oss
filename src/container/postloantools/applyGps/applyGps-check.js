@@ -12,7 +12,9 @@ import {
   showSucMsg,
   getUserId
 } from 'common/js/util';
-import { DetailWrapper } from 'common/js/build-detail';
+import {
+  DetailWrapper
+} from 'common/js/build-detail';
 
 @DetailWrapper(
   state => state.loanstoolsCancelCheck, {
@@ -32,43 +34,54 @@ class applyGpsCheck extends React.Component {
   }
   render() {
     const fields = [{
-      title: '申领个数',
-      field: 'companyCode',
-      select: true,
-      required: true
-    }, {
-      title: '所属团队',
-      field: 'receiptBank',
-      required: true
-    }, {
-      title: '申领人',
-      field: 'receiptBank',
-      required: true
-    }, {
-      title: '申领原因',
-      field: 'receiptBank',
-      required: true
-    }, {
-      title: '申领列表',
-      field: 'receiptBank',
-      required: true
-    }, {
-      title: '备注',
-      field: 'receiptBank',
-      required: true
-    }];
+        title: '申领个数',
+        field: 'applyCount'
+      }, {
+        title: '申领人',
+        field: 'applyUser'
+      }, {
+        title: '申领原因',
+        field: 'applyReason'
+      }, {
+        title: '备注',
+        field: 'receiptBank',
+        required: true
+      }, {
+        title: '申领列表',
+        field: 'gpsList',
+        required: true,
+        type: 'o2m',
+        options: {
+          add: true,
+          delete: true,
+          scroll: {
+            x: 1300
+          },
+          fields: [{
+            title: 'GPS设备号',
+            field: 'gpsNo',
+            nowrap: true,
+            required: true
+          }, {
+            title: 'GPS类型',
+            field: 'gpsType',
+            nowrap: true,
+            required: true
+          }]
+        }
+      }];
     return this.props.buildDetail({
       fields,
       code: this.code,
       view: this.view,
-      detailCode: 632106,
+      detailCode: 632716,
       buttons: [{
         title: '通过',
         handler: (param) => {
           param.approveResult = '1';
           param.approveUser = getUserId();
           this.props.doFetching();
-          fetch(632101, param).then(() => {
+          fetch(632711, param).then(() => {
             showSucMsg('操作成功');
             this.props.cancelFetching();
             setTimeout(() => {
@@ -85,7 +98,7 @@ class applyGpsCheck extends React.Component {
           param.approveNote = this.projectCode;
           param.approveUser = getUserId();
           this.props.doFetching();
-          fetch(632101, param).then(() => {
+          fetch(632711, param).then(() => {
             showSucMsg('操作成功');
             this.props.cancelFetching();
             setTimeout(() => {

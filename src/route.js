@@ -73,6 +73,10 @@ const ROUTES = [
     component: asyncComponent(() => import('container/security/node-addedit/node-addedit'))
   },
   {
+      path: '/system/node/setMateriallist',
+      component: asyncComponent(() => import('container/security/node-setMateriallist/node-setMateriallist'))
+  },
+  {
     path: '/system/compConstruct',
     component: asyncComponent(() => import('container/security/compConstruct/compConstruct'))
   },
@@ -465,6 +469,21 @@ const ROUTES = [
     path: '/biz/trailer/dispose',
     component: asyncComponent(() => import('container/biz/carLoanRepay/trailer-dispose'))
   },
+  //  司法诉讼
+  {
+    path: '/biz/litigation',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/litigation'))
+  },
+  //  司法诉讼 详情
+  {
+    path: '/biz/litigation/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/litigation-addedit'))
+  },
+  //  司法诉讼 处理结果
+  {
+    path: '/biz/litigation/dispose',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/litigation-dispose'))
+  },
   //  历史业务管理
   {
     path: '/biz/historyBusinessManage',
@@ -755,6 +774,37 @@ const ROUTES = [
   {
     path: '/transmit/transmit/check',
     component: asyncComponent(() => import('container/transmit/transmit/transmit-check'))
+  },
+  //  贷后工具
+  //  gps申领
+  {
+    path: '/postloantools/applyGps',
+    component: asyncComponent(() => import('container/postloantools/applyGps/applyGps'))
+  },
+  //  gps申领 详情
+  {
+    path: '/postloantools/applyGps/addedit',
+    component: asyncComponent(() => import('container/postloantools/applyGps/applyGps-addedit'))
+  },
+  //  gps申领 申领
+  {
+    path: '/postloantools/applyGps/apply',
+    component: asyncComponent(() => import('container/postloantools/applyGps/applyGps-apply'))
+  },
+  //  gps申领 GPS管理员审核
+  {
+    path: '/postloantools/applyGps/check',
+    component: asyncComponent(() => import('container/postloantools/applyGps/applyGps-check'))
+  },
+  //  gps安装
+  {
+    path: '/postloantools/manageGps',
+    component: asyncComponent(() => import('container/postloantools/manageGps/manageGps'))
+  },
+  //  gps安装 详情
+  {
+    path: '/postloantools/manageGps/addedit',
+    component: asyncComponent(() => import('container/postloantools/manageGps/manageGps-addedit'))
   }
 ];
 

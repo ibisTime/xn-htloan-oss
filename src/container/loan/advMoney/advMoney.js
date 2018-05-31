@@ -41,48 +41,38 @@ import {
 class AdvMoney extends React.Component {
     render() {
         const fields = [{
-
             title: '业务公司',
             field: 'gs'
         }, {
-            title: '汽车经销商',
-            field: 'jxs'
-        }, {
             title: '客户姓名',
-            field: 'userName',
-            render: (e, t) => {
-                return (t.creditUser ? t.creditUser.userName : '-');
-            }
+            field: 'applyUserName'
         }, {
             title: '手机号',
-            field: 'mobile',
-            render: (e, t) => {
-                return (t.creditUser ? t.creditUser.mobile : '-');
-            }
-        }, {
-            title: '贷款银行',
-            field: 'loanBankCode',
-            type: 'select',
-            listCode: 802116,
-            keyName: 'bankCode',
-            valueName: 'bankName'
+            field: 'mobile'
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
         }, {
-            title: '贷款期数',
-            field: 'loanNum'
+            title: '贷款期限',
+            field: 'loanPeriod',
+            type: 'select',
+            key: 'loan_period'
         }, {
-            title: '购车途径',
-            field: 'shopWay',
+            title: '业务种类',
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer'
+        }, {
+            title: '是否垫资',
+            field: 'isAdvanceFund',
             type: 'select',
             data: [{
-                dkey: '1',
-                dvalue: '新车'
+                dkey: '0',
+                dvalue: '否'
             }, {
-                dkey: '2',
-                dvalue: '二手车'
+                dkey: '1',
+                dvalue: '是'
             }],
             keyName: 'dkey',
             valueName: 'dvalue'
@@ -94,8 +84,12 @@ class AdvMoney extends React.Component {
             field: 'applyDatetime',
             type: 'datetime'
         }, {
-            title: '状态',
-            field: 'status'
+            title: '当前节点',
+            field: 'curNodeCode',
+            type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
         }];
         return this.props.buildList({
             fields,

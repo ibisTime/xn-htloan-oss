@@ -45,49 +45,54 @@ class installGps extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'code',
+            field: 'repayBizCode',
             search: true
         }, {
             title: '业务公司',
-            field: 'letter'
+            field: 'companyCode',
+            listCode: 630105,
+            params: {
+                typeList: '1'
+            },
+            keyName: 'code',
+            value: 'name'
         }, {
             title: '客户姓名',
-            field: 'status',
+            field: 'applyUserName',
             search: true
         }, {
-            title: '汽车经销商',
-            field: 'updater'
-        }, {
             title: '贷款银行',
-            field: 'remark'
+            field: 'loanBank'
         }, {
             title: '贷款金额',
-            field: 'remark',
+            field: 'loanAmount',
             amount: true
         }, {
             title: '贷款期数',
-            field: 'remark'
+            field: 'loanPeriod'
         }, {
-            title: '购车途径',
-            field: 'remark'
+            title: '业务种类',
+            field: 'bizType'
         }, {
             title: '业务员',
-            field: 'remark'
+            field: 'saleUserId'
         }, {
             title: '申请时间',
-            field: 'updateDatetime',
+            field: 'applyDatetime',
             type: 'datetime'
         }, {
             title: '状态',
-            field: 'remark',
-            search: true
+            field: 'curNodeCode',
+            listCode: 630147,
+            kayName: 'code',
+            valueName: 'name'
         }, {
             title: '备注',
             field: 'remark'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 630405,
+            pageCode: 632135,
             btnEvent: {
               check: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {

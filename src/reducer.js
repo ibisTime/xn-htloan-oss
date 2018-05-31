@@ -18,6 +18,7 @@ import { securityCompConstruct } from './redux/security/compConstruct';
 import { securityPost } from './redux/security/post';
 import { securityNode } from './redux/security/node';
 import { securityNodeAddEdit } from './redux/security/node-addedit';
+import { securityNodeSetMateriallist } from './redux/security/node-setMateriallist';
 import { publicBanner } from './redux/public/banner';
 import { publicBannerAddEdit } from './redux/public/banner-addedit';
 import { publicAboutusAddEdit } from './redux/public/aboutus-addedit';
@@ -138,6 +139,11 @@ import { bizTrailer } from './redux/biz/trailer';
 import { bizTrailerAddEdit } from './redux/biz/trailer-addedit';
 import { bizTrailerDispose } from './redux/biz/trailer-dispose';
 
+//  司法诉讼 + 详情 + 处理结果
+import { bizLitigation } from './redux/biz/litigation';
+import { bizLitigationAddEdit } from './redux/biz/litigation-addedit';
+import { bizLitigationDispose } from './redux/biz/litigation-dispose';
+
 //  历史业务管理 + 详情
 import { bizHistoryBusinessManage } from './redux/biz/historyBusinessManage';
 import { bizHistoryBusinessManageAddedit } from './redux/biz/historyBusinessManage-addedit';
@@ -254,6 +260,10 @@ import { postloantoolsApplyGpsAddedit } from './redux/postloantools/applyGps-add
 import { postloantoolsApplyGpsApply } from './redux/postloantools/applyGps-apply';
 import { postloantoolsApplyGpsCheck } from './redux/postloantools/applyGps-check';
 
+//  Gps管理 + 详情
+import { postloantoolsManageGps } from './redux/postloantools/manageGps';
+import { postloantoolsManageGpsAddedit } from './redux/postloantools/manageGps-addedit';
+
 export default combineReducers({
   user,
   menu,
@@ -274,6 +284,7 @@ export default combineReducers({
   securityPost,
   securityNode,
   securityNodeAddEdit,
+  securityNodeSetMateriallist,
   publicHotLineAddEdit,
   publicBanner,
   publicBannerAddEdit,
@@ -411,5 +422,10 @@ export default combineReducers({
   postloantoolsApplyGps,
   postloantoolsApplyGpsAddedit,
   postloantoolsApplyGpsApply,
-  postloantoolsApplyGpsCheck
+  postloantoolsApplyGpsCheck,
+  postloantoolsManageGps,
+  postloantoolsManageGpsAddedit,
+  bizLitigation,
+  bizLitigationAddEdit,
+  bizLitigationDispose
 });

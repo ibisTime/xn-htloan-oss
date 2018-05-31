@@ -6,12 +6,12 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/postloantools/applyGps-addedit';
+} from '@redux/postloantools/manageGps-addedit';
 import { getQueryString } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
-  state => state.postloantoolsApplyGpsAddedit, {
+  state => state.postloantoolsManageGpsAddedit, {
     initStates,
     doFetching,
     cancelFetching,
@@ -20,7 +20,7 @@ import { DetailWrapper } from 'common/js/build-detail';
     restore
   }
 )
-class applyGpsAddedit extends React.Component {
+class manageGpsAddedit extends React.Component {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
@@ -28,30 +28,17 @@ class applyGpsAddedit extends React.Component {
   }
   render() {
     const fields = [{
-      title: '申领个数',
+      title: 'GPS编号',
       field: 'applyCount'
-    }, {
-      title: '所属团队',
-      field: 'receiptBank',
-      required: true
-    }, {
-      title: '申领人',
-      field: 'applyUser'
-    }, {
-      title: '申领原因',
-      field: 'applyReason'
-    }, {
-      title: '备注',
-      field: 'receiptBank',
-      required: true
     }];
     return this.props.buildDetail({
       fields,
       code: this.code,
       view: this.view,
-      detailCode: 632716
+      addCode: 632700,
+      detailCode: 632706
     });
   }
 }
 
-export default applyGpsAddedit;
+export default manageGpsAddedit;

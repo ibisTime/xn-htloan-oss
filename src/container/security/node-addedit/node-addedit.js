@@ -24,11 +24,11 @@ class NodeAddEdit extends React.Component {
       nodeDict: null
     };
   }
-  componentDidMount() {
-    getNodeList().then(nodeDict => {
-      this.setState({ nodeDict });
-    });
-  }
+    componentDidMount() {
+        getNodeList().then(nodeDict => {
+            this.setState({ nodeDict });
+        });
+    }
   render() {
     const { nodeDict } = this.state;
     const fields = [{
@@ -57,6 +57,9 @@ class NodeAddEdit extends React.Component {
       data: nodeDict,
       keyName: 'code',
       valueName: 'name'
+    }, {
+      title: '材料清单',
+      field: 'fileList'
     }];
     return this.state.nodeDict ? this.props.buildDetail({
       fields,
