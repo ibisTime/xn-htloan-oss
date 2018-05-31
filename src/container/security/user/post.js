@@ -27,7 +27,6 @@ class Post extends React.Component {
       getUserById(this.userId),
       getPostList()
     ]).then(([userData, postData]) => {
-      this.getTree(postData);
       this.setState({ userName: userData.realName, fetching: false });
       this.props.form.setFieldsValue({
         departmentCode: userData.departmentCode
@@ -35,7 +34,6 @@ class Post extends React.Component {
     }).catch(() => this.setState({ fetching: false }));
   }
   getTree(data) {
-    console.log(data);
     let result = {};
     data.forEach(v => {
       v.parentCode = v.parentCode || 'ROOT';

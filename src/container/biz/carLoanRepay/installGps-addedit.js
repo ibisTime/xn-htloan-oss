@@ -39,10 +39,10 @@ class installGpsAddedit extends React.Component {
             field: 'applyUserName'
         }, {
             title: '业务编号',
-            field: 'repayBizCode'
+            field: 'code'
         }, {
             title: '贷款银行',
-            field: 'loanBank'
+            field: 'loanBankName'
         }, {
             title: '贷款金额',
             field: 'loanAmount',

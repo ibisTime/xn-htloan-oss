@@ -44,12 +44,12 @@ class TakeFreeEnter extends React.Component {
             readonly: true
         }, {
             title: '贷款金额',
-            field: 'amount',
+            field: 'loanAmount',
             amount: true,
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'receiptAccount',
+            field: 'loanBankName',
             readonly: true
         }, {
             title: '应收金额',
@@ -64,6 +64,8 @@ class TakeFreeEnter extends React.Component {
         }, {
             title: '交款类型',
             field: 'remitType',
+            type: 'select',
+            key: 'pay_type',
             required: true
         }, {
             title: '交款单位',

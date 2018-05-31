@@ -40,11 +40,11 @@ class installGpsEnter extends React.Component {
             readonly: true
         }, {
             title: '业务编号',
-            field: 'repayBizCode',
+            field: 'code',
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'loanBank',
+            field: 'loanBankName',
             readonly: true
         }, {
             title: '贷款金额',
@@ -81,7 +81,7 @@ class installGpsEnter extends React.Component {
                 }, {
                     title: '安装时间',
                     field: 'azDatetime',
-                    type: 'datetime',
+                    type: 'date',
                     nowrap: true,
                     required: true
                 }, {

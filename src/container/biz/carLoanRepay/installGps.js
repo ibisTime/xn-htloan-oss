@@ -46,24 +46,18 @@ class installGps extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'repayBizCode',
+            field: 'code',
             search: true
         }, {
             title: '业务公司',
-            field: 'companyCode',
-            listCode: 630105,
-            params: {
-                typeList: '1'
-            },
-            keyName: 'code',
-            value: 'name'
+            field: 'companyName'
         }, {
             title: '客户姓名',
             field: 'applyUserName',
             search: true
         }, {
             title: '贷款银行',
-            field: 'loanBank'
+            field: 'loanBankName'
         }, {
             title: '贷款金额',
             field: 'loanAmount',
@@ -73,19 +67,22 @@ class installGps extends React.Component {
             field: 'loanPeriod'
         }, {
             title: '业务种类',
-            field: 'bizType'
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer'
         }, {
             title: '业务员',
-            field: 'saleUserId'
+            field: 'saleUserName'
         }, {
             title: '申请时间',
             field: 'applyDatetime',
             type: 'datetime'
         }, {
-            title: '状态',
+            title: '当前节点',
             field: 'curNodeCode',
+            type: 'select',
             listCode: 630147,
-            kayName: 'code',
+            keyName: 'code',
             valueName: 'name'
         }, {
             title: '备注',
