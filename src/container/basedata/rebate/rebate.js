@@ -28,33 +28,36 @@ import {
     }
 )
 class rebate extends React.Component {
+    constructor(props) {
+        super(props);
+        this.code = 'budget_back_rate';
+    }
+
     render() {
         const fields = [{
+            title: 'id',
+            field: 'id',
+            hidden: true
+        }, {
             title: '返点比例',
-            field: 'Cvalue',
-            requied: true,
-            key: 'budget_back_rate'
+            field: 'cvalue',
+            requied: true
         }];
         return this.props.buildDetail({
             fields,
+            key: 'key',
+            code: this.code,
+            detailCode: 630047,
             buttons: [{
                 title: '确认',
                 handler: (param) => {
                     fetch(630042, param).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
                     }).catch(this.props.cancelFetching);
                 },
                 check: true,
                 type: 'primary'
-            }, {
-                title: '返回',
-                handler: (param) => {
-                    this.props.history.go(-1);
-                }
             }]
         });
     }

@@ -42,7 +42,7 @@ class FaceSign extends React.Component {
     render() {
         const fields = [{
             title: '业务公司',
-            field: 'gs'
+            field: 'companyName'
         }, {
             title: '客户姓名',
             field: 'applyUserName'
@@ -78,7 +78,7 @@ class FaceSign extends React.Component {
             valueName: 'dvalue'
         }, {
             title: '业务员',
-            field: 'salesman'
+            field: 'saleUserName'
         }, {
             title: '申请日期',
             field: 'applyDatetime',

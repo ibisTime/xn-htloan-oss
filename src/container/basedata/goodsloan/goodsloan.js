@@ -52,7 +52,8 @@ class Goodsloan extends React.Component {
       title: '状态',
       field: 'status',
       type: 'select',
-      key: 'product_status'
+      key: 'loan_product_status',
+      search: true
     }];
     return this.props.buildList({
       fields,

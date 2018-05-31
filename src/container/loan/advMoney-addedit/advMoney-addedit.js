@@ -51,12 +51,7 @@ class AdvMoneyAddedit extends React.Component {
             }
         }, {
             title: '贷款银行',
-            field: 'loanBankCode',
-            type: 'select',
-            listCode: 802116,
-            keyName: 'bankCode',
-            valueName: 'bankName',
-            searchName: 'bankName',
+            field: 'loanBankName',
             required: true,
             readonly: true
         }, {
