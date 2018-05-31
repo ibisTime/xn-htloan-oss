@@ -65,6 +65,7 @@ class goodsloanAddedit extends React.Component {
         }, {
             title: '月供利率',
             field: 'monthRate',
+            number: true,
             required: true
         }];
         return this.props.buildDetail({

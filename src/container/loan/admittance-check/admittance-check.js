@@ -458,7 +458,7 @@ class AdmittanceCheck extends React.Component {
         detailCode: 632146,
         editCode: this.isCheckCommissioner ? 632121 : 632122,
         buttons: [{
-          title: '通过',
+          title: '通过',
           check: true,
           handler: (params) => {
             params.approveResult = 1;
@@ -476,7 +476,7 @@ class AdmittanceCheck extends React.Component {
             });
           }
         }, {
-          title: '不通过',
+          title: '不通过',
           check: true,
           handler: (params) => {
             params.approveResult = 0;

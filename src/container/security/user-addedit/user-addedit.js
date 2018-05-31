@@ -28,14 +28,16 @@ class UserAddEdit extends React.Component {
     }, {
       title: '登录名',
       field: 'loginName',
-      search: true,
       maxlength: 30,
+      required: true
+    }, {
+      title: '真实姓名',
+      field: 'realName',
       required: true
     }, {
       title: '密码',
       field: 'loginPwd',
       type: 'password',
-      search: true,
       required: true
     }, {
       title: '手机号',

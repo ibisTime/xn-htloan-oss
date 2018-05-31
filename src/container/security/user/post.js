@@ -28,17 +28,18 @@ class Post extends React.Component {
       getPostList()
     ]).then(([userData, postData]) => {
       this.getTree(postData);
-      this.setState({ userName: userData.loginName, fetching: false });
+      this.setState({ userName: userData.realName, fetching: false });
       this.props.form.setFieldsValue({
         departmentCode: userData.departmentCode
       });
     }).catch(() => this.setState({ fetching: false }));
   }
   getTree(data) {
+    console.log(data);
     let result = {};
     data.forEach(v => {
       v.parentCode = v.parentCode || 'ROOT';
-      if (!result[v.parentCode]) {
+      if (result[v.parentCode] === '0') {
         result[v.parentCode] = [];
       }
       result[v.parentCode].push({

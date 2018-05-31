@@ -41,7 +41,7 @@ class ApplyAdmittance extends React.Component {
   render() {
     const fields = [{
       title: '业务公司',
-      field: 'gs'
+      field: 'companyName'
     }, {
       title: '客户姓名',
       field: 'userName',
