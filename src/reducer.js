@@ -148,6 +148,7 @@ import { bizLitigationDispose } from './redux/biz/litigation-dispose';
 //  历史业务管理 + 详情
 import { bizHistoryBusinessManage } from './redux/biz/historyBusinessManage';
 import { bizHistoryBusinessManageAddedit } from './redux/biz/historyBusinessManage-addedit';
+import { bizHistoryBusinessManageAddeditAddedit } from './redux/biz/historyBusinessManage-addedit-addedit';
 
 //  类别管理 + 详情
 import { waresCategory } from './redux/wares/category';
