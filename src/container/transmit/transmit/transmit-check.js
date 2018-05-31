@@ -46,10 +46,24 @@ class transmitAddedit extends React.Component {
         field: 'bizCode',
         readonly: true
     }, {
-        title: '节点',
-        field: 'toNodeCode',
-        listCode: 630147,
+        title: '类型',
+        field: 'type',
         type: 'select',
+        key: 'logistics_type',
+        readonly: true
+    }, {
+        title: '发件节点',
+        field: 'fromNodeCode',
+        type: 'select',
+        listCode: 630147,
+        keyName: 'code',
+        valueName: 'name',
+        readonly: true
+    }, {
+        title: '收件节点',
+        field: 'toNodeCode',
+        type: 'select',
+        listCode: 630147,
         keyName: 'code',
         valueName: 'name',
         readonly: true
@@ -78,6 +92,8 @@ class transmitAddedit extends React.Component {
     }, {
         title: '快递公司',
         field: 'logisticsCompany',
+        type: 'select',
+        key: 'kd_company',
         readonly: true
     }, {
         title: '快递单号',

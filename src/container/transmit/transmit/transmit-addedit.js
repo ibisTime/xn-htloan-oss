@@ -32,48 +32,30 @@ class transmitAddedit extends React.Component {
         title: '业务编号',
         field: 'bizCode'
     }, {
-        title: '节点',
-        field: 'toNodeCode',
-        listCode: 630147,
+        title: '类型',
+        field: 'type',
         type: 'select',
+        key: 'logistics_type'
+    }, {
+        title: '发件节点',
+        field: 'fromNodeCode',
+        type: 'select',
+        listCode: 630147,
+        keyName: 'code',
+        valueName: 'name'
+    }, {
+        title: '收件节点',
+        field: 'toNodeCode',
+        type: 'select',
+        listCode: 630147,
         keyName: 'code',
         valueName: 'name'
     }, {
         title: '参考材料清单',
         field: 'refFileList'
-        // type: 'o2m',
-        // options: {
-        //   add: true,
-        //   edit: true,
-        //   delete: true,
-        //   scroll: { x: 300 },
-        //   fields: [
-        //     {
-        //       title: '姓名',
-        //       field: 'realname',
-        //       nowrap: true,
-        //       required: true
-        //     }
-        //   ]
-        // }
     }, {
         title: '寄送材料清单',
         field: 'sendFileList'
-        // type: 'o2m',
-        // options: {
-        //   add: true,
-        //   edit: true,
-        //   delete: true,
-        //   scroll: { x: 300 },
-        //   fields: [
-        //     {
-        //       title: '姓名',
-        //       field: 'realname',
-        //       nowrap: true,
-        //       required: true
-        //     }
-        //   ]
-        // }
     }, {
         title: '传递方式',
         field: 'sendType',
@@ -89,8 +71,15 @@ class transmitAddedit extends React.Component {
         valueName: 'value',
         required: true
     }, {
+        title: '类型',
+        field: 'type',
+        type: 'select',
+        key: 'logistics_type'
+    }, {
         title: '快递公司',
-        field: 'logisticsCompany'
+        field: 'logisticsCompany',
+        type: 'select',
+        key: 'kd_company'
     }, {
         title: '快递单号',
         field: 'logisticsCode'

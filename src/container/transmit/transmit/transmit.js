@@ -48,6 +48,11 @@ class transmit extends React.Component {
             field: 'bizCode',
             search: true
         }, {
+            title: '类型',
+            field: 'type',
+            type: 'select',
+            key: 'logistics_type'
+        }, {
             title: '客户姓名',
             field: 'userName',
             search: true
@@ -66,7 +71,9 @@ class transmit extends React.Component {
             valueName: 'value'
         }, {
             title: '快递公司',
-            field: 'logisticsCompany'
+            field: 'logisticsCompany',
+            type: 'select',
+            key: 'kd_company'
         }, {
             title: '单号',
             field: 'logisticsCode'

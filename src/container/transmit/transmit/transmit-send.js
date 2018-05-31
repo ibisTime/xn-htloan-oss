@@ -39,49 +39,37 @@ class transmitAddedit extends React.Component {
         field: 'bizCode',
         readonly: true
     }, {
-        title: '节点',
-        field: 'bizNodeCode',
-        listCode: 630147,
+        title: '类型',
+        field: 'type',
         type: 'select',
-        data: [{
-            key: 'code',
-            value: 'name'
-        }],
-        keyName: 'key',
-        valueName: 'value',
+        key: 'logistics_type',
         readonly: true
-    },
-    {
+    }, {
+        title: '发件节点',
+        field: 'fromNodeCode',
+        type: 'select',
+        listCode: 630147,
+        keyName: 'code',
+        valueName: 'name',
+        readonly: true
+    }, {
+        title: '收件节点',
+        field: 'toNodeCode',
+        type: 'select',
+        listCode: 630147,
+        keyName: 'code',
+        valueName: 'name',
+        readonly: true
+    }, {
         title: '参考材料清单',
         field: 'refFileList'
-    },
-    // {
-    //     title: '寄送材料清单',
-    //     field: 'sendFileList',
-    //     type: 'o2m',
-    //     options: {
-    //       add: true,
-    //       edit: true,
-    //       delete: true,
-    //       scroll: { x: 300 },
-    //       fields: [
-    //         {
-    //           title: '姓名',
-    //           field: 'realname',
-    //           nowrap: true,
-    //           required: true
-    //         }
-    //       ]
-    //     }
-    // },
-    {
+    }, {
       field: 'sendFileList',
       hidden: true,
       formatter: (v, d) => {
         return d.refFileList;
       }
-    },
-    {
+    }, {
         title: '寄送方式',
         field: 'sendType',
         type: 'select',
@@ -97,7 +85,10 @@ class transmitAddedit extends React.Component {
         required: true
     }, {
         title: '快递公司',
-        field: 'logisticsCompany'
+        field: 'logisticsCompany',
+        type: 'select',
+        key: 'kd_company',
+        required: true
     }, {
         title: '快递单号',
         field: 'logisticsCode'
@@ -108,8 +99,7 @@ class transmitAddedit extends React.Component {
         required: true
     }, {
         title: '发货说明',
-        field: 'sendNote',
-        required: true
+        field: 'sendNote'
     }];
     return this
       .props
