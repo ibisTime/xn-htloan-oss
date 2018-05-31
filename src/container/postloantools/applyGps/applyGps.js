@@ -45,47 +45,46 @@ import {
 class applyGps extends React.Component {
     render() {
         const fields = [{
-            title: '所属公司',
-            field: 'code',
-            search: true
-        }, {
             title: '申领人',
-            field: 'companyCode',
-            search: true
-        }, {
-            title: '所属团队',
-            field: 'budgetAmount'
+            field: 'applyUser'
         }, {
             title: '申领时间',
-            field: 'receiptAccount',
+            field: 'applyDatetime',
+            type: 'datetime',
             search: true
         }, {
             title: '申领个数',
-            field: 'receiptBank',
+            field: 'applyCount',
             search: true
         }, {
             title: '发货时间',
-            field: 'useDatetime',
-            type: 'date'
+            field: 'applyDatetime',
+            type: 'datetime'
         }, {
             title: '收货时间',
-            field: 'name',
-            search: true
+            field: 'applyDatetime',
+            type: 'datetime'
         }, {
             title: '状态',
-            field: 'name',
+            field: 'status',
             search: true
         }, {
             title: '备注',
-            field: 'name',
+            field: 'remark',
             search: true
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632105,
+            pageCode: 632715,
             btnEvent: {
               apply: (selectedRowKeys, selectedRows) => {
-                this.props.history.push(`/loanstools/applyGps/apply?code=${selectedRowKeys[0]}`);
+                if (!selectedRowKeys.length) {
+                  showWarnMsg('请选择记录');
+                } else if (selectedRowKeys.length > 1) {
+                  showWarnMsg('请选择一条记录');
+                } else {
+                    this.props.history.push(`/postloantools/applyGps/apply?code=${selectedRowKeys[0]}`);
+                }
               },
               check: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {
@@ -93,7 +92,7 @@ class applyGps extends React.Component {
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else {
-                  this.props.history.push(`/loanstools/applyGps/check?code=${selectedRowKeys[0]}`);
+                  this.props.history.push(`/postloantools/applyGps/check?code=${selectedRowKeys[0]}`);
                 }
               }
             }

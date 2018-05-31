@@ -8,7 +8,9 @@ import {
     restore
 } from '@redux/biz/installGps-addedit';
 import {
-    getQueryString
+  getQueryString,
+  showSucMsg,
+  getUserId
 } from 'common/js/util';
 import {
     DetailWrapper
@@ -34,21 +36,57 @@ class installGpsAddedit extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'description'
+            field: 'applyUserName'
         }, {
             title: '业务编号',
-            field: 'description'
+            field: 'repayBizCode'
         }, {
             title: '贷款银行',
-            field: 'name'
+            field: 'loanBank'
         }, {
-            title: '备贷款金额',
-            field: 'remark',
+            title: '贷款金额',
+            field: 'loanAmount',
             amount: true
         }, {
             title: 'GPS安装列表',
-            field: 'remark',
-            amount: true
+            field: 'gpsAzList',
+            type: 'o2m',
+            options: {
+                add: true,
+                edit: true,
+                delete: true,
+                fields: [{
+                    title: 'GPS设备号',
+                    field: 'gpsDevNo',
+                    nowrap: true,
+                    required: true
+                }, {
+                    title: 'GPS类型',
+                    field: 'gpsType',
+                    nowrap: true,
+                    required: true
+                }, {
+                    title: '安装位置',
+                    field: 'azLocation',
+                    nowrap: true,
+                    required: true
+                }, {
+                    title: '安装时间',
+                    field: 'azDatetime',
+                    nowrap: true,
+                    required: true
+                }, {
+                    title: '安装人员',
+                    field: 'azUser',
+                    nowrap: true,
+                    required: true
+                }, {
+                    title: '备注',
+                    field: 'remark',
+                    nowrap: true,
+                    required: true
+                }]
+            }
         }, {
             title: '备注',
             field: 'remark',
@@ -58,9 +96,7 @@ class installGpsAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            addCode: 630400,
-            editCode: 630402,
-            detailCode: 630407
+            detailCode: 632136
         });
     }
 }

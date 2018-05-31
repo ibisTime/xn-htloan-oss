@@ -138,6 +138,11 @@ import { bizTrailer } from './redux/biz/trailer';
 import { bizTrailerAddEdit } from './redux/biz/trailer-addedit';
 import { bizTrailerDispose } from './redux/biz/trailer-dispose';
 
+//  司法诉讼 + 详情 + 处理结果
+import { bizLitigation } from './redux/biz/litigation';
+import { bizLitigationAddEdit } from './redux/biz/litigation-addedit';
+import { bizLitigationDispose } from './redux/biz/litigation-dispose';
+
 //  历史业务管理 + 详情
 import { bizHistoryBusinessManage } from './redux/biz/historyBusinessManage';
 import { bizHistoryBusinessManageAddedit } from './redux/biz/historyBusinessManage-addedit';
@@ -250,6 +255,10 @@ import { postloantoolsApplyGps } from './redux/postloantools/applyGps';
 import { postloantoolsApplyGpsAddedit } from './redux/postloantools/applyGps-addedit';
 import { postloantoolsApplyGpsApply } from './redux/postloantools/applyGps-apply';
 import { postloantoolsApplyGpsCheck } from './redux/postloantools/applyGps-check';
+
+//  Gps管理 + 详情
+import { postloantoolsManageGps } from './redux/postloantools/manageGps';
+import { postloantoolsManageGpsAddedit } from './redux/postloantools/manageGps-addedit';
 
 export default combineReducers({
   user,
@@ -405,5 +414,10 @@ export default combineReducers({
   postloantoolsApplyGps,
   postloantoolsApplyGpsAddedit,
   postloantoolsApplyGpsApply,
-  postloantoolsApplyGpsCheck
+  postloantoolsApplyGpsCheck,
+  postloantoolsManageGps,
+  postloantoolsManageGpsAddedit,
+  bizLitigation,
+  bizLitigationAddEdit,
+  bizLitigationDispose
 });
