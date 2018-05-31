@@ -12,7 +12,8 @@ import {
   getUserId,
   showSucMsg
 } from 'common/js/util';
-import {DetailWrapper, beforeDetail} from 'common/js/build-detail';
+import { DetailWrapper } from 'common/js/build-detail';
+import fetch from 'common/js/fetch';
 
 @DetailWrapper(state => state.transmitAddedit, {
   initStates,
@@ -27,6 +28,13 @@ class transmitAddedit extends React.Component {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
+  }
+  doSuccess = () => {
+    showSucMsg('操作成功');
+    this.props.cancelFetching();
+    setTimeout(() => {
+        this.props.history.go(-1);
+    }, 1000);
   }
   render() {
     const fields = [{
@@ -52,33 +60,11 @@ class transmitAddedit extends React.Component {
     }, {
         title: '参考材料清单',
         field: 'refFileList',
-        type: 'o2m',
-        options: {
-          scroll: { x: 300 },
-          fields: [
-            {
-              title: '姓名',
-              field: 'realname',
-              nowrap: true,
-              required: true
-            }
-          ]
-        }
+        readonly: true
     }, {
         title: '寄送材料清单',
         field: 'sendFileList',
-        type: 'o2m',
-        options: {
-          scroll: { x: 300 },
-          fields: [
-            {
-              title: '姓名',
-              field: 'realname',
-              nowrap: true,
-              required: true
-            }
-          ]
-        }
+        readonly: true
     }, {
         title: '传递方式',
         field: 'sendType',
@@ -92,7 +78,7 @@ class transmitAddedit extends React.Component {
         }],
         keyName: 'key',
         valueName: 'value',
-        required: true
+        readonly: true
     }, {
         title: '快递公司',
         field: 'logisticsCompany',
@@ -107,7 +93,7 @@ class transmitAddedit extends React.Component {
         type: 'datetime',
         readonly: true
     }, {
-        title: '发货备注',
+        title: '发货说明',
         field: 'sendNote',
         readonly: true
     }, {
@@ -122,18 +108,21 @@ class transmitAddedit extends React.Component {
         view: this.view,
         detailCode: 632156,
         buttons: [{
-            title: '确认',
+            title: '收件并审核通过',
             handler: (param) => {
                 fetch(632151, param).then(() => {
-                    showSucMsg('操作成功');
-                    this.props.cancelFetching();
-                    setTimeout(() => {
-                        this.props.history.go(-1);
-                    }, 1000);
+                    this.doSuccess();
                 }).catch(this.props.cancelFetching);
             },
-            check: true,
-            type: 'primary'
+            check: true
+        }, {
+            title: '收件待补件',
+            handler: (param) => {
+                fetch(632152, param).then(() => {
+                    this.doSuccess();
+                }).catch(this.props.cancelFetching);
+            },
+            check: true
         }, {
             title: '返回',
             handler: (param) => {

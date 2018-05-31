@@ -16,7 +16,6 @@ import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
     state => state.bizinstallGpsEnter, {
@@ -70,25 +69,10 @@ class installGpsEnter extends React.Component {
                         applyUser: getUserId(),
                         use_status: '0'
                     },
-                    keyName: 'code',
-                    valueName: 'gpsDeVNo',
+                    keyName: 'gpsDevNo',
+                    valueName: 'gpsDevNo',
                     nowrap: true,
                     required: true
-                }, {
-                    title: 'GPS类型',
-                    field: 'gpsType',
-                    nowrap: true,
-                    required: true,
-                    type: 'select',
-                    data: [{
-                        key: '1',
-                        value: '有线'
-                    }, {
-                        key: '0',
-                        value: '无线'
-                    }],
-                    keyName: 'key',
-                    valueName: 'value'
                 }, {
                     title: '安装位置',
                     field: 'azLocation',
@@ -108,20 +92,18 @@ class installGpsEnter extends React.Component {
                 }, {
                     title: '备注',
                     field: 'remark',
-                    nowrap: true,
-                    required: true
+                    nowrap: true
                 }]
             }
         }, {
             title: '备注',
-            field: 'remark',
-            required: true
+            field: 'remark'
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632136,
+            detailCode: 632146,
             buttons: [{
               title: '确认',
               handler: (param) => {

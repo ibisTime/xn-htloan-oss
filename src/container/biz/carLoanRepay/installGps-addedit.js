@@ -96,7 +96,7 @@ class installGpsAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632136
+            detailCode: 632146
         });
     }
 }

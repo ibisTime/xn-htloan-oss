@@ -78,13 +78,7 @@ class applyGps extends React.Component {
             pageCode: 632715,
             btnEvent: {
               apply: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else {
-                    this.props.history.push(`/postloantools/applyGps/apply?code=${selectedRowKeys[0]}`);
-                }
+                this.props.history.push('/postloantools/applyGps/apply');
               },
               check: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {

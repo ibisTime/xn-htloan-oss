@@ -48,7 +48,8 @@ class node extends React.Component {
             type: 'select',
             data: nodeDict,
             keyName: 'code',
-            valueName: 'name'
+            valueName: 'name',
+            search: true
         }, {
             title: '流程类型',
             field: 'type',
@@ -61,7 +62,8 @@ class node extends React.Component {
             type: 'select',
             data: nodeDict,
             keyName: 'code',
-            valueName: 'name'
+            valueName: 'name',
+            search: true
         }, {
             title: '返回节点',
             field: 'backNode',

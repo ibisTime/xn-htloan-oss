@@ -14,7 +14,8 @@ import {
 } from 'common/js/build-list';
 import {
     showWarnMsg,
-    showSucMsg
+    showSucMsg,
+    getRoleCode
 } from 'common/js/util';
 import {
     Button,
@@ -78,16 +79,22 @@ class mortgage extends React.Component {
             field: 'updateDatetime',
             type: 'datetime'
         }, {
-            title: '状态',
-            field: 'remark',
-            search: true
+            title: '当前节点',
+            field: 'curNodeCode',
+            type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
         }, {
             title: '备注',
             field: 'remark'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 630405,
+            pageCode: 632148,
+            searchParams: {
+              roleCode: getRoleCode()
+            },
             btnEvent: {
               enter: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {

@@ -14,7 +14,9 @@ import {
 } from 'common/js/build-list';
 import {
     showWarnMsg,
-    showSucMsg
+    showSucMsg,
+    getRoleCode,
+    dateTimeFormat
 } from 'common/js/util';
 import {
     Button,
@@ -52,42 +54,50 @@ class bankMoney extends React.Component {
             field: 'letter'
         }, {
             title: '客户姓名',
-            field: 'status',
+            field: 'applyUserName',
             search: true
         }, {
-            title: '汽车经销商',
-            field: 'updater'
-        }, {
             title: '贷款银行',
-            field: 'remark'
+            field: 'loanBank'
         }, {
             title: '贷款金额',
-            field: 'remark',
+            field: 'loanAmount',
             amount: true
         }, {
             title: '贷款期数',
-            field: 'remark'
+            field: 'loanPeriod'
         }, {
-            title: '购车途径',
-            field: 'remark'
+            title: '业务种类',
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer'
         }, {
             title: '业务员',
-            field: 'remark'
+            field: 'saleUserName'
         }, {
-            title: '申请时间',
-            field: 'updateDatetime',
-            type: 'datetime'
-        }, {
-            title: '状态',
-            field: 'remark',
+            title: '申请日期',
+            field: 'applyDatetime',
+            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
+            type: 'date',
+            render: dateTimeFormat,
             search: true
+        }, {
+            title: '当前节点',
+            field: 'curNodeCode',
+            type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
         }, {
             title: '备注',
             field: 'remark'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 630405,
+            pageCode: 632148,
+            searchParams: {
+              roleCode: getRoleCode()
+            },
             btnEvent: {
               settle: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {

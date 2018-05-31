@@ -12,12 +12,11 @@ import {
   showSucMsg,
   getUserId
 } from 'common/js/util';
-import {
-  DetailWrapper
-} from 'common/js/build-detail';
+import { DetailWrapper } from 'common/js/build-detail';
+import fetch from 'common/js/fetch';
 
 @DetailWrapper(
-  state => state.loanstoolsCancelCheck, {
+  state => state.postloantoolsApplyGpsCheck, {
     initStates,
     doFetching,
     cancelFetching,
@@ -44,8 +43,7 @@ class applyGpsCheck extends React.Component {
         field: 'applyReason'
       }, {
         title: '备注',
-        field: 'receiptBank',
-        required: true
+        field: 'remark'
       }, {
         title: '申领列表',
         field: 'gpsList',
@@ -59,12 +57,15 @@ class applyGpsCheck extends React.Component {
           },
           fields: [{
             title: 'GPS设备号',
-            field: 'gpsNo',
-            nowrap: true,
-            required: true
-          }, {
-            title: 'GPS类型',
-            field: 'gpsType',
+            field: 'gpsDevNo',
+            type: 'select',
+            listCode: 632707,
+            params: {
+              applyStatus: '0',
+              useStatus: '0'
+            },
+            keyName: 'code',
+            valueName: 'gpsDevNo',
             nowrap: true,
             required: true
           }]

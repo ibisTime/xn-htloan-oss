@@ -455,7 +455,7 @@ class AdmittanceCheck extends React.Component {
         fields,
         code: this.code,
         view: this.view,
-        detailCode: 632136,
+        detailCode: 632146,
         editCode: this.isCheckCommissioner ? 632121 : 632122,
         buttons: [{
           title: '通过',

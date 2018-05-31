@@ -15,7 +15,6 @@ import {
 import {
     DetailWrapper
 } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
     state => state.bizBankMoneySettle, {
@@ -35,100 +34,74 @@ class bankMoneyAddedit extends React.Component {
     }
     render() {
         const fields = [{
+          field: 'operator',
+          hidden: true,
+          value: getUserId()
+        }, {
             title: '客户姓名',
-            field: 'description',
+            field: 'applyUserName',
             readonly: true
         }, {
             title: '业务编号',
-            field: 'description',
+            field: 'code',
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'name',
+            field: 'loanBank',
             readonly: true
         }, {
-            title: '备贷款金额',
-            field: 'remark',
+            title: '贷款金额',
+            field: 'loanAmount',
             amount: true,
             readonly: true
         }, {
             title: '落户日期',
-            field: 'updateDatetime',
+            field: 'carSettleDatetime',
             type: 'date',
             required: true
         }, {
             title: '车牌号',
-            field: 'remark',
+            field: 'carNumber',
             required: true
         }, {
             title: '发票',
-            field: 'remark',
-            type: 'img',
-            required: true
+            field: 'carInvoice',
+            type: 'img'
         }, {
             title: '合格证',
-            field: 'remark',
-            type: 'img',
-            required: true
+            field: 'carHgz',
+            type: 'img'
         }, {
             title: '交强险',
-            field: 'remark',
-            type: 'img',
-            required: true
+            field: 'carJqx',
+            type: 'img'
         }, {
             title: '商业险',
-            field: 'remark',
-            type: 'img',
-            required: true
+            field: 'carSyx',
+            type: 'img'
         }, {
             title: '机动车登记证书',
-            field: 'remark',
-            type: 'img',
-            required: true
+            field: 'carRegcerti',
+            type: 'img'
         }, {
             title: '批单',
-            field: 'remark',
-            type: 'img',
-            required: true
+            field: 'carPd',
+            type: 'img'
         }, {
             title: '车钥匙',
-            field: 'remark',
-            type: 'img',
-            required: true
+            field: 'carKey',
+            type: 'img'
         }, {
             title: '大本扫描件',
-            field: 'remark',
-            type: 'img',
-            required: true
+            field: 'carBigSmj',
+            type: 'img'
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 630407,
-            buttons: [{
-              title: '确认',
-              handler: (param) => {
-                param.approveResult = '1';
-                param.approveNote = this.projectCode;
-                param.approveUser = getUserId();
-                this.props.doFetching();
-                fetch(630503, param).then(() => {
-                  showSucMsg('操作成功');
-                  this.props.cancelFetching();
-                  setTimeout(() => {
-                    this.props.history.go(-1);
-                  }, 1000);
-                }).catch(this.props.cancelFetching);
-              },
-              check: true,
-              type: 'primary'
-            }, {
-              title: '返回',
-              handler: (param) => {
-                this.props.history.go(-1);
-              }
-            }]
+            detailCode: 632146,
+            editCode: 632128
         });
     }
 }

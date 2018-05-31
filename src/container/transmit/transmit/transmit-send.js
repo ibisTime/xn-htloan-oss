@@ -12,7 +12,8 @@ import {
   getUserId,
   showSucMsg
 } from 'common/js/util';
-import {DetailWrapper, beforeDetail} from 'common/js/build-detail';
+import { DetailWrapper } from 'common/js/build-detail';
+import fetch from 'common/js/fetch';
 
 @DetailWrapper(state => state.transmitAddedit, {
   initStates,
@@ -49,43 +50,38 @@ class transmitAddedit extends React.Component {
         keyName: 'key',
         valueName: 'value',
         readonly: true
-    }, {
+    },
+    {
         title: '参考材料清单',
-        field: 'refFileList',
-        type: 'o2m',
-        options: {
-          add: true,
-          edit: true,
-          delete: true,
-          scroll: { x: 300 },
-          fields: [
-            {
-              title: '姓名',
-              field: 'realname',
-              nowrap: true,
-              required: true
-            }
-          ]
-        }
-    }, {
-        title: '寄送材料清单',
-        field: 'sendFileList',
-        type: 'o2m',
-        options: {
-          add: true,
-          edit: true,
-          delete: true,
-          scroll: { x: 300 },
-          fields: [
-            {
-              title: '姓名',
-              field: 'realname',
-              nowrap: true,
-              required: true
-            }
-          ]
-        }
-    }, {
+        field: 'refFileList'
+    },
+    // {
+    //     title: '寄送材料清单',
+    //     field: 'sendFileList',
+    //     type: 'o2m',
+    //     options: {
+    //       add: true,
+    //       edit: true,
+    //       delete: true,
+    //       scroll: { x: 300 },
+    //       fields: [
+    //         {
+    //           title: '姓名',
+    //           field: 'realname',
+    //           nowrap: true,
+    //           required: true
+    //         }
+    //       ]
+    //     }
+    // },
+    {
+      field: 'sendFileList',
+      hidden: true,
+      formatter: (v, d) => {
+        return d.refFileList;
+      }
+    },
+    {
         title: '寄送方式',
         field: 'sendType',
         type: 'select',
@@ -101,24 +97,19 @@ class transmitAddedit extends React.Component {
         required: true
     }, {
         title: '快递公司',
-        field: 'logisticsCompany',
-        required: true
+        field: 'logisticsCompany'
     }, {
         title: '快递单号',
-        field: 'logisticsCode',
-        required: true
+        field: 'logisticsCode'
     }, {
         title: '发货时间',
         field: 'sendDatetime',
         type: 'datetime',
         required: true
     }, {
-        title: '发货备注',
+        title: '发货说明',
         field: 'sendNote',
         required: true
-    }, {
-        title: '备注',
-        field: 'remark'
     }];
     return this
       .props

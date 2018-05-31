@@ -14,7 +14,8 @@ import {
 } from 'common/js/build-list';
 import {
     showWarnMsg,
-    showSucMsg
+    showSucMsg,
+    getRoleCode
 } from 'common/js/util';
 import {
     Button,
@@ -92,7 +93,10 @@ class installGps extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632135,
+            pageCode: 632148,
+            searchParams: {
+              roleCode: getRoleCode()
+            },
             btnEvent: {
               check: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {

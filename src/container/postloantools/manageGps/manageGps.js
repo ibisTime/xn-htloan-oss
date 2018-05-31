@@ -46,39 +46,73 @@ class manageGps extends React.Component {
     render() {
         const fields = [{
             title: 'GPS编号',
-            field: 'gpsNo'
+            field: 'gpsDevNo'
         }, {
             title: 'GPS类型',
-            field: 'gpsType'
+            field: 'gpsType',
+            type: 'select',
+            data: [{
+              key: '1',
+              value: '有线'
+            }, {
+              key: '0',
+              value: '无线'
+            }],
+            keyName: 'key',
+            valueName: 'value'
         }, {
             title: '归属公司',
-            field: 'applyDatetime',
-            type: 'datetime',
+            field: 'companyCode',
+            listCode: 630106,
+            params: {
+                typeList: [1]
+            },
+            type: 'select',
+            keyName: 'code',
+            valueName: 'name',
             search: true
         }, {
             title: 'GPS领用人',
-            field: 'applyCount',
-            search: true
+            field: 'applyUser'
         }, {
             title: 'GPS领用状态',
-            field: 'applyDatetime',
-            type: 'datetime'
+            field: 'applyStatus',
+            type: 'select',
+            data: [{
+              key: '1',
+              value: '已领用'
+            }, {
+              key: '0',
+              value: '未领用'
+            }],
+            keyName: 'key',
+            valueName: 'value',
+            search: true
         }, {
             title: '领用日期',
             field: 'applyDatetime',
             type: 'datetime'
         }, {
             title: 'GPS使用状态',
-            field: 'status',
+            field: 'useStatus',
+            type: 'select',
+            data: [{
+              key: '1',
+              value: '已使用'
+            }, {
+              key: '0',
+              value: '未使用'
+            }],
+            keyName: 'key',
+            valueName: 'value',
             search: true
         }, {
             title: '使用日期',
-            field: 'remark',
-            search: true
+            field: 'useDatetime',
+            type: 'datetime'
         }, {
             title: '业务编号',
-            field: 'code',
-            search: true
+            field: 'bizCode'
         }];
         return this.props.buildList({
             fields,

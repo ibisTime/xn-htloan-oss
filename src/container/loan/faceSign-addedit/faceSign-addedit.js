@@ -14,7 +14,6 @@ import {
     getUserId
 } from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
-import {COMPANY_CODE} from 'common/js/config';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
@@ -132,7 +131,7 @@ class FaceSignAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632117,
+            detailCode: 632146,
             addCode: 632123,
             editCode: 632123,
             buttons: buttons,

@@ -15,7 +15,6 @@ import {
 import {
     DetailWrapper
 } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
     state => state.bizBankMoneyCertain, {
@@ -35,71 +34,47 @@ class bankMoneyCertain extends React.Component {
     }
     render() {
         const fields = [{
+            field: 'operator',
+            hidden: true,
+            value: getUserId()
+        }, {
             title: '客户姓名',
-            field: 'description',
+            field: 'applyUserName',
             readonly: true
         }, {
             title: '业务编号',
-            field: 'description',
+            field: 'code',
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'name',
+            field: 'loanBank',
             readonly: true
         }, {
             title: '贷款金额',
-            field: 'remark',
+            field: 'loanAmount',
             amount: true,
             readonly: true
         }, {
-            title: '放款时间',
-            field: 'updateDatetime',
-            type: 'date',
-            required: true
-        }, {
-            title: '放款银行',
-            field: 'updateDatetime'
+            title: '收款银行',
+            field: 'receiptBankCode'
         }, {
             title: '收款账号',
-            field: 'remark',
+            field: 'receiptBankcardNumber',
             required: true
         }, {
             title: '收款凭证',
-            field: 'updateDatetime',
-            type: 'img',
-            required: true
+            field: 'receiptPdf',
+            type: 'img'
         }, {
             title: '备注',
-            field: 'remark'
+            field: 'receiptRemark'
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 630407,
-            buttons: [{
-              title: '确认',
-              handler: (param) => {
-                param.approveResult = '1';
-                param.approveNote = this.projectCode;
-                param.approveUser = getUserId();
-                this.props.doFetching();
-                fetch(630503, param).then(() => {
-                  showSucMsg('操作成功');
-                  this.props.cancelFetching();
-                  setTimeout(() => {
-                    this.props.history.go(-1);
-                  }, 1000);
-                }).catch(this.props.cancelFetching);
-              },
-              check: true,
-              type: 'primary'
-            }, {
-              title: '返回',
-              handler: (param) => {
-                this.props.history.go(-1);
-              }
-            }]
+            detailCode: 632146,
+            editCode: 632130
         });
     }
 }

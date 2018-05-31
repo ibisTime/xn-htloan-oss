@@ -69,22 +69,25 @@ class transmit extends React.Component {
             title: '单号',
             field: 'logisticsCode'
         }, {
-            title: '节点',
-            field: 'bizNodeCode',
-            listCode: 630147,
+            title: '发件节点',
+            field: 'fromNodeCode',
             type: 'select',
-            data: [{
-                key: 'code',
-                value: 'name'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            readonly: true
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
+        }, {
+            title: '收件节点',
+            field: 'toNodeCode',
+            type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
+        }, {
+            title: '材料清单',
+            field: 'refFileList'
         }, {
             title: '状态',
-            field: 'status',
-            search: true,
-            key: 'logistics_status'
+            field: 'status'
         }, {
             title: '备注',
             field: 'remark'
@@ -99,7 +102,7 @@ class transmit extends React.Component {
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else {
-                  this.props.history.push(`/biz/transmit/send?code=${selectedRowKeys[0]}`);
+                  this.props.history.push(`/transmit/transmit/send?code=${selectedRowKeys[0]}`);
                 }
               },
               check: (selectedRowKeys, selectedRows) => {
@@ -108,7 +111,7 @@ class transmit extends React.Component {
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else {
-                  this.props.history.push(`/biz/transmit/check?code=${selectedRowKeys[0]}`);
+                  this.props.history.push(`/transmit/transmit/check?code=${selectedRowKeys[0]}`);
                 }
               }
             }

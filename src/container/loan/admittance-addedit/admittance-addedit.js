@@ -436,7 +436,7 @@ class AdmittanceAddEdit extends React.Component {
         fields,
         code: this.code,
         view: this.view,
-        detailCode: 632136,
+        detailCode: 632146,
         editCode: 632120,
         beforeSubmit: (params) => {
           params.dealType = '1';

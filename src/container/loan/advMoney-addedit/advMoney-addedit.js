@@ -14,7 +14,6 @@ import {
     getUserId
 } from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
-import {COMPANY_CODE} from 'common/js/config';
 import LoanCreditEnteringEdit from 'component/loanCreditEntering-edit/loanCreditEntering-edit';
 import LoanCreditReport from 'component/loanCredit-report/loanCredit-report';
 import fetch from 'common/js/fetch';
@@ -69,7 +68,7 @@ class AdvMoneyAddedit extends React.Component {
         }, {
             title: '垫资日期',
             field: 'advanceFundDatetime',
-            type: 'datetime',
+            type: 'date',
             required: true,
             readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
@@ -128,7 +127,7 @@ class AdvMoneyAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632117,
+            detailCode: 632146,
             addCode: 632125,
             editCode: 632125,
             buttons: buttons,
