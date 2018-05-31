@@ -373,7 +373,7 @@ export default class DetailComponent extends React.Component {
     };
     const hasSelected = selectedRowKeys.length > 0;
     return (
-      <FormItem key={item.field} {...formItemLayout} label={this.getLabel(item)}>
+      <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
         {this.getTableBtn(item, hasSelected)}
         <Table {...this.getTableProps(rowSelection, columns, item, dataSource)} />
       </FormItem>
@@ -564,7 +564,7 @@ export default class DetailComponent extends React.Component {
     let format = isTime ? DATETIME_FORMAT : DATE_FORMAT;
     let places = isTime ? '选择时间' : '选择日期';
     return (
-      <FormItem key={item.field} {...formItemLayout} label={this.getLabel(item)}>
+      <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
         {
           item.readonly ? <div className="readonly-text">{initVal}</div>
           : getFieldDecorator(item.field, {
@@ -586,7 +586,7 @@ export default class DetailComponent extends React.Component {
     let format = isTime ? DATETIME_FORMAT : DATE_FORMAT;
     let places = isTime ? ['开始时间', '结束时间'] : ['开始日期', '结束日期'];
     return (
-      <FormItem key={item.field} {...formItemLayout} label={this.getLabel(item)}>
+      <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
         {
           item.readonly ? <div className="readonly-text">{initVal}</div>
           : getFieldDecorator(item.field, {
@@ -611,7 +611,7 @@ export default class DetailComponent extends React.Component {
       data = item.data.filter(v => v[item.keyName] === initVal);
     }
     return (
-      <FormItem key={item.field} {...formItemLayout} label={this.getLabel(item)}>
+      <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
         {
           item.readonly ? <div className="readonly-text">{data && data.length ? data[0][item.valueName] || tempString(item.valueName, data[0]) : ''}</div>
           : getFieldDecorator(item.field, {
@@ -640,7 +640,7 @@ export default class DetailComponent extends React.Component {
   }
   getCitySelect(item, initVal, rules, getFieldDecorator) {
     return (
-      <FormItem key={item.field} {...formItemLayout} label={this.getLabel(item)}>
+      <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
         {
           item.readonly ? <div className="readonly-text">{initVal}</div>
           : getFieldDecorator(item.field, {
@@ -657,7 +657,7 @@ export default class DetailComponent extends React.Component {
       data = item.data.filter(v => v[item.keyName] === initVal);
     }
     return (
-      <FormItem key={item.field} {...formItemLayout} label={this.getLabel(item)}>
+      <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
         {
           item.readonly ? <div className="readonly-text">{data && data.length ? data[0][item.valueName] || tempString(item.valueName, data[0]) : ''}</div>
           : getFieldDecorator(item.field, {
@@ -681,7 +681,7 @@ export default class DetailComponent extends React.Component {
       <FormItem
         className={item.hidden ? 'hidden' : ''}
         key={item.field}
-        {...formItemLayout}
+        {...this.getInputItemProps()}
         label={this.getLabel(item)}>
         {
           item.readonly ? <div className="readonly-text">{initVal}</div>
@@ -697,7 +697,7 @@ export default class DetailComponent extends React.Component {
     let initValue = this.getFileInitVal(initVal);
     return (
       item.hidden ? null : (
-        <FormItem key={item.field} {...formItemLayout} label={this.getLabel(item)}>
+        <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
           {getFieldDecorator(item.field, {
             rules,
             initialValue: initVal,
@@ -761,7 +761,7 @@ export default class DetailComponent extends React.Component {
     return (
       <FormItem
         key={item.field}
-        {...formItemLayout}
+        {...this.getInputItemProps()}
         label={this.getLabel(item)}>
         {
           item.readonly ? <div className="readonly-text">{initVal}</div>
@@ -801,7 +801,7 @@ export default class DetailComponent extends React.Component {
     return (
       <FormItem
         key={item.field}
-        {...formItemLayout}
+        {...this.getInputItemProps()}
         validateStatus={areaState.validateStatus}
         help={areaState.errorMsg}
         label={this.getLabel(item)}>
@@ -922,7 +922,7 @@ export default class DetailComponent extends React.Component {
   }
   getBtns(buttons) {
     return (
-      <FormItem key='btns' {...tailFormItemLayout}>
+      <FormItem key='btns' {...this.getBtnItemProps()}>
         {buttons.length
           ? buttons.map((b, i) => (
             <Button
@@ -944,6 +944,12 @@ export default class DetailComponent extends React.Component {
         }
       </FormItem>
     );
+  }
+  getBtnItemProps() {
+    return tailFormItemLayout;
+  }
+  getInputItemProps() {
+    return formItemLayout;
   }
   getRules(item) {
     let rules = [];

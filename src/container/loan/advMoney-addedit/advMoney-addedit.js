@@ -41,7 +41,16 @@ class AdvMoneyAddedit extends React.Component {
             title: '客户姓名',
             field: 'username',
             required: true,
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+                let username = '';
+                d.creditUserList && d.creditUserList.map((item) => {
+                    if (item.loanRole === '1' && item.relation === '1') {
+                        username = item.userName;
+                    }
+                });
+                return username;
+            }
         }, {
             title: '业务编号',
             field: 'code',
@@ -70,22 +79,22 @@ class AdvMoneyAddedit extends React.Component {
             readonly: true
         }, {
             title: '垫资日期',
-            field: 'xszFront',
+            field: 'advanceFundDatetime',
             type: 'datetime',
-            required: true
+            required: true,
+            readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
             title: '垫资金额',
-            field: 'dzAmount',
+            field: 'advanceFundAmount',
             amount: true,
-            required: true
+            required: true,
+            readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
             title: '水单',
-            field: 'xszFront',
+            field: 'billPdf',
             type: 'img',
-            required: true,
-            single: true
+            readonly: (this.isCheck || this.view) ? 'true' : false
         }];
-
         // 准入审查
         if (this.isCheck) {
             buttons = [{
@@ -131,9 +140,18 @@ class AdvMoneyAddedit extends React.Component {
             code: this.code,
             view: this.view,
             detailCode: 632117,
-            addCode: 632110,
-            editCode: 632110,
-            buttons: buttons
+            addCode: 632125,
+            editCode: 632125,
+            buttons: buttons,
+            beforeSubmit: (params) => {
+                if (!params.billPdf) {
+                    showWarnMsg('请上传水单');
+                    return false;
+                }
+                delete params.loanAmount;
+                params.operator = getUserId();
+                return params;
+            }
         });
     }
 }

@@ -163,6 +163,9 @@ class CollapseDetail extends DetailComp {
       </Spin>
     );
   }
+  getInputItemProps() {
+    return {};
+  }
 }
 
 export const CollapseWrapper = (mapStateToProps = state => state, mapDispatchToProps = {}) => (WrapComponent) => {

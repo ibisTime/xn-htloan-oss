@@ -12,7 +12,8 @@ import {
 import {
     showWarnMsg,
     showSucMsg,
-    getRoleCode
+    getRoleCode,
+    dateTimeFormat
 } from 'common/js/util';
 import {
     listWrapper
@@ -68,14 +69,21 @@ class Credit extends React.Component {
             amount: true
         }, {
             title: '业务员',
-            field: 'salesman'
+            field: 'saleUserName'
         }, {
             title: '申请日期',
             field: 'applyDatetime',
-            type: 'datetime'
+            type: 'date',
+            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
+            render: dateTimeFormat,
+            search: true
         }, {
-            title: '状态',
-            field: 'status'
+            title: '当前节点',
+            field: 'curNodeCode',
+            type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
         }];
         return this.props.buildList({
             fields,

@@ -34,26 +34,31 @@ class bankAddedit extends React.Component {
     }
     render() {
         const fields = [{
-            title: '名称',
-            field: 'bankName'
+            title: '贷款银行',
+            field: 'loanBank',
+            type: 'select',
+            listCode: 802116,
+            keyName: 'bankCode',
+            valueName: 'bankName',
+            required: true
         }, {
-            title: '最新修改人',
-            field: 'updater'
-        }, {
-            title: '最新修改时间',
-            field: 'updateDatetime',
-            type: 'date'
-        }, {
-            title: '备注',
-            field: 'remark'
+            title: '支行',
+            field: 'subbranch'
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            addCode: 802010,
-            editCode: 802012,
-            detailCode: 630407
+            addCode: 632030,
+            editCode: 632032,
+            detailCode: 632036,
+            beforeSubmit: (param) => {
+                console.log(this.props.selectData);
+                let data = this.props.selectData;
+                param.bankCode = data.loanBank[0].bankCode;
+                param.bankName = data.loanBank[0].bankName;
+                return param;
+            }
         });
     }
 }

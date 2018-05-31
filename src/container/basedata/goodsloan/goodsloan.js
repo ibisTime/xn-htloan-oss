@@ -12,7 +12,7 @@ import {
 import { listWrapper } from 'common/js/build-list';
 import { showWarnMsg, showSucMsg } from 'common/js/util';
 import { Button, Upload, Modal } from 'antd';
-import { lowerFrame, onShelf } from 'api/biz';
+import { loanGoodsPutaway, loanGoodsSoldOut } from 'api/biz';
 
 @listWrapper(
   state => ({
@@ -27,17 +27,80 @@ import { lowerFrame, onShelf } from 'api/biz';
 class Goodsloan extends React.Component {
   render() {
     const fields = [{
-      title: '期数',
-      field: 'ckey'
+      title: '产品名称',
+      field: 'name'
     }, {
-      title: '利率（%）',
-      field: 'cvalue'
+      title: '所属银行',
+      field: 'loanBankName'
+    }, {
+      title: 'GPS费用',
+      field: 'gpsFee',
+      amount: true
+    }, {
+      title: '公证费',
+      field: 'authFee',
+      amount: true
+    }, {
+      title: '服务费',
+      field: 'fee',
+      amount: true
+    }, {
+      title: '月供利率',
+      field: 'monthRate'
+    }, {
+      title: '状态',
+      field: 'status',
+      type: 'select',
+      key: 'product_status'
     }];
     return this.props.buildList({
       fields,
-      pageCode: 630045,
-      searchParams: {
-        type: 'product_periods'
+      pageCode: 632175,
+      btnEvent: {
+        lower: (key, item) => {
+          if (!key || !key.length || !item || !item.length) {
+            showWarnMsg('请选择记录');
+          } else if (item[0].status !== '1') {
+            showWarnMsg('该状态不可下架');
+          } else {
+            Modal.confirm({
+              okText: '确认',
+              cancelText: '取消',
+              content: '确定下架？',
+              onOk: () => {
+                this.props.doFetching();
+                return loanGoodsSoldOut(key[0]).then(() => {
+                  this.props.cancelFetching();
+                  showWarnMsg('操作成功');
+                }).catch(() => {
+                  this.props.cancelFetching();
+                });
+              }
+            });
+          }
+        },
+        onShelf: (key, item) => {
+          if (!key || !key.length || !item || !item.length) {
+            showWarnMsg('请选择记录');
+          } else if (item[0].status === '1') {
+            showWarnMsg('该状态不可上架');
+          } else {
+            Modal.confirm({
+              okText: '确认',
+              cancelText: '取消',
+              content: '确定上架？',
+              onOk: () => {
+                this.props.doFetching();
+                return loanGoodsPutaway(key[0]).then(() => {
+                  this.props.cancelFetching();
+                  showWarnMsg('操作成功');
+                }).catch(() => {
+                  this.props.cancelFetching();
+                });
+              }
+            });
+          }
+        }
       }
     });
   }

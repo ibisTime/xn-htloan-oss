@@ -133,6 +133,11 @@ import { bizredListCheck } from './redux/biz/redList-check';
 import { bizredListPay } from './redux/biz/redList-pay';
 import { bizredListEnter } from './redux/biz/redList-enter';
 
+//  拖车管理 + 详情 + 处理结果
+import { bizTrailer } from './redux/biz/trailer';
+import { bizTrailerAddEdit } from './redux/biz/trailer-addedit';
+import { bizTrailerDispose } from './redux/biz/trailer-dispose';
+
 //  历史业务管理 + 详情
 import { bizHistoryBusinessManage } from './redux/biz/historyBusinessManage';
 import { bizHistoryBusinessManageAddedit } from './redux/biz/historyBusinessManage-addedit';
@@ -167,7 +172,7 @@ import { bizIntegralexchangeAddEdit } from './redux/integral/integralexchange-ad
 import { bizCarloan } from './redux/basedata/carloan';
 import { bizCarloanAddEdit } from './redux/basedata/carloan-addedit';
 
-//  商品期数管理 + 详情 + 修改 + 删除
+//  贷款产品管理 + 详情 + 修改
 import { bizGoodsloan } from './redux/basedata/goodsloan';
 import { bizGoodsloanAddEdit } from './redux/basedata/goodsloan-addedit';
 
@@ -177,6 +182,17 @@ import { bizBeforeloan } from './redux/basedata/beforeloan';
 //  银行管理 + 详情 + 修改 + 删除
 import { bizBank } from './redux/basedata/bank';
 import { bizBankAddEdit } from './redux/basedata/bank-addedit';
+
+//  返点比例
+import { basedataRebate } from './redux/basedata/rebate';
+
+//  节点材料清单 + 详情 + 修改 + 删除
+import { basedataMateriallist } from './redux/basedata/materiallist';
+import { basedataMateriallistAddEdit } from './redux/basedata/materiallist-addedit';
+
+//  收款账号管理 + 详情 + 修改 + 删除
+import { basedataReceivables } from './redux/basedata/receivables';
+import { basedataReceivablesAddEdit } from './redux/basedata/receivables-addedit';
 
 /**
  * 贷前管理
@@ -199,6 +215,44 @@ import { loanFaceSignAddedit } from './redux/loan/faceSign-addedit';
 // 财务垫资
 import { loanAdvMoney } from './redux/loan/advMoney';
 import { loanAdvMoneyAddedit } from './redux/loan/advMoney-addedit';
+
+/**
+ * 贷前工具
+ */
+//  收回手续费 + 详情 + 收款回录
+import { loanstoolstakeFree } from './redux/loanstools/takeFree';
+import { loanstoolsTakeFreeAddedit } from './redux/loanstools/takeFree-addedit';
+import { loanstoolsTakeFreeEnter } from './redux/loanstools/takeFree-enter';
+
+//  客户作废 + 详情 + 申请 + 审核 + 确认
+import { loanstoolsCancel } from './redux/loanstools/cancel';
+import { loanstoolsCancelAddedit } from './redux/loanstools/cancel-addedit';
+import { loanstoolsCancelApply } from './redux/loanstools/cancel-apply';
+import { loanstoolsCancelCheck } from './redux/loanstools/cancel-check';
+import { loanstoolsCancelCertain } from './redux/loanstools/cancel-certain';
+
+//  退客户垫资款 + 详情 + 财务确认退款
+import { loanstoolsRefund } from './redux/loanstools/refund';
+import { loanstoolsRefundAddedit } from './redux/loanstools/refund-addedit';
+import { loanstoolsRefundCertain } from './redux/loanstools/refund-certain';
+
+/**
+ * 资料传递
+ */
+//  资料传递 + 详情 + 发件 + 收件并审核
+import { transmit } from './redux/transmit/transmit';
+import { transmitAddedit } from './redux/transmit/transmit-addedit';
+import { transmitSend } from './redux/transmit/transmit-send';
+import { transmitCheck } from './redux/transmit/transmit-check';
+
+/**
+ * 贷后工具
+ */
+//  GPS申领 + 详情 + 申领 + 审核
+import { postloantoolsApplyGps } from './redux/postloantools/applyGps';
+import { postloantoolsApplyGpsAddedit } from './redux/postloantools/applyGps-addedit';
+import { postloantoolsApplyGpsApply } from './redux/postloantools/applyGps-apply';
+import { postloantoolsApplyGpsCheck } from './redux/postloantools/applyGps-check';
 
 export default combineReducers({
   user,
@@ -330,5 +384,32 @@ export default combineReducers({
   loanFaceSign,
   loanFaceSignAddedit,
   loanAdvMoney,
-  loanAdvMoneyAddedit
+  loanAdvMoneyAddedit,
+  loanstoolstakeFree,
+  loanstoolsTakeFreeAddedit,
+  loanstoolsTakeFreeEnter,
+  loanstoolsCancel,
+  loanstoolsCancelAddedit,
+  loanstoolsCancelApply,
+  loanstoolsCancelCheck,
+  loanstoolsCancelCertain,
+  loanstoolsRefund,
+  loanstoolsRefundAddedit,
+  loanstoolsRefundCertain,
+  bizTrailer,
+  bizTrailerAddEdit,
+  bizTrailerDispose,
+  basedataMateriallist,
+  basedataMateriallistAddEdit,
+  basedataReceivables,
+  basedataReceivablesAddEdit,
+  transmit,
+  transmitAddedit,
+  transmitSend,
+  transmitCheck,
+  basedataRebate,
+  postloantoolsApplyGps,
+  postloantoolsApplyGpsAddedit,
+  postloantoolsApplyGpsApply,
+  postloantoolsApplyGpsCheck
 });

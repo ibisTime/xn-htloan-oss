@@ -47,20 +47,20 @@ class Bank extends React.Component {
             title: '名称',
             field: 'bankName'
         }, {
+            title: '支行',
+            field: 'subbranch'
+        }, {
             title: '最新修改人',
             field: 'updater'
         }, {
             title: '最新修改时间',
             field: 'updateDatetime',
             type: 'date'
-        }, {
-            title: '备注',
-            field: 'remark'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 802015,
-            deleteCode: 802011
+            pageCode: 632035,
+            deleteCode: 632031
         });
     }
 }
