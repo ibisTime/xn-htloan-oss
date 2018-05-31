@@ -15,8 +15,6 @@ import {
 } from 'common/js/build-detail';
 import {getNodeList} from 'api/menu';
 
-// import { COMPANY_CODE } from 'common/js/config';
-
 @DetailWrapper(
     state => state.securityNodeSetMateriallist, {
         initStates,
@@ -55,16 +53,20 @@ class nodeSetMateriallist extends React.Component {
             readonly: true
         }, {
             title: '材料清单',
-            field: 'fileList'
-        }, {
-            title: '最新修改人',
-            field: 'updater',
-            hidden: !this.view
-        }, {
-            title: '最新修改时间',
-            field: 'updateDatetime',
-            type: this.view ? 'datetime' : 'hidden',
-            hidden: !this.view
+            field: 'fileList',
+            type: 'o2m',
+            options: {
+                add: true,
+                edit: true,
+                delete: true,
+                scroll: {x: 1300},
+                fields: [{
+                    title: '姓名',
+                    field: 'fileName',
+                    nowrap: true,
+                    required: true
+                }]
+            }
         }, {
             title: '备注',
             field: 'remark',

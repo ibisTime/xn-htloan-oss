@@ -44,12 +44,12 @@ class TakeFreeEnter extends React.Component {
             readonly: true
         }, {
             title: '贷款金额',
-            field: 'amount',
+            field: 'loanAmount',
             amount: true,
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'receiptAccount',
+            field: 'loanBankName',
             readonly: true
         }, {
             title: '应收金额',
@@ -63,12 +63,13 @@ class TakeFreeEnter extends React.Component {
             readonly: true
         }, {
             title: '交款类型',
-            field: 'remitType',
-            required: true
-        }, {
-            title: '交款单位',
-            field: 'remitCompanyCode',
-            required: true
+            field: 'remitType1',
+            type: 'select',
+            key: 'remit_type',
+            required: true,
+            formatter: (v, d) => {
+                return d.remitType;
+            }
         }, {
             title: '交款项目',
             field: 'remitProject',
@@ -114,7 +115,7 @@ class TakeFreeEnter extends React.Component {
             valueName: 'value'
         }, {
             title: '备注',
-            field: 'receiptAccount'
+            field: 'remark'
         }, {
             title: '服务费清单',
             field: 'BudgetOrderFeeDetailList',
@@ -124,7 +125,8 @@ class TakeFreeEnter extends React.Component {
                 fields: [{
                     title: '交款类型',
                     field: 'remitType',
-                    type: 'pay_type'
+                    type: 'select',
+                    key: 'remit_type'
                 }, {
                     title: '交款单位',
                     field: 'remitCompanyCode'
@@ -137,10 +139,10 @@ class TakeFreeEnter extends React.Component {
                     amount: true
                 }, {
                     title: '汇入我司银行',
-                    field: 'code'
+                    field: 'receiptBank'
                 }, {
                     title: '汇入我司账号',
-                    field: 'code'
+                    field: 'receiptAccount'
                 }, {
                     title: '汇款人',
                     field: 'remitUser'
@@ -150,10 +152,11 @@ class TakeFreeEnter extends React.Component {
                     type: 'date'
                 }, {
                     title: '更新人',
-                    field: 'code'
+                    field: 'updater'
                 }, {
                     title: '更新时间',
-                    field: 'code'
+                    field: 'updaterDatetime',
+                    type: 'datetime'
                 }, {
                     title: '备注',
                     field: 'remark'

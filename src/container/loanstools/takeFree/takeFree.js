@@ -11,7 +11,8 @@ import {
 } from '@redux/loanstools/takeFree';
 import {
   showWarnMsg,
-  showSucMsg
+  showSucMsg,
+ moneyFormat
 } from 'common/js/util';
 import {
   Button,
@@ -50,7 +51,7 @@ class takeFee extends React.Component {
             search: true
         }, {
             title: '业务公司',
-            field: 'remitCompanyCode'
+            field: 'companyName'
         }, {
             title: '客户姓名',
             field: 'userId',
@@ -63,7 +64,7 @@ class takeFee extends React.Component {
             title: '未收手续费总额',
             field: 'receiptAccount',
             render: (v, d) => {
-                return (d.shouldAmount - d.realAmount) / 1000;
+                return moneyFormat(d.shouldAmount - d.realAmount);
             }
         }, {
             title: '更新人',

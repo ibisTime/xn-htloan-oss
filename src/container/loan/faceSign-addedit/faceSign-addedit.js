@@ -62,12 +62,14 @@ class FaceSignAddedit extends React.Component {
             title: '面签视频',
             field: 'interviewVideo',
             type: 'file',
+            required: true,
             readonly: (this.isCheck || this.view) ? 'true' : false,
             single: true
         }, {
             title: '面签合同',
             field: 'interviewContract',
             type: 'img',
+            required: true,
             readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
             title: '审核说明',
