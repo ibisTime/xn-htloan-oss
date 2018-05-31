@@ -68,7 +68,8 @@ class TakeFreeAddedit extends React.Component {
                 fields: [{
                     title: '交款类型',
                     field: 'remitType',
-                    type: 'pay_type'
+                    type: 'select',
+                    key: 'remit_type'
                 }, {
                     title: '交款单位',
                     field: 'remitCompanyCode'
@@ -81,10 +82,10 @@ class TakeFreeAddedit extends React.Component {
                     amount: true
                 }, {
                     title: '汇入我司银行',
-                    field: 'code'
+                    field: 'receiptBank'
                 }, {
                     title: '汇入我司账号',
-                    field: 'code'
+                    field: 'receiptAccount'
                 }, {
                     title: '汇款人',
                     field: 'remitUser'
@@ -94,10 +95,11 @@ class TakeFreeAddedit extends React.Component {
                     type: 'date'
                 }, {
                     title: '更新人',
-                    field: 'code'
+                    field: 'updater'
                 }, {
                     title: '更新时间',
-                    field: 'code'
+                    field: 'updateDatetime',
+                    type: 'datetime'
                 }, {
                     title: '备注',
                     field: 'remark'
