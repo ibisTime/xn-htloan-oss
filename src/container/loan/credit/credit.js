@@ -72,7 +72,15 @@ class Credit extends React.Component {
         }, {
             title: '申请日期',
             field: 'applyDatetime',
-            type: 'datetime'
+            type: 'datetime',
+            search: true
+        }, {
+            title: '当前节点',
+            field: 'curNodeCode',
+            type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
         }];
         return this.props.buildList({
             fields,

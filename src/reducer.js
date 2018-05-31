@@ -18,6 +18,7 @@ import { securityCompConstruct } from './redux/security/compConstruct';
 import { securityPost } from './redux/security/post';
 import { securityNode } from './redux/security/node';
 import { securityNodeAddEdit } from './redux/security/node-addedit';
+import { securityNodeSetMateriallist } from './redux/security/node-setMateriallist';
 import { publicBanner } from './redux/public/banner';
 import { publicBannerAddEdit } from './redux/public/banner-addedit';
 import { publicAboutusAddEdit } from './redux/public/aboutus-addedit';
@@ -271,6 +272,7 @@ export default combineReducers({
   securityPost,
   securityNode,
   securityNodeAddEdit,
+  securityNodeSetMateriallist,
   publicHotLineAddEdit,
   publicBanner,
   publicBannerAddEdit,

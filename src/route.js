@@ -73,6 +73,10 @@ const ROUTES = [
     component: asyncComponent(() => import('container/security/node-addedit/node-addedit'))
   },
   {
+      path: '/system/node/setMateriallist',
+      component: asyncComponent(() => import('container/security/node-setMateriallist/node-setMateriallist'))
+  },
+  {
     path: '/system/compConstruct',
     component: asyncComponent(() => import('container/security/compConstruct/compConstruct'))
   },
