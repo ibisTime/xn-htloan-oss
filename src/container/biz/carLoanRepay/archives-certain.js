@@ -37,60 +37,54 @@ class archivesCertain extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'description',
+            field: 'applyUserName',
             readonly: true
         }, {
             title: '业务编号',
-            field: 'description',
+            field: 'code',
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'name',
+            field: 'loanBankName',
             readonly: true
         }, {
             title: '贷款金额',
-            field: 'remark',
+            field: 'loanAmount',
             amount: true,
             readonly: true
         }, {
             title: '征信信息',
-            field: 'updateDatetime',
-            readonly: true
+            field: 'remark'
         }, {
-            title: '准入单信息',
-            field: 'updateDatetime',
-            readonly: true
+            title: '准入但信息',
+            field: 'remark'
         }, {
             title: '面签信息',
-            field: 'remark',
-            readonly: true
+            field: 'remark'
         }, {
             title: '垫资信息',
-            field: 'remark',
-            readonly: true
+            field: 'remark'
         }, {
             title: 'GPS安装信息',
-            field: 'remark',
-            readonly: true
+            field: 'remark'
         }, {
             title: '银行放款信息',
-            field: 'remark',
-            readonly: true
+            field: 'remark'
         }, {
             title: '车辆抵押信息',
-            field: 'remark',
-            readonly: true
+            field: 'remark'
         }, {
             title: '档案存放位置',
-            field: 'remark',
+            field: 'enterLocation',
             type: 'select',
+            key: 'enter_location',
             required: true
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 630407,
+            detailCode: 632146,
             buttons: [{
               title: '确认',
               handler: (param) => {
@@ -98,7 +92,7 @@ class archivesCertain extends React.Component {
                 param.approveNote = this.projectCode;
                 param.approveUser = getUserId();
                 this.props.doFetching();
-                fetch(630503, param).then(() => {
+                fetch(632134, param).then(() => {
                   showSucMsg('操作成功');
                   this.props.cancelFetching();
                   setTimeout(() => {

@@ -339,6 +339,11 @@ const ROUTES = [
     path: '/biz/mortgage/sub',
     component: asyncComponent(() => import('container/biz/carLoanRepay/mortgage-sub'))
   },
+  //  车辆抵押 抵押完成
+  {
+    path: '/biz/mortgage/certain',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/mortgage-certain'))
+  },
   //  档案入党
   {
     path: '/biz/archives',

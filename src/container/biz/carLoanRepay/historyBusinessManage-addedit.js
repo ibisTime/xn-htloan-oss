@@ -83,7 +83,7 @@ class historyBusinessManageAddedit extends React.Component {
           title: '应还本息',
           field: 'repayInterest',
           render: (v, d) => {
-            return (repayCapital + repayInterest) / 1000;
+            return (d.repayCapital + d.repayInterest) / 1000;
           }
         }, {
           title: '实还金额',

@@ -49,7 +49,7 @@ class transmit extends React.Component {
             search: true
         }, {
             title: '客户姓名',
-            field: 'applyUserName',
+            field: 'userName',
             search: true
         }, {
             title: '传递方式',

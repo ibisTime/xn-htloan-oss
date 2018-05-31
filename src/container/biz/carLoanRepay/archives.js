@@ -14,7 +14,8 @@ import {
 } from 'common/js/build-list';
 import {
     showWarnMsg,
-    showSucMsg
+    showSucMsg,
+    dateTimeFormat
 } from 'common/js/util';
 import {
     Button,
@@ -49,34 +50,44 @@ class archives extends React.Component {
             search: true
         }, {
             title: '业务公司',
-            field: 'letter'
+            field: 'companyCode',
+            listCode: 630106,
+            params: {
+                typeList: [1]
+            },
+            type: 'select',
+            keyName: 'code',
+            valueName: 'name',
+            required: true
         }, {
             title: '客户姓名',
-            field: 'status',
+            field: 'applyUserName',
             search: true
         }, {
-            title: '汽车经销商',
-            field: 'updater'
-        }, {
             title: '贷款银行',
-            field: 'remark'
+            field: 'loanBankName'
         }, {
             title: '贷款金额',
-            field: 'remark',
+            field: 'loanAmount',
             amount: true
         }, {
             title: '贷款期数',
-            field: 'remark'
+            field: 'loanPeriod'
         }, {
-            title: '购车途径',
-            field: 'remark'
+            title: '业务种类',
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer'
         }, {
             title: '业务员',
-            field: 'remark'
+            field: 'saleUserName'
         }, {
-            title: '申请时间',
-            field: 'updateDatetime',
-            type: 'datetime'
+            title: '申请日期',
+            field: 'applyDatetime',
+            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
+            type: 'date',
+            render: dateTimeFormat,
+            search: true
         }, {
             title: '当前节点',
             field: 'curNodeCode',
@@ -84,13 +95,10 @@ class archives extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
-        }, {
-            title: '备注',
-            field: 'remark'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632148,
+            pageCode: 632145,
             btnEvent: {
               certain: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {
