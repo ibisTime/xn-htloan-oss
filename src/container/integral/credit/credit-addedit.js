@@ -11,8 +11,7 @@ import {
     getQueryString
 } from 'common/js/util';
 import {
-    DetailWrapper,
-    beforeDetail
+    DetailWrapper
 } from 'common/js/build-detail';
 // import { COMPANY_CODE } from 'common/js/config';
 

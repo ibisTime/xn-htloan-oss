@@ -8,8 +8,7 @@ import {
   restore
 } from '@redux/public/aboutus-addedit';
 import { showSucMsg } from 'common/js/util';
-import { DetailWrapper, beforeDetail } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(

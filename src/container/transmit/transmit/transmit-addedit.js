@@ -8,7 +8,7 @@ import {
   restore
 } from '@redux/transmit/transmit-addedit';
 import {getQueryString} from 'common/js/util';
-import {DetailWrapper, beforeDetail} from 'common/js/build-detail';
+import {DetailWrapper} from 'common/js/build-detail';
 
 @DetailWrapper(state => state.transmitAddedit, {
   initStates,
