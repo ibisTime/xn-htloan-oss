@@ -8,7 +8,7 @@ import {
   restore
 } from '@redux/transmit/transmit-addedit';
 import {getQueryString} from 'common/js/util';
-import {DetailWrapper, beforeDetail} from 'common/js/build-detail';
+import {DetailWrapper} from 'common/js/build-detail';
 
 @DetailWrapper(state => state.transmitAddedit, {
   initStates,
@@ -33,16 +33,11 @@ class transmitAddedit extends React.Component {
         field: 'bizCode'
     }, {
         title: '节点',
-        field: 'bizNodeCode',
+        field: 'toNodeCode',
         listCode: 630147,
         type: 'select',
-        data: [{
-            key: 'code',
-            value: 'name'
-        }],
-        keyName: 'key',
-        valueName: 'value',
-        readonly: true
+        keyName: 'code',
+        valueName: 'name'
     }, {
         title: '参考材料清单',
         field: 'refFileList'

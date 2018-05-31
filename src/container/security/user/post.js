@@ -36,8 +36,8 @@ class Post extends React.Component {
   getTree(data) {
     let result = {};
     data.forEach(v => {
-      v.parentCode = v.parentCode || 'ROOT';
-      if (result[v.parentCode] === '0') {
+      v.parentCode = v.parentCode === '0' ? 'ROOT' : v.parentCode;
+      if (!result[v.parentCode]) {
         result[v.parentCode] = [];
       }
       result[v.parentCode].push({

@@ -314,6 +314,11 @@ const ROUTES = [
     path: '/biz/bankMoney/certain',
     component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney-certain'))
   },
+  //  银行放款 录入
+  {
+    path: '/biz/bankMoney/enter',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney-enter'))
+  },
   //  车辆抵押
   {
     path: '/biz/mortgage',

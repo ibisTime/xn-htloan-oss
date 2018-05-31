@@ -47,7 +47,7 @@ class bankMoneyCertain extends React.Component {
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'loanBank',
+            field: 'loanBankName',
             readonly: true
         }, {
             title: '贷款金额',
@@ -56,7 +56,11 @@ class bankMoneyCertain extends React.Component {
             readonly: true
         }, {
             title: '收款银行',
-            field: 'receiptBankCode'
+            field: 'receiptBankCode',
+            listCode: 632007,
+            type: 'select',
+            keyName: 'bankCode',
+            valueName: 'bankName'
         }, {
             title: '收款账号',
             field: 'receiptBankcardNumber',

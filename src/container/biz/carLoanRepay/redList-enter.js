@@ -11,8 +11,7 @@ import {
     getQueryString
 } from 'common/js/util';
 import {
-    DetailWrapper,
-    beforeDetail
+    DetailWrapper
 } from 'common/js/build-detail';
 
 @DetailWrapper(state => state.bizredListEnter, {
