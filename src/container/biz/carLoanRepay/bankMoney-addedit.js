@@ -46,6 +46,9 @@ class bankMoneyAddedit extends React.Component {
             amount: true,
             readonly: true
         }, {
+            title: '贷款银行',
+            field: 'loanBank'
+        }, {
             title: '放款时间',
             field: 'bankFkDatetime',
             type: 'date',

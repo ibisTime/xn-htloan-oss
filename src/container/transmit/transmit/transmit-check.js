@@ -47,15 +47,11 @@ class transmitAddedit extends React.Component {
         readonly: true
     }, {
         title: '节点',
-        field: 'bizNodeCode',
+        field: 'toNodeCode',
         listCode: 630147,
         type: 'select',
-        data: [{
-            key: 'code',
-            value: 'name'
-        }],
-        keyName: 'key',
-        valueName: 'value',
+        keyName: 'code',
+        valueName: 'name',
         readonly: true
     }, {
         title: '参考材料清单',

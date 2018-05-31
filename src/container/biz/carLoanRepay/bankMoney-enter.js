@@ -6,7 +6,7 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/archives-certain';
+} from '@redux/biz/bankMoney-enter';
 import {
   getQueryString,
   showSucMsg,
@@ -19,7 +19,7 @@ import {
 // import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
-    state => state.bizArchivesCertain, {
+    state => state.bizBankMoneyEnter, {
         initStates,
         doFetching,
         cancelFetching,
@@ -28,7 +28,7 @@ import {
         restore
     }
 )
-class archivesCertain extends React.Component {
+class bankMoneyEnter extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -37,68 +37,65 @@ class archivesCertain extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'description',
+            field: 'applyUserName',
             readonly: true
         }, {
             title: '业务编号',
-            field: 'description',
+            field: 'code',
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'name',
+            field: 'loanBankName',
             readonly: true
         }, {
             title: '贷款金额',
-            field: 'remark',
+            field: 'loanAmount',
             amount: true,
             readonly: true
         }, {
-            title: '征信信息',
-            field: 'updateDatetime',
-            readonly: true
+            title: '卡号',
+            field: 'repayBankcardNumber',
+            required: true,
+            bankCard: true
         }, {
-            title: '准入单信息',
-            field: 'updateDatetime',
-            readonly: true
+            title: '银行还款日',
+            field: 'repayBankDate',
+            type: 'date',
+            required: true
         }, {
-            title: '面签信息',
-            field: 'remark',
-            readonly: true
+            title: '公司还款日',
+            field: 'repayCompanyDate',
+            type: 'date',
+            required: true
         }, {
-            title: '垫资信息',
-            field: 'remark',
-            readonly: true
+            title: '首期月供金额',
+            field: 'repayFirstMonthAmount',
+            amount: true,
+            required: true
         }, {
-            title: 'GPS安装信息',
-            field: 'remark',
-            readonly: true
+            title: '每期月供金额',
+            field: 'repayMonthAmount',
+            amount: true,
+            required: true
         }, {
-            title: '银行放款信息',
-            field: 'remark',
-            readonly: true
-        }, {
-            title: '车辆抵押信息',
-            field: 'remark',
-            readonly: true
-        }, {
-            title: '档案存放位置',
-            field: 'remark',
-            type: 'select',
+            title: '放款日期',
+            field: 'bankFkDate',
+            type: 'date',
             required: true
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 630407,
+            detailCode: 632146,
             buttons: [{
               title: '确认',
               handler: (param) => {
                 param.approveResult = '1';
                 param.approveNote = this.projectCode;
-                param.approveUser = getUserId();
+                param.operator = getUserId();
                 this.props.doFetching();
-                fetch(630503, param).then(() => {
+                fetch(632135, param).then(() => {
                   showSucMsg('操作成功');
                   this.props.cancelFetching();
                   setTimeout(() => {
@@ -118,4 +115,4 @@ class archivesCertain extends React.Component {
     }
 }
 
-export default archivesCertain;
+export default bankMoneyEnter;

@@ -49,7 +49,7 @@ class transmit extends React.Component {
             search: true
         }, {
             title: '客户姓名',
-            field: 'userName',
+            field: 'applyUserName',
             search: true
         }, {
             title: '传递方式',
@@ -89,7 +89,9 @@ class transmit extends React.Component {
             field: 'refFileList'
         }, {
             title: '状态',
-            field: 'status'
+            field: 'status',
+            type: 'select',
+            key: 'logistics_status'
         }, {
             title: '备注',
             field: 'remark'
