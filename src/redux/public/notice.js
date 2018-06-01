@@ -32,34 +32,42 @@ export function publicNotice(state = initState, action) {
   }
 }
 
-export function setBtnList(data) {
-  return { type: SET_BUTTON_LIST, payload: data };
-}
-
+// 显示loading
 export function doFetching() {
   return { type: LOADING };
 }
 
+// 隐藏loading
 export function cancelFetching() {
   return { type: CANCEL_LOADING };
 }
 
+// 设置页面的按钮
+export function setBtnList(data) {
+  return { type: SET_BUTTON_LIST, payload: data };
+}
+
+// 设置table的数据
 export function setTableData(data) {
   return { type: SET_TABLE_DATA, payload: data };
 }
 
+// 设置select框的数据
 export function setSearchData(data) {
   return { type: SET_SEARCH_DATA, payload: data };
 }
 
+// 设置table的分页信息
 export function setPagination(data) {
   return { type: SET_PAGINATION, payload: data };
 }
 
+// 设置搜索框的值
 export function setSearchParam(data) {
   return { type: SET_SEARCH_PARAM, payload: data };
 }
 
+// 清空搜索框的值
 export function clearSearchParam() {
   return setSearchParam({});
 }

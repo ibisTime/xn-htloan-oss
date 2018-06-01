@@ -9,7 +9,7 @@ import {
 } from '@redux/public/notice-addedit';
 import { getQueryString } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { SYSTEM_CODE } from 'common/js/config';
 @DetailWrapper(
   state => state.publicNoticeAddEdit,
   { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
@@ -23,9 +23,11 @@ class NoticeAddEdit extends React.Component {
   render() {
     const fields = [{
       field: 'fromSystemCode',
+      value: SYSTEM_CODE,
       hidden: true
     }, {
       field: 'toSystemCode',
+      value: SYSTEM_CODE,
       hidden: true
     }, {
       field: 'smsType',
@@ -36,17 +38,18 @@ class NoticeAddEdit extends React.Component {
       field: 'toKind',
       keyCode: '630036',
       type: 'select',
-      key: 'user_kind'
+      key: 'user_kind',
+      required: true
     }, {
       title: '标题',
       field: 'smsTitle',
-      readonly: true,
+      required: true,
       maxlength: 30
     }, {
       title: '内容',
       field: 'smsContent',
       maxlength: 255,
-      readonly: true
+        required: true
     }, {
       title: '拟发送时间',
       field: 'topushDatetime',
@@ -59,11 +62,17 @@ class NoticeAddEdit extends React.Component {
     }];
     return this.props.buildDetail({
       fields,
+      key: 'id',
       code: this.code,
       view: this.view,
       detailCode: 804042,
       addCode: 804034,
-      editCode: 804035
+      editCode: 804035,
+      beforeSumit: (params) => {
+          params.systemCode = SYSTEM_CODE;
+          params.companyCode = SYSTEM_CODE;
+          return params;
+      }
     });
   }
 }

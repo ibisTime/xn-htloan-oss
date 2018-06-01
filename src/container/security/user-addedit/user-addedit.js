@@ -35,13 +35,13 @@ class UserAddEdit extends React.Component {
       field: 'realName',
       required: true
     }, {
+      title: '手机号',
+      field: 'mobile',
+      required: true
+    }, {
       title: '密码',
       field: 'loginPwd',
       type: 'password',
-      required: true
-    }, {
-      title: '真实姓名',
-      field: 'realName',
       required: true
     }, {
       title: '角色',

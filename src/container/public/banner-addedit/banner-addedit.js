@@ -9,7 +9,7 @@ import {
 } from '@redux/public/banner-addedit';
 import { getQueryString } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { SYSTEM_CODE } from 'common/js/config';
 
 @DetailWrapper(
   state => state.publicBannerAddEdit,
@@ -90,9 +90,14 @@ class BannerAddEdit extends React.Component {
       fields,
       code: this.code,
       view: this.view,
-      detailCode: 630001,
-      addCode: 630000,
-      editCode: 630002
+      addCode: '805800',
+      editCode: '805802',
+      detailCode: '805807',
+      beforeSumit: (params) => {
+        params.systemCode = SYSTEM_CODE;
+        params.companyCode = SYSTEM_CODE;
+        return params;
+      }
     });
   }
 }

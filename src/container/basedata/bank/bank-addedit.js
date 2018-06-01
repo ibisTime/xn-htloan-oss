@@ -31,7 +31,7 @@ class bankAddedit extends React.Component {
     render() {
         const fields = [{
             title: '贷款银行',
-            field: 'loanBank',
+            field: 'bankCode',
             type: 'select',
             listCode: 802116,
             keyName: 'bankCode',
@@ -39,7 +39,8 @@ class bankAddedit extends React.Component {
             required: true
         }, {
             title: '支行',
-            field: 'subbranch'
+            field: 'subbranch',
+            required: true
         }];
         return this.props.buildDetail({
             fields,
@@ -48,10 +49,10 @@ class bankAddedit extends React.Component {
             addCode: 632030,
             editCode: 632032,
             detailCode: 632036,
-            beforeSubmit: (params) => {
-              let bank = this.props.selectData.bankCode.find(v => v.bankCode === params.bankCode);
-              params.bankName = bank.bankName;
-              return params;
+            beforeSubmit: (param) => {
+                let bank = this.props.selectData.bankCode.find(v => v.bankCode === param.bankCode);
+                param.bankName = bank.bankName;
+                return param;
             }
         });
     }

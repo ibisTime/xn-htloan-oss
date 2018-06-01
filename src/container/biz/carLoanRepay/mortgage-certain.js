@@ -16,6 +16,7 @@ import {
     DetailWrapper
 } from 'common/js/build-detail';
 // import { COMPANY_CODE } from 'common/js/config';
+import fetch from 'common/js/fetch';
 
 @DetailWrapper(
     state => state.bizMortgageCertain, {
@@ -80,6 +81,7 @@ class mortgageCertain extends React.Component {
                 param.approveResult = '1';
                 param.approveNote = this.projectCode;
                 param.approveUser = getUserId();
+                param.operator = getUserId();
                 this.props.doFetching();
                 fetch(632133, param).then(() => {
                   showSucMsg('操作成功');

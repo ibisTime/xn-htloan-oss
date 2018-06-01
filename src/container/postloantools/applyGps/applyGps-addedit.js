@@ -32,7 +32,7 @@ class applyGpsAddedit extends React.Component {
       field: 'applyCount'
     }, {
       title: '申领人',
-      field: 'applyUser'
+      field: 'applyUserName'
     }, {
       title: '申领原因',
       field: 'applyReason'

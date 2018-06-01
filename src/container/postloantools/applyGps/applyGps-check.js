@@ -38,7 +38,7 @@ class applyGpsCheck extends React.Component {
         readonly: true
       }, {
         title: '申领人',
-        field: 'applyUser',
+        field: 'applyUserName',
         readonly: true
       }, {
         title: '申领原因',
@@ -57,7 +57,7 @@ class applyGpsCheck extends React.Component {
           add: true,
           delete: true,
           scroll: {
-            x: 1300
+            x: 400
           },
           fields: [{
             title: 'GPS设备号',

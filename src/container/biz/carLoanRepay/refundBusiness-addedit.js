@@ -92,9 +92,7 @@ class refundBusinessAddedit extends React.Component {
         type: 'img'
       }
     ];
-    return this
-      .props
-      .buildDetail({
+    return this.props.buildDetail({
         fields,
         code: this.code,
         view: this.view,

@@ -62,7 +62,7 @@ class refundBusiness extends React.Component {
       }
     }, {
       title: '贷款银行',
-      field: 'loanBank'
+      field: 'loanBankName'
     }, {
       title: '贷款金额',
       field: 'loanAmount',
