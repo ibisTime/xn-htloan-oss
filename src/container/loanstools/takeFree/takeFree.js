@@ -15,11 +15,6 @@ import {
  moneyFormat
 } from 'common/js/util';
 import {
-  Button,
-  Upload,
-  Modal
-} from 'antd';
-import {
     listWrapper
 } from 'common/js/build-list';
 import {
@@ -54,7 +49,7 @@ class takeFee extends React.Component {
             field: 'companyName'
         }, {
             title: '客户姓名',
-            field: 'userId',
+            field: 'userName',
             search: true
         }, {
             title: '应收手续费总额',

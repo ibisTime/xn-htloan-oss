@@ -46,6 +46,9 @@ class User extends React.Component {
       valueName: 'name',
       search: true
     }, {
+        title: '岗位',
+        field: 'departmentName'
+    }, {
       title: '备注',
       field: 'remark'
     }];

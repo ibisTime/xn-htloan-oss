@@ -27,13 +27,14 @@ class Post extends React.Component {
       getUserById(this.userId),
       getPostList()
     ]).then(([userData, postData]) => {
+      this.getTree(postData);
       this.setState({ userName: userData.realName, fetching: false });
       this.props.form.setFieldsValue({
         departmentCode: userData.departmentCode
       });
     }).catch(() => this.setState({ fetching: false }));
   }
-  getTree(data) {
+  getTree = (data) => {
     let result = {};
     data.forEach(v => {
       v.parentCode = v.parentCode === '0' ? 'ROOT' : v.parentCode;
@@ -51,7 +52,7 @@ class Post extends React.Component {
     this.getTreeNode(result['ROOT'], tree);
     this.setState({ treeData: tree });
   }
-  getTreeNode(arr, children) {
+  getTreeNode = (arr, children) => {
     arr.forEach(a => {
       if (this.result[a.key]) {
         a.children = [];
