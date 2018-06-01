@@ -75,7 +75,7 @@ class bankMoneyEnter extends React.Component {
         }, {
             title: '首期还款日期',
             field: 'repayFirstMonthDatetime',
-            type: 'data',
+            type: 'date',
             required: true
         }, {
             title: '首期月供金额',

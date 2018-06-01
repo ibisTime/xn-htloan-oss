@@ -62,6 +62,7 @@ class NoticeAddEdit extends React.Component {
     }];
     return this.props.buildDetail({
       fields,
+      key: 'id',
       code: this.code,
       view: this.view,
       detailCode: 804042,

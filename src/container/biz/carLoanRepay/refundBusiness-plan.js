@@ -40,6 +40,7 @@ class refundBusinessPlan extends React.Component {
         }, {
             title: '贷款金额',
             field: 'loanAmount',
+            amount: true,
             readonly: true
         }, {
             title: '期数',
@@ -47,12 +48,9 @@ class refundBusinessPlan extends React.Component {
             readonly: true
         }, {
             title: '还款计划表',
-            field: 'creditList',
+            field: 'repayPlanList',
             type: 'o2m',
             options: {
-                add: true,
-                edit: true,
-                delete: true,
                 scroll: {
                     x: 1300
                 },
@@ -61,25 +59,28 @@ class refundBusinessPlan extends React.Component {
                     field: 'curPeriods'
                 }, {
                     title: '应还本金',
+                    amount: true,
                     field: 'repayCapital'
                 }, {
-                    title: '应还利息',
+                    title: '应还本息',
+                    amount: true,
                     field: 'repayInterest'
                 }, {
                     title: '实还金额',
+                    amount: true,
                     field: 'payedAmount'
                 }, {
                     title: '逾期金额',
+                    amount: true,
                     field: 'overdueAmount'
                 }, {
                     title: '剩余欠款',
+                    amount: true,
                     field: 'overplusAmount'
                 }]
             }
         }];
-        return this
-            .props
-            .buildDetail({
+        return this.props.buildDetail({
                 fields,
                 code: this.code,
                 view: this.view,
@@ -87,6 +88,7 @@ class refundBusinessPlan extends React.Component {
                 beforeDetail: (param) => {
                     param['userId'] = this.userId;
                 }
+
             });
     }
 }

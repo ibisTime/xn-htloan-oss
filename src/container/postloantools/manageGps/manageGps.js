@@ -73,7 +73,7 @@ class manageGps extends React.Component {
             search: true
         }, {
             title: 'GPS领用人',
-            field: 'applyUser'
+            field: 'applyUserName'
         }, {
             title: 'GPS领用状态',
             field: 'applyStatus',
