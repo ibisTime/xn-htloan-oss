@@ -20,7 +20,6 @@ class Protect extends React.Component {
   render() {
     return (
       <div>
-        <Spin spinning={this.props.fetching}>
           <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
             <Col span={8} style={{marginBottom: '20px'}}>
               <Card title="平台积分账户" extra={
@@ -28,7 +27,6 @@ class Protect extends React.Component {
               }>{moneyFormat()}</Card>
             </Col>
           </Row>
-        </Spin>
       </div>
     );
   }

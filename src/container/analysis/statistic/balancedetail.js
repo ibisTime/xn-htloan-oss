@@ -43,7 +43,9 @@ class Balancedetail extends React.Component {
             title: '客户姓名',
             field: 'name',
             render: (v, d) => {
-                return d.user.realName;
+                if(d.user !== undefined) {
+                    return d.user.realName;
+                }
             },
             search: true
         }, {

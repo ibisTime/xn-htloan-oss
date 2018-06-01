@@ -81,7 +81,7 @@ class receivablesAddedit extends React.Component {
             editCode: 632002,
             detailCode: 632006,
             beforeSubmit: (params) => {
-              let bank = this.props.selectData.bankCode.find(v => v.bankCode === params.bankCode);
+              let bank = this.props.selectData.loanBank.find(v => v.bankCode === params.loanBank);
               params.bankName = bank.bankName;
               return params;
             }

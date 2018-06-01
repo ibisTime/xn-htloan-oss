@@ -74,9 +74,11 @@ class historyBusinessManageAddeditAddedit extends React.Component {
       }
     }, {
       title: '贷款金额',
-      field: 'loanAmount',
-      readonly: true,
-      amount: true
+      field: 'number',
+      formatter: (v, d) => {
+        return (d.repayBiz.loanAmount / 1000);
+      },
+      readonly: true
     }, {
       title: '剩余欠款',
       field: 'overplusAmount',
@@ -84,9 +86,11 @@ class historyBusinessManageAddeditAddedit extends React.Component {
       amount: true
     }, {
       title: '未还清收总成本',
-      field: 'restTotalCost',
-      readonly: true,
-      amount: true
+      field: 'totalCost',
+      formatter: (v, d) => {
+        return (d.repayBiz.restTotalCost / 1000);
+      },
+      readonly: true
     }, {
       title: '清收成本清单',
       field: 'costList',

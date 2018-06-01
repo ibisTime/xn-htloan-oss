@@ -266,6 +266,12 @@ import { postloantoolsApplyGpsCheck } from './redux/postloantools/applyGps-check
 import { postloantoolsManageGps } from './redux/postloantools/manageGps';
 import { postloantoolsManageGpsAddedit } from './redux/postloantools/manageGps-addedit';
 
+/**
+ * 统计分析
+ */
+import { bizBalancedetail } from './redux/analysis/balancedetail';
+import { analysisProtect } from './redux/analysis/protect';
+
 export default combineReducers({
   user,
   menu,
@@ -430,5 +436,8 @@ export default combineReducers({
   postloantoolsManageGpsAddedit,
   bizLitigation,
   bizLitigationAddEdit,
-  bizLitigationDispose
+  bizLitigationDispose,
+  bizBalancedetail,
+  analysisProtect,
+  bizHistoryBusinessManageAddeditAddedit
 });
