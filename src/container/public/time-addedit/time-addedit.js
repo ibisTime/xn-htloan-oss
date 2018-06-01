@@ -9,7 +9,6 @@ import {
 } from '@redux/public/time-addedit';
 import { showSucMsg } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
@@ -28,7 +27,6 @@ class TimeAddEdit extends React.Component {
     }, {
       title: '内容',
       field: 'cvalue',
-      type: 'textarea',
       required: true
     }];
     return this.props.buildDetail({
