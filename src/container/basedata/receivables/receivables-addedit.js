@@ -54,7 +54,7 @@ class receivablesAddedit extends React.Component {
             bankCard: true
         }, {
             title: '贷款银行',
-            field: 'loanBank',
+            field: 'bankCode',
             type: 'select',
             listCode: 802116,
             keyName: 'bankCode',

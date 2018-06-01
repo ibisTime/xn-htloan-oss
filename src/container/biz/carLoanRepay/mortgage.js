@@ -16,7 +16,8 @@ import {
     showWarnMsg,
     showSucMsg,
     getRoleCode,
-    dateTimeFormat
+    dateTimeFormat,
+    getUserId
 } from 'common/js/util';
 import {
     Button,
@@ -27,6 +28,7 @@ import {
     lowerFrame,
     onShelf
 } from 'api/biz';
+import fetch from 'common/js/fetch';
 
 @listWrapper(
     state => ({
@@ -128,7 +130,28 @@ class mortgage extends React.Component {
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else {
-                  this.props.history.push(`/biz/mortgage/certain?code=${selectedRowKeys[0]}`);
+                    Modal.confirm({
+                        okText: '确认',
+                        cancelText: '取消',
+                        content: '确定抵押完成？',
+                        onOk: () => {
+                            console.log(selectedRowKeys[0]);
+                            let param = {};
+                            param.code = selectedRowKeys[0];
+                            param.operator = getUserId();
+                            this.props.doFetching();
+                            return fetch(632133, param).then(() => {
+                                this.props.cancelFetching();
+                                showWarnMsg('操作成功');
+                                setTimeout(() => {
+                                    this.props.getPageData();
+                                }, 1000);
+                            }).catch(() => {
+                                this.props.cancelFetching();
+                            });
+                        }
+                    });
+                  // this.props.history.push(`/biz/mortgage/certain?code=${selectedRowKeys[0]}`);
                 }
               }
             }
