@@ -48,12 +48,10 @@ class bankAddedit extends React.Component {
             addCode: 632030,
             editCode: 632032,
             detailCode: 632036,
-            beforeSubmit: (param) => {
-                console.log(this.props.selectData);
-                let data = this.props.selectData;
-                param.bankCode = data.loanBank[0].bankCode;
-                param.bankName = data.loanBank[0].bankName;
-                return param;
+            beforeSubmit: (params) => {
+              let bank = this.props.selectData.bankCode.find(v => v.bankCode === params.bankCode);
+              params.bankName = bank.bankName;
+              return params;
             }
         });
     }

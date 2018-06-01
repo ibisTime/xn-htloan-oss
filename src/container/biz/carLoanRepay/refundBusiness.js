@@ -61,9 +61,6 @@ class refundBusiness extends React.Component {
         return d.user.mobile;
       }
     }, {
-      title: '车辆',
-      field: 'carCode'
-    }, {
       title: '贷款银行',
       field: 'loanBank'
     }, {
@@ -101,9 +98,6 @@ class refundBusiness extends React.Component {
     }, {
       title: '实际逾期期数',
       field: 'curOverdueCount'
-    }, {
-      title: '放款日期',
-      field: 'periods'
     }, {
       title: '状态',
       field: 'status',
