@@ -99,9 +99,6 @@ class refundBusiness extends React.Component {
       title: '实际逾期期数',
       field: 'curOverdueCount'
     }, {
-      title: '放款日期',
-      field: 'periods'
-    }, {
       title: '状态',
       field: 'status',
       type: 'select',
