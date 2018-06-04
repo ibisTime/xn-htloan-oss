@@ -50,13 +50,12 @@ class HandleApply extends React.Component {
       title: '申请人',
       field: 'userId'
     }, {
-      title: '意向车辆',
-      field: 'status'
-    }, {
       title: '车辆总价',
+      amount: true,
       field: 'price'
     }, {
       title: '首付金额',
+      amount: 'true',
       field: 'sfAmount'
     }, {
       title: '申请时间',
@@ -70,7 +69,7 @@ class HandleApply extends React.Component {
       fields,
       pageCode: 630435,
       searchParams: {
-        status: '1'
+        status: '0'
       },
       btnEvent: {
         dispose: (selectedRowKeys, selectedRows) => {

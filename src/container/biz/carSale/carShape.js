@@ -59,9 +59,11 @@ class CarShape extends React.Component {
       valueName: 'name'
     }, {
       title: '厂商指导价',
+      amount: true,
       field: 'originalPrice'
     }, {
       title: '经销商参考价',
+      amount: true,
       field: 'salePrice'
     }, {
       title: 'UI位置',

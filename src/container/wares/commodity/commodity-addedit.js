@@ -80,9 +80,11 @@ class commodityAddedit extends React.Component {
           type: 'img'
         }, {
           title: '价格',
+          amount: true,
           field: 'price'
         }, {
           title: '原价',
+          amount: true,
           field: 'originalPrice'
         }, {
           title: '总期数',

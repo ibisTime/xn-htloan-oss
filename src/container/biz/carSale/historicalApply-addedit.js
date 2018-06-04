@@ -50,6 +50,7 @@ class historicalApplyCheck extends React.Component {
         }, {
             title: '首付金额',
             field: 'sfAmount',
+            amount: true,
             readonly: true
         }, {
             title: '分期期数',

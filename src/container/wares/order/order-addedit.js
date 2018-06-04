@@ -43,20 +43,22 @@ class orderAddedit extends React.Component {
         return d.productOrderList.productName;
       }
     }, {
-      title: '购买数量',
+      title: '订单价格',
       render: (v, d) => {
-        return d.productOrderList.price;
+        return d.productOrderList.price / 1000;
       }
     }, {
-      title: '订单价格',
+      title: '购买数量',
       render: (v, d) => {
         return d.productOrderList.quantity;
       }
     }, {
       title: '首付',
+      amount: true,
       field: 'sfAmount'
     }, {
       title: '贷款金额',
+      amount: true,
       field: 'loanAmount'
     }, {
       title: '分期期数',
