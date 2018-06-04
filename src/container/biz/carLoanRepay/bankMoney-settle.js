@@ -60,10 +60,6 @@ class bankMoneyAddedit extends React.Component {
             type: 'date',
             required: true
         }, {
-            title: '车牌号',
-            field: 'carNumber',
-            required: true
-        }, {
             title: '发票',
             field: 'carInvoice',
             type: 'img'
@@ -78,22 +74,6 @@ class bankMoneyAddedit extends React.Component {
         }, {
             title: '商业险',
             field: 'carSyx',
-            type: 'img'
-        }, {
-            title: '机动车登记证书',
-            field: 'carRegcerti',
-            type: 'img'
-        }, {
-            title: '批单',
-            field: 'carPd',
-            type: 'img'
-        }, {
-            title: '车钥匙',
-            field: 'carKey',
-            type: 'img'
-        }, {
-            title: '大本扫描件',
-            field: 'carBigSmj',
             type: 'img'
         }];
         return this.props.buildDetail({
