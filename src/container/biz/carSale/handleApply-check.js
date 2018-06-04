@@ -41,16 +41,13 @@ class handleApplyCheck extends React.Component {
             field: 'userId',
             readonly: true
         }, {
-            title: '意向车辆',
-            field: 'idNo',
-            readonly: true
-        }, {
             title: '首付比例',
             field: 'sfRate',
             readonly: true
         }, {
             title: '首付金额',
             field: 'sfAmount',
+            amount: true,
             readonly: true
         }, {
             title: '分期期数',

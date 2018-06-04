@@ -54,7 +54,7 @@ class receivablesAddedit extends React.Component {
             bankCard: true
         }, {
             title: '贷款银行',
-            field: 'loanBank',
+            field: 'bankCode',
             type: 'select',
             listCode: 802116,
             keyName: 'bankCode',
@@ -80,12 +80,10 @@ class receivablesAddedit extends React.Component {
             addCode: 632000,
             editCode: 632002,
             detailCode: 632006,
-            beforeSubmit: (param) => {
-                console.log(this.props.selectData);
-                let data = this.props.selectData;
-                param.bankCode = data.loanBank[0].bankCode;
-                param.bankName = data.loanBank[0].bankName;
-                return param;
+            beforeSubmit: (params) => {
+              let bank = this.props.selectData.loanBank.find(v => v.bankCode === params.loanBank);
+              params.bankName = bank.bankName;
+              return params;
             }
         });
     }

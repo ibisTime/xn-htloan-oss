@@ -83,15 +83,14 @@ class refundBusinessAddedit extends React.Component {
         required: true
       }, {
         title: '实际退款金额',
-        field: 'periods',
+        field: 'actualRefunds',
         amount: true,
         readonly: true
       }, {
         title: '结清时间',
         field: 'closeDatetime',
         type: 'img'
-      }
-    ];
+      }];
     return this.props.buildDetail({
         fields,
         code: this.code,

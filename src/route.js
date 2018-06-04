@@ -494,6 +494,16 @@ const ROUTES = [
     path: '/biz/litigation/dispose',
     component: asyncComponent(() => import('container/biz/carLoanRepay/litigation-dispose'))
   },
+  //  结清审核
+  {
+    path: '/biz/settlement',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/settlement'))
+  },
+  //  结清审核 详情
+  {
+    path: '/biz/settlement/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/settlement-addedit'))
+  },
   //  历史业务管理
   {
     path: '/biz/historyBusinessManage',

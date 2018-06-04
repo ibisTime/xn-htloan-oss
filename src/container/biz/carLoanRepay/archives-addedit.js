@@ -8,7 +8,8 @@ import {
     restore
 } from '@redux/biz/archives-addedit';
 import {
-    getQueryString
+    getQueryString,
+    dateTimeFormat
 } from 'common/js/util';
 import {
     DetailWrapper
@@ -34,61 +35,27 @@ class archivesAddedit extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'description',
+            field: 'applyUserName',
             readonly: true
         }, {
             title: '业务编号',
-            field: 'description',
+            field: 'code',
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'name',
+            field: 'loanBankName',
             readonly: true
         }, {
             title: '贷款金额',
-            field: 'remark',
+            field: 'loanAmount',
             amount: true,
-            readonly: true
-        }, {
-            title: '征信信息',
-            field: 'updateDatetime',
-            readonly: true
-        }, {
-            title: '准入单信息',
-            field: 'updateDatetime',
-            readonly: true
-        }, {
-            title: '面签信息',
-            field: 'remark',
-            readonly: true
-        }, {
-            title: '垫资信息',
-            field: 'remark',
-            readonly: true
-        }, {
-            title: 'GPS安装信息',
-            field: 'remark',
-            readonly: true
-        }, {
-            title: '银行放款信息',
-            field: 'remark',
-            readonly: true
-        }, {
-            title: '车辆抵押信息',
-            field: 'remark',
-            readonly: true
-        }, {
-            title: '档案存放位置',
-            field: 'remark',
             readonly: true
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            addCode: 630400,
-            editCode: 630402,
-            detailCode: 630407
+            detailCode: 632146
         });
     }
 }

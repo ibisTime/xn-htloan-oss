@@ -53,27 +53,6 @@ class archivesCertain extends React.Component {
             amount: true,
             readonly: true
         }, {
-            title: '征信信息',
-            field: 'remark'
-        }, {
-            title: '准入但信息',
-            field: 'remark'
-        }, {
-            title: '面签信息',
-            field: 'remark'
-        }, {
-            title: '垫资信息',
-            field: 'remark'
-        }, {
-            title: 'GPS安装信息',
-            field: 'remark'
-        }, {
-            title: '银行放款信息',
-            field: 'remark'
-        }, {
-            title: '车辆抵押信息',
-            field: 'remark'
-        }, {
             title: '档案存放位置',
             field: 'enterLocation',
             type: 'select',

@@ -87,7 +87,13 @@ class refundBusinessPlan extends React.Component {
                 detailCode: 630521,
                 beforeDetail: (param) => {
                     param['userId'] = this.userId;
-                }
+                },
+                buttons: [{
+                    title: '返回',
+                    handler: (param) => {
+                        this.props.history.go(-1);
+                    }
+                }]
 
             });
     }

@@ -62,8 +62,8 @@ class refundBusiness extends React.Component {
       }
     }, {
       title: '贷款银行',
-      field: 'loanBankName'
-    }, {
+      field: 'loanBank'
+  }, {
       title: '贷款金额',
       field: 'loanAmount',
       amount: true
@@ -98,9 +98,6 @@ class refundBusiness extends React.Component {
     }, {
       title: '实际逾期期数',
       field: 'curOverdueCount'
-    }, {
-      title: '放款日期',
-      field: 'periods'
     }, {
       title: '状态',
       field: 'status',

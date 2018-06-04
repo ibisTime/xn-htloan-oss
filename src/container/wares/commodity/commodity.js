@@ -47,6 +47,7 @@ class Commodity extends React.Component {
       search: true
     }, {
       title: '价格(元)',
+      amount: true,
       field: 'price'
     }, {
       title: '最低购买信用分',

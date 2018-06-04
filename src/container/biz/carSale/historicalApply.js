@@ -35,13 +35,12 @@ class HistoricalApply extends React.Component {
       type: 'select',
       search: true
     }, {
-      title: '意向车辆',
-      field: 'status'
-    }, {
       title: '车辆总价',
+      amount: true,
       field: 'price'
     }, {
       title: '首付金额',
+      amount: true,
       field: 'sfAmount'
     }, {
       title: '申请时间',
