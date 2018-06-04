@@ -825,6 +825,26 @@ const ROUTES = [
   {
     path: '/postloantools/manageGps/addedit',
     component: asyncComponent(() => import('container/postloantools/manageGps/manageGps-addedit'))
+  },
+  //  导入逾期名单
+  {
+    path: '/postloantools/import',
+    component: asyncComponent(() => import('container/postloantools/import/import'))
+  },
+  //  导入逾期名单 详情
+  {
+    path: '/postloantools/import/addedit',
+    component: asyncComponent(() => import('container/postloantools/import/import-addedit'))
+  },
+  //  导入逾期名单 导入
+  {
+    path: '/postloantools/import/import',
+    component: asyncComponent(() => import('container/postloantools/import/import-import'))
+  },
+  //  导入逾期名单 处理
+  {
+    path: '/postloantools/import/dispose',
+    component: asyncComponent(() => import('container/postloantools/import/import-dispose'))
   }
 ];
 
