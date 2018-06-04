@@ -32,7 +32,6 @@ class CreditAddedit extends React.Component {
             selectKey: ''
         };
         this.code = getQueryString('code', this.props.location.search);
-        console.log(this.code);
         // 发起征信
         this.isAddedit = !!getQueryString('isAddedit', this.props.location.search);
         // 录入征信结果
@@ -43,7 +42,7 @@ class CreditAddedit extends React.Component {
         this.isCheckFirst = !!getQueryString('isCheckFirst', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
         this.newCar = true;
-        this.creditUserListIndex = 7;
+        this.creditUserListIndex = 6;
     }
 
     // 录入银行征信结果
@@ -105,6 +104,9 @@ class CreditAddedit extends React.Component {
             title: '征信报告',
             field: 'bankCreditResultPdf',
             type: 'img'
+        }, {
+            title: '银行征信结果说明',
+            fields: 'bankCreditResultRemark'
         }];
 
         let fields = [{
@@ -133,11 +135,6 @@ class CreditAddedit extends React.Component {
             onChange: (value) => {
                 _this.newCar = value === '1';
             }
-        }, {
-            title: '保存/发送',
-            field: 'buttonCode',
-            value: '1',
-            hidden: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
@@ -318,6 +315,42 @@ class CreditAddedit extends React.Component {
         }
 
         if(this.isAddedit) {
+            buttons = [{
+                title: '保存',
+                check: true,
+                handler: (params) => {
+                    params.buttonCode = '0';
+                    params.operator = getUserId();
+                    this.props.doFetching();
+                    fetch(632110, params).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                }
+            }, {
+                title: '发送',
+                check: true,
+                handler: (params) => {
+                    params.buttonCode = '1';
+                    params.operator = getUserId();
+                    this.props.doFetching();
+                    fetch(632110, params).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                }
+            }, {
+                title: '返回',
+                handler: (param) => {
+                    this.props.history.go(-1);
+                }
+            }];
         }
 
         return (
@@ -328,8 +361,6 @@ class CreditAddedit extends React.Component {
                         code: this.code,
                         view: this.view,
                         detailCode: 632117,
-                        addCode: 632110,
-                        editCode: 632110,
                         buttons: buttons,
                         beforeSubmit: (param) => {
                             if (!param.creditUserList) {

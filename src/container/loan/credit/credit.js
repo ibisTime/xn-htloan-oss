@@ -92,17 +92,25 @@ class Credit extends React.Component {
                 roleCode: getRoleCode()
             },
             btnEvent: {
-                add: (selectedRowKeys, selectedRows) => {
+                apply: (selectedRowKeys, selectedRows) => {
                     let code = selectedRowKeys ? selectedRowKeys[0] : '';
-                    console.log(selectedRows);
-                    console.log(code);
-                    // this.props.history.push(`/loan/credit/addedit?isAddedit=1&code=${code}`);
+                    if (code) {
+                        if (selectedRows[0].curNodeCode !== '001_01') {
+                            showWarnMsg('当前不是填写征信单的节点');
+                            return;
+                        }
+                        this.props.history.push(`/loan/credit/addedit?isAddedit=1&code=${code}`);
+                    } else {
+                        this.props.history.push(`/loan/credit/addedit?isAddedit=1`);
+                    }
                 },
                 check: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '001_03') {
+                        showWarnMsg('当前不是风控专员审核的节点');
                     } else {
                         this.props.history.push(`/loan/credit/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
                     }
@@ -112,8 +120,9 @@ class Credit extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '001_02') {
+                        showWarnMsg('当前不是录入征信结果的节点');
                     } else {
-                        console.log(1);
                         this.props.history.push(`/loan/credit/addedit?v=1&isEntry=1&code=${selectedRowKeys[0]}`);
                     }
                 }

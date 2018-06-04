@@ -16,6 +16,10 @@ class LoanCreditEnteringEdit extends React.Component {
                 field: 'bankCreditResultPdf',
                 type: 'img',
                 required: true
+            }, {
+                title: '银行征信结果说明',
+                field: 'bankCreditResultRemark',
+                required: true
             }],
             buttons: [{
                 title: '确认',

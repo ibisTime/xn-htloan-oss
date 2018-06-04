@@ -1,7 +1,9 @@
 import React from 'react';
 import {
   getQueryString,
-  getUserId
+  getUserId,
+  showWarnMsg,
+  showSucMsg
 } from 'common/js/util';
 import {
   CollapseWrapper
@@ -14,6 +16,7 @@ import {
   setPageData,
   restore
 } from '@redux/loan/apply-admittance-addedit';
+import fetch from 'common/js/fetch';
 
 @CollapseWrapper(
   state => state.loanApplyAdmittanceAddedit, {
@@ -1262,17 +1265,51 @@ class ApplyAdmittanceAddEdit extends React.Component {
         ]
       ]
     }];
+
+    let buttons = [{
+        title: '保存',
+        check: true,
+        handler: (params) => {
+            params.dealType = '0';
+            params.operator = getUserId();
+            params.creditCode = this.code;
+            this.props.doFetching();
+            fetch(632120, params).then(() => {
+                showSucMsg('操作成功');
+                this.props.cancelFetching();
+                setTimeout(() => {
+                    this.props.history.go(-1);
+                }, 1000);
+            }).catch(this.props.cancelFetching);
+        }
+    }, {
+        title: '发送',
+        check: true,
+        handler: (params) => {
+            params.dealType = '1';
+            params.operator = getUserId();
+            params.creditCode = this.code;
+            this.props.doFetching();
+            fetch(632120, params).then(() => {
+                showSucMsg('操作成功');
+                this.props.cancelFetching();
+                setTimeout(() => {
+                    this.props.history.go(-1);
+                }, 1000);
+            }).catch(this.props.cancelFetching);
+        }
+    }, {
+        title: '返回',
+        handler: (param) => {
+            this.props.history.go(-1);
+        }
+    }];
     return this.props.buildDetail({
       fields,
       code: this.code,
       editCode: 632120,
       detailCode: 632117,
-      beforeSubmit: (params) => {
-        params.dealType = '1';
-        params.operator = getUserId();
-        params.creditCode = this.code;
-        return params;
-      }
+      buttons: buttons
     });
   }
 }

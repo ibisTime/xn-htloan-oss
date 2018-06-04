@@ -67,7 +67,7 @@ class installGpsEnter extends React.Component {
                     params: {
                         applyStatus: '1',
                         applyUser: getUserId(),
-                        use_status: '0'
+                        useStatus: '0'
                     },
                     keyName: 'gpsDevNo',
                     valueName: 'gpsDevNo',
