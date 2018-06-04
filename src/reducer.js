@@ -274,6 +274,12 @@ import { postloantoolsApplyGpsCheck } from './redux/postloantools/applyGps-check
 import { postloantoolsManageGps } from './redux/postloantools/manageGps';
 import { postloantoolsManageGpsAddedit } from './redux/postloantools/manageGps-addedit';
 
+//  导入逾期名单 + 详情 + 导入 + 处理
+import { postloantoolsImport } from './redux/postloantools/import';
+import { postloantoolsImportAddedit } from './redux/postloantools/import-addedit';
+import { postloantoolsImportImport } from './redux/postloantools/import-import';
+import { postloantoolsImportDispose } from './redux/postloantools/import-dispose';
+
 /**
  * 统计分析
  */
@@ -453,5 +459,9 @@ export default combineReducers({
   bizSettlementCollection,
   bizSettlementFinance,
   bizSettlementManager,
-  bizSettlementStationed
+  bizSettlementStationed,
+  postloantoolsImport,
+  postloantoolsImportAddedit,
+  postloantoolsImportImport,
+  postloantoolsImportDispose
 });

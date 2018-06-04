@@ -85,10 +85,6 @@ class ApplyAdmittanceAddEdit extends React.Component {
           field: 'invoiceCompany',
           title: '开票单位',
           required: true
-        }, {
-          field: 'carBrand',
-          title: '品牌',
-          required: true
         }],
         [{
           field: 'originalPrice',
@@ -148,16 +144,16 @@ class ApplyAdmittanceAddEdit extends React.Component {
           required: true
         }],
         [{
-          field: 'carBrand',
           title: '品牌',
+          field: 'carBrand',
           required: true
         }, {
-          field: 'carSeries',
           title: '车系',
+          field: 'carSeries',
           required: true
         }, {
-          field: 'carModel',
           title: '车型',
+          field: 'carModel',
           required: true
         }],
         [{
@@ -169,6 +165,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
         [{
           field: 'carHgzPic',
           title: '合格证',
+          type: 'img',
           required: true
         }, {
           field: 'carHgzNo',
@@ -292,7 +289,8 @@ class ApplyAdmittanceAddEdit extends React.Component {
         }],
         [{
           field: 'postTitle',
-          title: '职称'
+          title: '职称',
+          required: true
         }, {
           field: 'monthIncome',
           title: '月收入',
@@ -312,7 +310,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
           field: 'workProfession',
           title: '职业',
           type: 'select',
-          key: ' work_profession'
+          key: 'work_profession'
         }, {
           field: 'workDatetime',
           title: '何时进入现单位工作',
@@ -431,7 +429,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
       title: '申请人支付宝流水数据',
       items: [
         [{
-          field: 'jourDatetime',
+          field: 'jourDatetime1',
           title: '流水时间',
           type: 'date',
           rangedate: ['zfbJourDatetimeStart', 'zfbJourDatetimeEnd'],
@@ -459,7 +457,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
             amount: true,
             required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime1');
               let zfbJourMonthIncome = this.props.form.getFieldValue('zfbJourMonthIncome');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -475,7 +473,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
             amount: true,
             required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime1');
               let zfbJourMonthExpend = this.props.form.getFieldValue('zfbJourMonthExpend');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -522,7 +520,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
       title: '申请人微信流水数据',
       items: [
         [{
-          field: 'jourDatetime',
+          field: 'jourDatetime2',
           title: '流水时间',
           type: 'date',
           rangedate: ['wxJourDatetimeStart', 'wxJourDatetimeEnd'],
@@ -550,7 +548,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
             amount: true,
             required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime2');
               let wxJourMonthIncome = this.props.form.getFieldValue('wxJourMonthIncome');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -566,7 +564,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
             amount: true,
             required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime2');
               let wxJourMonthExpend = this.props.form.getFieldValue('wxJourMonthExpend');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -613,7 +611,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
       title: '申请人银行流水数据',
       items: [
         [{
-          field: 'jourDatetime',
+          field: 'jourDatetime3',
           title: '流水时间',
           type: 'date',
           rangedate: ['jourDatetimeStart', 'jourDatetimeEnd'],
@@ -641,7 +639,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
             amount: true,
             required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime3');
               let jourMonthIncome = this.props.form.getFieldValue('jourMonthIncome');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -657,7 +655,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
             amount: true,
             required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime3');
               let jourMonthExpend = this.props.form.getFieldValue('jourMonthExpend');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -695,7 +693,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
           required: true
         }],
         [{
-          field: 'jourRemark',
+          field: 'jourPic',
           title: '流水图片',
           type: 'img'
         }]
@@ -704,11 +702,10 @@ class ApplyAdmittanceAddEdit extends React.Component {
       title: '配偶支付宝流水数据',
       items: [
         [{
-          field: 'jourDatetime',
+          field: 'jourDatetime4',
           title: '流水时间',
           type: 'date',
           rangedate: ['mateZfbJourDatetimeStart', 'mateZfbJourDatetimeEnd'],
-          required: true,
           onChange: (dates, dateStrings) => {
             let mateZfbJourIncome = this.props.form.getFieldValue('mateZfbJourIncome');
             let mateZfbJourExpend = this.props.form.getFieldValue('mateZfbJourExpend');
@@ -730,9 +727,8 @@ class ApplyAdmittanceAddEdit extends React.Component {
             field: 'mateZfbJourIncome',
             title: '收入',
             amount: true,
-            required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime4');
               let mateZfbJourMonthIncome = this.props.form.getFieldValue('mateZfbJourMonthIncome');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -746,9 +742,8 @@ class ApplyAdmittanceAddEdit extends React.Component {
             field: 'mateZfbJourExpend',
             title: '支出',
             amount: true,
-            required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime4');
               let mateZfbJourMonthExpend = this.props.form.getFieldValue('mateZfbJourMonthExpend');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -762,28 +757,24 @@ class ApplyAdmittanceAddEdit extends React.Component {
         [{
             field: 'mateZfbJourBalance',
             title: '账户余额',
-            amount: true,
-            required: true
+            amount: true
           },
           {
             field: 'mateZfbJourMonthIncome',
             title: '月均收入',
-            amount: true,
-            required: true
+            amount: true
           },
           {
             field: 'mateZfbJourMonthExpend',
             title: '月均支出',
-            amount: true,
-            required: true
+            amount: true
           }
         ],
         [{
           field: 'mateZfbJourRemark',
           title: '备注',
           type: 'textarea',
-          normalArea: true,
-          required: true
+          normalArea: true
         }],
         [{
           field: 'mateZfbJourPic',
@@ -795,11 +786,10 @@ class ApplyAdmittanceAddEdit extends React.Component {
       title: '配偶微信流水数据',
       items: [
         [{
-          field: 'jourDatetime',
+          field: 'jourDatetime5',
           title: '流水时间',
           type: 'date',
           rangedate: ['mateWxJourDatetimeStart', 'mateWxJourDatetimeEnd'],
-          required: true,
           onChange: (dates, dateStrings) => {
             let mateWxJourIncome = this.props.form.getFieldValue('mateWxJourIncome');
             let mateWxJourExpend = this.props.form.getFieldValue('mateWxJourExpend');
@@ -821,9 +811,8 @@ class ApplyAdmittanceAddEdit extends React.Component {
             field: 'mateWxJourIncome',
             title: '收入',
             amount: true,
-            required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime5');
               let mateWxJourMonthIncome = this.props.form.getFieldValue('mateWxJourMonthIncome');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -837,9 +826,8 @@ class ApplyAdmittanceAddEdit extends React.Component {
             field: 'mateWxJourExpend',
             title: '支出',
             amount: true,
-            required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime5');
               let mateWxJourMonthExpend = this.props.form.getFieldValue('mateWxJourMonthExpend');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -853,28 +841,24 @@ class ApplyAdmittanceAddEdit extends React.Component {
         [{
             field: 'mateWxJourBalance',
             title: '账户余额',
-            amount: true,
-            required: true
+            amount: true
           },
           {
             field: 'mateWxJourMonthIncome',
             title: '月均收入',
-            amount: true,
-            required: true
+            amount: true
           },
           {
             field: 'mateWxJourMonthExpend',
             title: '月均支出',
-            amount: true,
-            required: true
+            amount: true
           }
         ],
         [{
           field: 'mateWxJourRemark',
           title: '备注',
           type: 'textarea',
-          normalArea: true,
-          required: true
+          normalArea: true
         }],
         [{
           field: 'mateWxJourPic',
@@ -886,11 +870,10 @@ class ApplyAdmittanceAddEdit extends React.Component {
       title: '配偶银行流水数据',
       items: [
         [{
-          field: 'jourDatetime',
+          field: 'jourDatetime6',
           title: '流水时间',
           type: 'date',
           rangedate: ['mateJourDatetimeStart', 'mateJourDatetimeEnd'],
-          required: true,
           onChange: (dates, dateStrings) => {
             let mateJourIncome = this.props.form.getFieldValue('mateJourIncome');
             let mateJourExpend = this.props.form.getFieldValue('mateJourExpend');
@@ -912,9 +895,8 @@ class ApplyAdmittanceAddEdit extends React.Component {
             field: 'mateJourIncome',
             title: '收入',
             amount: true,
-            required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime6');
               let mateJourMonthIncome = this.props.form.getFieldValue('mateJourMonthIncome');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -928,9 +910,8 @@ class ApplyAdmittanceAddEdit extends React.Component {
             field: 'mateJourExpend',
             title: '支出',
             amount: true,
-            required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime6');
               let mateJourMonthExpend = this.props.form.getFieldValue('mateJourMonthExpend');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -944,28 +925,24 @@ class ApplyAdmittanceAddEdit extends React.Component {
         [{
             field: 'mateJourBalance',
             title: '账户余额',
-            amount: true,
-            required: true
+            amount: true
           },
           {
             field: 'mateJourMonthIncome',
             title: '月均收入',
-            amount: true,
-            required: true
+            amount: true
           },
           {
             field: 'mateJourMonthExpend',
             title: '月均支出',
-            amount: true,
-            required: true
+            amount: true
           }
         ],
         [{
           field: 'mateJourRemark',
           title: '备注',
           type: 'textarea',
-          normalArea: true,
-          required: true
+          normalArea: true
         }],
         [{
           field: 'mateJourPic',
@@ -977,7 +954,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
       title: '担保人支付宝流水数据',
       items: [
         [{
-          field: 'jourDatetime',
+          field: 'jourDatetime7',
           title: '流水时间',
           type: 'date',
           rangedate: ['guaZfbJourDatetimeStart', 'guaZfbJourDatetimeEnd'],
@@ -1005,7 +982,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
             amount: true,
             required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime7');
               let guaZfbJourMonthIncome = this.props.form.getFieldValue('guaZfbJourMonthIncome');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -1021,7 +998,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
             amount: true,
             required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime7');
               let guaZfbJourMonthExpend = this.props.form.getFieldValue('guaZfbJourMonthExpend');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -1068,7 +1045,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
       title: '担保人微信流水数据',
       items: [
         [{
-          field: 'jourDatetime',
+          field: 'jourDatetime8',
           title: '流水时间',
           type: 'date',
           rangedate: ['guaWxJourDatetimeStart', 'guaWxJourDatetimeEnd'],
@@ -1096,7 +1073,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
             amount: true,
             required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime8');
               let guaWxJourMonthIncome = this.props.form.getFieldValue('guaWxJourMonthIncome');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -1112,7 +1089,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
             amount: true,
             required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime8');
               let guaWxJourMonthExpend = this.props.form.getFieldValue('guaWxJourMonthExpend');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -1159,7 +1136,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
       title: '担保人银行流水数据',
       items: [
         [{
-          field: 'jourDatetime',
+          field: 'jourDatetime9',
           title: '流水时间',
           type: 'date',
           rangedate: ['guaJourDatetimeStart', 'guaJourDatetimeEnd'],
@@ -1187,7 +1164,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
             amount: true,
             required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime9');
               let guaJourMonthIncome = this.props.form.getFieldValue('guaJourMonthIncome');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
@@ -1203,7 +1180,7 @@ class ApplyAdmittanceAddEdit extends React.Component {
             amount: true,
             required: true,
             onChange: (v) => {
-              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime9');
               let guaJourMonthExpend = this.props.form.getFieldValue('guaJourMonthExpend');
               if (jourDatetime) {
                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
