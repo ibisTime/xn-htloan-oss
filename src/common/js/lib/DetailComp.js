@@ -56,6 +56,7 @@ export default class DetailComponent extends React.Component {
     };
     this.o2mFirst = {};
     this.textareas = {};
+    this.isGetPageData = false;
   }
   componentDidMount() {
     let _this = this;
@@ -110,6 +111,7 @@ export default class DetailComponent extends React.Component {
     if (this.options.useData) {
       this.props.setPageData(this.options.useData);
       this.props.initStates({ code: this.options.code, view: this.options.view });
+      this.isGetPageData = true;
     } else if (this.first) {
       this.options.code && this.options.detailCode && this.getDetailInfo();
       this.props.initStates({ code: this.options.code, view: this.options.view });
@@ -257,6 +259,7 @@ export default class DetailComponent extends React.Component {
     fetch(this.options.detailCode, param).then(data => {
       this.props.cancelFetching();
       this.props.setPageData(data);
+      this.isGetPageData = true;
     }).catch(this.props.cancelFetching);
   }
   setSearchLoading(item, flag) {
@@ -703,13 +706,13 @@ export default class DetailComponent extends React.Component {
             initialValue: initVal,
             getValueFromEvent: this.normFile
           })(
-            this.options.code && !initValue.length && item.required
-              ? <div></div>
-              : (
-                <Upload {...this.getUploadProps(item, initValue, isImg)}>
-                  {this.getUploadBtn(item, isImg)}
-                </Upload>
-              )
+            this.options.code && !this.isGetPageData
+                ? <div></div>
+                : (
+                    <Upload {...this.getUploadProps(item, initValue, isImg)}>
+                        {this.getUploadBtn(item, isImg)}
+                    </Upload>
+                )
           )}
         </FormItem>
       )
