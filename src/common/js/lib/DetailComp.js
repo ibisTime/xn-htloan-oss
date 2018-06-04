@@ -677,6 +677,15 @@ export default class DetailComponent extends React.Component {
     );
   }
   getInputComp(item, initVal, rules, getFieldDecorator) {
+    let props = {
+      type: item.type ? item.type : item.hidden ? 'hidden' : 'text'
+    };
+    if (item.onChange) {
+      props.onChange = (e) => {
+        const { value } = e.target;
+        item.onChange(value);
+      };
+    }
     return (
       <FormItem
         className={item.hidden ? 'hidden' : ''}
@@ -688,7 +697,7 @@ export default class DetailComponent extends React.Component {
           : getFieldDecorator(item.field, {
             rules,
             initialValue: initVal
-          })(<Input type={item.type ? item.type : item.hidden ? 'hidden' : 'text'}/>)
+          })(<Input {...props}/>)
         }
       </FormItem>
     );
