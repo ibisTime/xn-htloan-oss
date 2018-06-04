@@ -145,6 +145,14 @@ import { bizLitigation } from './redux/biz/litigation';
 import { bizLitigationAddEdit } from './redux/biz/litigation-addedit';
 import { bizLitigationDispose } from './redux/biz/litigation-dispose';
 
+//  结清审核 + 详情 + 清欠催收部审核 + 驻行人员审核 + 总经理审核 + 财务审核
+import { bizSettlement } from './redux/biz/settlement';
+import { bizSettlementAddEdit } from './redux/biz/settlement-addedit';
+import { bizSettlementCollection } from './redux/biz/settlement-collection';
+import { bizSettlementFinance } from './redux/biz/settlement-finance';
+import { bizSettlementManager } from './redux/biz/settlement-manager';
+import { bizSettlementStationed } from './redux/biz/settlement-stationed';
+
 //  历史业务管理 + 详情
 import { bizHistoryBusinessManage } from './redux/biz/historyBusinessManage';
 import { bizHistoryBusinessManageAddedit } from './redux/biz/historyBusinessManage-addedit';
@@ -439,5 +447,11 @@ export default combineReducers({
   bizLitigationDispose,
   bizBalancedetail,
   analysisProtect,
-  bizHistoryBusinessManageAddeditAddedit
+  bizHistoryBusinessManageAddeditAddedit,
+  bizSettlement,
+  bizSettlementAddEdit,
+  bizSettlementCollection,
+  bizSettlementFinance,
+  bizSettlementManager,
+  bizSettlementStationed
 });
