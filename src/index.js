@@ -12,8 +12,8 @@ import AuthRoute from 'component/authroute/authroute';
 import './index.css';
 
 const store = createStore(reducers, compose(
-  applyMiddleware(thunk)
-  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  applyMiddleware(thunk),
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 ));
 const Login = asyncComponent(() => import('container/login/login'));
 const Dashboard = asyncComponent(() => import('component/dashboard/dashboard'));

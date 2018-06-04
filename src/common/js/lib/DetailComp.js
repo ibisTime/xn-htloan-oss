@@ -110,9 +110,9 @@ export default class DetailComponent extends React.Component {
       ...options
     };
     if (this.options.useData) {
+      this.isGetPageData = true;
       this.props.setPageData(this.options.useData);
       this.props.initStates({ code: this.options.code, view: this.options.view });
-      this.isGetPageData = true;
     } else if (this.first) {
       this.options.code && this.options.detailCode && this.getDetailInfo();
       this.props.initStates({ code: this.options.code, view: this.options.view });
@@ -258,9 +258,9 @@ export default class DetailComponent extends React.Component {
     this.options.beforeDetail && this.options.beforeDetail(param);
     this.props.doFetching();
     fetch(this.options.detailCode, param).then(data => {
+      this.isGetPageData = true;
       this.props.cancelFetching();
       this.props.setPageData(data);
-      this.isGetPageData = true;
     }).catch(this.props.cancelFetching);
   }
   setSearchLoading(item, flag) {
@@ -493,7 +493,7 @@ export default class DetailComponent extends React.Component {
                         if (i === 0) {
                             titles.push(f.title);
                         }
-                        temp.push(f.render(d[f.field], d));
+                        temp.push(f.render ? f.render(d[f.field], d) : f.amount ? moneyFormat(d[f.field]) : d[f.field]);
                     });
                     bodys.push(temp);
                 });
@@ -551,12 +551,11 @@ export default class DetailComponent extends React.Component {
       } else if (f.type === 'img') {
         obj.render = (value) => <img style={{maxWidth: 25, maxHeight: 25}} src={PIC_PREFIX + value}/>;
       }
-      if (f.amount) {
+      if (f.amount && !f.render) {
         obj.render = (v, d) => <span style={{whiteSpace: 'nowrap'}}>{moneyFormat(v, d)}</span>;
       }
       if (!obj.render) {
         if (f.render) {
-          console.log(f);
           obj.render = f.render;
         } else {
           obj.render = (v) => f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{v}</span> : v;
@@ -740,6 +739,9 @@ export default class DetailComponent extends React.Component {
   }
   getFileComp(item, initVal, rules, getFieldDecorator, isImg) {
     let initValue = this.getFileInitVal(initVal);
+    console.log(item.field, initVal);
+    console.log(initValue);
+    console.log(this.isGetPageData);
     return (
       item.hidden ? null : (
         <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>

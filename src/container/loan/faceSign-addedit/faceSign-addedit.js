@@ -61,7 +61,7 @@ class FaceSignAddedit extends React.Component {
         }, {
             title: '面签视频',
             field: 'interviewVideo',
-            type: 'file',
+            type: 'img',
             required: (this.isCheck || this.view) ? 'true' : false,
             readonly: (this.isCheck || this.view) ? 'true' : false,
             single: true

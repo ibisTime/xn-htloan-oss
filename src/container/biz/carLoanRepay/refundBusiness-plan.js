@@ -64,11 +64,9 @@ class refundBusinessPlan extends React.Component {
                     field: 'curPeriods'
                 }, {
                     title: '应还本息',
-                    amount: true,
                     field: 'repayInterest',
                     render: function (v, data) {
                         var sum = data.repayCapital + data.repayInterest;
-                        console.log(data);
                         return moneyFormat(sum);
                     }
                 }, {
