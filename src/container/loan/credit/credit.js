@@ -92,6 +92,12 @@ class Credit extends React.Component {
                 roleCode: getRoleCode()
             },
             btnEvent: {
+                add: (selectedRowKeys, selectedRows) => {
+                    let code = selectedRowKeys ? selectedRowKeys[0] : '';
+                    console.log(selectedRows);
+                    console.log(code);
+                    // this.props.history.push(`/loan/credit/addedit?isAddedit=1&code=${code}`);
+                },
                 check: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');

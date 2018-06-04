@@ -32,6 +32,9 @@ class CreditAddedit extends React.Component {
             selectKey: ''
         };
         this.code = getQueryString('code', this.props.location.search);
+        console.log(this.code);
+        // 发起征信
+        this.isAddedit = !!getQueryString('isAddedit', this.props.location.search);
         // 录入征信结果
         this.isEntry = !!getQueryString('isEntry', this.props.location.search);
         // 业务员初审
@@ -313,6 +316,10 @@ class CreditAddedit extends React.Component {
                 }
             }];
         }
+
+        if(this.isAddedit) {
+        }
+
         return (
             <div>
                 {

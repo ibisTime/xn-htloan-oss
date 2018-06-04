@@ -4,6 +4,7 @@ import { Form, Select, Input, Button, Tooltip, Icon, Spin, Upload,
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import E from 'wangeditor';
+import XLSX from 'xlsx';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
 import { formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat,
@@ -479,6 +480,30 @@ export default class DetailComponent extends React.Component {
             }));
           }}
         >删除</Button> : null}
+        {item.options.export ? <Button
+            type="primary"
+            style={{marginRight: 20}}
+            onClick={() => {
+                let arr = this.props.pageData[item.field];
+                let titles = [];
+                let bodys = [];
+                arr.forEach((d, i) => {
+                    let temp = [];
+                    item.options.fields.forEach(f => {
+                        if (i === 0) {
+                            titles.push(f.title);
+                        }
+                        temp.push(f.render(d[f.field], d));
+                    });
+                    bodys.push(temp);
+                });
+                let result = [titles].concat(bodys);
+                const ws = XLSX.utils.aoa_to_sheet(result);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'SheetJS');
+                XLSX.writeFile(wb, item.title + '-表格导出.xlsx');
+            }}
+        >导出</Button> : null}
       </div>
     );
   }
@@ -531,6 +556,7 @@ export default class DetailComponent extends React.Component {
       }
       if (!obj.render) {
         if (f.render) {
+          console.log(f);
           obj.render = f.render;
         } else {
           obj.render = (v) => f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{v}</span> : v;
