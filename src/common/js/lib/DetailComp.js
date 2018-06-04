@@ -57,7 +57,6 @@ export default class DetailComponent extends React.Component {
     };
     this.o2mFirst = {};
     this.textareas = {};
-    this.isGetPageData = false;
   }
   componentDidMount() {
     let _this = this;
@@ -110,7 +109,6 @@ export default class DetailComponent extends React.Component {
       ...options
     };
     if (this.options.useData) {
-      this.isGetPageData = true;
       this.props.setPageData(this.options.useData);
       this.props.initStates({ code: this.options.code, view: this.options.view });
     } else if (this.first) {
@@ -258,7 +256,6 @@ export default class DetailComponent extends React.Component {
     this.options.beforeDetail && this.options.beforeDetail(param);
     this.props.doFetching();
     fetch(this.options.detailCode, param).then(data => {
-      this.isGetPageData = true;
       this.props.cancelFetching();
       this.props.setPageData(data);
     }).catch(this.props.cancelFetching);
@@ -739,9 +736,6 @@ export default class DetailComponent extends React.Component {
   }
   getFileComp(item, initVal, rules, getFieldDecorator, isImg) {
     let initValue = this.getFileInitVal(initVal);
-    console.log(item.field, initVal);
-    console.log(initValue);
-    console.log(this.isGetPageData);
     return (
       item.hidden ? null : (
         <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
@@ -750,7 +744,7 @@ export default class DetailComponent extends React.Component {
             initialValue: initVal,
             getValueFromEvent: this.normFile
           })(
-            this.options.code && !this.isGetPageData
+            this.options.code && !this.props.isLoaded
                 ? <div></div>
                 : (
                     <Upload {...this.getUploadProps(item, initValue, isImg)}>

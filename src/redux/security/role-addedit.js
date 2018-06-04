@@ -17,7 +17,7 @@ export function securityRoleAddEdit(state = initState, action) {
     case SET_SELECT_DATA:
       return {...state, selectData: {...state.selectData, [action.payload.key]: action.payload.data}};
     case SET_PAGE_DATA:
-      return {...state, pageData: action.payload};
+      return {...state, pageData: action.payload, isLoaded: true};
     case RESTORE:
       return {...initState};
     case LOADING:
