@@ -588,6 +588,19 @@ export default class DetailComponent extends React.Component {
   getRangeDateItem(item, initVal, rules, getFieldDecorator, isTime = false) {
     let format = isTime ? DATETIME_FORMAT : DATE_FORMAT;
     let places = isTime ? ['开始时间', '结束时间'] : ['开始日期', '结束日期'];
+    let props = {
+      allowClear: false,
+      locale: locale,
+      placeholder: places,
+      ranges: { '今天': [moment(), moment()], '本月': [moment(), moment().endOf('month')] },
+      format: format,
+      showTime: isTime
+    };
+    if(item.onChange) {
+      props.onChange = (dates, dateString) => {
+        item.onChange(dates, dateString);
+      };
+    }
     return (
       <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
         {
@@ -596,13 +609,7 @@ export default class DetailComponent extends React.Component {
             rules,
             initialValue: initVal || null
           })(
-            <RangePicker
-              allowClear={false}
-              locale={locale}
-              placeholder={places}
-              ranges={{ '今天': [moment(), moment()], '本月': [moment(), moment().endOf('month')] }}
-              format={format}
-              showTime={isTime} />
+            <RangePicker { ...props} />
           )
         }
       </FormItem>

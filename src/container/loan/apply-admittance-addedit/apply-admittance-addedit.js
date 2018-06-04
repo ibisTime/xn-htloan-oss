@@ -59,6 +59,10 @@ class ApplyAdmittanceAddEdit extends React.Component {
           keyName: 'key',
           valueName: 'value',
           required: true
+        }, {
+          field: 'companyFee',
+          title: '公司服务费',
+          amount: true
         }]
       ]
     }, {
@@ -76,10 +80,6 @@ class ApplyAdmittanceAddEdit extends React.Component {
           type: 'select',
           key: 'loan_period',
           required: true
-        }, {
-          field: 'loanPeriod',
-          title: '公司服务费',
-          amount: true
         }],
         [{
           field: 'invoiceCompany',
@@ -148,36 +148,38 @@ class ApplyAdmittanceAddEdit extends React.Component {
           required: true
         }],
         [{
-          field: 'settleAddress',
+          field: 'carBrand',
           title: '品牌',
           required: true
         }, {
-          field: 'settleAddress',
+          field: 'carSeries',
           title: '车系',
           required: true
         }, {
-          field: 'settleAddress',
+          field: 'carModel',
           title: '车型',
-          required: true
-        }, {
-          field: 'settleAddress',
-          title: '车辆照片',
           required: true
         }],
         [{
-          field: 'settleAddress',
+          field: 'carPic',
+          title: '车辆照片',
+          type: 'img',
+          required: true
+        }],
+        [{
+          field: 'carHgzPic',
           title: '合格证',
           required: true
         }, {
-          field: 'settleAddress',
+          field: 'carHgzNo',
           title: '合格证号',
           required: true
         }, {
-          field: 'settleAddress',
+          field: 'carFrameNo',
           title: '车架号',
           required: true
         }, {
-          field: 'settleAddress',
+          field: 'carEngineNo',
           title: '发动机号',
           required: true
         }]
@@ -284,7 +286,9 @@ class ApplyAdmittanceAddEdit extends React.Component {
           amount: true
         }, {
           field: 'position',
-          title: '职位'
+          title: '职位',
+          type: 'select',
+          key: 'position'
         }],
         [{
           field: 'postTitle',
@@ -294,18 +298,30 @@ class ApplyAdmittanceAddEdit extends React.Component {
           title: '月收入',
           amount: true
         }, {
-          field: 'monthIncome',
-          title: '单位经济性质'
+          field: 'workCompanyProperty',
+          title: '单位经济性质',
+          type: 'select',
+          key: 'work_company_property'
         }, {
-          field: 'monthIncome',
-          title: '所属行业'
+          field: 'workBelongIndustry',
+          title: '所属行业',
+          type: 'select',
+          key: 'work_belong_industry'
         }],
         [{
-          field: 'monthIncome',
-          title: '职业'
+          field: 'workProfession',
+          title: '职业',
+          type: 'select',
+          key: ' work_profession'
         }, {
-          field: 'monthIncome',
-          title: '何时进入现单位工作'
+          field: 'workDatetime',
+          title: '何时进入现单位工作',
+          type: 'date'
+        }],
+        [{
+          title: '其它资产资料上传',
+          field: 'assetPdf',
+          type: 'img'
         }]
       ]
     }, {
@@ -339,6 +355,11 @@ class ApplyAdmittanceAddEdit extends React.Component {
         [{
           field: 'mateCompanyAddress',
           title: '工作单位地址'
+        }],
+        [{
+          title: '其它资产资料上传',
+          field: 'mateAssetPdf',
+          type: 'img'
         }]
       ]
     }, {
@@ -369,6 +390,11 @@ class ApplyAdmittanceAddEdit extends React.Component {
         }, {
           field: 'guaHouseAssetAddress',
           title: '担保人房产地址'
+        }],
+        [{
+          title: '其它资产资料上传',
+          field: 'guaAssetPdf',
+          type: 'img'
         }]
       ]
     }, {
@@ -379,7 +405,9 @@ class ApplyAdmittanceAddEdit extends React.Component {
           title: '联系人1姓名'
         }, {
           field: 'emergencyRelation1',
-          title: '与申请人关系'
+          title: '与申请人关系',
+          type: 'select',
+          key: 'credit_user_relation'
         }, {
           field: 'emergencyMobile1',
           title: '手机号码',
@@ -390,7 +418,9 @@ class ApplyAdmittanceAddEdit extends React.Component {
           title: '联系人2姓名'
         }, {
           field: 'emergencyRelation2',
-          title: '与申请人关系'
+          title: '与申请人关系',
+          type: 'select',
+          key: 'credit_user_relation'
         }, {
           field: 'emergencyMobile2',
           title: '手机号码',
@@ -398,7 +428,189 @@ class ApplyAdmittanceAddEdit extends React.Component {
         }]
       ]
     }, {
-      title: '流水数据',
+      title: '申请人支付宝流水数据',
+      items: [
+        [{
+          field: 'jourDatetime',
+          title: '流水时间',
+          type: 'date',
+          rangedate: ['zfbJourDatetimeStart', 'zfbJourDatetimeEnd'],
+          required: true,
+          onChange: (dates, dateStrings) => {
+            let zfbJourIncome = this.props.form.getFieldValue('zfbJourIncome');
+            let zfbJourExpend = this.props.form.getFieldValue('zfbJourExpend');
+            let num = dates[1].diff(dates[0], 'months', true);
+            num = num.toFixed(1);
+            if (zfbJourIncome) {
+              this.props.form.setFieldsValue({
+                jourMonthIncome: zfbJourIncome / num
+              });
+            };
+            if (zfbJourExpend) {
+              this.props.form.setFieldsValue({
+                jourMonthExpend: zfbJourExpend / num
+              });
+            }
+          }
+        }],
+        [{
+            field: 'zfbJourIncome',
+            title: '收入',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let zfbJourMonthIncome = this.props.form.getFieldValue('zfbJourMonthIncome');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  zfbJourMonthIncome: (v / num).toFixed(2)
+                });
+              }
+            }
+          },
+          {
+            field: 'zfbJourExpend',
+            title: '支出',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let zfbJourMonthExpend = this.props.form.getFieldValue('zfbJourMonthExpend');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  zfbJourMonthExpend: (v / num).toFixed(2)
+                });
+              }
+            }
+          }
+        ],
+        [{
+            field: 'zfbJourBalance',
+            title: '账户余额',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'zfbJourMonthIncome',
+            title: '月均收入',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'zfbJourMonthExpend',
+            title: '月均支出',
+            amount: true,
+            required: true
+          }
+        ],
+        [{
+          field: 'zfbJourRemark',
+          title: '备注',
+          type: 'textarea',
+          normalArea: true,
+          required: true
+        }],
+        [{
+          field: 'zfbJourPic',
+          title: '流水图片',
+          type: 'img'
+        }]
+      ]
+    }, {
+      title: '申请人微信流水数据',
+      items: [
+        [{
+          field: 'jourDatetime',
+          title: '流水时间',
+          type: 'date',
+          rangedate: ['wxJourDatetimeStart', 'wxJourDatetimeEnd'],
+          required: true,
+          onChange: (dates, dateStrings) => {
+            let wxJourIncome = this.props.form.getFieldValue('wxJourIncome');
+            let wxJourExpend = this.props.form.getFieldValue('wxJourExpend');
+            let num = dates[1].diff(dates[0], 'months', true);
+            num = num.toFixed(1);
+            if (wxJourIncome) {
+              this.props.form.setFieldsValue({
+                jourMonthIncome: wxJourIncome / num
+              });
+            };
+            if (wxJourExpend) {
+              this.props.form.setFieldsValue({
+                jourMonthExpend: wxJourExpend / num
+              });
+            }
+          }
+        }],
+        [{
+            field: 'wxJourIncome',
+            title: '收入',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let wxJourMonthIncome = this.props.form.getFieldValue('wxJourMonthIncome');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  wxJourMonthIncome: (v / num).toFixed(2)
+                });
+              }
+            }
+          },
+          {
+            field: 'wxJourExpend',
+            title: '支出',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let wxJourMonthExpend = this.props.form.getFieldValue('wxJourMonthExpend');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  wxJourMonthExpend: (v / num).toFixed(2)
+                });
+              }
+            }
+          }
+        ],
+        [{
+            field: 'wxJourBalance',
+            title: '账户余额',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'wxJourMonthIncome',
+            title: '月均收入',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'wxJourMonthExpend',
+            title: '月均支出',
+            amount: true,
+            required: true
+          }
+        ],
+        [{
+          field: 'wxJourRemark',
+          title: '备注',
+          type: 'textarea',
+          normalArea: true,
+          required: true
+        }],
+        [{
+          field: 'wxJourPic',
+          title: '流水图片',
+          type: 'img'
+        }]
+      ]
+    }, {
+      title: '申请人银行流水数据',
       items: [
         [{
           field: 'jourDatetime',
@@ -406,21 +618,54 @@ class ApplyAdmittanceAddEdit extends React.Component {
           type: 'date',
           rangedate: ['jourDatetimeStart', 'jourDatetimeEnd'],
           required: true,
-          onChange: (v) => {
-            console.log(v);
+          onChange: (dates, dateStrings) => {
+            let jourIncome = this.props.form.getFieldValue('jourIncome');
+            let jourExpend = this.props.form.getFieldValue('jourExpend');
+            let num = dates[1].diff(dates[0], 'months', true);
+            num = num.toFixed(1);
+            if (jourIncome) {
+              this.props.form.setFieldsValue({
+                jourMonthIncome: jourIncome / num
+              });
+            };
+            if (jourExpend) {
+              this.props.form.setFieldsValue({
+                jourMonthExpend: jourExpend / num
+              });
+            }
           }
         }],
         [{
             field: 'jourIncome',
             title: '收入',
             amount: true,
-            required: true
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourMonthIncome = this.props.form.getFieldValue('jourMonthIncome');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  jourMonthIncome: (v / num).toFixed(2)
+                });
+              }
+            }
           },
           {
             field: 'jourExpend',
             title: '支出',
             amount: true,
-            required: true
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let jourMonthExpend = this.props.form.getFieldValue('jourMonthExpend');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  jourMonthExpend: (v / num).toFixed(2)
+                });
+              }
+            }
           }
         ],
         [{
@@ -448,6 +693,557 @@ class ApplyAdmittanceAddEdit extends React.Component {
           type: 'textarea',
           normalArea: true,
           required: true
+        }],
+        [{
+          field: 'jourRemark',
+          title: '流水图片',
+          type: 'img'
+        }]
+      ]
+    }, {
+      title: '配偶支付宝流水数据',
+      items: [
+        [{
+          field: 'jourDatetime',
+          title: '流水时间',
+          type: 'date',
+          rangedate: ['mateZfbJourDatetimeStart', 'mateZfbJourDatetimeEnd'],
+          required: true,
+          onChange: (dates, dateStrings) => {
+            let mateZfbJourIncome = this.props.form.getFieldValue('mateZfbJourIncome');
+            let mateZfbJourExpend = this.props.form.getFieldValue('mateZfbJourExpend');
+            let num = dates[1].diff(dates[0], 'months', true);
+            num = num.toFixed(1);
+            if (mateZfbJourIncome) {
+              this.props.form.setFieldsValue({
+                jourMonthIncome: mateZfbJourIncome / num
+              });
+            };
+            if (mateZfbJourExpend) {
+              this.props.form.setFieldsValue({
+                jourMonthExpend: mateZfbJourExpend / num
+              });
+            }
+          }
+        }],
+        [{
+            field: 'mateZfbJourIncome',
+            title: '收入',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let mateZfbJourMonthIncome = this.props.form.getFieldValue('mateZfbJourMonthIncome');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  mateZfbJourMonthIncome: (v / num).toFixed(2)
+                });
+              }
+            }
+          },
+          {
+            field: 'mateZfbJourExpend',
+            title: '支出',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let mateZfbJourMonthExpend = this.props.form.getFieldValue('mateZfbJourMonthExpend');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  mateZfbJourMonthExpend: (v / num).toFixed(2)
+                });
+              }
+            }
+          }
+        ],
+        [{
+            field: 'mateZfbJourBalance',
+            title: '账户余额',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'mateZfbJourMonthIncome',
+            title: '月均收入',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'mateZfbJourMonthExpend',
+            title: '月均支出',
+            amount: true,
+            required: true
+          }
+        ],
+        [{
+          field: 'mateZfbJourRemark',
+          title: '备注',
+          type: 'textarea',
+          normalArea: true,
+          required: true
+        }],
+        [{
+          field: 'mateZfbJourPic',
+          title: '流水图片',
+          type: 'img'
+        }]
+      ]
+    }, {
+      title: '配偶微信流水数据',
+      items: [
+        [{
+          field: 'jourDatetime',
+          title: '流水时间',
+          type: 'date',
+          rangedate: ['mateWxJourDatetimeStart', 'mateWxJourDatetimeEnd'],
+          required: true,
+          onChange: (dates, dateStrings) => {
+            let mateWxJourIncome = this.props.form.getFieldValue('mateWxJourIncome');
+            let mateWxJourExpend = this.props.form.getFieldValue('mateWxJourExpend');
+            let num = dates[1].diff(dates[0], 'months', true);
+            num = num.toFixed(1);
+            if (mateWxJourIncome) {
+              this.props.form.setFieldsValue({
+                jourMonthIncome: mateWxJourIncome / num
+              });
+            };
+            if (mateWxJourExpend) {
+              this.props.form.setFieldsValue({
+                jourMonthExpend: mateWxJourExpend / num
+              });
+            }
+          }
+        }],
+        [{
+            field: 'mateWxJourIncome',
+            title: '收入',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let mateWxJourMonthIncome = this.props.form.getFieldValue('mateWxJourMonthIncome');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  mateWxJourMonthIncome: (v / num).toFixed(2)
+                });
+              }
+            }
+          },
+          {
+            field: 'mateWxJourExpend',
+            title: '支出',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let mateWxJourMonthExpend = this.props.form.getFieldValue('mateWxJourMonthExpend');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  mateWxJourMonthExpend: (v / num).toFixed(2)
+                });
+              }
+            }
+          }
+        ],
+        [{
+            field: 'mateWxJourBalance',
+            title: '账户余额',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'mateWxJourMonthIncome',
+            title: '月均收入',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'mateWxJourMonthExpend',
+            title: '月均支出',
+            amount: true,
+            required: true
+          }
+        ],
+        [{
+          field: 'mateWxJourRemark',
+          title: '备注',
+          type: 'textarea',
+          normalArea: true,
+          required: true
+        }],
+        [{
+          field: 'mateWxJourPic',
+          title: '流水图片',
+          type: 'img'
+        }]
+      ]
+    }, {
+      title: '配偶银行流水数据',
+      items: [
+        [{
+          field: 'jourDatetime',
+          title: '流水时间',
+          type: 'date',
+          rangedate: ['mateJourDatetimeStart', 'mateJourDatetimeEnd'],
+          required: true,
+          onChange: (dates, dateStrings) => {
+            let mateJourIncome = this.props.form.getFieldValue('mateJourIncome');
+            let mateJourExpend = this.props.form.getFieldValue('mateJourExpend');
+            let num = dates[1].diff(dates[0], 'months', true);
+            num = num.toFixed(1);
+            if (mateJourIncome) {
+              this.props.form.setFieldsValue({
+                jourMonthIncome: mateJourIncome / num
+              });
+            };
+            if (mateJourExpend) {
+              this.props.form.setFieldsValue({
+                jourMonthExpend: mateJourExpend / num
+              });
+            }
+          }
+        }],
+        [{
+            field: 'mateJourIncome',
+            title: '收入',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let mateJourMonthIncome = this.props.form.getFieldValue('mateJourMonthIncome');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  mateJourMonthIncome: (v / num).toFixed(2)
+                });
+              }
+            }
+          },
+          {
+            field: 'mateJourExpend',
+            title: '支出',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let mateJourMonthExpend = this.props.form.getFieldValue('mateJourMonthExpend');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  mateJourMonthExpend: (v / num).toFixed(2)
+                });
+              }
+            }
+          }
+        ],
+        [{
+            field: 'mateJourBalance',
+            title: '账户余额',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'mateJourMonthIncome',
+            title: '月均收入',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'mateJourMonthExpend',
+            title: '月均支出',
+            amount: true,
+            required: true
+          }
+        ],
+        [{
+          field: 'mateJourRemark',
+          title: '备注',
+          type: 'textarea',
+          normalArea: true,
+          required: true
+        }],
+        [{
+          field: 'mateJourPic',
+          title: '流水图片',
+          type: 'img'
+        }]
+      ]
+    }, {
+      title: '担保人支付宝流水数据',
+      items: [
+        [{
+          field: 'jourDatetime',
+          title: '流水时间',
+          type: 'date',
+          rangedate: ['guaZfbJourDatetimeStart', 'guaZfbJourDatetimeEnd'],
+          required: true,
+          onChange: (dates, dateStrings) => {
+            let guaZfbJourIncome = this.props.form.getFieldValue('guaZfbJourIncome');
+            let guaZfbJourExpend = this.props.form.getFieldValue('guaZfbJourExpend');
+            let num = dates[1].diff(dates[0], 'months', true);
+            num = num.toFixed(1);
+            if (guaZfbJourIncome) {
+              this.props.form.setFieldsValue({
+                jourMonthIncome: guaZfbJourIncome / num
+              });
+            };
+            if (guaZfbJourExpend) {
+              this.props.form.setFieldsValue({
+                jourMonthExpend: guaZfbJourExpend / num
+              });
+            }
+          }
+        }],
+        [{
+            field: 'guaZfbJourIncome',
+            title: '收入',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let guaZfbJourMonthIncome = this.props.form.getFieldValue('guaZfbJourMonthIncome');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  guaZfbJourMonthIncome: (v / num).toFixed(2)
+                });
+              }
+            }
+          },
+          {
+            field: 'guaZfbJourExpend',
+            title: '支出',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let guaZfbJourMonthExpend = this.props.form.getFieldValue('guaZfbJourMonthExpend');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  guaZfbJourMonthExpend: (v / num).toFixed(2)
+                });
+              }
+            }
+          }
+        ],
+        [{
+            field: 'guaZfbJourBalance',
+            title: '账户余额',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'guaZfbJourMonthIncome',
+            title: '月均收入',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'guaZfbJourMonthExpend',
+            title: '月均支出',
+            amount: true,
+            required: true
+          }
+        ],
+        [{
+          field: 'guaZfbJourRemark',
+          title: '备注',
+          type: 'textarea',
+          normalArea: true,
+          required: true
+        }],
+        [{
+          field: 'guaZfbJourPic',
+          title: '流水图片',
+          type: 'img'
+        }]
+      ]
+    }, {
+      title: '担保人微信流水数据',
+      items: [
+        [{
+          field: 'jourDatetime',
+          title: '流水时间',
+          type: 'date',
+          rangedate: ['guaWxJourDatetimeStart', 'guaWxJourDatetimeEnd'],
+          required: true,
+          onChange: (dates, dateStrings) => {
+            let guaWxJourIncome = this.props.form.getFieldValue('guaWxJourIncome');
+            let guaWxJourExpend = this.props.form.getFieldValue('guaWxJourExpend');
+            let num = dates[1].diff(dates[0], 'months', true);
+            num = num.toFixed(1);
+            if (guaWxJourIncome) {
+              this.props.form.setFieldsValue({
+                jourMonthIncome: guaWxJourIncome / num
+              });
+            };
+            if (guaWxJourExpend) {
+              this.props.form.setFieldsValue({
+                jourMonthExpend: guaWxJourExpend / num
+              });
+            }
+          }
+        }],
+        [{
+            field: 'guaWxJourIncome',
+            title: '收入',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let guaWxJourMonthIncome = this.props.form.getFieldValue('guaWxJourMonthIncome');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  guaWxJourMonthIncome: (v / num).toFixed(2)
+                });
+              }
+            }
+          },
+          {
+            field: 'guaWxJourExpend',
+            title: '支出',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let guaWxJourMonthExpend = this.props.form.getFieldValue('guaWxJourMonthExpend');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  guaWxJourMonthExpend: (v / num).toFixed(2)
+                });
+              }
+            }
+          }
+        ],
+        [{
+            field: 'guaWxJourBalance',
+            title: '账户余额',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'guaWxJourMonthIncome',
+            title: '月均收入',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'guaWxJourMonthExpend',
+            title: '月均支出',
+            amount: true,
+            required: true
+          }
+        ],
+        [{
+          field: 'guaWxJourRemark',
+          title: '备注',
+          type: 'textarea',
+          normalArea: true,
+          required: true
+        }],
+        [{
+          field: 'guaWxJourPic',
+          title: '流水图片',
+          type: 'img'
+        }]
+      ]
+    }, {
+      title: '担保人银行流水数据',
+      items: [
+        [{
+          field: 'jourDatetime',
+          title: '流水时间',
+          type: 'date',
+          rangedate: ['guaJourDatetimeStart', 'guaJourDatetimeEnd'],
+          required: true,
+          onChange: (dates, dateStrings) => {
+            let guaJourIncome = this.props.form.getFieldValue('guaJourIncome');
+            let guaJourExpend = this.props.form.getFieldValue('guaJourExpend');
+            let num = dates[1].diff(dates[0], 'months', true);
+            num = num.toFixed(1);
+            if (guaJourIncome) {
+              this.props.form.setFieldsValue({
+                jourMonthIncome: guaJourIncome / num
+              });
+            };
+            if (guaJourExpend) {
+              this.props.form.setFieldsValue({
+                jourMonthExpend: guaJourExpend / num
+              });
+            }
+          }
+        }],
+        [{
+            field: 'guaJourIncome',
+            title: '收入',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let guaJourMonthIncome = this.props.form.getFieldValue('guaJourMonthIncome');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  guaJourMonthIncome: (v / num).toFixed(2)
+                });
+              }
+            }
+          },
+          {
+            field: 'guaJourExpend',
+            title: '支出',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+              let jourDatetime = this.props.form.getFieldValue('jourDatetime');
+              let guaJourMonthExpend = this.props.form.getFieldValue('guaJourMonthExpend');
+              if (jourDatetime) {
+                let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                this.props.form.setFieldsValue({
+                  guaJourMonthExpend: (v / num).toFixed(2)
+                });
+              }
+            }
+          }
+        ],
+        [{
+            field: 'guaJourBalance',
+            title: '账户余额',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'guaJourMonthIncome',
+            title: '月均收入',
+            amount: true,
+            required: true
+          },
+          {
+            field: 'guaJourMonthExpend',
+            title: '月均支出',
+            amount: true,
+            required: true
+          }
+        ],
+        [{
+          field: 'guaJourRemark',
+          title: '备注',
+          type: 'textarea',
+          normalArea: true,
+          required: true
+        }],
+        [{
+          field: 'guaJourPic',
+          title: '流水图片',
+          type: 'img'
         }]
       ]
     }, {
@@ -468,12 +1264,13 @@ class ApplyAdmittanceAddEdit extends React.Component {
     }];
     return this.props.buildDetail({
       fields,
-      key: 'creditCode',
       code: this.code,
       editCode: 632120,
+      detailCode: 632117,
       beforeSubmit: (params) => {
         params.dealType = '1';
         params.operator = getUserId();
+        params.creditCode = this.code;
         return params;
       }
     });
