@@ -17,5 +17,6 @@ export const commDetailState = {
   view: false,
   fetching: false,
   selectData: {},
-  pageData: {}
+  pageData: {},
+  isLoaded: false
 };

@@ -15,7 +15,7 @@ import asyncComponent from '../async-component/async-component';
 import EditPwd from 'component/edit-pwd/edit-pwd';
 import ROUTES from 'src/route';
 import './dashboard.css';
-import logo from './logo.jpg';
+import logo from './logo.png';
 
 const { SubMenu, Item } = Menu;
 const { Header, Content, Sider } = Layout;

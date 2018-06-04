@@ -8,7 +8,8 @@ import {
     restore
 } from '@redux/biz/refundBusiness-plan';
 import {
-    getQueryString
+    getQueryString,
+    moneyFormat
 } from 'common/js/util';
 import {
     DetailWrapper
@@ -50,7 +51,11 @@ class refundBusinessPlan extends React.Component {
             title: '还款计划表',
             field: 'repayPlanList',
             type: 'o2m',
+            render: function (v, data) {
+                console.log('1' + data);
+            },
             options: {
+                export: true,
                 scroll: {
                     x: 1300
                 },
@@ -58,13 +63,12 @@ class refundBusinessPlan extends React.Component {
                     title: '期数',
                     field: 'curPeriods'
                 }, {
-                    title: '应还本金',
-                    amount: true,
-                    field: 'repayCapital'
-                }, {
                     title: '应还本息',
-                    amount: true,
-                    field: 'repayInterest'
+                    field: 'repayInterest',
+                    render: function (v, data) {
+                        var sum = data.repayCapital + data.repayInterest;
+                        return moneyFormat(sum);
+                    }
                 }, {
                     title: '实还金额',
                     amount: true,

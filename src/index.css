@@ -6,9 +6,10 @@ body {
 
 .ant-layout-header .logo {
   float: left;
-  margin: 4px 30px 4px 0;
-  width: 120px;
-  height: 56px;
+  padding: 8px 0;
+  width: 200px;
+  height: 64px;
+  text-align: center;
 }
 
 .ant-layout-header .logo img {

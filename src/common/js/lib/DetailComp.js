@@ -4,6 +4,7 @@ import { Form, Select, Input, Button, Tooltip, Icon, Spin, Upload,
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import E from 'wangeditor';
+import XLSX from 'xlsx';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
 import { formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat,
@@ -56,7 +57,6 @@ export default class DetailComponent extends React.Component {
     };
     this.o2mFirst = {};
     this.textareas = {};
-    this.isGetPageData = false;
   }
   componentDidMount() {
     let _this = this;
@@ -111,7 +111,6 @@ export default class DetailComponent extends React.Component {
     if (this.options.useData) {
       this.props.setPageData(this.options.useData);
       this.props.initStates({ code: this.options.code, view: this.options.view });
-      this.isGetPageData = true;
     } else if (this.first) {
       this.options.code && this.options.detailCode && this.getDetailInfo();
       this.props.initStates({ code: this.options.code, view: this.options.view });
@@ -259,7 +258,6 @@ export default class DetailComponent extends React.Component {
     fetch(this.options.detailCode, param).then(data => {
       this.props.cancelFetching();
       this.props.setPageData(data);
-      this.isGetPageData = true;
     }).catch(this.props.cancelFetching);
   }
   setSearchLoading(item, flag) {
@@ -479,6 +477,30 @@ export default class DetailComponent extends React.Component {
             }));
           }}
         >删除</Button> : null}
+        {item.options.export ? <Button
+            type="primary"
+            style={{marginRight: 20}}
+            onClick={() => {
+                let arr = this.props.pageData[item.field];
+                let titles = [];
+                let bodys = [];
+                arr.forEach((d, i) => {
+                    let temp = [];
+                    item.options.fields.forEach(f => {
+                        if (i === 0) {
+                            titles.push(f.title);
+                        }
+                        temp.push(f.render ? f.render(d[f.field], d) : f.amount ? moneyFormat(d[f.field]) : d[f.field]);
+                    });
+                    bodys.push(temp);
+                });
+                let result = [titles].concat(bodys);
+                const ws = XLSX.utils.aoa_to_sheet(result);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'SheetJS');
+                XLSX.writeFile(wb, item.title + '-表格导出.xlsx');
+            }}
+        >导出</Button> : null}
       </div>
     );
   }
@@ -526,7 +548,7 @@ export default class DetailComponent extends React.Component {
       } else if (f.type === 'img') {
         obj.render = (value) => <img style={{maxWidth: 25, maxHeight: 25}} src={PIC_PREFIX + value}/>;
       }
-      if (f.amount) {
+      if (f.amount && !f.render) {
         obj.render = (v, d) => <span style={{whiteSpace: 'nowrap'}}>{moneyFormat(v, d)}</span>;
       }
       if (!obj.render) {
@@ -722,7 +744,7 @@ export default class DetailComponent extends React.Component {
             initialValue: initVal,
             getValueFromEvent: this.normFile
           })(
-            this.options.code && !this.isGetPageData
+            this.options.code && !this.props.isLoaded
                 ? <div></div>
                 : (
                     <Upload {...this.getUploadProps(item, initValue, isImg)}>
