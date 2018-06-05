@@ -92,27 +92,31 @@ class installGps extends React.Component {
             fields,
             pageCode: 632148,
             searchParams: {
-              roleCode: getRoleCode()
+                roleCode: getRoleCode()
             },
             btnEvent: {
-              check: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else {
-                  this.props.history.push(`/biz/installGps/check?code=${selectedRowKeys[0]}`);
+                check: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_09') {
+                        showWarnMsg('当前不是GPS管理员审核的节点');
+                    } else {
+                        this.props.history.push(`/biz/installGps/check?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                enter: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_09' && selectedRows[0].curNodeCode !== '002_12') {
+                        showWarnMsg('当前不是业务团队安装或重装GPS的节点');
+                    } else {
+                        this.props.history.push(`/biz/installGps/enter?code=${selectedRowKeys[0]}`);
+                    }
                 }
-              },
-              enter: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else {
-                  this.props.history.push(`/biz/installGps/enter?code=${selectedRowKeys[0]}`);
-                }
-              }
             }
         });
     }

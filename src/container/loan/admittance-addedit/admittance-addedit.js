@@ -3,7 +3,9 @@ import {
     getQueryString,
     getUserId,
     showWarnMsg,
-    showSucMsg
+    showSucMsg,
+    moneyParse,
+    moneyFormat
 } from 'common/js/util';
 import {CollapseWrapper} from 'component/collapse-detail/collapse-detail';
 import {
@@ -26,6 +28,8 @@ class AdmittanceAddEdit extends React.Component {
         this.view = !!getQueryString('v', this.props.location.search);
         this.isCheckCommissioner = !!getQueryString('isCheckCommissioner', this.props.location.search);
         this.isCheckDirector = !!getQueryString('isCheckDirector', this.props.location.search);
+        this.rateData = {
+        };
     }
 
     render() {
@@ -42,7 +46,24 @@ class AdmittanceAddEdit extends React.Component {
                     },
                     keyName: 'code',
                     valueName: 'name',
-                    required: true
+                    required: true,
+                    onChange: (v) => {
+                        let loanProductList = this.props.selectData.loanProductCode;
+                        let wanFactor = 0;
+                        loanProductList.map((item) => {
+                            if (item.code === v) {
+                                wanFactor = item.wanFactor;
+                            }
+                        });
+
+                        let loanAmount = this.props.form.getFieldValue('loanAmount');
+                        if (loanAmount) {
+                            // 月供=万元系数*贷款额/10000
+                            this.props.form.setFieldsValue({
+                                monthDeposit: moneyFormat((wanFactor * (moneyParse(loanAmount))) / 10000000)
+                            });
+                        }
+                    }
                 }, {
                     field: 'isAdvanceFund',
                     title: '是否垫资',
@@ -88,7 +109,7 @@ class AdmittanceAddEdit extends React.Component {
                     field: 'invoicePrice',
                     title: '开票价（元）',
                     amount: true,
-                    onChange: (v) => {
+                    onChange: (v, data) => {
                         let firstAmount = this.props.form.getFieldValue('firstAmount');
                         if (firstAmount) {
                             this.props.form.setFieldsValue({
