@@ -267,7 +267,8 @@ class CreditAddedit extends React.Component {
                     params.buttonCode = '0';
                     params.operator = getUserId();
                     this.props.doFetching();
-                    fetch(632110, params).then(() => {
+                    let bizCode = this.code ? 632112 : 632110;
+                    fetch(bizCode, params).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {

@@ -644,7 +644,7 @@ export default class DetailComponent extends React.Component {
                     };
                 }
             } else if (f.type === 'img') {
-                obj.render = (value) => <img style={{maxWidth: 25, maxHeight: 25}} src={PIC_PREFIX + value}/>;
+                obj.render = (value) => value ? <img style={{maxWidth: 25, maxHeight: 25}} src={PIC_PREFIX + value}/> : '';
             }
             if (f.amount && !f.render) {
                 obj.render = (v, d) => <span style={{whiteSpace: 'nowrap'}}>{moneyFormat(v, d)}</span>;
