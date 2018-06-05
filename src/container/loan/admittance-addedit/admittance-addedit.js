@@ -16,6 +16,7 @@ import {
     setPageData,
     restore
 } from '@redux/loan/admittance-addedit';
+import fetch from 'common/js/fetch';
 
 @CollapseWrapper(
     state => state.loanAdmittanceAddedit,
@@ -1238,7 +1239,7 @@ class AdmittanceAddEdit extends React.Component {
         }
 
         if (!this.view && !this.isCheckCommissioner && !this.isCheckDirector) {
-            let buttons = [{
+            buttons = [{
                 title: '保存',
                 check: true,
                 handler: (params) => {

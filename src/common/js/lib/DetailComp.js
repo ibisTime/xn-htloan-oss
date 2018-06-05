@@ -429,15 +429,15 @@ export default class DetailComponent extends React.Component {
                 handler: (params, doFetching, cancelFetching, handleCancel) => {
                     let key = item.rowKey || 'code';
                     let arr = _this.props.pageData[item.field] || [];
-                    params[key] && arr.forEach((i, v) => {
+                    params[key] && arr.forEach((v, i) => {
                         if (v.code === params[key]) {
-                            arr[i] = params;
+                            arr[i] = {
+                                ...arr[i],
+                                ...params
+                            };
                         }
                     });
                     let itemParams = params[key] ? arr : [...arr, params];
-                    console.log(itemParams);
-                    console.log(params[key]);
-                    console.log(arr);
                     params[key] = isUndefined(params[key]) ? new Date().getTime() : params[key];
                     _this.props.setPageData({
                         ..._this.props.pageData,
@@ -564,30 +564,30 @@ export default class DetailComponent extends React.Component {
                         XLSX.writeFile(wb, item.title + '-表格导出.xlsx');
                     }}
                 >导出</Button> : null}
-                {item.options.buttons.length ? item.options.buttons.map(b => (
-                    <Button
-                        type="primary"
-                        disabled={!hasSelected}
-                        style={{marginRight: 20, marginBottom: 16}}
-                        onClick={() => {
-                            let keys = this.state.o2mSKeys[item.field];
-                            if (!keys.length || keys.length > 1) {
-                                showWarnMsg('请选择一条记录');
-                            } else {
-                                let key = keys[0];
-                                let keyName = item.rowKey || 'code';
-                                let useData = this.props.pageData[item.field].filter((v) => v[keyName] === key)[0];
-                                this.setState({
-                                    modalVisible: true,
-                                    modalOptions: {
-                                        ...b.fields,
-                                        code: key,
-                                        view: false,
-                                        useData
-                                    }
-                                });
+                {item.options.check ? <Button
+                    type="primary"
+                    disabled={!hasSelected}
+                    style={{marginRight: 20, marginBottom: 16}}
+                    onClick={() => {
+                        let keys = this.state.o2mSKeys[item.field];
+                        if (!keys.length || keys.length > 1) {
+                            showWarnMsg('请选择一条记录');
+                            return;
+                        }
+                        let key = keys[0];
+                        let keyName = item.rowKey || 'code';
+                        let useData = this.props.pageData[item.field].filter((v) => v[keyName] === key)[0];
+                        this.setState({
+                            modalVisible: true,
+                            modalOptions: {
+                                ...item.options,
+                                code: key,
+                                view: true,
+                                useData
                             }
-                    }}>{b.title}</Button>)) : null}
+                        });
+                    }}
+                >{item.options.checkName}</Button> : null}
             </div>
         );
     }

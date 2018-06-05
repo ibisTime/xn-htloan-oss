@@ -59,16 +59,14 @@ class bankMoneyCertain extends React.Component {
             field: 'receiptBankCode',
             listCode: 632007,
             type: 'select',
-            keyName: 'bankCode',
-            valueName: 'bankName'
-        }, {
-            title: '收款账号',
-            field: 'receiptBankcardNumber',
+            keyName: 'code',
+            valueName: '{{bankName.DATA}}-{{bankcardNumber.DATA}}',
             required: true
         }, {
             title: '收款凭证',
             field: 'receiptPdf',
-            type: 'img'
+            type: 'img',
+            required: true
         }, {
             title: '备注',
             field: 'receiptRemark'
@@ -78,7 +76,12 @@ class bankMoneyCertain extends React.Component {
             code: this.code,
             view: this.view,
             detailCode: 632146,
-            editCode: 632130
+            editCode: 632130,
+            beforeSubmit: (param) => {
+                let bank = this.props.selectData.receiptBankCode.find(v => v.code === param.receiptBankCode);
+                param.receiptBankcardNumber = bank.bankcardNumber;
+                return param;
+            }
         });
     }
 }
