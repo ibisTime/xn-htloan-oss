@@ -44,7 +44,83 @@ class CreditAddedit extends React.Component {
         this.newCar = true;
         this.creditUserListIndex = 6;
         this.buttons = [];
-        this.fields = [];
+
+        let o2mFields = [{
+            title: '姓名',
+            field: 'userName',
+            nowrap: true,
+            required: true,
+            width: 80
+        }, {
+            title: '与借款人关系',
+            field: 'relation',
+            type: 'select',
+            key: 'credit_user_relation',
+            required: true
+        }, {
+            title: '贷款角色',
+            field: 'loanRole',
+            type: 'select',
+            key: 'credit_user_loan_role',
+            required: true
+        }, {
+            title: '手机号',
+            field: 'mobile',
+            required: true,
+            render: (v) => {
+                let val = (v && v.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2')) || '';
+                return <span style={{whiteSpace: 'nowrap'}}>{val}</span>;
+            }
+        }, {
+            title: '身份证号',
+            field: 'idNo',
+            idCard: true,
+            required: true,
+            render: (v) => {
+                let val = (v && v.replace(/^(\d{6}).+(\d{4})$/, '$1****$2')) || '';
+                return <span style={{whiteSpace: 'nowrap'}}>{val}</span>;
+            }
+        }, {
+            title: '身份证正面',
+            field: 'idNoFront',
+            type: 'img',
+            single: true,
+            required: true
+        }, {
+            title: '身份证反面',
+            field: 'idNoReverse',
+            type: 'img',
+            single: true,
+            required: true
+        }, {
+            title: '征信查询授权书',
+            field: 'authPdf',
+            type: 'img',
+            single: true,
+            required: true
+        }, {
+            title: '面签照片',
+            field: 'interviewPic',
+            type: 'img',
+            single: true,
+            required: true
+        }];
+        if (!this.isAddedit) {
+            o2mFields = o2mFields.concat([{
+                title: '征信报告',
+                field: 'bankCreditResultPdf',
+                type: 'img',
+                required: true,
+                readonly: !this.isEntry,
+                hidden: !this.view
+            }, {
+                title: '征信结果说明',
+                field: 'bankCreditResultRemark',
+                required: true,
+                readonly: !this.isEntry,
+                hidden: !this.view
+            }]);
+        }
 
         this.fields = [{
             title: '银行',
@@ -101,79 +177,7 @@ class CreditAddedit extends React.Component {
                 check: this.isEntry,
                 checkName: '录入',
                 scroll: {x: 1300},
-                fields: [{
-                    title: '姓名',
-                    field: 'userName',
-                    nowrap: true,
-                    required: true,
-                    width: 80
-                }, {
-                    title: '与借款人关系',
-                    field: 'relation',
-                    type: 'select',
-                    key: 'credit_user_relation',
-                    required: true
-                }, {
-                    title: '贷款角色',
-                    field: 'loanRole',
-                    type: 'select',
-                    key: 'credit_user_loan_role',
-                    required: true
-                }, {
-                    title: '手机号',
-                    field: 'mobile',
-                    required: true,
-                    render: (v) => {
-                        let val = (v && v.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2')) || '';
-                        return <span style={{whiteSpace: 'nowrap'}}>{val}</span>;
-                    }
-                }, {
-                    title: '身份证号',
-                    field: 'idNo',
-                    idCard: true,
-                    required: true,
-                    render: (v) => {
-                        let val = (v && v.replace(/^(\d{6}).+(\d{4})$/, '$1****$2')) || '';
-                        return <span style={{whiteSpace: 'nowrap'}}>{val}</span>;
-                    }
-                }, {
-                    title: '身份证正面',
-                    field: 'idNoFront',
-                    type: 'img',
-                    single: true,
-                    required: true
-                }, {
-                    title: '身份证反面',
-                    field: 'idNoReverse',
-                    type: 'img',
-                    single: true,
-                    required: true
-                }, {
-                    title: '征信查询授权书',
-                    field: 'authPdf',
-                    type: 'img',
-                    single: true,
-                    required: true
-                }, {
-                    title: '面签照片',
-                    field: 'interviewPic',
-                    type: 'img',
-                    single: true,
-                    required: true
-                }, {
-                    title: '征信报告',
-                    field: 'bankCreditResultPdf',
-                    type: 'img',
-                    required: true,
-                    readonly: !this.isEntry,
-                    hidden: !this.view
-                }, {
-                    title: '征信结果说明',
-                    field: 'bankCreditResultRemark',
-                    required: true,
-                    readonly: !this.isEntry,
-                    hidden: !this.view
-                }]
+                fields: o2mFields
             }
         }, {
             title: '审核说明',

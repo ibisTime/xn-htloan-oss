@@ -95,7 +95,7 @@ class Credit extends React.Component {
                 apply: (selectedRowKeys, selectedRows) => {
                     let code = selectedRowKeys ? selectedRowKeys[0] : '';
                     if (code) {
-                        if (selectedRows[0].curNodeCode !== '001_01') {
+                        if (selectedRows[0].curNodeCode !== '001_01' && selectedRows[0].curNodeCode !== '001_04') {
                             showWarnMsg('当前不是填写征信单的节点');
                             return;
                         }
