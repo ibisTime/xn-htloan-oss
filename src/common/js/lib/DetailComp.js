@@ -116,7 +116,7 @@ export default class DetailComponent extends React.Component {
             ...this.options,
             ...options
         };
-        if (this.options.useData) {
+        if (this.options.useData || this.options.useData === null) {
             this.props.setPageData(this.options.useData);
             this.props.initStates({code: this.options.code, view: this.options.view});
         } else if (this.first) {
@@ -429,15 +429,17 @@ export default class DetailComponent extends React.Component {
                 handler: (params, doFetching, cancelFetching, handleCancel) => {
                     let key = item.rowKey || 'code';
                     let arr = _this.props.pageData[item.field] || [];
+                    let flag = false;
                     params[key] && arr.forEach((v, i) => {
                         if (v.code === params[key]) {
                             arr[i] = {
                                 ...arr[i],
                                 ...params
                             };
+                            flag = true;
                         }
                     });
-                    let itemParams = params[key] ? arr : [...arr, params];
+                    let itemParams = flag ? arr : [...arr, params];
                     params[key] = isUndefined(params[key]) ? new Date().getTime() : params[key];
                     _this.props.setPageData({
                         ..._this.props.pageData,

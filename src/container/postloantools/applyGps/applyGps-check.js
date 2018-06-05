@@ -61,7 +61,7 @@ class applyGpsCheck extends React.Component {
           },
           fields: [{
             title: 'GPS设备号',
-            field: 'gpsDevNo',
+            field: 'code',
             type: 'select',
             listCode: 632707,
             params: {
