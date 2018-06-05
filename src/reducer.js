@@ -153,6 +153,11 @@ import { bizSettlementFinance } from './redux/biz/settlement-finance';
 import { bizSettlementManager } from './redux/biz/settlement-manager';
 import { bizSettlementStationed } from './redux/biz/settlement-stationed';
 
+//  解除抵押 + 详情 + 解除抵押
+import { mortgages } from './redux/biz/mortgages/mortgages';
+import { mortgagesAddEdit } from './redux/biz/mortgages/mortgages-addedit';
+import { mortgagesRelieve } from './redux/biz/mortgages/mortgages-relieve';
+
 //  历史业务管理 + 详情
 import { bizHistoryBusinessManage } from './redux/biz/historyBusinessManage';
 import { bizHistoryBusinessManageAddedit } from './redux/biz/historyBusinessManage-addedit';
@@ -286,6 +291,39 @@ import { postloantoolsImportDispose } from './redux/postloantools/import-dispose
 import { bizBalancedetail } from './redux/analysis/balancedetail';
 import { analysisProtect } from './redux/analysis/protect';
 
+/**
+ * 人事
+ */
+// 人事档案 + 详情
+import { personalarchivesParchives } from './redux/personalarchives/parchives';
+import { personalarchivesParchivesAddedit } from './redux/personalarchives/parchives-addedit';
+
+//  离职档案 + 详情
+import { personalarchivesQuitarchives } from './redux/personalarchives/quitarchives';
+import { personalarchivesQuitarchivesAddedit } from './redux/personalarchives/quitarchives-addedit';
+
+//  合同管理
+import { contractManage } from './redux/contract/manage';
+import { contractManageAddedit } from './redux/contract/manage-addedit';
+import { contractManageContinue } from './redux/contract/manage-continue';
+
+//  用人申请 + 详情 + 申请 + 审核
+import { recruitApply } from './redux/recruit/apply';
+import { recruitApplyAddedit } from './redux/recruit/apply-addedit';
+import { recruitApplyApply } from './redux/recruit/apply-apply';
+import { recruitApplyCheck } from './redux/recruit/apply-check';
+
+//  应聘登记 + 详情 + 面试结果录入 + 发起入职申请
+import { recruitRegister } from './redux/recruit/register';
+import { recruitRegisterAddedit } from './redux/recruit/register-addedit';
+import { recruitRegisterEnter } from './redux/recruit/register-enter';
+import { recruitRegisterApply } from './redux/recruit/register-apply';
+
+//  入职申请 + 详情 + 申请 + 审核
+import { recruitEntry } from './redux/recruit/entry';
+import { recruitEntryAddedit } from './redux/recruit/entry-addedit';
+import { recruitEntryApply } from './redux/recruit/entry-apply';
+import { recruitEntryCheck } from './redux/recruit/entry-check';
 export default combineReducers({
   user,
   menu,
@@ -463,5 +501,27 @@ export default combineReducers({
   postloantoolsImport,
   postloantoolsImportAddedit,
   postloantoolsImportImport,
-  postloantoolsImportDispose
+  postloantoolsImportDispose,
+  mortgages,
+  mortgagesAddEdit,
+  mortgagesRelieve,
+  personalarchivesParchives,
+  personalarchivesParchivesAddedit,
+  recruitRegister,
+  recruitRegisterAddedit,
+  recruitRegisterEnter,
+  recruitRegisterApply,
+  personalarchivesQuitarchives,
+  personalarchivesQuitarchivesAddedit,
+  recruitApply,
+  recruitApplyAddedit,
+  recruitApplyApply,
+  recruitApplyCheck,
+  recruitEntry,
+  recruitEntryAddedit,
+  recruitEntryApply,
+  recruitEntryCheck,
+  contractManage,
+  contractManageAddedit,
+  contractManageContinue
 });

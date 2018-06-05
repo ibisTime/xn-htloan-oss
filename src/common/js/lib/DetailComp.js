@@ -718,6 +718,7 @@ export default class DetailComponent extends React.Component {
         item.onChange(value);
       };
     }
+    console.log(item.field, initVal);
     return (
       <FormItem
         className={item.hidden ? 'hidden' : ''}
