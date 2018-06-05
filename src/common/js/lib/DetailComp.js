@@ -117,8 +117,8 @@ export default class DetailComponent extends React.Component {
             ...options
         };
         if (this.options.useData) {
-            this.props.setPageData(this.options.useData);
             this.props.initStates({code: this.options.code, view: this.options.view});
+            this.props.setPageData(this.options.useData);
         } else if (this.first) {
             this.options.code && this.options.detailCode && this.getDetailInfo();
             this.props.initStates({code: this.options.code, view: this.options.view});
@@ -462,13 +462,16 @@ export default class DetailComponent extends React.Component {
                     style={{marginRight: 20, marginBottom: 16}}
                     onClick={() => {
                         this.setState({
-                            modalVisible: true,
                             modalOptions: {
                                 ...item.options,
                                 useData: null,
                                 view: false,
                                 code: null
                             }
+                        }, () => {
+                            this.setState({
+                                modalVisible: true
+                            });
                         });
                     }}
                 >新增</Button> : null}
@@ -486,13 +489,16 @@ export default class DetailComponent extends React.Component {
                         let keyName = item.rowKey || 'code';
                         let useData = this.props.pageData[item.field].filter((v) => v[keyName] === key)[0];
                         this.setState({
-                            modalVisible: true,
                             modalOptions: {
                                 ...item.options,
                                 code: key,
                                 view: false,
                                 useData
                             }
+                        }, () => {
+                            this.setState({
+                                modalVisible: true
+                            });
                         });
                     }}
                 >修改</Button> : null}
@@ -532,13 +538,16 @@ export default class DetailComponent extends React.Component {
                         let keyName = item.rowKey || 'code';
                         let useData = this.props.pageData[item.field].filter((v) => v[keyName] === key)[0];
                         this.setState({
-                            modalVisible: true,
                             modalOptions: {
                                 ...item.options,
                                 code: key,
                                 view: true,
                                 useData
                             }
+                        }, () => {
+                            this.setState({
+                                modalVisible: true
+                            });
                         });
                     }}
                 >详情</Button> : null}
@@ -580,13 +589,16 @@ export default class DetailComponent extends React.Component {
                         let keyName = item.rowKey || 'code';
                         let useData = this.props.pageData[item.field].filter((v) => v[keyName] === key)[0];
                         this.setState({
-                            modalVisible: true,
                             modalOptions: {
                                 ...item.options,
                                 code: key,
                                 view: true,
                                 useData
                             }
+                        }, () => {
+                            this.setState({
+                                modalVisible: true
+                            });
                         });
                     }}
                 >{item.options.checkName}</Button> : null}

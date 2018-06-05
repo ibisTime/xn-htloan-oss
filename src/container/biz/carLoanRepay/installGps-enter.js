@@ -32,6 +32,7 @@ class installGpsEnter extends React.Component {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
+        this.edit = getQueryString('edit', this.props.location.search);
     }
     render() {
         const fields = [{
@@ -53,7 +54,7 @@ class installGpsEnter extends React.Component {
             readonly: true
         }, {
             title: 'GPS安装列表',
-            field: 'gpsAzList',
+            field: this.edit ? 'budgetOrderGpsList' : 'gpsAzList',
             type: 'o2m',
             options: {
                 add: true,
@@ -61,7 +62,7 @@ class installGpsEnter extends React.Component {
                 delete: true,
                 fields: [{
                     title: 'GPS设备号',
-                    field: 'gpsDevNo',
+                    field: 'code',
                     type: 'select',
                     listCode: 632707,
                     params: {
@@ -69,7 +70,7 @@ class installGpsEnter extends React.Component {
                         applyUser: getUserId(),
                         useStatus: '0'
                     },
-                    keyName: 'gpsDevNo',
+                    keyName: 'code',
                     valueName: 'gpsDevNo',
                     nowrap: true,
                     required: true
@@ -109,6 +110,9 @@ class installGpsEnter extends React.Component {
               handler: (param) => {
                 param.operator = getUserId();
                 this.props.doFetching();
+                if (this.edit) {
+                    param.gpsAzList = param.budgetOrderGpsList;
+                }
                 fetch(632126, param).then(() => {
                   showSucMsg('操作成功');
                   this.props.cancelFetching();

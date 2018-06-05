@@ -100,7 +100,7 @@ class installGps extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '002_09') {
+                    } else if (selectedRows[0].curNodeCode !== '002_10') {
                         showWarnMsg('当前不是GPS管理员审核的节点');
                     } else {
                         this.props.history.push(`/biz/installGps/check?code=${selectedRowKeys[0]}`);
@@ -113,8 +113,10 @@ class installGps extends React.Component {
                         showWarnMsg('请选择一条记录');
                     } else if (selectedRows[0].curNodeCode !== '002_09' && selectedRows[0].curNodeCode !== '002_12') {
                         showWarnMsg('当前不是业务团队安装或重装GPS的节点');
-                    } else {
+                    } else if (selectedRows[0].curNodeCode === '002_09') {
                         this.props.history.push(`/biz/installGps/enter?code=${selectedRowKeys[0]}`);
+                    } else {
+                        this.props.history.push(`/biz/installGps/enter?code=${selectedRowKeys[0]}&edit=1`);
                     }
                 }
             }

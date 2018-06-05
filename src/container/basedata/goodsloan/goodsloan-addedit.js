@@ -14,8 +14,6 @@ import {
     DetailWrapper
 } from 'common/js/build-detail';
 
-// import { COMPANY_CODE } from 'common/js/config';
-
 @DetailWrapper(
     state => state.bizGoodsloanAddEdit, {
         initStates,
@@ -58,12 +56,13 @@ class goodsloanAddedit extends React.Component {
             amount: true,
             required: true
         }, {
-            title: '年利率',
+            title: '年化利率',
             field: 'yearRate',
             number: true,
+            help: '请输入0～1之间的数值',
             required: true
         }, {
-            title: 'GPS费用',
+            title: 'GPS费用(元)',
             field: 'gpsFee',
             amount: true,
             required: true
@@ -71,16 +70,19 @@ class goodsloanAddedit extends React.Component {
             title: '公证费利率',
             field: 'authRate',
             number: true,
+            help: '请输入0～1之间的数值',
             required: true
         }, {
             title: '返点利率',
             field: 'backRate',
             number: true,
+            help: '请输入0～1之间的数值',
             required: true
         }, {
             title: '前置利率',
             field: 'preRate',
             number: true,
+            help: '请输入0～1之间的数值',
             required: true
         }];
         return this.props.buildDetail({

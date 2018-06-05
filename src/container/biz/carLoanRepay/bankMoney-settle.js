@@ -62,19 +62,23 @@ class bankMoneyAddedit extends React.Component {
         }, {
             title: '发票',
             field: 'carInvoice',
-            type: 'img'
+            type: 'img',
+            required: true
         }, {
             title: '合格证',
             field: 'carHgz',
-            type: 'img'
+            type: 'img',
+            required: true
         }, {
             title: '交强险',
             field: 'carJqx',
-            type: 'img'
+            type: 'img',
+            required: true
         }, {
             title: '商业险',
             field: 'carSyx',
-            type: 'img'
+            type: 'img',
+            required: true
         }];
         return this.props.buildDetail({
             fields,

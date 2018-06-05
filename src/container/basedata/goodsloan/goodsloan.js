@@ -43,10 +43,10 @@ class Goodsloan extends React.Component {
             field: 'wanFactor',
             amount: true
         }, {
-            title: '年利率',
+            title: '年化利率',
             field: 'yearRate'
         }, {
-            title: 'GPS费用',
+            title: 'GPS费用(元)',
             field: 'gpsFee',
             amount: true
         }, {

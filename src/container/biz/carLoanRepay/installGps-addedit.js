@@ -15,7 +15,6 @@ import {
 import {
     DetailWrapper
 } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
     state => state.bizinstallGpsAddEdit, {
@@ -49,7 +48,7 @@ class installGpsAddedit extends React.Component {
             amount: true
         }, {
             title: 'GPS安装列表',
-            field: 'gpsAzList',
+            field: 'budgetOrderGpsList',
             type: 'o2m',
             options: {
                 add: true,

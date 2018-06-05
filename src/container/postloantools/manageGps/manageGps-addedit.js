@@ -43,7 +43,8 @@ class manageGpsAddedit extends React.Component {
         value: '无线'
       }],
       keyName: 'key',
-      valueName: 'value'
+      valueName: 'value',
+      required: true
     }];
     return this.props.buildDetail({
       fields,
