@@ -448,37 +448,11 @@ export default class DetailComponent extends React.Component {
                 check: true
             }];
         }
-        return item.readonly ? (
-            <div style={{marginBottom: 16}}>
-                {item.options.detail ? <Button
+        return (
+            <div>
+                {item.options.add && !item.readonly ? <Button
                     type="primary"
-                    disabled={!hasSelected}
-                    style={{marginRight: 20}}
-                    onClick={() => {
-                        let keys = this.state.o2mSKeys[item.field];
-                        if (!keys.length || keys.length > 1) {
-                            showWarnMsg('请选择一条记录');
-                            return;
-                        }
-                        let key = keys[0];
-                        let keyName = item.rowKey || 'code';
-                        let useData = this.props.pageData[item.field].filter((v) => v[keyName] === key)[0];
-                        this.setState({
-                            modalVisible: true,
-                            modalOptions: {
-                                ...item.options,
-                                code: key,
-                                useData
-                            }
-                        });
-                    }}
-                >详情</Button> : null}
-            </div>
-            ) : (
-            <div style={{marginBottom: 16}}>
-                {item.options.add ? <Button
-                    type="primary"
-                    style={{marginRight: 20}}
+                    style={{marginRight: 20, marginBottom: 16}}
                     onClick={() => {
                         this.setState({
                             modalVisible: true,
@@ -491,10 +465,10 @@ export default class DetailComponent extends React.Component {
                         });
                     }}
                 >新增</Button> : null}
-                {item.options.edit ? <Button
+                {item.options.edit && !item.readonly ? <Button
                     type="primary"
                     disabled={!hasSelected}
-                    style={{marginRight: 20}}
+                    style={{marginRight: 20, marginBottom: 16}}
                     onClick={() => {
                         let keys = this.state.o2mSKeys[item.field];
                         if (!keys.length || keys.length > 1) {
@@ -515,10 +489,10 @@ export default class DetailComponent extends React.Component {
                         });
                     }}
                 >修改</Button> : null}
-                {item.options.delete ? <Button
+                {item.options.delete && !item.readonly ? <Button
                     type="primary"
                     disabled={!hasSelected}
-                    style={{marginRight: 20}}
+                    style={{marginRight: 20, marginBottom: 16}}
                     onClick={() => {
                         let keys = this.state.o2mSKeys[item.field];
                         if (!keys.length || keys.length > 1) {
@@ -540,7 +514,7 @@ export default class DetailComponent extends React.Component {
                 {item.options.detail ? <Button
                     type="primary"
                     disabled={!hasSelected}
-                    style={{marginRight: 20}}
+                    style={{marginRight: 20, marginBottom: 16}}
                     onClick={() => {
                         let keys = this.state.o2mSKeys[item.field];
                         if (!keys.length || keys.length > 1) {
@@ -563,7 +537,7 @@ export default class DetailComponent extends React.Component {
                 >详情</Button> : null}
                 {item.options.export ? <Button
                     type="primary"
-                    style={{marginRight: 20}}
+                    style={{marginRight: 20, marginBottom: 16}}
                     onClick={() => {
                         let arr = this.props.pageData[item.field];
                         let titles = [];
@@ -585,6 +559,30 @@ export default class DetailComponent extends React.Component {
                         XLSX.writeFile(wb, item.title + '-表格导出.xlsx');
                     }}
                 >导出</Button> : null}
+                {item.options.buttons.length ? item.options.buttons.map(b => (
+                    <Button
+                        type="primary"
+                        disabled={!hasSelected}
+                        style={{marginRight: 20, marginBottom: 16}}
+                        onClick={() => {
+                            let keys = this.state.o2mSKeys[item.field];
+                            if (!keys.length || keys.length > 1) {
+                                showWarnMsg('请选择一条记录');
+                            } else {
+                                let key = keys[0];
+                                let keyName = item.rowKey || 'code';
+                                let useData = this.props.pageData[item.field].filter((v) => v[keyName] === key)[0];
+                                this.setState({
+                                    modalVisible: true,
+                                    modalOptions: {
+                                        ...b.fields,
+                                        code: key,
+                                        view: false,
+                                        useData
+                                    }
+                                });
+                            }
+                    }}>{b.title}</Button>)) : null}
             </div>
         );
     }
