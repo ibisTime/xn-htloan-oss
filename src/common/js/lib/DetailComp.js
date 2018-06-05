@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     Form, Select, Input, Button, Tooltip, Icon, Spin, Upload,
-    Modal, Cascader, DatePicker, Table
+    Modal, Cascader, DatePicker, Table, Checkbox
 } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -24,6 +24,7 @@ const {Item: FormItem} = Form;
 const {Option} = Select;
 const {TextArea} = Input;
 const {RangePicker} = DatePicker;
+const CheckboxGroup = Checkbox.Group;
 const DATE_FORMAT = 'YYYY-MM-DD';
 const DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 const imgUploadBtn = (
@@ -127,7 +128,7 @@ export default class DetailComponent extends React.Component {
             f.readonly = isUndefined(f.readonly) ? this.options.view : f.readonly;
             if (f.type === 'citySelect') {
                 f.cFields = f.cFields || ['province', 'city', 'area'];
-            } else if (f.type === 'select') {
+            } else if (f.type === 'select' || f.type === 'checkbox') {
                 if (f.key) {
                     f.keyName = f.keyName || 'dkey';
                     f.valueName = f.valueName || 'dvalue';
@@ -179,6 +180,8 @@ export default class DetailComponent extends React.Component {
                 }
             } else if (v.type === 'o2m') {
                 values[v.field] = this.props.pageData[v.field];
+            } else if (v.type === 'checkbox') {
+                values[v.field] = values[v.field].join(',');
             }
         });
         values.updater = values.updater || getUserName();
@@ -369,6 +372,8 @@ export default class DetailComponent extends React.Component {
                     : this.getTextArea(item, initVal, rules, getFieldDecorator);
             case 'citySelect':
                 return this.getCitySelect(item, initVal, rules, getFieldDecorator);
+            case 'checkbox':
+                return this.getCheckboxComp(item, initVal, rules, getFieldDecorator);
             default:
                 return this.getInputComp(item, initVal, rules, getFieldDecorator);
         }
@@ -607,7 +612,7 @@ export default class DetailComponent extends React.Component {
                 obj.render = (v) => {
                     return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateFormat(v)}</span> : dateFormat(v);
                 };
-            } else if (f.type === 'select') {
+            } else if (f.type === 'select' || f.type === 'checkbox') {
                 if (f.key) {
                     f.keyName = f.keyName || 'dkey';
                     f.valueName = f.valueName || 'dvalue';
@@ -618,18 +623,28 @@ export default class DetailComponent extends React.Component {
                 } else if (!this.state.searchData[f.field]) {
                     this.setSearchData({data: f.data, key: f.field});
                 }
-                obj.render = (value) => {
-                    let val = '';
-                    if (value && f.data) {
-                        let item = f.data.find(v => v[f.keyName] === value);
-                        val = item
-                            ? item[f.valueName]
+                if (f.type === 'select') {
+                    obj.render = (value) => {
+                        let val = '';
+                        if (value && f.data) {
+                            let item = f.data.find(v => v[f.keyName] === value);
+                            val = item
                                 ? item[f.valueName]
-                                : tempString(f.valueName, item)
-                            : '';
-                    }
-                    return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{val}</span> : val;
-                };
+                                    ? item[f.valueName]
+                                    : tempString(f.valueName, item)
+                                : '';
+                        }
+                        return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{val}</span> : val;
+                    };
+                } else {
+                    obj.render = (value) => {
+                        let val = '';
+                        if (value && f.data) {
+                            val = value.split(',').map(v => f.data.find(d => d[f.keyName] === v)[f.valueName]).join('、');
+                        }
+                        return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{val}</span> : val;
+                    };
+                }
             } else if (f.type === 'img') {
                 obj.render = (value) => <img style={{maxWidth: 25, maxHeight: 25}} src={PIC_PREFIX + value}/>;
             }
@@ -773,6 +788,30 @@ export default class DetailComponent extends React.Component {
                             rules,
                             initialValue: initVal
                         })(<Cascader placeholder="请选择" options={cityData}/>)
+                }
+            </FormItem>
+        );
+    }
+
+    getCheckboxComp(item, initVal, rules, getFieldDecorator) {
+        let val = '';
+        if (item.readonly && initVal && item.data && item.data.length) {
+            val = initVal.map(v => item.data.find(d => d[item.keyName] === v)[item.valueName]).join('、');
+        }
+        return (
+            <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
+                {
+                    item.readonly ? <div className='readonly-text'>{val}</div>
+                    : getFieldDecorator(item.field, {
+                        rules,
+                        initialValue: initVal
+                    })(
+                      <CheckboxGroup disabled={item.readonly}>
+                        {item.data && item.data.length
+                          ? item.data.map(d => <Checkbox key={d[item.keyName]} value={d[item.keyName]}>{d[item.valueName]}</Checkbox>)
+                          : null}
+                      </CheckboxGroup>
+                    )
                 }
             </FormItem>
         );
@@ -988,6 +1027,8 @@ export default class DetailComponent extends React.Component {
                 result = this.getCityVal(item, result);
             } else if (item.type === 'date' || item.type === 'datetime') {
                 result = this.getRealDateVal(item, result);
+            } else if (item.type === 'checkbox') {
+                result = this.getRealCheckboxVal(item, result);
             }
             if (item.formatter) {
                 result = item.formatter(result, this.props.pageData);
@@ -997,6 +1038,10 @@ export default class DetailComponent extends React.Component {
         } catch (e) {
         }
         return isUndefined(result) ? '' : result; // this.options.view ? '' :
+    }
+
+    getRealCheckboxVal(item, result) {
+        return result ? result.split(',') : [];
     }
 
     getRealDateVal(item, result) {

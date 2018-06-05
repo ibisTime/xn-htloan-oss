@@ -12,10 +12,8 @@ import {
   showSucMsg,
   getUserId
 } from 'common/js/util';
-import {
-  DetailWrapper
-} from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { DetailWrapper } from 'common/js/build-detail';
+import fetch from 'common/js/fetch';
 
 @DetailWrapper(
     state => state.loanstoolsTakeFreeEnter, {
@@ -35,6 +33,14 @@ class TakeFreeEnter extends React.Component {
     }
     render() {
         const fields = [{
+            field: 'feeCode',
+            value: this.code,
+            hidden: true
+        }, {
+            field: 'operator',
+            value: getUserId(),
+            hidden: true
+        }, {
             title: '客户姓名',
             field: 'userName',
             readonly: true
@@ -63,16 +69,15 @@ class TakeFreeEnter extends React.Component {
             readonly: true
         }, {
             title: '交款类型',
-            field: 'remitType1',
+            field: 'remitType',
             type: 'select',
             key: 'remit_type',
-            required: true,
-            formatter: (v, d) => {
-                return d.remitType;
-            }
+            required: true
         }, {
             title: '交款项目',
             field: 'remitProject',
+            key: 'remit_project',
+            type: 'checkbox',
             required: true
         }, {
             title: '金额',
@@ -81,14 +86,14 @@ class TakeFreeEnter extends React.Component {
             required: true
         }, {
             title: '汇入我司账号',
-            field: 'receiptAccount',
+            field: 'platBankcard',
             listCode: 632007,
             required: true,
             type: 'select',
             params: {
                 companyCode: 'DP201800000000000000001'
             },
-            keyName: 'bankCode',
+            keyName: 'code',
             valueName: 'bankcardNumber'
         }, {
             title: '汇款人',
@@ -128,21 +133,20 @@ class TakeFreeEnter extends React.Component {
                     type: 'select',
                     key: 'remit_type'
                 }, {
-                    title: '交款单位',
-                    field: 'remitCompanyCode'
-                }, {
                     title: '交款项目',
-                    field: 'remitProject'
+                    field: 'remitProject',
+                    key: 'remit_project',
+                    type: 'checkbox'
                 }, {
                     title: '金额小写',
                     field: 'amount',
                     amount: true
                 }, {
-                    title: '汇入我司银行',
-                    field: 'receiptBank'
-                }, {
                     title: '汇入我司账号',
-                    field: 'receiptAccount'
+                    field: 'receiptAccount',
+                    render: (v, d) => {
+                        return d.collectBankcard.bankcardNumber;
+                    }
                 }, {
                     title: '汇款人',
                     field: 'remitUser'
@@ -155,7 +159,7 @@ class TakeFreeEnter extends React.Component {
                     field: 'updater'
                 }, {
                     title: '更新时间',
-                    field: 'updaterDatetime',
+                    field: 'updateDatetime',
                     type: 'datetime'
                 }, {
                     title: '备注',
@@ -168,25 +172,26 @@ class TakeFreeEnter extends React.Component {
             code: this.code,
             view: this.view,
             detailCode: 632166,
-            buttons: [{
-                title: '确认',
-                check: true,
-                handler: (params) => {
-                    this.props.doFetching();
-                    fetch(632160, params).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.props.cancelFetching);
-                }
-            }, {
-                title: '返回',
-                handler: (param) => {
-                    this.props.history.go(-1);
-                }
-            }]
+            editCode: 632160
+            // buttons: [{
+            //     title: '确认',
+            //     check: true,
+            //     handler: (params) => {
+            //         this.props.doFetching();
+            //         fetch(632160, params).then(() => {
+            //             showSucMsg('操作成功');
+            //             this.props.cancelFetching();
+            //             setTimeout(() => {
+            //                 this.props.history.go(-1);
+            //             }, 1000);
+            //         }).catch(this.props.cancelFetching);
+            //     }
+            // }, {
+            //     title: '返回',
+            //     handler: (param) => {
+            //         this.props.history.go(-1);
+            //     }
+            // }]
         });
     }
 }

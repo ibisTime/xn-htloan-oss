@@ -10,10 +10,7 @@ import {
 import {
     getQueryString
 } from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
     state => state.loanstoolsTakeFreeAddedit, {
@@ -71,21 +68,20 @@ class TakeFreeAddedit extends React.Component {
                     type: 'select',
                     key: 'remit_type'
                 }, {
-                    title: '交款单位',
-                    field: 'remitCompanyCode'
-                }, {
                     title: '交款项目',
-                    field: 'remitProject'
+                    field: 'remitProject',
+                    key: 'remit_project',
+                    type: 'checkbox'
                 }, {
                     title: '金额小写',
                     field: 'amount',
                     amount: true
                 }, {
-                    title: '汇入我司银行',
-                    field: 'receiptBank'
-                }, {
                     title: '汇入我司账号',
-                    field: 'receiptAccount'
+                    field: 'receiptAccount',
+                    render: (v, d) => {
+                        return d.collectBankcard.bankcardNumber;
+                    }
                 }, {
                     title: '汇款人',
                     field: 'remitUser'
