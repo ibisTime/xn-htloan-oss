@@ -504,6 +504,21 @@ const ROUTES = [
     path: '/biz/settlement/addedit',
     component: asyncComponent(() => import('container/biz/carLoanRepay/settlement-addedit'))
   },
+  //  解除抵押
+  {
+    path: '/biz/mortgages',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/mortgages'))
+  },
+  //  解除抵押 详情
+  {
+    path: '/biz/mortgages/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/mortgages-addedit'))
+  },
+  //  解除抵押 解除抵押
+  {
+    path: '/biz/mortgages/relieve',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/mortgages-relieve'))
+  },
   //  历史业务管理
   {
     path: '/biz/historyBusinessManage',
@@ -831,6 +846,102 @@ const ROUTES = [
   {
     path: '/postloantools/import/dispose',
     component: asyncComponent(() => import('container/postloantools/import/import-dispose'))
+  },
+  //  人事
+  //  人事档案
+  {
+    path: '/personalarchives/parchives',
+    component: asyncComponent(() => import('container/personalarchives/parchives/parchives'))
+  },
+  //  人事档案 详情
+  {
+    path: '/personalarchives/parchives/addedit',
+    component: asyncComponent(() => import('container/personalarchives/parchives/parchives-addedit'))
+  },
+  //  离职档案
+  {
+    path: '/personalarchives/quitarchives',
+    component: asyncComponent(() => import('container/personalarchives/quitarchives/quitarchives'))
+  },
+  //  离职档案 详情
+  {
+    path: '/personalarchives/quitarchives/addedit',
+    component: asyncComponent(() => import('container/personalarchives/quitarchives/quitarchives-addedit'))
+  },
+  //  合同管理
+  {
+    path: '/contract/manage',
+    component: asyncComponent(() => import('container/contract/manage/manage'))
+  },
+  //  合同管理 详情
+  {
+    path: '/contract/manage/addedit',
+    component: asyncComponent(() => import('container/contract/manage/manage-addedit'))
+  },
+  //  合同管理 续约
+  {
+    path: '/contract/manage/continue',
+    component: asyncComponent(() => import('container/contract/manage/manage-continue'))
+  },
+  //  应聘登记
+  {
+    path: '/recruit/register',
+    component: asyncComponent(() => import('container/recruit/register/register'))
+  },
+  //  应聘登记 详情
+  {
+    path: '/recruit/register/addedit',
+    component: asyncComponent(() => import('container/recruit/register/register-addedit'))
+  },
+  //  应聘登记 录入
+  {
+    path: '/recruit/register/enter',
+    component: asyncComponent(() => import('container/recruit/register/register-enter'))
+  },
+  //  应聘登记 申请
+  {
+    path: '/recruit/register/apply',
+    component: asyncComponent(() => import('container/recruit/register/register-apply'))
+  },
+  //  用人申请
+  {
+    path: '/recruit/apply',
+    component: asyncComponent(() => import('container/recruit/apply/apply'))
+  },
+  //  用人申请 详情
+  {
+    path: '/recruit/apply/addedit',
+    component: asyncComponent(() => import('container/recruit/apply/apply-addedit'))
+  },
+  //  用人申请 申请
+  {
+    path: '/recruit/apply/apply',
+    component: asyncComponent(() => import('container/recruit/apply/apply-apply'))
+  },
+  //  用人申请 审核
+  {
+    path: '/recruit/apply/check',
+    component: asyncComponent(() => import('container/recruit/apply/apply-check'))
+  },
+  //  入职申请
+  {
+    path: '/recruit/entry',
+    component: asyncComponent(() => import('container/recruit/entry/entry'))
+  },
+  //  入职申请 详情
+  {
+    path: '/recruit/entry/addedit',
+    component: asyncComponent(() => import('container/recruit/entry/entry-addedit'))
+  },
+  //  入职申请 申请
+  {
+    path: '/recruit/entry/apply',
+    component: asyncComponent(() => import('container/recruit/entry/entry-apply'))
+  },
+  //  入职申请 审核
+  {
+    path: '/recruit/entry/check',
+    component: asyncComponent(() => import('container/recruit/entry/entry-check'))
   }
 ];
 
