@@ -70,26 +70,6 @@ class bankMoneyCertain extends React.Component {
             field: 'receiptPdf',
             type: 'img'
         }, {
-            title: '车牌号',
-            field: 'carNumber',
-            required: true
-        }, {
-            title: '机动车登记证书',
-            field: 'carRegcerti',
-            type: 'img'
-        }, {
-            title: '批单',
-            field: 'carPd',
-            type: 'img'
-        }, {
-            title: '车钥匙',
-            field: 'carKey',
-            type: 'img'
-        }, {
-            title: '大本扫描件',
-            field: 'carBigSmj',
-            type: 'img'
-        }, {
             title: '备注',
             field: 'receiptRemark'
         }];

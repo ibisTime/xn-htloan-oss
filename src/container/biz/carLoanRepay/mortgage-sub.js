@@ -62,8 +62,7 @@ class mortgageSub extends React.Component {
             required: true
         }, {
             title: '提交说明',
-            field: 'pledgeBankCommitNot',
-            required: true
+            field: 'pledgeBankCommitNot'
         }];
         return this.props.buildDetail({
             fields,

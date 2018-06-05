@@ -35,23 +35,14 @@ class goodsloanAddedit extends React.Component {
 
     render() {
         const fields = [{
-            title: '名称',
+            title: '产品名称',
             field: 'name',
             required: true
         }, {
-            title: '公证费',
-            field: 'authFee',
-            amount: true,
-            required: true
-        }, {
-            title: '服务费',
-            field: 'fee',
-            amount: true,
-            required: true
-        }, {
-            title: 'GPS费用',
-            field: 'gpsFee',
-            amount: true,
+            title: '针对类型',
+            field: 'type',
+            type: 'select',
+            key: 'budget_orde_biz_typer',
             required: true
         }, {
             title: '贷款银行',
@@ -62,8 +53,33 @@ class goodsloanAddedit extends React.Component {
             valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
             required: true
         }, {
-            title: '月供利率',
-            field: 'monthRate',
+            title: '万元系数',
+            field: 'wanFactor',
+            amount: true,
+            required: true
+        }, {
+            title: '年利率',
+            field: 'yearRate',
+            number: true,
+            required: true
+        }, {
+            title: 'GPS费用',
+            field: 'gpsFee',
+            amount: true,
+            required: true
+        }, {
+            title: '公证费利率',
+            field: 'authRate',
+            number: true,
+            required: true
+        }, {
+            title: '返点利率',
+            field: 'backRate',
+            number: true,
+            required: true
+        }, {
+            title: '前置利率',
+            field: 'preRate',
             number: true,
             required: true
         }];

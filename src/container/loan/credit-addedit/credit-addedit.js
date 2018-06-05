@@ -43,49 +43,8 @@ class CreditAddedit extends React.Component {
         this.view = !!getQueryString('v', this.props.location.search);
         this.newCar = true;
         this.creditUserListIndex = 6;
-    }
-
-    // 录入银行征信结果
-    setEnteringVisible = (entryVisible, selectKey) => {
-        if (entryVisible) {
-            let creditResult = this.state.creditResult;
-            for (let i = 0; i < this.state.creditResult.length; i++) {
-                if (creditResult[i].creditUserCode === selectKey) {
-                    let selectData = creditResult[i];
-                    this.setState({
-                        selectData
-                    });
-                    break;
-                }
-            }
-        } else {
-            this.setState({
-                selectData: {}
-            });
-        }
-        this.setState({entryVisible, selectKey});
-    };
-
-    creditEntryFun = (data) => {
-        let creditResult = this.state.creditResult;
-        for (let i = 0; i < this.state.creditResult.length; i++) {
-            if (creditResult[i].creditUserCode === data.creditUserCode) {
-                creditResult[i] = data;
-                this.setState({
-                    creditResult
-                });
-                return;
-            }
-        }
-        creditResult.push(data);
-        this.setState({
-            creditResult
-        });
-    };
-
-    render() {
-        let _this = this;
-        let buttons = [];
+        this.buttons = [];
+        this.fields = [];
 
         let entryResultFields = [{
             title: '银行征信结果',
@@ -105,11 +64,11 @@ class CreditAddedit extends React.Component {
             field: 'bankCreditResultPdf',
             type: 'img'
         }, {
-            title: '银行征信结果说明',
+            title: '征信结果说明',
             fields: 'bankCreditResultRemark'
         }];
 
-        let fields = [{
+        this.fields = [{
             title: '银行',
             field: 'loanBankCode',
             type: 'select',
@@ -121,19 +80,11 @@ class CreditAddedit extends React.Component {
             title: '业务种类',
             field: 'bizType',
             type: 'select',
-            data: [{
-                dkey: '1',
-                dvalue: '新车'
-            }, {
-                dkey: '2',
-                dvalue: '二手车'
-            }],
-            keyName: 'dkey',
-            valueName: 'dvalue',
-            value: '1',
+            key: 'budget_orde_biz_typer',
+            value: this.code ? '' : '0',
             required: true,
             onChange: (value) => {
-                _this.newCar = value === '1';
+                this.newCar = value === '0';
             }
         }, {
             title: '贷款金额',
@@ -168,6 +119,7 @@ class CreditAddedit extends React.Component {
                 add: true,
                 edit: true,
                 delete: true,
+                detail: true,
                 scroll: {x: 1300},
                 fields: [{
                     title: '姓名',
@@ -239,9 +191,9 @@ class CreditAddedit extends React.Component {
 
         // 业务员初审
         if (this.isCheck) {
-            fields[this.creditUserListIndex].options.fields = fields[this.creditUserListIndex].options.fields.concat(creditReportField);
+            this.fields[this.creditUserListIndex].options.fields = this.fields[this.creditUserListIndex].options.fields.concat(creditReportField);
 
-            buttons = [{
+            this.buttons = [{
                 title: '通过',
                 check: true,
                 handler: (params) => {
@@ -266,7 +218,7 @@ class CreditAddedit extends React.Component {
                     let data = {};
                     data.code = this.code;
                     data.approveNote = params.approveNote;
-                    data.approveResult = '1';
+                    data.approveResult = '0';
                     data.operator = getUserId();
                     this.props.doFetching();
                     fetch(632113, data).then(() => {
@@ -287,9 +239,9 @@ class CreditAddedit extends React.Component {
 
         // 录入征信结果
         if (this.isEntry) {
-            fields[this.creditUserListIndex].options.fields = fields[this.creditUserListIndex].options.fields.concat(entryResultFields);
+            this.fields[this.creditUserListIndex].options.fields = this.fields[this.creditUserListIndex].options.fields.concat(entryResultFields);
 
-            buttons = [{
+            this.buttons = [{
                 title: '录入',
                 check: true,
                 handler: (params) => {
@@ -315,10 +267,11 @@ class CreditAddedit extends React.Component {
         }
 
         if(this.isAddedit) {
-            buttons = [{
+            this.buttons = [{
                 title: '保存',
                 check: true,
                 handler: (params) => {
+                    params.code = this.code;
                     params.buttonCode = '0';
                     params.operator = getUserId();
                     this.props.doFetching();
@@ -334,6 +287,7 @@ class CreditAddedit extends React.Component {
                 title: '发送',
                 check: true,
                 handler: (params) => {
+                    params.code = this.code;
                     params.buttonCode = '1';
                     params.operator = getUserId();
                     this.props.doFetching();
@@ -352,16 +306,56 @@ class CreditAddedit extends React.Component {
                 }
             }];
         }
+    }
 
+    // 录入银行征信结果
+    setEnteringVisible = (entryVisible, selectKey) => {
+        if (entryVisible) {
+            let creditResult = this.state.creditResult;
+            for (let i = 0; i < this.state.creditResult.length; i++) {
+                if (creditResult[i].creditUserCode === selectKey) {
+                    let selectData = creditResult[i];
+                    this.setState({
+                        selectData
+                    });
+                    break;
+                }
+            }
+        } else {
+            this.setState({
+                selectData: {}
+            });
+        }
+        this.setState({entryVisible, selectKey});
+    };
+
+    creditEntryFun = (data) => {
+        let creditResult = this.state.creditResult;
+        for (let i = 0; i < this.state.creditResult.length; i++) {
+            if (creditResult[i].creditUserCode === data.creditUserCode) {
+                creditResult[i] = data;
+                this.setState({
+                    creditResult
+                });
+                return;
+            }
+        }
+        creditResult.push(data);
+        this.setState({
+            creditResult
+        });
+    };
+
+    render() {
         return (
             <div>
                 {
                     this.props.buildDetail({
-                        fields,
+                        fields: this.fields,
                         code: this.code,
                         view: this.view,
                         detailCode: 632117,
-                        buttons: buttons,
+                        buttons: this.buttons,
                         beforeSubmit: (param) => {
                             if (!param.creditUserList) {
                                 showWarnMsg('至少新增一条征信列表');

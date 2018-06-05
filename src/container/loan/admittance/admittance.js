@@ -112,7 +112,7 @@ class Admittance extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '002_04') {
+                    } else if (selectedRows[0].curNodeCode !== '002_04' && selectedRows[0].curNodeCode !== '002_01') {
                         showWarnMsg('当前不是重新填写准入申请单节点');
                     } else {
                         this.props.history.push(`/loan/admittance/addedit?code=${selectedRowKeys[0]}`);
@@ -126,7 +126,7 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== '002_02') {
                         showWarnMsg('当前不是风控专员审核节点');
                     } else {
-                        this.props.history.push(`/loan/admittance/check?v=1&isCheckCommissioner=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/admittance/addedit?v=1&isCheckCommissioner=1&code=${selectedRowKeys[0]}`);
                     }
                 },
                 checkDirector: (selectedRowKeys, selectedRows) => {
@@ -137,7 +137,7 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== '002_03') {
                         showWarnMsg('当前不是风控主管审核节点');
                     } else {
-                        this.props.history.push(`/loan/admittance/check?v=1&isCheckDirector=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/admittance/addedit?v=1&isCheckDirector=1&code=${selectedRowKeys[0]}`);
                     }
                 }
             }
