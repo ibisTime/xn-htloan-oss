@@ -28,6 +28,7 @@ class transmitAddedit extends React.Component {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
+    this.sendTypeFalg = false;
   }
   render() {
     const fields = [{
@@ -82,16 +83,23 @@ class transmitAddedit extends React.Component {
         }],
         keyName: 'key',
         valueName: 'value',
-        required: true
+        required: true,
+        value: '2',
+        onChange: (value) => {
+            this.sendTypeFalg = value === '1';
+        }
     }, {
         title: '快递公司',
         field: 'logisticsCompany',
         type: 'select',
         key: 'kd_company',
-        required: true
+        required: true,
+        hidden: this.sendTypeFalg
     }, {
         title: '快递单号',
-        field: 'logisticsCode'
+        field: 'logisticsCode',
+        required: true,
+        hidden: this.sendTypeFalg
     }, {
         title: '发货时间',
         field: 'sendDatetime',
@@ -101,9 +109,7 @@ class transmitAddedit extends React.Component {
         title: '发货说明',
         field: 'sendNote'
     }];
-    return this
-      .props
-      .buildDetail({
+    return this.props.buildDetail({
         fields,
         code: this.code,
         view: this.view,

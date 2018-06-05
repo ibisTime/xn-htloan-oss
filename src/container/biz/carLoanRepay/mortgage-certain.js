@@ -53,19 +53,24 @@ class mortgageCertain extends React.Component {
             amount: true,
             readonly: true
         }, {
-            title: '放款时间',
-            field: 'bankFkDatetime',
-            type: 'date',
-            required: true
+            title: '车牌号',
+            field: 'carNumber'
         }, {
-            title: '收款账号',
-            field: 'receiptBankcardNumber',
-            required: true
+            title: '机动车登记证书',
+            field: 'carRegcerti',
+            type: 'img'
         }, {
-            title: '收款凭证',
-            field: 'receiptPdf',
-            type: 'img',
-            required: true
+            title: '批单',
+            field: 'carPd',
+            type: 'img'
+        }, {
+            title: '车钥匙',
+            field: 'carKey',
+            type: 'img'
+        }, {
+            title: '大本扫描件',
+            field: 'carBigSmj',
+            type: 'img'
         }, {
             title: '备注',
             field: 'remark'
@@ -78,9 +83,7 @@ class mortgageCertain extends React.Component {
             buttons: [{
               title: '确认',
               handler: (param) => {
-                param.approveResult = '1';
-                param.approveNote = this.projectCode;
-                param.approveUser = getUserId();
+                param.code = this.code;
                 param.operator = getUserId();
                 this.props.doFetching();
                 fetch(632133, param).then(() => {

@@ -99,7 +99,7 @@ class AdvMoneyAddedit extends React.Component {
                 title: '不通过',
                 check: true,
                 handler: (params) => {
-                    params.approveResult = '1';
+                    params.approveResult = '0';
                     params.operator = getUserId();
                     this.props.doFetching();
                     fetch(632114, params).then(() => {

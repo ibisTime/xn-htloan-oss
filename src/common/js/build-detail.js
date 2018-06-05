@@ -10,7 +10,7 @@ export const DetailWrapper = (mapStateToProps = state => state, mapDispatchToPro
       render() {
         return (
           <div>
-            <WrapComponent {...this.props} buildDetail={this.buildDetail}></WrapComponent>
+            <WrapComponent {...this.props} buildDetail={this.buildDetail} handlePreview={this.handlePreview}></WrapComponent>
             <ModalDetail
               title={this.state.modalOptions.title || ''}
               visible={this.state.modalVisible}
