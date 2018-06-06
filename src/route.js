@@ -956,6 +956,26 @@ const ROUTES = [
   {
     path: '/recruit/entry/check',
     component: asyncComponent(() => import('container/recruit/entry/entry-check'))
+  },
+  //  请假申请
+  {
+    path: '/attendance/leave',
+    component: asyncComponent(() => import('container/attendance/leave/leave'))
+  },
+  //  请假申请 详情
+  {
+    path: '/attendance/leave/addedit',
+    component: asyncComponent(() => import('container/attendance/leave/leave-addedit'))
+  },
+  //  请假申请 申请
+  {
+    path: '/attendance/leave/apply',
+    component: asyncComponent(() => import('container/attendance/leave/leave-apply'))
+  },
+  //  请假申请 审核
+  {
+    path: '/attendance/leave/check',
+    component: asyncComponent(() => import('container/attendance/leave/leave-check'))
   }
 ];
 

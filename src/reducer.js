@@ -324,6 +324,12 @@ import { recruitEntry } from './redux/recruit/entry';
 import { recruitEntryAddedit } from './redux/recruit/entry-addedit';
 import { recruitEntryApply } from './redux/recruit/entry-apply';
 import { recruitEntryCheck } from './redux/recruit/entry-check';
+
+//  请假申请 + 详情 + 申请 + 审核
+import { attendanceLeave } from './redux/attendance/leave';
+import { attendanceLeaveAddedit } from './redux/attendance/leave-addedit';
+import { attendanceLeaveApply } from './redux/attendance/leave-apply';
+import { attendanceLeaveCheck } from './redux/attendance/leave-check';
 export default combineReducers({
   user,
   menu,
@@ -523,5 +529,9 @@ export default combineReducers({
   recruitEntryCheck,
   contractManage,
   contractManageAddedit,
-  contractManageContinue
+  contractManageContinue,
+  attendanceLeave,
+  attendanceLeaveAddedit,
+  attendanceLeaveApply,
+  attendanceLeaveCheck
 });
