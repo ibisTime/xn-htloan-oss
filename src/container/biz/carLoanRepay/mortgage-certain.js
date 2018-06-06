@@ -15,7 +15,6 @@ import {
 import {
     DetailWrapper
 } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
@@ -54,23 +53,28 @@ class mortgageCertain extends React.Component {
             readonly: true
         }, {
             title: '车牌号',
-            field: 'carNumber'
+            field: 'carNumber',
+            required: true
         }, {
             title: '机动车登记证书',
             field: 'carRegcerti',
-            type: 'img'
+            type: 'img',
+            required: true
         }, {
             title: '批单',
             field: 'carPd',
-            type: 'img'
+            type: 'img',
+            required: true
         }, {
             title: '车钥匙',
             field: 'carKey',
-            type: 'img'
+            type: 'img',
+            required: true
         }, {
             title: '大本扫描件',
             field: 'carBigSmj',
-            type: 'img'
+            type: 'img',
+            required: true
         }, {
             title: '备注',
             field: 'remark'

@@ -689,15 +689,6 @@ const ROUTES = [
       path: '/loan/credit/addedit',
       component: asyncComponent(() => import('container/loan/credit-addedit/credit-addedit'))
   },
-  // 准入申请
-  {
-    path: '/loan/applyAdmittance',
-    component: asyncComponent(() => import('container/loan/apply-admittance/apply-admittance'))
-  },
-  {
-    path: '/loan/applyAdmittance/addedit',
-    component: asyncComponent(() => import('container/loan/apply-admittance-addedit/apply-admittance-addedit'))
-  },
   // 准入审查
   {
       path: '/loan/admittance',
@@ -707,11 +698,6 @@ const ROUTES = [
   {
       path: '/loan/admittance/addedit',
       component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-addedit'))
-  },
-  // 准入审查 审核
-  {
-      path: '/loan/admittance/check',
-      component: asyncComponent(() => import('container/loan/admittance-check/admittance-check'))
   },
   // 面签审核
   {

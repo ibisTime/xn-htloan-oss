@@ -63,7 +63,8 @@ class mortgageEnter extends React.Component {
         }, {
             title: '绿大本扫描件',
             field: 'greenBigSmj',
-            type: 'img'
+            type: 'img',
+            required: true
         }];
         return this.props.buildDetail({
             fields,

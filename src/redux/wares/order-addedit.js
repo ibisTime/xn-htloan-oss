@@ -13,7 +13,7 @@ const initState = { ...commDetailState };
 export function bizOrderAddedit(state = initState, action) {
   switch(action.type) {
     case INIT_STATE:
-      return {...state, ...action.payload};
+      return {...initState, ...action.payload};
     case SET_SELECT_DATA:
       return {...state, selectData: {...state.selectData, [action.payload.key]: action.payload.data}};
     case SET_PAGE_DATA:

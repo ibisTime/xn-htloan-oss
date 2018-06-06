@@ -45,11 +45,7 @@ class applyGpsCheck extends React.Component {
         field: 'applyReason',
         readonly: true
       }, {
-        title: '备注',
-        field: 'remark',
-        readonly: true
-      }, {
-        title: '申领列表',
+        title: 'GPS列表',
         field: 'gpsList',
         required: true,
         type: 'o2m',
@@ -61,7 +57,7 @@ class applyGpsCheck extends React.Component {
           },
           fields: [{
             title: 'GPS设备号',
-            field: 'gpsDevNo',
+            field: 'code',
             type: 'select',
             listCode: 632707,
             params: {

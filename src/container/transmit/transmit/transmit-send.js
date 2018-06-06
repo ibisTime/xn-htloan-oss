@@ -93,12 +93,12 @@ class transmitAddedit extends React.Component {
         field: 'logisticsCompany',
         type: 'select',
         key: 'kd_company',
-        required: true,
+        required: !this.sendTypeFalg,
         hidden: this.sendTypeFalg
     }, {
         title: '快递单号',
         field: 'logisticsCode',
-        required: true,
+        required: !this.sendTypeFalg,
         hidden: this.sendTypeFalg
     }, {
         title: '发货时间',

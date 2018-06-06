@@ -44,29 +44,83 @@ class CreditAddedit extends React.Component {
         this.newCar = true;
         this.creditUserListIndex = 6;
         this.buttons = [];
-        this.fields = [];
 
-        let entryResultFields = [{
-            title: '银行征信结果',
-            field: 'creditResult',
-            hidden: true,
-            render: (text, record) => {
-                return (
-                    <span><a href="javascript:;"
-                             onClick={() => this.setEnteringVisible(true, record.code)}>录入</a></span>
-                );
-            },
-            fixed: 'right'
-        }];
-
-        let creditReportField = [{
-            title: '征信报告',
-            field: 'bankCreditResultPdf',
-            type: 'img'
+        let o2mFields = [{
+            title: '姓名',
+            field: 'userName',
+            nowrap: true,
+            required: true,
+            width: 80
         }, {
-            title: '征信结果说明',
-            fields: 'bankCreditResultRemark'
+            title: '与借款人关系',
+            field: 'relation',
+            type: 'select',
+            key: 'credit_user_relation',
+            required: true
+        }, {
+            title: '贷款角色',
+            field: 'loanRole',
+            type: 'select',
+            key: 'credit_user_loan_role',
+            required: true
+        }, {
+            title: '手机号',
+            field: 'mobile',
+            required: true,
+            render: (v) => {
+                let val = (v && v.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2')) || '';
+                return <span style={{whiteSpace: 'nowrap'}}>{val}</span>;
+            }
+        }, {
+            title: '身份证号',
+            field: 'idNo',
+            idCard: true,
+            required: true,
+            render: (v) => {
+                let val = (v && v.replace(/^(\d{6}).+(\d{4})$/, '$1****$2')) || '';
+                return <span style={{whiteSpace: 'nowrap'}}>{val}</span>;
+            }
+        }, {
+            title: '身份证正面',
+            field: 'idNoFront',
+            type: 'img',
+            single: true,
+            required: true
+        }, {
+            title: '身份证反面',
+            field: 'idNoReverse',
+            type: 'img',
+            single: true,
+            required: true
+        }, {
+            title: '征信查询授权书',
+            field: 'authPdf',
+            type: 'img',
+            single: true,
+            required: true
+        }, {
+            title: '面签照片',
+            field: 'interviewPic',
+            type: 'img',
+            single: true,
+            required: true
         }];
+        if (!this.isAddedit) {
+            o2mFields = o2mFields.concat([{
+                title: '征信报告',
+                field: 'bankCreditResultPdf',
+                type: 'img',
+                required: true,
+                readonly: !this.isEntry,
+                hidden: !this.view
+            }, {
+                title: '征信结果说明',
+                field: 'bankCreditResultRemark',
+                required: true,
+                readonly: !this.isEntry,
+                hidden: !this.view
+            }]);
+        }
 
         this.fields = [{
             title: '银行',
@@ -119,68 +173,11 @@ class CreditAddedit extends React.Component {
                 add: true,
                 edit: true,
                 delete: true,
-                detail: true,
+                detail: !(this.isEntry || !this.view),
+                check: this.isEntry,
+                checkName: '录入',
                 scroll: {x: 1300},
-                fields: [{
-                    title: '姓名',
-                    field: 'userName',
-                    nowrap: true,
-                    required: true,
-                    width: 80
-                }, {
-                    title: '与借款人关系',
-                    field: 'relation',
-                    type: 'select',
-                    key: 'credit_user_relation',
-                    required: true
-                }, {
-                    title: '贷款角色',
-                    field: 'loanRole',
-                    type: 'select',
-                    key: 'credit_user_loan_role',
-                    required: true
-                }, {
-                    title: '手机号',
-                    field: 'mobile',
-                    required: true,
-                    render: (v) => {
-                        let val = (v && v.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2')) || '';
-                        return <span style={{whiteSpace: 'nowrap'}}>{val}</span>;
-                    }
-                }, {
-                    title: '身份证号',
-                    field: 'idNo',
-                    idCard: true,
-                    required: true,
-                    render: (v) => {
-                        let val = (v && v.replace(/^(\d{6}).+(\d{4})$/, '$1****$2')) || '';
-                        return <span style={{whiteSpace: 'nowrap'}}>{val}</span>;
-                    }
-                }, {
-                    title: '身份证正面',
-                    field: 'idNoFront',
-                    type: 'img',
-                    single: true,
-                    required: true
-                }, {
-                    title: '身份证反面',
-                    field: 'idNoReverse',
-                    type: 'img',
-                    single: true,
-                    required: true
-                }, {
-                    title: '征信查询授权书',
-                    field: 'authPdf',
-                    type: 'img',
-                    single: true,
-                    required: true
-                }, {
-                    title: '面签照片',
-                    field: 'interviewPic',
-                    type: 'img',
-                    single: true,
-                    required: true
-                }]
+                fields: o2mFields
             }
         }, {
             title: '审核说明',
@@ -191,8 +188,6 @@ class CreditAddedit extends React.Component {
 
         // 业务员初审
         if (this.isCheck) {
-            this.fields[this.creditUserListIndex].options.fields = this.fields[this.creditUserListIndex].options.fields.concat(creditReportField);
-
             this.buttons = [{
                 title: '通过',
                 check: true,
@@ -239,15 +234,16 @@ class CreditAddedit extends React.Component {
 
         // 录入征信结果
         if (this.isEntry) {
-            this.fields[this.creditUserListIndex].options.fields = this.fields[this.creditUserListIndex].options.fields.concat(entryResultFields);
-
             this.buttons = [{
                 title: '录入',
                 check: true,
                 handler: (params) => {
                     let data = {};
                     data.creditCode = this.code;
-                    data.creditResult = this.state.creditResult;
+                    params.creditUserList.forEach((v, i) => {
+                        v.creditUserCode = v.code;
+                    });
+                    data.creditResult = params.creditUserList;
                     data.operator = getUserId();
                     this.props.doFetching();
                     fetch(632111, data).then(() => {
@@ -271,11 +267,12 @@ class CreditAddedit extends React.Component {
                 title: '保存',
                 check: true,
                 handler: (params) => {
-                    params.code = this.code;
+                    params.creditCode = this.code;
                     params.buttonCode = '0';
                     params.operator = getUserId();
                     this.props.doFetching();
-                    fetch(632110, params).then(() => {
+                    let bizCode = this.code ? 632112 : 632110;
+                    fetch(bizCode, params).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -287,11 +284,12 @@ class CreditAddedit extends React.Component {
                 title: '发送',
                 check: true,
                 handler: (params) => {
-                    params.code = this.code;
+                    params.creditCode = this.code;
                     params.buttonCode = '1';
                     params.operator = getUserId();
                     this.props.doFetching();
-                    fetch(632110, params).then(() => {
+                    let bizCode = this.code ? 632112 : 632110;
+                    fetch(bizCode, params).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -366,13 +364,6 @@ class CreditAddedit extends React.Component {
                             }
                         }
                     })
-                }
-                {
-                    this.isEntry ? (<LoanCreditEnteringEdit code={this.state.selectKey}
-                                                            creditEntryFun={this.creditEntryFun}
-                                                            entryVisible={this.state.entryVisible}
-                                                            selectData={this.state.selectData}
-                                                            setModalVisible={this.setEnteringVisible}/>) : ''
                 }
             </div>
         );

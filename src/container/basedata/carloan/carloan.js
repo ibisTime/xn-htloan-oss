@@ -36,6 +36,7 @@ class Carloan extends React.Component {
     return this.props.buildList({
       fields,
       pageCode: 630045,
+      rowKey: 'id',
       searchParams: {
         type: 'car_periods'
       }
