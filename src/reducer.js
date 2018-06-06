@@ -295,6 +295,13 @@ import { analysisProtect } from './redux/analysis/protect';
 import { personalarchivesParchives } from './redux/personalarchives/parchives';
 import { personalarchivesParchivesAddedit } from './redux/personalarchives/parchives-addedit';
 
+// 车贷档案
+import { loanarchivesLocationcode } from './redux/loanarchives/locationcode';
+import { loanarchivesLocationcodeAddedit } from './redux/loanarchives/locationcode-addedit';
+
+// 车贷档案查询
+import { loanarchivesArchivesquery } from './redux/loanarchives/archivesquery';
+
 //  离职档案 + 详情
 import { personalarchivesQuitarchives } from './redux/personalarchives/quitarchives';
 import { personalarchivesQuitarchivesAddedit } from './redux/personalarchives/quitarchives-addedit';
@@ -325,8 +332,44 @@ import { recruitEntryCheck } from './redux/recruit/entry-check';
 //  请假申请 + 详情 + 申请 + 审核
 import { attendanceLeave } from './redux/attendance/leave';
 import { attendanceLeaveAddedit } from './redux/attendance/leave-addedit';
-import { attendanceLeaveApply } from './redux/attendance/leave-apply';
-import { attendanceLeaveCheck } from './redux/attendance/leave-check';
+
+//  补签申请 + 详情 + 申请 + 审核
+import { attendanceSupplement } from './redux/attendance/supplement';
+import { attendanceSupplementAddedit } from './redux/attendance/supplement-addedit';
+
+//  加班申请 + 详情 + 申请 + 审核
+import { attendanceOvertime } from './redux/attendance/overtime';
+import { attendanceOvertimeAddedit } from './redux/attendance/overtime-addedit';
+
+//  出差申请 + 详情 + 申请 + 审核
+import { attendanceTravel } from './redux/attendance/travel';
+import { attendanceTravelAddedit } from './redux/attendance/travel-addedit';
+
+//  公出申请 + 详情 + 申请 + 审核
+import { attendancePublicity } from './redux/attendance/publicity';
+import { attendancePublicityAddedit } from './redux/attendance/publicity-addedit';
+
+//  考勤汇总
+import { attendanceSummary } from './redux/attendance/summary';
+
+// 行政
+// 库存管理
+// 类别管理
+import { stockCategory } from './redux/stock/category';
+import { stockCategoryAddedit } from './redux/stock/category-addedit';
+
+// 出库管理
+import { stockOuttreasury } from './redux/stock/outtreasury';
+import { stockOuttreasuryAddedit } from './redux/stock/outtreasury-addedit';
+
+// 品名管理
+import { stockProductname } from './redux/stock/productname';
+import { stockProductnameAddedit } from './redux/stock/productname-addedit';
+
+// 库存管理
+import { stockStock } from './redux/stock/stock';
+import { stockStockAddedit } from './redux/stock/stock-addedit';
+
 export default combineReducers({
   user,
   menu,
@@ -507,6 +550,9 @@ export default combineReducers({
   mortgagesRelieve,
   personalarchivesParchives,
   personalarchivesParchivesAddedit,
+  loanarchivesLocationcode,
+  loanarchivesLocationcodeAddedit,
+  loanarchivesArchivesquery,
   recruitRegister,
   recruitRegisterAddedit,
   recruitRegisterEnter,
@@ -526,6 +572,21 @@ export default combineReducers({
   contractManageContinue,
   attendanceLeave,
   attendanceLeaveAddedit,
-  attendanceLeaveApply,
-  attendanceLeaveCheck
+  attendanceSupplement,
+  attendanceSupplementAddedit,
+  attendanceOvertime,
+  attendanceOvertimeAddedit,
+  attendanceTravel,
+  attendanceTravelAddedit,
+  attendancePublicity,
+  attendancePublicityAddedit,
+  attendanceSummary,
+  stockCategory,
+  stockCategoryAddedit,
+  stockOuttreasury,
+  stockOuttreasuryAddedit,
+  stockProductname,
+  stockProductnameAddedit,
+  stockStock,
+  stockStockAddedit
 });

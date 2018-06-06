@@ -8,23 +8,23 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/attendance/leave';
+} from '@redux/attendance/overtime';
 import {
-    showWarnMsg,
-    showSucMsg
+  showWarnMsg,
+  showSucMsg
 } from 'common/js/util';
 import {
     listWrapper
 } from 'common/js/build-list';
 import {
-    lowerFrame,
-    onShelf,
-    sendMsg
+  lowerFrame,
+  onShelf,
+  sendMsg
 } from 'api/biz';
 
 @listWrapper(
     state => ({
-        ...state.attendanceLeave,
+        ...state.attendanceOvertime,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -37,43 +37,35 @@ import {
         setSearchData
     }
 )
-class leave extends React.Component {
+class overtime extends React.Component {
     render() {
         const fields = [{
             title: '申请人',
-            field: 'applyUser',
-            search: true
+            field: 'ApplyUserName'
         }, {
             title: '工号',
-            field: 'jobNo',
-            render: (v, d) => {
-                return d.applyUserArchive[0] && d.applyUserArchive[0].jobNo;
-            }
+            field: 'jobNo'
         }, {
             title: '部门',
-            field: 'departmentName',
-            render: (v, d) => {
-                return d.applyUserArchive[0] && d.applyUserArchive[0].departmentName;
-            }
+            field: 'departmentName'
         }, {
             title: '职务',
-            field: 'postCode',
-            render: (v, d) => {
-                return d.applyUserArchive[0] && d.applyUserArchive[0].postName;
-            }
+            field: 'postCode'
         }, {
-            title: '请假类别',
-            field: 'type',
-            type: 'select',
-            key: 'leave_apply_type',
-            search: true
+            title: '开始时间',
+            field: 'startDatetime',
+            type: 'datetime'
         }, {
-            title: '请假时长(小时)',
+            title: '结束时间',
+            field: 'startDatetime',
+            type: 'datetime'
+        }, {
+            title: '共计(小时)',
             field: 'totalHour'
         }, {
             title: '申请时间',
             field: 'applyDatetime',
-            rangedate: ['startDatetime', 'endDatetime'],
+            rangedate: ['startApplyDatetime', 'endApplyDatetime'],
             type: 'datetime',
             search: true
         }, {
@@ -85,7 +77,7 @@ class leave extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632895,
+            pageCode: 632615,
             btnEvent: {
                 check: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
@@ -95,7 +87,7 @@ class leave extends React.Component {
                     } else if (selectedRows[0].status !== '0') {
                         showWarnMsg('不是待审核的记录！');
                     } else {
-                        this.props.history.push(`/attendance/leave/addedit?v=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/attendance/overtime/addedit?v=1&code=${selectedRowKeys[0]}`);
                     }
                 }
             }
@@ -103,4 +95,4 @@ class leave extends React.Component {
     }
 }
 
-export default leave;
+export default overtime;

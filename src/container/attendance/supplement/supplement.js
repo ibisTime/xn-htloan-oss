@@ -8,7 +8,7 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/attendance/leave';
+} from '@redux/attendance/supplement';
 import {
     showWarnMsg,
     showSucMsg
@@ -24,7 +24,7 @@ import {
 
 @listWrapper(
     state => ({
-        ...state.attendanceLeave,
+        ...state.attendanceSupplement,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -37,7 +37,7 @@ import {
         setSearchData
     }
 )
-class leave extends React.Component {
+class supplement extends React.Component {
     render() {
         const fields = [{
             title: '申请人',
@@ -62,14 +62,8 @@ class leave extends React.Component {
                 return d.applyUserArchive[0] && d.applyUserArchive[0].postName;
             }
         }, {
-            title: '请假类别',
-            field: 'type',
-            type: 'select',
-            key: 'leave_apply_type',
-            search: true
-        }, {
-            title: '请假时长(小时)',
-            field: 'totalHour'
+            title: '缘由',
+            field: 'reason'
         }, {
             title: '申请时间',
             field: 'applyDatetime',
@@ -85,7 +79,7 @@ class leave extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632895,
+            pageCode: 632605,
             btnEvent: {
                 check: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
@@ -95,7 +89,7 @@ class leave extends React.Component {
                     } else if (selectedRows[0].status !== '0') {
                         showWarnMsg('不是待审核的记录！');
                     } else {
-                        this.props.history.push(`/attendance/leave/addedit?v=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/attendance/supplement/addedit?v=1&code=${selectedRowKeys[0]}`);
                     }
                 }
             }
@@ -103,4 +97,4 @@ class leave extends React.Component {
     }
 }
 
-export default leave;
+export default supplement;

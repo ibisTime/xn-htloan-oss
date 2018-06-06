@@ -6,13 +6,13 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/attendance/leave-addedit';
+} from '@redux/attendance/supplement-addedit';
 import {getQueryString, getUserId, showSucMsg} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
-    state => state.attendanceLeaveAddedit, {
+    state => state.attendanceSupplementAddedit, {
         initStates,
         doFetching,
         cancelFetching,
@@ -21,14 +21,12 @@ import fetch from 'common/js/fetch';
         restore
     }
 )
-class leaveAddedit extends React.Component {
+class supplementAddedit extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
         this.isCheck = !!getQueryString('isCheck', this.props.location.search);
-        this.hideStatus = true;
-
         this.buttons = [];
 
         if (this.isCheck) {
@@ -42,7 +40,7 @@ class leaveAddedit extends React.Component {
                     data.result = '1';
                     data.updater = getUserId();
                     this.props.doFetching();
-                    fetch(632113, data).then(() => {
+                    fetch(632601, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -60,7 +58,7 @@ class leaveAddedit extends React.Component {
                     data.result = '2';
                     data.updater = getUserId();
                     this.props.doFetching();
-                    fetch(632113, data).then(() => {
+                    fetch(632601, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -79,56 +77,27 @@ class leaveAddedit extends React.Component {
 
     render() {
         const fields = [{
-            title: '请假类别',
-            field: 'type',
-            type: 'select',
-            key: 'leave_apply_type',
-            required: true,
-            onChange: (value) => {
-                this.hideStatus = value !== '3';
+            title: '缘由',
+            field: 'reason'
+        }, {
+            title: '漏签明细',
+            field: 'detailList',
+            type: 'o2m',
+            options: {
+                add: true,
+                edit: true,
+                delete: true,
+                fields: [{
+                    title: '漏签时间',
+                    field: 'suppleDatetime',
+                    type: 'datetime',
+                    required: true
+                }, {
+                    title: '备注',
+                    field: 'remark',
+                    required: true
+                }]
             }
-        }, {
-            title: '总年休假(小时)',
-            field: '1',
-            readonly: true,
-            hidden: this.hideStatus
-        }, {
-            title: '已休假(小时)',
-            field: '2',
-            readonly: true,
-            hidden: this.hideStatus
-        }, {
-            title: '可休数(小时)',
-            field: '3',
-            readonly: true,
-            hidden: this.hideStatus
-        }, {
-            title: '共计(小时)',
-            field: '4',
-            required: true,
-            readonly: true
-        }, {
-            title: '开始时间',
-            field: 'startDatetime',
-            type: 'datetime',
-            required: true
-        }, {
-            title: '结束时间',
-            field: 'endDatetime',
-            type: 'datetime',
-            required: true
-        }, {
-            title: '请假时长(小时)',
-            field: 'totalHour',
-            required: true
-        }, {
-            title: '请假事由',
-            field: 'reason',
-            required: true
-        }, {
-            title: '附件',
-            field: 'pdf',
-            type: 'img'
         }, {
             title: '申请人',
             field: 'applyUser',
@@ -162,7 +131,7 @@ class leaveAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            addCode: 632890,
+            addCode: 632600,
             detailCode: 632896,
             buttons: this.buttons,
             beforeSubmit: (data) => {
@@ -173,4 +142,4 @@ class leaveAddedit extends React.Component {
     }
 }
 
-export default leaveAddedit;
+export default supplementAddedit;

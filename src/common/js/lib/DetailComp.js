@@ -11,7 +11,7 @@ import {getDictList} from 'api/dict';
 import {getQiniuToken} from 'api/general';
 import {
     formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat,
-    tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg, getUserName
+    tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg, getUserId
 } from 'common/js/util';
 import {UPLOAD_URL, PIC_PREFIX, formItemLayout, tailFormItemLayout} from '../config';
 import fetch from 'common/js/fetch';
@@ -184,7 +184,7 @@ export default class DetailComponent extends React.Component {
                 values[v.field] = values[v.field].join(',');
             }
         });
-        values.updater = values.updater || getUserName();
+        values.updater = values.updater || getUserId();
         return values;
     }
 
