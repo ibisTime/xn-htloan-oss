@@ -183,7 +183,7 @@ class leaveAddedit extends React.Component {
             detailCode: 632896,
             buttons: this.buttons,
             beforeSubmit: (data) => {
-                data.applyUser = getUserId;
+                data.applyUser = getUserId();
                 return data;
             }
         });

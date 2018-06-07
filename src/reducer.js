@@ -408,6 +408,18 @@ import { administrativeCostCheck } from './redux/administrative/cost-check';
 import { administrativeCostFinance } from './redux/administrative/cost-finance';
 import { administrativeCostCertain } from './redux/administrative/cost-certain';
 
+// 办公用品申请
+import { administrativeOfficeSupplies } from './redux/administrative/officeSupplies';
+import { administrativeOfficeSuppliesAddedit } from './redux/administrative/officeSupplies-addedit';
+
+// 固定资产申请
+import { administrativeFixedAssets } from './redux/administrative/fixedAssets';
+import { administrativeFixedAssetsAddedit } from './redux/administrative/fixedAssets-addedit';
+
+// 领导请示申请
+import { administrativeLeader } from './redux/administrative/leader';
+import { administrativeLeaderAddedit } from './redux/administrative/leader-addedit';
+
 export default combineReducers({
   user,
   menu,
@@ -649,5 +661,11 @@ export default combineReducers({
   administrativeCostAddedit,
   administrativeCostCheck,
   administrativeCostFinance,
-  administrativeCostCertain
+  administrativeCostCertain,
+  administrativeOfficeSupplies,
+  administrativeOfficeSuppliesAddedit,
+  administrativeFixedAssets,
+  administrativeFixedAssetsAddedit,
+  administrativeLeader,
+  administrativeLeaderAddedit
 });

@@ -1136,6 +1136,36 @@ const ROUTES = [
   {
       path: '/administrative/carHandle/check',
       component: asyncComponent(() => import('container/administrative/carHandle/carHandle-check'))
+  },
+  // 办公用品申请
+  {
+      path: '/administrative/officeSupplies',
+      component: asyncComponent(() => import('container/administrative/officeSupplies/officeSupplies'))
+  },
+  // 办公用品申请 详情
+  {
+      path: '/administrative/officeSupplies/addedit',
+      component: asyncComponent(() => import('container/administrative/officeSupplies/officeSupplies-addedit'))
+  },
+  // 固定资产申请
+  {
+      path: '/administrative/fixedAssets',
+      component: asyncComponent(() => import('container/administrative/fixedAssets/fixedAssets'))
+  },
+  // 固定资产申请 详情
+  {
+      path: '/administrative/fixedAssets/addedit',
+      component: asyncComponent(() => import('container/administrative/fixedAssets/fixedAssets-addedit'))
+  },
+  // 领导请示申请
+  {
+      path: '/administrative/leader',
+      component: asyncComponent(() => import('container/administrative/leader/leader'))
+  },
+  // 领导请示申请 详情
+  {
+      path: '/administrative/leader/addedit',
+      component: asyncComponent(() => import('container/administrative/leader/leader-addedit'))
   }
 
 ];
