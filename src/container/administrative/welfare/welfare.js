@@ -33,7 +33,9 @@ class welfare extends React.Component {
         title: '申请人',
         field: 'realName',
         render: (v, d) => {
-            return d.applyUserArchive.realName;
+            if(d) {
+                return d.applyUserArchive.realName;
+            }
         }
     }, {
         title: '申请部门',

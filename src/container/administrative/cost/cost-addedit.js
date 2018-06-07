@@ -37,24 +37,24 @@ class costAddedit extends React.Component {
             required: true
         }, {
             title: '关联审批表',
-            field: '',
+            field: 'type',
             type: 'select',
-            key: '',
+            key: 'fee_advance_apply_type',
             required: true
         }, {
             title: '关联车贷业务',
-            field: '',
+            field: 'type',
             type: 'select',
-            key: '',
+            key: 'fee_advance_apply_type',
             required: true
         }, {
             title: '预支金额',
-            field: '',
+            field: 'amount',
             amount: true,
             required: true
         }, {
             title: '开户银行',
-            field: '',
+            field: 'subbranch',
             type: 'select',
             listCode: 802116,
             keyName: 'bankCode',
@@ -62,11 +62,11 @@ class costAddedit extends React.Component {
             required: true
         }, {
             title: '银行账号',
-            field: '',
+            field: 'bankcardNumber',
             required: true
         }, {
             title: '账户名',
-            field: '',
+            field: 'accountName',
             required: true
         }, {
             title: '备注',

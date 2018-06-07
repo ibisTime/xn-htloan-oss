@@ -51,14 +51,14 @@ class cost extends React.Component {
         key: 'fee_advance_apply_type'
     }, {
         title: '预支费用',
-        field: 'postCode',
+        field: 'amount',
         amount: true
     }, {
         title: '说明',
         field: 'applyNote'
     }, {
         title: '申请日期',
-        field: 'applyDateStart',
+        field: 'applyDatetime',
         type: 'date',
         search: true
     }, {

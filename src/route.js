@@ -1181,7 +1181,17 @@ const ROUTES = [
   {
       path: '/administrative/leader/addedit',
       component: asyncComponent(() => import('container/administrative/leader/leader-addedit'))
-  }
+  },
+  //  费用预支申请
+  {
+      path: '/administrative/cost',
+      component: asyncComponent(() => import('container/administrative/cost/cost'))
+  },
+  //  费用预支申请 申请
+  {
+      path: '/administrative/cost/apply',
+      component: asyncComponent(() => import('container/administrative/cost/apply'))
+  },
 
 ];
 
