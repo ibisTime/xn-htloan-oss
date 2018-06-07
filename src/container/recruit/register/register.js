@@ -45,7 +45,15 @@ class register extends React.Component {
     render() {
         const fields = [{
             title: '应聘岗位',
-            field: 'position'
+            field: 'position',
+            required: true,
+            type: 'select',
+            listCode: 630106,
+            params: {
+              typeList: ['3']
+            },
+            keyName: 'code',
+            valueName: 'name'
         }, {
             title: '姓名',
             field: 'realName',

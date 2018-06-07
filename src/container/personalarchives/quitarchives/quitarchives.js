@@ -50,6 +50,7 @@ class quitarchives extends React.Component {
         }, {
             title: '部门',
             field: 'departmentCode',
+            type: 'select',
             listCode: 630106,
             params: {
                 typeList: '2'
@@ -60,6 +61,7 @@ class quitarchives extends React.Component {
         }, {
             title: '职务',
             field: 'postCode',
+            type: 'select',
             listCode: 630106,
             params: {
                 typeList: '3'

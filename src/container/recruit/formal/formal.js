@@ -47,19 +47,25 @@ class formal extends React.Component {
         const fields = [{
             title: '申请人',
             field: 'applyUser',
+            type: 'select',
             listCode: 630066,
             keyName: 'userId',
             valueName: 'realName'
         }, {
             title: '申请时间',
             field: 'applyDatetime',
-            type: 'date'
+            type: 'date',
+            nowrap: true
         }, {
             title: '部门',
             field: 'departmentCode',
+            type: 'select',
+            render: (v, d) => {
+                return d.user.departmentCode;
+            },
             listCode: 630106,
             params: {
-              typeList: '2'
+              typeList: ['2']
             },
             keyName: 'code',
             valueName: 'name',
@@ -76,9 +82,13 @@ class formal extends React.Component {
             title: '员工职位',
             field: 'postCode',
             required: true,
+            render: (v, d) => {
+                return d.user.postCode;
+            },
+            type: 'select',
             listCode: 630106,
             params: {
-              typeList: '3'
+              typeList: ['3']
             },
             keyName: 'code',
             valueName: 'name'

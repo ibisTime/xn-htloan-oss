@@ -59,18 +59,23 @@ class parchivesAddedit extends React.Component {
             }, {
                 title: '部门',
                 field: 'departmentCode',
+                type: 'select',
                 required: true,
                 listCode: 630106,
+                params: {
+                  typeList: ['2']
+                },
                 keyName: 'code',
                 valueName: 'name',
                 search: true
             }], [{
                 title: '服务岗位',
                 field: 'postCode',
+                type: 'select',
                 required: true,
                 listCode: 630106,
                 params: {
-                  typeList: '3'
+                  typeList: ['3']
                 },
                 keyName: 'code',
                 valueName: 'name'
@@ -145,7 +150,7 @@ class parchivesAddedit extends React.Component {
                 key: 'five_insurance_info'
             }], [{
                 title: '户籍地址',
-                field: 'code',
+                field: 'residenceAddress',
                 required: true
             }, {
                 title: '户籍性质',

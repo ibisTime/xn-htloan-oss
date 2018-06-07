@@ -56,11 +56,19 @@ class registerAddedit extends React.Component {
                 field: 'nation'
             }, {
                 title: '应聘岗位',
-                field: 'position'
+                field: 'position',
+                required: true,
+                type: 'select',
+                listCode: 630106,
+                params: {
+                  typeList: ['3']
+                },
+                keyName: 'code',
+                valueName: 'name'
             }], [{
                 title: '文化程度',
                 field: 'education',
-                type: 'selecct',
+                type: 'select',
                 key: 'education'
             }, {
                 title: '身份证号码',
@@ -162,7 +170,7 @@ class registerAddedit extends React.Component {
             }, {
                 title: '能否出差',
                 field: 'isOut',
-                type: 'selelct',
+                type: 'select',
                 data: [{
                     key: '0',
                     value: '否'
@@ -175,7 +183,7 @@ class registerAddedit extends React.Component {
             }, {
                 title: '能否加班',
                 field: 'postCode',
-                type: 'selelct',
+                type: 'select',
                 data: [{
                     key: '0',
                     value: '否'
@@ -188,7 +196,7 @@ class registerAddedit extends React.Component {
             }], [{
                 title: '是否曾在我公司应聘',
                 field: 'isOnceRecruited',
-                type: 'selelct',
+                type: 'select',
                 data: [{
                     key: '0',
                     value: '否'
@@ -201,7 +209,7 @@ class registerAddedit extends React.Component {
             }, {
                 title: '是否有亲属或朋友在我司工作',
                 field: 'isFriendWork',
-                type: 'selelct',
+                type: 'select',
                 data: [{
                     key: '0',
                     value: '否'

@@ -71,11 +71,6 @@ class entryApply extends React.Component {
                     title: '部门',
                     field: 'departmentCode',
                     type: 'select',
-                    formatter: (v, d) => {
-                        if (d) {
-                            return d.user.departmentCode;
-                        }
-                    },
                     listCode: 630106,
                     params: {
                         typeList: ['2']
@@ -85,13 +80,8 @@ class entryApply extends React.Component {
                     readonly: true
                 }, {
                     title: '职位',
-                    field: 'postCode',
+                    field: 'position',
                     type: 'select',
-                    formatter: (v, d) => {
-                        if (d) {
-                            return d.user.postCode;
-                        }
-                    },
                     listCode: 630106,
                     params: {
                         typeList: ['3']
@@ -103,7 +93,7 @@ class entryApply extends React.Component {
                     title: '申请人',
                     field: 'applyUser',
                     formatter: (v, d) => {
-                        return d.user.userId;
+                        return d.userId;
                     },
                     hidden: true
                 }],

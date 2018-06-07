@@ -37,68 +37,103 @@ class postAddedit extends React.Component {
             [{
                 title: '姓名',
                 field: 'position',
-                required: true
+                formatter: (v, d) => {
+                    return d.user.realName;
+                },
+                readonly: true
             }, {
                 title: '工号',
-                field: 'entryDatetime',
-                required: true
+                field: 'jobNo',
+                render: (v, d) => {
+                    if(d) {
+                        return d.archice.jobNo;
+                    }
+                },
+                readonly: true
             }],
             [{
                 title: '部门',
-                field: 'realName',
                 field: 'departmentCode',
+                type: 'select',
+                formatter: (v, d) => {
+                    if (d) {
+                        return d.user.departmentCode;
+                    }
+                },
                 listCode: 630106,
                 params: {
-                  typeList: '2'
+                    typeList: ['2']
                 },
                 keyName: 'code',
                 valueName: 'name',
-                required: true
+                readonly: true
             }, {
                 title: '新部门',
-                field: 'gender',
-                field: 'departmentCode',
+                field: 'newDepartment',
+                type: 'select',
                 listCode: 630106,
                 params: {
-                  typeList: '2'
+                    typeList: ['2']
                 },
                 keyName: 'code',
                 valueName: 'name',
-                required: true
+                readonly: true
+            }, {
+                title: '申请人',
+                field: 'applyUser',
+                formatter: (v, d) => {
+                    if (d) {
+                        return d.user.userId;
+                    }
+                },
+                hidden: true
             }],
             [{
                 title: '职位',
-                field: 'nativePlace',
+                field: 'postCode',
+                type: 'select',
+                formatter: (v, d) => {
+                    if (d) {
+                        return d.user.postCode;
+                    }
+                },
                 listCode: 630106,
                 params: {
-                    typeList: '3'
+                    typeList: ['3']
                 },
                 keyName: 'code',
                 valueName: 'name',
-                required: true
+                readonly: true
             }, {
                 title: '新职位',
-                field: 'nation',
+                field: 'newPosition',
+                type: 'select',
                 listCode: 630106,
                 params: {
-                    typeList: '3'
+                    typeList: ['3']
                 },
                 keyName: 'code',
                 valueName: 'name',
-                required: true
+                readonly: true
             }],
             [{
                 title: '开始日期',
-                field: 'nativePlace',
-                required: true
+                field: 'startDatetime',
+                type: 'date',
+                readonly: true
             }, {
                 title: '结束日期',
-                field: 'nation',
-                required: true
+                field: 'endDatetime',
+                type: 'date',
+                readonly: true
             }],
             [{
                 title: '缘由',
-                field: ''
+                field: 'reason'
+            }],
+            [{
+                title: '备注',
+                field: 'remark'
             }]
         ]
     }];
@@ -108,7 +143,7 @@ class postAddedit extends React.Component {
         fields,
         code: this.code,
         view: this.view,
-        detailCode: 632866
+        detailCode: 632886
       });
   }
 }

@@ -47,13 +47,28 @@ class post extends React.Component {
         const fields = [{
             title: '申请人',
             field: 'applyUser',
+            render: (v, d) => {
+                if(d && d.user) {
+                    return d.user.realName;
+                }
+            }
         }, {
             title: '工号',
-            field: 'jobNo'
+            field: 'jobNo',
+            render: (v, d) => {
+                if(d && d.user) {
+                    return d.archice.jobNo;
+                }
+            }
         }, {
             title: '部门',
             field: 'departmentCode',
             listCode: 630106,
+            render: (v, d) => {
+                if(d && d.user) {
+                    return d.user.departmentCode;
+                }
+            },
             params: {
               typeList: ['2']
             },
@@ -64,16 +79,11 @@ class post extends React.Component {
             title: '岗位',
             field: 'postCode',
             required: true,
-            listCode: 630106,
-            params: {
-              typeList: ['3']
+            render: (v, d) => {
+                if(d && d.user) {
+                    return d.user.postCode;
+                }
             },
-            keyName: 'code',
-            valueName: 'name',
-        }, {
-            title: '新岗位',
-            field: 'newPosition',
-            required: true,
             listCode: 630106,
             params: {
               typeList: ['3']
@@ -81,15 +91,11 @@ class post extends React.Component {
             keyName: 'code',
             valueName: 'name'
         }, {
+            title: '新岗位',
+            field: 'newPosition'
+        }, {
             title: '新部门',
-            field: 'newDepartment',
-            listCode: 630106,
-            params: {
-              typeList: ['2']
-            },
-            keyName: 'code',
-            valueName: 'name',
-            search: true
+            field: 'newDepartment'
         }, {
             title: '申请日期',
             field: 'applyDatetime',
@@ -103,17 +109,8 @@ class post extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632865,
+            pageCode: 632885,
             btnEvent: {
-              apply: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else {
-                  this.props.history.push(`/recruit/post/apply?code=${selectedRowKeys[0]}`);
-                }
-              },
               check: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {
                   showWarnMsg('请选择记录');

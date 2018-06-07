@@ -988,6 +988,21 @@ const ROUTES = [
     path: '/recruit/formal/check',
     component: asyncComponent(() => import('container/recruit/formal/formal-check'))
   },
+  //  调岗申请
+  {
+    path: '/recruit/post',
+    component: asyncComponent(() => import('container/recruit/post/post'))
+  },
+  //  调岗申请 详情
+  {
+    path: '/recruit/post/addedit',
+    component: asyncComponent(() => import('container/recruit/post/post-addedit'))
+  },
+  //  调岗申请 详情
+  {
+    path: '/recruit/post/check',
+    component: asyncComponent(() => import('container/recruit/post/post-check'))
+  },
   //  请假申请
   {
     path: '/attendance/leave',
@@ -1084,6 +1099,22 @@ const ROUTES = [
   {
       path: '/stock/stock/addedit',
       component: asyncComponent(() => import('container/stock/stock/stock-addedit'))
+  },
+  //  行政审批
+  //  车辆违章处理
+  {
+      path: '/administrative/carHandle',
+      component: asyncComponent(() => import('container/administrative/carHandle/carHandle'))
+  },
+  //  车辆违章处理 详情
+  {
+      path: '/administrative/carHandle/addedit',
+      component: asyncComponent(() => import('container/administrative/carHandle/carHandle-addedit'))
+  },
+  //  车辆违章处理 审核
+  {
+      path: '/administrative/carHandle/check',
+      component: asyncComponent(() => import('container/administrative/carHandle/carHandle-check'))
   }
 
 ];

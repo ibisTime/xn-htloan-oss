@@ -40,51 +40,80 @@ class postCheck extends React.Component {
                 [{
                     title: '姓名',
                     field: 'position',
+                    formatter: (v, d) => {
+                        return d.user.realName;
+                    },
                     readonly: true
                 }, {
                     title: '工号',
-                    field: 'entryDatetime',
+                    field: 'jobNo',
+                    render: (v, d) => {
+                        if(d) {
+                            return d.archice.jobNo;
+                        }
+                    },
                     readonly: true
                 }],
                 [{
                     title: '部门',
-                    field: 'realName',
                     field: 'departmentCode',
+                    type: 'select',
+                    formatter: (v, d) => {
+                        if (d) {
+                            return d.user.departmentCode;
+                        }
+                    },
                     listCode: 630106,
                     params: {
-                        typeList: '2'
+                        typeList: ['2']
                     },
                     keyName: 'code',
                     valueName: 'name',
                     readonly: true
                 }, {
                     title: '新部门',
-                    field: 'gender',
-                    field: 'departmentCode',
+                    field: 'newDepartment',
+                    type: 'select',
                     listCode: 630106,
                     params: {
-                        typeList: '2'
+                        typeList: ['2']
                     },
                     keyName: 'code',
                     valueName: 'name',
                     readonly: true
+                }, {
+                    title: '申请人',
+                    field: 'applyUser',
+                    formatter: (v, d) => {
+                        if (d) {
+                            return d.user.userId;
+                        }
+                    },
+                    hidden: true
                 }],
                 [{
                     title: '职位',
-                    field: 'nativePlace',
+                    field: 'postCode',
+                    type: 'select',
+                    formatter: (v, d) => {
+                        if (d) {
+                            return d.user.postCode;
+                        }
+                    },
                     listCode: 630106,
                     params: {
-                        typeList: '3'
+                        typeList: ['3']
                     },
                     keyName: 'code',
                     valueName: 'name',
                     readonly: true
                 }, {
                     title: '新职位',
-                    field: 'nation',
+                    field: 'newPosition',
+                    type: 'select',
                     listCode: 630106,
                     params: {
-                        typeList: '3'
+                        typeList: ['3']
                     },
                     keyName: 'code',
                     valueName: 'name',
@@ -92,16 +121,18 @@ class postCheck extends React.Component {
                 }],
                 [{
                     title: '开始日期',
-                    field: 'nativePlace',
+                    field: 'startDatetime',
+                    type: 'date',
                     readonly: true
                 }, {
                     title: '结束日期',
-                    field: 'nation',
+                    field: 'endDatetime',
+                    type: 'date',
                     readonly: true
                 }],
                 [{
                     title: '缘由',
-                    field: ''
+                    field: 'reason'
                 }],
                 [{
                     title: '备注',
@@ -115,14 +146,14 @@ class postCheck extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                detailCode: 632866,
+                detailCode: 632886,
                 buttons: [{
                     title: '通过',
                     handler: (param) => {
                         param.approveResult = '1';
                         param.updater = getUserId();
                         this.props.doFetching();
-                        fetch(632861, param).then(() => {
+                        fetch(632881, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -138,7 +169,7 @@ class postCheck extends React.Component {
                         param.approveResult = '0';
                         param.updater = getUserId();
                         this.props.doFetching();
-                        fetch(632861, param).then(() => {
+                        fetch(632881, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
