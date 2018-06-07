@@ -584,8 +584,6 @@ export default combineReducers({
   contractManageContinue,
   attendanceLeave,
   attendanceLeaveAddedit,
-  attendanceLeaveApply,
-  attendanceLeaveCheck,
   recruitFormal,
   recruitFormalAddedit,
   recruitFormalApply,
