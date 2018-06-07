@@ -593,7 +593,7 @@ export default combineReducers({
   recruitPost,
   recruitPostAddedit,
   recruitPostApply,
-  recruitPostCheck
+  recruitPostCheck,
   attendanceSupplement,
   attendanceSupplementAddedit,
   attendanceOvertime,
