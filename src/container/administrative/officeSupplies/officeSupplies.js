@@ -40,15 +40,36 @@ import {
 class officeSupplies extends React.Component {
     render() {
         const fields = [{
-            title: '状态',
+            title: '单号',
+            field: 'code'
+        }, {
+            title: '申请人',
+            field: 'applyUser'
+        }, {
+            title: '申请概要',
+            field: 'applyNote'
+        }, {
+            title: '办理状态',
             field: 'status',
             type: 'select',
             key: 'leave_apply_status',
             search: true
+        }, {
+            title: '申请时间',
+            field: 'applyDatetime',
+            rangedate: ['startApplyDatetime', 'endApplyDatetime'],
+            type: 'datetime',
+            search: true
+        }, {
+            title: '备注',
+            field: 'remark'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632895,
+            pageCode: 632645,
+            searchParams: {
+                type: '1'
+            },
             btnEvent: {
                 check: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
@@ -58,7 +79,7 @@ class officeSupplies extends React.Component {
                     } else if (selectedRows[0].status !== '0') {
                         showWarnMsg('不是待审核的记录！');
                     } else {
-                        this.props.history.push(`/attendance/leave/addedit?v=1&isCheck=1s&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/administrative/officeSupplies/addedit?v=1&isCheck=1s&code=${selectedRowKeys[0]}`);
                     }
                 }
             }

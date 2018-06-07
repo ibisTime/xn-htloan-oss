@@ -9,7 +9,6 @@ import {
 } from '@redux/stock/outtreasury-addedit';
 import {getQueryString, getUserId, showSucMsg, moneyFormat} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
-import fetch from 'common/js/fetch';
 
 @DetailWrapper(
     state => state.stockOuttreasuryAddedit, {
@@ -39,7 +38,6 @@ class outtreasuryAddedit extends React.Component {
             valueName: 'categoryName',
             required: true,
             onChange: (v) => {
-                console.log(v);
                 let storageInData = this.props.selectData.storageInCode.find(d => d.code === v);
                 if (storageInData) {
                     this.props.setPageData({proquantity: storageInData.quantity, price: storageInData.price, totalPrice: storageInData.totalPrice});

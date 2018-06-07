@@ -9,7 +9,6 @@ import {
 } from '@redux/stock/productname-addedit';
 import {getQueryString, getUserId, showSucMsg} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
-import fetch from 'common/js/fetch';
 
 @DetailWrapper(
     state => state.stockProductnameAddedit, {
