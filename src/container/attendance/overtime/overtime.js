@@ -57,7 +57,7 @@ class overtime extends React.Component {
             type: 'datetime'
         }, {
             title: '结束时间',
-            field: 'startDatetime',
+            field: 'endDatetime',
             type: 'datetime'
         }, {
             title: '共计(小时)',

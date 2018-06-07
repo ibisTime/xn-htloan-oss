@@ -101,6 +101,9 @@ class supplementAddedit extends React.Component {
         }, {
             title: '申请人',
             field: 'applyUser',
+            render: (v, d) => {
+                return d.applyUserArchive[0] && d.applyUserArchive[0].realName;
+            },
             hidden: ((!this.view && this.isCheck) || !this.code)
         }, {
             title: '工号',

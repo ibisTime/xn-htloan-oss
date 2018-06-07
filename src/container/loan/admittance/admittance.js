@@ -113,7 +113,7 @@ class Admittance extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else if (selectedRows[0].curNodeCode !== '002_04' && selectedRows[0].curNodeCode !== '002_01') {
-                        showWarnMsg('当前不是重新填写准入申请单节点');
+                        showWarnMsg('当前不是填写准入申请单节点');
                     } else {
                         this.props.history.push(`/loan/admittance/addedit?code=${selectedRowKeys[0]}`);
                     }

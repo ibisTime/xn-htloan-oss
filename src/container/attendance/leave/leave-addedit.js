@@ -131,19 +131,6 @@ class leaveAddedit extends React.Component {
                     });
                 }
             }
-        // }, {
-        //     onChange: (value) => {
-        //         let startDatetime = this.props.form.getFieldValue('startDatetime'); // 开始时间
-        //         let endDatetime = this.props.form.getFieldValue('endDatetime'); // 结束时间
-        //         console.log(endDatetime);
-        //         if (startDatetime && endDatetime) {
-        //             let time = endDatetime.getTime() - endDatetime.getTime();
-        //             let hours = Math.floor(time / (3600 * 1000));
-        //             this.props.form.setFieldsValue({
-        //                 totalHour: hours
-        //             });
-        //         }
-        //     }
         }, {
             title: '请假时长(小时)',
             field: 'totalHour',
@@ -159,6 +146,9 @@ class leaveAddedit extends React.Component {
         }, {
             title: '申请人',
             field: 'applyUser',
+            formatter: (v, d) => {
+                return d.applyUserArchive[0] && d.applyUserArchive[0].realName;
+            },
             hidden: ((!this.view && this.isCheck) || !this.code)
         }, {
             title: '工号',

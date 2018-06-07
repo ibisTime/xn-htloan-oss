@@ -41,7 +41,7 @@ class publicity extends React.Component {
     render() {
         const fields = [{
             title: '申请人',
-            field: 'ApplyUserName'
+            field: 'applyUserName'
         }, {
             title: '工号',
             field: 'jobNo'
