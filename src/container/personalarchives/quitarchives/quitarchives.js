@@ -51,6 +51,9 @@ class quitarchives extends React.Component {
             title: '部门',
             field: 'departmentCode',
             listCode: 630106,
+            params: {
+                typeList: '2'
+            },
             keyName: 'code',
             valueName: 'name',
             search: true

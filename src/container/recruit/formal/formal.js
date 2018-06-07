@@ -8,13 +8,14 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/recruit/entry';
+} from '@redux/recruit/formal';
 import {
     listWrapper
 } from 'common/js/build-list';
 import {
     showWarnMsg,
-    showSucMsg
+    showSucMsg,
+    formatDate
 } from 'common/js/util';
 import {
     Button,
@@ -28,7 +29,7 @@ import {
 
 @listWrapper(
     state => ({
-        ...state.recruitEntry,
+        ...state.recruitFormal,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -41,37 +42,70 @@ import {
         setSearchData
     }
 )
-class entry extends React.Component {
+class formal extends React.Component {
     render() {
         const fields = [{
-            title: '申请部门',
+            title: '申请人',
+            field: 'applyUser',
+            listCode: 630066,
+            keyName: 'userId',
+            valueName: 'realName'
+        }, {
+            title: '申请时间',
+            field: 'applyDatetime',
+            type: 'date'
+        }, {
+            title: '部门',
             field: 'departmentCode',
-            type: 'select',
             listCode: 630106,
             params: {
-              typeList: ['2']
+              typeList: '2'
             },
             keyName: 'code',
             valueName: 'name',
             search: true
         }, {
-            title: '申请岗位',
-            field: 'position',
+            title: '员工姓名',
+            field: 'realName',
+            render: (v, d) => {
+                if(d.user) {
+                    return d.user.realName;
+                }
+            }
+        }, {
+            title: '员工职位',
+            field: 'postCode',
             required: true,
-            type: 'select',
             listCode: 630106,
             params: {
-              typeList: ['3']
+              typeList: '3'
             },
             keyName: 'code',
             valueName: 'name'
         }, {
-            title: '申请时间',
-            field: 'establishQuantity',
+            title: '入职日期',
+            field: 'entryDatetime',
             type: 'date'
         }, {
-            title: '姓名',
-            field: 'realName'
+            title: '试用期开始',
+            field: 'probationStartDatetime',
+            type: 'date'
+        }, {
+            title: '试用期结束',
+            field: 'probationEndDatetime',
+            type: 'date'
+        }, {
+            title: '生效日期',
+            field: 'effectDatetime',
+            type: 'date'
+        }, {
+            title: '总分数',
+            field: 'requireDatetime',
+            render: (v, d) => {
+                if(d.probationAssessesList[0]) {
+                    return d.probationAssessesList[0].grade;
+                }
+            }
         }, {
             title: '状态',
             field: 'status',
@@ -80,7 +114,7 @@ class entry extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632865,
+            pageCode: 632875,
             btnEvent: {
               apply: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {
@@ -88,7 +122,7 @@ class entry extends React.Component {
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else {
-                  this.props.history.push(`/recruit/entry/apply?code=${selectedRowKeys[0]}`);
+                  this.props.history.push(`/recruit/formal/apply?code=${selectedRowKeys[0]}&entryCode=${selectedRows[0].entryCode}`);
                 }
               },
               check: (selectedRowKeys, selectedRows) => {
@@ -97,7 +131,7 @@ class entry extends React.Component {
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else {
-                  this.props.history.push(`/recruit/entry/check?code=${selectedRowKeys[0]}`);
+                  this.props.history.push(`/recruit/formal/check?code=${selectedRowKeys[0]}`);
                 }
               }
             }
@@ -105,4 +139,4 @@ class entry extends React.Component {
     }
 }
 
-export default entry;
+export default formal;

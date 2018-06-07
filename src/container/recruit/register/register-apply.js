@@ -37,8 +37,9 @@ class registerApply extends React.Component {
                     title: '入职岗位',
                     field: 'position',
                     listCode: 630106,
+                    type: 'select',
                     params: {
-                        typeList: '3'
+                        typeList: ['3']
                     },
                     keyName: 'code',
                     valueName: 'name',
@@ -113,16 +114,16 @@ class registerApply extends React.Component {
                     required: true
                 }],
                 [{
+                    title: '照片',
+                    field: 'photo',
+                    type: 'img'
+                }],
+                [{
                     title: '户籍性质',
                     field: 'residenceProperty',
                     required: true,
                     type: 'select',
                     key: 'residence_property'
-                }, {
-                    title: '照片',
-                    field: 'photo',
-                    type: 'img',
-                    required: true
                 }, {
                     title: '现住址',
                     field: 'nowAddress',
@@ -181,15 +182,18 @@ class registerApply extends React.Component {
             items: [
                 [{
                     title: '姓名',
-                    field: 'relativeName'
+                    field: 'relativeName',
+                    required: true
                 }, {
                     title: '与本人关系',
                     field: 'relativeRelation',
                     type: 'select',
-                    key: 'credit_user_relation'
+                    key: 'credit_user_relation',
+                    required: true
                 }, {
                     title: '职务',
-                    field: 'relativePosition'
+                    field: 'relativePosition',
+                    required: true
                 }]
             ]
         }, {

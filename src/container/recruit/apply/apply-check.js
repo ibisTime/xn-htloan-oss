@@ -36,30 +36,31 @@ class applyCheck extends React.Component {
             [{
                 title: '招聘岗位',
                 field: 'position',
-                required: true,
+                readonly: true,
                 listCode: 630106,
+                type: 'select',
                 params: {
-                  typeList: '3'
+                  typeList: ['3']
                 },
                 keyName: 'code',
                 valueName: 'name'
             }, {
-                titile: '编制人数',
+                title: '编制人数',
                 field: 'establishQuantity',
-                required: true
+                readonly: true
             }, {
                 title: '部门现有人数：',
                 field: 'nowQuantity',
-                required: true
+                readonly: true
             }], [{
                 title: '申请补人数',
                 field: 'applyQuantity',
-                required: true
+                readonly: true
             }, {
-                titile: '需求到岗时间',
+                title: '需求到岗时间',
                 field: 'applyDatetime',
                 type: 'date',
-                required: true
+                readonly: true
             }]
         ]
     }, {
@@ -67,29 +68,36 @@ class applyCheck extends React.Component {
         items: [
             [{
                 title: '被代替职位',
-                field: 'replacePosition'
+                field: 'replacePosition',
+                readonly: true
             }, {
                 title: '被替代者姓名',
-                field: 'replaceRealName'
+                field: 'replaceRealName',
+                readonly: true
             }, {
                 title: '原因',
-                field: 'newApplyReason'
+                field: 'newApplyReason',
+                readonly: true
             }],
             [{
                 title: '该职位现有人数为',
-                field: 'positionNowQuantity'
+                field: 'positionNowQuantity',
+                readonly: true
             }, {
                 title: '增加原因',
-                field: 'positionAddReason'
+                field: 'positionAddReason',
+                readonly: true
             }, {
                 title: '临时聘用时间',
                 field: 'time',
                 rangedate: ['tempStartDatetime', 'tempEndDatetime'],
-                type: 'date'
+                type: 'date',
+                readonly: true
             }],
             [{
-                titile: '说明',
-                field: 'otherNote'
+                title: '说明',
+                field: 'otherNote',
+                readonly: true
             }]
         ]
     }, {
@@ -100,38 +108,47 @@ class applyCheck extends React.Component {
                 field: 'gender',
                 type: 'select',
                 key: 'gender',
-                required: true
+                readonly: true
             }, {
                 title: '年龄',
-                field: 'age'
+                field: 'age',
+                readonly: true
             }, {
                 title: '婚姻状况',
                 field: 'marryState',
                 type: 'select',
                 key: 'marry_state',
-                required: true
+                readonly: true
             }],
             [{
                 title: '文化程度',
                 field: 'education',
                 type: 'select',
                 key: 'education',
-                required: true
+                readonly: true
             }, {
                 title: '专业',
-                field: 'major'
+                field: 'major',
+                readonly: true
             }, {
                 title: '专业资格',
-                field: 'majorRequire'
+                field: 'majorRequire',
+                readonly: true
             }],
             [{
                 title: '能力要求',
-                field: 'abilityRequire'
+                field: 'abilityRequire',
+                readonly: true
             }],
             [{
                 title: '相关工作经验',
-                field: 'experience'
-            }],
+                field: 'experience',
+                readonly: true
+            }]
+        ]
+    }, {
+        title: '审核说明',
+        items: [
             [{
                 title: '备注',
                 field: 'remark'

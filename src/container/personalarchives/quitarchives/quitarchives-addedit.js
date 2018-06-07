@@ -73,8 +73,6 @@ class quitarchivesAddedit extends React.Component {
                     let user = this.props.selectData.user.find(v => v.code === param.user);
                     param.realName = user.realName;
                     param.code = user.code;
-                    let heirPeople = this.props.selectData.heirPeople.find(v => v.code === param.heirPeople);
-                    param.heirPeople = heirPeople.realName;
                     return param;
                 }
             });

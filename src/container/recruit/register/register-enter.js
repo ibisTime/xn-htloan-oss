@@ -95,9 +95,10 @@ class registerEnter extends React.Component {
                     title: '入职部门',
                     field: 'employDepartmentCode',
                     required: true,
+                    type: 'select',
                     listCode: 630106,
                     params: {
-                      typeList: '2'
+                      typeList: ['2']
                     },
                     keyName: 'code',
                     valueName: 'name',
@@ -106,9 +107,10 @@ class registerEnter extends React.Component {
                     title: '入职岗位',
                     field: 'employPositionCode',
                     required: true,
+                    type: 'select',
                     listCode: 630106,
                     params: {
-                      typeList: '3'
+                      typeList: ['3']
                     },
                     keyName: 'code',
                     valueName: 'name'
@@ -125,10 +127,9 @@ class registerEnter extends React.Component {
                 code: this.code,
                 view: this.view,
                 buttons: [{
-                  title: '确认',
+                  title: '面试通过',
                   handler: (param) => {
-                    param.approveResult = '1';
-                    param.approveNote = this.projectCode;
+                    param.employApproveResult = '1';
                     param.approveUser = getUserId();
                     param.operator = getUserId();
                     this.props.doFetching();
@@ -143,6 +144,23 @@ class registerEnter extends React.Component {
                   check: true,
                   type: 'primary'
                 }, {
+                    title: '面试不通过',
+                    handler: (param) => {
+                      param.employApproveResult = '0';
+                      param.approveUser = getUserId();
+                      param.operator = getUserId();
+                      this.props.doFetching();
+                      fetch(632851, param).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                          this.props.history.go(-1);
+                        }, 1000);
+                      }).catch(this.props.cancelFetching);
+                    },
+                    check: true,
+                    type: 'primary'
+                  }, {
                   title: '返回',
                   handler: (param) => {
                     this.props.history.go(-1);

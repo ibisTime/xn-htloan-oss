@@ -943,6 +943,26 @@ const ROUTES = [
     path: '/recruit/entry/check',
     component: asyncComponent(() => import('container/recruit/entry/entry-check'))
   },
+  //  转正申请
+  {
+    path: '/recruit/formal',
+    component: asyncComponent(() => import('container/recruit/formal/formal'))
+  },
+  //  转正申请 详情
+  {
+    path: '/recruit/formal/addedit',
+    component: asyncComponent(() => import('container/recruit/formal/formal-addedit'))
+  },
+  //  转正申请 申请
+  {
+    path: '/recruit/formal/apply',
+    component: asyncComponent(() => import('container/recruit/formal/formal-apply'))
+  },
+  //  转正申请 审核
+  {
+    path: '/recruit/formal/check',
+    component: asyncComponent(() => import('container/recruit/formal/formal-check'))
+  },
   //  请假申请
   {
     path: '/attendance/leave',

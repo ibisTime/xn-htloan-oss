@@ -98,6 +98,7 @@ class registerAddedit extends React.Component {
             }], [{
                 title: '工作经历',
                 field: 'workExperienceList',
+                required: true,
                 type: 'o2m',
                 options: {
                     add: true,
@@ -129,6 +130,7 @@ class registerAddedit extends React.Component {
             }], [{
                 title: '家庭成员',
                 field: 'socialRelationList',
+                required: true,
                 type: 'o2m',
                 options: {
                     add: true,
@@ -218,6 +220,7 @@ class registerAddedit extends React.Component {
         fields,
         code: this.code,
         view: this.view,
+        addCode: 632850,
         detailCode: 632856
       });
   }

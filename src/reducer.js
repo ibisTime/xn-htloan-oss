@@ -322,6 +322,18 @@ import { recruitEntryAddedit } from './redux/recruit/entry-addedit';
 import { recruitEntryApply } from './redux/recruit/entry-apply';
 import { recruitEntryCheck } from './redux/recruit/entry-check';
 
+//  转正申请 + 详情 + 申请 + 审核
+import { recruitFormal } from './redux/recruit/formal';
+import { recruitFormalAddedit } from './redux/recruit/formal-addedit';
+import { recruitFormalApply } from './redux/recruit/formal-apply';
+import { recruitFormalCheck } from './redux/recruit/formal-check';
+
+//  调岗申请 + 详情 + 申请 + 审核
+import { recruitPost } from './redux/recruit/post';
+import { recruitPostAddedit } from './redux/recruit/post-addedit';
+import { recruitPostApply } from './redux/recruit/post-apply';
+import { recruitPostCheck } from './redux/recruit/post-check';
+
 //  请假申请 + 详情 + 申请 + 审核
 import { attendanceLeave } from './redux/attendance/leave';
 import { attendanceLeaveAddedit } from './redux/attendance/leave-addedit';
@@ -527,5 +539,13 @@ export default combineReducers({
   attendanceLeave,
   attendanceLeaveAddedit,
   attendanceLeaveApply,
-  attendanceLeaveCheck
+  attendanceLeaveCheck,
+  recruitFormal,
+  recruitFormalAddedit,
+  recruitFormalApply,
+  recruitFormalCheck,
+  recruitPost,
+  recruitPostAddedit,
+  recruitPostApply,
+  recruitPostCheck
 });

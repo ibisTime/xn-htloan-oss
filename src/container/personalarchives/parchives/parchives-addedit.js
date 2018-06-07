@@ -133,7 +133,8 @@ class parchivesAddedit extends React.Component {
                 required: true
             }], [{
                 title: '工资卡账号（建行）',
-                field: 'salaryCard'
+                field: 'salaryCard',
+                idCard: true
             }, {
                 title: '开户行',
                 field: 'bankName'
@@ -168,7 +169,8 @@ class parchivesAddedit extends React.Component {
                 mobile: true
             }], [{
                 title: '合同期限',
-                field: 'contractDeadline'
+                field: 'contractDeadline',
+                type: 'date'
             }, {
                 title: '合同类型',
                 field: 'contractType',

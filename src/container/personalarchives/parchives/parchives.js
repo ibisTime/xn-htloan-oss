@@ -41,16 +41,21 @@ class parchives extends React.Component {
     }, {
       title: '部门',
       field: 'departmentCode',
+      type: 'select',
       listCode: 630106,
+      params: {
+        typeList: ['2']
+      },
       keyName: 'code',
       valueName: 'name',
       search: true
     }, {
       title: '服务岗位',
       field: 'postCode',
+      type: 'select',
       listCode: 630106,
       params: {
-        typeList: '3'
+        typeList: ['3']
       },
       keyName: 'code',
       valueName: 'name',
@@ -65,6 +70,7 @@ class parchives extends React.Component {
     }];
     return this.props.buildList({
       fields,
+      deleteCode: 632801,
       pageCode: 632805
     });
   }

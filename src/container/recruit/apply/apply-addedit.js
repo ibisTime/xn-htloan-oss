@@ -44,7 +44,7 @@ class applyAddedit extends React.Component {
                 keyName: 'code',
                 valueName: 'name'
             }, {
-                titile: '编制人数',
+                title: '编制人数',
                 field: 'establishQuantity'
             }, {
                 title: '部门现有人数：',
@@ -53,7 +53,7 @@ class applyAddedit extends React.Component {
                 title: '申请补人数',
                 field: 'applyQuantity'
             }, {
-                titile: '需求到岗时间',
+                title: '需求到岗时间',
                 field: 'applyDatetime',
                 type: 'date'
             }]
@@ -84,7 +84,7 @@ class applyAddedit extends React.Component {
                 type: 'date'
             }],
             [{
-                titile: '说明',
+                title: '说明',
                 field: 'otherNote'
             }]
         ]

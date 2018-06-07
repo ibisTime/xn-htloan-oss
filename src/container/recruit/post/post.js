@@ -8,9 +8,10 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/recruit/apply';
+} from '@redux/recruit/post';
 import {
-    listWrapper
+    listWrapper,
+    getUserId
 } from 'common/js/build-list';
 import {
     showWarnMsg,
@@ -28,7 +29,7 @@ import {
 
 @listWrapper(
     state => ({
-        ...state.recruitApply,
+        ...state.recruitPost,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -41,13 +42,18 @@ import {
         setSearchData
     }
 )
-class applys extends React.Component {
+class post extends React.Component {
     render() {
         const fields = [{
-            title: '申请部门',
+            title: '申请人',
+            field: 'applyUser',
+        }, {
+            title: '工号',
+            field: 'jobNo'
+        }, {
+            title: '部门',
             field: 'departmentCode',
             listCode: 630106,
-            type: 'select',
             params: {
               typeList: ['2']
             },
@@ -55,45 +61,58 @@ class applys extends React.Component {
             valueName: 'name',
             search: true
         }, {
-            title: '招聘岗位',
-            field: 'position',
+            title: '岗位',
+            field: 'postCode',
             required: true,
             listCode: 630106,
-            type: 'select',
+            params: {
+              typeList: ['3']
+            },
+            keyName: 'code',
+            valueName: 'name',
+        }, {
+            title: '新岗位',
+            field: 'newPosition',
+            required: true,
+            listCode: 630106,
             params: {
               typeList: ['3']
             },
             keyName: 'code',
             valueName: 'name'
         }, {
-            title: '编制人数',
-            field: 'establishQuantity'
+            title: '新部门',
+            field: 'newDepartment',
+            listCode: 630106,
+            params: {
+              typeList: ['2']
+            },
+            keyName: 'code',
+            valueName: 'name',
+            search: true
         }, {
-            title: '部门现有人数',
-            field: 'nowQuantity'
-        }, {
-            title: '申请补人数',
-            field: 'applyQuantity'
-        }, {
-            title: '申请时间',
+            title: '申请日期',
             field: 'applyDatetime',
-            type: 'date'
-        }, {
-            title: '需求到岗时间',
-            field: 'requireDatetime',
             type: 'date'
         }, {
             title: '状态',
             field: 'status',
             type: 'select',
-            key: 'recruit_apply_status'
+            key: 'recruit_apply_status',
+            search: true
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632845,
+            pageCode: 632865,
             btnEvent: {
               apply: (selectedRowKeys, selectedRows) => {
-                this.props.history.push(`/recruit/apply/apply?code=${selectedRowKeys[0]}`);
+                if (!selectedRowKeys.length) {
+                  showWarnMsg('请选择记录');
+                } else if (selectedRowKeys.length > 1) {
+                  showWarnMsg('请选择一条记录');
+                } else {
+                  this.props.history.push(`/recruit/post/apply?code=${selectedRowKeys[0]}`);
+                }
               },
               check: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {
@@ -101,7 +120,7 @@ class applys extends React.Component {
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else {
-                  this.props.history.push(`/recruit/apply/check?code=${selectedRowKeys[0]}`);
+                  this.props.history.push(`/recruit/post/check?code=${selectedRowKeys[0]}`);
                 }
               }
             }
@@ -109,4 +128,4 @@ class applys extends React.Component {
     }
 }
 
-export default applys;
+export default post;

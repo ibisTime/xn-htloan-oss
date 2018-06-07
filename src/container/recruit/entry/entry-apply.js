@@ -36,9 +36,10 @@ class entryApply extends React.Component {
             [{
                 title: '入职岗位',
                 field: 'position',
+                type: 'select',
                 listCode: 630106,
                 params: {
-                    typeList: '3'
+                    typeList: ['3']
                 },
                 keyName: 'code',
                 valueName: 'name',

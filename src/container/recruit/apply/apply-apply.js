@@ -37,14 +37,15 @@ class applyAddedit extends React.Component {
                 title: '招聘岗位',
                 field: 'position',
                 required: true,
+                type: 'select',
                 listCode: 630106,
                 params: {
-                  typeList: '3'
+                  typeList: ['3']
                 },
                 keyName: 'code',
                 valueName: 'name'
             }, {
-                titile: '编制人数',
+                title: '编制人数',
                 field: 'establishQuantity',
                 required: true
             }, {
@@ -56,8 +57,8 @@ class applyAddedit extends React.Component {
                 field: 'applyQuantity',
                 required: true
             }, {
-                titile: '需求到岗时间',
-                field: 'applyDatetime',
+                title: '需求到岗时间',
+                field: 'requireDatetime',
                 type: 'date',
                 required: true
             }]
@@ -88,7 +89,7 @@ class applyAddedit extends React.Component {
                 type: 'date'
             }],
             [{
-                titile: '说明',
+                title: '说明',
                 field: 'otherNote'
             }]
         ]
@@ -140,7 +141,6 @@ class applyAddedit extends React.Component {
         fields,
         code: this.code,
         view: this.view,
-        detailCode: 632846,
         buttons: [{
           title: '确认',
           handler: (param) => {
