@@ -42,7 +42,7 @@ class leaveAddedit extends React.Component {
                     data.result = '1';
                     data.updater = getUserId();
                     this.props.doFetching();
-                    fetch(632113, data).then(() => {
+                    fetch(632891, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -60,7 +60,7 @@ class leaveAddedit extends React.Component {
                     data.result = '2';
                     data.updater = getUserId();
                     this.props.doFetching();
-                    fetch(632113, data).then(() => {
+                    fetch(632891, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -183,7 +183,7 @@ class leaveAddedit extends React.Component {
             detailCode: 632896,
             buttons: this.buttons,
             beforeSubmit: (data) => {
-                data.applyUser = getUserId;
+                data.applyUser = getUserId();
                 return data;
             }
         });

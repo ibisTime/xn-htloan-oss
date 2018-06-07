@@ -382,6 +382,15 @@ import { stockProductnameAddedit } from './redux/stock/productname-addedit';
 import { stockStock } from './redux/stock/stock';
 import { stockStockAddedit } from './redux/stock/stock-addedit';
 
+// 通知公告
+// 公告管理
+import { noticeNotice } from './redux/notice/notice';
+import { noticeNoticeAddedit } from './redux/notice/notice-addedit';
+
+// 公司制度
+import { noticeCompanysystem } from './redux/notice/companysystem';
+import { noticeCompanysystemAddedit } from './redux/notice/companysystem-addedit';
+
 // 车辆违章处理
 import { administrativeCarHandle } from './redux/administrative/carHandle';
 import { administrativeCarHandleAddedit } from './redux/administrative/carHandle-addedit';
@@ -398,6 +407,18 @@ import { administrativeCostAddedit } from './redux/administrative/cost-addedit';
 import { administrativeCostCheck } from './redux/administrative/cost-check';
 import { administrativeCostFinance } from './redux/administrative/cost-finance';
 import { administrativeCostCertain } from './redux/administrative/cost-certain';
+
+// 办公用品申请
+import { administrativeOfficeSupplies } from './redux/administrative/officeSupplies';
+import { administrativeOfficeSuppliesAddedit } from './redux/administrative/officeSupplies-addedit';
+
+// 固定资产申请
+import { administrativeFixedAssets } from './redux/administrative/fixedAssets';
+import { administrativeFixedAssetsAddedit } from './redux/administrative/fixedAssets-addedit';
+
+// 领导请示申请
+import { administrativeLeader } from './redux/administrative/leader';
+import { administrativeLeaderAddedit } from './redux/administrative/leader-addedit';
 
 export default combineReducers({
   user,
@@ -626,6 +647,10 @@ export default combineReducers({
   stockProductnameAddedit,
   stockStock,
   stockStockAddedit,
+  noticeNotice,
+  noticeNoticeAddedit,
+  noticeCompanysystem,
+  noticeCompanysystemAddedit,
   administrativeCarHandle,
   administrativeCarHandleAddedit,
   administrativeCarHandleCheck,
@@ -636,5 +661,11 @@ export default combineReducers({
   administrativeCostAddedit,
   administrativeCostCheck,
   administrativeCostFinance,
-  administrativeCostCertain
+  administrativeCostCertain,
+  administrativeOfficeSupplies,
+  administrativeOfficeSuppliesAddedit,
+  administrativeFixedAssets,
+  administrativeFixedAssetsAddedit,
+  administrativeLeader,
+  administrativeLeaderAddedit
 });

@@ -1100,6 +1100,27 @@ const ROUTES = [
       path: '/stock/stock/addedit',
       component: asyncComponent(() => import('container/stock/stock/stock-addedit'))
   },
+  // 通知公告
+  // 公告管理
+  {
+      path: '/notice/notice',
+      component: asyncComponent(() => import('container/notice/notice/notice'))
+  },
+  // 公告管理 详情
+  {
+      path: '/notice/notice/addedit',
+      component: asyncComponent(() => import('container/notice/notice/notice-addedit'))
+  },
+  // 公司制度
+  {
+      path: '/notice/companysystem',
+      component: asyncComponent(() => import('container/notice/companysystem/companysystem'))
+  },
+  // 公司制度 详情
+  {
+      path: '/notice/companysystem/addedit',
+      component: asyncComponent(() => import('container/notice/companysystem/companysystem-addedit'))
+  },
   //  行政审批
   //  车辆违章处理
   {
@@ -1130,6 +1151,36 @@ const ROUTES = [
   {
       path: '/administrative/welfare/check',
       component: asyncComponent(() => import('container/administrative/welfare/welfare-check'))
+  },
+  // 办公用品申请
+  {
+      path: '/administrative/officeSupplies',
+      component: asyncComponent(() => import('container/administrative/officeSupplies/officeSupplies'))
+  },
+  // 办公用品申请 详情
+  {
+      path: '/administrative/officeSupplies/addedit',
+      component: asyncComponent(() => import('container/administrative/officeSupplies/officeSupplies-addedit'))
+  },
+  // 固定资产申请
+  {
+      path: '/administrative/fixedAssets',
+      component: asyncComponent(() => import('container/administrative/fixedAssets/fixedAssets'))
+  },
+  // 固定资产申请 详情
+  {
+      path: '/administrative/fixedAssets/addedit',
+      component: asyncComponent(() => import('container/administrative/fixedAssets/fixedAssets-addedit'))
+  },
+  // 领导请示申请
+  {
+      path: '/administrative/leader',
+      component: asyncComponent(() => import('container/administrative/leader/leader'))
+  },
+  // 领导请示申请 详情
+  {
+      path: '/administrative/leader/addedit',
+      component: asyncComponent(() => import('container/administrative/leader/leader-addedit'))
   }
 
 ];

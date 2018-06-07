@@ -131,7 +131,7 @@ class overtimeAddedit extends React.Component {
             detailCode: 632616,
             buttons: this.buttons,
             beforeSubmit: (data) => {
-                data.applyUser = getUserId;
+                data.applyUser = getUserId();
                 return data;
             }
         });

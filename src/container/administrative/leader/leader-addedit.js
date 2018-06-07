@@ -6,13 +6,13 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/attendance/supplement-addedit';
+} from '@redux/administrative/leader-addedit';
 import {getQueryString, getUserId, showSucMsg} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
-    state => state.attendanceSupplementAddedit, {
+    state => state.administrativeLeaderAddedit, {
         initStates,
         doFetching,
         cancelFetching,
@@ -21,7 +21,7 @@ import fetch from 'common/js/fetch';
         restore
     }
 )
-class supplementAddedit extends React.Component {
+class leaderAddedit extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -37,10 +37,10 @@ class supplementAddedit extends React.Component {
                     let data = {};
                     data.code = this.code;
                     data.remark = params.remark;
-                    data.result = '1';
+                    data.approveResult = '1';
                     data.updater = getUserId();
                     this.props.doFetching();
-                    fetch(632601, data).then(() => {
+                    fetch(632651, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -55,10 +55,10 @@ class supplementAddedit extends React.Component {
                     let data = {};
                     data.code = this.code;
                     data.remark = params.remark;
-                    data.result = '2';
+                    data.approveResult = '2';
                     data.updater = getUserId();
                     this.props.doFetching();
-                    fetch(632601, data).then(() => {
+                    fetch(632651, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -77,65 +77,27 @@ class supplementAddedit extends React.Component {
 
     render() {
         const fields = [{
-            title: '缘由',
-            field: 'reason'
+            title: '请示领导',
+            field: 'leadUserId',
+            type: 'select',
+            pageCode: 630065,
+            keyName: 'userId',
+            valueName: '{{departmentName.DATA}}{{postName.DATA}}-{{realName.DATA}}',
+            searchName: 'userName',
+            required: true
         }, {
-            title: '漏签明细',
-            field: 'detailList',
-            type: 'o2m',
-            options: {
-                add: true,
-                edit: true,
-                delete: true,
-                fields: [{
-                    title: '漏签时间',
-                    field: 'suppleDatetime',
-                    type: 'datetime',
-                    required: true
-                }, {
-                    title: '备注',
-                    field: 'remark',
-                    required: true
-                }]
-            }
-        }, {
-            title: '申请人',
-            field: 'applyUser',
-            render: (v, d) => {
-                return d.applyUserArchive[0] && d.applyUserArchive[0].realName;
-            },
-            hidden: ((!this.view && this.isCheck) || !this.code)
-        }, {
-            title: '工号',
-            field: 'jobNo',
-            formatter: (v, d) => {
-                return d.applyUserArchive[0] && d.applyUserArchive[0].jobNo;
-            },
-            hidden: ((!this.view && this.isCheck) || !this.code)
-        }, {
-            title: '部门',
-            field: 'departmentName',
-            formatter: (v, d) => {
-                return d.applyUserArchive[0] && d.applyUserArchive[0].departmentName;
-            },
-            hidden: ((!this.view && this.isCheck) || !this.code)
-        }, {
-            title: '职务',
-            field: 'postCode',
-            formatter: (v, d) => {
-                return d.applyUserArchive[0] && d.applyUserArchive[0].postName;
-            },
-            hidden: ((!this.view && this.isCheck) || !this.code)
-        }, {
-            title: '备注',
-            field: 'remark'
+            title: '请示内容',
+            field: 'content',
+            type: 'textarea',
+            normalArea: true,
+            required: true
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            addCode: 632600,
-            detailCode: 632896,
+            addCode: 632650,
+            detailCode: 632656,
             buttons: this.buttons,
             beforeSubmit: (data) => {
                 data.applyUser = getUserId();
@@ -145,4 +107,4 @@ class supplementAddedit extends React.Component {
     }
 }
 
-export default supplementAddedit;
+export default leaderAddedit;

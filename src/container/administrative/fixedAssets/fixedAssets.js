@@ -8,23 +8,23 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/attendance/publicity';
+} from '@redux/administrative/fixedAssets';
 import {
-  showWarnMsg,
-  showSucMsg
+    showWarnMsg,
+    showSucMsg
 } from 'common/js/util';
 import {
     listWrapper
 } from 'common/js/build-list';
 import {
-  lowerFrame,
-  onShelf,
-  sendMsg
+    lowerFrame,
+    onShelf,
+    sendMsg
 } from 'api/biz';
 
 @listWrapper(
     state => ({
-        ...state.attendancePublicity,
+        ...state.administrativeFixedAssets,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -37,31 +37,10 @@ import {
         setSearchData
     }
 )
-class publicity extends React.Component {
+class fixedAssets extends React.Component {
     render() {
         const fields = [{
-            title: '申请人',
-            field: 'applyUserName'
-        }, {
-            title: '工号',
-            field: 'jobNo'
-        }, {
-            title: '部门',
-            field: 'departmentName'
-        }, {
-            title: '职务',
-            field: 'postCode'
-        }, {
-            title: '共计(小时)',
-            field: 'totalHour'
-        }, {
-            title: '申请时间',
-            field: 'applyDatetime',
-            rangedate: ['startDatetime', 'endDatetime'],
-            type: 'datetime',
-            search: true
-        }, {
-            title: '办理节点',
+            title: '状态',
             field: 'status',
             type: 'select',
             key: 'leave_apply_status',
@@ -69,7 +48,7 @@ class publicity extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632625,
+            pageCode: 632895,
             btnEvent: {
                 check: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
@@ -79,7 +58,7 @@ class publicity extends React.Component {
                     } else if (selectedRows[0].status !== '0') {
                         showWarnMsg('不是待审核的记录！');
                     } else {
-                        this.props.history.push(`/attendance/publicity/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/attendance/leave/addedit?v=1&isCheck=1s&code=${selectedRowKeys[0]}`);
                     }
                 }
             }
@@ -87,4 +66,4 @@ class publicity extends React.Component {
     }
 }
 
-export default publicity;
+export default fixedAssets;

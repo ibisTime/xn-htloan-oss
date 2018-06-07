@@ -324,6 +324,15 @@ export default class DetailComponent extends React.Component {
                 this.props.setSelectData({data, key: item.field});
             }).catch(() => {
             });
+        } else if (item.pageCode) {
+            let param = item.params || {};
+            param.limit = param.limit || 20;
+            param.start = param.start || 1;
+            fetch(item.pageCode, param).then(d => {
+                let data = d.list ? d.list : d;
+                this.props.setSelectData({data, key: item.field});
+            }).catch(() => {
+            });
         }
     }
 
@@ -400,7 +409,7 @@ export default class DetailComponent extends React.Component {
         };
         const hasSelected = selectedRowKeys.length > 0;
         return (
-            <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
                 {this.getTableBtn(item, hasSelected)}
                 <Table {...this.getTableProps(rowSelection, columns, item, dataSource)} />
             </FormItem>
@@ -761,14 +770,18 @@ export default class DetailComponent extends React.Component {
         if (item.readonly && item.data) {
             data = item.data.filter(v => v[item.keyName] === initVal);
         }
+        let value = '';
+        if (initVal) {
+            value = initVal;
+        }
         return (
             <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
                 {
                     item.readonly ? <div
-                            className="readonly-text">{data && data.length ? data[0][item.valueName] || tempString(item.valueName, data[0]) : ''}</div>
+                            className="readonly-text">{data && data.length ? data[0][item.valueName] || tempString(item.valueName, data[0]) : value}</div>
                         : getFieldDecorator(item.field, {
                             rules,
-                            initialValue: item.data ? initVal : ''
+                            initialValue: item.data || initVal ? initVal : ''
                         })(
                         <Select
                             allowClear
@@ -834,15 +847,19 @@ export default class DetailComponent extends React.Component {
         if (item.readonly && item.data) {
             data = item.data.filter(v => v[item.keyName] === initVal);
         }
+        let value = '';
+        if (initVal) {
+            value = initVal;
+        }
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
                       label={this.getLabel(item)}>
                 {
                     item.readonly ? <div
-                            className="readonly-text">{data && data.length ? data[0][item.valueName] || tempString(item.valueName, data[0]) : ''}</div>
+                            className="readonly-text">{data && data.length ? data[0][item.valueName] || tempString(item.valueName, data[0]) : value}</div>
                         : getFieldDecorator(item.field, {
                             rules,
-                            initialValue: item.data ? initVal : ''
+                            initialValue: item.data || initVal ? initVal : ''
                         })(
                         <Select {...this.getSelectProps(item)}>
                             {item.data ? item.data.map(d => (
@@ -963,7 +980,7 @@ export default class DetailComponent extends React.Component {
                         : getFieldDecorator(item.field, {
                             rules,
                             initialValue: initVal
-                        })(<TextArea autosize/>)
+                        })(<TextArea className="textarea-normalArea" autosize/>)
                 }
             </FormItem>
         );
@@ -1171,7 +1188,7 @@ export default class DetailComponent extends React.Component {
 
     getRules(item) {
         let rules = [];
-        if (item.required) {
+        if (item.required && !item.hidden) {
             rules.push({
                 required: true,
                 message: '必填字段'
