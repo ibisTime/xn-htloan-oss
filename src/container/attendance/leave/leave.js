@@ -98,7 +98,7 @@ class leave extends React.Component {
                     } else if (selectedRows[0].status !== '0') {
                         showWarnMsg('不是待审核的记录！');
                     } else {
-                        this.props.history.push(`/attendance/leave/addedit?v=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/attendance/leave/addedit?v=1&isCheck=1s&code=${selectedRowKeys[0]}`);
                     }
                 }
             }

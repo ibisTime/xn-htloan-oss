@@ -649,5 +649,5 @@ export default combineReducers({
   administrativeCostAddedit,
   administrativeCostCheck,
   administrativeCostFinance,
-  administrativeCostCertainssssss
+  administrativeCostCertain
 });
