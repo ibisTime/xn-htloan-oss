@@ -8,23 +8,23 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/attendance/leave';
+} from '@redux/attendance/summary';
 import {
-    showWarnMsg,
-    showSucMsg
+  showWarnMsg,
+  showSucMsg
 } from 'common/js/util';
 import {
     listWrapper
 } from 'common/js/build-list';
 import {
-    lowerFrame,
-    onShelf,
-    sendMsg
+  lowerFrame,
+  onShelf,
+  sendMsg
 } from 'api/biz';
 
 @listWrapper(
     state => ({
-        ...state.attendanceLeave,
+        ...state.attendanceSummary,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -37,7 +37,7 @@ import {
         setSearchData
     }
 )
-class leave extends React.Component {
+class summary extends React.Component {
     render() {
         const fields = [{
             title: '申请人',
@@ -68,13 +68,13 @@ class leave extends React.Component {
             key: 'leave_apply_type',
             search: true
         }, {
-            title: '请假时长(小时)',
+            title: '共计(小时)',
             field: 'totalHour'
         }, {
             title: '申请时间',
-            field: 'applyDatetime',
-            rangedate: ['startDatetime', 'endDatetime'],
-            type: 'datetime',
+            field: 'time1',
+            rangedate: ['startDatetime-31', 'endDatetime-31'],
+            type: 'date',
             search: true
         }, {
             title: '状态',
@@ -87,20 +87,18 @@ class leave extends React.Component {
             fields,
             pageCode: 632895,
             btnEvent: {
-                check: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].status !== '0') {
-                        showWarnMsg('不是待审核的记录！');
-                    } else {
-                        this.props.history.push(`/attendance/leave/addedit?v=1&code=${selectedRowKeys[0]}`);
-                    }
+              check: (selectedRowKeys, selectedRows) => {
+                if (!selectedRowKeys.length) {
+                  showWarnMsg('请选择记录');
+                } else if (selectedRowKeys.length > 1) {
+                  showWarnMsg('请选择一条记录');
+                } else {
+                  this.props.history.push(`/attendance/leave/check?code=${selectedRowKeys[0]}`);
                 }
+              }
             }
         });
     }
 }
 
-export default leave;
+export default summary;

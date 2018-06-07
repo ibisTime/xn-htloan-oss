@@ -9,7 +9,7 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/public/notice';
-import {showWarnMsg, getUserName} from 'common/js/util';
+import {showWarnMsg, getUserId} from 'common/js/util';
 import {listWrapper} from 'common/js/build-list';
 import {SYSTEM_CODE} from 'common/js/config';
 import {Button, Upload, Modal} from 'antd';
@@ -79,7 +79,7 @@ class Notice extends React.Component {
                                 return fetch(804036, {
                                     id: selectedRowKeys[0].id,
                                     systemCode: SYSTEM_CODE,
-                                    updater: getUserName()
+                                    updater: getUserId()
                                 }).then(() => {
                                     this.props.cancelFetching();
                                     showWarnMsg('操作成功');
@@ -99,7 +99,7 @@ class Notice extends React.Component {
                                 return fetch(804036, {
                                     id: selectedRowKeys[0].id,
                                     systemCode: SYSTEM_CODE,
-                                    updater: getUserName()
+                                    updater: getUserId()
                                 }).then(() => {
                                     this.props.cancelFetching();
                                     showWarnMsg('操作成功');

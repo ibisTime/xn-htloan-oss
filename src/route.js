@@ -858,6 +858,21 @@ const ROUTES = [
     path: '/personalarchives/parchives/addedit',
     component: asyncComponent(() => import('container/personalarchives/parchives/parchives-addedit'))
   },
+  //  车贷档案
+  {
+      path: '/loanarchives/locationcode',
+      component: asyncComponent(() => import('container/loanarchives/loanarchives/locationcode'))
+  },
+  //  车贷档案 详情
+  {
+      path: '/loanarchives/locationcode/addedit',
+      component: asyncComponent(() => import('container/loanarchives/loanarchives/locationcode-addedit'))
+  },
+  //  车贷档案查询
+  {
+      path: '/loanarchives/archivesquery',
+      component: asyncComponent(() => import('container/loanarchives/loanarchives/archivesquery'))
+  },
   //  离职档案
   {
     path: '/personalarchives/quitarchives',
@@ -973,16 +988,94 @@ const ROUTES = [
     path: '/attendance/leave/addedit',
     component: asyncComponent(() => import('container/attendance/leave/leave-addedit'))
   },
-  //  请假申请 申请
+  //  补签申请
   {
-    path: '/attendance/leave/apply',
-    component: asyncComponent(() => import('container/attendance/leave/leave-apply'))
+      path: '/attendance/supplement',
+      component: asyncComponent(() => import('container/attendance/supplement/supplement'))
   },
-  //  请假申请 审核
+  //  补签申请 详情
   {
-    path: '/attendance/leave/check',
-    component: asyncComponent(() => import('container/attendance/leave/leave-check'))
+      path: '/attendance/supplement/addedit',
+      component: asyncComponent(() => import('container/attendance/supplement/supplement-addedit'))
+  },
+  //  加班申请
+  {
+      path: '/attendance/overtime',
+      component: asyncComponent(() => import('container/attendance/overtime/overtime'))
+  },
+  //  加班申请 详情
+  {
+      path: '/attendance/overtime/addedit',
+      component: asyncComponent(() => import('container/attendance/overtime/overtime-addedit'))
+  },
+  //  出差申请
+  {
+      path: '/attendance/travel',
+      component: asyncComponent(() => import('container/attendance/travel/travel'))
+  },
+  //  出差申请 详情
+  {
+      path: '/attendance/travel/addedit',
+      component: asyncComponent(() => import('container/attendance/travel/travel-addedit'))
+  },
+  //  公出申请
+  {
+      path: '/attendance/publicity',
+      component: asyncComponent(() => import('container/attendance/publicity/publicity'))
+  },
+  //  公出申请 详情
+  {
+      path: '/attendance/publicity/addedit',
+      component: asyncComponent(() => import('container/attendance/publicity/publicity-addedit'))
+  },
+  //  考勤汇总
+  {
+      path: '/attendance/summary',
+      component: asyncComponent(() => import('container/attendance/summary/summary'))
+  },
+  // 行政
+  // 库存管理
+  // 类别管理
+  {
+      path: '/stock/category',
+      component: asyncComponent(() => import('container/stock/category/category'))
+  },
+  // 类别管理 详情
+  {
+      path: '/stock/category/addedit',
+      component: asyncComponent(() => import('container/stock/category/category-addedit'))
+  },
+  // 品名管理
+  {
+      path: '/stock/productname',
+      component: asyncComponent(() => import('container/stock/productname/productname'))
+  },
+  // 品名管理 详情
+  {
+      path: '/stock/productname/addedit',
+      component: asyncComponent(() => import('container/stock/productname/productname-addedit'))
+  },
+  // 出库管理
+  {
+      path: '/stock/outtreasury',
+      component: asyncComponent(() => import('container/stock/outtreasury/outtreasury'))
+  },
+  // 出库管理 详情
+  {
+      path: '/stock/outtreasury/addedit',
+      component: asyncComponent(() => import('container/stock/outtreasury/outtreasury-addedit'))
+  },
+  // 库存管理
+  {
+      path: '/stock/stock',
+      component: asyncComponent(() => import('container/stock/stock/stock'))
+  },
+  // 库存管理 详情
+  {
+      path: '/stock/stock/addedit',
+      component: asyncComponent(() => import('container/stock/stock/stock-addedit'))
   }
+
 ];
 
 export default ROUTES;
