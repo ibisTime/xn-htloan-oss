@@ -7,7 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/stock/stock-addedit';
-import {getQueryString, getUserId, showSucMsg} from 'common/js/util';
+import {getQueryString, getUserId, showSucMsg, moneyFormat} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
@@ -30,9 +30,46 @@ class stockAddedit extends React.Component {
 
     render() {
         const fields = [{
-            title: '类别名称',
-            field: 'name',
+            title: '产品',
+            field: 'productCode',
+            type: 'select',
+            listCode: '632757',
+            params: {},
+            keyName: 'code',
+            valueName: 'name',
             required: true
+        }, {
+            title: '数量',
+            field: 'quantity',
+            required: true
+        }, {
+            title: '单价',
+            field: 'price',
+            amount: true,
+            required: true,
+            onChange: (v) => {
+                let quantity = this.props.form.getFieldValue('quantity');
+                if (quantity) {
+                    let sum = moneyFormat(quantity * v);
+                    this.props.form.setFieldsValue({
+                        totalPrice: sum
+                    });
+                }
+            }
+        }, {
+            title: '总价',
+            field: 'totalPrice',
+            amount: true,
+            required: true,
+            readonly: true
+        }, {
+            title: '有效期始',
+            field: 'validDateStart',
+            type: 'datetime'
+        }, {
+            title: '有效期止',
+            field: 'validDateEnd',
+            type: 'datetime'
         }, {
             title: '备注',
             field: 'remark'
@@ -41,9 +78,9 @@ class stockAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            addCode: 632740,
-            editCode: 632741,
-            detailCode: 632746
+            addCode: 632760,
+            editCode: 632761,
+            detailCode: 632766
         });
     }
 }

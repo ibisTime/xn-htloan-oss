@@ -85,38 +85,65 @@ class leaveAddedit extends React.Component {
             key: 'leave_apply_type',
             required: true,
             onChange: (value) => {
+                if (!this.props.pageData.totalHour1) {
+                    this.props.doFetching();
+                    fetch(632892, {applyUser: getUserId()}).then((data) => {
+                        this.props.setPageData({
+                            totalHour1: data.totalHour,
+                            leavedHour: data.leavedHour,
+                            remainHour: data.remainHour
+                        });
+                        this.props.cancelFetching();
+                    }).catch(this.props.cancelFetching);
+                }
                 this.hideStatus = value !== '3';
             }
         }, {
             title: '总年休假(小时)',
-            field: '1',
+            field: 'totalHour1',
             readonly: true,
             hidden: this.hideStatus
         }, {
             title: '已休假(小时)',
-            field: '2',
+            field: 'leavedHour',
             readonly: true,
             hidden: this.hideStatus
         }, {
             title: '可休数(小时)',
-            field: '3',
+            field: 'remainHour',
             readonly: true,
             hidden: this.hideStatus
         }, {
-            title: '共计(小时)',
-            field: '4',
+            title: '请假时间',
+            field: 'datetime',
+            type: 'datetime',
+            rangedate: ['startDatetime', 'endDatetime'],
             required: true,
-            readonly: true
-        }, {
-            title: '开始时间',
-            field: 'startDatetime',
-            type: 'datetime',
-            required: true
-        }, {
-            title: '结束时间',
-            field: 'endDatetime',
-            type: 'datetime',
-            required: true
+            onChange: (dates, dateStrings) => {
+                let startDatetime = new Date(dateStrings[0]); // 开始时间
+                let endDatetime = new Date(dateStrings[1]); // 结束时间
+                console.log(startDatetime, endDatetime);
+                if (startDatetime && endDatetime) {
+                    let time = endDatetime.getTime() - startDatetime.getTime();
+                    let hours = Math.floor(time / (3600 * 1000));
+                    this.props.form.setFieldsValue({
+                        totalHour: hours
+                    });
+                }
+            }
+        // }, {
+        //     onChange: (value) => {
+        //         let startDatetime = this.props.form.getFieldValue('startDatetime'); // 开始时间
+        //         let endDatetime = this.props.form.getFieldValue('endDatetime'); // 结束时间
+        //         console.log(endDatetime);
+        //         if (startDatetime && endDatetime) {
+        //             let time = endDatetime.getTime() - endDatetime.getTime();
+        //             let hours = Math.floor(time / (3600 * 1000));
+        //             this.props.form.setFieldsValue({
+        //                 totalHour: hours
+        //             });
+        //         }
+        //     }
         }, {
             title: '请假时长(小时)',
             field: 'totalHour',

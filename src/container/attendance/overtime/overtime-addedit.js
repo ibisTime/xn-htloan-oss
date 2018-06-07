@@ -96,7 +96,7 @@ class overtimeAddedit extends React.Component {
             required: true
         }, {
             title: '申请人',
-            field: 'ApplyUserName',
+            field: 'applyUserName',
             hidden: ((!this.view && this.isCheck) || !this.code)
         }, {
             title: '工号',

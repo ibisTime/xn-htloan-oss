@@ -10,7 +10,8 @@ import {
     setSearchData
 } from '@redux/loanarchives/archivesquery';
 import {
-    dateTimeFormat
+    dateTimeFormat,
+    showWarnMsg
 } from 'common/js/util';
 import {
     listWrapper
@@ -92,7 +93,21 @@ class Archivesquery extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632145
+            pageCode: 632145,
+            searchParams: {
+                curNodeCode: '002_23'
+            },
+            btnEvent: {
+                detail: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/biz/archives/addedit?v=1&code=${selectedRowKeys[0]}`);
+                    }
+                }
+            }
         });
     }
 }

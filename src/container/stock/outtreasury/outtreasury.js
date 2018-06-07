@@ -40,14 +40,20 @@ import {
 class outtreasury extends React.Component {
     render() {
         const fields = [{
-            title: '类别名称',
-            field: 'name',
-            search: true
+
+            title: '品名',
+            field: 'productName'
         }, {
-            title: '更新人',
+            title: '类别',
+            field: 'categoryName'
+        }, {
+            title: '出库数量',
+            field: 'quantity'
+        }, {
+            title: '出库人',
             field: 'updater'
         }, {
-            title: '更新时间',
+            title: '出库时间',
             field: 'updateDatetime',
             type: 'datetime'
         }, {
@@ -56,7 +62,7 @@ class outtreasury extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632745
+            pageCode: 632775
         });
     }
 }

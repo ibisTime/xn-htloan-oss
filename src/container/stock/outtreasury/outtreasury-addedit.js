@@ -7,7 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/stock/outtreasury-addedit';
-import {getQueryString, getUserId, showSucMsg} from 'common/js/util';
+import {getQueryString, getUserId, showSucMsg, moneyFormat} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
@@ -30,9 +30,54 @@ class outtreasuryAddedit extends React.Component {
 
     render() {
         const fields = [{
-            title: '类别名称',
-            field: 'name',
-            required: true
+            title: '产品',
+            field: 'storageInCode',
+            type: 'select',
+            listCode: '632767',
+            params: {},
+            keyName: 'code',
+            valueName: 'categoryName',
+            required: true,
+            onChange: (v) => {
+                console.log(v);
+                let storageInData = this.props.selectData.storageInCode.find(d => d.code === v);
+                if (storageInData) {
+                    this.props.setPageData({proquantity: storageInData.quantity, price: storageInData.price, totalPrice: storageInData.totalPrice});
+                }
+            }
+        }, {
+            title: '数量',
+            field: 'proquantity',
+            required: true,
+            readonly: true
+        }, {
+            title: '单价',
+            field: 'price',
+            amount: true,
+            required: true,
+            readonly: true
+        }, {
+            title: '总价',
+            field: 'totalPrice',
+            amount: true,
+            required: true,
+            readonly: true
+        }, {
+            title: '出库数量',
+            field: 'quantity',
+            required: true,
+            onChange: (v) => {
+                let price = this.props.form.getFieldValue('price');
+                if (price) {
+                    let sum = moneyFormat(price * v);
+                    this.props.setPageData({totalPrice1: sum});
+                }
+            }
+        }, {
+            title: '出库总价',
+            field: 'totalPrice1',
+            required: true,
+            readonly: true
         }, {
             title: '备注',
             field: 'remark'
@@ -41,9 +86,8 @@ class outtreasuryAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            addCode: 632740,
-            editCode: 632741,
-            detailCode: 632746
+            addCode: 632770,
+            detailCode: 632776
         });
     }
 }
