@@ -409,7 +409,7 @@ export default class DetailComponent extends React.Component {
         };
         const hasSelected = selectedRowKeys.length > 0;
         return (
-            <FormItem className={item.hidden ? 'hidden' : ''}  key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
                 {this.getTableBtn(item, hasSelected)}
                 <Table {...this.getTableProps(rowSelection, columns, item, dataSource)} />
             </FormItem>
