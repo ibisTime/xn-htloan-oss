@@ -8,15 +8,14 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/public/notice';
+} from '@redux/notice/notice';
 import {showWarnMsg, getUserId} from 'common/js/util';
 import {listWrapper} from 'common/js/build-list';
-import {SYSTEM_CODE} from 'common/js/config';
-import {Button, Upload, Modal} from 'antd';
+import { Modal } from 'antd';
 
 @listWrapper(
     state => ({
-        ...state.publicNotice,
+        ...state.noticeNotice,
         parentCode: state.menu.subMenuCode
     }),
     {
@@ -27,14 +26,23 @@ import {Button, Upload, Modal} from 'antd';
 class Notice extends React.Component {
     render() {
         const fields = [{
-            field: 'smsTitle',
+            field: 'title',
             title: '标题'
         }, {
-            field: 'toKind',
-            title: '针对人群',
+            field: 'type',
+            title: '类型',
             type: 'select',
-            key: 'user_kind',
+            key: 'notice_type',
             search: true
+        }, {
+            field: 'urgentStatus',
+            title: '紧急程度',
+            type: 'select',
+            key: 'notice_urgent_status',
+            search: true
+        }, {
+            field: 'publishDepartmentName',
+            title: '发布部门'
         }, {
             field: 'status',
             title: '状态',
@@ -42,33 +50,23 @@ class Notice extends React.Component {
             search: true,
             key: 'notice_status'
         }, {
-            field: 'updater',
-            title: '最近修改人'
-        }, {
             field: 'updateDatetime',
-            title: '最近修改时间',
-            formatter: 'datetime'
+            title: '更新时间',
+            type: 'datetime'
         }, {
             field: 'remark',
             title: '备注'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 804040,
-            rowKey: 'id',
-            searchParams: {
-                channelType: '4',
-                systemCode: SYSTEM_CODE,
-                companyCode: SYSTEM_CODE,
-                fromSystemCode: SYSTEM_CODE
-            },
+            pageCode: 632725,
             btnEvent: {
-                push: (selectedRowKeys, selectedRows) => {
+                up: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRowKeys[0].status === '0') {
+                    } else {
                         Modal.confirm({
                             okText: '确认',
                             cancelText: '取消',
@@ -77,7 +75,6 @@ class Notice extends React.Component {
                                 this.props.doFetching();
                                 return fetch(804036, {
                                     id: selectedRowKeys[0].id,
-                                    systemCode: SYSTEM_CODE,
                                     updater: getUserId()
                                 }).then(() => {
                                     this.props.cancelFetching();
@@ -87,8 +84,14 @@ class Notice extends React.Component {
                                 });
                             }
                         });
-                    } else if (selectedRowKeys[0].status === '1') {
-                        console.log(1);
+                    }
+                },
+                down: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
                         Modal.confirm({
                             okText: '确认',
                             cancelText: '取消',
@@ -96,8 +99,7 @@ class Notice extends React.Component {
                             onOk: () => {
                                 this.props.doFetching();
                                 return fetch(804036, {
-                                    id: selectedRowKeys[0].id,
-                                    systemCode: SYSTEM_CODE,
+                                    code: selectedRowKeys,
                                     updater: getUserId()
                                 }).then(() => {
                                     this.props.cancelFetching();

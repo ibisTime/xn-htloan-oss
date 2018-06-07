@@ -382,6 +382,15 @@ import { stockProductnameAddedit } from './redux/stock/productname-addedit';
 import { stockStock } from './redux/stock/stock';
 import { stockStockAddedit } from './redux/stock/stock-addedit';
 
+// 通知公告
+// 公告管理
+import { noticeNotice } from './redux/notice/notice';
+import { noticeNoticeAddedit } from './redux/notice/notice-addedit';
+
+// 公司制度
+import { noticeCompanysystem } from './redux/notice/companysystem';
+import { noticeCompanysystemAddedit } from './redux/notice/companysystem-addedit';
+
 export default combineReducers({
   user,
   menu,
@@ -608,5 +617,9 @@ export default combineReducers({
   stockProductname,
   stockProductnameAddedit,
   stockStock,
-  stockStockAddedit
+  stockStockAddedit,
+  noticeNotice,
+  noticeNoticeAddedit,
+  noticeCompanysystem,
+  noticeCompanysystemAddedit
 });

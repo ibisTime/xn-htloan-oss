@@ -1084,6 +1084,27 @@ const ROUTES = [
   {
       path: '/stock/stock/addedit',
       component: asyncComponent(() => import('container/stock/stock/stock-addedit'))
+  },
+  // 通知公告
+  // 公告管理
+  {
+      path: '/notice/notice',
+      component: asyncComponent(() => import('container/notice/notice/notice'))
+  },
+  // 公告管理 详情
+  {
+      path: '/notice/notice/addedit',
+      component: asyncComponent(() => import('container/notice/notice/notice-addedit'))
+  },
+  // 公司制度
+  {
+      path: '/notice/companysystem',
+      component: asyncComponent(() => import('container/notice/companysystem/companysystem'))
+  },
+  // 公司制度 详情
+  {
+      path: '/notice/companysystem/addedit',
+      component: asyncComponent(() => import('container/notice/companysystem/companysystem-addedit'))
   }
 
 ];

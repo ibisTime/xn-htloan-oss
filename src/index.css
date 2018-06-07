@@ -81,3 +81,7 @@ li {
 .build-modal-detail .detail-form-wrapper {
   width: auto;
 }
+.textarea-normalArea{
+  resize: none;
+  height: 100px !important;
+}

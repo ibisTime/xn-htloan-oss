@@ -8,67 +8,69 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/public/notice';
-import {showWarnMsg, getUserId} from 'common/js/util';
-import {listWrapper} from 'common/js/build-list';
-import {SYSTEM_CODE} from 'common/js/config';
-import {Button, Upload, Modal} from 'antd';
+} from '@redux/notice/companysystem';
+import {
+    showWarnMsg,
+    showSucMsg,
+    getUserId
+} from 'common/js/util';
+import {
+    listWrapper
+} from 'common/js/build-list';
+import {
+    lowerFrame,
+    onShelf,
+    sendMsg
+} from 'api/biz';
+import { Modal } from 'antd';
 
 @listWrapper(
     state => ({
-        ...state.publicNotice,
+        ...state.noticeCompanysystem,
         parentCode: state.menu.subMenuCode
-    }),
-    {
-        setTableData, clearSearchParam, doFetching, setBtnList,
-        cancelFetching, setPagination, setSearchParam, setSearchData
+    }), {
+        setTableData,
+        clearSearchParam,
+        doFetching,
+        setBtnList,
+        cancelFetching,
+        setPagination,
+        setSearchParam,
+        setSearchData
     }
 )
-class Notice extends React.Component {
+class companysystem extends React.Component {
     render() {
         const fields = [{
-            field: 'smsTitle',
-            title: '标题'
+            field: 'regimeCode',
+            title: '制度编号'
         }, {
-            field: 'toKind',
-            title: '针对人群',
+            field: 'type',
+            title: '类型',
             type: 'select',
-            key: 'user_kind',
+            key: 'regime_status',
             search: true
         }, {
-            field: 'status',
-            title: '状态',
-            type: 'select',
-            search: true,
-            key: 'notice_status'
+            title: '更新人',
+            field: 'updater'
         }, {
-            field: 'updater',
-            title: '最近修改人'
-        }, {
+            title: '更新时间',
             field: 'updateDatetime',
-            title: '最近修改时间',
-            formatter: 'datetime'
+            type: 'datetime'
         }, {
-            field: 'remark',
-            title: '备注'
+            title: '备注',
+            field: 'remark'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 804040,
-            rowKey: 'id',
-            searchParams: {
-                channelType: '4',
-                systemCode: SYSTEM_CODE,
-                companyCode: SYSTEM_CODE,
-                fromSystemCode: SYSTEM_CODE
-            },
+            pageCode: 632735,
             btnEvent: {
-                push: (selectedRowKeys, selectedRows) => {
+                up: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRowKeys[0].status === '0') {
+                    } else {
                         Modal.confirm({
                             okText: '确认',
                             cancelText: '取消',
@@ -77,7 +79,6 @@ class Notice extends React.Component {
                                 this.props.doFetching();
                                 return fetch(804036, {
                                     id: selectedRowKeys[0].id,
-                                    systemCode: SYSTEM_CODE,
                                     updater: getUserId()
                                 }).then(() => {
                                     this.props.cancelFetching();
@@ -87,8 +88,14 @@ class Notice extends React.Component {
                                 });
                             }
                         });
-                    } else if (selectedRowKeys[0].status === '1') {
-                        console.log(1);
+                    }
+                },
+                down: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
                         Modal.confirm({
                             okText: '确认',
                             cancelText: '取消',
@@ -96,8 +103,7 @@ class Notice extends React.Component {
                             onOk: () => {
                                 this.props.doFetching();
                                 return fetch(804036, {
-                                    id: selectedRowKeys[0].id,
-                                    systemCode: SYSTEM_CODE,
+                                    code: selectedRowKeys,
                                     updater: getUserId()
                                 }).then(() => {
                                     this.props.cancelFetching();
@@ -114,4 +120,4 @@ class Notice extends React.Component {
     }
 }
 
-export default Notice;
+export default companysystem;
