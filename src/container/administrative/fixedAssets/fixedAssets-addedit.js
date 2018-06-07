@@ -39,10 +39,10 @@ class fixedAssetsAddedit extends React.Component {
                     let data = {};
                     data.code = this.code;
                     data.remark = params.remark;
-                    data.result = '1';
+                    data.approveResult = '1';
                     data.updater = getUserId();
                     this.props.doFetching();
-                    fetch(632891, data).then(() => {
+                    fetch(632641, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -57,10 +57,10 @@ class fixedAssetsAddedit extends React.Component {
                     let data = {};
                     data.code = this.code;
                     data.remark = params.remark;
-                    data.result = '2';
+                    data.approveResult = '2';
                     data.updater = getUserId();
                     this.props.doFetching();
-                    fetch(632891, data).then(() => {
+                    fetch(632641, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -79,18 +79,121 @@ class fixedAssetsAddedit extends React.Component {
 
     render() {
         const fields = [{
+            title: '申请概要',
+            field: 'applyNote',
+            required: true
+        }, {
+            title: '类型',
+            field: 'type',
+            value: '2',
+            hidden: true
+        }, {
+            title: '是否印刷品制作',
+            field: 'isPrint',
+            type: 'select',
+            data: [{
+                dkey: '1',
+                dvalue: '是'
+            }, {
+                dkey: '2',
+                dvalue: '否'
+            }],
+            keyName: 'dkey',
+            valueName: 'dvalue',
+            value: this.code ? '' : '2',
+            required: true,
+            onChange: (value) => {
+                this.hideStatus = value === '2';
+            }
+        }, {
+            title: '物品列表',
+            field: 'assertGoodsList',
+            type: 'o2m',
+            hidden: !this.hideStatus,
+            options: {
+                add: true,
+                edit: true,
+                delete: true,
+                scroll: {x: 800},
+                fields: [{
+                    title: '产品',
+                    field: 'productCode',
+                    type: 'select',
+                    listCode: '632757',
+                    params: {},
+                    keyName: 'code',
+                    valueName: 'name',
+                    required: true,
+                    onChange: (v, data, props) => {
+                        props.setPageData({
+                            mode: data.model,
+                            price: data.price
+                        });
+                    }
+                }, {
+                    title: '规格',
+                    field: 'mode',
+                    readonly: true,
+                    required: true
+                }, {
+                    title: '出库价格',
+                    field: 'price',
+                    readonly: true,
+                    required: true
+                }, {
+                    title: '申请数量',
+                    field: 'quantity',
+                    number: true,
+                    required: true
+                }, {
+                    title: '备注',
+                    field: 'remark'
+                }]
+            }
+        }, {
+            title: '制作用户列表',
+            field: 'assertUserList',
+            type: 'o2m',
+            hidden: this.hideStatus,
+            options: {
+                add: true,
+                edit: true,
+                delete: true,
+                scroll: {x: 800},
+                fields: [{
+                    title: '用户',
+                    field: 'userId',
+                    type: 'select',
+                    pageCode: 630065,
+                    keyName: 'userId',
+                    valueName: '{{departmentName.DATA}}{{postName.DATA}}-{{realName.DATA}}',
+                    searchName: 'userName',
+                    required: true
+                }, {
+                    title: '印刷数量',
+                    field: 'printQuantity',
+                    number: true,
+                    required: true
+                }]
+            }
+        }, {
+            title: '附件',
+            field: 'pdf',
+            type: 'img'
+        }, {
             title: '备注',
-            field: 'remark'
+            field: 'remark',
+            readonly: !(this.isCheck || !this.code)
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            addCode: 632890,
-            detailCode: 632896,
+            addCode: 632640,
+            detailCode: 632646,
             buttons: this.buttons,
             beforeSubmit: (data) => {
-                data.applyUser = getUserId;
+                data.applyUser = getUserId();
                 return data;
             }
         });

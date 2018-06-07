@@ -47,12 +47,21 @@ class leader extends React.Component {
             field: 'content'
         }, {
             title: '领导意见',
-            field: 'content'
+            field: 'remark'
         }, {
             title: '状态',
             field: 'status',
             type: 'select',
             key: 'leave_apply_status',
+            search: true
+        }, {
+            title: '申请人',
+            field: 'applyUser'
+        }, {
+            title: '申请时间',
+            field: 'applyDatetime',
+            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
+            type: 'datetime',
             search: true
         }];
         return this.props.buildList({
@@ -67,7 +76,7 @@ class leader extends React.Component {
                     } else if (selectedRows[0].status !== '0') {
                         showWarnMsg('不是待审核的记录！');
                     } else {
-                        this.props.history.push(`/attendance/leave/addedit?v=1&isCheck=1s&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/administrative/leader/addedit?v=1&isCheck=1s&code=${selectedRowKeys[0]}`);
                     }
                 }
             }

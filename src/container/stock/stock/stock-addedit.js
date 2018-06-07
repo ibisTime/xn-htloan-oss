@@ -9,7 +9,6 @@ import {
 } from '@redux/stock/stock-addedit';
 import {getQueryString, getUserId, showSucMsg, moneyFormat} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
-import fetch from 'common/js/fetch';
 
 @DetailWrapper(
     state => state.stockStockAddedit, {

@@ -91,6 +91,11 @@ class leaderAddedit extends React.Component {
             type: 'textarea',
             normalArea: true,
             required: true
+        }, {
+            title: '领导意见',
+            field: 'remark',
+            readonly: !this.isCheck,
+            hidden: !(this.isCheck || this.view)
         }];
         return this.props.buildDetail({
             fields,

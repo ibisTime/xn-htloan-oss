@@ -964,7 +964,9 @@ export default class DetailComponent extends React.Component {
             placeholder: '请选择'
         };
         if (item.onChange) {
-            props.onChange = item.onChange;
+            props.onChange = (v) => {
+                item.onChange(v, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1.code === v) : {}, this.props);
+            };
         }
         return props;
     }
