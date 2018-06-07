@@ -584,7 +584,6 @@ export default combineReducers({
   contractManageContinue,
   attendanceLeave,
   attendanceLeaveAddedit,
-<<<<<<< HEAD
   attendanceLeaveApply,
   attendanceLeaveCheck,
   recruitFormal,
@@ -595,7 +594,6 @@ export default combineReducers({
   recruitPostAddedit,
   recruitPostApply,
   recruitPostCheck
-=======
   attendanceSupplement,
   attendanceSupplementAddedit,
   attendanceOvertime,
@@ -613,5 +611,4 @@ export default combineReducers({
   stockProductnameAddedit,
   stockStock,
   stockStockAddedit
->>>>>>> 28243fb239035db2e1e88bf63f74e04e47aa6c6c
 });
