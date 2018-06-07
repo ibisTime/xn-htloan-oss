@@ -858,6 +858,11 @@ const ROUTES = [
     path: '/personalarchives/parchives/addedit',
     component: asyncComponent(() => import('container/personalarchives/parchives/parchives-addedit'))
   },
+  //  人事分析
+  {
+    path: '/personalarchives/panalysis',
+    component: asyncComponent(() => import('container/personalarchives/panalysis/panalysis'))
+  },
   //  车贷档案
   {
       path: '/loanarchives/locationcode',
@@ -897,6 +902,11 @@ const ROUTES = [
   {
     path: '/contract/manage/continue',
     component: asyncComponent(() => import('container/contract/manage/manage-continue'))
+  },
+  //  合同管理预警
+  {
+    path: '/contract/warning',
+    component: asyncComponent(() => import('container/contract/warning/warning'))
   },
   //  应聘登记
   {
