@@ -391,6 +391,23 @@ import { noticeNoticeAddedit } from './redux/notice/notice-addedit';
 import { noticeCompanysystem } from './redux/notice/companysystem';
 import { noticeCompanysystemAddedit } from './redux/notice/companysystem-addedit';
 
+// 车辆违章处理
+import { administrativeCarHandle } from './redux/administrative/carHandle';
+import { administrativeCarHandleAddedit } from './redux/administrative/carHandle-addedit';
+import { administrativeCarHandleCheck } from './redux/administrative/carHandle-check';
+
+// 福利发放申请
+import { administrativeWelfare } from './redux/administrative/welfare';
+import { administrativeWelfareAddedit } from './redux/administrative/welfare-addedit';
+import { administrativeWelfareCheck } from './redux/administrative/welfare-check';
+
+// 费用预支申请
+import { administrativeCost } from './redux/administrative/cost';
+import { administrativeCostAddedit } from './redux/administrative/cost-addedit';
+import { administrativeCostCheck } from './redux/administrative/cost-check';
+import { administrativeCostFinance } from './redux/administrative/cost-finance';
+import { administrativeCostCertain } from './redux/administrative/cost-certain';
+
 export default combineReducers({
   user,
   menu,
@@ -621,5 +638,16 @@ export default combineReducers({
   noticeNotice,
   noticeNoticeAddedit,
   noticeCompanysystem,
-  noticeCompanysystemAddedit
+  noticeCompanysystemAddedit,
+  administrativeCarHandle,
+  administrativeCarHandleAddedit,
+  administrativeCarHandleCheck,
+  administrativeWelfare,
+  administrativeWelfareAddedit,
+  administrativeWelfareCheck,
+  administrativeCost,
+  administrativeCostAddedit,
+  administrativeCostCheck,
+  administrativeCostFinance,
+  administrativeCostCertainssssss
 });

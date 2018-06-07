@@ -39,7 +39,15 @@ class registerEnter extends React.Component {
                     required: true
                 }, {
                     title: '应聘岗位',
-                    field: 'position'
+                    field: 'position',
+                    required: true,
+                    type: 'select',
+                    listCode: 630106,
+                    params: {
+                      typeList: ['3']
+                    },
+                    keyName: 'code',
+                    valueName: 'name'
                 }, {
                     title: '综合',
                     field: 'composite'

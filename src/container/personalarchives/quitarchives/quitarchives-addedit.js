@@ -46,9 +46,9 @@ class quitarchivesAddedit extends React.Component {
         }, {
             title: '交接人',
             field: 'heirPeople',
-            listCode: 632807,
+            listCode: 630066,
             type: 'select',
-            keyName: 'code',
+            keyName: 'userId',
             valueName: 'realName',
             required: true
         }, {

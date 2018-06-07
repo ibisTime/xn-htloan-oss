@@ -14,7 +14,7 @@ import {
 } from 'component/collapse-detail/collapse-detail';
 
 @CollapseWrapper(
-  state => state.recruitEntryCheck, {
+  state => state.recruitFormalCheck, {
     initStates,
     doFetching,
     cancelFetching,
@@ -24,11 +24,38 @@ import {
   }
 )
 class formalCheck extends React.Component {
-  constructor(props) {
-    super(props);
-    this.code = getQueryString('code', this.props.location.search);
-    this.view = !!getQueryString('v', this.props.location.search);
-  }
+    constructor(props) {
+        super(props);
+        this.code = getQueryString('code', this.props.location.search);
+        this.view = !!getQueryString('v', this.props.location.search);
+        this.entryCode = getQueryString('entryCode', this.props.location.search);
+        this.gradeList = [
+            'post_duties',
+            'work_procedure',
+            'work_quality',
+            'work_efficiency',
+            'consciousness',
+            'communication_skills',
+            'cooperative_ability',
+            'attendance'
+        ];
+    }
+    handleChange = (v, d) => {
+        setTimeout(() => {
+            let {
+                getFieldsValue
+            } = this.props.form;
+            let result = getFieldsValue(this.gradeList);
+            let sum = 0;
+            console.log(v, d, result);
+            for (let key in result) {
+                sum += Number(result[key]);
+            }
+            this.props.form.setFieldsValue({
+                gradeAll: sum
+            });
+        }, 100);
+    }
   render() {
     const fields = [{
         title: '用户信息',
@@ -58,7 +85,7 @@ class formalCheck extends React.Component {
                 readonly: true
             }, {
                 title: '职位',
-                field: 'postCode',
+                field: 'position',
                 type: 'select',
                 formatter: (v, d) => {
                     if (d) {
@@ -76,7 +103,7 @@ class formalCheck extends React.Component {
                 title: '申请人',
                 field: 'applyUser',
                 formatter: (v, d) => {
-                    return d.user.userId;
+                    return d.userId;
                 },
                 hidden: true
             }],
@@ -84,27 +111,27 @@ class formalCheck extends React.Component {
                 title: '入职时间',
                 field: 'entryDatetime',
                 type: 'date',
-                required: true
+                readonly: true
             }, {
                 title: '试用期开始',
                 field: 'probationStartDatetime',
                 type: 'date',
-                required: true
+                readonly: true
             }, {
                 title: '试用期结束',
                 field: 'probationEndDatetime',
                 type: 'date',
-                required: true
+                readonly: true
             }],
             [{
                 title: '工作总结',
-                field: 'workSummary'
+                field: 'workSummary',
+                readonly: true
             }],
             [{
                 title: '是否转正',
                 field: 'isFullWorker',
                 type: 'select',
-                required: true,
                 data: [{
                     key: '0',
                     value: '否'
@@ -113,16 +140,18 @@ class formalCheck extends React.Component {
                     value: '是'
                 }],
                 keyName: 'key',
-                valueName: 'value'
+                valueName: 'value',
+                readonly: true
             }, {
                 title: '生效时间',
                 field: 'effectDatetime',
                 type: 'date',
-                required: true
+                readonly: true
             }],
             [{
                 title: '备注',
-                field: 'remark'
+                field: 'remark',
+                readonly: true
             }]
         ]
     }, {
@@ -143,7 +172,7 @@ class formalCheck extends React.Component {
                     return null;
                 },
                 onChange: this.handleChange,
-                required: true
+                readonly: true
             }, {
                 title: '工作程序',
                 field: 'work_procedure',
@@ -158,7 +187,7 @@ class formalCheck extends React.Component {
                     return null;
                 },
                 onChange: this.handleChange,
-                required: true
+                readonly: true
             }, {
                 title: '工作素质',
                 field: 'work_quality',
@@ -173,7 +202,7 @@ class formalCheck extends React.Component {
                     return null;
                 },
                 onChange: this.handleChange,
-                required: true
+                readonly: true
             }, {
                 title: '工作效率',
                 field: 'work_efficiency',
@@ -188,7 +217,7 @@ class formalCheck extends React.Component {
                     return null;
                 },
                 onChange: this.handleChange,
-                required: true
+                readonly: true
             }],
             [{
                 title: '自觉性',
@@ -204,7 +233,7 @@ class formalCheck extends React.Component {
                     return null;
                 },
                 onChange: this.handleChange,
-                required: true
+                readonly: true
             }, {
                 title: '沟通能力',
                 field: 'communication_skills',
@@ -219,7 +248,7 @@ class formalCheck extends React.Component {
                     return null;
                 },
                 onChange: this.handleChange,
-                required: true
+                readonly: true
             }, {
                 title: '领导/合作能力',
                 field: 'cooperative_ability',
@@ -234,7 +263,7 @@ class formalCheck extends React.Component {
                     return null;
                 },
                 onChange: this.handleChange,
-                required: true
+                readonly: true
             }, {
                 title: '出勤',
                 field: 'attendance',
@@ -249,12 +278,13 @@ class formalCheck extends React.Component {
                     return null;
                 },
                 onChange: this.handleChange,
-                required: true
+                readonly: true
             }],
             [{
                 title: '总分',
                 field: 'gradeAll',
-                number: true
+                number: true,
+                readonly: true
             }]
         ]
     }];

@@ -46,6 +46,9 @@ class manage extends React.Component {
         const fields = [{
             title: '姓名',
             field: 'realName',
+            render: (v, d) => {
+                return d ? d.archive.realName : '';
+            },
             search: true
         }, {
             title: '合同编号',
@@ -65,7 +68,9 @@ class manage extends React.Component {
         }, {
             title: '合同附件',
             field: 'pdf',
-            type: 'img'
+            render: (v, d) => {
+                return d ? <img style={{maxWidth: 40, maxHeight: 40}} src={d.pdf}/> : null;
+            }
         }, {
             title: '说明',
             field: 'remark'

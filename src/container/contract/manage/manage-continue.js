@@ -32,7 +32,11 @@ class manageContinue extends React.Component {
   render() {
     const fields = [{
         title: '姓名',
-        field: 'realName',
+        field: 'archiveCode',
+        listCode: 632807,
+        type: 'select',
+        keyName: 'code',
+        valueName: 'realName',
         required: true
     }, {
         title: '合同编号',
