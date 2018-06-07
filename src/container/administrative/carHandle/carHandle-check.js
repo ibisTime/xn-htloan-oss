@@ -12,6 +12,7 @@ import {
   getUserId,
   showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
   DetailWrapper
 } from 'common/js/build-detail';
@@ -33,34 +34,42 @@ class carHandleCheck extends React.Component {
   render() {
     const fields = [{
       title: '违章人',
-      field: 'code',
+      field: 'userId',
       listCode: 630066,
       type: 'select',
       keyName: 'userId',
       valueName: 'realName',
-      required: true
+      readonly: true
     }, {
       title: '车牌号',
       field: 'carNo',
-      required: true
+      readonly: true
     }, {
       title: '违法时间',
-      field: 'code',
-      required: true,
-      type: 'date'
+      field: 'happenDatetime',
+      readonly: true,
+      type: 'datetime'
     }, {
       title: '违章地点',
       field: 'address',
-      required: true
+      readonly: true
     }, {
       title: '违法行为',
       field: 'action',
-      required: true
+      readonly: true
     }, {
       title: '罚款金额',
-      field: 'code',
-      required: true,
+      field: 'punishAmount',
+      readonly: true,
       amount: true
+    }, {
+      title: '处理情况',
+      field: 'handleNote',
+      readonly: true
+    }, {
+      title: '记分',
+      field: 'score',
+      readonly: true
     }, {
       title: '备注',
       field: 'remark'
@@ -78,7 +87,7 @@ class carHandleCheck extends React.Component {
             param.approveResult = '1';
             param.updater = getUserId();
             this.props.doFetching();
-            fetch(630631, param).then(() => {
+            fetch(632631, param).then(() => {
               showSucMsg('操作成功');
               this.props.cancelFetching();
               setTimeout(() => {
@@ -94,7 +103,7 @@ class carHandleCheck extends React.Component {
             param.approveResult = '0';
             param.updater = getUserId();
             this.props.doFetching();
-            fetch(630631, param).then(() => {
+            fetch(632631, param).then(() => {
               showSucMsg('操作成功');
               this.props.cancelFetching();
               setTimeout(() => {

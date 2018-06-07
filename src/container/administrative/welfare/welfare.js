@@ -31,7 +31,7 @@ class welfare extends React.Component {
         search: true
     }, {
         title: '申请人',
-        field: 'happenDatetime',
+        field: 'realName',
         render: (v, d) => {
             return d.applyUserArchive.realName;
         }
@@ -39,12 +39,15 @@ class welfare extends React.Component {
         title: '申请部门',
         field: 'departmentCode',
         render: (v, d) => {
-            return d.applyUserArchive.departmentCode;
-        }
+            if (this.props.searchData.departmentCode && d) {
+                return this.props.searchData.departmentCode.find(v => v.code === d.applyUserArchive.departmentCode).name;
+            }
+            return null;
+        },
         type: 'select',
         listCode: 630106,
         params: {
-            typeList: '2'
+            typeList: ['2']
         },
         keyName: 'code',
         valueName: 'name',
@@ -53,15 +56,18 @@ class welfare extends React.Component {
         title: '职位',
         field: 'postCode',
         render: (v, d) => {
-            return d.applyUserArchive.postCode;
-        }
+            if (this.props.searchData.postCode && d) {
+                return this.props.searchData.postCode.find(v => v.code === d.applyUserArchive.postCode).name;
+            }
+            return null;
+        },
         type: 'select',
         listCode: 630106,
         params: {
-            typeList: '3'
+            typeList: ['3']
         },
         keyName: 'code',
-        valueName: 'name',
+        valueName: 'name'
     }, {
         title: '申请事宜',
         field: 'applyNote'
@@ -72,7 +78,7 @@ class welfare extends React.Component {
         title: '状态',
         field: 'status',
         type: 'select',
-        key: ''
+        key: 'welfare_apply_status',
         search: true
     }];
     return this.props.buildList({

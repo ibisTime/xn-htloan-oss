@@ -76,10 +76,14 @@ export default class ListComponent extends React.Component {
         } else if (!this.props.searchData[f.field]) {
           this.props.setSearchData({ data: f.data, key: f.field });
         }
-        obj.render = (value) => {
-          let val = this.renderSelect(value, f);
-          return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{val}</span> : val;
-        };
+        if (!f.render) {
+          obj.render = (value) => {
+            let val = this.renderSelect(value, f);
+            return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{val}</span> : val;
+          };
+        } else {
+          obj.render = f.render;
+        }
         this.addRender(f, (val) => this.renderSelect(val, f));
       } else if (f.type === 'img') {
         obj.render = (value) => <img src={PIC_PREFIX + value}/>;

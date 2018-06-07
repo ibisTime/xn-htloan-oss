@@ -8,7 +8,8 @@ import {
     restore
 } from '@redux/administrative/welfare-addedit';
 import {
-    getQueryString
+    getQueryString,
+    getUserId
 } from 'common/js/util';
 import {
     DetailWrapper
@@ -34,8 +35,13 @@ class welfareAddedit extends React.Component {
             field: 'applyNote',
             required: true
         }, {
+            title: '申请人',
+            field: 'applyUser',
+            value: getUserId(),
+            hidden: true
+        }, {
             title: '发放人员',
-            field: 'welfareUserList',
+            field: 'userList',
             type: 'o2m',
             options: {
                 add: true,
@@ -43,30 +49,26 @@ class welfareAddedit extends React.Component {
                 delete: true,
                 fields: [{
                     title: '部门',
-                    field: '',
+                    field: 'departmentCode',
                     type: 'select',
                     listCode: 630106,
                     params: {
-                        typeList: '2'
+                        typeList: ['2']
                     },
                     keyName: 'code',
                     valueName: 'name'
                 }, {
                     title: '姓名',
-                    field: 'userName',
+                    field: 'userId',
+                    listCode: 630066,
+                    type: 'select',
+                    keyName: 'userId',
+                    valueName: 'realName'
                 }, {
                     title: '性别',
                     field: 'gender',
                     type: 'select',
                     key: 'gender'
-                }, {
-                    title: '入职日期',
-                    field: '',
-                    type: 'date'
-                }, {
-                    title: '出生日期',
-                    field: '',
-                    type: 'date'
                 }, {
                     title: '备注说明',
                     field: 'remark'

@@ -26,50 +26,51 @@ class cost extends React.Component {
   render() {
     const fields = [{
         title: '申请人',
-        field: 'happenDatetime',
+        field: 'realName',
         render: (v, d) => {
-            return d.applyUserArchive.realName;
+            return d.applySysUser.realName;
         }
     }, {
         title: '申请部门',
         field: 'departmentCode',
         render: (v, d) => {
-            return d.applyUserArchive.departmentCode;
+            return d.applySysUser.departmentCode;
         }
         type: 'select',
         listCode: 630106,
         params: {
-            typeList: '2'
+            typeList: ['2']
         },
         keyName: 'code',
         valueName: 'name',
         search: true
     }, {
         title: '类型',
-        field: '',
+        field: 'type',
         type: 'select',
-        key: ''
+        key: 'fee_advance_apply_type'
     }, {
         title: '预支费用',
-        field: 'postCode'
+        field: 'postCode',
+        amount: true
     }, {
         title: '说明',
         field: 'applyNote'
     }, {
         title: '申请日期',
-        field: 'applyDatetime',
+        field: 'applyDateStart',
         type: 'date',
         search: true
     }, {
         title: '状态',
         field: 'status',
         type: 'select',
-        key: ''
+        key: 'fee_advance_apply_status'
         search: true
     }];
     return this.props.buildList({
       fields,
-      pageCode: 632665,
+      pageCode: 632675,
       btnEvent: {
         check: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {

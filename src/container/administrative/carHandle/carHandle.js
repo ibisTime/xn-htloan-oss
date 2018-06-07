@@ -30,7 +30,7 @@ class carHandle extends React.Component {
     }, {
         title: '违法日期',
         field: 'happenDatetime',
-        type: 'date'
+        type: 'datetime'
     }, {
         title: '违章人',
         field: 'realName',
@@ -48,18 +48,20 @@ class carHandle extends React.Component {
         field: 'score'
     }, {
         title: '罚款金额',
-        field: 'remark',
+        field: 'punishAmount',
         amount: true
     }, {
         title: '处理情况',
         field: 'handleNote'
     }, {
         title: '申请时间',
-        field: 'remark',
+        field: 'applyDatetime',
         type: 'datetime'
     }, {
         title: '状态',
         field: 'status',
+        type: 'select',
+        key: 'CarBreakStatus',
         search: true
     }];
     return this.props.buildList({
