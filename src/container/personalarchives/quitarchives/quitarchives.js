@@ -53,7 +53,7 @@ class quitarchives extends React.Component {
             type: 'select',
             listCode: 630106,
             params: {
-                typeList: '2'
+                typeList: ['2']
             },
             keyName: 'code',
             valueName: 'name',
@@ -64,7 +64,7 @@ class quitarchives extends React.Component {
             type: 'select',
             listCode: 630106,
             params: {
-                typeList: '3'
+                typeList: ['3']
             },
             keyName: 'code',
             valueName: 'name',
