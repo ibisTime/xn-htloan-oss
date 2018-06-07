@@ -31,9 +31,9 @@ class costAddedit extends React.Component {
     render() {
         const fields = [{
             title: '类型',
-            field: 'applyNote',
+            field: 'type',
             type: 'select',
-            key: '',
+            key: 'fee_advance_apply_type',
             required: true
         }, {
             title: '关联审批表',
@@ -78,8 +78,8 @@ class costAddedit extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                addCode: 632660,
-                detailCode: 632666
+                addCode: 632671,
+                detailCode: 632676
             });
     }
 }

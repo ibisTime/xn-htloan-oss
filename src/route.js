@@ -1115,6 +1115,21 @@ const ROUTES = [
   {
       path: '/administrative/carHandle/check',
       component: asyncComponent(() => import('container/administrative/carHandle/carHandle-check'))
+  },
+  //  福利发放申请
+  {
+      path: '/administrative/welfare',
+      component: asyncComponent(() => import('container/administrative/welfare/welfare'))
+  },
+  //  福利发放申请 详情
+  {
+      path: '/administrative/welfare/addedit',
+      component: asyncComponent(() => import('container/administrative/welfare/welfare-addedit'))
+  },
+  //  福利发放申请 审核
+  {
+      path: '/administrative/welfare/check',
+      component: asyncComponent(() => import('container/administrative/welfare/welfare-check'))
   }
 
 ];

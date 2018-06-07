@@ -31,7 +31,7 @@ class carHandleAddedit extends React.Component {
   render() {
     const fields = [{
       title: '违章人',
-      field: 'code',
+      field: 'userId',
       listCode: 630066,
       type: 'select',
       keyName: 'userId',
@@ -43,9 +43,9 @@ class carHandleAddedit extends React.Component {
       required: true
     }, {
       title: '违法时间',
-      field: 'code',
+      field: 'happenDatetime',
       required: true,
-      type: 'date'
+      type: 'datetime'
     }, {
       title: '违章地点',
       field: 'address',
@@ -56,9 +56,17 @@ class carHandleAddedit extends React.Component {
       required: true
     }, {
       title: '罚款金额',
-      field: 'code',
+      field: 'punishAmount',
       required: true,
       amount: true
+    }, {
+      title: '处理情况',
+      field: 'handleNote',
+      required: true
+    }, {
+      title: '记分',
+      field: 'score',
+      required: true
     }];
     return this
       .props
