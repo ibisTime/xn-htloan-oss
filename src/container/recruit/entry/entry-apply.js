@@ -24,268 +24,303 @@ import {
   }
 )
 class entryApply extends React.Component {
-  constructor(props) {
-    super(props);
-    this.code = getQueryString('code', this.props.location.search);
-    this.view = !!getQueryString('v', this.props.location.search);
-  }
-  render() {
-    const fields = [{
-        title: '用户信息',
-        items: [
-            [{
-                title: '入职岗位',
-                field: 'position',
-                type: 'select',
-                listCode: 630106,
-                params: {
-                    typeList: ['3']
-                },
-                keyName: 'code',
-                valueName: 'name',
-                required: true
-            }, {
-                title: '入职时间',
-                field: 'entryDatetime',
-                type: 'date',
-                required: true
-            }],
-            [{
-                title: '姓名',
-                field: 'realName',
-                required: true
-            }, {
-                title: '性别',
-                field: 'gender',
-                type: 'select',
-                key: 'gender',
-                required: true
-            }, {
-                title: '出生年月',
-                field: 'birthday',
-                type: 'date',
-                required: true
-            }],
-            [{
-                title: '籍贯',
-                field: 'nativePlace',
-                required: true
-            }, {
-                title: '民族',
-                field: 'nation',
-                required: true
-            }, {
-                title: '学历',
-                field: 'education',
-                type: 'select',
-                key: 'education',
-                required: true
-            }],
-            [{
-                title: '健康状况',
-                field: 'health',
-                required: true
-            }, {
-                title: '身份证号码',
-                field: 'idNo',
-                number: true,
-                idCard: true,
-                required: true
-            }, {
-                title: '婚姻状况',
-                field: 'marryStatus',
-                type: 'select',
-                key: 'marry_state',
-                required: true
-            }],
-            [{
-                title: '手机号码',
-                field: 'mobile',
-                mobile: true,
-                required: true
-            }, {
-                title: '紧急联系人',
-                field: 'emergencyContact',
-                required: true
-            }, {
-                title: '紧急联系号码',
-                field: 'emergencyContactMobile',
-                mobile: true,
-                required: true
-            }],
-            [{
-                title: '户籍性质',
-                field: 'residenceProperty',
-                required: true,
-                type: 'select',
-                key: 'residence_property'
-            }, {
-                title: '照片',
-                field: 'photo',
-                type: 'img',
-                required: true
-            }, {
-                title: '现住址',
-                field: 'nowAddress',
-                required: true
-            }, {
-                title: '户籍地址',
-                field: 'residenceAddress',
-                required: true
-            }],
-            [{
-                title: '就业状况(目前是否与其他单位存在劳动关系)',
-                field: 'isOtherCompanyRelation',
-                type: 'select',
-                key: 'work_status',
-                required: true
-            }],
-            [{
-                title: '工作经历',
-                field: 'workExperienceList',
-                required: true,
-                type: 'o2m',
-                options: {
-                    add: true,
-                    edit: true,
-                    delete: true,
-                    fields: [{
-                        title: '起止时间',
-                        field: 'time',
-                        rangedate: ['startDatetime', 'endDatetime'],
-                        type: 'date'
+    constructor(props) {
+        super(props);
+        this.code = getQueryString('code', this.props.location.search);
+        this.view = !!getQueryString('v', this.props.location.search);
+        this.entryCode = getQueryString('entryCode', this.props.location.search);
+        this.gradeList = [
+            'post_duties',
+            'work_procedure',
+            'work_quality',
+            'work_efficiency',
+            'consciousness',
+            'communication_skills',
+            'cooperative_ability',
+            'attendance'
+        ];
+    }
+    handleChange = (v, d) => {
+        setTimeout(() => {
+            let {
+                getFieldsValue
+            } = this.props.form;
+            let result = getFieldsValue(this.gradeList);
+            let sum = 0;
+            console.log(v, d, result);
+            for (let key in result) {
+                sum += Number(result[key]);
+            }
+            this.props.form.setFieldsValue({
+                gradeAll: sum
+            });
+        }, 100);
+    }
+    render() {
+        const fields = [{
+            title: '用户信息',
+            items: [
+                [{
+                    title: '姓名',
+                    field: 'realName',
+                    formatter: (v, d) => {
+                        return d.user.realName;
+                    },
+                    readonly: true
+                }, {
+                    title: '部门',
+                    field: 'departmentCode',
+                    type: 'select',
+                    formatter: (v, d) => {
+                        if (d) {
+                            return d.user.departmentCode;
+                        }
+                    },
+                    listCode: 630106,
+                    params: {
+                        typeList: ['2']
+                    },
+                    keyName: 'code',
+                    valueName: 'name',
+                    readonly: true
+                }, {
+                    title: '职位',
+                    field: 'postCode',
+                    type: 'select',
+                    formatter: (v, d) => {
+                        if (d) {
+                            return d.user.postCode;
+                        }
+                    },
+                    listCode: 630106,
+                    params: {
+                        typeList: ['3']
+                    },
+                    keyName: 'code',
+                    valueName: 'name',
+                    readonly: true
+                }, {
+                    title: '申请人',
+                    field: 'applyUser',
+                    formatter: (v, d) => {
+                        return d.user.userId;
+                    },
+                    hidden: true
+                }],
+                [{
+                    title: '入职时间',
+                    field: 'entryDatetime',
+                    type: 'date',
+                    required: true
+                }, {
+                    title: '试用期开始',
+                    field: 'probationStartDatetime',
+                    type: 'date',
+                    required: true
+                }, {
+                    title: '试用期结束',
+                    field: 'probationEndDatetime',
+                    type: 'date',
+                    required: true
+                }],
+                [{
+                    title: '工作总结',
+                    field: 'workSummary'
+                }],
+                [{
+                    title: '是否转正',
+                    field: 'isFullWorker',
+                    type: 'select',
+                    required: true,
+                    data: [{
+                        key: '0',
+                        value: '否'
                     }, {
-                        title: '工作单位',
-                        field: 'companyName'
-                    }, {
-                        title: '职位',
-                        field: 'position'
-                    }, {
-                        title: '离职原因',
-                        field: 'leaveReason'
-                    }, {
-                        title: '证明人',
-                        field: 'prover'
-                    }, {
-                        title: '证明人联系电话',
-                        field: 'proverMobile',
-                        mobile: true
-                    }]
-                }
-            }], [{
-                title: '主要业绩及工作能力简述',
-                field: 'mainPerform'
-            }]
-        ]
-    }, {
-        title: '是否有亲属从事本行业工作',
-        items: [
-            [{
-                title: '姓名',
-                field: 'relativeName'
-            }, {
-                title: '与本人关系',
-                field: 'relativeRelation',
-                type: 'select',
-                key: 'credit_user_relation'
-            }, {
-                title: '职务',
-                field: 'relativePosition'
-            }]
-        ]
-    }, {
-        title: '薪酬结构状况',
-        items: [
-            [{
-                title: '试用期期限',
-                field: 'time1',
-                rangedate: ['probationStartDatetime', 'probationEndDatetime'],
-                type: 'date'
-            }, {
-                title: '试用期工资(元/月)',
-                field: 'probationSalary',
-                amount: true
-            }, {
-                title: '转正后基本工资(元/月)',
-                field: 'baseSalary',
-                amount: true,
-                required: true
-            }, {
-                title: '转正后绩效工资(元/月)',
-                field: 'performSalary',
-                amount: true
-            }], [{
-                title: '绩效工资考核标准',
-                field: 'performSalaryStandard'
-            }], [{
-                title: '季度奖考核标准',
-                field: 'quarterlyAwardStandard'
-            }], [{
-                title: '通讯费报销标准',
-                field: 'commumicationFeeStandard'
-            }], [{
-                title: '省会住宿报销标准',
-                field: 'provincialBedStandard'
-            }], [{
-                title: '非省会住宿报销标准',
-                field: 'noProvincialBedStandard'
-            }], [{
-                title: '出租车',
-                field: 'taxiWard'
-            }], [{
-                title: '市内交通现金补助',
-                field: 'trafficAward',
-                amount: true
-            }, {
-                title: '电话现金补贴',
-                field: 'mobileAward',
-                amount: true
-            }, {
-                title: '餐补',
-                field: 'mealAward',
-                amount: true
-            }], [{
-                title: '工资卡账号（建行）',
-                field: 'salaryCardNo'
-            }, {
-                title: '开户行',
-                field: 'bank'
-            }, {
-                title: '开户行行号',
-                field: 'bankCode'
-            }]
-        ]
-    }];
-    return this
-      .props
-      .buildDetail({
-        fields,
-        code: this.code,
-        view: this.view,
-        detailCode: 632866,
-        buttons: [{
-          title: '确认',
-          handler: (param) => {
-            param.updater = getUserId();
-            this.props.doFetching();
-            fetch(632860, param).then(() => {
-              showSucMsg('操作成功');
-              this.props.cancelFetching();
-              setTimeout(() => {
-                this.props.history.go(-1);
-              }, 1000);
-            }).catch(this.props.cancelFetching);
-          },
-          check: true,
-          type: 'primary'
+                        key: '1',
+                        value: '是'
+                    }],
+                    keyName: 'key',
+                    valueName: 'value'
+                }, {
+                    title: '生效时间',
+                    field: 'effectDatetime',
+                    type: 'date',
+                    required: true
+                }],
+                [{
+                    title: '备注',
+                    field: 'remark'
+                }]
+            ]
         }, {
-          title: '返回',
-          handler: (param) => {
-            this.props.history.go(-1);
-          }
-        }]
-      });
-  }
+            title: '试用期评估表',
+            field: 'probationAssessList',
+            items: [
+                [{
+                    title: '本岗位职责',
+                    field: 'post_duties',
+                    type: 'select',
+                    key: 'post_duties',
+                    formatter: (v, d) => {
+                        if (d) {
+                            return d.probationAssessList.find(p => {
+                                return p.evalItem === 'post_duties';
+                            }).grade;
+                        }
+                        return null;
+                    },
+                    onChange: this.handleChange,
+                    required: true
+                }, {
+                    title: '工作程序',
+                    field: 'work_procedure',
+                    type: 'select',
+                    key: 'work_procedure',
+                    formatter: (v, d) => {
+                        if (d) {
+                            return d.probationAssessList.find(p => {
+                                return p.evalItem === 'work_procedure';
+                            }).grade;
+                        }
+                        return null;
+                    },
+                    onChange: this.handleChange,
+                    required: true
+                }, {
+                    title: '工作素质',
+                    field: 'work_quality',
+                    type: 'select',
+                    key: 'work_quality',
+                    formatter: (v, d) => {
+                        if (d) {
+                            return d.probationAssessList.find(p => {
+                                return p.evalItem === 'work_quality';
+                            }).grade;
+                        }
+                        return null;
+                    },
+                    onChange: this.handleChange,
+                    required: true
+                }, {
+                    title: '工作效率',
+                    field: 'work_efficiency',
+                    type: 'select',
+                    key: 'work_efficiency',
+                    formatter: (v, d) => {
+                        if (d) {
+                            return d.probationAssessList.find(p => {
+                                return p.evalItem === 'work_efficiency';
+                            }).grade;
+                        }
+                        return null;
+                    },
+                    onChange: this.handleChange,
+                    required: true
+                }],
+                [{
+                    title: '自觉性',
+                    field: 'consciousness',
+                    type: 'select',
+                    key: 'consciousness',
+                    formatter: (v, d) => {
+                        if (d) {
+                            return d.probationAssessList.find(p => {
+                                return p.evalItem === 'consciousness';
+                            }).grade;
+                        }
+                        return null;
+                    },
+                    onChange: this.handleChange,
+                    required: true
+                }, {
+                    title: '沟通能力',
+                    field: 'communication_skills',
+                    type: 'select',
+                    key: 'communication_skills',
+                    formatter: (v, d) => {
+                        if (d) {
+                            return d.probationAssessList.find(p => {
+                                return p.evalItem === 'communication_skills';
+                            }).grade;
+                        }
+                        return null;
+                    },
+                    onChange: this.handleChange,
+                    required: true
+                }, {
+                    title: '领导/合作能力',
+                    field: 'cooperative_ability',
+                    type: 'select',
+                    key: 'cooperative_ability',
+                    formatter: (v, d) => {
+                        if (d) {
+                            return d.probationAssessList.find(p => {
+                                return p.evalItem === 'cooperative_ability';
+                            }).grade;
+                        }
+                        return null;
+                    },
+                    onChange: this.handleChange,
+                    required: true
+                }, {
+                    title: '出勤',
+                    field: 'attendance',
+                    type: 'select',
+                    key: 'attendance',
+                    formatter: (v, d) => {
+                        if (d) {
+                            return d.probationAssessList.find(p => {
+                                return p.evalItem === 'attendance';
+                            }).grade;
+                        }
+                        return null;
+                    },
+                    onChange: this.handleChange,
+                    required: true
+                }],
+                [{
+                    title: '总分',
+                    field: 'gradeAll',
+                    number: true
+                }]
+            ]
+        }];
+        return this
+            .props
+            .buildDetail({
+                fields,
+                code: this.code,
+                view: this.view,
+                detailCode: 632866,
+                buttons: [{
+                    title: '确认',
+                    handler: (param) => {
+                        param.updater = getUserId();
+                        param.probationAssessList = this.gradeList.map(v => ({
+                            convertCode: this.code,
+                            evalItem: v,
+                            grade: param[v]
+                        }));
+                        param.entryCode = this.code;
+                        this.props.doFetching();
+                        fetch(632870, param).then(() => {
+                            showSucMsg('操作成功');
+                            this.props.cancelFetching();
+                            setTimeout(() => {
+                                this.props.history.go(-1);
+                            }, 1000);
+                        }).catch(this.props.cancelFetching);
+                    },
+                    check: true,
+                    type: 'primary'
+                }, {
+                    title: '返回',
+                    handler: (param) => {
+                        this.props.history.go(-1);
+                    }
+                }]
+            });
+    }
 }
 
 export default entryApply;
