@@ -41,7 +41,7 @@ class travel extends React.Component {
     render() {
         const fields = [{
             title: '申请人',
-            field: 'ApplyUserName'
+            field: 'applyUserName'
         }, {
             title: '工号',
             field: 'jobNo'
@@ -61,7 +61,7 @@ class travel extends React.Component {
             type: 'datetime',
             search: true
         }, {
-            title: '办理节点',
+            title: '状态',
             field: 'status',
             type: 'select',
             key: 'leave_apply_status',

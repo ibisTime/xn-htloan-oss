@@ -89,6 +89,7 @@ class leaveAddedit extends React.Component {
                     this.props.doFetching();
                     fetch(632892, {applyUser: getUserId()}).then((data) => {
                         this.props.setPageData({
+                            ...this.props.pageData,
                             totalHour1: data.totalHour,
                             leavedHour: data.leavedHour,
                             remainHour: data.remainHour

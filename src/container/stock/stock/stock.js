@@ -11,7 +11,8 @@ import {
 } from '@redux/stock/stock';
 import {
     showWarnMsg,
-    showSucMsg
+    showSucMsg,
+    dateTimeFormat
 } from 'common/js/util';
 import {
     listWrapper
@@ -41,10 +42,22 @@ class stock extends React.Component {
     render() {
         const fields = [{
             title: '品名',
-            field: 'productName'
+            field: 'productCode',
+            type: 'select',
+            listCode: '632757',
+            params: {},
+            keyName: 'code',
+            valueName: 'name',
+            search: true
         }, {
             title: '类别',
-            field: 'categoryName'
+            field: 'categoryCode',
+            type: 'select',
+            listCode: '632747',
+            params: {},
+            keyName: 'code',
+            valueName: 'name',
+            search: true
         }, {
             title: '数量',
             field: 'quantity'
@@ -66,8 +79,9 @@ class stock extends React.Component {
         }, {
             title: '有效期',
             field: 'validDate',
-            type: 'datetime',
-            rangedate: ['validDateStart', 'validDateEnd']
+            render: (v, data) => {
+                return dateTimeFormat(data.validDateStart) + '至' + dateTimeFormat(data.validDateEnd);
+            }
         }, {
             title: '备注',
             field: 'remark'

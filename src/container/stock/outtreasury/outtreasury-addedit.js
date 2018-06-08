@@ -40,7 +40,12 @@ class outtreasuryAddedit extends React.Component {
             onChange: (v) => {
                 let storageInData = this.props.selectData.storageInCode.find(d => d.code === v);
                 if (storageInData) {
-                    this.props.setPageData({proquantity: storageInData.quantity, price: storageInData.price, totalPrice: storageInData.totalPrice});
+                    this.props.setPageData({
+                        ...this.props.pageData,
+                        proquantity: storageInData.quantity,
+                        price: storageInData.price,
+                        totalPrice: storageInData.totalPrice
+                    });
                 }
             }
         }, {
@@ -65,15 +70,20 @@ class outtreasuryAddedit extends React.Component {
             field: 'quantity',
             required: true,
             onChange: (v) => {
-                let price = this.props.form.getFieldValue('price');
+                let price = this.props.pageData.price;
+                let sum = '';
                 if (price) {
-                    let sum = moneyFormat(price * v);
-                    this.props.setPageData({totalPrice1: sum});
+                    sum = price * v;
                 }
+                this.props.setPageData({
+                    ...this.props.pageData,
+                    totalPrice1: sum
+                });
             }
         }, {
             title: '出库总价',
             field: 'totalPrice1',
+            amount: true,
             required: true,
             readonly: true
         }, {

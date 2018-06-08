@@ -7,7 +7,7 @@ import {
     moneyParse,
     moneyFormat
 } from 'common/js/util';
-import {CollapseWrapper} from 'component/collapse-detail/collapse-detail';
+import { CollapseWrapper } from 'component/collapse-detail/collapse-detail';
 import {
     initStates,
     doFetching,
@@ -108,14 +108,16 @@ class AdmittanceAddEdit extends React.Component {
                     required: true
                 }, {
                     field: 'invoicePrice',
-                    title: '开票价（元）',
+                    title: '开票价(元)',
                     amount: true,
                     onChange: (v, data) => {
                         let firstAmount = this.props.form.getFieldValue('firstAmount');
                         if (firstAmount) {
+                            v = moneyParse(v);
+                            firstAmount = moneyParse(firstAmount);
                             this.props.form.setFieldsValue({
-                                firstRate: firstAmount / v * 100,
-                                loanAmount: v - firstAmount
+                                firstRate: (firstAmount / v * 100).toFixed(2),
+                                loanAmount: moneyFormat(v - firstAmount)
                             });
                         }
                     },
@@ -123,30 +125,21 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'originalPrice',
-                    title: '市场指导价',
+                    title: '市场指导价(元)',
                     amount: true,
                     required: true
                 }, {
-                    field: 'loanAmount',
-                    title: '贷款额（元）',
-                    amount: true,
-                    required: true
-                }, {
-                    field: 'monthDeposit',
-                    title: '月供(元)',
-                    amount: true,
-                    required: true
-                }],
-                [{
                     field: 'firstAmount',
-                    title: '首付金额（元）',
+                    title: '首付金额(元)',
                     amount: true,
                     onChange: (v) => {
                         let invoicePrice = this.props.form.getFieldValue('invoicePrice');
                         if (invoicePrice) {
+                            v = moneyParse(v);
+                            invoicePrice = moneyParse(invoicePrice);
                             this.props.form.setFieldsValue({
-                                firstRate: v / invoicePrice * 100,
-                                loanAmount: invoicePrice - v
+                                firstRate: (v / invoicePrice * 100).toFixed(2),
+                                loanAmount: moneyFormat(invoicePrice - v)
                             });
                         }
                     },
@@ -154,6 +147,17 @@ class AdmittanceAddEdit extends React.Component {
                 }, {
                     field: 'firstRate',
                     title: '首付比例(%)',
+                    required: true
+                }],
+                [{
+                    field: 'loanAmount',
+                    title: '贷款额(元)',
+                    amount: true,
+                    required: true
+                }, {
+                    field: 'monthDeposit',
+                    title: '月供(元)',
+                    amount: true,
                     required: true
                 }, {
                     field: 'settleAddress',
@@ -269,14 +273,13 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'familyMainAsset',
-                    title: '家庭主要财产',
+                    title: '家庭主要财产(万元)',
                     required: true
                 }, {
                     field: 'mainAssetInclude',
                     title: '主要财产包括',
                     required: true
-                }],
-                [{
+                }, {
                     field: 'mainIncome',
                     title: '主要收入来源',
                     type: 'select',
@@ -287,16 +290,45 @@ class AdmittanceAddEdit extends React.Component {
                     field: 'workCompanyName',
                     title: '工作单位名称',
                     required: true
-                }],
-                [{
+                }, {
                     field: 'workCompanyProperty',
                     title: '单位经济性质',
                     type: 'select',
                     key: 'work_company_property'
-                }, {
+                }],
+                [{
                     field: 'workCompanyAddress',
                     title: '工作单位地址',
                     required: true
+                }],
+                [{
+                    field: 'workBelongIndustry',
+                    title: '所属行业',
+                    type: 'select',
+                    key: 'work_belong_industry'
+                }, {
+                    field: 'workProfession',
+                    title: '职业',
+                    type: 'select',
+                    key: 'work_profession'
+                }, {
+                    field: 'position',
+                    title: '职位',
+                    type: 'select',
+                    key: 'position'
+                }],
+                [{
+                    field: 'postTitle',
+                    title: '职称',
+                    required: true
+                }, {
+                    field: 'workDatetime',
+                    title: '何时进入现单位工作',
+                    type: 'date'
+                }, {
+                    field: 'monthIncome',
+                    title: '月收入(元)',
+                    amount: true
                 }],
                 [{
                     field: 'selfCompanyArea',
@@ -310,31 +342,7 @@ class AdmittanceAddEdit extends React.Component {
                     amount: true
                 }],
                 [{
-                    field: 'position',
-                    title: '职位',
-                    type: 'select',
-                    key: 'position'
-                }, {
-                    field: 'postTitle',
-                    title: '职称',
-                    required: true
-                }, {
-                    field: 'workProfession',
-                    title: '职业',
-                    type: 'select',
-                    key: 'work_profession'
-                }],
-                [{
-                    field: 'monthIncome',
-                    title: '月收入',
-                    amount: true
-                }, {
-                    field: 'workDatetime',
-                    title: '何时进入现单位工作',
-                    type: 'date'
-                }],
-                [{
-                    title: '其它资产资料上传',
+                    title: '其它资产资料',
                     field: 'assetPdf',
                     type: 'img'
                 }]
@@ -372,7 +380,7 @@ class AdmittanceAddEdit extends React.Component {
                     title: '工作单位地址'
                 }],
                 [{
-                    title: '其它资产资料上传',
+                    title: '其它资产资料',
                     field: 'mateAssetPdf',
                     type: 'img'
                 }]
@@ -407,7 +415,7 @@ class AdmittanceAddEdit extends React.Component {
                     title: '担保人房产地址'
                 }],
                 [{
-                    title: '其它资产资料上传',
+                    title: '其它资产资料',
                     field: 'guaAssetPdf',
                     type: 'img'
                 }]
@@ -459,44 +467,48 @@ class AdmittanceAddEdit extends React.Component {
                         let num = dates[1].diff(dates[0], 'months', true);
                         num = num.toFixed(1);
                         if (zfbJourIncome) {
+                            zfbJourIncome = moneyParse(zfbJourIncome);
                             this.props.form.setFieldsValue({
-                                jourMonthIncome: zfbJourIncome / num
+                                zfbJourMonthIncome: moneyFormat(zfbJourIncome / num)
                             });
                         }
                         ;
                         if (zfbJourExpend) {
+                            zfbJourExpend = moneyParse(zfbJourExpend);
                             this.props.form.setFieldsValue({
-                                jourMonthExpend: zfbJourExpend / num
+                                zfbJourMonthExpend: moneyFormat(zfbJourExpend / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'zfbJourIncome',
-                    title: '收入',
+                    title: '收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime1');
                         let zfbJourMonthIncome = this.props.form.getFieldValue('zfbJourMonthIncome');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                zfbJourMonthIncome: (v / num).toFixed(2)
+                                zfbJourMonthIncome: moneyFormat(v / num)
                             });
                         }
                     }
                 },
                     {
                         field: 'zfbJourExpend',
-                        title: '支出',
+                        title: '支出(元)',
                         amount: true,
                         onChange: (v) => {
                             let jourDatetime = this.props.form.getFieldValue('jourDatetime1');
                             let zfbJourMonthExpend = this.props.form.getFieldValue('zfbJourMonthExpend');
                             if (jourDatetime) {
                                 let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                                v = moneyParse(v);
                                 this.props.form.setFieldsValue({
-                                    zfbJourMonthExpend: (v / num).toFixed(2)
+                                    zfbJourMonthExpend: moneyFormat(v / num)
                                 });
                             }
                         }
@@ -504,15 +516,15 @@ class AdmittanceAddEdit extends React.Component {
                 ],
                 [{
                     field: 'zfbJourBalance',
-                    title: '账户余额',
+                    title: '账户余额(元)',
                     amount: true
                 }, {
                     field: 'zfbJourMonthIncome',
-                    title: '月均收入',
+                    title: '月均收入(元)',
                     amount: true
                 }, {
                     field: 'zfbJourMonthExpend',
-                    title: '月均支出',
+                    title: '月均支出(元)',
                     amount: true
                 }],
                 [{
@@ -541,58 +553,62 @@ class AdmittanceAddEdit extends React.Component {
                         let num = dates[1].diff(dates[0], 'months', true);
                         num = num.toFixed(1);
                         if (wxJourIncome) {
+                            wxJourIncome = moneyParse(wxJourIncome);
                             this.props.form.setFieldsValue({
-                                jourMonthIncome: wxJourIncome / num
+                                wxJourMonthIncome: moneyFormat(wxJourIncome / num)
                             });
                         }
                         ;
                         if (wxJourExpend) {
+                            wxJourExpend = moneyParse(wxJourExpend);
                             this.props.form.setFieldsValue({
-                                jourMonthExpend: wxJourExpend / num
+                                wxJourMonthExpend: moneyFormat(wxJourExpend / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'wxJourIncome',
-                    title: '收入',
+                    title: '收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime2');
                         let wxJourMonthIncome = this.props.form.getFieldValue('wxJourMonthIncome');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                wxJourMonthIncome: (v / num).toFixed(2)
+                                wxJourMonthIncome: moneyFormat(v / num)
                             });
                         }
                     }
                 }, {
                     field: 'wxJourExpend',
-                    title: '支出',
+                    title: '支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime2');
                         let wxJourMonthExpend = this.props.form.getFieldValue('wxJourMonthExpend');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                wxJourMonthExpend: (v / num).toFixed(2)
+                                wxJourMonthExpend: moneyFormat(v / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'wxJourBalance',
-                    title: '账户余额',
+                    title: '账户余额(元)',
                     amount: true
                 }, {
                     field: 'wxJourMonthIncome',
-                    title: '月均收入',
+                    title: '月均收入(元)',
                     amount: true
                 }, {
                     field: 'wxJourMonthExpend',
-                    title: '月均支出',
+                    title: '月均支出(元)',
                     amount: true
                 }],
                 [{
@@ -621,58 +637,62 @@ class AdmittanceAddEdit extends React.Component {
                         let num = dates[1].diff(dates[0], 'months', true);
                         num = num.toFixed(1);
                         if (jourIncome) {
+                            jourIncome = moneyParse(jourIncome);
                             this.props.form.setFieldsValue({
-                                jourMonthIncome: jourIncome / num
+                                jourMonthIncome: moneyFormat(jourIncome / num)
                             });
                         }
                         ;
                         if (jourExpend) {
+                            jourExpend = moneyParse(jourExpend);
                             this.props.form.setFieldsValue({
-                                jourMonthExpend: jourExpend / num
+                                jourMonthExpend: moneyFormat(jourExpend / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'jourIncome',
-                    title: '收入',
+                    title: '收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime3');
                         let jourMonthIncome = this.props.form.getFieldValue('jourMonthIncome');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                jourMonthIncome: (v / num).toFixed(2)
+                                jourMonthIncome: moneyFormat(v / num)
                             });
                         }
                     }
                 }, {
                     field: 'jourExpend',
-                    title: '支出',
+                    title: '支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime3');
                         let jourMonthExpend = this.props.form.getFieldValue('jourMonthExpend');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                jourMonthExpend: (v / num).toFixed(2)
+                                jourMonthExpend: moneyFormat(v / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'jourBalance',
-                    title: '账户余额',
+                    title: '账户余额(元)',
                     amount: true
                 }, {
                     field: 'jourMonthIncome',
-                    title: '月均收入',
+                    title: '月均收入(元)',
                     amount: true
                 }, {
                     field: 'jourMonthExpend',
-                    title: '月均支出',
+                    title: '月均支出(元)',
                     amount: true
                 }],
                 [{
@@ -701,58 +721,62 @@ class AdmittanceAddEdit extends React.Component {
                         let num = dates[1].diff(dates[0], 'months', true);
                         num = num.toFixed(1);
                         if (mateZfbJourIncome) {
+                            mateZfbJourIncome = moneyParse(mateZfbJourIncome);
                             this.props.form.setFieldsValue({
-                                jourMonthIncome: mateZfbJourIncome / num
+                                mateZfbJourMonthIncome: moneyFormat(mateZfbJourIncome / num)
                             });
                         }
                         ;
                         if (mateZfbJourExpend) {
+                            mateZfbJourExpend = moneyParse(mateZfbJourExpend);
                             this.props.form.setFieldsValue({
-                                jourMonthExpend: mateZfbJourExpend / num
+                                mateZfbJourMonthExpend: moneyFormat(mateZfbJourExpend / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'mateZfbJourIncome',
-                    title: '收入',
+                    title: '收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime4');
                         let mateZfbJourMonthIncome = this.props.form.getFieldValue('mateZfbJourMonthIncome');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                mateZfbJourMonthIncome: (v / num).toFixed(2)
+                                mateZfbJourMonthIncome: moneyFormat(v / num)
                             });
                         }
                     }
                 }, {
                     field: 'mateZfbJourExpend',
-                    title: '支出',
+                    title: '支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime4');
                         let mateZfbJourMonthExpend = this.props.form.getFieldValue('mateZfbJourMonthExpend');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                mateZfbJourMonthExpend: (v / num).toFixed(2)
+                                mateZfbJourMonthExpend: moneyFormat(v / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'mateZfbJourBalance',
-                    title: '账户余额',
+                    title: '账户余额(元)',
                     amount: true
                 }, {
                     field: 'mateZfbJourMonthIncome',
-                    title: '月均收入',
+                    title: '月均收入(元)',
                     amount: true
                 }, {
                     field: 'mateZfbJourMonthExpend',
-                    title: '月均支出',
+                    title: '月均支出(元)',
                     amount: true
                 }],
                 [{
@@ -781,58 +805,62 @@ class AdmittanceAddEdit extends React.Component {
                         let num = dates[1].diff(dates[0], 'months', true);
                         num = num.toFixed(1);
                         if (mateWxJourIncome) {
+                            mateWxJourIncome = moneyParse(mateWxJourIncome);
                             this.props.form.setFieldsValue({
-                                jourMonthIncome: mateWxJourIncome / num
+                                mateWxJourMonthIncome: moneyFormat(mateWxJourIncome / num)
                             });
                         }
                         ;
                         if (mateWxJourExpend) {
+                            mateWxJourExpend = moneyParse(mateWxJourExpend);
                             this.props.form.setFieldsValue({
-                                jourMonthExpend: mateWxJourExpend / num
+                                mateWxJourMonthExpend: moneyFormat(mateWxJourExpend / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'mateWxJourIncome',
-                    title: '收入',
+                    title: '收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime5');
                         let mateWxJourMonthIncome = this.props.form.getFieldValue('mateWxJourMonthIncome');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                mateWxJourMonthIncome: (v / num).toFixed(2)
+                                mateWxJourMonthIncome: moneyFormat(v / num)
                             });
                         }
                     }
                 }, {
                     field: 'mateWxJourExpend',
-                    title: '支出',
+                    title: '支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime5');
                         let mateWxJourMonthExpend = this.props.form.getFieldValue('mateWxJourMonthExpend');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                mateWxJourMonthExpend: (v / num).toFixed(2)
+                                mateWxJourMonthExpend: moneyFormat(v / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'mateWxJourBalance',
-                    title: '账户余额',
+                    title: '账户余额(元)',
                     amount: true
                 }, {
                     field: 'mateWxJourMonthIncome',
-                    title: '月均收入',
+                    title: '月均收入(元)',
                     amount: true
                 }, {
                     field: 'mateWxJourMonthExpend',
-                    title: '月均支出',
+                    title: '月均支出(元)',
                     amount: true
                 }],
                 [{
@@ -861,58 +889,62 @@ class AdmittanceAddEdit extends React.Component {
                         let num = dates[1].diff(dates[0], 'months', true);
                         num = num.toFixed(1);
                         if (mateJourIncome) {
+                            mateJourIncome = moneyParse(mateJourIncome);
                             this.props.form.setFieldsValue({
-                                jourMonthIncome: mateJourIncome / num
+                                mateJourMonthIncome: moneyFormat(mateJourIncome / num)
                             });
                         }
                         ;
                         if (mateJourExpend) {
+                            mateJourExpend = moneyParse(mateJourExpend);
                             this.props.form.setFieldsValue({
-                                jourMonthExpend: mateJourExpend / num
+                                mateJourMonthExpend: moneyFormat(mateJourExpend / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'mateJourIncome',
-                    title: '收入',
+                    title: '收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime6');
                         let mateJourMonthIncome = this.props.form.getFieldValue('mateJourMonthIncome');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                mateJourMonthIncome: (v / num).toFixed(2)
+                                mateJourMonthIncome: moneyFormat(v / num)
                             });
                         }
                     }
                 }, {
                     field: 'mateJourExpend',
-                    title: '支出',
+                    title: '支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime6');
                         let mateJourMonthExpend = this.props.form.getFieldValue('mateJourMonthExpend');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                mateJourMonthExpend: (v / num).toFixed(2)
+                                mateJourMonthExpend: moneyFormat(v / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'mateJourBalance',
-                    title: '账户余额',
+                    title: '账户余额(元)',
                     amount: true
                 }, {
                     field: 'mateJourMonthIncome',
-                    title: '月均收入',
+                    title: '月均收入(元)',
                     amount: true
                 }, {
                     field: 'mateJourMonthExpend',
-                    title: '月均支出',
+                    title: '月均支出(元)',
                     amount: true
                 }],
                 [{
@@ -941,57 +973,61 @@ class AdmittanceAddEdit extends React.Component {
                         let num = dates[1].diff(dates[0], 'months', true);
                         num = num.toFixed(1);
                         if (guaZfbJourIncome) {
+                            guaZfbJourIncome = moneyParse(guaZfbJourIncome);
                             this.props.form.setFieldsValue({
-                                jourMonthIncome: guaZfbJourIncome / num
+                                guaZfbJourMonthIncome: moneyFormat(guaZfbJourIncome / num)
                             });
                         }
                         if (guaZfbJourExpend) {
+                            guaZfbJourExpend = moneyParse(guaZfbJourExpend);
                             this.props.form.setFieldsValue({
-                                jourMonthExpend: guaZfbJourExpend / num
+                                guaZfbJourMonthExpend: moneyFormat(guaZfbJourExpend / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'guaZfbJourIncome',
-                    title: '收入',
+                    title: '收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime7');
                         let guaZfbJourMonthIncome = this.props.form.getFieldValue('guaZfbJourMonthIncome');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                guaZfbJourMonthIncome: (v / num).toFixed(2)
+                                guaZfbJourMonthIncome: moneyFormat(v / num)
                             });
                         }
                     }
                 }, {
                     field: 'guaZfbJourExpend',
-                    title: '支出',
+                    title: '支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime7');
                         let guaZfbJourMonthExpend = this.props.form.getFieldValue('guaZfbJourMonthExpend');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                guaZfbJourMonthExpend: (v / num).toFixed(2)
+                                guaZfbJourMonthExpend: moneyFormat(v / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'guaZfbJourBalance',
-                    title: '账户余额',
+                    title: '账户余额(元)',
                     amount: true
                 }, {
                     field: 'guaZfbJourMonthIncome',
-                    title: '月均收入',
+                    title: '月均收入(元)',
                     amount: true
                 }, {
                     field: 'guaZfbJourMonthExpend',
-                    title: '月均支出',
+                    title: '月均支出(元)',
                     amount: true
                 }],
                 [{
@@ -1020,58 +1056,62 @@ class AdmittanceAddEdit extends React.Component {
                         let num = dates[1].diff(dates[0], 'months', true);
                         num = num.toFixed(1);
                         if (guaWxJourIncome) {
+                            guaWxJourIncome = moneyParse(guaWxJourIncome);
                             this.props.form.setFieldsValue({
-                                jourMonthIncome: guaWxJourIncome / num
+                                guaWxJourMonthIncome: moneyFormat(guaWxJourIncome / num)
                             });
                         }
                         ;
                         if (guaWxJourExpend) {
+                            guaWxJourExpend = moneyParse(guaWxJourExpend);
                             this.props.form.setFieldsValue({
-                                jourMonthExpend: guaWxJourExpend / num
+                                guaWxJourMonthExpend: moneyFormat(guaWxJourExpend / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'guaWxJourIncome',
-                    title: '收入',
+                    title: '收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime8');
                         let guaWxJourMonthIncome = this.props.form.getFieldValue('guaWxJourMonthIncome');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                guaWxJourMonthIncome: (v / num).toFixed(2)
+                                guaWxJourMonthIncome: moneyFormat(v / num)
                             });
                         }
                     }
                 }, {
                     field: 'guaWxJourExpend',
-                    title: '支出',
+                    title: '支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime8');
                         let guaWxJourMonthExpend = this.props.form.getFieldValue('guaWxJourMonthExpend');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                guaWxJourMonthExpend: (v / num).toFixed(2)
+                                guaWxJourMonthExpend: moneyFormat(v / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'guaWxJourBalance',
-                    title: '账户余额',
+                    title: '账户余额(元)',
                     amount: true
                 }, {
                     field: 'guaWxJourMonthIncome',
-                    title: '月均收入',
+                    title: '月均收入(元)',
                     amount: true
                 }, {
                     field: 'guaWxJourMonthExpend',
-                    title: '月均支出',
+                    title: '月均支出(元)',
                     amount: true
                 }],
                 [{
@@ -1100,58 +1140,62 @@ class AdmittanceAddEdit extends React.Component {
                         let num = dates[1].diff(dates[0], 'months', true);
                         num = num.toFixed(1);
                         if (guaJourIncome) {
+                            guaJourIncome = moneyParse(guaJourIncome);
                             this.props.form.setFieldsValue({
-                                jourMonthIncome: guaJourIncome / num
+                                guaJourMonthIncome: moneyFormat(guaJourIncome / num)
                             });
                         }
                         ;
                         if (guaJourExpend) {
+                            guaJourExpend = moneyParse(guaJourExpend);
                             this.props.form.setFieldsValue({
-                                jourMonthExpend: guaJourExpend / num
+                                guaJourMonthExpend: moneyFormat(guaJourExpend / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'guaJourIncome',
-                    title: '收入',
+                    title: '收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime9');
                         let guaJourMonthIncome = this.props.form.getFieldValue('guaJourMonthIncome');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                guaJourMonthIncome: (v / num).toFixed(2)
+                                guaJourMonthIncome: moneyFormat(v / num)
                             });
                         }
                     }
                 }, {
                     field: 'guaJourExpend',
-                    title: '支出',
+                    title: '支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime9');
                         let guaJourMonthExpend = this.props.form.getFieldValue('guaJourMonthExpend');
                         if (jourDatetime) {
                             let num = jourDatetime[1].diff(jourDatetime[0], 'months', true);
+                            v = moneyParse(v);
                             this.props.form.setFieldsValue({
-                                guaJourMonthExpend: (v / num).toFixed(2)
+                                guaJourMonthExpend: moneyFormat(v / num)
                             });
                         }
                     }
                 }],
                 [{
                     field: 'guaJourBalance',
-                    title: '账户余额',
+                    title: '账户余额(元)',
                     amount: true
                 }, {
                     field: 'guaJourMonthIncome',
-                    title: '月均收入',
+                    title: '月均收入(元)',
                     amount: true
                 }, {
                     field: 'guaJourMonthExpend',
-                    title: '月均支出',
+                    title: '月均支出(元)',
                     amount: true
                 }],
                 [{
@@ -1251,9 +1295,6 @@ class AdmittanceAddEdit extends React.Component {
                     fetch(632120, params).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
                     }).catch(this.props.cancelFetching);
                 }
             }, {

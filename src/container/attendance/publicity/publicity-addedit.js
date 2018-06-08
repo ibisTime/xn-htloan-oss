@@ -7,7 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/attendance/publicity-addedit';
-import {getQueryString, getUserId, showSucMsg} from 'common/js/util';
+import {getQueryString, getUserId, showWarnMsg, showSucMsg} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
@@ -82,25 +82,36 @@ class publicityAddedit extends React.Component {
             hidden: true,
             required: true
         }, {
-            title: '出差明细',
+            title: '公出明细',
             field: 'detailList',
             type: 'o2m',
+            required: true,
             options: {
                 add: true,
                 edit: true,
                 delete: true,
                 fields: [{
-                    title: '开始时间',
-                    field: 'startDatetime',
+                    title: '公出时间',
+                    field: 'datetime',
                     type: 'datetime',
-                    required: true
+                    rangedate: ['startDatetime', 'endDatetime'],
+                    required: true,
+                    onChange: (dates, dateStrings, props) => {
+                        let startDatetime = new Date(dateStrings[0]); // 开始时间
+                        let endDatetime = new Date(dateStrings[1]); // 结束时间
+                        if (startDatetime && endDatetime) {
+                            let time = endDatetime.getTime() - startDatetime.getTime();
+                            let hours = (time / (3600 * 1000)).toFixed(2);
+                            props.form.setFieldsValue({
+                                totalHour: hours
+                            });
+                        }
+                    },
+                    render: (v, data) => {
+                        return data.startDatetime + '至' + data.endDatetime;
+                    }
                 }, {
-                    title: '结束时间',
-                    field: 'endDatetime',
-                    type: 'datetime',
-                    required: true
-                }, {
-                    title: '出差时长(小时)',
+                    title: '公出时长(小时)',
                     field: 'totalHour',
                     required: true
                 }, {
@@ -110,7 +121,7 @@ class publicityAddedit extends React.Component {
                 }]
             }
         }, {
-            title: '出差事由',
+            title: '公出事由',
             field: 'reason',
             required: true
         }, {
@@ -123,7 +134,15 @@ class publicityAddedit extends React.Component {
             view: this.view,
             addCode: 632620,
             detailCode: 632626,
-            buttons: this.buttons
+            buttons: this.buttons,
+            beforeSubmit: (data) => {
+                if (!data.detailList || data.detailList.length < 1) {
+                    showWarnMsg('公出明细不能为空');
+                    return;
+                }
+                data.applyUser = getUserId();
+                return data;
+            }
         });
     }
 }

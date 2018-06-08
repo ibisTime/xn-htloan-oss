@@ -29,7 +29,7 @@ class stockAddedit extends React.Component {
 
     render() {
         const fields = [{
-            title: '产品',
+            title: '品名',
             field: 'productCode',
             type: 'select',
             listCode: '632757',
@@ -40,7 +40,18 @@ class stockAddedit extends React.Component {
         }, {
             title: '数量',
             field: 'quantity',
-            required: true
+            required: true,
+            onChange: (v) => {
+                let price = this.props.form.getFieldValue('price');
+                let sum = '';
+                if (price && v) {
+                    sum = price * v * 1000;
+                }
+                this.props.setPageData({
+                    ...this.props.pageData,
+                    totalPrice: sum
+                });
+            }
         }, {
             title: '单价',
             field: 'price',
@@ -48,12 +59,14 @@ class stockAddedit extends React.Component {
             required: true,
             onChange: (v) => {
                 let quantity = this.props.form.getFieldValue('quantity');
-                if (quantity) {
-                    let sum = moneyFormat(quantity * v);
-                    this.props.form.setFieldsValue({
-                        totalPrice: sum
-                    });
+                let sum = '';
+                if (quantity && v) {
+                    sum = quantity * v * 1000;
                 }
+                this.props.setPageData({
+                    ...this.props.pageData,
+                    totalPrice: sum
+                });
             }
         }, {
             title: '总价',
@@ -62,13 +75,11 @@ class stockAddedit extends React.Component {
             required: true,
             readonly: true
         }, {
-            title: '有效期始',
-            field: 'validDateStart',
-            type: 'datetime'
-        }, {
-            title: '有效期止',
-            field: 'validDateEnd',
-            type: 'datetime'
+            title: '有效期',
+            field: 'datetime',
+            type: 'datetime',
+            rangedate: ['validDateStart', 'validDateEnd'],
+            required: true
         }, {
             title: '备注',
             field: 'remark'

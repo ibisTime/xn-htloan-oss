@@ -61,7 +61,7 @@ class publicity extends React.Component {
             type: 'datetime',
             search: true
         }, {
-            title: '办理节点',
+            title: '状态',
             field: 'status',
             type: 'select',
             key: 'leave_apply_status',
