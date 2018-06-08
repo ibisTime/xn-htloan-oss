@@ -45,10 +45,14 @@ class manage extends React.Component {
     render() {
         const fields = [{
             title: '姓名',
-            field: 'realName',
+            field: 'userId',
+            type: 'select',
             render: (v, d) => {
                 return d ? d.archive.realName : '';
             },
+            listCode: 632807,
+            keyName: 'userId',
+            valueName: 'realName',
             search: true
         }, {
             title: '合同编号',
