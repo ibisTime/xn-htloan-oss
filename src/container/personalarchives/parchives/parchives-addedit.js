@@ -69,7 +69,7 @@ class parchivesAddedit extends React.Component {
                 valueName: 'name',
                 search: true
             }], [{
-                title: '服务岗位',
+                title: '岗位',
                 field: 'postCode',
                 type: 'select',
                 required: true,
@@ -137,12 +137,19 @@ class parchivesAddedit extends React.Component {
                 field: 'health',
                 required: true
             }], [{
-                title: '工资卡账号（建行）',
+                title: '工资卡账号',
                 field: 'salaryCard',
                 idCard: true
             }, {
                 title: '开户行',
-                field: 'bankName'
+                field: 'bankName',
+                type: 'select',
+                listCode: 802116,
+                keyName: 'bankCode',
+                valueName: 'bankName'
+            }, {
+                title: '开户支行',
+                field: 'subbranch'
             }, {
                 title: '五险一金信息',
                 field: 'fiveInsuranceInfo',
@@ -236,7 +243,7 @@ class parchivesAddedit extends React.Component {
                         title: '与本人关系',
                         field: 'relation',
                         type: 'select',
-                        key: 'credit_user_relation'
+                        key: 'borrower_relation'
                     }, {
                         title: '工作单位',
                         field: 'companyName'
@@ -251,27 +258,38 @@ class parchivesAddedit extends React.Component {
                 }
             }], [{
                 title: '绩效工资考核标准',
-                field: 'performSalaryStandard'
-            }], [{
+                field: 'performSalaryStandard',
+                type: 'textarea',
+                normalArea: true
+            }, {
                 title: '季度奖考核标准',
-                field: 'quarterlyAwardStandard'
+                field: 'quarterlyAwardStandard',
+                type: 'textarea',
+                normalArea: true
             }], [{
                 title: '通讯费报销标准',
-                field: 'commumicationFeeStandard'
-            }], [{
+                field: 'commumicationFeeStandard',
+                type: 'textarea',
+                normalArea: true
+            }, {
                 title: '省会住宿报销标准',
-                field: 'provincialBedStandard'
+                field: 'provincialBedStandard',
+                type: 'textarea',
+                normalArea: true
             }], [{
                 title: '非省会住宿报销标准',
-                field: 'noProvincialBedStandard'
+                field: 'noProvincialBedStandard',
+                type: 'textarea',
+                normalArea: true
             }], [{
-                title: '出租车',
-                field: 'taxiWard'
-            }], [{
+                title: '出租车补助',
+                field: 'taxiWard',
+                amount: true
+            }, {
                 title: '市内交通现金补助',
                 field: 'trafficAward',
                 amount: true
-            }, {
+            }], [{
                 title: '电话现金补贴',
                 field: 'mobileAward',
                 amount: true

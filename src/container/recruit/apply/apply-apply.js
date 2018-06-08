@@ -79,7 +79,11 @@ class applyAddedit extends React.Component {
                 valueName: 'name'
             }, {
                 title: '被替代者姓名',
-                field: 'replaceRealName'
+                field: 'replaceRealName',
+                type: 'select',
+                listCode: 632807,
+                keyName: 'userId',
+                valueName: 'realName'
             }, {
                 title: '原因',
                 field: 'newApplyReason'

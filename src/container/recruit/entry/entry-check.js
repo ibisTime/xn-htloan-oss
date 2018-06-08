@@ -227,53 +227,67 @@ class entryCheck extends React.Component {
             }], [{
                 title: '绩效工资考核标准',
                 field: 'performSalaryStandard',
-                readonly: true
-            }], [{
+                readonly: true,
+                type: 'textarea',
+                normalArea: true
+            }, {
                 title: '季度奖考核标准',
                 field: 'quarterlyAwardStandard',
-                readonly: true
+                readonly: true,
+                type: 'textarea',
+                normalArea: true
             }], [{
                 title: '通讯费报销标准',
-                field: 'commumicationFeeStandard',
-                readonly: true
-            }], [{
+                field: 'communicatePayStandard',
+                readonly: true,
+                type: 'textarea',
+                normalArea: true
+            }, {
                 title: '省会住宿报销标准',
                 field: 'provincialBedStandard',
-                readonly: true
+                readonly: true,
+                type: 'textarea',
+                normalArea: true
             }], [{
                 title: '非省会住宿报销标准',
-                field: 'noProvincialBedStandard',
-                readonly: true
+                field: 'nonProvincialBedStandard',
+                readonly: true,
+                type: 'textarea',
+                normalArea: true
             }], [{
-                title: '出租车',
-                field: 'taxiWard',
-                readonly: true
-            }], [{
-                title: '市内交通现金补助',
-                field: 'trafficAward',
+                title: '出租车补贴',
+                field: 'taxiStandard',
                 amount: true,
                 readonly: true
             }, {
+                title: '市内交通现金补助',
+                field: 'trafficStandard',
+                amount: true,
+                readonly: true
+            }], [{
                 title: '电话现金补贴',
-                field: 'mobileAward',
+                field: 'mobileStandard',
                 amount: true,
                 readonly: true
             }, {
                 title: '餐补',
-                field: 'mealAward',
+                field: 'mealStandard',
                 amount: true,
                 readonly: true
             }], [{
-                title: '工资卡账号（建行）',
+                title: '工资卡账号',
                 field: 'salaryCardNo',
                 readonly: true
             }, {
                 title: '开户行',
-                field: 'bank',
+                field: 'bankCode',
+                listCOde: 802016,
+                keyName: 'bankCode',
+                valueName: 'bankName',
                 readonly: true
             }, {
-                title: '开户行行号',
-                field: 'bankCode',
+                title: '开户行支行',
+                field: 'subbranch',
                 readonly: true
             }]
         ]

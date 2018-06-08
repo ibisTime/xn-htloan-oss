@@ -14,7 +14,8 @@ import {
 } from 'common/js/build-list';
 import {
   showWarnMsg,
-  showSucMsg
+  showSucMsg,
+  dateTimeFormat
 } from 'common/js/util';
 import {
   Button,
@@ -48,7 +49,12 @@ class HandleApply extends React.Component {
       field: 'code'
     }, {
       title: '申请人',
-      field: 'userId'
+      field: 'userId',
+      type: 'select',
+      listCode: 630066,
+      keyName: 'userId',
+      valueName: 'realName',
+      search: true
     }, {
       title: '车辆总价',
       amount: true,
@@ -60,7 +66,10 @@ class HandleApply extends React.Component {
     }, {
       title: '申请时间',
       field: 'createDatetime',
-      type: 'datetime'
+      type: 'date',
+      rangedate: ['createDatetimeStart', 'createDatetimeEnd'],
+      render: dateTimeFormat,
+      search: true
     }, {
       title: '车贷计算器信息',
       field: 'saleDesc'
