@@ -7,7 +7,7 @@ import {
   setPageData,
   restore
 } from '@redux/recruit/entry-check.js';
-import {getQueryString, getUserId, showSucMsg} from 'common/js/util';
+import {getQueryString, getUserId, showSucMsg, formatDate} from 'common/js/util';
 import fetch from 'common/js/fetch';
 import {
   CollapseWrapper
@@ -153,6 +153,9 @@ class entryCheck extends React.Component {
                         title: '起止时间',
                         field: 'time',
                         rangedate: ['startDatetime', 'endDatetime'],
+                        render: (v, d) => {
+                            return formatDate(d.startDatetime) + '~' + formatDate(d.endDatetime);
+                        },
                         type: 'date'
                     }, {
                         title: '工作单位',

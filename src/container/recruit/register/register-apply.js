@@ -153,6 +153,9 @@ class registerApply extends React.Component {
                             title: '起止时间',
                             field: 'time',
                             rangedate: ['startDatetime', 'endDatetime'],
+                            render: (v, d) => {
+                                return d.startDatetime + '~' + d.endDatetime;
+                            },
                             type: 'date'
                         }, {
                             title: '工作单位',

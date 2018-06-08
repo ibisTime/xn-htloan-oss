@@ -628,11 +628,11 @@ export default class DetailComponent extends React.Component {
                 title: f.title,
                 dataIndex: f.field
             };
-            if (f.type === 'datetime') {
+            if (f.type === 'datetime' && !f.render) {
                 obj.render = (v) => {
                     return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateTimeFormat(v)}</span> : dateTimeFormat(v);
                 };
-            } else if (f.type === 'date') {
+            } else if (f.type === 'date' && !f.render) {
                 obj.render = (v) => {
                     return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateFormat(v)}</span> : dateFormat(v);
                 };
@@ -682,6 +682,7 @@ export default class DetailComponent extends React.Component {
                     obj.render = (v) => f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{v}</span> : v;
                 }
             }
+
             if (f.fixed) {
                 obj.fixed = f.fixed;
                 obj.width = f.width || 100;
@@ -702,6 +703,15 @@ export default class DetailComponent extends React.Component {
         } else if (item.listCode) {
             let param = item.params || {};
             fetch(item.listCode, param).then(data => {
+                this.setSearchData({data, key: item.field});
+            }).catch(() => {
+            });
+        } else if (item.pageCode) {
+            let param = item.params || {};
+            param.limit = param.limit || 20;
+            param.start = param.start || 1;
+            fetch(item.pageCode, param).then(d => {
+                let data = d.list ? d.list : d;
                 this.setSearchData({data, key: item.field});
             }).catch(() => {
             });
@@ -853,6 +863,9 @@ export default class DetailComponent extends React.Component {
         let value = '';
         if (initVal) {
             value = initVal;
+        }
+        if (item.readonly && item.onChange) {
+            item.onChange(initVal);
         }
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
