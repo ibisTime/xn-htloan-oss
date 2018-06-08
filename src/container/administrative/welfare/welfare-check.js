@@ -51,23 +51,12 @@ class welfareCheck extends React.Component {
         edit: true,
         delete: true,
         fields: [{
-          title: '部门',
-          field: 'departmentCode',
-          type: 'select',
-          listCode: 630106,
-          params: {
-            typeList: ['2']
-          },
-          keyName: 'code',
-          valueName: 'name'
-        }, {
           title: '姓名',
-          field: 'userName'
-        }, {
-          title: '性别',
-          field: 'gender',
+          field: 'userId',
           type: 'select',
-          key: 'gender'
+          listCode: 632807,
+          keyName: 'userId',
+          valueName: 'realName'
         }, {
           title: '备注说明',
           field: 'remark'
