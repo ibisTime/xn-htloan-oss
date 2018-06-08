@@ -859,7 +859,7 @@ export default class DetailComponent extends React.Component {
         if (initVal) {
             value = initVal;
         }
-        if (item.readonly && item.onChange) {
+        if (item.readonly && item.onChange && this.props.isLoaded && this.props.selectData[item.field]) {
             item.onChange(initVal);
         }
         return (

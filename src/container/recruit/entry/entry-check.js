@@ -283,7 +283,7 @@ class entryCheck extends React.Component {
                 field: 'bankCode',
                 type: 'select',
                 listCode: 802016,
-                keyName: 'bankCode',
+                keyName: 'code',
                 valueName: 'bankName',
                 readonly: true
             }, {

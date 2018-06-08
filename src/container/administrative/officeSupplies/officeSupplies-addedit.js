@@ -167,7 +167,7 @@ class officeSuppliesAddedit extends React.Component {
                     pageCode: 630065,
                     keyName: 'userId',
                     valueName: '{{departmentName.DATA}}{{postName.DATA}}-{{realName.DATA}}',
-                    searchName: 'userName',
+                    searchName: 'realName',
                     required: true,
                     render: (v, data) => {
                         return data.archive ? data.archive.realName : '-';
