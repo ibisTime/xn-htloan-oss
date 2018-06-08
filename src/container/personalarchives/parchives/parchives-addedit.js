@@ -205,8 +205,7 @@ class parchivesAddedit extends React.Component {
                 number: true
             }, {
                 title: '车牌号',
-                field: 'carNo',
-                number: true
+                field: 'carNo'
             }], [{
                 title: '身份证复印件',
                 field: 'idNoPdf',

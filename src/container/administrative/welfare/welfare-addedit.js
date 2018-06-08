@@ -60,7 +60,7 @@ class welfareAddedit extends React.Component {
                 }, {
                     title: '姓名',
                     field: 'userId',
-                    listCode: 630066,
+                    listCode: 632807,
                     type: 'select',
                     keyName: 'userId',
                     valueName: 'realName'

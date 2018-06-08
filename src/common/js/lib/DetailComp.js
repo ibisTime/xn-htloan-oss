@@ -625,11 +625,11 @@ export default class DetailComponent extends React.Component {
                 title: f.title,
                 dataIndex: f.field
             };
-            if (f.type === 'datetime') {
+            if (f.type === 'datetime' && !f.render) {
                 obj.render = (v) => {
                     return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateTimeFormat(v)}</span> : dateTimeFormat(v);
                 };
-            } else if (f.type === 'date') {
+            } else if (f.type === 'date' && !f.render) {
                 obj.render = (v) => {
                     return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateFormat(v)}</span> : dateFormat(v);
                 };

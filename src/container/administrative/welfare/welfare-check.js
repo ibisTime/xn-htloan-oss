@@ -12,6 +12,7 @@ import {
   getUserId,
   showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
   DetailWrapper
 } from 'common/js/build-detail';
@@ -32,35 +33,50 @@ class welfareCheck extends React.Component {
   }
   render() {
     const fields = [{
-      title: '违章人',
-      field: 'code',
-      listCode: 630066,
-      type: 'select',
-      keyName: 'userId',
-      valueName: 'realName',
+      title: '申请事宜',
+      field: 'applyNote',
       required: true
     }, {
-      title: '车牌号',
-      field: 'carNo',
-      required: true
+      title: '申请人',
+      field: 'applyUser',
+      value: getUserId(),
+      hidden: true
     }, {
-      title: '违法时间',
-      field: 'code',
-      required: true,
-      type: 'date'
-    }, {
-      title: '违章地点',
-      field: 'address',
-      required: true
-    }, {
-      title: '违法行为',
-      field: 'action',
-      required: true
-    }, {
-      title: '罚款金额',
-      field: 'code',
-      required: true,
-      amount: true
+      title: '发放人员',
+      field: 'userList',
+      readonly: true,
+      type: 'o2m',
+      options: {
+        add: true,
+        edit: true,
+        delete: true,
+        fields: [{
+          title: '部门',
+          field: 'departmentCode',
+          type: 'select',
+          listCode: 630106,
+          params: {
+            typeList: ['2']
+          },
+          keyName: 'code',
+          valueName: 'name'
+        }, {
+          title: '姓名',
+          field: 'userId',
+          listCode: 630066,
+          type: 'select',
+          keyName: 'userId',
+          valueName: 'realName'
+        }, {
+          title: '性别',
+          field: 'gender',
+          type: 'select',
+          key: 'gender'
+        }, {
+          title: '备注说明',
+          field: 'remark'
+        }]
+      }
     }, {
       title: '备注',
       field: 'remark'

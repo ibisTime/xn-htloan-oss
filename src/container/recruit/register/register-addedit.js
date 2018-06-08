@@ -116,6 +116,9 @@ class registerAddedit extends React.Component {
                         title: '起止时间',
                         field: 'time',
                         rangedate: ['startDatetime', 'endDatetime'],
+                        render: (v, d) => {
+                            return d.startDatetime + '~' + d.endDatetime;
+                        },
                         type: 'date'
                     }, {
                         title: '工作单位',
@@ -182,7 +185,7 @@ class registerAddedit extends React.Component {
                 valueName: 'value'
             }, {
                 title: '能否加班',
-                field: 'postCode',
+                field: 'isOverTime',
                 type: 'select',
                 data: [{
                     key: '0',

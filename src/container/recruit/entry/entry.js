@@ -67,7 +67,7 @@ class entry extends React.Component {
             valueName: 'name'
         }, {
             title: '申请时间',
-            field: 'establishQuantity',
+            field: 'applyDatetime',
             type: 'date'
         }, {
             title: '姓名',
