@@ -11,7 +11,8 @@ import {
 } from '@redux/attendance/overtime';
 import {
   showWarnMsg,
-  showSucMsg
+  showSucMsg,
+  dateTimeFormat
 } from 'common/js/util';
 import {
     listWrapper
@@ -66,7 +67,8 @@ class overtime extends React.Component {
             title: '申请时间',
             field: 'applyDatetime',
             rangedate: ['startApplyDatetime', 'endApplyDatetime'],
-            type: 'datetime',
+            type: 'date',
+            render: dateTimeFormat,
             search: true
         }, {
             title: '状态',

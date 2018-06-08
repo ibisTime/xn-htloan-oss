@@ -11,7 +11,8 @@ import {
 } from '@redux/attendance/publicity';
 import {
   showWarnMsg,
-  showSucMsg
+  showSucMsg,
+  dateTimeFormat
 } from 'common/js/util';
 import {
     listWrapper
@@ -58,7 +59,8 @@ class publicity extends React.Component {
             title: '申请时间',
             field: 'applyDatetime',
             rangedate: ['startDatetime', 'endDatetime'],
-            type: 'datetime',
+            type: 'date',
+            render: dateTimeFormat,
             search: true
         }, {
             title: '状态',

@@ -39,7 +39,7 @@ class LocationcodeAddedit extends React.Component {
                         view: this.view,
                         addCode: 632820,
                         editCode: 632822,
-                        detailCode: 632827
+                        detailCode: 632826
                     })
                 }
             </div>

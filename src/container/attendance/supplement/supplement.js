@@ -11,7 +11,8 @@ import {
 } from '@redux/attendance/supplement';
 import {
     showWarnMsg,
-    showSucMsg
+    showSucMsg,
+    dateTimeFormat
 } from 'common/js/util';
 import {
     listWrapper
@@ -70,7 +71,8 @@ class supplement extends React.Component {
             title: '申请时间',
             field: 'applyDatetime',
             rangedate: ['startDatetime', 'endDatetime'],
-            type: 'datetime',
+            type: 'date',
+            render: dateTimeFormat,
             search: true
         }, {
             title: '状态',

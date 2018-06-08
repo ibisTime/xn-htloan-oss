@@ -38,8 +38,7 @@ class Integral extends React.Component {
       }
     }, {
       title: '数值',
-      field: 'cvalue',
-      amount: true
+      field: 'cvalue'
     }];
     return this.props.buildList({
       fields,

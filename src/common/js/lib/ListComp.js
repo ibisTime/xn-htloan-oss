@@ -56,15 +56,23 @@ export default class ListComponent extends React.Component {
         dataIndex: f.field
       };
       if (f.type === 'datetime') {
-        obj.render = (v) => {
-          return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateTimeFormat(v)}</span> : dateTimeFormat(v);
-        };
-        this.addRender(f, dateTimeFormat);
+        if (f.render) {
+            obj.render = f.render;
+        } else {
+          obj.render = (v) => {
+            return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateTimeFormat(v)}</span> : dateTimeFormat(v);
+          };
+          this.addRender(f, dateTimeFormat);
+        }
       } else if (f.type === 'date') {
-        obj.render = (v) => {
-          return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateFormat(v)}</span> : dateFormat(v);
-        };
-        this.addRender(f, dateFormat);
+        if (f.render) {
+          obj.render = f.render;
+        } else {
+          obj.render = (v) => {
+             return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateFormat(v)}</span> : dateFormat(v);
+          };
+          this.addRender(f, dateFormat);
+        }
       } else if (f.type === 'select') {
         if (f.key) {
           f.keyName = f.keyName || 'dkey';

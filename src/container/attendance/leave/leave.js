@@ -11,7 +11,8 @@ import {
 } from '@redux/attendance/leave';
 import {
     showWarnMsg,
-    showSucMsg
+    showSucMsg,
+    dateTimeFormat
 } from 'common/js/util';
 import {
     listWrapper
@@ -75,8 +76,9 @@ class leave extends React.Component {
         }, {
             title: '申请时间',
             field: 'applyDatetime',
-            rangedate: ['startDatetime', 'endDatetime'],
-            type: 'datetime',
+            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
+            type: 'date',
+            render: dateTimeFormat,
             search: true
         }, {
             title: '状态',

@@ -25,7 +25,8 @@ class SysParam extends React.Component {
   render() {
     const fields = [{
       field: 'remark',
-      title: '参数名'
+      title: '参数名',
+      search: true
     }, {
       field: 'cvalue',
       title: '参数值'
