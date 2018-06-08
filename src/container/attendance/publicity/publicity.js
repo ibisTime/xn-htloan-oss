@@ -50,7 +50,7 @@ class publicity extends React.Component {
             field: 'departmentName'
         }, {
             title: '职务',
-            field: 'postCode'
+            field: 'postName'
         }, {
             title: '共计(小时)',
             field: 'totalHour'

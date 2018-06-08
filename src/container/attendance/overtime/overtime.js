@@ -50,7 +50,7 @@ class overtime extends React.Component {
             field: 'departmentName'
         }, {
             title: '职务',
-            field: 'postCode'
+            field: 'postName'
         }, {
             title: '开始时间',
             field: 'startDatetime',

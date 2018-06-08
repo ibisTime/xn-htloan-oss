@@ -60,12 +60,6 @@ class outtreasuryAddedit extends React.Component {
             required: true,
             readonly: true
         }, {
-            title: '总价',
-            field: 'totalPrice',
-            amount: true,
-            required: true,
-            readonly: true
-        }, {
             title: '出库数量',
             field: 'quantity',
             required: true,

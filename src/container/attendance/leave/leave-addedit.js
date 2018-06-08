@@ -85,7 +85,12 @@ class leaveAddedit extends React.Component {
             key: 'leave_apply_type',
             required: true,
             onChange: (value) => {
-                if (!this.props.pageData.totalHour1) {
+                if (value === '3') {
+                    this.hideStatus = false;
+                } else {
+                    this.hideStatus = true;
+                }
+                if (value === '3' && !this.props.pageData.totalHour1) {
                     this.props.doFetching();
                     fetch(632892, {applyUser: getUserId()}).then((data) => {
                         this.props.setPageData({
@@ -97,7 +102,6 @@ class leaveAddedit extends React.Component {
                         this.props.cancelFetching();
                     }).catch(this.props.cancelFetching);
                 }
-                this.hideStatus = value !== '3';
             }
         }, {
             title: '总年休假(小时)',

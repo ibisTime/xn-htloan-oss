@@ -84,7 +84,7 @@ class travelAddedit extends React.Component {
             required: true
         }, {
             title: '出差明细',
-            field: 'detailList',
+            field: 'travelApplyDetailList',
             type: 'o2m',
             options: {
                 add: true,
@@ -125,6 +125,22 @@ class travelAddedit extends React.Component {
             field: 'reason',
             required: true
         }, {
+            title: '申请人',
+            field: 'applyUserName',
+            hidden: ((!this.view && this.isCheck) || !this.code)
+        }, {
+            title: '工号',
+            field: 'jobNo',
+            hidden: ((!this.view && this.isCheck) || !this.code)
+        }, {
+            title: '部门',
+            field: 'departmentName',
+            hidden: ((!this.view && this.isCheck) || !this.code)
+        }, {
+            title: '职务',
+            field: 'postName',
+            hidden: ((!this.view && this.isCheck) || !this.code)
+        }, {
             title: '备注',
             field: 'remark'
         }];
@@ -136,7 +152,8 @@ class travelAddedit extends React.Component {
             detailCode: 632626,
             buttons: this.buttons,
             beforeSubmit: (data) => {
-                if (!data.detailList || data.detailList.length < 1) {
+                console.log(data);
+                if (!data.travelApplyDetailList || data.travelApplyDetailList.length < 1) {
                     showWarnMsg('出差明细不能为空');
                     return;
                 }
