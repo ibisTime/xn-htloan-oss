@@ -100,6 +100,8 @@ class applys extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
+                } else if (selectedRows[0].status !== '0') {
+                    showWarnMsg('不是待审核的状态');
                 } else {
                   this.props.history.push(`/recruit/apply/check?code=${selectedRowKeys[0]}`);
                 }

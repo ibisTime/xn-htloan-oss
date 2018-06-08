@@ -131,6 +131,8 @@ class formal extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
+                } else if (selectedRows[0].status !== '1') {
+                    showWarnMsg('不是审核已通过的状态');
                 } else {
                   this.props.history.push(`/recruit/formal/apply?code=${selectedRowKeys[0]}&entryCode=${selectedRows[0].entryCode}`);
                 }
@@ -140,6 +142,8 @@ class formal extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
+                } else if (selectedRows[0].status !== '0') {
+                    showWarnMsg('不是待审核的状态');
                 } else {
                   this.props.history.push(`/recruit/formal/check?code=${selectedRowKeys[0]}`);
                 }
