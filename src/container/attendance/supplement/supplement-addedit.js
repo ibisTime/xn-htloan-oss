@@ -78,7 +78,8 @@ class supplementAddedit extends React.Component {
     render() {
         const fields = [{
             title: '缘由',
-            field: 'reason'
+            field: 'reason',
+            required: true
         }, {
             title: '漏签明细',
             field: 'detailList',
@@ -135,7 +136,7 @@ class supplementAddedit extends React.Component {
             code: this.code,
             view: this.view,
             addCode: 632600,
-            detailCode: 632896,
+            detailCode: 632606,
             buttons: this.buttons,
             beforeSubmit: (data) => {
                 data.applyUser = getUserId();

@@ -91,15 +91,24 @@ class travelAddedit extends React.Component {
                 edit: true,
                 delete: true,
                 fields: [{
-                    title: '开始时间',
-                    field: 'startDatetime',
+                    title: '出差时间',
+                    field: 'datetime',
                     type: 'datetime',
-                    required: true
-                }, {
-                    title: '结束时间',
-                    field: 'endDatetime',
-                    type: 'datetime',
-                    required: true
+                    rangedate: ['startDatetime', 'endDatetime'],
+                    required: true,
+                    onChange: (dates, dateStrings, props) => {
+                        let startDatetime = new Date(dateStrings[0]); // 开始时间
+                        let endDatetime = new Date(dateStrings[1]); // 结束时间
+                        if (startDatetime && endDatetime) {
+                            let time = endDatetime.getTime() - startDatetime.getTime();
+                            let hours = (time / (3600 * 1000)).toFixed(2);
+                            props.form.setFieldsValue({
+                                totalHour: hours,
+                                datetime: dateStrings[0] + '至' + dateStrings[1]
+                            });
+                            console.log(props.form.getFieldValue('datetime'));
+                        }
+                    }
                 }, {
                     title: '出差时长(小时)',
                     field: 'totalHour',
@@ -124,7 +133,11 @@ class travelAddedit extends React.Component {
             view: this.view,
             addCode: 632620,
             detailCode: 632626,
-            buttons: this.buttons
+            buttons: this.buttons,
+            beforeSubmit: (data) => {
+                data.applyUser = getUserId();
+                return data;
+            }
         });
     }
 }
