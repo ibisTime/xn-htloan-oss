@@ -10,7 +10,7 @@ import {
   setSearchData
 } from '@redux/biz/historicalApply';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, showSucMsg } from 'common/js/util';
+import { showWarnMsg, showSucMsg, dateTimeFormat } from 'common/js/util';
 import { Button, Upload, Modal } from 'antd';
 import { lowerFrameSys, onShelfSys } from 'api/biz';
 
@@ -33,6 +33,9 @@ class HistoricalApply extends React.Component {
       title: '申请人',
       field: 'userId',
       type: 'select',
+      listCode: 630066,
+      keyName: 'userId',
+      valueName: 'realName',
       search: true
     }, {
       title: '车辆总价',
@@ -44,10 +47,17 @@ class HistoricalApply extends React.Component {
       field: 'sfAmount'
     }, {
       title: '申请时间',
-      field: 'createDatetime'
+      field: 'createDatetime',
+      type: 'date',
+      rangedate: ['createDatetimeStart', 'createDatetimeEnd'],
+      render: dateTimeFormat,
+      search: true
     }, {
-      title: '车贷计算器信息',
-      field: 'saleDesc'
+      title: '状态',
+      field: 'status',
+      type: 'select',
+      key: '',
+      search: true
     }];
     return this.props.buildList({
       fields,

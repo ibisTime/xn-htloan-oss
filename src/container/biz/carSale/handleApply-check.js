@@ -39,6 +39,10 @@ class handleApplyCheck extends React.Component {
         }, {
             title: '申请人姓名',
             field: 'userId',
+            type: 'select',
+            listCode: 630066,
+            keyName: 'userId',
+            valueName: 'realName',
             readonly: true
         }, {
             title: '首付比例',

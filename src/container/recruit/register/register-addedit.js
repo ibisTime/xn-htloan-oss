@@ -174,54 +174,22 @@ class registerAddedit extends React.Component {
                 title: '能否出差',
                 field: 'isOut',
                 type: 'select',
-                data: [{
-                    key: '0',
-                    value: '否'
-                }, {
-                    key: '1',
-                    value: '是'
-                }],
-                kayName: 'key',
-                valueName: 'value'
+                key: 'can_or_no'
             }, {
                 title: '能否加班',
                 field: 'isOverTime',
                 type: 'select',
-                data: [{
-                    key: '0',
-                    value: '否'
-                }, {
-                    key: '1',
-                    value: '是'
-                }],
-                kayName: 'key',
-                valueName: 'value'
+                key: 'can_or_no'
             }], [{
                 title: '是否曾在我公司应聘',
                 field: 'isOnceRecruited',
                 type: 'select',
-                data: [{
-                    key: '0',
-                    value: '否'
-                }, {
-                    key: '1',
-                    value: '是'
-                }],
-                kayName: 'key',
-                valueName: 'value'
+                key: 'can_or_no'
             }, {
                 title: '是否有亲属或朋友在我司工作',
                 field: 'isFriendWork',
                 type: 'select',
-                data: [{
-                    key: '0',
-                    value: '否'
-                }, {
-                    key: '1',
-                    value: '是'
-                }],
-                kayName: 'key',
-                valueName: 'value'
+                key: 'can_or_no'
             }]
         ]
     }];

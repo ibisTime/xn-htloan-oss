@@ -93,7 +93,7 @@ class applys extends React.Component {
             pageCode: 632845,
             btnEvent: {
               apply: (selectedRowKeys, selectedRows) => {
-                this.props.history.push(`/recruit/apply/apply?code=${selectedRowKeys[0]}`);
+                this.props.history.push(`/recruit/apply/apply`);
               },
               check: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {

@@ -50,7 +50,7 @@ class parchives extends React.Component {
       valueName: 'name',
       search: true
     }, {
-      title: '服务岗位',
+      title: '岗位',
       field: 'postCode',
       type: 'select',
       listCode: 630106,

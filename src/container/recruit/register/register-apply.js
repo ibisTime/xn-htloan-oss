@@ -7,7 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/recruit/register-apply.js';
-import {getQueryString, getUserId, showSucMsg} from 'common/js/util';
+import {getQueryString, getUserId, showSucMsg, formatDate} from 'common/js/util';
 import fetch from 'common/js/fetch';
 import {
     CollapseWrapper
@@ -154,7 +154,7 @@ class registerApply extends React.Component {
                             field: 'time',
                             rangedate: ['startDatetime', 'endDatetime'],
                             render: (v, d) => {
-                                return d.startDatetime + '~' + d.endDatetime;
+                                return formatDate(d.startDatetime) + '~' + formatDate(d.endDatetime);
                             },
                             type: 'date'
                         }, {
@@ -191,7 +191,7 @@ class registerApply extends React.Component {
                     title: '与本人关系',
                     field: 'relativeRelation',
                     type: 'select',
-                    key: 'credit_user_relation',
+                    key: 'borrower_relation',
                     required: true
                 }, {
                     title: '职务',
@@ -222,43 +222,57 @@ class registerApply extends React.Component {
                     amount: true
                 }], [{
                     title: '绩效工资考核标准',
-                    field: 'performSalaryStandard'
-                }], [{
+                    field: 'performSalaryStandard',
+                    type: 'textarea',
+                    normalArea: true
+                }, {
                     title: '季度奖考核标准',
-                    field: 'quarterlyAwardStandard'
+                    field: 'quarterlyAwardStandard',
+                    type: 'textarea',
+                    normalArea: true
                 }], [{
                     title: '通讯费报销标准',
-                    field: 'commumicationFeeStandard'
-                }], [{
+                    field: 'communicatePayStandard',
+                    type: 'textarea',
+                    normalArea: true
+                }, {
                     title: '省会住宿报销标准',
-                    field: 'provincialBedStandard'
+                    field: 'provincialBedStandard',
+                    type: 'textarea',
+                    normalArea: true
                 }], [{
                     title: '非省会住宿报销标准',
-                    field: 'noProvincialBedStandard'
+                    field: 'nonProvincialBedStandard',
+                    type: 'textarea',
+                    normalArea: true
                 }], [{
-                    title: '出租车',
-                    field: 'taxiWard'
-                }], [{
-                    title: '市内交通现金补助',
-                    field: 'trafficAward',
+                    title: '出租车补助',
+                    field: 'taxiStandard',
                     amount: true
                 }, {
+                    title: '市内交通现金补助',
+                    field: 'trafficStandard',
+                    amount: true
+                }], [{
                     title: '电话现金补贴',
-                    field: 'mobileAward',
+                    field: 'mobileStandard',
                     amount: true
                 }, {
                     title: '餐补',
-                    field: 'mealAward',
+                    field: 'mealStandard',
                     amount: true
                 }], [{
-                    title: '工资卡账号（建行）',
+                    title: '工资卡账号',
                     field: 'salaryCardNo'
                 }, {
                     title: '开户行',
-                    field: 'bank'
+                    field: 'bankCode',
+                    listCOde: 802016,
+                    keyName: 'bankCode',
+                    valueName: 'bankName'
                 }, {
-                    title: '开户行行号',
-                    field: 'bankCode'
+                    title: '开户行支行',
+                    field: 'subbranch'
                 }]
             ]
         }];
@@ -268,6 +282,7 @@ class registerApply extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
+                detailCode: 632856,
                 buttons: [{
                   title: '确认',
                   handler: (param) => {

@@ -37,9 +37,10 @@ class applyAddedit extends React.Component {
             [{
                 title: '招聘岗位',
                 field: 'position',
+                type: 'select',
                 listCode: 630106,
                 params: {
-                  typeList: '3'
+                  typeList: ['3']
                 },
                 keyName: 'code',
                 valueName: 'name'
@@ -54,7 +55,7 @@ class applyAddedit extends React.Component {
                 field: 'applyQuantity'
             }, {
                 title: '需求到岗时间',
-                field: 'applyDatetime',
+                field: 'requireDatetime',
                 type: 'date'
             }]
         ]
@@ -63,10 +64,22 @@ class applyAddedit extends React.Component {
         items: [
             [{
                 title: '被代替职位',
-                field: 'replacePosition'
+                field: 'replacePosition',
+                required: true,
+                type: 'select',
+                listCode: 630106,
+                params: {
+                  typeList: ['3']
+                },
+                keyName: 'code',
+                valueName: 'name'
             }, {
                 title: '被替代者姓名',
-                field: 'replaceRealName'
+                field: 'replaceRealName',
+                type: 'select',
+                listCode: 632807,
+                keyName: 'userId',
+                valueName: 'realName'
             }, {
                 title: '原因',
                 field: 'newApplyReason'
