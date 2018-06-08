@@ -69,7 +69,6 @@ class applyAddedit extends React.Component {
             [{
                 title: '被代替职位',
                 field: 'replacePosition',
-                required: true,
                 type: 'select',
                 listCode: 630106,
                 params: {
