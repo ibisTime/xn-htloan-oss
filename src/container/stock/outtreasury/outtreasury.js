@@ -40,12 +40,23 @@ import {
 class outtreasury extends React.Component {
     render() {
         const fields = [{
-
             title: '品名',
-            field: 'productName'
+            field: 'productCode',
+            type: 'select',
+            listCode: '632757',
+            params: {},
+            keyName: 'code',
+            valueName: 'name',
+            search: true
         }, {
             title: '类别',
-            field: 'categoryName'
+            field: 'categoryCode',
+            type: 'select',
+            listCode: '632747',
+            params: {},
+            keyName: 'code',
+            valueName: 'name',
+            search: true
         }, {
             title: '出库数量',
             field: 'quantity'
