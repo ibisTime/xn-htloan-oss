@@ -22,6 +22,10 @@ class BrandAddedit extends React.Component {
   }
   render() {
     const fields = [{
+      title: '名称',
+      field: 'name',
+      required: true
+    }, {
       field: 'logo',
       title: 'logo',
       type: 'img',
@@ -30,10 +34,6 @@ class BrandAddedit extends React.Component {
     }, {
       field: 'description',
       title: '品牌介绍'
-    }, {
-      title: '名称',
-      field: 'name',
-      required: true
     }, {
       title: '字母顺序',
       field: 'letter',
@@ -71,52 +71,52 @@ class BrandAddedit extends React.Component {
         key: '9',
         value: 'G'
       }, {
-        key: '2',
+        key: '10',
         value: 'K'
       }, {
-        key: '10',
-        value: 'L'
-      }, {
         key: '11',
-        value: 'M'
+        value: 'L'
       }, {
         key: '12',
-        value: 'N'
+        value: 'M'
       }, {
         key: '13',
-        value: 'O'
+        value: 'N'
       }, {
         key: '14',
-        value: 'P'
+        value: 'O'
       }, {
         key: '15',
-        value: 'Q'
+        value: 'P'
       }, {
         key: '16',
-        value: 'L'
+        value: 'Q'
       }, {
         key: '17',
-        value: 'S'
+        value: 'L'
       }, {
         key: '18',
-        value: 'T'
+        value: 'S'
       }, {
         key: '19',
-        value: 'U'
+        value: 'T'
       }, {
         key: '20',
-        value: 'V'
+        value: 'U'
       }, {
         key: '21',
-        value: 'W'
+        value: 'V'
       }, {
         key: '22',
-        value: 'X'
+        value: 'W'
       }, {
         key: '23',
-        value: 'Y'
+        value: 'X'
       }, {
         key: '24',
+        value: 'Y'
+      }, {
+        key: '25',
         value: 'Z'
       }],
       keyName: 'key',

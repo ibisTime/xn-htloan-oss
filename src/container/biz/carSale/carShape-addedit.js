@@ -31,13 +31,7 @@ class CarShapeAddEdit extends React.Component {
         status: '1'
       },
       onChange: (v) => {
-        this.props.setSelectData({
-          data: [],
-          key: 'seriesCode'
-        });
-        this.props.form.setFieldsValue({
-          seriesCode: ''
-        });
+        this.props.setSelectData.seriesCode = '';
         fetch(630416, {
           brandCode: v,
           status: '1'
@@ -99,8 +93,7 @@ class CarShapeAddEdit extends React.Component {
       required: true
     }, {
       title: '备注',
-      field: 'remark',
-      required: true
+      field: 'remark'
     }];
     return this.props.buildDetail({
       fields,

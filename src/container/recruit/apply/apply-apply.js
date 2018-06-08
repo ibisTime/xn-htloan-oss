@@ -102,11 +102,13 @@ class applyAddedit extends React.Component {
             }],
             [{
                 title: '说明',
-                field: 'note'
+                field: 'note',
+                type: 'textarea',
+                normalArea: true
             }]
         ]
     }, {
-        title: '个人信息',
+        title: '招聘要求',
         items: [
             [{
                 title: '性别',

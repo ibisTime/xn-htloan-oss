@@ -177,7 +177,9 @@ class registerApply extends React.Component {
                     }
                 }], [{
                     title: '主要业绩及工作能力简述',
-                    field: 'mainPerform'
+                    field: 'mainPerform',
+                    type: 'textarea',
+                    normalArea: true
                 }]
             ]
         }, {
@@ -267,8 +269,9 @@ class registerApply extends React.Component {
                 }, {
                     title: '开户行',
                     field: 'bankCode',
-                    listCOde: 802016,
-                    keyName: 'bankCode',
+                    type: 'select',
+                    listCode: 802016,
+                    keyName: 'code',
                     valueName: 'bankName'
                 }, {
                     title: '开户行支行',

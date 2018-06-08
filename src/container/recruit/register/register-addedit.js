@@ -8,7 +8,8 @@ import {
   restore
 } from '@redux/recruit/register-addedit.js';
 import {
-  getQueryString
+  getQueryString,
+  formatDate
 } from 'common/js/util';
 import {
   CollapseWrapper
@@ -117,7 +118,7 @@ class registerAddedit extends React.Component {
                         field: 'time',
                         rangedate: ['startDatetime', 'endDatetime'],
                         render: (v, d) => {
-                            return d.startDatetime + '~' + d.endDatetime;
+                            return formatDate(d.startDatetime) + '~' + formatDate(d.endDatetime);
                         },
                         type: 'date'
                     }, {

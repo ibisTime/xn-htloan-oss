@@ -102,7 +102,7 @@ class applyAddedit extends React.Component {
             }]
         ]
     }, {
-        title: '个人信息',
+        title: '招聘要求',
         items: [
             [{
                 title: '性别',
