@@ -1186,12 +1186,7 @@ const ROUTES = [
   {
       path: '/administrative/cost',
       component: asyncComponent(() => import('container/administrative/cost/cost'))
-  },
-  //  费用预支申请 申请
-  {
-      path: '/administrative/cost/apply',
-      component: asyncComponent(() => import('container/administrative/cost/apply'))
-  },
+  }
 
 ];
 
