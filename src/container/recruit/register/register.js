@@ -93,7 +93,7 @@ class register extends React.Component {
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else if (selectedRows[0].status !== '1') {
-                    showWarnMsg('不是带面试已通过的状态');
+                    showWarnMsg('不是面试已通过的状态');
                 } else {
                   this.props.history.push(`/recruit/register/apply?code=${selectedRowKeys[0]}`);
                 }
@@ -104,7 +104,7 @@ class register extends React.Component {
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else if (selectedRows[0].status !== '0') {
-                    showWarnMsg('不是带面试的状态');
+                    showWarnMsg('不是待面试的状态');
                 } else {
                   this.props.history.push(`/recruit/register/enter?code=${selectedRowKeys[0]}`);
                 }

@@ -267,7 +267,8 @@ class registerApply extends React.Component {
                 }, {
                     title: '开户行',
                     field: 'bankCode',
-                    listCOde: 802016,
+                    type: 'select',
+                    listCode: 802016,
                     keyName: 'bankCode',
                     valueName: 'bankName'
                 }, {
