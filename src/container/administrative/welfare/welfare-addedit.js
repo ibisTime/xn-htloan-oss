@@ -61,7 +61,8 @@ class welfareAddedit extends React.Component {
             }
         }, {
             title: '备注',
-            field: 'remark'
+            field: 'remark',
+            required: true
         }];
         return this
             .props
