@@ -70,7 +70,7 @@ class supplement extends React.Component {
         }, {
             title: '申请时间',
             field: 'applyDatetime',
-            rangedate: ['startDatetime', 'endDatetime'],
+            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
             type: 'date',
             render: dateTimeFormat,
             search: true
