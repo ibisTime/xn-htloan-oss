@@ -35,12 +35,8 @@ class welfareCheck extends React.Component {
     const fields = [{
       title: '申请事宜',
       field: 'applyNote',
+      readonly: true,
       required: true
-    }, {
-      title: '申请人',
-      field: 'applyUser',
-      value: getUserId(),
-      hidden: true
     }, {
       title: '发放人员',
       field: 'welfareUserList',
@@ -79,7 +75,7 @@ class welfareCheck extends React.Component {
             param.approveResult = '1';
             param.updater = getUserId();
             this.props.doFetching();
-            fetch(630661, param).then(() => {
+            fetch(632661, param).then(() => {
               showSucMsg('操作成功');
               this.props.cancelFetching();
               setTimeout(() => {
@@ -95,7 +91,7 @@ class welfareCheck extends React.Component {
             param.approveResult = '0';
             param.updater = getUserId();
             this.props.doFetching();
-            fetch(630661, param).then(() => {
+            fetch(632661, param).then(() => {
               showSucMsg('操作成功');
               this.props.cancelFetching();
               setTimeout(() => {

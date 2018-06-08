@@ -80,7 +80,7 @@ class leaderAddedit extends React.Component {
             title: '请示领导',
             field: 'leadUserId',
             type: 'select',
-            pageCode: 630065,
+            listCode: 632807,
             keyName: 'userId',
             valueName: '{{departmentName.DATA}}{{postName.DATA}}-{{realName.DATA}}',
             searchName: 'userName',

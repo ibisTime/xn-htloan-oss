@@ -12,6 +12,7 @@ import {
 import {showWarnMsg, getUserId} from 'common/js/util';
 import {listWrapper} from 'common/js/build-list';
 import { Modal } from 'antd';
+import fetch from 'common/js/fetch';
 
 @listWrapper(
     state => ({
@@ -61,11 +62,24 @@ class Notice extends React.Component {
             fields,
             pageCode: 632725,
             btnEvent: {
+                edit: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].status !== '0') {
+                        showWarnMsg('不是可修改的状态！');
+                    } else {
+                        this.props.history.push(`/notice/notice/addedit?code=${selectedRowKeys[0]}`);
+                    }
+                },
                 up: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].status !== '0') {
+                        showWarnMsg('不是可发布的状态');
                     } else {
                         Modal.confirm({
                             okText: '确认',
@@ -73,12 +87,16 @@ class Notice extends React.Component {
                             content: '确定发布？',
                             onOk: () => {
                                 this.props.doFetching();
-                                return fetch(804036, {
-                                    id: selectedRowKeys[0].id,
+                                return fetch(632723, {
+                                    code: selectedRowKeys[0],
+                                    remark: selectedRows[0].remark,
                                     updater: getUserId()
                                 }).then(() => {
                                     this.props.cancelFetching();
                                     showWarnMsg('操作成功');
+                                    setTimeout(() => {
+                                        this.props.getPageData();
+                                    }, 1000);
                                 }).catch(() => {
                                     this.props.cancelFetching();
                                 });
@@ -91,6 +109,8 @@ class Notice extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].status !== '1') {
+                        showWarnMsg('不是撤下的状态');
                     } else {
                         Modal.confirm({
                             okText: '确认',
@@ -98,12 +118,16 @@ class Notice extends React.Component {
                             content: '确定撤下？',
                             onOk: () => {
                                 this.props.doFetching();
-                                return fetch(804036, {
-                                    code: selectedRowKeys,
+                                return fetch(632724, {
+                                    code: selectedRowKeys[0],
+                                    remark: selectedRows[0].remark,
                                     updater: getUserId()
                                 }).then(() => {
                                     this.props.cancelFetching();
                                     showWarnMsg('操作成功');
+                                    setTimeout(() => {
+                                        this.props.getPageData();
+                                    }, 1000);
                                 }).catch(() => {
                                     this.props.cancelFetching();
                                 });
