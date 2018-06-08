@@ -136,6 +136,7 @@ class registerEnter extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
+                detailCode: 632856,
                 buttons: [{
                   title: '面试通过',
                   handler: (param) => {

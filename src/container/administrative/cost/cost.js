@@ -32,18 +32,10 @@ class cost extends React.Component {
         }
     }, {
         title: '申请部门',
-        field: 'departmentCode',
+        field: 'departmentName',
         render: (v, d) => {
-            return d.applySysUser.departmentCode;
-        },
-        type: 'select',
-        listCode: 630106,
-        params: {
-            typeList: ['2']
-        },
-        keyName: 'code',
-        valueName: 'name',
-        search: true
+            return d.applySysUser.departmentName;
+        }
     }, {
         title: '类型',
         field: 'type',

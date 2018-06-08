@@ -41,7 +41,7 @@ class welfareAddedit extends React.Component {
             hidden: true
         }, {
             title: '发放人员',
-            field: 'userList',
+            field: 'welfareUserList',
             type: 'o2m',
             options: {
                 add: true,
@@ -59,11 +59,7 @@ class welfareAddedit extends React.Component {
                     valueName: 'name'
                 }, {
                     title: '姓名',
-                    field: 'userId',
-                    listCode: 632807,
-                    type: 'select',
-                    keyName: 'userId',
-                    valueName: 'realName'
+                    field: 'userName'
                 }, {
                     title: '性别',
                     field: 'gender',

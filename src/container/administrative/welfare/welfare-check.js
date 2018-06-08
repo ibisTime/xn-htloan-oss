@@ -43,7 +43,7 @@ class welfareCheck extends React.Component {
       hidden: true
     }, {
       title: '发放人员',
-      field: 'userList',
+      field: 'welfareUserList',
       readonly: true,
       type: 'o2m',
       options: {
@@ -62,11 +62,7 @@ class welfareCheck extends React.Component {
           valueName: 'name'
         }, {
           title: '姓名',
-          field: 'userId',
-          listCode: 630066,
-          type: 'select',
-          keyName: 'userId',
-          valueName: 'realName'
+          field: 'userName'
         }, {
           title: '性别',
           field: 'gender',

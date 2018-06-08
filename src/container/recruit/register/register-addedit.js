@@ -138,45 +138,47 @@ class registerAddedit extends React.Component {
                         mobile: true
                     }]
                 }
-            }], [{
-                title: '家庭成员',
-                field: 'socialRelationList',
-                required: true,
-                type: 'o2m',
-                options: {
-                    add: true,
-                    edit: true,
-                    delete: true,
-                    fields: [{
-                        title: '姓名',
-                        field: 'realName'
-                    }, {
-                        title: '与本人关系',
-                        field: 'relation',
-                        type: 'select',
-                        key: 'credit_user_relation'
-                    }, {
-                        title: '工作单位',
-                        field: 'companyName'
-                    }, {
-                        title: '职位',
-                        field: 'post'
-                    }, {
-                        title: '电话',
-                        field: 'contact',
-                        mobile: true
-                    }]
-                }
-            }], [{
+            }],
+            // [{
+            //     title: '家庭成员',
+            //     field: 'socialRelationList',
+            //     required: true,
+            //     type: 'o2m',
+            //     options: {
+            //         add: true,
+            //         edit: true,
+            //         delete: true,
+            //         fields: [{
+            //             title: '姓名',
+            //             field: 'realName'
+            //         }, {
+            //             title: '与本人关系',
+            //             field: 'relation',
+            //             type: 'select',
+            //             key: 'borrower_relation'
+            //         }, {
+            //             title: '工作单位',
+            //             field: 'companyName'
+            //         }, {
+            //             title: '职位',
+            //             field: 'post'
+            //         }, {
+            //             title: '电话',
+            //             field: 'contact',
+            //             mobile: true
+            //         }]
+            //     }
+            // }],
+            [{
                 title: '受过何种奖励或专业训练',
                 field: 'award'
             }, {
-                title: '能否出差',
+                title: '是否接受出差',
                 field: 'isOut',
                 type: 'select',
                 key: 'can_or_no'
             }, {
-                title: '能否加班',
+                title: '是否接受加班',
                 field: 'isOverTime',
                 type: 'select',
                 key: 'can_or_no'
