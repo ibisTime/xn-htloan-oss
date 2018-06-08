@@ -98,7 +98,7 @@ class applyAddedit extends React.Component {
             }],
             [{
                 title: '说明',
-                field: 'otherNote'
+                field: 'note'
             }]
         ]
     }, {

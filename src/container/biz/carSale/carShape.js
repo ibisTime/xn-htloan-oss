@@ -51,7 +51,7 @@ class CarShape extends React.Component {
       valueName: 'name'
     }, {
       title: '车系',
-      field: 'seriesName',
+      field: 'seriesCode',
       search: true,
       type: 'select',
       listCode: 630416,

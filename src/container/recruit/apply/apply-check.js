@@ -58,7 +58,7 @@ class applyCheck extends React.Component {
                 readonly: true
             }, {
                 title: '需求到岗时间',
-                field: 'applyDatetime',
+                field: 'requireDatetime',
                 type: 'date',
                 readonly: true
             }]
@@ -69,10 +69,21 @@ class applyCheck extends React.Component {
             [{
                 title: '被代替职位',
                 field: 'replacePosition',
+                listCode: 630106,
+                type: 'select',
+                params: {
+                  typeList: ['3']
+                },
+                keyName: 'code',
+                valueName: 'name',
                 readonly: true
             }, {
                 title: '被替代者姓名',
                 field: 'replaceRealName',
+                type: 'select',
+                listCode: 632807,
+                keyName: 'userId',
+                valueName: 'realName',
                 readonly: true
             }, {
                 title: '原因',
@@ -96,7 +107,7 @@ class applyCheck extends React.Component {
             }],
             [{
                 title: '说明',
-                field: 'otherNote',
+                field: 'note',
                 readonly: true
             }]
         ]

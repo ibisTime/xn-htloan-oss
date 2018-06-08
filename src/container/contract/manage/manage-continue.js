@@ -37,7 +37,7 @@ class manageContinue extends React.Component {
         type: 'select',
         keyName: 'code',
         valueName: 'realName',
-        required: true
+        readonly: true
     }, {
         title: '合同编号',
         field: 'contractNo',

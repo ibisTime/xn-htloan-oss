@@ -48,7 +48,7 @@ class registerEnter extends React.Component {
                     },
                     keyName: 'code',
                     valueName: 'name'
-                }, {
+                }], [{
                     title: '综合',
                     field: 'composite'
                 }, {
@@ -83,8 +83,10 @@ class registerEnter extends React.Component {
                 }],
                 [{
                     title: '面试记录',
-                    field: 'interviewRecord'
-                }, {
+                    field: 'interviewRecord',
+                    type: 'textarea',
+                    normalArea: true
+                }], [{
                     title: '录用',
                     field: 'employResult',
                     type: 'select',
