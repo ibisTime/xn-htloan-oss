@@ -35,7 +35,7 @@ class cost extends React.Component {
         field: 'departmentCode',
         render: (v, d) => {
             return d.applySysUser.departmentCode;
-        }
+        },
         type: 'select',
         listCode: 630106,
         params: {
@@ -65,7 +65,7 @@ class cost extends React.Component {
         title: '状态',
         field: 'status',
         type: 'select',
-        key: 'fee_advance_apply_status'
+        key: 'fee_advance_apply_status',
         search: true
     }];
     return this.props.buildList({
