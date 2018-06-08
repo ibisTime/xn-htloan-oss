@@ -1187,7 +1187,6 @@ const ROUTES = [
       path: '/administrative/cost',
       component: asyncComponent(() => import('container/administrative/cost/cost'))
   }
-
 ];
 
 export default ROUTES;
