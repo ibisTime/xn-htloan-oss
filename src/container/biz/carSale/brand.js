@@ -67,8 +67,11 @@ class Brand extends React.Component {
               onOk: () => {
                 this.props.doFetching();
                 return lowerFrame(key[0]).then(() => {
-                  this.props.cancelFetching();
+                  this.props.getPageData();
                   showWarnMsg('操作成功');
+                  setTimeout(() => {
+                      this.props.getPageData();
+                  }, 500);
                 }).catch(() => {
                   this.props.cancelFetching();
                 });
@@ -89,8 +92,11 @@ class Brand extends React.Component {
               onOk: () => {
                 this.props.doFetching();
                 return onShelf(key[0]).then(() => {
-                  this.props.cancelFetching();
+                  this.props.getPageData();
                   showWarnMsg('操作成功');
+                  setTimeout(() => {
+                      this.props.getPageData();
+                  }, 500);
                 }).catch(() => {
                   this.props.cancelFetching();
                 });

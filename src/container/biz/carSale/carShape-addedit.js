@@ -31,6 +31,10 @@ class CarShapeAddEdit extends React.Component {
         status: '1'
       },
       onChange: (v) => {
+        this.props.setSelectData({
+          data: [],
+          key: 'seriesCode'
+        });
         this.props.setSelectData.seriesCode = '';
         fetch(630416, {
           brandCode: v,

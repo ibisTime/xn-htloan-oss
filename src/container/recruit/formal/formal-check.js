@@ -156,7 +156,7 @@ class formalCheck extends React.Component {
         ]
     }, {
         title: '试用期评估表',
-        field: 'probationAssessList',
+        field: 'probationAssessesList',
         items: [
             [{
                 title: '本岗位职责',
@@ -165,13 +165,12 @@ class formalCheck extends React.Component {
                 key: 'post_duties',
                 formatter: (v, d) => {
                     if (d) {
-                        return d.probationAssessList.find(p => {
+                        return d.probationAssessesList.find(p => {
                             return p.evalItem === 'post_duties';
                         }).grade;
                     }
                     return null;
                 },
-                onChange: this.handleChange,
                 readonly: true
             }, {
                 title: '工作程序',
@@ -180,13 +179,12 @@ class formalCheck extends React.Component {
                 key: 'work_procedure',
                 formatter: (v, d) => {
                     if (d) {
-                        return d.probationAssessList.find(p => {
+                        return d.probationAssessesList.find(p => {
                             return p.evalItem === 'work_procedure';
                         }).grade;
                     }
                     return null;
                 },
-                onChange: this.handleChange,
                 readonly: true
             }, {
                 title: '工作素质',
@@ -195,13 +193,12 @@ class formalCheck extends React.Component {
                 key: 'work_quality',
                 formatter: (v, d) => {
                     if (d) {
-                        return d.probationAssessList.find(p => {
+                        return d.probationAssessesList.find(p => {
                             return p.evalItem === 'work_quality';
                         }).grade;
                     }
                     return null;
                 },
-                onChange: this.handleChange,
                 readonly: true
             }, {
                 title: '工作效率',
@@ -210,13 +207,12 @@ class formalCheck extends React.Component {
                 key: 'work_efficiency',
                 formatter: (v, d) => {
                     if (d) {
-                        return d.probationAssessList.find(p => {
+                        return d.probationAssessesList.find(p => {
                             return p.evalItem === 'work_efficiency';
                         }).grade;
                     }
                     return null;
                 },
-                onChange: this.handleChange,
                 readonly: true
             }],
             [{
@@ -226,13 +222,12 @@ class formalCheck extends React.Component {
                 key: 'consciousness',
                 formatter: (v, d) => {
                     if (d) {
-                        return d.probationAssessList.find(p => {
+                        return d.probationAssessesList.find(p => {
                             return p.evalItem === 'consciousness';
                         }).grade;
                     }
                     return null;
                 },
-                onChange: this.handleChange,
                 readonly: true
             }, {
                 title: '沟通能力',
@@ -241,13 +236,12 @@ class formalCheck extends React.Component {
                 key: 'communication_skills',
                 formatter: (v, d) => {
                     if (d) {
-                        return d.probationAssessList.find(p => {
+                        return d.probationAssessesList.find(p => {
                             return p.evalItem === 'communication_skills';
                         }).grade;
                     }
                     return null;
                 },
-                onChange: this.handleChange,
                 readonly: true
             }, {
                 title: '领导/合作能力',
@@ -256,13 +250,12 @@ class formalCheck extends React.Component {
                 key: 'cooperative_ability',
                 formatter: (v, d) => {
                     if (d) {
-                        return d.probationAssessList.find(p => {
+                        return d.probationAssessesList.find(p => {
                             return p.evalItem === 'cooperative_ability';
                         }).grade;
                     }
                     return null;
                 },
-                onChange: this.handleChange,
                 readonly: true
             }, {
                 title: '出勤',
@@ -271,19 +264,12 @@ class formalCheck extends React.Component {
                 key: 'attendance',
                 formatter: (v, d) => {
                     if (d) {
-                        return d.probationAssessList.find(p => {
+                        return d.probationAssessesList.find(p => {
                             return p.evalItem === 'attendance';
                         }).grade;
                     }
                     return null;
                 },
-                onChange: this.handleChange,
-                readonly: true
-            }],
-            [{
-                title: '总分',
-                field: 'gradeAll',
-                number: true,
                 readonly: true
             }]
         ]

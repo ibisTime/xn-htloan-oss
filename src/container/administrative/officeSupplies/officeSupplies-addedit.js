@@ -119,22 +119,16 @@ class officeSuppliesAddedit extends React.Component {
                     title: '产品',
                     field: 'productCode',
                     type: 'select',
-                    listCode: '632757',
+                    listCode: '632767',
                     params: {},
-                    keyName: 'code',
-                    valueName: 'name',
+                    keyName: 'productCode',
+                    valueName: 'productName',
                     required: true,
                     onChange: (v, data, props) => {
                         props.setPageData({
-                            mode: data.model,
                             price: data.price
                         });
                     }
-                }, {
-                    title: '规格',
-                    field: 'mode',
-                    readonly: true,
-                    required: true
                 }, {
                     title: '出库价格',
                     field: 'price',

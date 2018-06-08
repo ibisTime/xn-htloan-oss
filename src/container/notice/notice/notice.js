@@ -89,10 +89,14 @@ class Notice extends React.Component {
                                 this.props.doFetching();
                                 return fetch(632723, {
                                     code: selectedRowKeys[0],
+                                    remark: selectedRows[0].remark,
                                     updater: getUserId()
                                 }).then(() => {
                                     this.props.cancelFetching();
                                     showWarnMsg('操作成功');
+                                    setTimeout(() => {
+                                        this.props.getPageData();
+                                    }, 1000);
                                 }).catch(() => {
                                     this.props.cancelFetching();
                                 });
@@ -116,10 +120,14 @@ class Notice extends React.Component {
                                 this.props.doFetching();
                                 return fetch(632724, {
                                     code: selectedRowKeys[0],
+                                    remark: selectedRows[0].remark,
                                     updater: getUserId()
                                 }).then(() => {
                                     this.props.cancelFetching();
                                     showWarnMsg('操作成功');
+                                    setTimeout(() => {
+                                        this.props.getPageData();
+                                    }, 1000);
                                 }).catch(() => {
                                     this.props.cancelFetching();
                                 });

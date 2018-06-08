@@ -42,6 +42,7 @@ class Integralexchange extends React.Component {
     }];
     return this.props.buildList({
       fields,
+      rowKey: 'id',
       pageCode: 630045,
       searchParams: {
         type: 'jf_exchange'

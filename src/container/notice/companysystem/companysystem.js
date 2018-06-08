@@ -99,10 +99,14 @@ class companysystem extends React.Component {
                                 this.props.doFetching();
                                 return fetch(632732, {
                                     code: selectedRowKeys[0],
+                                    remark: selectedRows[0].remark,
                                     updater: getUserId()
                                 }).then(() => {
                                     this.props.cancelFetching();
                                     showWarnMsg('操作成功');
+                                    setTimeout(() => {
+                                        this.props.getPageData();
+                                    }, 1000);
                                 }).catch(() => {
                                     this.props.cancelFetching();
                                 });
@@ -126,10 +130,14 @@ class companysystem extends React.Component {
                                 this.props.doFetching();
                                 return fetch(632733, {
                                     code: selectedRowKeys[0],
+                                    remark: selectedRows[0].remark,
                                     updater: getUserId()
                                 }).then(() => {
                                     this.props.cancelFetching();
                                     showWarnMsg('操作成功');
+                                    setTimeout(() => {
+                                        this.props.getPageData();
+                                    }, 1000);
                                 }).catch(() => {
                                     this.props.cancelFetching();
                                 });

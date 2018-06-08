@@ -59,6 +59,9 @@ class Category extends React.Component {
                 return soldOut(key[0]).then(() => {
                   this.props.cancelFetching();
                   showWarnMsg('操作成功');
+                  setTimeout(() => {
+                      this.props.getPageData();
+                  }, 500);
                 }).catch(() => {
                   this.props.cancelFetching();
                 });
@@ -81,6 +84,9 @@ class Category extends React.Component {
                 return putaway(key[0]).then(() => {
                   this.props.cancelFetching();
                   showWarnMsg('操作成功');
+                  setTimeout(() => {
+                      this.props.getPageData();
+                  }, 500);
                 }).catch(() => {
                   this.props.cancelFetching();
                 });
