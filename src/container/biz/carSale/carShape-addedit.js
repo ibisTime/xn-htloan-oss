@@ -81,12 +81,12 @@ class CarShapeAddEdit extends React.Component {
       required: true
     }, {
       title: '车辆分期介绍',
-      field: 'remark',
-      required: true
-    }, {
-      title: '图文描述',
       field: 'description',
       type: 'textarea',
+      required: true
+    }, {
+      title: '备注',
+      field: 'remark',
       required: true
     }];
     return this.props.buildDetail({

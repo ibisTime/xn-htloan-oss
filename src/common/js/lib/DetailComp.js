@@ -68,6 +68,9 @@ export default class DetailComponent extends React.Component {
         let _this = this;
         Object.keys(this.textareas).forEach(v => {
             let elem = document.getElementById(v);
+            if (!elem) {
+                return;
+            }
             _this.textareas[v].editor = new E(elem);
             _this.textareas[v].editor.customConfig.uploadFileName = 'file';
             _this.textareas[v].editor.customConfig.uploadImgMaxSize = 10 * 1024 * 1024;
@@ -81,7 +84,7 @@ export default class DetailComponent extends React.Component {
                     formdata.append('key', file.name + '_' + new Date().getTime());
                 }
             };
-            _this.textareas[v].editor.customConfig.uploadImgServer = 'http://up-z2.qiniu.com';
+            _this.textareas[v].editor.customConfig.uploadImgServer = UPLOAD_URL;
             _this.textareas[v].editor.customConfig.onchange = html => {
                 let result = {};
                 if (!html) {
@@ -625,11 +628,11 @@ export default class DetailComponent extends React.Component {
                 title: f.title,
                 dataIndex: f.field
             };
-            if (f.type === 'datetime') {
+            if (f.type === 'datetime' && !f.render) {
                 obj.render = (v) => {
                     return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateTimeFormat(v)}</span> : dateTimeFormat(v);
                 };
-            } else if (f.type === 'date') {
+            } else if (f.type === 'date' && !f.render) {
                 obj.render = (v) => {
                     return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateFormat(v)}</span> : dateFormat(v);
                 };

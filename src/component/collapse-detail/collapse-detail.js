@@ -68,7 +68,7 @@ class CollapseDetail extends DetailComp {
                                 ? j < 4 ? col5Props : col55Props
                                 : col1Props;
                       return (
-                        <Col {...props} key={j}>
+                        <Col {...props} key={f.field}>
                           {this.getItemByType(f.type, f)}
                         </Col>
                       );
