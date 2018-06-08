@@ -45,7 +45,7 @@ class category extends React.Component {
             search: true
         }, {
             title: '更新人',
-            field: 'updater'
+            field: 'applyUserName'
         }, {
             title: '更新时间',
             field: 'updateDatetime',
