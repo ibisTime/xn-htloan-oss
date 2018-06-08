@@ -168,7 +168,10 @@ class officeSuppliesAddedit extends React.Component {
                     keyName: 'userId',
                     valueName: '{{departmentName.DATA}}{{postName.DATA}}-{{realName.DATA}}',
                     searchName: 'userName',
-                    required: true
+                    required: true,
+                    render: (v, data) => {
+                        return data.archive ? data.archive.realName : '-';
+                    }
                 }, {
                     title: '印刷数量',
                     field: 'printQuantity',

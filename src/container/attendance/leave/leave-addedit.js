@@ -122,10 +122,9 @@ class leaveAddedit extends React.Component {
             onChange: (dates, dateStrings) => {
                 let startDatetime = new Date(dateStrings[0]); // 开始时间
                 let endDatetime = new Date(dateStrings[1]); // 结束时间
-                console.log(startDatetime, endDatetime);
                 if (startDatetime && endDatetime) {
                     let time = endDatetime.getTime() - startDatetime.getTime();
-                    let hours = Math.floor(time / (3600 * 1000));
+                    let hours = (time / (3600 * 1000)).toFixed(2);
                     this.props.form.setFieldsValue({
                         totalHour: hours
                     });

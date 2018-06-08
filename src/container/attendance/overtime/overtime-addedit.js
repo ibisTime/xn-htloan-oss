@@ -77,17 +77,24 @@ class overtimeAddedit extends React.Component {
 
     render() {
         const fields = [{
-            title: '开始时间',
-            field: 'startDatetime',
+            title: '加班时间',
+            field: 'datetime',
             type: 'datetime',
-            required: true
+            rangedate: ['startDatetime', 'endDatetime'],
+            required: true,
+            onChange: (dates, dateStrings) => {
+                let startDatetime = new Date(dateStrings[0]); // 开始时间
+                let endDatetime = new Date(dateStrings[1]); // 结束时间
+                if (startDatetime && endDatetime) {
+                    let time = endDatetime.getTime() - startDatetime.getTime();
+                    let hours = (time / (3600 * 1000)).toFixed(2);
+                    this.props.form.setFieldsValue({
+                        totalHour: hours
+                    });
+                }
+            }
         }, {
-            title: '结束时间',
-            field: 'endDatetime',
-            type: 'datetime',
-            required: true
-        }, {
-            title: '共计(小时)',
+            title: '加班时长(小时)',
             field: 'totalHour',
             required: true
         }, {

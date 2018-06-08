@@ -324,7 +324,7 @@ export default class DetailComponent extends React.Component {
                 this.props.setSelectData({data, key: item.field});
             }).catch(() => {
             });
-        } else if (item.pageCode) {
+        } else if (item.pageCode && !item.isDetailRender && !item.readonly) {
             let param = item.params || {};
             param.limit = param.limit || 20;
             param.start = param.start || 1;
@@ -645,18 +645,22 @@ export default class DetailComponent extends React.Component {
                     this.setSearchData({data: f.data, key: f.field});
                 }
                 if (f.type === 'select') {
-                    obj.render = (value) => {
-                        let val = '';
-                        if (value && f.data) {
-                            let item = f.data.find(v => v[f.keyName] === value);
-                            val = item
-                                ? item[f.valueName]
+                    if (this.props.code) {
+                        obj.render = f.render;
+                    } else {
+                        obj.render = (value) => {
+                            let val = '';
+                            if (value && f.data) {
+                                let item = f.data.find(v => v[f.keyName] === value);
+                                val = item
                                     ? item[f.valueName]
-                                    : tempString(f.valueName, item)
-                                : '';
-                        }
-                        return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{val}</span> : val;
-                    };
+                                        ? item[f.valueName]
+                                        : tempString(f.valueName, item)
+                                    : '';
+                            }
+                            return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{val}</span> : val;
+                        };
+                    }
                 } else {
                     obj.render = (value) => {
                         let val = '';
@@ -700,15 +704,6 @@ export default class DetailComponent extends React.Component {
         } else if (item.listCode) {
             let param = item.params || {};
             fetch(item.listCode, param).then(data => {
-                this.setSearchData({data, key: item.field});
-            }).catch(() => {
-            });
-        } else if (item.pageCode) {
-            let param = item.params || {};
-            param.limit = param.limit || 20;
-            param.start = param.start || 1;
-            fetch(item.pageCode, param).then(d => {
-                let data = d.list ? d.list : d;
                 this.setSearchData({data, key: item.field});
             }).catch(() => {
             });
@@ -757,7 +752,7 @@ export default class DetailComponent extends React.Component {
         };
         if (item.onChange) {
             props.onChange = (dates, dateString) => {
-                item.onChange(dates, dateString);
+                item.onChange(dates, dateString, this.props);
             };
         }
         return (
@@ -1059,8 +1054,9 @@ export default class DetailComponent extends React.Component {
     }
 
     // 获取修改、详情页每个输入框的真实值
-    getRealValue(item) {
-        let result = this.props.pageData[item.field];
+    getRealValue(item, info) {
+        info = info || this.props.pageData;
+        let result = info[item.field];
         try {
             if (item._keys) {
                 result = this.getValFromKeys(item);

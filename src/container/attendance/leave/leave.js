@@ -42,7 +42,6 @@ class leave extends React.Component {
         const fields = [{
             title: '申请人',
             field: 'applyUser',
-            search: true,
             render: (v, d) => {
                 return d.applyUserArchive[0] && d.applyUserArchive[0].realName;
             }
