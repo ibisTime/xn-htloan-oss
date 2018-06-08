@@ -108,23 +108,14 @@ class overtimeAddedit extends React.Component {
         }, {
             title: '工号',
             field: 'jobNo',
-            formatter: (v, d) => {
-                return d.applyUserArchive[0] && d.applyUserArchive[0].jobNo;
-            },
             hidden: ((!this.view && this.isCheck) || !this.code)
         }, {
             title: '部门',
             field: 'departmentName',
-            formatter: (v, d) => {
-                return d.applyUserArchive[0] && d.applyUserArchive[0].departmentName;
-            },
             hidden: ((!this.view && this.isCheck) || !this.code)
         }, {
             title: '职务',
-            field: 'postCode',
-            formatter: (v, d) => {
-                return d.applyUserArchive[0] && d.applyUserArchive[0].postName;
-            },
+            field: 'postName',
             hidden: ((!this.view && this.isCheck) || !this.code)
         }, {
             title: '备注',

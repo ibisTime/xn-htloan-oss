@@ -101,13 +101,13 @@ class supplementAddedit extends React.Component {
             }
         }, {
             title: '申请人',
-            field: 'applyUser',
-            render: (v, d) => {
+            field: 'apply',
+            formatter: (v, d) => {
                 return d.applyUserArchive[0] && d.applyUserArchive[0].realName;
             },
             hidden: ((!this.view && this.isCheck) || !this.code)
         }, {
-            title: '工号',
+            title: '申请人',
             field: 'jobNo',
             formatter: (v, d) => {
                 return d.applyUserArchive[0] && d.applyUserArchive[0].jobNo;
@@ -122,14 +122,17 @@ class supplementAddedit extends React.Component {
             hidden: ((!this.view && this.isCheck) || !this.code)
         }, {
             title: '职务',
-            field: 'postCode',
+            field: 'postName',
             formatter: (v, d) => {
                 return d.applyUserArchive[0] && d.applyUserArchive[0].postName;
             },
             hidden: ((!this.view && this.isCheck) || !this.code)
         }, {
             title: '备注',
-            field: 'remark'
+            field: 'remark1',
+            formatter: (v, d) => {
+                return d.remark;
+            }
         }];
         return this.props.buildDetail({
             fields,
