@@ -56,7 +56,7 @@ class leader extends React.Component {
             search: true
         }, {
             title: '申请人',
-            field: 'applyUser'
+            field: 'applyUserName'
         }, {
             title: '申请时间',
             field: 'applyDatetime',
@@ -76,7 +76,7 @@ class leader extends React.Component {
                     } else if (selectedRows[0].status !== '0') {
                         showWarnMsg('不是待审核的记录！');
                     } else {
-                        this.props.history.push(`/administrative/leader/addedit?v=1&isCheck=1s&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/administrative/leader/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
                     }
                 }
             }

@@ -45,7 +45,7 @@ class officeSupplies extends React.Component {
             field: 'code'
         }, {
             title: '申请人',
-            field: 'applyUser'
+            field: 'applyUserName'
         }, {
             title: '申请概要',
             field: 'applyNote'

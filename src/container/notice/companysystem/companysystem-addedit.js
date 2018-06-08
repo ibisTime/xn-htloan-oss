@@ -69,13 +69,21 @@ class companysystemAddedit extends React.Component {
                         params.typeList = ['3'];
                         // 具体人
                     } else if (value === '4') {
-                        bizCode = 630065;
-                        params.limit = 10;
-                        params.start = 1;
+                        bizCode = 632807;
                     }
+                    this.props.setSelectData({
+                        data: [],
+                        key: 'peopleCode'
+                    });
+                    this.props.form.setFieldsValue({
+                        peopleCode: ''
+                    });
                     this.props.doFetching();
                     fetch(bizCode, params).then((data) => {
-                        this.props.selectData.peopleCode = data.list ? data.list : data;
+                        this.props.setSelectData({
+                            data: data.list ? data.list : data,
+                            key: 'peopleCode'
+                        });
                         this.props.cancelFetching();
                     }).catch(this.props.cancelFetching);
                 }
@@ -87,10 +95,9 @@ class companysystemAddedit extends React.Component {
             title: '具体类型人员',
             field: 'peopleCode',
             type: 'select',
-            pageCode: this.isUserId ? 630065 : '',
             keyName: this.isUserId ? 'userId' : 'code',
             valueName: this.isUserId ? '{{postName.DATA}}-{{realName.DATA}}' : 'name',
-            searchName: this.isUserId ? 'userName' : '',
+            searchName: this.isUserId ? 'realName' : '',
             required: true,
             hidden: this.hideStatus,
             formatter: (v, data) => {

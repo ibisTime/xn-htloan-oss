@@ -28,9 +28,6 @@ class noticeAddedit extends React.Component {
         this.view = !!getQueryString('v', this.props.location.search);
         this.hideStatus = false;
         this.isUserId = false;
-        if (this.code) {
-            this.props.selectData.peopleCode = [];
-        }
     }
 
     render() {
@@ -87,9 +84,7 @@ class noticeAddedit extends React.Component {
                         params.typeList = ['3'];
                     // 具体人
                     } else if (value === '4') {
-                        bizCode = 630065;
-                        params.limit = 10;
-                        params.start = 1;
+                        bizCode = 632807;
                     }
                     this.props.setSelectData({
                         data: [],
@@ -104,7 +99,6 @@ class noticeAddedit extends React.Component {
                             data: data.list ? data.list : data,
                             key: 'peopleCode'
                         });
-                        // this.props.selectData.peopleCode = data.list ? data.list : data;
                         this.props.cancelFetching();
                     }).catch(this.props.cancelFetching);
                 }
@@ -116,10 +110,9 @@ class noticeAddedit extends React.Component {
             title: '具体类型人员',
             field: 'peopleCode',
             type: 'select',
-            pageCode: this.isUserId ? 630065 : '',
             keyName: this.isUserId ? 'userId' : 'code',
             valueName: this.isUserId ? '{{postName.DATA}}-{{realName.DATA}}' : 'name',
-            searchName: this.isUserId ? 'userName' : '',
+            searchName: this.isUserId ? 'realName' : '',
             required: true,
             hidden: this.hideStatus,
             formatter: (v, data) => {
@@ -141,7 +134,7 @@ class noticeAddedit extends React.Component {
             code: this.code,
             view: this.view,
             addCode: 632720,
-            editCode: 632721,
+            editCode: 632722,
             detailCode: 632726,
             beforeSubmit: (params) => {
                 params.scopePeopleList = [{

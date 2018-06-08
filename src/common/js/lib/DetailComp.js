@@ -327,15 +327,6 @@ export default class DetailComponent extends React.Component {
                 this.props.setSelectData({data, key: item.field});
             }).catch(() => {
             });
-        } else if (item.pageCode && !item.isDetailRender && !item.readonly) {
-            let param = item.params || {};
-            param.limit = param.limit || 20;
-            param.start = param.start || 1;
-            fetch(item.pageCode, param).then(d => {
-                let data = d.list ? d.list : d;
-                this.props.setSelectData({data, key: item.field});
-            }).catch(() => {
-            });
         }
     }
 
@@ -648,7 +639,7 @@ export default class DetailComponent extends React.Component {
                     this.setSearchData({data: f.data, key: f.field});
                 }
                 if (f.type === 'select') {
-                    if (this.props.code && f.pageCode) {
+                    if (this.props.code && f.pageC) {
                         obj.render = f.render;
                     } else {
                         obj.render = (value) => {
@@ -858,9 +849,6 @@ export default class DetailComponent extends React.Component {
         let value = '';
         if (initVal) {
             value = initVal;
-        }
-        if (item.readonly && item.onChange) {
-            item.onChange(initVal);
         }
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}

@@ -164,10 +164,10 @@ class fixedAssetsAddedit extends React.Component {
                     title: '用户',
                     field: 'userId',
                     type: 'select',
-                    pageCode: 630065,
+                    listCode: 632807,
                     keyName: 'userId',
                     valueName: '{{departmentName.DATA}}{{postName.DATA}}-{{realName.DATA}}',
-                    searchName: 'userName',
+                    searchName: 'realName',
                     required: true,
                     render: (v, data) => {
                         return data.archive ? data.archive.realName : '-';
