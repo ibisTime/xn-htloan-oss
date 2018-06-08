@@ -32,7 +32,7 @@ class Integral extends React.Component {
       search: true
     }, {
       title: '规则分类',
-      field: '11',
+      field: 'type',
       render: (v, d) => {
         return '积分规则';
       }
@@ -42,6 +42,7 @@ class Integral extends React.Component {
     }];
     return this.props.buildList({
       fields,
+      rowKey: 'id',
       pageCode: 630045,
       searchParams: {
         type: 'integral_rule'

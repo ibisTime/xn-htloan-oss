@@ -97,8 +97,7 @@ class CarShapeAddEdit extends React.Component {
       required: true
     }, {
       title: '备注',
-      field: 'remark',
-      required: true
+      field: 'remark'
     }];
     return this.props.buildDetail({
       fields,

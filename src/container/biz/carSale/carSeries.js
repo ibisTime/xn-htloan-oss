@@ -82,7 +82,7 @@ class CarSeries extends React.Component {
             onOk: () => {
               this.props.doFetching();
               return lowerFrameSys(key[0]).then(() => {
-                this.props.cancelFetching();
+                this.props.getPageData();
                 showWarnMsg('操作成功');
                 setTimeout(() => {
                     this.props.getPageData();
@@ -117,6 +117,7 @@ class CarSeries extends React.Component {
         <OnOrDownShelf
           selectKey={this.state.selectKey}
           addCode={630413}
+          onOk={this.props.getPageData}
           shelfVisible={this.state.shelfVisible}
           setShelfVisible={this.setShelfVisible} />
       </div>

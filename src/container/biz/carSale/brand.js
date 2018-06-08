@@ -67,7 +67,7 @@ class Brand extends React.Component {
               onOk: () => {
                 this.props.doFetching();
                 return lowerFrame(key[0]).then(() => {
-                  this.props.cancelFetching();
+                  this.props.getPageData();
                   showWarnMsg('操作成功');
                   setTimeout(() => {
                       this.props.getPageData();
@@ -92,7 +92,7 @@ class Brand extends React.Component {
               onOk: () => {
                 this.props.doFetching();
                 return onShelf(key[0]).then(() => {
-                  this.props.cancelFetching();
+                  this.props.getPageData();
                   showWarnMsg('操作成功');
                   setTimeout(() => {
                       this.props.getPageData();

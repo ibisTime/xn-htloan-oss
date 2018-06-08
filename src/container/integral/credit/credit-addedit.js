@@ -7,13 +7,8 @@ import {
     setPageData,
     restore
 } from '@redux/integral/credit-addedit';
-import {
-    getQueryString
-} from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { getQueryString } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
     state => state.bizCreditAddEdit, {
@@ -33,24 +28,20 @@ class CreditAddedit extends React.Component {
     }
     render() {
         const fields = [{
-          title: '项目',
-          field: 'name',
-          search: true
-        }, {
           title: '规则分类',
-          field: 'letter'
+          field: 'type',
+          hidden: true
+        }, {
+          title: '项目',
+          field: 'remark',
+          hidden: true
         }, {
           title: '数值',
-          field: 'status',
-          search: true,
-          type: 'select',
-          key: 'status'
-        }, {
-          title: '备注',
-          field: 'updater'
+          field: 'cvalue'
         }];
         return this.props.buildDetail({
             fields,
+            key: 'id',
             code: this.code,
             view: this.view,
             detailCode: '630046',

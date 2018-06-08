@@ -7,13 +7,8 @@ import {
     setPageData,
     restore
 } from '@redux/integral/integral-addedit';
-import {
-    getQueryString
-} from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { getQueryString } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
     state => state.bizIntegralAddEdit, {
@@ -33,24 +28,18 @@ class IntegralAddedit extends React.Component {
     }
     render() {
         const fields = [{
-          title: '规则名称',
-          field: 'name',
-          search: true
+          field: 'type',
+          hidden: true
         }, {
-          title: '规则分类',
-          field: 'letter'
+          field: 'remark',
+          hidden: true
         }, {
           title: '数值',
-          field: 'status',
-          search: true,
-          type: 'select',
-          key: 'status'
-        }, {
-          title: '备注',
-          field: 'updater'
+          field: 'cvalue'
         }];
         return this.props.buildDetail({
             fields,
+            key: 'id',
             code: this.code,
             view: this.view,
             detailCode: '630046',

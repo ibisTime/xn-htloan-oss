@@ -32,20 +32,18 @@ class IntegralexchangeAddedit extends React.Component {
     }
     render() {
         const fields = [{
-          title: '规则名称',
-          field: 'letter'
+          field: 'type',
+          hidden: true
+        }, {
+          field: 'remark',
+          hidden: true
         }, {
           title: '数值',
-          field: 'status',
-          search: true,
-          type: 'select',
-          key: 'status'
-        }, {
-          title: '备注',
-          field: 'updater'
+          field: 'cvalue'
         }];
         return this.props.buildDetail({
             fields,
+            key: 'id',
             code: this.code,
             view: this.view,
             detailCode: '630046',

@@ -57,7 +57,10 @@ class productname extends React.Component {
             field: 'unit'
         }, {
             title: '更新人',
-            field: 'updater'
+            field: 'updater',
+            render: (v, data) => {
+                return data.updateUser ? data.updateUser.realName : '';
+            }
         }, {
             title: '更新时间',
             field: 'updateDatetime',

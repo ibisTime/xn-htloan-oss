@@ -118,7 +118,7 @@ class CarShape extends React.Component {
             onOk: () => {
               this.props.doFetching();
               return lowerFrameShape(key[0]).then(() => {
-                this.props.cancelFetching();
+                this.props.getPageData();
                 showWarnMsg('操作成功');
                 setTimeout(() => {
                     this.props.getPageData();
@@ -153,6 +153,7 @@ class CarShape extends React.Component {
         <OnOrDownShelf
           selectKey={this.state.selectKey}
           addCode={630423}
+          onOk={this.props.getPageData}
           shelfVisible={this.state.shelfVisible}
           setShelfVisible={this.setShelfVisible} />
       </div>

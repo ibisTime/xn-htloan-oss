@@ -26,9 +26,15 @@ export default class OnOrDownShelf extends React.Component {
       }, {
         field: 'orderNo',
         title: 'UI次序',
-        required: true
+        required: true,
+        help: '数字越小，排序越靠前',
+        integer: true,
+        maxlength: 30
       }],
-      addCode: this.props.addCode
+      addCode: this.props.addCode,
+      onOk: () => {
+        this.props.onOk && this.props.onOk();
+      }
     };
     return (
       <ModalDetail
