@@ -62,7 +62,10 @@ class outtreasury extends React.Component {
             field: 'quantity'
         }, {
             title: '出库人',
-            field: 'updater'
+            field: 'updater',
+            render: (v, data) => {
+                return data.updateUser ? data.updateUser.realName : '-';
+            }
         }, {
             title: '出库时间',
             field: 'updateDatetime',

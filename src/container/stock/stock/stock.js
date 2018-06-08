@@ -71,7 +71,10 @@ class stock extends React.Component {
             amount: true
         }, {
             title: '入库人',
-            field: 'updater'
+            field: 'updater',
+            render: (v, data) => {
+                return data.updateUser ? data.updateUser.realName : '-';
+            }
         }, {
             title: '入库时间',
             field: 'updateDatetime',

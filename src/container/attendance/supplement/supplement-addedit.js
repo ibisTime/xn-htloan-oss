@@ -127,12 +127,6 @@ class supplementAddedit extends React.Component {
                 return d.applyUserArchive[0] && d.applyUserArchive[0].postName;
             },
             hidden: ((!this.view && this.isCheck) || !this.code)
-        }, {
-            title: '备注',
-            field: 'remark1',
-            formatter: (v, d) => {
-                return d.remark;
-            }
         }];
         return this.props.buildDetail({
             fields,
