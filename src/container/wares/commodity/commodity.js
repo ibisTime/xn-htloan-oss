@@ -35,6 +35,9 @@ class Commodity extends React.Component {
   }
   setModalVisible = (updownVisible) => {
     this.setState({ updownVisible });
+    setTimeout(() => {
+        this.props.getPageData();
+    }, 500);
   }
   render() {
     const fields = [{
@@ -88,6 +91,9 @@ class Commodity extends React.Component {
               return goodssoldOut(key[0]).then(() => {
                 this.props.cancelFetching();
                 showWarnMsg('操作成功');
+                setTimeout(() => {
+                    this.props.getPageData();
+                }, 500);
               }).catch(() => {
                 this.props.cancelFetching();
               });

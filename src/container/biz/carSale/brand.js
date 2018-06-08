@@ -69,6 +69,9 @@ class Brand extends React.Component {
                 return lowerFrame(key[0]).then(() => {
                   this.props.cancelFetching();
                   showWarnMsg('操作成功');
+                  setTimeout(() => {
+                      this.props.getPageData();
+                  }, 500);
                 }).catch(() => {
                   this.props.cancelFetching();
                 });
@@ -91,6 +94,9 @@ class Brand extends React.Component {
                 return onShelf(key[0]).then(() => {
                   this.props.cancelFetching();
                   showWarnMsg('操作成功');
+                  setTimeout(() => {
+                      this.props.getPageData();
+                  }, 500);
                 }).catch(() => {
                   this.props.cancelFetching();
                 });

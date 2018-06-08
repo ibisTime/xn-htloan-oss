@@ -35,6 +35,9 @@ class CarShape extends React.Component {
   }
   setShelfVisible = (shelfVisible) => {
     this.setState({ shelfVisible });
+    setTimeout(() => {
+        this.props.getPageData();
+    }, 500);
   }
   render() {
     const fields = [{
@@ -92,7 +95,7 @@ class CarShape extends React.Component {
       key: 'status'
     }, {
       title: '最新修改人',
-      field: 'updater'
+      field: 'updaterName'
     }, {
       title: '最新修改时间',
       field: 'updateDatetime',
@@ -117,6 +120,9 @@ class CarShape extends React.Component {
               return lowerFrameShape(key[0]).then(() => {
                 this.props.cancelFetching();
                 showWarnMsg('操作成功');
+                setTimeout(() => {
+                    this.props.getPageData();
+                }, 500);
               }).catch(() => {
                 this.props.cancelFetching();
               });
