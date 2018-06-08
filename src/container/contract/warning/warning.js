@@ -31,15 +31,16 @@ export default class Warning extends React.Component {
   }
   componentDidMount() {
     fetch(632837).then(data => {
-      // this.createDateMap(data);
+      this.createDateMap(data);
     }).catch(() => {});
-    this.createDateMap(this.state.contracts);
+    // this.createDateMap(this.state.contracts);
   }
   createDateMap(data) {
     let result = {};
     data.forEach(d => {
-      result[d.endDatetime] = result[d.endDatetime] || [];
-      result[d.endDatetime].push(d);
+      let key = moment(d.endDatetime).format('YYYY-MM-DD');
+      result[key] = result[key] || [];
+      result[key].push(d);
     });
     this.setState({ contractsMap: result });
   }
@@ -52,8 +53,8 @@ export default class Warning extends React.Component {
       <div>
         {
           this.state.contractsMap[todayStr].map(item => (
-            <a style={{display: 'block'}} key={item.contractNo} onClick={() => this.goDetail(item.contractNo)}>
-              {item.name}
+            <a style={{display: 'block'}} key={item.code} onClick={() => this.goDetail(item.contractNo)}>
+              {item.archive.realName}
             </a>
           ))
         }
