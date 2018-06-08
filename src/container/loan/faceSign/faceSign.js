@@ -98,11 +98,24 @@ class FaceSign extends React.Component {
                 roleCode: getRoleCode()
             },
             btnEvent: {
+                edit: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_05' && selectedRows[0].curNodeCode !== '002_08') {
+                        showWarnMsg('当前不是录入面签信息节点');
+                    } else {
+                        this.props.history.push(`/loan/faceSign/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
+                    }
+                },
                 check: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_06') {
+                        showWarnMsg('当前不是业务总监审核节点');
                     } else {
                         this.props.history.push(`/loan/faceSign/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
                     }

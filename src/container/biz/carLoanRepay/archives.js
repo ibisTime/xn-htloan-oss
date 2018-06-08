@@ -105,6 +105,8 @@ class archives extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
+                } else if (selectedRows[0].curNodeCode !== '002_22') {
+                  showWarnMsg('当前不是确认入档节点');
                 } else {
                   this.props.history.push(`/biz/archives/certain?code=${selectedRowKeys[0]}`);
                 }
