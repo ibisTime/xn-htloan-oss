@@ -86,7 +86,7 @@ class Goodsloan extends React.Component {
                                     showWarnMsg('操作成功');
                                     setTimeout(() => {
                                         this.props.getPageData();
-                                    }, 1000);
+                                    }, 500);
                                 }).catch(() => {
                                     this.props.cancelFetching();
                                 });
@@ -111,7 +111,7 @@ class Goodsloan extends React.Component {
                                     showWarnMsg('操作成功');
                                     setTimeout(() => {
                                         this.props.getPageData();
-                                    }, 1000);
+                                    }, 500);
                                 }).catch(() => {
                                     this.props.cancelFetching();
                                 });

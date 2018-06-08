@@ -61,7 +61,7 @@ class carHandle extends React.Component {
         title: '状态',
         field: 'status',
         type: 'select',
-        key: 'CarBreakStatus',
+        key: 'car_break_status',
         search: true
     }];
     return this.props.buildList({
@@ -73,6 +73,8 @@ class carHandle extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
+          } else if (selectedRows[0].status !== '0') {
+            showWarnMsg('该状态不是待审核');
           } else {
             this.props.history.push(`/administrative/carHandle/check?code=${selectedRowKeys[0]}`);
           }

@@ -100,7 +100,7 @@ class carHandleCheck extends React.Component {
         }, {
           title: '不通过',
           handler: (param) => {
-            param.approveResult = '0';
+            param.approveResult = '2';
             param.updater = getUserId();
             this.props.doFetching();
             fetch(632631, param).then(() => {
