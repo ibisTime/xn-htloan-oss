@@ -56,7 +56,9 @@ class manage extends React.Component {
             search: true
         }, {
             title: '合同类型',
-            field: 'type'
+            field: 'type',
+            type: 'select',
+            key: 'contract_type'
         }, {
             title: '开始日期',
             field: 'startDatetime',
@@ -65,12 +67,6 @@ class manage extends React.Component {
             title: '结束日期',
             field: 'endDatetime',
             type: 'date'
-        }, {
-            title: '合同附件',
-            field: 'pdf',
-            render: (v, d) => {
-                return d ? <img style={{maxWidth: 40, maxHeight: 40}} src={d.pdf}/> : null;
-            }
         }, {
             title: '说明',
             field: 'remark'

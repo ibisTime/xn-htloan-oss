@@ -51,7 +51,8 @@ class entryApply extends React.Component {
             for (let key in result) {
                 sum += Number(result[key]);
             }
-            this.props.form.setFieldsValue({
+            this.props.setPageData({
+                ...this.props.pageData,
                 gradeAll: sum
             });
         }, 100);
@@ -101,12 +102,12 @@ class entryApply extends React.Component {
                     title: '入职时间',
                     field: 'entryDatetime',
                     type: 'date',
-                    required: true
+                    readonly: true
                 }, {
                     title: '试用期开始',
                     field: 'probationStartDatetime',
                     type: 'date',
-                    required: true
+                    readonly: true
                 }, {
                     title: '试用期结束',
                     field: 'probationEndDatetime',
@@ -115,7 +116,9 @@ class entryApply extends React.Component {
                 }],
                 [{
                     title: '工作总结',
-                    field: 'workSummary'
+                    field: 'workSummary',
+                    type: 'textarea',
+                    normalArea: true
                 }],
                 [{
                     title: '是否转正',
@@ -271,7 +274,8 @@ class entryApply extends React.Component {
                 [{
                     title: '总分',
                     field: 'gradeAll',
-                    number: true
+                    number: true,
+                    readonly: true
                 }]
             ]
         }];

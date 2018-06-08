@@ -102,7 +102,7 @@ class applyAddedit extends React.Component {
             }],
             [{
                 title: '说明',
-                field: 'otherNote'
+                field: 'note'
             }]
         ]
     }, {
@@ -112,8 +112,7 @@ class applyAddedit extends React.Component {
                 title: '性别',
                 field: 'gender',
                 type: 'select',
-                key: 'gender',
-                required: true
+                key: 'gender'
             }, {
                 title: '年龄',
                 field: 'age'
@@ -121,15 +120,13 @@ class applyAddedit extends React.Component {
                 title: '婚姻状况',
                 field: 'marryState',
                 type: 'select',
-                key: 'marry_state',
-                required: true
+                key: 'marry_state'
             }],
             [{
                 title: '文化程度',
                 field: 'education',
                 type: 'select',
-                key: 'education',
-                required: true
+                key: 'education'
             }, {
                 title: '专业',
                 field: 'major'

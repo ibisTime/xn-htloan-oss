@@ -75,6 +75,9 @@ class carLoanBusinessCheck extends React.Component {
     }, {
       title: '贷款银行',
       field: 'loanBank',
+      listCode: 802116,
+      keyName: 'bankCode',
+      valueName: 'bankName',
       readonly: true
     }, {
       title: '贷款金额',

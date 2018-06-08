@@ -32,34 +32,41 @@ class historicalApplyCheck extends React.Component {
     }
     render() {
         const fields = [{
-          title: '订单编号',
-          field: 'code'
+            title: '订单编号',
+            field: 'code'
         }, {
-          title: '申请人',
-          field: 'userId',
-          type: 'select',
-          listCode: 630066,
-          keyName: 'userId',
-          valueName: 'realName',
-          search: true
+            title: '申请人',
+            field: 'userId',
+            type: 'select',
+            listCode: 630066,
+            keyName: 'userId',
+            valueName: 'realName',
+            search: true
         }, {
-          title: '车辆总价',
-          amount: true,
-          field: 'price'
+            title: '车辆总价',
+            amount: true,
+            field: 'price'
         }, {
-          title: '首付金额',
-          amount: true,
-          field: 'sfAmount'
+            title: '首付金额',
+            amount: true,
+            field: 'sfAmount'
         }, {
-          title: '申请时间',
-          field: 'createDatetime',
-          type: 'date'
+            title: '申请时间',
+            field: 'createDatetime',
+            type: 'date'
         }, {
-          title: '状态',
-          field: 'status',
-          type: 'select',
-          key: '',
-          search: true
+            title: '处理人',
+            field: 'handler',
+            type: 'select',
+            listCode: 630066,
+            keyName: 'userId',
+            valueName: 'realName'
+        }, {
+            title: '状态',
+            field: 'status',
+            type: 'select',
+            key: 'can_order_status',
+            search: true
         }];
         return this
             .props

@@ -8,6 +8,7 @@ import {
   restore
 } from '@redux/biz/carShape-addedit';
 import { getQueryString } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
@@ -25,10 +26,27 @@ class CarShapeAddEdit extends React.Component {
       title: '品牌',
       field: 'brandCode',
       type: 'select',
-      search: true,
       listCode: 630406,
       params: {
         status: '1'
+      },
+      onChange: (v) => {
+        this.props.setSelectData({
+          data: [],
+          key: 'seriesCode'
+        });
+        this.props.form.setFieldsValue({
+          seriesCode: ''
+        });
+        fetch(630416, {
+          brandCode: v,
+          status: '1'
+        }).then((data) => {
+          this.props.setSelectData({
+            data,
+            key: 'seriesCode'
+          });
+        }).catch(() => {});
       },
       keyName: 'code',
       valueName: 'name',
@@ -37,12 +55,7 @@ class CarShapeAddEdit extends React.Component {
       title: '车系',
       field: 'seriesCode',
       type: 'select',
-      search: true,
       required: true,
-      listCode: 630416,
-      params: {
-        status: '1'
-      },
       keyName: 'code',
       valueName: 'name'
     }, {

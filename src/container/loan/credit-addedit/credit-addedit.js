@@ -275,9 +275,6 @@ class CreditAddedit extends React.Component {
                     fetch(bizCode, params).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
                     }).catch(this.props.cancelFetching);
                 }
             }, {

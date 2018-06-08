@@ -32,7 +32,7 @@ class quitarchivesAddedit extends React.Component {
     render() {
         const fields = [{
             title: '姓名',
-            field: 'user',
+            field: 'code',
             listCode: 632807,
             type: 'select',
             keyName: 'code',
@@ -70,9 +70,9 @@ class quitarchivesAddedit extends React.Component {
                 detailCode: 632816,
                 beforeSubmit: (param) => {
                     console.log(this.props.selectData);
-                    let user = this.props.selectData.user.find(v => v.code === param.user);
-                    param.realName = user.realName;
-                    param.code = user.code;
+                    let code = this.props.selectData.code.find(v => v.code === param.code);
+                    param.realName = code.realName;
+                    param.code = code.code;
                     return param;
                 }
             });

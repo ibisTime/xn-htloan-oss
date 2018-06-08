@@ -75,9 +75,10 @@ class carLoanBusinessAddedit extends React.Component {
       }, {
         title: '贷款银行',
         field: 'loanBank',
-        required: true,
-        type: 'select',
-        bankCard: true
+        listCode: 802116,
+        keyName: 'bankCode',
+        valueName: 'bankName',
+        required: true
       }, {
         title: '贷款金额',
         field: 'loanAmount',

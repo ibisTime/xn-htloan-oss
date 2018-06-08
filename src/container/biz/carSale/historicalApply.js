@@ -9,19 +9,37 @@ import {
   cancelFetching,
   setSearchData
 } from '@redux/biz/historicalApply';
-import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, showSucMsg, dateTimeFormat } from 'common/js/util';
-import { Button, Upload, Modal } from 'antd';
-import { lowerFrameSys, onShelfSys } from 'api/biz';
+import {
+  listWrapper
+} from 'common/js/build-list';
+import {
+  showWarnMsg,
+  showSucMsg,
+  dateTimeFormat
+} from 'common/js/util';
+import {
+  Button,
+  Upload,
+  Modal
+} from 'antd';
+import {
+  lowerFrameSys,
+  onShelfSys
+} from 'api/biz';
 
 @listWrapper(
   state => ({
     ...state.bizHistoricalApply,
     parentCode: state.menu.subMenuCode
-  }),
-  {
-    setTableData, clearSearchParam, doFetching, setBtnList,
-    cancelFetching, setPagination, setSearchParam, setSearchData
+  }), {
+    setTableData,
+    clearSearchParam,
+    doFetching,
+    setBtnList,
+    cancelFetching,
+    setPagination,
+    setSearchParam,
+    setSearchData
   }
 )
 class HistoricalApply extends React.Component {
@@ -53,17 +71,24 @@ class HistoricalApply extends React.Component {
       render: dateTimeFormat,
       search: true
     }, {
+      title: '处理人',
+      field: 'handler',
+      type: 'select',
+      listCode: 630066,
+      keyName: 'userId',
+      valueName: 'realName'
+    }, {
       title: '状态',
       field: 'status',
       type: 'select',
-      key: '',
+      key: 'can_order_status',
       search: true
     }];
     return this.props.buildList({
       fields,
       pageCode: 630435,
       searchParams: {
-          status: '1'
+        status: '1'
       }
     });
   }
