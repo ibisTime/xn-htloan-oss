@@ -91,9 +91,20 @@ class noticeAddedit extends React.Component {
                         params.limit = 10;
                         params.start = 1;
                     }
+                    this.props.setSelectData({
+                        data: [],
+                        key: 'peopleCode'
+                    });
+                    this.props.form.setFieldsValue({
+                        peopleCode: ''
+                    });
                     this.props.doFetching();
                     fetch(bizCode, params).then((data) => {
-                        this.props.selectData.peopleCode = data.list ? data.list : data;
+                        this.props.setSelectData({
+                            data: data.list ? data.list : data,
+                            key: 'peopleCode'
+                        });
+                        // this.props.selectData.peopleCode = data.list ? data.list : data;
                         this.props.cancelFetching();
                     }).catch(this.props.cancelFetching);
                 }

@@ -11,7 +11,8 @@ import {
 } from '@redux/administrative/officeSupplies';
 import {
     showWarnMsg,
-    showSucMsg
+    showSucMsg,
+    dateTimeFormat
 } from 'common/js/util';
 import {
     listWrapper
@@ -49,7 +50,7 @@ class officeSupplies extends React.Component {
             title: '申请概要',
             field: 'applyNote'
         }, {
-            title: '办理状态',
+            title: '状态',
             field: 'status',
             type: 'select',
             key: 'leave_apply_status',
@@ -58,7 +59,8 @@ class officeSupplies extends React.Component {
             title: '申请时间',
             field: 'applyDatetime',
             rangedate: ['startApplyDatetime', 'endApplyDatetime'],
-            type: 'datetime',
+            type: 'date',
+            render: dateTimeFormat,
             search: true
         }, {
             title: '备注',
