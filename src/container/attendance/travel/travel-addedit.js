@@ -7,7 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/attendance/travel-addedit';
-import {getQueryString, getUserId, showSucMsg} from 'common/js/util';
+import {getQueryString, getUserId, showSucMsg, showWarnMsg} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
@@ -103,11 +103,12 @@ class travelAddedit extends React.Component {
                             let time = endDatetime.getTime() - startDatetime.getTime();
                             let hours = (time / (3600 * 1000)).toFixed(2);
                             props.form.setFieldsValue({
-                                totalHour: hours,
-                                datetime: dateStrings[0] + '至' + dateStrings[1]
+                                totalHour: hours
                             });
-                            console.log(props.form.getFieldValue('datetime'));
                         }
+                    },
+                    render: (v, data) => {
+                        return data.startDatetime + '至' + data.endDatetime;
                     }
                 }, {
                     title: '出差时长(小时)',
@@ -135,6 +136,10 @@ class travelAddedit extends React.Component {
             detailCode: 632626,
             buttons: this.buttons,
             beforeSubmit: (data) => {
+                if (!data.detailList || data.detailList.length < 1) {
+                    showWarnMsg('出差明细不能为空');
+                    return;
+                }
                 data.applyUser = getUserId();
                 return data;
             }
