@@ -105,10 +105,7 @@ class settlementAddedit extends React.Component {
                     title: '逾期处理',
                     field: 'overdueDeposit',
                     render: (v, d) => {
-                        return <a onClick = {
-                            () => this.goDetail(d.code)
-                        }
-                        href = "javascript:void(0)" > 详情 < /a>;
+                        return <a onClick = { () => this.goDetail(d.code) } href = "javascript:void(0)" > 详情 </a>;
                     }
                 }]
             }

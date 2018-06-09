@@ -59,39 +59,6 @@ class trailerDispose extends React.Component {
             field: 'loanAmount',
             amount: true,
             readonly: true
-        }, {
-            title: '是否缴纳罚息',
-            field: 'subbranch',
-            type: 'select',
-            required: true,
-            data: [{
-                key: '0',
-                value: '是'
-            }, {
-                key: '1',
-                value: '否'
-            }],
-            keyName: 'key',
-            keyValue: 'value'
-        }, {
-            title: '拖车成本',
-            field: 'loanAmount',
-            amount: true,
-            readonly: true
-        }, {
-            title: '罚息收取方式',
-            field: 'subbranch',
-            type: 'select',
-            required: true,
-            data: [{
-                key: '0',
-                value: '线下代扣'
-            }, {
-                key: '1',
-                value: '线上代扣'
-            }],
-            keyName: 'key',
-            keyValue: 'value'
         }];
         return this
             .props
@@ -101,7 +68,22 @@ class trailerDispose extends React.Component {
                 view: this.view,
                 detailCode: 630521,
                 buttons: [{
-                    title: '确认',
+                    title: '用户赎回',
+                    handler: (param) => {
+                        param.updater = getUserId();
+                        this.props.doFetching();
+                        fetch(630511, param).then(() => {
+                            showSucMsg('操作成功');
+                            this.props.cancelFetching();
+                            setTimeout(() => {
+                                this.props.history.go(-1);
+                            }, 1000);
+                        }).catch(this.props.cancelFetching);
+                    },
+                    check: true,
+                    type: 'primary'
+                }, {
+                    title: '司法诉讼',
                     handler: (param) => {
                         param.updater = getUserId();
                         this.props.doFetching();

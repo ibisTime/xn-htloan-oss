@@ -18,7 +18,7 @@ import {
 // import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
-    state => state.bizMortgagesRelieve, {
+    state => state.mortgagesRelieve, {
         initStates,
         doFetching,
         cancelFetching,
@@ -27,7 +27,7 @@ import {
         restore
     }
 )
-class mortgagesAddedit extends React.Component {
+class mortgagesRelieve extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -40,7 +40,7 @@ class mortgagesAddedit extends React.Component {
             readonly: true
         }, {
             title: '业务编号',
-            field: 'code',
+            field: 'applyUserName',
             readonly: true
         }, {
             title: '贷款银行',
@@ -94,4 +94,4 @@ class mortgagesAddedit extends React.Component {
     }
 }
 
-export default mortgagesAddedit;
+export default mortgagesRelieve;

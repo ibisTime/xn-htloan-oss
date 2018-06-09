@@ -85,31 +85,13 @@ class trailer extends React.Component {
       fields,
       pageCode: 630520,
       btnEvent: {
-        refundplan: (selectedRowKeys, selectedRows) => {
+        dsipose: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
           } else {
-            this.props.history.push(`/biz/trailer/plan?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
-          }
-        },
-        changeCard: (selectedRowKeys, selectedRows) => {
-          if (!selectedRowKeys.length) {
-            showWarnMsg('请选择记录');
-          } else if (selectedRowKeys.length > 1) {
-            showWarnMsg('请选择一条记录');
-          } else {
-            this.props.history.push(`/biz/trailer/changecard?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
-          }
-        },
-        certain: (selectedRowKeys, selectedRows) => {
-          if (!selectedRowKeys.length) {
-            showWarnMsg('请选择记录');
-          } else if (selectedRowKeys.length > 1) {
-            showWarnMsg('请选择一条记录');
-          } else {
-            this.props.history.push(`/biz/trailer/certain?code=${selectedRowKeys[0]}`);
+            this.props.history.push(`/biz/trailer/dsipose?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
           }
         }
       }
