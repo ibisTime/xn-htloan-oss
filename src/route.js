@@ -1187,6 +1187,11 @@ const ROUTES = [
       path: '/administrative/cost',
       component: asyncComponent(() => import('container/administrative/cost/cost'))
   },
+  //  费用预支申请 申请 详情
+  {
+      path: '/administrative/cost/addedit',
+      component: asyncComponent(() => import('container/administrative/cost/cost-addedit'))
+  },
   //  gps申领
   {
       path: '/administrative/applyGps',

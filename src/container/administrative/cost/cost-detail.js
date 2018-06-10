@@ -6,7 +6,7 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/administrative/cost-addedit';
+} from '@redux/administrative/cost-detail';
 import {
     getQueryString,
     getUserId,
@@ -17,7 +17,7 @@ import {
 } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
-@DetailWrapper(state => state.administrativeCostAddedit, {
+@DetailWrapper(state => state.administrativeCostDetail, {
     initStates,
     doFetching,
     cancelFetching,
@@ -25,7 +25,7 @@ import fetch from 'common/js/fetch';
     setPageData,
     restore
 })
-class costAddedit extends React.Component {
+class costDetail extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -163,14 +163,9 @@ class costAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            addCode: 632670,
-            detailCode: 632676,
-            beforeSubmit: (data) => {
-                data.applyUser = getUserId();
-                return data;
-            }
+            detailCode: 632676
         });
     }
 }
 
-export default costAddedit;
+export default costDetail;
