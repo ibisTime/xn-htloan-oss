@@ -59,7 +59,11 @@ class CarSeriesAddEdit extends React.Component {
       view: this.view,
       addCode: 630410,
       editCode: 630412,
-      detailCode: 630417
+      detailCode: 630417,
+      beforeSubmit: (param) => {
+          param.updater = '';
+          return param;
+      }
     });
   }
 }

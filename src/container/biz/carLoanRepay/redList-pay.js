@@ -8,8 +8,11 @@ import {
     restore
 } from '@redux/biz/redList-pay';
 import {
-    getQueryString
+    getQueryString,
+    getUserId,
+    showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
@@ -31,57 +34,65 @@ class redListaPay extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'mobile',
+            field: 'realName',
+            formatter: (v, d) => {
+                return d.user.realName;
+            },
             readonly: true
         }, {
             title: '业务编号',
-            field: 'realName',
+            field: 'code',
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'idNo',
+            field: 'loanBank',
+            formatter: (v, d) => {
+                return d.repayBiz.loanBankName;
+            },
             readonly: true
         }, {
             title: '贷款金额',
-            field: 'sfAmount',
-            amount: true,
-            readonly: true
-        }, {
-            title: '车辆',
-            field: 'subbranch',
+            field: 'loanAmount',
+            formatter: (v, d) => {
+                return d.repayBiz.loanAmount / 1000;
+            },
             readonly: true
         }, {
             title: '申请金额',
-            field: 'sfAmount',
+            field: 'tsCarAmount',
             amount: true,
             readonly: true
         }, {
-            title: '收款账户',
-            field: 'carCode',
+            title: '收款账号',
+            field: 'tsBankcardNumber',
+            required: true,
             readonly: true
         }, {
             title: '开户行',
-            field: 'carPrice',
+            field: 'tsBankName',
+            type: 'select',
+            listCode: 802116,
+            keyName: 'bankCode',
+            valueName: 'bankName',
             readonly: true
         }, {
             title: '开户支行',
-            field: 'sfRate',
-            readonly: true,
-            type: 'select'
+            field: 'tsSubbranch',
+            readonly: true
         }, {
             title: '申请说明',
-            field: 'loanBank',
+            field: 'tcApplyNote',
             readonly: true
         }, {
             title: '打款金额',
-            field: 'loanBank',
+            field: 'remitAmount',
             amount: true,
             required: true
         }, {
             title: '水单',
-            field: 'loanBank',
-            required: true,
-            type: 'img'
+            field: 'remitPdf',
+            type: 'img',
+            required: true
         }];
         return this
             .props
@@ -89,9 +100,29 @@ class redListaPay extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                addCode: 630500,
-                editCode: 630502,
-                detailCode: 630507
+                detailCode: 630541,
+                buttons: [{
+                    title: '确定',
+                    handler: (param) => {
+                        param.code = this.code;
+                        param.operator = getUserId();
+                        this.props.doFetching();
+                        fetch(630556, param).then(() => {
+                            showSucMsg('操作成功');
+                            this.props.cancelFetching();
+                            setTimeout(() => {
+                                this.props.history.go(-1);
+                            }, 1000);
+                        }).catch(this.props.cancelFetching);
+                    },
+                    check: true,
+                    type: 'primary'
+                }, {
+                    title: '返回',
+                    handler: (param) => {
+                        this.props.history.go(-1);
+                    }
+                }]
             });
     }
 }

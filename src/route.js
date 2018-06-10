@@ -424,6 +424,26 @@ const ROUTES = [
     path: '/biz/greenList/payment',
     component: asyncComponent(() => import('container/biz/carLoanRepay/greenList-payment'))
   },
+  //  黄名单
+  {
+    path: '/biz/yellowList',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/yellowList'))
+  },
+  //  黄名单 详情
+  {
+    path: '/biz/yellowList/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/yellowList-addedit'))
+  },
+  //  黄名单 缴纳清收成本
+  {
+    path: '/biz/yellowList/payCost',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/yellowList-payCost'))
+  },
+  //  黄名单 缴纳代偿款
+  {
+    path: '/biz/yellowList/payCompensate',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/yellowList-payCompensate'))
+  },
   //  黑名单
   {
     path: '/biz/blackList',
@@ -454,10 +474,10 @@ const ROUTES = [
     path: '/biz/redList/apply',
     component: asyncComponent(() => import('container/biz/carLoanRepay/redList-apply'))
   },
-  //  红名单 总经理审批
+  //  红名单 录入拖车结果
   {
-    path: '/biz/redList/check',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/redList-check'))
+    path: '/biz/redList/enter',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/redList-enter'))
   },
   //  红名单 财务打款
   {
@@ -478,6 +498,31 @@ const ROUTES = [
   {
     path: '/biz/trailer/dispose',
     component: asyncComponent(() => import('container/biz/carLoanRepay/trailer-dispose'))
+  },
+  //  用户赎回
+  {
+    path: '/biz/userRedemption',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/userRedemption'))
+  },
+  //  用户赎回 详情
+  {
+    path: '/biz/userRedemption/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/userRedemption-addedit'))
+  },
+  //  用户赎回 申请赎回
+  {
+    path: '/biz/userRedemption/applyRedeem',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/userRedemption-applyRedeem'))
+  },
+  //  用户赎回 风控主管审核
+  {
+    path: '/biz/userRedemption/checkDirector',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/userRedemption-checkDirector'))
+  },
+  //  用户赎回 财务经理审核
+  {
+    path: '/biz/userRedemption/checkFinance',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/userRedemption-checkFinance'))
   },
   //  司法诉讼
   {

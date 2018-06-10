@@ -6,15 +6,18 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/redList-addedit';
+} from '@redux/biz/trailer-addedit';
 import {
-    getQueryString
+    getQueryString,
+    getUserId,
+    showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
 
-@DetailWrapper(state => state.bizredListAddEdit, {
+@DetailWrapper(state => state.bizTrailerAddEdit, {
     initStates,
     doFetching,
     cancelFetching,
@@ -22,50 +25,50 @@ import {
     setPageData,
     restore
 })
-class redListAddedit extends React.Component {
+class trailerAddedit extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
+        this.userId = getQueryString('userId', this.props.location.search);
     }
     render() {
         const fields = [{
-            title: '客户姓名',
-            field: 'realName',
-            formatter: (v, d) => {
-                return d.user.realName;
-            },
-            readonly: true
-        }, {
             title: '业务编号',
             field: 'code',
             readonly: true
-        }, {
-            title: '贷款银行',
-            field: 'loanBank',
+          }, {
+            field: 'user',
+            title: '贷款人',
             formatter: (v, d) => {
-                return d.repayBiz.loanBankName;
+              return d.user.realName;
             },
             readonly: true
-        }, {
-            title: '贷款金额',
-            field: 'loanAmount',
-            formatter: (v, d) => {
-                return d.repayBiz.loanAmount / 1000;
-            },
+          }, {
+            title: '逾期日期',
+            field: 'repayDatetime',
+            type: 'date',
             readonly: true
-        }];
+          }, {
+            title: '标识日期',
+            field: 'overdueHandleDatetime',
+            type: 'date',
+            readonly: true
+          }, {
+            title: '为还清收成本',
+            field: 'restTotalCost',
+            amount: true,
+            readonly: true
+          }];
         return this
             .props
             .buildDetail({
                 fields,
                 code: this.code,
                 view: this.view,
-                addCode: 630500,
-                editCode: 630502,
-                detailCode: 630507
+                detailCode: 630541
             });
     }
 }
 
-export default redListAddedit;
+export default trailerAddedit;

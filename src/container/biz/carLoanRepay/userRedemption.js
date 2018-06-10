@@ -8,7 +8,7 @@ import {
   doFetching,
   cancelFetching,
   setSearchData
-} from '@redux/biz/trailer';
+} from '@redux/biz/userRedemption';
 import {
   listWrapper
 } from 'common/js/build-list';
@@ -28,7 +28,7 @@ import {
 
 @listWrapper(
   state => ({
-    ...state.bizTrailer,
+    ...state.bizUserRedemption,
     parentCode: state.menu.subMenuCode
   }), {
     setTableData,
@@ -41,7 +41,7 @@ import {
     setSearchData
   }
 )
-class trailer extends React.Component {
+class userRedemption extends React.Component {
   render() {
     const fields = [{
       title: '业务编号',
@@ -89,13 +89,31 @@ class trailer extends React.Component {
       fields,
       pageCode: 630540,
       btnEvent: {
-        dispose: (selectedRowKeys, selectedRows) => {
+        applyRedeem: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
           } else {
-            this.props.history.push(`/biz/trailer/dispose?code=${selectedRowKeys[0]}`);
+            this.props.history.push(`/biz/userRedemption/applyRedeem?code=${selectedRowKeys[0]}`);
+          }
+        },
+        checkDirector: (selectedRowKeys, selectedRows) => {
+          if (!selectedRowKeys.length) {
+            showWarnMsg('请选择记录');
+          } else if (selectedRowKeys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else {
+            this.props.history.push(`/biz/userRedemption/checkDirector?code=${selectedRowKeys[0]}`);
+          }
+        },
+        checkFinance: (selectedRowKeys, selectedRows) => {
+          if (!selectedRowKeys.length) {
+            showWarnMsg('请选择记录');
+          } else if (selectedRowKeys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else {
+            this.props.history.push(`/biz/userRedemption/checkFinance?code=${selectedRowKeys[0]}`);
           }
         }
       }
@@ -103,4 +121,4 @@ class trailer extends React.Component {
   }
 }
 
-export default trailer;
+export default userRedemption;

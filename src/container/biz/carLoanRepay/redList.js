@@ -44,36 +44,42 @@ class redList extends React.Component {
       }, {
         title: '手机号',
         field: 'mobile',
-        search: true,
         render: (v, d) => {
           return d.user.mobile;
         }
       }, {
         title: '贷款金额',
-        field: 'totalFee',
-        amount: true
+        field: 'loanAmount',
+        render: (v, d) => {
+          return (d.repayBiz.loanAmount / 1000);
+        }
       }, {
         title: '剩余欠款',
-        field: 'totalFee',
-        amount: true
+        field: 'restAmount',
+        render: (v, d) => {
+          return (d.repayBiz.restAmount / 1000);
+        }
       }, {
         title: '未还清收成本',
-        field: 'totalFee',
-        amount: true
+        field: 'restTotalCost',
+        render: (v, d) => {
+          return (d.repayBiz.restAmount / 1000);
+        }
       }, {
         title: '标识日期',
         field: 'overdueHandleDatetime',
         type: 'date'
       }, {
         title: '状态',
-        field: 'status'
+        field: 'status',
+        search: true
       }
     ];
     return this.props.buildList({
         fields,
         pageCode: 630540,
         searchParams: {
-          status: '4'
+          status: ''
         },
         btnEvent: {
           pay: (selectedRowKeys, selectedRows) => {
@@ -82,7 +88,7 @@ class redList extends React.Component {
             } else if (selectedRowKeys.length > 1) {
               showWarnMsg('请选择一条记录');
             } else {
-              this.props.history.push(`/biz/redList/pay?staffCode=${selectedRowKeys[0]}`);
+              this.props.history.push(`/biz/redList/pay?code=${selectedRowKeys[0]}`);
             }
           },
           check: (selectedRowKeys, selectedRows) => {
@@ -91,7 +97,7 @@ class redList extends React.Component {
             } else if (selectedRowKeys.length > 1) {
               showWarnMsg('请选择一条记录');
             } else {
-              this.props.history.push(`/biz/redList/check?staffCode=${selectedRowKeys[0]}`);
+              this.props.history.push(`/biz/redList/check?code=${selectedRowKeys[0]}`);
             }
           },
           enter: (selectedRowKeys, selectedRows) => {
@@ -100,7 +106,7 @@ class redList extends React.Component {
             } else if (selectedRowKeys.length > 1) {
               showWarnMsg('请选择一条记录');
             } else {
-              this.props.history.push(`/biz/redList/enter?staffCode=${selectedRowKeys[0]}`);
+              this.props.history.push(`/biz/redList/enter?code=${selectedRowKeys[0]}`);
             }
           },
           apply: (selectedRowKeys, selectedRows) => {
@@ -109,7 +115,7 @@ class redList extends React.Component {
             } else if (selectedRowKeys.length > 1) {
               showWarnMsg('请选择一条记录');
             } else {
-              this.props.history.push(`/biz/redList/apply?staffCode=${selectedRowKeys[0]}`);
+              this.props.history.push(`/biz/redList/apply?code=${selectedRowKeys[0]}`);
             }
           }
         }

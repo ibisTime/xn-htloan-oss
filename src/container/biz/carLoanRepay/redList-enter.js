@@ -8,8 +8,11 @@ import {
     restore
 } from '@redux/biz/redList-enter';
 import {
-    getQueryString
+    getQueryString,
+    getUserId,
+    showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
@@ -31,46 +34,49 @@ class redListEnter extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'mobile',
+            field: 'realName',
+            formatter: (v, d) => {
+                return d.user.realName;
+            },
             readonly: true
         }, {
             title: '业务编号',
-            field: 'realName',
+            field: 'code',
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'idNo',
+            field: 'loanBank',
+            formatter: (v, d) => {
+                return d.repayBiz.loanBankName;
+            },
             readonly: true
         }, {
             title: '贷款金额',
-            field: 'sfAmount',
-            amount: true,
-            readonly: true
-        }, {
-            title: '车辆',
-            field: 'subbranch',
+            field: 'loanAmount',
+            formatter: (v, d) => {
+                return d.repayBiz.loanAmount / 1000;
+            },
             readonly: true
         }, {
             title: '收车地点',
-            field: 'sfAmount',
+            field: 'takeCarAddress',
             required: true
         }, {
-            title: '收车时间',
-            field: 'overdueHandleDatetime',
+            title: '拖车时间',
+            field: 'takeDatetime',
             type: 'date',
             required: true
         }, {
             title: '拖车人员',
-            field: 'carPrice',
+            field: 'takeName',
             required: true
         }, {
             title: '停放位置',
-            field: 'carPrice',
+            field: 'takeLocation',
             required: true
         }, {
             title: '备注',
-            field: 'loanBank',
-            required: true
+            field: 'takeNote'
         }];
         return this
             .props
@@ -78,9 +84,29 @@ class redListEnter extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                addCode: 630500,
-                editCode: 630502,
-                detailCode: 630507
+                detailCode: 630541,
+                buttons: [{
+                    title: '确定',
+                    handler: (param) => {
+                        param.code = this.code;
+                        param.operator = getUserId();
+                        this.props.doFetching();
+                        fetch(630557, param).then(() => {
+                            showSucMsg('操作成功');
+                            this.props.cancelFetching();
+                            setTimeout(() => {
+                                this.props.history.go(-1);
+                            }, 1000);
+                        }).catch(this.props.cancelFetching);
+                    },
+                    check: true,
+                    type: 'primary'
+                }, {
+                    title: '返回',
+                    handler: (param) => {
+                        this.props.history.go(-1);
+                    }
+                }]
             });
     }
 }
