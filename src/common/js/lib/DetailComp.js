@@ -714,7 +714,7 @@ export default class DetailComponent extends React.Component {
         let format = isTime ? DATETIME_FORMAT : DATE_FORMAT;
         let places = isTime ? '选择时间' : '选择日期';
         return (
-            <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
                 {
                     item.readonly ? <div className="readonly-text">{initVal}</div>
                         : getFieldDecorator(item.field, {
@@ -750,7 +750,7 @@ export default class DetailComponent extends React.Component {
             };
         }
         return (
-            <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
                 {
                     item.readonly ? <div className="readonly-text">{initVal}</div>
                         : getFieldDecorator(item.field, {
@@ -805,7 +805,7 @@ export default class DetailComponent extends React.Component {
 
     getCitySelect(item, initVal, rules, getFieldDecorator) {
         return (
-            <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
                 {
                     item.readonly ? <div className="readonly-text">{initVal}</div>
                         : getFieldDecorator(item.field, {
@@ -823,7 +823,7 @@ export default class DetailComponent extends React.Component {
             val = initVal.map(v => item.data.find(d => d[item.keyName] === v)[item.valueName]).join('、');
         }
         return (
-            <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
                 {
                     item.readonly ? <div className='readonly-text'>{val}</div>
                     : getFieldDecorator(item.field, {

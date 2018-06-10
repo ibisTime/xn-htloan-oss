@@ -1232,6 +1232,16 @@ const ROUTES = [
       path: '/administrative/cost',
       component: asyncComponent(() => import('container/administrative/cost/cost'))
   },
+  //  费用预支申请 申请 审核
+  {
+      path: '/administrative/cost/addedit',
+      component: asyncComponent(() => import('container/administrative/cost/cost-addedit'))
+  },
+  //  费用预支申请 详情
+  {
+      path: '/administrative/cost/detail',
+      component: asyncComponent(() => import('container/administrative/cost/cost-detail'))
+  },
   //  gps申领
   {
       path: '/administrative/applyGps',
