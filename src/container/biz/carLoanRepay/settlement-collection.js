@@ -63,7 +63,7 @@ class settlementCollection extends React.Component {
             amount: true
         }, {
             title: '是否提前还款',
-            field: 'loanAmount',
+            field: 'isAdvanceSettled',
             readonly: true,
             type: 'select',
             data: [{
@@ -128,6 +128,9 @@ class settlementCollection extends React.Component {
         }, {
             title: '可退押金金额',
             field: 'loanAmount',
+            render: (v, d) => {
+                return (d.lyDeposit + d.overdueAmount) / 1000;
+            },
             readonly: true,
             amount: true
         }, {
@@ -136,7 +139,7 @@ class settlementCollection extends React.Component {
             amount: true,
             required: true
         }, {
-            title: '实际退款金额金',
+            title: '实际退款金额',
             field: 'actualRefunds',
             readonly: true,
             amount: true
@@ -150,11 +153,11 @@ class settlementCollection extends React.Component {
             view: this.view,
             detailCode: 630521,
             buttons: [{
-                title: '用户赎回',
+                title: '提交',
                 handler: (param) => {
                     param.operator = getUserId();
                     this.props.doFetching();
-                    fetch(630560, param).then(() => {
+                    fetch(630550, param).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {

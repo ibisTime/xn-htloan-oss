@@ -8,10 +8,11 @@ import {
     restore
 } from '@redux/biz/mortgages/mortgages-relieve';
 import {
-  getQueryString,
-  showSucMsg,
-  getUserId
+    getQueryString,
+    getUserId,
+    showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
@@ -35,29 +36,34 @@ class mortgagesRelieve extends React.Component {
     }
     render() {
         const fields = [{
-            title: '客户姓名',
+            title: '贷款人',
             field: 'applyUserName',
+            formatter: (v, d) => {
+                return d.user.realName;
+            },
             readonly: true
         }, {
-            title: '业务编号',
-            field: 'applyUserName',
+            title: '手机号',
+            field: 'mobile',
+            formatter: (v, d) => {
+                return d.user.mobile;
+            },
             readonly: true
         }, {
-            title: '贷款银行',
-            field: 'loanBankName',
+            title: '身份证号',
+            field: 'idNo',
+            formatter: (v, d) => {
+                return d.user.idNo;
+            },
             readonly: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            amount: true,
-            readonly: true
-        }, {
-            title: '车辆',
-            field: 'bankFkDatetime',
-            readonly: true
+            readonly: true,
+            amount: true
         }, {
             title: '解除日期',
-            field: 'bankFkDatetime',
+            field: 'releaseDatetime',
             type: 'date',
             required: true
         }];
@@ -65,16 +71,16 @@ class mortgagesRelieve extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
+            detailCode: 630521,
             buttons: [{
               title: '确认',
               handler: (param) => {
                 param.approveResult = '1';
                 param.approveNote = this.projectCode;
-                param.approveUser = getUserId();
+                param.operator = getUserId();
                 param.operator = getUserId();
                 this.props.doFetching();
-                fetch(632133, param).then(() => {
+                fetch(630554, param).then(() => {
                   showSucMsg('操作成功');
                   this.props.cancelFetching();
                   setTimeout(() => {

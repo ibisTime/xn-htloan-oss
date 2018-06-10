@@ -75,15 +75,19 @@ class settlement extends React.Component {
             amount: true
         }, {
             title: '未还代偿金额',
-            field: 'loanAmount',
+            field: 'unRepayTotalAmount',
             amount: true
         }, {
-            title: '退款金额',
-            field: 'loanAmount',
+            title: '扣除履约保证金',
+            field: 'cutLyDeposit',
             amount: true
         }, {
             title: '当前节点',
-            field: 'status'
+            field: 'curNodeCode',
+            type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
         }];
         return this.props.buildList({
             fields,
