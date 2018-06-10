@@ -35,20 +35,29 @@ class settlementAddedit extends React.Component {
     render() {
         const fields = [{
             title: '贷款人',
-            field: 'applyUserName'
+            field: 'applyUserName',
+            formatter: (v, d) => {
+                return d.user.realName;
+            }
         }, {
             title: '手机号',
-            field: 'mobile'
+            field: 'mobile',
+            formatter: (v, d) => {
+                return d.user.mobile;
+            }
         }, {
             title: '身份证号',
-            field: 'IDNo'
+            field: 'idNo',
+            formatter: (v, d) => {
+                return d.user.idNo;
+            }
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
         }, {
             title: '是否提前还款',
-            field: 'loanAmount',
+            field: 'isAdvanceSettled',
             type: 'select',
             data: [{
                 key: '0',
@@ -59,21 +68,21 @@ class settlementAddedit extends React.Component {
             }]
         }, {
             title: '总期数',
-            field: 'loanAmount'
+            field: 'periods'
         }, {
             title: '剩余期数',
-            field: 'loanAmount'
+            field: 'restPeriods'
         }, {
-            title: '逾期金额',
-            field: 'loanAmount',
+            title: '逾期总金额',
+            field: 'overdueAmount',
             amount: true
         }, {
             title: '剩余欠款',
-            field: 'loanAmount',
+            field: 'restAmount',
             amount: true
         }, {
             title: '未还清收成本',
-            field: 'loanAmount',
+            field: 'restTotalCost',
             amount: true
         }, {
             title: '还款计划表',
@@ -101,40 +110,37 @@ class settlementAddedit extends React.Component {
                     title: '剩余欠款',
                     field: 'overplusAmount',
                     amount: true
-                }, {
-                    title: '逾期处理',
-                    field: 'overdueDeposit',
-                    render: (v, d) => {
-                        return <a onClick = { () => this.goDetail(d.code) } href = "javascript:void(0)" > 详情 </a>;
-                    }
                 }]
             }
         }, {
             title: '可退押金金额',
             field: 'loanAmount',
+            render: (v, d) => {
+                return (d.lyDeposit + d.overdueAmount) / 1000;
+            },
             amount: true
         }, {
             title: '扣除违约金金额',
-            field: 'loanAmount',
+            field: 'cutLyDeposit',
             amount: true
         }, {
-            title: '实际退款金额金',
-            field: 'loanAmount',
+            title: '实际退款金额',
+            field: 'actualRefunds',
             amount: true
         }, {
             title: '结清时间',
-            field: 'carSettleDatetime',
-            type: 'datetime'
+            field: 'settleDatetime',
+            type: 'date'
         }, {
             title: '结清证明',
-            field: 'carSettleDatetime',
+            field: 'settlePdf',
             type: 'img'
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146
+            detailCode: 632521
         });
     }
 }

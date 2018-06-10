@@ -53,18 +53,21 @@ class mortgages extends React.Component {
             search: true
         }, {
             title: '贷款人',
-            field: 'applyUserName',
-            search: true
+            field: 'user',
+            search: true,
+            render: (v, d) => {
+                return d.user.realName;
+            }
         }, {
-            title: '贷款银行',
-            field: 'loanBankName'
+            title: '手机号',
+            field: 'mobile',
+            render: (v, d) => {
+                return d.user.mobile;
+            }
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
-        }, {
-            title: '车辆',
-            field: 'saleUserName'
         }, {
             title: '当前节点',
             field: 'curNodeCode',
@@ -75,10 +78,7 @@ class mortgages extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632145,
-            searchParams: {
-              roleCode: getRoleCode()
-            },
+            pageCode: 630520,
             btnEvent: {
               relieve: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {

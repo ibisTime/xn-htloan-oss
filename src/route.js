@@ -549,6 +549,26 @@ const ROUTES = [
     path: '/biz/settlement/addedit',
     component: asyncComponent(() => import('container/biz/carLoanRepay/settlement-addedit'))
   },
+  //  结清审核 清欠催收部审核
+  {
+    path: '/biz/settlement/collection',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/settlement-collection'))
+  },
+  //  结清审核 驻行人员审核
+  {
+    path: '/biz/settlement/stationed',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/settlement-stationed'))
+  },
+  //  结清审核 总经理审核
+  {
+    path: '/biz/settlement/manager',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/settlement-manager'))
+  },
+  //  结清审核 财务审核
+  {
+    path: '/biz/settlement/finance',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/settlement-finance'))
+  },
   //  解除抵押
   {
     path: '/biz/mortgages',
