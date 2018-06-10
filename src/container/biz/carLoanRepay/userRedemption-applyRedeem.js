@@ -6,7 +6,7 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/userRedemption-dispose';
+} from '@redux/biz/userRedemption-applyRedeem';
 import {
     getQueryString,
     getUserId,
