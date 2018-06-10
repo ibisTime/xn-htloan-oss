@@ -9,8 +9,10 @@ import {
 } from '@redux/biz/settlement-collection';
 import {
     getQueryString,
-    dateTimeFormat
+    getUserId,
+    showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
@@ -36,14 +38,23 @@ class settlementCollection extends React.Component {
         const fields = [{
             title: '贷款人',
             field: 'applyUserName',
+            formatter: (v, d) => {
+                return d.user.realName;
+            },
             readonly: true
         }, {
             title: '手机号',
             field: 'mobile',
+            formatter: (v, d) => {
+                return d.user.mobile;
+            },
             readonly: true
         }, {
             title: '身份证号',
-            field: 'IDNo',
+            field: 'idNo',
+            formatter: (v, d) => {
+                return d.user.idNo;
+            },
             readonly: true
         }, {
             title: '贷款金额',
@@ -64,25 +75,25 @@ class settlementCollection extends React.Component {
             }]
         }, {
             title: '总期数',
-            field: 'loanAmount',
+            field: 'periods',
             readonly: true
         }, {
             title: '剩余期数',
-            field: 'loanAmount',
+            field: 'restPeriods',
             readonly: true
         }, {
-            title: '逾期金额',
-            field: 'loanAmount',
+            title: '逾期总金额',
+            field: 'overdueAmount',
             readonly: true,
             amount: true
         }, {
             title: '剩余欠款',
-            field: 'loanAmount',
+            field: 'restAmount',
             readonly: true,
             amount: true
         }, {
             title: '未还清收成本',
-            field: 'loanAmount',
+            field: 'restTotalCost',
             readonly: true,
             amount: true
         }, {
@@ -121,23 +132,44 @@ class settlementCollection extends React.Component {
             amount: true
         }, {
             title: '扣除违约金金额',
-            field: 'loanAmount',
-            amount: true
+            field: 'cutLyDeposit',
+            amount: true,
+            required: true
         }, {
             title: '实际退款金额金',
-            field: 'loanAmount',
+            field: 'actualRefunds',
             readonly: true,
             amount: true
         }, {
             title: '备注',
-            field: 'carSettleDatetime',
-            type: 'datetime'
+            field: 'remark'
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 630521
+            detailCode: 630521,
+            buttons: [{
+                title: '用户赎回',
+                handler: (param) => {
+                    param.operator = getUserId();
+                    this.props.doFetching();
+                    fetch(630560, param).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                },
+                check: true,
+                type: 'primary'
+            }, {
+                title: '返回',
+                handler: (param) => {
+                    this.props.history.go(-1);
+                }
+            }]
         });
     }
 }
