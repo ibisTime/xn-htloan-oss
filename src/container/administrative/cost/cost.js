@@ -93,7 +93,7 @@ class cost extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].status !== '5') {
+                    } else if (selectedRows[0].status !== '3') {
                         showWarnMsg('不是确认放款的状态');
                     } else {
                         this.props.history.push(`/administrative/cost/addedit?v=1&isCertain=1&code=${selectedRowKeys[0]}`);
@@ -105,7 +105,7 @@ class cost extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(`/administrative/cost/detail?v=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/administrative/cost/detail?v=1&code=${selectedRowKeys[0]}&status=${selectedRows[0].status}`);
                     }
                 }
             }

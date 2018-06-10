@@ -30,45 +30,7 @@ class costDetail extends React.Component {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
-        this.refAssertCodeHideStatus = true;
-        this.refBudgetOrderCodeHideStatus = true;
-    }
-    // 获取关联表
-    getRelation = (bizCode, params) => {
-        this.props.setSelectData({
-            data: [],
-            key: 'refAssertCode'
-        });
-        this.props.form.setFieldsValue({
-            refAssertCode: ''
-        });
-        this.props.doFetching();
-        fetch(bizCode, params).then((data) => {
-            this.props.setSelectData({
-                data: data.list ? data.list : data,
-                key: 'refAssertCode'
-            });
-            this.props.cancelFetching();
-        }).catch(this.props.cancelFetching);
-    }
-
-    // 获取关联车贷业务
-    getRelationLoan = (bizCode, params) => {
-        this.props.setSelectData({
-            data: [],
-            key: 'refBudgetOrderCode'
-        });
-        this.props.form.setFieldsValue({
-            refBudgetOrderCode: ''
-        });
-        this.props.doFetching();
-        fetch(bizCode, params).then((data) => {
-            this.props.setSelectData({
-                data: data.list ? data.list : data,
-                key: 'refBudgetOrderCode'
-            });
-            this.props.cancelFetching();
-        }).catch(this.props.cancelFetching);
+        this.status = getQueryString('status', this.props.location.search);
     }
 
     render() {
@@ -77,63 +39,15 @@ class costDetail extends React.Component {
             field: 'type',
             type: 'select',
             key: 'fee_advance_apply_type',
-            required: true,
-            onChange: (value) => {
-                let bizCode;
-                let params = {};
-                // 采购固定资产
-                if (value === '01') {
-                    bizCode = 632645;
-                    params.limit = 1000;
-                    params.start = 1;
-                    params.status = '1';
-                    params.type = '1';
-                    params.applyUser = getUserId();
-                    this.getRelation(bizCode, params);
-                // 采购办公用品
-                } else if (value === '02') {
-                    bizCode = 632645;
-                    params.limit = 1000;
-                    params.start = 1;
-                    params.status = '1';
-                    params.type = '2';
-                    params.applyUser = getUserId();
-                // 贷后催收
-                } else if (value === '06') {
-                    bizCode = 632145;
-                    params.limit = 1000;
-                    params.start = 1;
-                    params.curNodeCode = '002_23';
-                }
-                if (value === '01' || value === '02') {
-                    this.refAssertCodeHideStatus = false;
-                    this.refBudgetOrderCodeHideStatus = true;
-                    this.getRelation(bizCode, params);
-                } else if (value === '06') {
-                    this.refAssertCodeHideStatus = true;
-                    this.refBudgetOrderCodeHideStatus = false;
-                    this.getRelationLoan(bizCode, params);
-                } else {
-                    this.refAssertCodeHideStatus = true;
-                    this.refBudgetOrderCodeHideStatus = true;
-                }
-            }
+            required: true
         }, {
             title: '关联审批表',
             field: 'refAssertCode',
-            type: 'select',
-            required: true,
-            keyName: 'code',
-            valueName: '{{code.DATA}}-{{applyUserName.DATA}}',
-            hidden: this.refAssertCodeHideStatus
+            hidden: !(this.props.pageData.refAssertCode)
         }, {
             title: '关联车贷业务',
             field: 'refBudgetOrderCode',
-            type: 'select',
-            keyName: 'code',
-            valueName: '{{code.DATA}}-{{saleUserName.DATA}}',
-            required: true,
-            hidden: this.refBudgetOrderCodeHideStatus
+            hidden: !(this.props.pageData.refBudgetOrderCode)
         }, {
             title: '预支金额',
             field: 'amount',
@@ -158,6 +72,41 @@ class costDetail extends React.Component {
         }, {
             title: '说明',
             field: 'applyNote'
+        }, {
+            title: '备注',
+            field: 'remark'
+        }, {
+            title: '状态',
+            field: 'status',
+            type: 'select',
+            key: 'fee_advance_apply_status'
+        }, {
+            title: '付款时间',
+            field: 'payDatetime',
+            type: 'datetime',
+            required: true,
+            hidden: !(this.status === '5' || this.status === '3')
+        }, {
+            title: '付款银行',
+            field: 'payBank',
+            type: 'select',
+            listCode: 632037,
+            keyName: 'code',
+            valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
+            required: true,
+            hidden: !(this.status === '5' || this.status === '3')
+        }, {
+            title: '付款银行卡',
+            field: 'payBankcard',
+            bankCard: true,
+            required: true,
+            hidden: !(this.status === '5' || this.status === '3')
+        }, {
+            title: '付款凭证',
+            field: 'payPdf',
+            type: 'img',
+            required: true,
+            hidden: !(this.status === '5' || this.status === '3')
         }];
         return this.props.buildDetail({
             fields,

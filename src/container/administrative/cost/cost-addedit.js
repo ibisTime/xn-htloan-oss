@@ -121,13 +121,23 @@ class costAddedit extends React.Component {
         }, {
             title: '银行账号',
             field: 'bankcardNumber',
+            bankCard: true,
             required: true
         }, {
             title: '说明',
             field: 'applyNote'
         }];
 
-        if (this.isCheck) {
+        let checkFields = [{
+            title: '备注',
+            field: 'remark',
+            readonly: false
+        }];
+
+        if (this.isCheck || this.isFinance) {
+            this.fields = this.fields.concat(checkFields);
+            let bizCode = this.isCheck ? 632671 : 632672;
+
             this.buttons = [{
                 title: '通过',
                 check: true,
@@ -138,7 +148,7 @@ class costAddedit extends React.Component {
                     data.approveResult = '1';
                     data.updater = getUserId();
                     this.props.doFetching();
-                    fetch(632641, data).then(() => {
+                    fetch(bizCode, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -153,10 +163,64 @@ class costAddedit extends React.Component {
                     let data = {};
                     data.code = this.code;
                     data.remark = params.remark;
-                    data.approveResult = '2';
+                    data.approveResult = '0';
                     data.updater = getUserId();
                     this.props.doFetching();
-                    fetch(632641, data).then(() => {
+                    fetch(bizCode, data).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                }
+            }, {
+                title: '返回',
+                handler: (param) => {
+                    this.props.history.go(-1);
+                }
+            }];
+        }
+
+        let certainFields = [{
+            title: '付款时间',
+            field: 'payDatetime',
+            type: 'datetime',
+            readonly: false,
+            required: true
+        }, {
+            title: '付款银行',
+            field: 'payBank',
+            type: 'select',
+            listCode: 632037,
+            keyName: 'code',
+            valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
+            readonly: false,
+            required: true
+        }, {
+            title: '付款银行卡',
+            field: 'payBankcard',
+            bankCard: true,
+            readonly: false,
+            required: true
+        }, {
+            title: '付款凭证',
+            field: 'payPdf',
+            type: 'img',
+            readonly: false,
+            required: true
+        }];
+
+        if (this.isCertain) {
+            this.fields = this.fields.concat(certainFields);
+
+            this.buttons = [{
+                title: '确定',
+                check: true,
+                handler: (params) => {
+                    params.code = this.code;
+                    this.props.doFetching();
+                    fetch(632673, params).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
