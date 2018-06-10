@@ -108,7 +108,9 @@ export default class ListComponent extends React.Component {
           this.addRender(f, v => v);
         }
       }
-      columns.push(obj);
+      if (!f.hidden) {
+        columns.push(obj);
+      }
     });
     this.first = false;
     this.columns = columns;
@@ -355,8 +357,7 @@ export default class ListComponent extends React.Component {
     fetch(this.options.pageCode, {
       start: current,
       limit: pagination.pageSize,
-      ...searchParam,
-      ...this.options.searchParams
+      ...searchParam
     }).then(data => {
       this.props.cancelFetching();
       this.props.setTableData(data.list);

@@ -418,6 +418,12 @@ import { administrativeFixedAssetsAddedit } from './redux/administrative/fixedAs
 import { administrativeLeader } from './redux/administrative/leader';
 import { administrativeLeaderAddedit } from './redux/administrative/leader-addedit';
 
+// 系统管理-公司管理-业务团队
+import { securityBusinessTeam } from './redux/security/businessTeam';
+import { securityBusinessTeamAddedit } from './redux/security/businessTeam-addedit';
+import { securityMemberList } from './redux/security/memberList';
+import { securityMemberListAddedit } from './redux/security/memberList-addedit';
+
 export default combineReducers({
   user,
   menu,
@@ -663,5 +669,9 @@ export default combineReducers({
   administrativeFixedAssets,
   administrativeFixedAssetsAddedit,
   administrativeLeader,
-  administrativeLeaderAddedit
+  administrativeLeaderAddedit,
+  securityBusinessTeam,
+  securityBusinessTeamAddedit,
+  securityMemberList,
+  securityMemberListAddedit
 });

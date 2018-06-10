@@ -10,16 +10,17 @@ import {
     setSearchData
 } from '@redux/attendance/summary';
 import {
-  showWarnMsg,
-  showSucMsg
+    showWarnMsg,
+    showSucMsg,
+    dateTimeFormat
 } from 'common/js/util';
 import {
     listWrapper
 } from 'common/js/build-list';
 import {
-  lowerFrame,
-  onShelf,
-  sendMsg
+    lowerFrame,
+    onShelf,
+    sendMsg
 } from 'api/biz';
 
 @listWrapper(
@@ -40,62 +41,61 @@ import {
 class summary extends React.Component {
     render() {
         const fields = [{
-            title: '申请人',
-            field: 'applyUser',
-            search: true
+            title: '姓名',
+            field: 'realName'
         }, {
             title: '工号',
-            field: 'jobNo',
-            render: (v, d) => {
-                return d.applyUserArchive[0] && d.applyUserArchive[0].jobNo;
-            }
+            field: 'jobNo'
         }, {
-            title: '部门',
-            field: 'departmentName',
-            render: (v, d) => {
-                return d.applyUserArchive[0] && d.applyUserArchive[0].departmentName;
-            }
+            title: '部门名称',
+            field: 'departmentName'
         }, {
-            title: '职务',
-            field: 'postCode',
-            render: (v, d) => {
-                return d.applyUserArchive[0] && d.applyUserArchive[0].postName;
-            }
+            title: '应出勤天数',
+            field: 'shouldCheckingDays'
         }, {
-            title: '请假类别',
-            field: 'type',
-            type: 'select',
-            key: 'leave_apply_type',
-            search: true
+            title: '实际出勤天数',
+            field: 'actualCheckingDays'
         }, {
-            title: '共计(小时)',
-            field: 'totalHour'
+            title: '漏签次数',
+            field: 'suppleSignCount'
         }, {
-            title: '申请时间',
-            field: 'time1',
-            rangedate: ['startDatetime-31', 'endDatetime-31'],
+            title: '请假小时',
+            field: 'leaveHours'
+        }, {
+            title: '调休小时',
+            field: 'dayOffHours'
+        }, {
+            title: '加班小时',
+            field: 'overtimeHours'
+        }, {
+            title: '出差小时',
+            field: 'travelHours'
+        }, {
+            title: '公出小时',
+            field: 'officeTravelHours'
+        }, {
+            title: '日期至',
+            field: 'date',
             type: 'date',
-            search: true
-        }, {
-            title: '状态',
-            field: 'status',
-            type: 'select',
-            key: 'leave_apply_status',
-            search: true
+            search: true,
+            hidden: true
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632895,
+            pageCode: 632686,
+            searchParams: {
+                date: dateTimeFormat(new Date(), 'yyyy-dd-MM')
+            },
             btnEvent: {
-              check: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else {
-                  this.props.history.push(`/attendance/leave/check?code=${selectedRowKeys[0]}`);
+                check: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/attendance/leave/check?code=${selectedRowKeys[0]}`);
+                    }
                 }
-              }
             }
         });
     }

@@ -1226,6 +1226,27 @@ const ROUTES = [
   {
       path: '/administrative/manageGps/addedit',
       component: asyncComponent(() => import('container/postloantools/manageGps/manageGps-addedit'))
+  },
+  // // 系统管理-公司管理
+  //  业务团队
+  {
+      path: '/system/businessTeam',
+      component: asyncComponent(() => import('container/security/businessTeam/businessTeam'))
+  },
+  //  业务团队 详情
+  {
+      path: '/system/businessTeam/addedit',
+      component: asyncComponent(() => import('container/security/businessTeam/businessTeam-addedit'))
+  },
+  //  业务团队 成员管理
+  {
+      path: '/system/businessTeam/memberList',
+      component: asyncComponent(() => import('container/security/businessTeam/memberList'))
+  },
+  //  业务团队 成员管理 详情
+  {
+      path: '/system/businessTeam/memberList/addedit',
+      component: asyncComponent(() => import('container/security/businessTeam/memberList-addedit'))
   }
 ];
 
