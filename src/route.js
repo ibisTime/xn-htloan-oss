@@ -549,6 +549,11 @@ const ROUTES = [
     path: '/biz/settlement/addedit',
     component: asyncComponent(() => import('container/biz/carLoanRepay/settlement-addedit'))
   },
+  //  结清审核 清欠催收部审核
+  {
+    path: '/biz/settlement/collection',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/settlement-collection'))
+  },
   //  解除抵押
   {
     path: '/biz/mortgages',

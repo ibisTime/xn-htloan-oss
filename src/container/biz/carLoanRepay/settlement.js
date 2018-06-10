@@ -50,23 +50,28 @@ class settlement extends React.Component {
             search: true
         }, {
             title: '贷款人',
-            field: 'companyCode',
-            search: true
+            field: 'user',
+            search: true,
+            render: (v, d) => {
+                return d.user.realName;
+            }
         }, {
             title: '手机号',
-            field: 'applyUserName',
-            mobile: true
+            field: 'mobile',
+            render: (v, d) => {
+                return d.user.mobile;
+            }
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
         }, {
             title: '剩余欠款',
-            field: 'loanAmount',
+            field: 'restAmount',
             amount: true
         }, {
             title: '未还清收成本',
-            field: 'loanAmount',
+            field: 'restTotalCost',
             amount: true
         }, {
             title: '未还代偿金额',
@@ -78,52 +83,48 @@ class settlement extends React.Component {
             amount: true
         }, {
             title: '当前节点',
-            field: 'curNodeCode',
-            type: 'select',
-            listCode: 630147,
-            keyName: 'code',
-            valueName: 'name'
+            field: 'status'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632145,
+            pageCode: 630520,
             btnEvent: {
-              collection: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else {
-                  this.props.history.push(`/biz/settlement/collection?code=${selectedRowKeys[0]}`);
+                collection: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/biz/settlement/collection?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                finance: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/biz/settlement/finance?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                manager: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/biz/settlement/manager?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                stationed: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/biz/settlement/stationed?code=${selectedRowKeys[0]}`);
+                    }
                 }
-              },
-              finance: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else {
-                  this.props.history.push(`/biz/settlement/finance?code=${selectedRowKeys[0]}`);
-                }
-              },
-              manager: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else {
-                  this.props.history.push(`/biz/settlement/manager?code=${selectedRowKeys[0]}`);
-                }
-              },
-              stationed: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else {
-                  this.props.history.push(`/biz/settlement/stationed?code=${selectedRowKeys[0]}`);
-                }
-              }
             }
         });
     }
