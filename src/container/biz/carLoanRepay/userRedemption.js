@@ -88,8 +88,8 @@ class userRedemption extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
               showWarnMsg('请选择一条记录');
-          // } else if (selectedRows[0].curNodeCode !== '003_17') {
-          //     showWarnMsg('不是待用户赎回的节点');
+          } else if (selectedRows[0].curNodeCode !== '003_17') {
+              showWarnMsg('不是待用户赎回的节点');
           } else {
             this.props.history.push(`/biz/userRedemption/applyRedeem?code=${selectedRowKeys[0]}`);
           }
@@ -99,8 +99,8 @@ class userRedemption extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          // } else if (selectedRows[0].curNodeCode !== '003_16') {
-              // showWarnMsg('不是风控主管审核的节点');
+          } else if (selectedRows[0].curNodeCode !== '003_18') {
+              showWarnMsg('不是风控主管审核的节点');
           } else {
             this.props.history.push(`/biz/userRedemption/checkDirector?code=${selectedRowKeys[0]}`);
           }
@@ -110,8 +110,8 @@ class userRedemption extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          // } else if (selectedRows[0].curNodeCode !== '003_17') {
-          //     showWarnMsg('不是财务经理审核的节点');
+          } else if (selectedRows[0].curNodeCode !== '003_19') {
+              showWarnMsg('不是财务经理审核的节点');
           } else {
             this.props.history.push(`/biz/userRedemption/checkFinance?code=${selectedRowKeys[0]}`);
           }

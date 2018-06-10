@@ -117,7 +117,7 @@ class userRedemptionDispose extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                detailCode: 630541,
+                detailCode: 630521,
                 buttons: [{
                     title: '通过',
                     handler: (param) => {
