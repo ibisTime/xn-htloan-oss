@@ -1,107 +1,103 @@
 import React from 'react';
 import {
-    initStates,
+    setTableData,
+    setPagination,
+    setBtnList,
+    setSearchParam,
+    clearSearchParam,
     doFetching,
     cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-} from '@redux/postloantools/import-import';
+    setSearchData
+} from '@redux/postloantools/import';
 import {
-    getQueryString
+    showWarnMsg,
+    showSucMsg
 } from 'common/js/util';
 import {
-    DetailWrapper
-} from 'common/js/build-detail';
+    listWrapper
+} from 'common/js/build-list';
+import {
+    lowerFrame,
+    onShelf,
+    sendMsg
+} from 'api/biz';
+import XLSX from 'xlsx';
+import { Button } from 'antd';
 
-@DetailWrapper(
-    state => state.postloantoolsImportImport, {
-        initStates,
+@listWrapper(
+    state => ({
+        ...state.postloantoolsImportImport,
+        parentCode: state.menu.subMenuCode
+    }), {
+        setTableData,
+        clearSearchParam,
         doFetching,
+        setBtnList,
         cancelFetching,
-        setSelectData,
-        setPageData,
-        restore
+        setPagination,
+        setSearchParam,
+        setSearchData
     }
 )
-class applyGpsAddedit extends React.Component {
+
+class importImport extends React.Component {
     constructor(props) {
         super(props);
-        this.code = getQueryString('code', this.props.location.search);
-        this.view = !!getQueryString('v', this.props.location.search);
+        this.state = {
+            data: [],
+            cols: []
+        };
+    }
+    makeCols = (refstr) => {
+        var o = [];
+        var range = XLSX.utils.decode_range(refstr);
+        for(var i = 0; i <= range.e.c; ++i) {
+            o.push({ name: XLSX.utils.encode_col(i), key: i });
+        }
+        console.log(o);
+        return o;
+    }
+
+    handleChange = (files) => {
+        files = files.target.files;
+        if (!files || !files.length) {
+            return;
+        }
+        let file = files[0];
+        const reader = new FileReader();
+        const rABS = !!reader.readAsBinaryString;
+        reader.onload = (e) => {
+            const bstr = e.target.result;
+            const wb = XLSX.read(bstr, { type: rABS ? 'binary' : 'array' });
+            const wsname = wb.SheetNames[0];
+            const ws = wb.Sheets[wsname];
+            let data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+            this.setState({ data: data, cols: this.makeCols(ws['!ref']) });
+            console.log(data);
+        };
+        if (rABS) {
+            reader.readAsBinaryString(file);
+        } else {
+            reader.readAsArrayBuffer(file);
+        }
     }
     render() {
-        const fields = [{
-            title: '银行',
-            field: 'applyCount'
-        }, {
-            title: '逾期名单',
-            field: 'overdueList',
-            type: 'o2m',
-            options: {
-                add: true,
-                edit: true,
-                delete: true,
-                fields: [{
-                    title: '证件号',
-                    field: 'IdNo',
-                    required: true,
-                    idCard: true
-                }, {
-                    title: '放款日期',
-                    field: 'fkDatetime',
-                    required: true,
-                    type: 'date'
-                }, {
-                    title: '贷款金额',
-                    field: 'loanAmount',
-                    amount: true
-                }, {
-                    title: '贷款银行',
-                    field: 'bankCode',
-                    type: 'select',
-                    listCode: 802116,
-                    keyName: 'bankCode',
-                    valueName: 'bankName',
-                    required: true
-                }, {
-                    title: '逾期金额',
-                    field: 'overdueAmount',
-                    amount: true,
-                    required: true
-                }, {
-                    title: '逾期日期',
-                    field: 'overdueDatetime',
-                    required: true,
-                    type: 'date'
-                }, {
-                    title: '总期数',
-                    field: 'periods',
-                    required: true
-                }, {
-                    title: '客户姓名',
-                    field: 'realName',
-                    required: true
-                }, {
-                    title: '剩余金额',
-                    field: 'remainAmount',
-                    required: true,
-                    amount: true
-                }]
-            }
-        }];
-        return this.props.buildDetail({
-            fields,
-            code: this.code,
-            view: this.view,
-            detailCode: 632306,
-            beforeSubmit: (param) => {
-                let bank = this.props.selectData.bankCode.find(v => v.bankCode === param.bankCode);
-                param.loanBankName = bank.bankName;
-                return param;
-            }
-        });
+        return (
+            <div>
+                <input type="file" onChange={this.handleChange}/>
+                <table className="table table-striped">
+                    <thead>
+                    <tr>{this.state.cols.map(c => <th key={c.key}>{c.name}</th>)}</tr>
+                    </thead>
+                    <tbody>
+                    {this.state.data.map((r, i) => <tr key={i}>
+                        {this.state.cols.map(c => <td key={c.key}>{ r[c.key] }</td>)}
+                    </tr>)}
+                    </tbody>
+                </table>
+            </div>
+        );
     }
 }
 
-export default applyGpsAddedit;
+export default importImport;
