@@ -46,9 +46,6 @@ class mortgagesAddedit extends React.Component {
             field: 'loanAmount',
             amount: true
         }, {
-            title: '车辆',
-            field: 'bankFkDatetime'
-        }, {
             title: '解除日期',
             field: 'bankFkDatetime',
             type: 'date'

@@ -50,34 +50,31 @@ class redList extends React.Component {
       }, {
         title: '贷款金额',
         field: 'loanAmount',
-        render: (v, d) => {
-          return (d.repayBiz.loanAmount / 1000);
-        }
+        amount: true
       }, {
         title: '剩余欠款',
         field: 'restAmount',
-        render: (v, d) => {
-          return (d.repayBiz.restAmount / 1000);
-        }
+        amount: true
       }, {
         title: '未还清收成本',
         field: 'restTotalCost',
-        render: (v, d) => {
-          return (d.repayBiz.restAmount / 1000);
-        }
+        amount: true
       }, {
         title: '标识日期',
         field: 'overdueHandleDatetime',
         type: 'date'
       }, {
-        title: '状态',
-        field: 'status',
-        search: true
+        title: '当前节点',
+        field: 'curNodeCode',
+        type: 'select',
+        listCode: 630147,
+        keyName: 'code',
+        valueName: 'name'
       }
     ];
     return this.props.buildList({
         fields,
-        pageCode: 630540,
+        pageCode: 630520,
         searchParams: {
           status: ''
         },

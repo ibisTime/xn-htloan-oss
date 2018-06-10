@@ -8,13 +8,14 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/biz/trailer';
+} from '@redux/biz/yellowList';
 import {
     listWrapper
 } from 'common/js/build-list';
 import {
     showWarnMsg,
-    showSucMsg
+    showSucMsg,
+    moneyFormat
 } from 'common/js/util';
 import {
     Button,
@@ -28,7 +29,7 @@ import {
 
 @listWrapper(
     state => ({
-        ...state.bizTrailer,
+        ...state.bizYellowList,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -41,7 +42,7 @@ import {
         setSearchData
     }
 )
-class trailer extends React.Component {
+class yellowList extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
@@ -65,7 +66,9 @@ class trailer extends React.Component {
         }, {
             title: '未还清收成本(元)',
             field: 'loanAmount',
-            amount: true
+            render: (v, d) => {
+                return moneyFormat(d.repayBiz.restTotalCost);
+            }
         }, {
             title: '代偿款(元)',
             field: 'loanAmount',
@@ -77,8 +80,7 @@ class trailer extends React.Component {
             key: 'status'
         }, {
             title: '保证金(元)',
-            field: 'loanAmount',
-            amount: true
+            field: 'lyDeposit'
         }, {
             title: '可退保证金(元)',
             field: 'loanAmount',
@@ -88,13 +90,22 @@ class trailer extends React.Component {
             fields,
             pageCode: 630540,
             btnEvent: {
-                dsipose: (selectedRowKeys, selectedRows) => {
+                payCost: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(`/biz/trailer/dsipose?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
+                        this.props.history.push(`/biz/yellowList/payCost?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
+                    }
+                },
+                payCompensate: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/biz/yellowList/payCompensate?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
                     }
                 }
             }
@@ -102,4 +113,4 @@ class trailer extends React.Component {
     }
 }
 
-export default trailer;
+export default yellowList;

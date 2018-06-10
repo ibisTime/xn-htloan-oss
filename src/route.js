@@ -484,6 +484,11 @@ const ROUTES = [
     path: '/biz/redList/pay',
     component: asyncComponent(() => import('container/biz/carLoanRepay/redList-pay'))
   },
+  //  红名单 总经理审核
+  {
+    path: '/biz/redList/check',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/redList-check'))
+  },
   //  拖车管理
   {
     path: '/biz/trailer',

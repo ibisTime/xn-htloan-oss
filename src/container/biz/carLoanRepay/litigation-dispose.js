@@ -47,16 +47,11 @@ class litigationDispose extends React.Component {
         }, {
             title: '贷款银行',
             field: 'loanBank',
-            formatter: (v, d) => {
-                return d.repayBiz.loanBankName;
-            },
             readonly: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            formatter: (v, d) => {
-                return d.repayBiz.loanAmount / 1000;
-            },
+            amount: true,
             readonly: true
         }, {
             title: '业务团队',

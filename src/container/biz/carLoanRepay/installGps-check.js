@@ -88,7 +88,6 @@ class installGpsCheck extends React.Component {
               title: '通过',
               handler: (param) => {
                 param.approveResult = '1';
-                param.approveNote = this.projectCode;
                 param.operator = getUserId();
                 this.props.doFetching();
                 fetch(632127, param).then(() => {
@@ -105,7 +104,6 @@ class installGpsCheck extends React.Component {
               title: '不通过',
               handler: (param) => {
                 param.approveResult = '0';
-                param.approveNote = this.projectCode;
                 param.operator = getUserId();
                 this.props.doFetching();
                 fetch(632127, param).then(() => {

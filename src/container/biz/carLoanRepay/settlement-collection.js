@@ -59,8 +59,8 @@ class settlementCollection extends React.Component {
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            readonly: true,
-            amount: true
+            amount: true,
+            readonly: true
         }, {
             title: '是否提前还款',
             field: 'isAdvanceSettled',
@@ -127,7 +127,7 @@ class settlementCollection extends React.Component {
             }
         }, {
             title: '可退押金金额',
-            field: 'loanAmount',
+            field: 'lyDeposit',
             render: (v, d) => {
                 return (d.lyDeposit + d.overdueAmount) / 1000;
             },

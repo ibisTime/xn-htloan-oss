@@ -38,26 +38,26 @@ class trailerAddedit extends React.Component {
             field: 'realName',
             formatter: (v, d) => {
                 return d.user.realName;
-            }
+            },
+            readonly: true
         }, {
             title: '业务编号',
-            field: 'code'
+            field: 'code',
+            readonly: true
         }, {
             title: '贷款银行',
             field: 'loanBank',
-            formatter: (v, d) => {
-                return d.repayBiz.loanBankName;
-            }
+            readonly: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            formatter: (v, d) => {
-                return d.repayBiz.loanAmount / 1000;
-            }
+            amount: true,
+            readonly: true
         }, {
             title: '拖车成本',
             field: 'loanAmount',
-            amount: true
+            amount: true,
+            readonly: true
         }];
         return this
             .props
@@ -65,7 +65,7 @@ class trailerAddedit extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                detailCode: 630541
+                detailCode: 630521
             });
     }
 }

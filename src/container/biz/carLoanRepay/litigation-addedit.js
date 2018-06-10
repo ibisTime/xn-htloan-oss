@@ -34,36 +34,28 @@ class litigationAddedit extends React.Component {
     }
     render() {
         const fields = [{
-            title: '贷款人',
-            field: 'applyUserName',
+            title: '客户姓名',
+            field: 'realName',
             formatter: (v, d) => {
                 return d.user.realName;
             }
         }, {
-            title: '手机号',
-            field: 'mobile',
-            formatter: (v, d) => {
-                return d.user.mobile;
-            }
+            title: '业务编号',
+            field: 'code'
         }, {
-            title: '身份证号',
-            field: 'idNo',
-            formatter: (v, d) => {
-                return d.user.idNo;
-            }
+            title: '贷款银行',
+            field: 'loanBank'
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
         }, {
             title: '业务团队',
-            field: 'loanAmount',
-            readonly: true
+            field: 'loanAmount'
         }, {
             title: '业务团队扣款金额',
-            field: 'loanAmount',
-            amount: true,
-            required: true
+            field: 'buyOutAmount',
+            amount: true
         }];
         return this
             .props

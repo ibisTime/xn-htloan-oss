@@ -45,7 +45,6 @@ class userRedemptionDispose extends React.Component {
             field: 'code',
             readonly: true
         }, {
-
             title: '贷款银行',
             field: 'loanBankName',
             readonly: true

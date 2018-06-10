@@ -46,16 +46,11 @@ class redListApply extends React.Component {
         }, {
             title: '贷款银行',
             field: 'loanBank',
-            formatter: (v, d) => {
-                return d.repayBiz.loanBankName;
-            },
             readonly: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            formatter: (v, d) => {
-                return d.repayBiz.loanAmount / 1000;
-            },
+            amount: true,
             readonly: true
         }, {
             title: '申请金额',
@@ -90,7 +85,7 @@ class redListApply extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                detailCode: 630541,
+                detailCode: 630521,
                 buttons: [{
                     title: '确定',
                     handler: (param) => {

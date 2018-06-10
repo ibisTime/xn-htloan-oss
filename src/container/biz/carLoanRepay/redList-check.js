@@ -8,8 +8,11 @@ import {
     restore
 } from '@redux/biz/redList-check';
 import {
-    getQueryString
+    getQueryString,
+    getUserId,
+    showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
@@ -31,47 +34,50 @@ class redListCheck extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'mobile',
+            field: 'realName',
+            formatter: (v, d) => {
+                return d.user.realName;
+            },
             readonly: true
         }, {
             title: '业务编号',
-            field: 'realName',
+            field: 'code',
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'idNo',
+            field: 'loanBank',
             readonly: true
         }, {
             title: '贷款金额',
-            field: 'sfAmount',
+            field: 'loanAmount',
             amount: true,
-            readonly: true
-        }, {
-            title: '车辆',
-            field: 'subbranch',
             readonly: true
         }, {
             title: '申请金额',
-            field: 'sfAmount',
+            field: 'tsCarAmount',
             amount: true,
-            readonly: true
+            required: true
         }, {
-            title: '收款账户',
-            field: 'carCode',
-            readonly: true
+            title: '收款账号',
+            field: 'tsBankcardNumber',
+            required: true,
+            bankCard: true
         }, {
             title: '开户行',
-            field: 'carPrice',
-            readonly: true
+            field: 'tsBankName',
+            type: 'select',
+            listCode: 802116,
+            keyName: 'bankCode',
+            valueName: 'bankName',
+            required: true
         }, {
             title: '开户支行',
-            field: 'sfRate',
-            readonly: true,
-            type: 'select'
+            field: 'tsSubbranch',
+            required: true
         }, {
             title: '申请说明',
-            field: 'loanBank',
-            readonly: true
+            field: 'tcApplyNote',
+            required: true
         }, {
             title: '备注',
             field: 'loanBank'
@@ -82,9 +88,44 @@ class redListCheck extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                addCode: 630500,
-                editCode: 630502,
-                detailCode: 630507
+                detailCode: 630521,
+                buttons: [{
+                  title: '通过',
+                  handler: (param) => {
+                    param.approveResult = '1';
+                    param.operator = getUserId();
+                    this.props.doFetching();
+                    fetch(630552, param).then(() => {
+                      showSucMsg('操作成功');
+                      this.props.cancelFetching();
+                      setTimeout(() => {
+                        this.props.history.go(-1);
+                      }, 1000);
+                    }).catch(this.props.cancelFetching);
+                  },
+                  check: true,
+                  type: 'primary'
+                }, {
+                  title: '不通过',
+                  handler: (param) => {
+                    param.approveResult = '0';
+                    param.operator = getUserId();
+                    this.props.doFetching();
+                    fetch(630552, param).then(() => {
+                      showSucMsg('操作成功');
+                      this.props.cancelFetching();
+                      setTimeout(() => {
+                        this.props.history.go(-1);
+                      }, 1000);
+                    }).catch(this.props.cancelFetching);
+                  },
+                  check: true
+                }, {
+                  title: '返回',
+                  handler: (param) => {
+                    this.props.history.go(-1);
+                  }
+                }]
             });
     }
 }

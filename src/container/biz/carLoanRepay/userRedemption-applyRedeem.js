@@ -109,8 +109,29 @@ class userRedemptionDispose extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            editCode: 630561,
-            detailCode: 630521
+            detailCode: 630521,
+            buttons: [{
+                title: '确认',
+                handler: (param) => {
+                    param.code = this.code;
+                    param.operator = getUserId();
+                    this.props.doFetching();
+                    fetch(630561, param).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                },
+                check: true,
+                type: 'primary'
+            }, {
+                title: '返回',
+                handler: (param) => {
+                    this.props.history.go(-1);
+                }
+            }]
         });
     }
 }

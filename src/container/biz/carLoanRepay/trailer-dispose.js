@@ -47,16 +47,11 @@ class trailerDispose extends React.Component {
         }, {
             title: '贷款银行',
             field: 'loanBank',
-            formatter: (v, d) => {
-                return d.repayBiz.loanBankName;
-            },
             readonly: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            formatter: (v, d) => {
-                return d.repayBiz.loanAmount / 1000;
-            },
+            amount: true,
             readonly: true
         }, {
             title: '拖车成本',
@@ -70,13 +65,14 @@ class trailerDispose extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                detailCode: 630541,
+                detailCode: 630521,
                 buttons: [{
                     title: '用户赎回',
                     handler: (param) => {
+                        param.appoveResult = '0';
                         param.operator = getUserId();
                         this.props.doFetching();
-                        fetch(630560, param).then(() => {
+                        fetch(630564, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -89,9 +85,10 @@ class trailerDispose extends React.Component {
                 }, {
                     title: '司法诉讼',
                     handler: (param) => {
+                        param.appoveResult = '1';
                         param.operator = getUserId();
                         this.props.doFetching();
-                        fetch(630558, param).then(() => {
+                        fetch(630564, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {

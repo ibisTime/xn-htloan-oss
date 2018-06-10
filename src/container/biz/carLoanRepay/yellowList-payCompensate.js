@@ -6,7 +6,7 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/trailer-addedit';
+} from '@redux/biz/yellowList-addedit';
 import {
     getQueryString,
     getUserId,
@@ -17,7 +17,7 @@ import {
     DetailWrapper
 } from 'common/js/build-detail';
 
-@DetailWrapper(state => state.bizTrailerAddEdit, {
+@DetailWrapper(state => state.bizYellowListPayCompensate, {
     initStates,
     doFetching,
     cancelFetching,
@@ -25,7 +25,7 @@ import {
     setPageData,
     restore
 })
-class trailerAddedit extends React.Component {
+class yellowListAddedit extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -55,7 +55,7 @@ class trailerAddedit extends React.Component {
             type: 'date',
             readonly: true
         }, {
-            title: '为还代偿金额',
+            title: '未还代偿金额',
             field: 'restTotalCost',
             amount: true,
             readonly: true
@@ -116,4 +116,4 @@ class trailerAddedit extends React.Component {
     }
 }
 
-export default trailerAddedit;
+export default yellowListAddedit;

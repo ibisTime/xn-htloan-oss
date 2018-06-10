@@ -6,7 +6,7 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/trailer-addedit';
+} from '@redux/biz/yellowList-addedit';
 import {
     getQueryString,
     getUserId,
@@ -17,7 +17,7 @@ import {
     DetailWrapper
 } from 'common/js/build-detail';
 
-@DetailWrapper(state => state.bizTrailerAddEdit, {
+@DetailWrapper(state => state.bizYellowListPayCost, {
     initStates,
     doFetching,
     cancelFetching,
@@ -25,7 +25,7 @@ import {
     setPageData,
     restore
 })
-class trailerAddedit extends React.Component {
+class yellowListAddedit extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -55,7 +55,7 @@ class trailerAddedit extends React.Component {
             type: 'date',
             readonly: true
         }, {
-            title: '为还清收成本',
+            title: '未还清收成本',
             field: 'restTotalCost',
             amount: true,
             readonly: true
@@ -97,10 +97,9 @@ class trailerAddedit extends React.Component {
                     title: '线上代扣',
                     handler: (param) => {
                         param.approveResult = '1';
-                        param.approveNote = this.projectCode;
                         param.operator = getUserId();
                         this.props.doFetching();
-                        fetch(632135, param).then(() => {
+                        fetch(630534, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -114,10 +113,9 @@ class trailerAddedit extends React.Component {
                     title: '线下收取',
                     handler: (param) => {
                         param.approveResult = '1';
-                        param.approveNote = this.projectCode;
                         param.operator = getUserId();
                         this.props.doFetching();
-                        fetch(632135, param).then(() => {
+                        fetch(630534, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -137,4 +135,4 @@ class trailerAddedit extends React.Component {
     }
 }
 
-export default trailerAddedit;
+export default yellowListAddedit;

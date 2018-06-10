@@ -17,7 +17,7 @@ import {
     DetailWrapper
 } from 'common/js/build-detail';
 
-@DetailWrapper(state => state.bizTrailerAddEdit, {
+@DetailWrapper(state => state.bizYellowListAddEdit, {
     initStates,
     doFetching,
     cancelFetching,
@@ -35,30 +35,25 @@ class trailerAddedit extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'code',
-            readonly: true
+            field: 'code'
           }, {
             field: 'user',
             title: '贷款人',
             formatter: (v, d) => {
               return d.user.realName;
-            },
-            readonly: true
+            }
           }, {
             title: '逾期日期',
             field: 'repayDatetime',
-            type: 'date',
-            readonly: true
+            type: 'date'
           }, {
             title: '标识日期',
             field: 'overdueHandleDatetime',
-            type: 'date',
-            readonly: true
+            type: 'date'
           }, {
             title: '为还清收成本',
             field: 'restTotalCost',
-            amount: true,
-            readonly: true
+            amount: true
           }];
         return this
             .props
