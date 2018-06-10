@@ -45,23 +45,70 @@ class userRedemptionDispose extends React.Component {
             field: 'code',
             readonly: true
         }, {
+
             title: '贷款银行',
-            field: 'loanBank',
-            formatter: (v, d) => {
-                return d.repayBiz.loanBankName;
-            },
+            field: 'loanBankName',
             readonly: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            formatter: (v, d) => {
-                return d.repayBiz.loanAmount / 1000;
-            },
+            amount: true,
+            readonly: true
+        }, {
+            title: '剩余欠款',
+            field: 'restAmount',
+            amount: true,
+            readonly: true
+        }, {
+            title: '未还清收成本',
+            field: 'restTotalCost',
+            amount: true,
             readonly: true
         }, {
             title: '拖车成本',
-            field: 'loanAmount',
+            field: '11',
             amount: true,
+            readonly: true
+        }, {
+            title: '流水',
+            field: 'jourPdf',
+            type: 'img',
+            readonly: true
+        }, {
+            title: '房产',
+            field: 'housePdf',
+            type: 'img',
+            readonly: true
+        }, {
+            title: '担保人姓名',
+            field: 'guaName',
+            readonly: true
+        }, {
+            title: '担保人身份证号',
+            field: 'guaIdNo',
+            idCard: true,
+            readonly: true
+        }, {
+            title: '担保人手机号',
+            field: 'guaMobile',
+            mobile: true,
+            readonly: true
+        }, {
+            title: '担保人现居住地址',
+            field: 'guaNowAddress',
+            readonly: true
+        }, {
+            title: '赎回说明',
+            field: 'guaNote',
+            readonly: true
+        }, {
+            title: '建议',
+            field: 'suggest',
+            type: 'select',
+            readonly: true
+        }, {
+            title: '建议说明',
+            field: 'suggestNote',
             readonly: true
         }];
         return this
@@ -72,11 +119,13 @@ class userRedemptionDispose extends React.Component {
                 view: this.view,
                 detailCode: 630541,
                 buttons: [{
-                    title: '用户赎回',
+                    title: '通过',
                     handler: (param) => {
+                        param.code = this.code;
+                        param.approveResult = '1';
                         param.operator = getUserId();
                         this.props.doFetching();
-                        fetch(630560, param).then(() => {
+                        fetch(630562, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -87,11 +136,13 @@ class userRedemptionDispose extends React.Component {
                     check: true,
                     type: 'primary'
                 }, {
-                    title: '司法诉讼',
+                    title: '不通过',
                     handler: (param) => {
+                        param.code = this.code;
+                        param.approveResult = '0';
                         param.operator = getUserId();
                         this.props.doFetching();
-                        fetch(630558, param).then(() => {
+                        fetch(630562, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {

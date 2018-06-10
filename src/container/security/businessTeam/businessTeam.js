@@ -25,7 +25,7 @@ import {listWrapper} from 'common/js/build-list';
 class BusinessTeam extends React.Component {
     render() {
         const fields = [{
-            field: 'captain',
+            field: 'captainName',
             title: '团队长'
         }, {
             field: 'companyCode',
@@ -39,7 +39,7 @@ class BusinessTeam extends React.Component {
             valueName: 'name',
             search: true
         }, {
-            field: 'updater',
+            field: 'updaterName',
             title: '最新修改人'
         }, {
             field: 'updateDatetime',

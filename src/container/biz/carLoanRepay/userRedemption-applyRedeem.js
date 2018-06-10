@@ -46,68 +46,72 @@ class userRedemptionDispose extends React.Component {
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'loanBank',
-            formatter: (v, d) => {
-                return d.repayBiz.loanBankName;
-            },
+            field: 'loanBankName',
             readonly: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            formatter: (v, d) => {
-                return d.repayBiz.loanAmount / 1000;
-            },
+            amount: true,
+            readonly: true
+        }, {
+            title: '剩余欠款',
+            field: 'restAmount',
+            amount: true,
+            readonly: true
+        }, {
+            title: '未还清收成本',
+            field: 'restTotalCost',
+            amount: true,
             readonly: true
         }, {
             title: '拖车成本',
-            field: 'loanAmount',
+            field: '11',
             amount: true,
             readonly: true
+        }, {
+            title: '流水',
+            field: 'jourPdf',
+            type: 'img',
+            required: true
+        }, {
+            title: '房产',
+            field: 'housePdf',
+            type: 'img',
+            required: true
+        }, {
+            title: '担保人姓名',
+            field: 'guaName',
+            required: true
+        }, {
+            title: '担保人身份证号',
+            field: 'guaIdNo',
+            idCard: true,
+            required: true
+        }, {
+            title: '担保人手机号',
+            field: 'guaMobile',
+            mobile: true,
+            required: true
+        }, {
+            title: '担保人现居住地址',
+            field: 'guaNowAddress',
+            required: true
+        }, {
+            title: '赎回说明',
+            field: 'guaNote'
+        }, {
+            title: '操作人',
+            field: 'operator',
+            hidden: true,
+            value: getUserId()
         }];
-        return this
-            .props
-            .buildDetail({
-                fields,
-                code: this.code,
-                view: this.view,
-                detailCode: 630541,
-                buttons: [{
-                    title: '用户赎回',
-                    handler: (param) => {
-                        param.operator = getUserId();
-                        this.props.doFetching();
-                        fetch(630560, param).then(() => {
-                            showSucMsg('操作成功');
-                            this.props.cancelFetching();
-                            setTimeout(() => {
-                                this.props.history.go(-1);
-                            }, 1000);
-                        }).catch(this.props.cancelFetching);
-                    },
-                    check: true,
-                    type: 'primary'
-                }, {
-                    title: '司法诉讼',
-                    handler: (param) => {
-                        param.operator = getUserId();
-                        this.props.doFetching();
-                        fetch(630558, param).then(() => {
-                            showSucMsg('操作成功');
-                            this.props.cancelFetching();
-                            setTimeout(() => {
-                                this.props.history.go(-1);
-                            }, 1000);
-                        }).catch(this.props.cancelFetching);
-                    },
-                    check: true,
-                    type: 'primary'
-                }, {
-                    title: '返回',
-                    handler: (param) => {
-                        this.props.history.go(-1);
-                    }
-                }]
-            });
+        return this.props.buildDetail({
+            fields,
+            code: this.code,
+            view: this.view,
+            editCode: 630561,
+            detailCode: 630521
+        });
     }
 }
 
