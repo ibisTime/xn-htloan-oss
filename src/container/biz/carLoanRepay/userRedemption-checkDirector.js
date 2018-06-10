@@ -6,7 +6,7 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/redList-apply';
+} from '@redux/biz/userRedemption-checkDirector';
 import {
     getQueryString,
     getUserId,
@@ -17,7 +17,7 @@ import {
     DetailWrapper
 } from 'common/js/build-detail';
 
-@DetailWrapper(state => state.bizredListApply, {
+@DetailWrapper(state => state.bizUserRedemptionCheckDirector, {
     initStates,
     doFetching,
     cancelFetching,
@@ -25,11 +25,12 @@ import {
     setPageData,
     restore
 })
-class redListApply extends React.Component {
+class userRedemptionDispose extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
+        this.userId = getQueryString('userId', this.props.location.search);
     }
     render() {
         const fields = [{
@@ -58,31 +59,10 @@ class redListApply extends React.Component {
             },
             readonly: true
         }, {
-            title: '申请金额',
-            field: 'tsCarAmount',
+            title: '拖车成本',
+            field: 'loanAmount',
             amount: true,
-            required: true
-        }, {
-            title: '收款账号',
-            field: 'tsBankcardNumber',
-            required: true,
-            bankCard: true
-        }, {
-            title: '开户行',
-            field: 'tsBankName',
-            type: 'select',
-            listCode: 802116,
-            keyName: 'bankCode',
-            valueName: 'bankName',
-            required: true
-        }, {
-            title: '开户支行',
-            field: 'tsSubbranch',
-            required: true
-        }, {
-            title: '申请说明',
-            field: 'tcApplyNote',
-            required: true
+            readonly: true
         }];
         return this
             .props
@@ -92,12 +72,26 @@ class redListApply extends React.Component {
                 view: this.view,
                 detailCode: 630541,
                 buttons: [{
-                    title: '确定',
+                    title: '用户赎回',
                     handler: (param) => {
-                        param.code = this.code;
                         param.operator = getUserId();
                         this.props.doFetching();
-                        fetch(630555, param).then(() => {
+                        fetch(630560, param).then(() => {
+                            showSucMsg('操作成功');
+                            this.props.cancelFetching();
+                            setTimeout(() => {
+                                this.props.history.go(-1);
+                            }, 1000);
+                        }).catch(this.props.cancelFetching);
+                    },
+                    check: true,
+                    type: 'primary'
+                }, {
+                    title: '司法诉讼',
+                    handler: (param) => {
+                        param.operator = getUserId();
+                        this.props.doFetching();
+                        fetch(630558, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -117,4 +111,4 @@ class redListApply extends React.Component {
     }
 }
 
-export default redListApply;
+export default userRedemptionDispose;

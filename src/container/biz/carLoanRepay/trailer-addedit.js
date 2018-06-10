@@ -35,54 +35,29 @@ class trailerAddedit extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'bankName'
+            field: 'realName',
+            formatter: (v, d) => {
+                return d.user.realName;
+            }
         }, {
             title: '业务编号',
-            field: 'bankName'
+            field: 'code'
         }, {
             title: '贷款银行',
-            field: 'bankName'
+            field: 'loanBank',
+            formatter: (v, d) => {
+                return d.repayBiz.loanBankName;
+            }
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            amount: true
-        }, {
-            title: '车辆',
-            field: 'bankName'
-        }, {
-            title: '拖车成本',
-            field: 'loanAmount',
-            amount: true
-        }, {
-            title: '是否缴纳罚息',
-            field: 'subbranch',
-            type: 'select',
-            data: [{
-                key: '0',
-                value: '是'
-            }, {
-                key: '1',
-                value: '否'
-            }],
-            keyName: 'key',
-            keyValue: 'value'
+            formatter: (v, d) => {
+                return d.repayBiz.loanAmount / 1000;
+            }
         }, {
             title: '拖车成本',
             field: 'loanAmount',
             amount: true
-        }, {
-            title: '罚息收取方式',
-            field: 'subbranch',
-            type: 'select',
-            data: [{
-                key: '0',
-                value: '线下代扣'
-            }, {
-                key: '1',
-                value: '线上代扣'
-            }],
-            keyName: 'key',
-            keyValue: 'value'
         }];
         return this
             .props
@@ -90,7 +65,7 @@ class trailerAddedit extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                detailCode: 630521
+                detailCode: 630541
             });
     }
 }

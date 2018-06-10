@@ -6,15 +6,18 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/redList-addedit';
+} from '@redux/biz/userRedemption-addedit';
 import {
-    getQueryString
+    getQueryString,
+    getUserId,
+    showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
 
-@DetailWrapper(state => state.bizredListAddEdit, {
+@DetailWrapper(state => state.bizUserRedemptionAddEdit, {
     initStates,
     doFetching,
     cancelFetching,
@@ -22,11 +25,12 @@ import {
     setPageData,
     restore
 })
-class redListAddedit extends React.Component {
+class userRedemptionAddedit extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
+        this.userId = getQueryString('userId', this.props.location.search);
     }
     render() {
         const fields = [{
@@ -34,26 +38,26 @@ class redListAddedit extends React.Component {
             field: 'realName',
             formatter: (v, d) => {
                 return d.user.realName;
-            },
-            readonly: true
+            }
         }, {
             title: '业务编号',
-            field: 'code',
-            readonly: true
+            field: 'code'
         }, {
             title: '贷款银行',
             field: 'loanBank',
             formatter: (v, d) => {
                 return d.repayBiz.loanBankName;
-            },
-            readonly: true
+            }
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             formatter: (v, d) => {
                 return d.repayBiz.loanAmount / 1000;
-            },
-            readonly: true
+            }
+        }, {
+            title: '拖车成本',
+            field: 'loanAmount',
+            amount: true
         }];
         return this
             .props
@@ -61,11 +65,9 @@ class redListAddedit extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                addCode: 630500,
-                editCode: 630502,
-                detailCode: 630507
+                detailCode: 630541
             });
     }
 }
 
-export default redListAddedit;
+export default userRedemptionAddedit;

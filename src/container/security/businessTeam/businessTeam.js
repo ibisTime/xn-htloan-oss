@@ -25,14 +25,19 @@ import {listWrapper} from 'common/js/build-list';
 class BusinessTeam extends React.Component {
     render() {
         const fields = [{
-            field: 'name',
-            title: '团队名称'
-        }, {
             field: 'captain',
             title: '团队长'
         }, {
             field: 'companyCode',
-            title: '所属公司'
+            title: '所属公司',
+            type: 'select',
+            listCode: 630106,
+            params: {
+                typeList: ['1']
+            },
+            keyName: 'code',
+            valueName: 'name',
+            search: true
         }, {
             field: 'updater',
             title: '最新修改人'

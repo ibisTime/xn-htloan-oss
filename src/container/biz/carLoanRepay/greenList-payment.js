@@ -8,7 +8,9 @@ import {
   restore
 } from '@redux/biz/greenList-payment';
 import {
-  getQueryString
+  getQueryString,
+  getUserId,
+  showSucMsg
 } from 'common/js/util';
 import {
   DetailWrapper
@@ -88,7 +90,47 @@ class greenListPayment extends React.Component {
         fields,
         code: this.code,
         view: this.view,
-        detailCode: 630541
+        detailCode: 630541,
+        buttons: [{
+          title: '线上代扣',
+          handler: (param) => {
+            param.approveResult = '1';
+            param.approveNote = this.projectCode;
+            param.operator = getUserId();
+            this.props.doFetching();
+            fetch(632135, param).then(() => {
+              showSucMsg('操作成功');
+              this.props.cancelFetching();
+              setTimeout(() => {
+                this.props.history.go(-1);
+              }, 1000);
+            }).catch(this.props.cancelFetching);
+          },
+          check: true,
+          type: 'primary'
+        }, {
+          title: '线下收取',
+          handler: (param) => {
+            param.approveResult = '1';
+            param.approveNote = this.projectCode;
+            param.operator = getUserId();
+            this.props.doFetching();
+            fetch(632135, param).then(() => {
+              showSucMsg('操作成功');
+              this.props.cancelFetching();
+              setTimeout(() => {
+                this.props.history.go(-1);
+              }, 1000);
+            }).catch(this.props.cancelFetching);
+          },
+          check: true,
+          type: 'primary'
+        }, {
+          title: '返回',
+          handler: (param) => {
+            this.props.history.go(-1);
+          }
+        }]
       });
   }
 }

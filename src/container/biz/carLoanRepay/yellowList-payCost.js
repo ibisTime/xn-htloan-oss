@@ -6,7 +6,7 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/trailer-dispose';
+} from '@redux/biz/trailer-addedit';
 import {
     getQueryString,
     getUserId,
@@ -17,7 +17,7 @@ import {
     DetailWrapper
 } from 'common/js/build-detail';
 
-@DetailWrapper(state => state.bizTrailerDispose, {
+@DetailWrapper(state => state.bizTrailerAddEdit, {
     initStates,
     doFetching,
     cancelFetching,
@@ -25,7 +25,7 @@ import {
     setPageData,
     restore
 })
-class trailerDispose extends React.Component {
+class trailerAddedit extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -34,35 +34,57 @@ class trailerDispose extends React.Component {
     }
     render() {
         const fields = [{
-            title: '客户姓名',
-            field: 'realName',
+            title: '业务编号',
+            field: 'code',
+            readonly: true
+        }, {
+            field: 'user',
+            title: '贷款人',
             formatter: (v, d) => {
                 return d.user.realName;
             },
             readonly: true
         }, {
-            title: '业务编号',
-            field: 'code',
+            title: '逾期日期',
+            field: 'repayDatetime',
+            type: 'date',
             readonly: true
         }, {
-            title: '贷款银行',
-            field: 'loanBank',
-            formatter: (v, d) => {
-                return d.repayBiz.loanBankName;
-            },
+            title: '标识日期',
+            field: 'overdueHandleDatetime',
+            type: 'date',
             readonly: true
         }, {
-            title: '贷款金额',
-            field: 'loanAmount',
-            formatter: (v, d) => {
-                return d.repayBiz.loanAmount / 1000;
-            },
-            readonly: true
-        }, {
-            title: '拖车成本',
-            field: 'loanAmount',
+            title: '为还清收成本',
+            field: 'restTotalCost',
             amount: true,
             readonly: true
+        }, {
+            title: '清收成本清单',
+            field: 'costList',
+            type: 'o2m',
+            options: {
+                fields: [{
+                    title: '费用项',
+                    field: 'item'
+                }, {
+                    title: '金额（元）',
+                    field: 'amount',
+                    amount: true
+                }, {
+                    title: '备注',
+                    field: 'remark'
+                }, {
+                    title: '发生时间',
+                    field: 'payDatetime',
+                    type: 'date'
+                }, {
+                    title: '状态',
+                    field: 'status',
+                    type: 'select',
+                    key: 'status'
+                }]
+            }
         }];
         return this
             .props
@@ -72,11 +94,13 @@ class trailerDispose extends React.Component {
                 view: this.view,
                 detailCode: 630541,
                 buttons: [{
-                    title: '用户赎回',
+                    title: '线上代扣',
                     handler: (param) => {
+                        param.approveResult = '1';
+                        param.approveNote = this.projectCode;
                         param.operator = getUserId();
                         this.props.doFetching();
-                        fetch(630560, param).then(() => {
+                        fetch(632135, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -87,11 +111,13 @@ class trailerDispose extends React.Component {
                     check: true,
                     type: 'primary'
                 }, {
-                    title: '司法诉讼',
+                    title: '线下收取',
                     handler: (param) => {
+                        param.approveResult = '1';
+                        param.approveNote = this.projectCode;
                         param.operator = getUserId();
                         this.props.doFetching();
-                        fetch(630558, param).then(() => {
+                        fetch(632135, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -111,4 +137,4 @@ class trailerDispose extends React.Component {
     }
 }
 
-export default trailerDispose;
+export default trailerAddedit;

@@ -6,7 +6,7 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/redList-apply';
+} from '@redux/biz/trailer-addedit';
 import {
     getQueryString,
     getUserId,
@@ -17,7 +17,7 @@ import {
     DetailWrapper
 } from 'common/js/build-detail';
 
-@DetailWrapper(state => state.bizredListApply, {
+@DetailWrapper(state => state.bizTrailerAddEdit, {
     initStates,
     doFetching,
     cancelFetching,
@@ -25,63 +25,44 @@ import {
     setPageData,
     restore
 })
-class redListApply extends React.Component {
+class trailerAddedit extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
+        this.userId = getQueryString('userId', this.props.location.search);
     }
     render() {
         const fields = [{
-            title: '客户姓名',
-            field: 'realName',
+            title: '业务编号',
+            field: 'code',
+            readonly: true
+        }, {
+            field: 'user',
+            title: '贷款人',
             formatter: (v, d) => {
                 return d.user.realName;
             },
             readonly: true
         }, {
-            title: '业务编号',
-            field: 'code',
+            title: '逾期日期',
+            field: 'repayDatetime',
+            type: 'date',
             readonly: true
         }, {
-            title: '贷款银行',
-            field: 'loanBank',
-            formatter: (v, d) => {
-                return d.repayBiz.loanBankName;
-            },
+            title: '标识日期',
+            field: 'overdueHandleDatetime',
+            type: 'date',
             readonly: true
         }, {
-            title: '贷款金额',
-            field: 'loanAmount',
-            formatter: (v, d) => {
-                return d.repayBiz.loanAmount / 1000;
-            },
-            readonly: true
-        }, {
-            title: '申请金额',
-            field: 'tsCarAmount',
+            title: '为还代偿金额',
+            field: 'restTotalCost',
             amount: true,
-            required: true
+            readonly: true
         }, {
-            title: '收款账号',
-            field: 'tsBankcardNumber',
-            required: true,
-            bankCard: true
-        }, {
-            title: '开户行',
-            field: 'tsBankName',
-            type: 'select',
-            listCode: 802116,
-            keyName: 'bankCode',
-            valueName: 'bankName',
-            required: true
-        }, {
-            title: '开户支行',
-            field: 'tsSubbranch',
-            required: true
-        }, {
-            title: '申请说明',
-            field: 'tcApplyNote',
+            title: '实还金额',
+            field: 'restTotalCost',
+            amount: true,
             required: true
         }];
         return this
@@ -92,12 +73,30 @@ class redListApply extends React.Component {
                 view: this.view,
                 detailCode: 630541,
                 buttons: [{
-                    title: '确定',
+                    title: '线上代扣',
                     handler: (param) => {
-                        param.code = this.code;
+                        param.approveResult = '1';
+                        param.approveNote = this.projectCode;
                         param.operator = getUserId();
                         this.props.doFetching();
-                        fetch(630555, param).then(() => {
+                        fetch(632135, param).then(() => {
+                            showSucMsg('操作成功');
+                            this.props.cancelFetching();
+                            setTimeout(() => {
+                                this.props.history.go(-1);
+                            }, 1000);
+                        }).catch(this.props.cancelFetching);
+                    },
+                    check: true,
+                    type: 'primary'
+                }, {
+                    title: '线下收取',
+                    handler: (param) => {
+                        param.approveResult = '1';
+                        param.approveNote = this.projectCode;
+                        param.operator = getUserId();
+                        this.props.doFetching();
+                        fetch(632135, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -117,4 +116,4 @@ class redListApply extends React.Component {
     }
 }
 
-export default redListApply;
+export default trailerAddedit;

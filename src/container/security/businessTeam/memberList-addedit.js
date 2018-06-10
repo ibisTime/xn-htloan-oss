@@ -9,7 +9,6 @@ import {
 } from '@redux/security/memberList-addedit';
 import {getQueryString, getUserId, showSucMsg} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
-import fetch from 'common/js/fetch';
 
 @DetailWrapper(
     state => state.securityMemberListAddedit, {
@@ -25,6 +24,7 @@ class memberListAddedit extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
+        this.teamcode = getQueryString('teamcode', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
     }
 
@@ -43,10 +43,8 @@ class memberListAddedit extends React.Component {
         }, {
             field: 'teamCode',
             title: '所属团队',
-            type: 'select',
-            listCode: 630197,
-            keyName: 'code',
-            valueName: '{{name.DATA}}-{{}}',
+            value: this.teamcode,
+            hidden: true,
             required: true
         }];
         return this.props.buildDetail({

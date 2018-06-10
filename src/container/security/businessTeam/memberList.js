@@ -48,6 +48,7 @@ class MemberList extends React.Component {
             pageCode: 630205,
             deleteCode: 630201,
             searchParams: {
+                teamCode: this.code
             },
             buttons: [{
                 code: 'add',
