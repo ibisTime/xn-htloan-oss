@@ -10,9 +10,9 @@ import {
 import {
     getQueryString,
     getUserId,
-    showSucMsg
+    showSucMsg,
+    moneyFormat
 } from 'common/js/util';
-import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
@@ -30,7 +30,6 @@ class userRedemptionAddedit extends React.Component {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
-        this.userId = getQueryString('userId', this.props.location.search);
     }
     render() {
         const fields = [{
@@ -44,29 +43,30 @@ class userRedemptionAddedit extends React.Component {
             field: 'code'
         }, {
             title: '贷款银行',
-            field: 'loanBank',
-            formatter: (v, d) => {
-                return d.repayBiz.loanBankName;
-            }
+            field: 'loanBankName'
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            formatter: (v, d) => {
-                return d.repayBiz.loanAmount / 1000;
-            }
+            amount: true
+        }, {
+            title: '剩余欠款',
+            field: 'restAmount',
+            amount: true
+        }, {
+            title: '未还清收成本',
+            field: 'restTotalCost',
+            amount: true
         }, {
             title: '拖车成本',
             field: 'loanAmount',
             amount: true
         }];
-        return this
-            .props
-            .buildDetail({
-                fields,
-                code: this.code,
-                view: this.view,
-                detailCode: 630541
-            });
+        return this.props.buildDetail({
+            fields,
+            code: this.code,
+            view: this.view,
+            detailCode: 630521
+        });
     }
 }
 

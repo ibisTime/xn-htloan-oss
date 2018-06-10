@@ -355,7 +355,7 @@ export default class DetailComponent extends React.Component {
                 // 解析select的数据，如详情查询返回userId，则根据该字段的配置把它解析成可以读懂的信息
                 if (item.pageCode && initVal && !this.getItemByType[item.field]) {
                     this.getItemByType[item.field] = true;
-                    this.searchSelectChange({item, keyword: initVal, key: item.field});
+                    this.searchSelectChange({item, keyword: initVal, key: item.keyName});
                 }
                 return item.pageCode
                     ? this.getSearchSelectItem(item, initVal, rules, getFieldDecorator)

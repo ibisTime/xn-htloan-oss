@@ -14,13 +14,9 @@ import {
 } from 'common/js/build-list';
 import {
   showWarnMsg,
-  showSucMsg
+  showSucMsg,
+  moneyFormat
 } from 'common/js/util';
-import {
-  Button,
-  Upload,
-  Modal
-} from 'antd';
 import {
   lowerFrame,
   onShelf
@@ -63,37 +59,37 @@ class userRedemption extends React.Component {
     }, {
       title: '贷款金额',
       field: 'loanAmount',
-      render: (v, d) => {
-        return (d.repayBiz.loanAmount / 1000);
-      }
+      amount: true
     }, {
       title: '剩余欠款',
       field: 'restAmount',
-      render: (v, d) => {
-        return (d.repayBiz.restAmount / 1000);
-      }
+      amount: true
     }, {
       title: '未还清收成本',
       field: 'restTotalCost',
-      render: (v, d) => {
-        return (d.repayBiz.restAmount / 1000);
-      }
+      amount: true
     }, {
       title: '拖车时间',
       field: 'monthDatetime'
     }, {
-      title: '状态',
-      field: 'status'
+      title: '当前节点',
+      field: 'curNodeCode',
+      type: 'select',
+      listCode: 630147,
+      keyName: 'code',
+      valueName: 'name'
     }];
     return this.props.buildList({
       fields,
-      pageCode: 630540,
+      pageCode: 630520,
       btnEvent: {
         applyRedeem: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
-            showWarnMsg('请选择一条记录');
+              showWarnMsg('请选择一条记录');
+          // } else if (selectedRows[0].curNodeCode !== '003_17') {
+          //     showWarnMsg('不是待用户赎回的节点');
           } else {
             this.props.history.push(`/biz/userRedemption/applyRedeem?code=${selectedRowKeys[0]}`);
           }
@@ -103,6 +99,8 @@ class userRedemption extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
+          // } else if (selectedRows[0].curNodeCode !== '003_16') {
+              // showWarnMsg('不是风控主管审核的节点');
           } else {
             this.props.history.push(`/biz/userRedemption/checkDirector?code=${selectedRowKeys[0]}`);
           }
@@ -112,6 +110,8 @@ class userRedemption extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
+          // } else if (selectedRows[0].curNodeCode !== '003_17') {
+          //     showWarnMsg('不是财务经理审核的节点');
           } else {
             this.props.history.push(`/biz/userRedemption/checkFinance?code=${selectedRowKeys[0]}`);
           }

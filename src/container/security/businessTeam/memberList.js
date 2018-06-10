@@ -34,7 +34,7 @@ class MemberList extends React.Component {
 
     render() {
         const fields = [{
-            field: 'name',
+            field: 'realName',
             title: '成员名称'
         }, {
             field: 'team',
