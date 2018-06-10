@@ -35,24 +35,28 @@ class litigationDispose extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'bankName',
+            field: 'realName',
+            formatter: (v, d) => {
+                return d.user.realName;
+            },
             readonly: true
         }, {
             title: '业务编号',
-            field: 'bankName',
+            field: 'code',
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'bankName',
+            field: 'loanBank',
+            formatter: (v, d) => {
+                return d.repayBiz.loanBankName;
+            },
             readonly: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            amount: true,
-            readonly: true
-        }, {
-            title: '车辆',
-            field: 'bankName',
+            formatter: (v, d) => {
+                return d.repayBiz.loanAmount / 1000;
+            },
             readonly: true
         }, {
             title: '业务团队',
@@ -60,9 +64,9 @@ class litigationDispose extends React.Component {
             readonly: true
         }, {
             title: '业务团队扣款金额',
-            field: 'loanAmount',
+            field: 'buyOutAmount',
             amount: true,
-            readonly: true
+            required: true
         }];
         return this
             .props
@@ -75,8 +79,9 @@ class litigationDispose extends React.Component {
                     title: '确认坏账',
                     handler: (param) => {
                         param.updater = getUserId();
+                        param.way = '0';
                         this.props.doFetching();
-                        fetch(630511, param).then(() => {
+                        fetch(630559, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -90,8 +95,9 @@ class litigationDispose extends React.Component {
                     title: '业务团队买断',
                     handler: (param) => {
                         param.updater = getUserId();
+                        param.way = '1';
                         this.props.doFetching();
-                        fetch(630511, param).then(() => {
+                        fetch(630559, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -105,8 +111,9 @@ class litigationDispose extends React.Component {
                     title: '业务团队租凭',
                     handler: (param) => {
                         param.updater = getUserId();
+                        param.way = '2';
                         this.props.doFetching();
-                        fetch(630511, param).then(() => {
+                        fetch(630559, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {

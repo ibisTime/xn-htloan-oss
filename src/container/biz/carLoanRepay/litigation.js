@@ -66,21 +66,22 @@ class litigation extends React.Component {
             amount: true
         }, {
             title: '剩余欠款',
-            field: 'loanAmount',
+            field: 'restAmount',
             amount: true
         }, {
             title: '未还清收成本',
-            field: 'periods'
+            field: 'restTotalCost',
+            amount: true
         }, {
             title: '拖车时间',
-            field: 'monthDatetime',
-            type: 'datetime'
+            field: 'monthDatetime'
         }, {
-            title: '状态',
-            field: 'status',
+            title: '当前节点',
+            field: 'curNodeCode',
             type: 'select',
-            select: true,
-            key: 'repay_biz_status'
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
         }];
         return this.props.buildList({
             fields,

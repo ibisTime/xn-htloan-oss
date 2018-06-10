@@ -82,9 +82,13 @@ class userRedemption extends React.Component {
       title: '拖车时间',
       field: 'monthDatetime'
     }, {
-      title: '状态',
-      field: 'status'
-    }];
+      title: '当前节点',
+      field: 'curNodeCode',
+      type: 'select',
+      listCode: 630147,
+      keyName: 'code',
+      valueName: 'name'
+  }];
     return this.props.buildList({
       fields,
       pageCode: 630540,

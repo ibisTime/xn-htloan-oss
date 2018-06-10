@@ -34,26 +34,27 @@ class litigationAddedit extends React.Component {
     }
     render() {
         const fields = [{
-            title: '客户姓名',
-            field: 'bankName',
-            readonly: true
+            title: '贷款人',
+            field: 'applyUserName',
+            formatter: (v, d) => {
+                return d.user.realName;
+            }
         }, {
-            title: '业务编号',
-            field: 'bankName',
-            readonly: true
+            title: '手机号',
+            field: 'mobile',
+            formatter: (v, d) => {
+                return d.user.mobile;
+            }
         }, {
-            title: '贷款银行',
-            field: 'bankName',
-            readonly: true
+            title: '身份证号',
+            field: 'idNo',
+            formatter: (v, d) => {
+                return d.user.idNo;
+            }
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            amount: true,
-            readonly: true
-        }, {
-            title: '车辆',
-            field: 'bankName',
-            readonly: true
+            amount: true
         }, {
             title: '业务团队',
             field: 'loanAmount',
@@ -62,7 +63,7 @@ class litigationAddedit extends React.Component {
             title: '业务团队扣款金额',
             field: 'loanAmount',
             amount: true,
-            readonly: true
+            required: true
         }];
         return this
             .props
