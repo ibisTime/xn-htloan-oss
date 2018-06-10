@@ -71,7 +71,7 @@ class cost extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].status !== '') {
+                    } else if (selectedRows[0].status !== '0') {
                         showWarnMsg('不是待审核的状态');
                     } else {
                         this.props.history.push(`/administrative/cost/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
@@ -82,8 +82,8 @@ class cost extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].status !== '') {
-                        showWarnMsg('不是待审核的状态');
+                    } else if (selectedRows[0].status !== '1') {
+                        showWarnMsg('不是财务审核的状态');
                     } else {
                         this.props.history.push(`/administrative/cost/addedit?v=1&isFinance=1&code=${selectedRowKeys[0]}`);
                     }
@@ -93,8 +93,8 @@ class cost extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].status !== '') {
-                        showWarnMsg('不是待审核的状态');
+                    } else if (selectedRows[0].status !== '5') {
+                        showWarnMsg('不是确认放款的状态');
                     } else {
                         this.props.history.push(`/administrative/cost/addedit?v=1&isCertain=1&code=${selectedRowKeys[0]}`);
                     }
@@ -104,8 +104,6 @@ class cost extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].status !== '') {
-                        showWarnMsg('不是待审核的状态');
                     } else {
                         this.props.history.push(`/administrative/cost/detail?v=1&code=${selectedRowKeys[0]}`);
                     }

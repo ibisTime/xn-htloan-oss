@@ -404,9 +404,7 @@ import { administrativeWelfareCheck } from './redux/administrative/welfare-check
 // 费用预支申请
 import { administrativeCost } from './redux/administrative/cost';
 import { administrativeCostAddedit } from './redux/administrative/cost-addedit';
-import { administrativeCostCheck } from './redux/administrative/cost-check';
-import { administrativeCostFinance } from './redux/administrative/cost-finance';
-import { administrativeCostCertain } from './redux/administrative/cost-certain';
+import { administrativeCostDetail } from './redux/administrative/cost-detail';
 
 // 办公用品申请
 import { administrativeOfficeSupplies } from './redux/administrative/officeSupplies';
@@ -659,9 +657,7 @@ export default combineReducers({
   administrativeWelfareCheck,
   administrativeCost,
   administrativeCostAddedit,
-  administrativeCostCheck,
-  administrativeCostFinance,
-  administrativeCostCertain,
+  administrativeCostDetail,
   administrativeOfficeSupplies,
   administrativeOfficeSuppliesAddedit,
   administrativeFixedAssets,
