@@ -48,11 +48,6 @@ class greenListPayment extends React.Component {
       type: 'date',
       readonly: true
     }, {
-      title: '标识日期',
-      field: 'overdueHandleDatetime',
-      type: 'date',
-      readonly: true
-    }, {
       title: '为还清收成本',
       field: 'restTotalCost',
       amount: true,

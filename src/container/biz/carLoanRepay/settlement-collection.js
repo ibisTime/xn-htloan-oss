@@ -10,7 +10,8 @@ import {
 import {
     getQueryString,
     getUserId,
-    showSucMsg
+    showSucMsg,
+    moneyFormat
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import {
@@ -129,7 +130,7 @@ class settlementCollection extends React.Component {
             title: '可退押金金额',
             field: 'lyDeposit',
             render: (v, d) => {
-                return (d.lyDeposit + d.overdueAmount) / 1000;
+                return moneyFormat(d.lyDeposit + d.overdueAmount);
             },
             readonly: true,
             amount: true

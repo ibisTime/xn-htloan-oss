@@ -10,7 +10,8 @@ import {
 import {
     getQueryString,
     getUserId,
-    showSucMsg
+    showSucMsg,
+    moneyFormat
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import {
@@ -127,9 +128,9 @@ class settlementStationed extends React.Component {
             }
         }, {
             title: '可退押金金额',
-            field: 'loanAmount',
+            field: 'lyDeposit',
             render: (v, d) => {
-                return (d.lyDeposit + d.overdueAmount) / 1000;
+                return moneyFormat(d.lyDeposit + d.overdueAmount);
             },
             readonly: true,
             amount: true
@@ -150,7 +151,7 @@ class settlementStationed extends React.Component {
             required: true
         }, {
             title: '结清证明',
-            field: 'settlePdf',
+            field: 'settleAttach',
             type: 'img',
             required: true
         }, {

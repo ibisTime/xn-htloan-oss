@@ -6,11 +6,12 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/trailer-addedit';
+} from '@redux/biz/yellowList-addedit';
 import {
     getQueryString,
     getUserId,
-    showSucMsg
+    showSucMsg,
+    moneyFormat
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import {
@@ -25,7 +26,7 @@ import {
     setPageData,
     restore
 })
-class trailerAddedit extends React.Component {
+class yellowListAddedit extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -47,13 +48,11 @@ class trailerAddedit extends React.Component {
             field: 'repayDatetime',
             type: 'date'
           }, {
-            title: '标识日期',
-            field: 'overdueHandleDatetime',
-            type: 'date'
-          }, {
             title: '为还清收成本',
             field: 'restTotalCost',
-            amount: true
+            formatter: (v, d) => {
+                return moneyFormat(d.repayBiz.restTotalCost);
+            }
           }];
         return this
             .props
@@ -66,4 +65,4 @@ class trailerAddedit extends React.Component {
     }
 }
 
-export default trailerAddedit;
+export default yellowListAddedit;

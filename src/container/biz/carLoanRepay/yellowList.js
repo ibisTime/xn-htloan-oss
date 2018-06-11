@@ -57,34 +57,44 @@ class yellowList extends React.Component {
             }
         }, {
             title: '逾期日期',
-            field: 'mobile',
+            field: 'repayDatetime',
             type: 'date'
         }, {
             title: '清收成本(元)',
-            field: 'loanAmount',
+            field: 'totalFee',
             amount: true
         }, {
             title: '未还清收成本(元)',
-            field: 'loanAmount',
+            field: 'restTotalCost',
             render: (v, d) => {
                 return moneyFormat(d.repayBiz.restTotalCost);
             }
         }, {
             title: '代偿款(元)',
-            field: 'loanAmount',
+            field: 'realRepayAmount',
             amount: true
         }, {
             title: '代偿是否缴纳',
-            field: 'monthDatetime',
+            field: 'isRepay',
             type: 'select',
-            key: 'status'
+            data: [{
+                key: '0',
+                value: '否'
+            }, {
+                key: '1',
+                value: '是'
+            }],
+            keyName: 'key',
+            valueName: 'value'
         }, {
             title: '保证金(元)',
             field: 'lyDeposit'
         }, {
             title: '可退保证金(元)',
             field: 'loanAmount',
-            amount: true
+            render: (v, d) => {
+                return moneyFormat(d.lyDeposit - d.cutLyDeposit);
+            }
         }];
         return this.props.buildList({
             fields,

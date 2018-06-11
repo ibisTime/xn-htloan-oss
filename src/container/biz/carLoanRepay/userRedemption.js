@@ -70,7 +70,7 @@ class userRedemption extends React.Component {
       amount: true
     }, {
       title: '拖车时间',
-      field: 'monthDatetime'
+      field: 'takeDatetime'
     }, {
       title: '当前节点',
       field: 'curNodeCode',

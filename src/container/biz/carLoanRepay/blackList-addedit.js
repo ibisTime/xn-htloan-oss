@@ -7,7 +7,7 @@ import {
   setPageData,
   restore
 } from '@redux/biz/blackList-addedit';
-import {getQueryString} from 'common/js/util';
+import {getQueryString, moneyFormat} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 
 @DetailWrapper(state => state.bizBlackListAddedit, {
@@ -52,7 +52,7 @@ class blackListAddedit extends React.Component {
         amount: true
     }, {
         title: '是否提前还款',
-        field: 'loanAmount',
+        field: 'isAdvanceSettled',
         type: 'select',
         data: [{
             key: '0',
@@ -63,21 +63,21 @@ class blackListAddedit extends React.Component {
         }]
     }, {
         title: '总期数',
-        field: 'loanAmount'
+        field: 'periods'
     }, {
         title: '剩余期数',
-        field: 'loanAmount'
+        field: 'restPeriods'
     }, {
         title: '逾期金额',
-        field: 'loanAmount',
+        field: 'overdueAmount',
         amount: true
     }, {
         title: '剩余欠款',
-        field: 'loanAmount',
+        field: 'restAmount',
         amount: true
     }, {
         title: '未还清收成本',
-        field: 'loanAmount',
+        field: 'restTotalCost',
         amount: true
     }, {
         title: '还款计划表',
@@ -91,7 +91,7 @@ class blackListAddedit extends React.Component {
                 title: '应还本息',
                 field: 'repayInterest',
                 render: (v, d) => {
-                    return (d.repayCapital + d.repayInterest) / 1000;
+                    return moneyFormat(d.repayCapital + d.repayInterest);
                 }
             }, {
                 title: '实还金额',
@@ -105,33 +105,30 @@ class blackListAddedit extends React.Component {
                 title: '剩余欠款',
                 field: 'overplusAmount',
                 amount: true
-            }, {
-                title: '逾期处理',
-                field: 'overdueDeposit',
-                render: (v, d) => {
-                    return <a onClick = { () => this.goDetail(d.code) } href = "javascript:void(0)" > 详情 </a>;
-                }
             }]
         }
     }, {
         title: '可退押金金额',
-        field: 'loanAmount',
+        field: 'lyDeposit',
+        render: (v, d) => {
+            return moneyFormat(d.lyDeposit + d.overdueAmount);
+        },
         amount: true
     }, {
         title: '扣除违约金金额',
-        field: 'loanAmount',
+        field: 'cutLyDeposit',
         amount: true
     }, {
         title: '实际退款金额',
-        field: 'loanAmount',
+        field: 'actualRefunds',
         amount: true
     }, {
         title: '结清时间',
-        field: 'carSettleDatetime',
+        field: 'settleDatetime',
         type: 'datetime'
     }, {
         title: '结清证明',
-        field: 'carSettleDatetime',
+        field: 'settleAttach',
         type: 'img'
     }];
     return this

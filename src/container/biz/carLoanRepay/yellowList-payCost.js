@@ -6,11 +6,12 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/yellowList-addedit';
+} from '@redux/biz/yellowList-payCost';
 import {
     getQueryString,
     getUserId,
-    showSucMsg
+    showSucMsg,
+    moneyFormat
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import {
@@ -25,7 +26,7 @@ import {
     setPageData,
     restore
 })
-class yellowListAddedit extends React.Component {
+class yellowListPayCost extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -50,21 +51,21 @@ class yellowListAddedit extends React.Component {
             type: 'date',
             readonly: true
         }, {
-            title: '标识日期',
-            field: 'overdueHandleDatetime',
-            type: 'date',
-            readonly: true
-        }, {
-            title: '未还清收成本',
+            title: '为还清收成本',
             field: 'restTotalCost',
-            amount: true,
+            formatter: (v, d) => {
+                return moneyFormat(d.repayBiz.restTotalCost);
+            },
             readonly: true
-        }, {
+          }, {
             title: '清收成本清单',
             field: 'costList',
             type: 'o2m',
             options: {
                 fields: [{
+                    title: '编号',
+                    field: 'code'
+                }, {
                     title: '费用项',
                     field: 'item'
                 }, {
@@ -96,8 +97,10 @@ class yellowListAddedit extends React.Component {
                 buttons: [{
                     title: '线上代扣',
                     handler: (param) => {
-                        param.approveResult = '1';
+                        param.payType = '1';
                         param.operator = getUserId();
+                        console.log(this.props.o2mSKeys);
+                        param.o2mSKeys = this.props.o2mSKeys;
                         this.props.doFetching();
                         fetch(630534, param).then(() => {
                             showSucMsg('操作成功');
@@ -112,7 +115,7 @@ class yellowListAddedit extends React.Component {
                 }, {
                     title: '线下收取',
                     handler: (param) => {
-                        param.approveResult = '1';
+                        param.payType = '2';
                         param.operator = getUserId();
                         this.props.doFetching();
                         fetch(630534, param).then(() => {
@@ -135,4 +138,4 @@ class yellowListAddedit extends React.Component {
     }
 }
 
-export default yellowListAddedit;
+export default yellowListPayCost;

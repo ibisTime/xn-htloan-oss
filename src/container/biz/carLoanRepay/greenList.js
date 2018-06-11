@@ -46,10 +46,6 @@ class greenList extends React.Component {
         field: 'repayDatetime',
         type: 'date'
       }, {
-        title: '标识日期',
-        field: 'overdueHandleDatetime',
-        type: 'date'
-      }, {
         title: '清收成本(元)',
         field: 'totalFee',
         amount: true

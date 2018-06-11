@@ -6,11 +6,12 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/yellowList-addedit';
+} from '@redux/biz/yellowList-payCompensate';
 import {
     getQueryString,
     getUserId,
-    showSucMsg
+    showSucMsg,
+    moneyFormat
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import {
@@ -25,7 +26,7 @@ import {
     setPageData,
     restore
 })
-class yellowListAddedit extends React.Component {
+class yellowListPayCompensate extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -47,11 +48,6 @@ class yellowListAddedit extends React.Component {
         }, {
             title: '逾期日期',
             field: 'repayDatetime',
-            type: 'date',
-            readonly: true
-        }, {
-            title: '标识日期',
-            field: 'overdueHandleDatetime',
             type: 'date',
             readonly: true
         }, {
@@ -79,7 +75,7 @@ class yellowListAddedit extends React.Component {
                         param.approveNote = this.projectCode;
                         param.operator = getUserId();
                         this.props.doFetching();
-                        fetch(632135, param).then(() => {
+                        fetch(632534, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -96,7 +92,7 @@ class yellowListAddedit extends React.Component {
                         param.approveNote = this.projectCode;
                         param.operator = getUserId();
                         this.props.doFetching();
-                        fetch(632135, param).then(() => {
+                        fetch(632534, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -116,4 +112,4 @@ class yellowListAddedit extends React.Component {
     }
 }
 
-export default yellowListAddedit;
+export default yellowListPayCompensate;

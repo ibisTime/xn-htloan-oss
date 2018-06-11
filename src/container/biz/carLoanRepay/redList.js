@@ -60,10 +60,6 @@ class redList extends React.Component {
         field: 'restTotalCost',
         amount: true
       }, {
-        title: '标识日期',
-        field: 'overdueHandleDatetime',
-        type: 'date'
-      }, {
         title: '当前节点',
         field: 'curNodeCode',
         type: 'select',

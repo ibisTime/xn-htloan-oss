@@ -9,7 +9,8 @@ import {
 } from '@redux/biz/settlement-addedit';
 import {
     getQueryString,
-    dateTimeFormat
+    dateTimeFormat,
+    moneyFormat
 } from 'common/js/util';
 import {
     DetailWrapper
@@ -114,9 +115,9 @@ class settlementAddedit extends React.Component {
             }
         }, {
             title: '可退押金金额',
-            field: 'loanAmount',
+            field: 'lyDeposit',
             render: (v, d) => {
-                return (d.lyDeposit + d.overdueAmount) / 1000;
+                return moneyFormat(d.lyDeposit + d.overdueAmount);
             },
             amount: true
         }, {
@@ -133,7 +134,7 @@ class settlementAddedit extends React.Component {
             type: 'date'
         }, {
             title: '结清证明',
-            field: 'settlePdf',
+            field: 'settleAttach',
             type: 'img'
         }];
         return this.props.buildDetail({
