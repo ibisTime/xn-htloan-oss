@@ -93,7 +93,7 @@ class imports extends React.Component {
             pageCode: 632305,
             btnEvent: {
               import: (selectedRowKeys, selectedRows) => {
-                  this.props.history.push(`/postloantools/import/import?code=${selectedRowKeys[0]}`);
+                  this.props.history.push(`/postloantools/import/import`);
               },
               dispose: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {
@@ -101,7 +101,7 @@ class imports extends React.Component {
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else {
-                  this.props.history.push(`/postloantools/import/dispose?code=${selectedRowKeys[0]}&budgetOrderCode=${selectedRows[0].budgetOrderCode}`);
+                  this.props.history.push(`/postloantools/import/dispose?code=${selectedRowKeys[0]}`);
                 }
               }
             }

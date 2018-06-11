@@ -32,7 +32,7 @@ class importAddedit extends React.Component {
         field: 'reason',
         value: '信息不匹配'
     }, {
-        title: '倒入日期',
+        title: '导入日期',
         field: 'importDatetime',
         type: 'date',
         search: true
@@ -55,13 +55,20 @@ class importAddedit extends React.Component {
         type: 'date'
     }, {
         title: '对应业务',
-        field: 'remark',
-        search: true
+        field: 'repayBizCode'
     }, {
-        title: '对应业务列表',
-        field: 'remark',
-
-        search: true
+        title: '状态',
+        field: 'status',
+        type: 'select',
+        data: [{
+            key: '0',
+            value: '待处理'
+        }, {
+            key: '1',
+            value: '已处理'
+        }],
+        keyName: 'key',
+        valueName: 'value'
     }];
     return this.props.buildDetail({
       fields,
