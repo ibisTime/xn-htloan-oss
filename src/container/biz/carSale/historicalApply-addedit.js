@@ -41,7 +41,9 @@ class historicalApplyAddedit extends React.Component {
             listCode: 630066,
             keyName: 'userId',
             valueName: 'realName',
-            search: true
+            formatter: (v, data) => {
+                return data.user ? data.user.realName : '-';
+            }
         }, {
             title: '车辆总价',
             amount: true,
