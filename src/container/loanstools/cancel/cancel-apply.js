@@ -33,28 +33,29 @@ class CancelApply extends React.Component {
   render() {
     const fields = [{
       title: '客户姓名',
-      field: 'companyCode',
-      select: true,
+      field: 'userId',
+      type: 'select',
+      listCode: 632807,
+      keyName: 'userId',
+      valueName: 'realName',
       required: true
     }, {
       title: '作废原因',
-      field: 'receiptBank',
+      field: 'remark',
       required: true
-    }, {
-      title: '预算单',
-      field: 'receiptAccount'
     }];
     return this.props.buildDetail({
       fields,
       code: this.code,
       view: this.view,
-      detailCode: 632106,
+      detailCode: 632196,
       buttons: [{
         title: '确认',
         check: true,
         handler: (params) => {
+          params.operator = getUserId();
           this.props.doFetching();
-          fetch(632100, params).then(() => {
+          fetch(632190, params).then(() => {
             showSucMsg('操作成功');
             setTimeout(() => {
               this.props.history.go(-1);

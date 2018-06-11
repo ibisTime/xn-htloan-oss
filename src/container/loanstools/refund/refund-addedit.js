@@ -33,21 +33,34 @@ class refundAddedit extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'companyCode',
-            readonly: true
+            field: 'companyCode'
         }, {
             title: '业务编号',
-            field: 'code',
-            readonly: true
+            field: 'code'
         }, {
             title: '贷款银行',
-            field: 'receiptAccount',
-            readonly: true
+            field: 'loanBankName'
         }, {
             title: '贷款金额',
-            field: 'receiptAccount',
-            amount: true,
-            readonly: true
+            field: 'loanAmount',
+            amount: true
+        }, {
+            title: '退款金额',
+            field: 'backAdvanceAmount',
+            amount: true
+        }, {
+            title: '收款账号',
+            field: 'backAdvanceAccount'
+        }, {
+            title: '开户行',
+            field: 'backAdvanceOpenBank'
+        }, {
+            title: '开户支行',
+            field: 'backAdvanceSubbranch'
+        }, {
+            title: '水单',
+            field: 'backAdvanceWaterBill',
+            type: 'img'
         }];
         return this.props.buildDetail({
             fields,

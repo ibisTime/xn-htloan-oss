@@ -65,7 +65,7 @@ class userRedemptionDispose extends React.Component {
             readonly: true
         }, {
             title: '拖车成本',
-            field: '11',
+            field: 'remitAmount',
             amount: true,
             readonly: true
         }, {

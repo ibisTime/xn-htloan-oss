@@ -55,7 +55,7 @@ class trailerAddedit extends React.Component {
             readonly: true
         }, {
             title: '拖车成本',
-            field: 'loanAmount',
+            field: 'remitAmount',
             amount: true,
             readonly: true
         }];

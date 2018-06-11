@@ -12,7 +12,10 @@ import {
   showSucMsg,
   getUserId
 } from 'common/js/util';
-import { DetailWrapper } from 'common/js/build-detail';
+import fetch from 'common/js/fetch';
+import {
+  DetailWrapper
+} from 'common/js/build-detail';
 
 @DetailWrapper(
   state => state.loanstoolsCancelCheck, {
@@ -32,30 +35,63 @@ class CancelCheck extends React.Component {
   }
   render() {
     const fields = [{
+      title: '业务编号',
+      field: 'code',
+      readonly: true
+    }, {
       title: '客户姓名',
-      field: 'companyCode',
-      select: true,
-      required: true
+      field: 'applyUserName',
+      readonly: true
     }, {
-      title: '作废原因',
-      field: 'receiptBank',
-      required: true
+      title: '贷款银行',
+      field: 'loanBankName',
+      readonly: true
     }, {
-      title: '预算单',
-      field: 'receiptAccount'
+      title: '贷款金额',
+      field: 'loanAmount',
+      amount: true,
+      readonly: true
+    }, {
+      title: '是否垫资',
+      field: 'isAdvanceFund',
+      type: 'select',
+      data: [{
+        key: '1',
+        value: '是'
+      }, {
+        key: '0',
+        value: '否'
+      }],
+      keyName: 'key',
+      valueName: 'value',
+      readonly: true
+    }, {
+      title: '垫资时间',
+      field: 'advanceFundDatetime',
+      type: 'date',
+      readonly: true
+    }, {
+      title: '垫资金额',
+      field: 'advanceFundAmount',
+      amount: true,
+      readonly: true
+    }, {
+      title: '审核说明',
+      field: 'approveNote',
+      required: true
     }];
     return this.props.buildDetail({
       fields,
       code: this.code,
       view: this.view,
-      detailCode: 632106,
+      detailCode: 632196,
       buttons: [{
         title: '通过',
         handler: (param) => {
           param.approveResult = '1';
-          param.approveUser = getUserId();
+          param.operator = getUserId();
           this.props.doFetching();
-          fetch(632101, param).then(() => {
+          fetch(632191, param).then(() => {
             showSucMsg('操作成功');
             this.props.cancelFetching();
             setTimeout(() => {
@@ -70,9 +106,9 @@ class CancelCheck extends React.Component {
         handler: (param) => {
           param.approveResult = '0';
           param.approveNote = this.projectCode;
-          param.approveUser = getUserId();
+          param.operator = getUserId();
           this.props.doFetching();
-          fetch(632101, param).then(() => {
+          fetch(632191, param).then(() => {
             showSucMsg('操作成功');
             this.props.cancelFetching();
             setTimeout(() => {

@@ -50,45 +50,47 @@ class refund extends React.Component {
             search: true
         }, {
             title: '业务公司',
-            field: 'companyCode'
+            field: 'companyName'
         }, {
             title: '客户姓名',
-            field: 'budgetAmount',
+            field: 'applyUserName',
             search: true
         }, {
             title: '汽车经销商',
-            field: 'receiptAccount'
+            field: '22'
         }, {
             title: '贷款银行',
-            field: 'receiptBank'
+            field: 'loanBankName'
         }, {
             title: '贷款金额',
-            field: 'budgetAmount',
+            field: 'loanAmount',
             amount: true
         }, {
             title: '贷款期数',
-            field: 'name'
+            field: 'loanPeriod'
         }, {
             title: '购车途径',
-            field: 'name'
+            field: '11'
         }, {
             title: '业务员',
-            field: 'name'
+            field: 'saleUserName'
         }, {
             title: '申请时间',
-            field: 'useDatetime',
+            field: 'applyDatetime',
             type: 'date'
         }, {
             title: '放款时间',
-            field: 'useDatetime',
+            field: 'bankFkDatetime',
             type: 'date'
         }, {
             title: '状态',
-            field: 'status'
+            field: 'backAdvanceStatus',
+            type: 'select',
+            key: 'back_advance_status'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632105,
+            pageCode: 632185,
             btnEvent: {
               certain: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {

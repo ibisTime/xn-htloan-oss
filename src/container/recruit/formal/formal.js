@@ -95,7 +95,10 @@ class formal extends React.Component {
         }, {
             title: '入职日期',
             field: 'entryDatetime',
-            type: 'date'
+            render: (v, d) => {
+                return formatDate(d.archice.entryDatetime);
+            },
+            nowrap: true
         }, {
             title: '试用期开始',
             field: 'probationStartDatetime',

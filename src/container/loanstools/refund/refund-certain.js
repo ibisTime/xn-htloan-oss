@@ -44,33 +44,33 @@ class refundCertain extends React.Component {
             readonly: true
         }, {
             title: '贷款银行',
-            field: 'receiptAccount',
+            field: 'loanBankName',
             readonly: true
         }, {
             title: '贷款金额',
-            field: 'receiptAccount',
+            field: 'loanAmount',
             amount: true,
             readonly: true
         }, {
             title: '退款金额',
-            field: 'receiptAccount',
+            field: 'backAdvanceAmount',
             amount: true,
             required: true
         }, {
             title: '收款账号',
-            field: 'receiptAccount',
+            field: 'backAdvanceAccount',
             required: true
         }, {
             title: '开户行',
-            field: 'receiptAccount',
+            field: 'backAdvanceOpenBank',
             required: true
         }, {
             title: '开户支行',
-            field: 'receiptAccount',
+            field: 'backAdvanceSubbranch',
             required: true
         }, {
             title: '水单',
-            field: 'receiptAccount',
+            field: 'backAdvanceWaterBill',
             type: 'img',
             required: true
         }];
@@ -78,13 +78,14 @@ class refundCertain extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632106,
+            detailCode: 632186,
             buttons: [{
                 title: '确认',
                 check: true,
                 handler: (params) => {
+                    params.operator = getUserId();
                     this.props.doFetching();
-                    fetch(632102, params).then(() => {
+                    fetch(632180, params).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {

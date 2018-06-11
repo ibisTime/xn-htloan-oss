@@ -58,7 +58,7 @@ class userRedemptionAddedit extends React.Component {
             amount: true
         }, {
             title: '拖车成本',
-            field: 'loanAmount',
+            field: 'remitAmount',
             amount: true
         }];
         return this.props.buildDetail({

@@ -55,11 +55,6 @@ class yellowListPayCompensate extends React.Component {
             field: 'restTotalCost',
             amount: true,
             readonly: true
-        }, {
-            title: '实还金额',
-            field: 'restTotalCost',
-            amount: true,
-            required: true
         }];
         return this
             .props
@@ -71,8 +66,7 @@ class yellowListPayCompensate extends React.Component {
                 buttons: [{
                     title: '线上代扣',
                     handler: (param) => {
-                        param.approveResult = '1';
-                        param.approveNote = this.projectCode;
+                        param.payType = '1';
                         param.operator = getUserId();
                         this.props.doFetching();
                         fetch(632534, param).then(() => {
@@ -88,8 +82,7 @@ class yellowListPayCompensate extends React.Component {
                 }, {
                     title: '线下收取',
                     handler: (param) => {
-                        param.approveResult = '1';
-                        param.approveNote = this.projectCode;
+                        param.payType = '2';
                         param.operator = getUserId();
                         this.props.doFetching();
                         fetch(632534, param).then(() => {

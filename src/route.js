@@ -835,12 +835,12 @@ const ROUTES = [
       path: '/loanstools/cancel/apply',
       component: asyncComponent(() => import('container/loanstools/cancel/cancel-apply'))
   },
-  //  客户作废 审核
+  //  客户作废 业务总监审核
   {
       path: '/loanstools/cancel/check',
       component: asyncComponent(() => import('container/loanstools/cancel/cancel-check'))
   },
-  //  客户作废 确认放款
+  //  客户作废 财务总监审核
   {
       path: '/loanstools/cancel/certain',
       component: asyncComponent(() => import('container/loanstools/cancel/cancel-certain'))
