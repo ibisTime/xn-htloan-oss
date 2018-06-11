@@ -32,11 +32,11 @@ class pointreturnAddedit extends React.Component {
   render() {
     const fields = [{
         title: '业务团队队长',
-        field: '11',
+        field: 'captain',
         type: 'select',
         listCode: 630207,
-        keyName: 'code',
-        valueName: 'name'
+        keyName: 'userId',
+        valueName: 'realName'
     }, {
         title: '业务编号',
         field: 'code'

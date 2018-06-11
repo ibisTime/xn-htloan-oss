@@ -108,15 +108,19 @@ class refundBusiness extends React.Component {
       field: 'fkDatetime',
       type: 'date'
     }, {
-      title: '状态',
-      field: 'status',
+      title: '当前节点',
+      field: 'curNodeCode',
       type: 'select',
-      select: true,
-      key: 'repay_biz_status'
+      listCode: 630147,
+      keyName: 'code',
+      valueName: 'name'
     }];
     return this.props.buildList({
       fields,
       pageCode: 630520,
+      searchParams: {
+        refType: '0'
+      },
       btnEvent: {
         refundplan: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
