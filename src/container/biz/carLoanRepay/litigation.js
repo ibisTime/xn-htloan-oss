@@ -92,6 +92,8 @@ class litigation extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '003_13') {
+                        showWarnMsg('当前节点不是司法诉讼节点');
                     } else {
                         this.props.history.push(`/biz/litigation/dispose?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
                     }

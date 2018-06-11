@@ -98,6 +98,8 @@ class settlement extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '003_02') {
+                        showWarnMsg('当前节点不是清款催收部审核节点');
                     } else {
                         this.props.history.push(`/biz/settlement/collection?code=${selectedRowKeys[0]}`);
                     }
@@ -107,6 +109,8 @@ class settlement extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '003_05') {
+                        showWarnMsg('当前节点不是财务审核节点');
                     } else {
                         this.props.history.push(`/biz/settlement/finance?code=${selectedRowKeys[0]}`);
                     }
@@ -116,6 +120,8 @@ class settlement extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '003_04') {
+                        showWarnMsg('当前节点不是总经理审核节点');
                     } else {
                         this.props.history.push(`/biz/settlement/manager?code=${selectedRowKeys[0]}`);
                     }
@@ -125,6 +131,8 @@ class settlement extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '003_03') {
+                        showWarnMsg('当前节点不是驻行人员审核节点');
                     } else {
                         this.props.history.push(`/biz/settlement/stationed?code=${selectedRowKeys[0]}`);
                     }

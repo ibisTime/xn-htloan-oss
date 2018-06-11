@@ -80,6 +80,8 @@ class redList extends React.Component {
               showWarnMsg('请选择记录');
             } else if (selectedRowKeys.length > 1) {
               showWarnMsg('请选择一条记录');
+            } else if (selectedRows[0].curNodeCode !== '003_09') {
+              showWarnMsg('当前节点不是财务打款节点');
             } else {
               this.props.history.push(`/biz/redList/pay?code=${selectedRowKeys[0]}`);
             }
@@ -98,6 +100,8 @@ class redList extends React.Component {
               showWarnMsg('请选择记录');
             } else if (selectedRowKeys.length > 1) {
               showWarnMsg('请选择一条记录');
+            } else if (selectedRows[0].curNodeCode !== '003_10') {
+              showWarnMsg('当前节点不是清款催收部拖车结果待录入节点');
             } else {
               this.props.history.push(`/biz/redList/enter?code=${selectedRowKeys[0]}`);
             }
@@ -107,6 +111,8 @@ class redList extends React.Component {
               showWarnMsg('请选择记录');
             } else if (selectedRowKeys.length > 1) {
               showWarnMsg('请选择一条记录');
+            } else if (selectedRows[0].curNodeCode !== '003_08') {
+              showWarnMsg('当前节点不是清款催收部申请拖车节点');
             } else {
               this.props.history.push(`/biz/redList/apply?code=${selectedRowKeys[0]}`);
             }
