@@ -15,7 +15,7 @@ import {
 } from 'common/js/build-detail';
 
 @DetailWrapper(
-    state => state.loanstoolsCancelAddedit, {
+    state => state.loanstoolsRefundAddedit, {
         initStates,
         doFetching,
         cancelFetching,

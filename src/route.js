@@ -1317,6 +1317,22 @@ const ROUTES = [
   {
       path: '/system/businessTeam/memberList/addedit',
       component: asyncComponent(() => import('container/security/businessTeam/memberList-addedit'))
+  },
+  //  财务管理
+  //  返点支付
+  {
+      path: '/carloanfinance/pointreturn',
+      component: asyncComponent(() => import('container/carloanfinance/pointreturn/pointreturn'))
+  },
+  //  返点支付 详情
+  {
+      path: '/carloanfinance/pointreturn/addedit',
+      component: asyncComponent(() => import('container/carloanfinance/pointreturn/pointreturn-addedit'))
+  },
+  //  返点支付 成员管理
+  {
+      path: '/carloanfinance/pointreturn/return',
+      component: asyncComponent(() => import('container/carloanfinance/pointreturn/pointreturn-return'))
   }
 ];
 
