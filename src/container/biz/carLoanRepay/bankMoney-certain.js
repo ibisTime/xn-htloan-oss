@@ -55,7 +55,7 @@ class bankMoneyCertain extends React.Component {
             amount: true,
             readonly: true
         }, {
-            title: '收款银行',
+            title: '收款账号',
             field: 'receiptBankCode',
             listCode: 632007,
             type: 'select',
