@@ -10,7 +10,7 @@ const RESTORE = PREFIX + 'RESTORE';
 
 const initState = { ...commDetailState };
 
-export function bizOrderAddedit(state = initState, action) {
+export function waresOrderAddedit(state = initState, action) {
   switch(action.type) {
     case INIT_STATE:
       return {...initState, ...action.payload};

@@ -119,7 +119,8 @@ class refundBusiness extends React.Component {
       fields,
       pageCode: 630520,
       searchParams: {
-        refType: '0'
+        refType: '0',
+        curNodeCode: '003_01'
       },
       btnEvent: {
         refundplan: (selectedRowKeys, selectedRows) => {

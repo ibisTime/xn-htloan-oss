@@ -51,14 +51,8 @@ class refundBusinessPlan extends React.Component {
             title: '还款计划表',
             field: 'repayPlanList',
             type: 'o2m',
-            render: function (v, data) {
-                console.log('1' + data);
-            },
             options: {
                 export: true,
-                scroll: {
-                    x: 1000
-                },
                 fields: [{
                     title: '期数',
                     field: 'curPeriods'
@@ -77,10 +71,6 @@ class refundBusinessPlan extends React.Component {
                     title: '实还金额',
                     amount: true,
                     field: 'payedAmount'
-                }, {
-                    title: '还款日期',
-                    field: 'repayDatetime',
-                    type: 'date'
                 }, {
                     title: '逾期金额',
                     amount: true,

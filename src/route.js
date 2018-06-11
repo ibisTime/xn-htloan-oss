@@ -1128,6 +1128,11 @@ const ROUTES = [
       path: '/attendance/summary',
       component: asyncComponent(() => import('container/attendance/summary/summary'))
   },
+  //  休息日定义
+  {
+      path: '/attendance/restDay',
+      component: asyncComponent(() => import('container/attendance/restDay/restDay'))
+  },
   // 行政
   // 库存管理
   // 类别管理
@@ -1333,6 +1338,101 @@ const ROUTES = [
   {
       path: '/carloanfinance/pointreturn/return',
       component: asyncComponent(() => import('container/carloanfinance/pointreturn/pointreturn-return'))
+  },
+  //  还款业务管理
+  {
+      path: '/wares/refundBusiness',
+      component: asyncComponent(() => import('container/wares/loanRepay/refundBusiness'))
+  },
+  //  还款业务详情
+  {
+      path: '/wares/refundBusiness/addedit',
+      component: asyncComponent(() => import('container/wares/loanRepay/refundBusiness-addedit'))
+  },
+  //  还款业务还款计划
+  {
+      path: '/wares/refundBusiness/plan',
+      component: asyncComponent(() => import('container/wares/loanRepay/refundBusiness-plan'))
+  },
+  //  还款业务还款卡变更
+  {
+      path: '/wares/refundBusiness/changecard',
+      component: asyncComponent(() => import('container/wares/loanRepay/refundBusiness-changeCard'))
+  },
+  //  还款业务确认结清
+  {
+      path: '/wares/refundBusiness/certain',
+      component: asyncComponent(() => import('container/wares/loanRepay/refundBusiness-certain'))
+  },
+  //  当月还款名单
+  {
+      path: '/wares/refundList',
+      component: asyncComponent(() => import('container/wares/loanRepay/refundList'))
+  },
+  //  当月还款名单详情
+  {
+      path: '/wares/refundList/addedit',
+      component: asyncComponent(() => import('container/wares/loanRepay/refundList-addedit'))
+  },
+  //  逾期名单
+  {
+      path: '/wares/overdueList',
+      component: asyncComponent(() => import('container/wares/loanRepay/overdueList'))
+  },
+  //  逾期名单详情
+  {
+      path: '/wares/overdueList/addedit',
+      component: asyncComponent(() => import('container/wares/loanRepay/overdueList-addedit'))
+  },
+  //  逾期处理
+  {
+      path: '/wares/overdueList/dispose',
+      component: asyncComponent(() => import('container/wares/loanRepay/overdueList-dispose'))
+  },
+  //  绿名单
+  {
+      path: '/wares/greenList',
+      component: asyncComponent(() => import('container/wares/loanRepay/greenList'))
+  },
+  //  绿名单详情
+  {
+      path: '/wares/greenList/addedit',
+      component: asyncComponent(() => import('container/wares/loanRepay/greenList-addedit'))
+  },
+  //  绿名单 缴纳清收成本
+  {
+      path: '/wares/greenList/payment',
+      component: asyncComponent(() => import('container/wares/loanRepay/greenList-payment'))
+  },
+  //  黑名单
+  {
+      path: '/wares/blackList',
+      component: asyncComponent(() => import('container/wares/loanRepay/blackList'))
+  },
+  //  黑名单详情
+  {
+      path: '/wares/blackList/addedit',
+      component: asyncComponent(() => import('container/wares/loanRepay/blackList-addedit'))
+  },
+  //  黑名单处理
+  {
+      path: '/wares/blackList/dispose',
+      component: asyncComponent(() => import('container/wares/loanRepay/blackList-dispose'))
+  },
+  //  历史业务管理
+  {
+      path: '/wares/historyBusinessManage',
+      component: asyncComponent(() => import('container/wares/loanRepay/historyBusinessManage'))
+  },
+  //  历史业务管理详情
+  {
+      path: '/wares/historyBusinessManage/addedit',
+      component: asyncComponent(() => import('container/wares/loanRepay/historyBusinessManage-addedit'))
+  },
+  //  历史业务管理详情的详情
+  {
+      path: '/wares/historyBusinessManage/addedit/addedit',
+      component: asyncComponent(() => import('container/wares/loanRepay/historyBusinessManage-addedit-addedit'))
   }
 ];
 

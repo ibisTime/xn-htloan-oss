@@ -82,6 +82,10 @@ class userRedemption extends React.Component {
     return this.props.buildList({
       fields,
       pageCode: 630520,
+      searchParams: {
+        refType: '0',
+        curNodeCodeList: ['003_17', '003_18', '003_19', '003_20', '003_21']
+      },
       btnEvent: {
         applyRedeem: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {

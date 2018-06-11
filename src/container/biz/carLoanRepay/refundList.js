@@ -77,7 +77,8 @@ class RefundList extends React.Component {
         fields,
         pageCode: 630543,
         searchParams: {
-          refType: '1'
+          refType: '0',
+          curNodeCodeList: ['004_01']
         },
         btnEvent: {
           message: (key, item) => {

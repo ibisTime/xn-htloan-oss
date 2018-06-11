@@ -86,6 +86,10 @@ class trailer extends React.Component {
     return this.props.buildList({
       fields,
       pageCode: 630520,
+      searchParams: {
+        refType: '0',
+        curNodeCode: '003_11'
+      },
       btnEvent: {
         dispose: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
