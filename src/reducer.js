@@ -64,7 +64,7 @@ import { bizHandleApplyCheck } from './redux/biz/handleApply-check';
 
 //  历史车贷申请单 + 处理
 import { bizHistoricalApply } from './redux/biz/historicalApply';
-import { bizHistoricalApplyCheck } from './redux/biz/historicalApply-addedit';
+import { bizHistoricalApplyAddedit } from './redux/biz/historicalApply-addedit';
 
 //  会员查询 + 详情
 import { bizMemberInquiries } from './redux/biz/memberInquiries';
@@ -566,7 +566,7 @@ export default combineReducers({
   bizRefundCardAddedit,
   bizHandleApplyCheck,
   bizHistoricalApply,
-  bizHistoricalApplyCheck,
+  bizHistoricalApplyAddedit,
   bizGreenListAddedit,
   bizRefundListAddedit,
   bizHistoryBusinessManageAddedit,
