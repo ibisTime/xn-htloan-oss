@@ -16,7 +16,7 @@ import {
     DetailWrapper
 } from 'common/js/build-detail';
 
-@DetailWrapper(state => state.bizHistoricalApplyCheck, {
+@DetailWrapper(state => state.bizHistoricalApplyAddedit, {
     initStates,
     doFetching,
     cancelFetching,
@@ -24,7 +24,7 @@ import {
     setPageData,
     restore
 })
-class historicalApplyCheck extends React.Component {
+class historicalApplyAddedit extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('staffCode', this.props.location.search);
@@ -65,8 +65,7 @@ class historicalApplyCheck extends React.Component {
             title: '状态',
             field: 'status',
             type: 'select',
-            key: 'can_order_status',
-            search: true
+            key: 'can_order_status'
         }];
         return this
             .props
@@ -79,4 +78,4 @@ class historicalApplyCheck extends React.Component {
     }
 }
 
-export default historicalApplyCheck;
+export default historicalApplyAddedit;
