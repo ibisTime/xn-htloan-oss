@@ -14,7 +14,7 @@ import {
   DetailWrapper
 } from 'common/js/build-detail';
 
-@DetailWrapper(state => state.bizOrderAddedit, {
+@DetailWrapper(state => state.waresOrderAddedit, {
   initStates,
   doFetching,
   cancelFetching,

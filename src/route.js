@@ -1128,6 +1128,11 @@ const ROUTES = [
       path: '/attendance/summary',
       component: asyncComponent(() => import('container/attendance/summary/summary'))
   },
+  //  休息日定义
+  {
+      path: '/attendance/restDay',
+      component: asyncComponent(() => import('container/attendance/restDay/restDay'))
+  },
   // 行政
   // 库存管理
   // 类别管理

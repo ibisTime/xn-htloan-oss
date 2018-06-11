@@ -10,7 +10,7 @@ import {
 import {getQueryString} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 
-@DetailWrapper(state => state.bizCategoryAddedit, {
+@DetailWrapper(state => state.waresCategoryAddedit, {
   initStates,
   doFetching,
   cancelFetching,

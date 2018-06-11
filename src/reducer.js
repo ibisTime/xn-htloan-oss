@@ -178,16 +178,16 @@ import { bizHistoryBusinessManageAddeditAddedit } from './redux/biz/historyBusin
 
 //  类别管理 + 详情
 import { waresCategory } from './redux/wares/category';
-import { bizCategoryAddedit } from './redux/wares/category-addedit';
+import { waresCategoryAddedit } from './redux/wares/category-addedit';
 
 //  商品管理 + 详情
 import { waresCommodity } from './redux/wares/commodity';
-import { bizCommoditAddedit } from './redux/wares/commodity-addedit';
+import { waresCommoditAddedit } from './redux/wares/commodity-addedit';
 
 //  订单管理 + 详情 + 发货
 import { waresOrder } from './redux/wares/order';
-import { bizOrderAddedit } from './redux/wares/order-addedit';
-import { bizOrderGoods } from './redux/wares/order-goods';
+import { waresOrderAddedit } from './redux/wares/order-addedit';
+import { waresOrderGoods } from './redux/wares/order-goods';
 
 //  信用分规则 + 修改
 import { bizCredit } from './redux/integral/credit';
@@ -508,11 +508,11 @@ export default combineReducers({
   bizBlackListDispose,
   bizGreenListPayment,
   bizOverdueListAddedit,
-  bizCategoryAddedit,
+  waresCategoryAddedit,
   waresCommodity,
-  bizCommoditAddedit,
-  bizOrderAddedit,
-  bizOrderGoods,
+  waresCommoditAddedit,
+  waresOrderAddedit,
+  waresOrderGoods,
   bizIntegral,
   bizCreditAddEdit,
   bizCredit,
