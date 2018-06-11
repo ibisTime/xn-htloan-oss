@@ -14,7 +14,8 @@ import {
 } from 'common/js/build-list';
 import {
   showWarnMsg,
-  showSucMsg
+  showSucMsg,
+  moneyFormat
 } from 'common/js/util';
 import {
   Button,
@@ -66,13 +67,18 @@ class RefundList extends React.Component {
     }, {
       title: '月供',
       field: 'monthAmount',
-      amount: true
+      render: (v, d) => {
+        return moneyFormat(d.repayBiz.monthAmount);
+      }
     }];
     return this
       .props
       .buildList({
         fields,
         pageCode: 630543,
+        searchParams: {
+          refType: '1'
+        },
         btnEvent: {
           message: (key, item) => {
             if (!key || !key.length || !item || !item.length) {

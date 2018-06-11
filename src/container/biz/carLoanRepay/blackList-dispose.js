@@ -76,6 +76,10 @@ class blackListAddedit extends React.Component {
           field: 'totalFee',
           amount: true
         }, {
+          title: '还款日期',
+          field: 'repayDatetime',
+          type: 'date'
+        }, {
           title: '逾期押金',
           field: 'overdueDeposit'
         }]

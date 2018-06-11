@@ -6,7 +6,7 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/recruit/entry-addedit.js';
+} from '@redux/recruit/formal-addedit.js';
 import {
   getQueryString
 } from 'common/js/util';
@@ -15,7 +15,7 @@ import {
 } from 'component/collapse-detail/collapse-detail';
 
 @CollapseWrapper(
-  state => state.recruitFormalCheck, {
+  state => state.recruitFormalAddedit, {
     initStates,
     doFetching,
     cancelFetching,

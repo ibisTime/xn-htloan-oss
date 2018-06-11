@@ -7,7 +7,7 @@ import {
   setPageData,
   restore
 } from '@redux/biz/refundList-addedit';
-import {getQueryString} from 'common/js/util';
+import {getQueryString, moneyFormat} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 
 @DetailWrapper(state => state.bizRefundListAddedit, {
@@ -47,7 +47,9 @@ class refundListAddedit extends React.Component {
     }, {
       title: '月供',
       field: 'monthAmount',
-      amount: true
+      formatter: (v, d) => {
+        return moneyFormat(d.repayBiz.monthAmount);
+      }
     }];
     return this
       .props

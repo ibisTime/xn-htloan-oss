@@ -71,19 +71,18 @@ class historyBusinessManage extends React.Component {
         rangedate: ['loanStartDatetime', 'loanEndDatetime'],
         render: (v, d) => {
            return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.loanStartDatetime) + '~' + formatDate(d.loanEndDatetime)}</span>;
-        },
-        nowrap: true
+        }
       }, {
         title: '结束时间',
         field: 'closeDatetime',
         type: 'date'
       }, {
-        title: '状态',
-        field: 'status',
+        title: '当前节点',
+        field: 'curNodeCode',
         type: 'select',
-        select: true,
-        key: 'repay_biz_status',
-        search: true
+        listCode: 630147,
+        keyName: 'code',
+        valueName: 'name'
       }
     ];
     return this.props.buildList({

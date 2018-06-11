@@ -42,10 +42,12 @@ class historyBusinessManageAddedit extends React.Component {
         return d.user.realName;
       }
     }, {
-      title: '状态',
-      field: 'status',
+      title: '当前节点',
+      field: 'curNodeCode',
       type: 'select',
-      key: 'status'
+      listCode: 630147,
+      keyName: 'code',
+      valueName: 'name'
     }, {
       title: '身份证号',
       field: 'idNo',
@@ -93,6 +95,10 @@ class historyBusinessManageAddedit extends React.Component {
           title: '逾期金额',
           field: 'overdueAmount',
           amount: true
+        }, {
+          title: '还款日期',
+          field: 'repayDatetime',
+          type: 'date'
         }, {
           title: '剩余欠款',
           field: 'overplusAmount',

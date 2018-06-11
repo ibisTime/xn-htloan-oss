@@ -48,7 +48,8 @@ class historyBusinessManageAddeditAddedit extends React.Component {
           field: 'content'
         }, {
           title: '催收时间',
-          field: 'createDatetime'
+          field: 'createDatetime',
+          type: 'date'
         }]
       }
     }, {

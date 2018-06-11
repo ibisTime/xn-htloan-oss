@@ -78,6 +78,10 @@ class refundBusinessPlan extends React.Component {
                     amount: true,
                     field: 'payedAmount'
                 }, {
+                    title: '还款日期',
+                    field: 'repayDatetime',
+                    type: 'date'
+                }, {
                     title: '逾期金额',
                     amount: true,
                     field: 'overdueAmount'
@@ -89,21 +93,21 @@ class refundBusinessPlan extends React.Component {
             }
         }];
         return this.props.buildDetail({
-                fields,
-                code: this.code,
-                view: this.view,
-                detailCode: 630521,
-                beforeDetail: (param) => {
-                    param['userId'] = this.userId;
-                },
-                buttons: [{
-                    title: '返回',
-                    handler: (param) => {
-                        this.props.history.go(-1);
-                    }
-                }]
+            fields,
+            code: this.code,
+            view: this.view,
+            detailCode: 630521,
+            beforeDetail: (param) => {
+                param['userId'] = this.userId;
+            },
+            buttons: [{
+                title: '返回',
+                handler: (param) => {
+                    this.props.history.go(-1);
+                }
+            }]
 
-            });
+        });
     }
 }
 

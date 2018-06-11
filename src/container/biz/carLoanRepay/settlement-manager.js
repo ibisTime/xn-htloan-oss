@@ -121,6 +121,10 @@ class settlementManager extends React.Component {
                     field: 'overdueAmount',
                     amount: true
                 }, {
+                    title: '还款日期',
+                    field: 'repayDatetime',
+                    type: 'date'
+                }, {
                     title: '剩余欠款',
                     field: 'overplusAmount',
                     amount: true
