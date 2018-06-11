@@ -30,51 +30,18 @@ import {
 class CancelApply extends React.Component {
   constructor(props) {
     super(props);
-    this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
   }
   render() {
     const fields = [{
-      title: '业务编号',
+      title: '选择预算单',
       field: 'code',
-      readonly: true
-    }, {
-      title: '客户姓名',
-      field: 'applyUserName',
-      readonly: true
-    }, {
-      title: '贷款银行',
-      field: 'loanBankName',
-      readonly: true
-    }, {
-      title: '贷款金额',
-      field: 'loanAmount',
-      amount: true,
-      readonly: true
-    }, {
-      title: '是否垫资',
-      field: 'isAdvanceFund',
       type: 'select',
-      data: [{
-        key: '1',
-        value: '是'
-      }, {
-        key: '0',
-        value: '否'
-      }],
-      keyName: 'key',
-      valueName: 'value',
-      readonly: true
-    }, {
-      title: '垫资时间',
-      field: 'advanceFundDatetime',
-      type: 'date',
-      readonly: true
-    }, {
-      title: '垫资金额',
-      field: 'advanceFundAmount',
-      amount: true,
-      readonly: true
+      pageCode: 632145,
+      searchName: 'key',
+      keyName: 'code',
+      valueName: '{{code.DATA}}-{{applyUserName.DATA}}',
+      required: true
     }, {
       title: '作废原因',
       field: 'remark',
@@ -82,9 +49,7 @@ class CancelApply extends React.Component {
     }];
     return this.props.buildDetail({
       fields,
-      code: this.code,
       view: this.view,
-      detailCode: 632196,
       buttons: [{
         title: '确认',
         check: true,

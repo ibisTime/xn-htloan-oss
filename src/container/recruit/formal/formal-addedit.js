@@ -8,7 +8,8 @@ import {
   restore
 } from '@redux/recruit/formal-addedit.js';
 import {
-  getQueryString
+  getQueryString,
+  formatDate
 } from 'common/js/util';
 import {
   CollapseWrapper
@@ -71,11 +72,15 @@ class formalAddedit extends React.Component {
             }, {
                 title: '试用期开始',
                 field: 'probationStartDatetime',
-                required: true
+                formatter: (v, d) => {
+                    return d.entryApply ? formatDate(d.entryApply.probationStartDatetime) : '-';
+                }
             }, {
                 title: '试用期结束',
                 field: 'probationEndDatetime',
-                required: true
+                formatter: (v, d) => {
+                    return d.entryApply ? formatDate(d.entryApply.probationEndDatetime) : '-';
+                }
             }],
             [{
                 title: '工作总结',
