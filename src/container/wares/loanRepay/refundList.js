@@ -68,11 +68,13 @@ class RefundList extends React.Component {
       field: 'monthAmount',
       amount: true
     }];
-    return this
-      .props
-      .buildList({
+    return this.props.buildList({
         fields,
         pageCode: 630543,
+        searchParams: {
+            refType: '1',
+            curNodeCodeList: ['006_01']
+        },
         btnEvent: {
           message: (key, item) => {
             if (!key || !key.length || !item || !item.length) {

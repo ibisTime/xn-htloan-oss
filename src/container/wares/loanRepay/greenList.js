@@ -67,7 +67,8 @@ class greenList extends React.Component {
         fields,
         pageCode: 630540,
         searchParams: {
-          status: '4'
+            refType: '1',
+            curNodeCode: '006_04'
         },
         btnEvent: {
           payment: (selectedRowKeys, selectedRows) => {
