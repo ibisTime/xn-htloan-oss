@@ -79,6 +79,10 @@ class mortgages extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 630520,
+            searchParams: {
+              refType: '0',
+              curNodeCode: '003_06'
+            },
             btnEvent: {
               relieve: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {

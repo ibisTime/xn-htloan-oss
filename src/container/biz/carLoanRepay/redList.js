@@ -72,7 +72,8 @@ class redList extends React.Component {
         fields,
         pageCode: 630520,
         searchParams: {
-          refYtpe: '1'
+          refType: '0',
+          curNodeCodeList: ['003_08', '003_09', '003_10']
         },
         btnEvent: {
           pay: (selectedRowKeys, selectedRows) => {

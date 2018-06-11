@@ -87,6 +87,10 @@ class historyBusinessManage extends React.Component {
     ];
     return this.props.buildList({
         fields,
+        searchParams: {
+          refType: '0',
+          curNodeCodeList: ['003_14', '003_15', '003_16', '003_07', '007_04']
+        },
         pageCode: 630520
       });
   }

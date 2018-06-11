@@ -92,6 +92,10 @@ class settlement extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 630520,
+            searchParams: {
+              refType: '0',
+              curNodeCodeList: ['003_02', '003_03', '003_04', '003_05']
+            },
             btnEvent: {
                 collection: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {

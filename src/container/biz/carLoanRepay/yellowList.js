@@ -99,6 +99,10 @@ class yellowList extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 630540,
+            searchParams: {
+              refType: '0',
+              curNodeCode: '004_05'
+            },
             btnEvent: {
                 payCost: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
