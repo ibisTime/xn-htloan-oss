@@ -1218,7 +1218,7 @@ export default class DetailComponent extends React.Component {
         }
         if (item.mobile) {
             rules.push({
-                pattern: /^1[3|4|5|7|8]\d{9}$/,
+                pattern: /^1[3|4|5|6|7|8|9]\d{9}$/,
                 message: '手机格式不对'
             });
         }

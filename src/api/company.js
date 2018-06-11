@@ -19,3 +19,13 @@ export function updateComp(params) {
 export function getPostList(parentCode) {
   return fetch(630106, { parentCode, status: 1 });
 }
+
+// 列表查询角色
+export function getRoleList(params) {
+    return fetch(630006, params);
+}
+
+// 列表查询角色
+export function addUser(params) {
+    return fetch(630050, params);
+}
