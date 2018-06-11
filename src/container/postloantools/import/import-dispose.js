@@ -7,7 +7,7 @@ import {
   setPageData,
   restore
 } from '@redux/postloantools/import-dispose';
-import { getQueryString, showSucMsg } from 'common/js/util';
+import { getQueryString, showSucMsg, getUserId } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import { DetailWrapper } from 'common/js/build-detail';
 
@@ -32,9 +32,10 @@ class applyGpsAddedit extends React.Component {
     const fields = [{
         title: '不匹配原因',
         field: 'applyUserName',
+        value: '信息不匹配',
         readonly: true
     }, {
-        title: '倒入日期',
+        title: '导入日期',
         field: 'importDatetime',
         type: 'date',
         readonly: true
@@ -62,12 +63,12 @@ class applyGpsAddedit extends React.Component {
         readonly: true
     }, {
         title: '对应业务',
-        field: 'remark',
-        type: 'select'
-    }, {
-        title: '对应业务列表',
-        field: 'remark',
-        search: true
+        field: 'repayBizCode',
+        type: 'select',
+        pageCode: 630520,
+        keyName: 'code',
+        valueName: '{{code.DATA}}-{{realName.DATA}}',
+        required: true
     }];
     return this.props.buildDetail({
       fields,
@@ -78,7 +79,7 @@ class applyGpsAddedit extends React.Component {
         title: '确认',
         handler: (param) => {
           param.code = this.code;
-          param.budgetOrderCode = this.budgetOrderCode;
+          param.operator = getUserId();
           this.props.doFetching();
           fetch(632301, param).then(() => {
             showSucMsg('操作成功');

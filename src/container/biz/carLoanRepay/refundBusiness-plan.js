@@ -57,11 +57,15 @@ class refundBusinessPlan extends React.Component {
             options: {
                 export: true,
                 scroll: {
-                    x: 1300
+                    x: 1000
                 },
                 fields: [{
                     title: '期数',
                     field: 'curPeriods'
+                }, {
+                    title: '还款日期',
+                    field: 'repayDatetime',
+                    type: 'date'
                 }, {
                     title: '应还本息',
                     field: 'repayInterest',

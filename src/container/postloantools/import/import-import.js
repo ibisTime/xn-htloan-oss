@@ -11,7 +11,8 @@ import {
 } from '@redux/postloantools/import';
 import {
     showWarnMsg,
-    showSucMsg
+    showSucMsg,
+    tempString
 } from 'common/js/util';
 import {
     listWrapper
@@ -22,7 +23,12 @@ import {
     sendMsg
 } from 'api/biz';
 import XLSX from 'xlsx';
-import { Button } from 'antd';
+import {Form, Select, Upload, Button, Icon, Table} from 'antd';
+import fetch from 'common/js/fetch';
+import {tailFormItemLayout} from 'common/js/config';
+
+const {Item: FormItem} = Form;
+const {Option} = Select;
 
 @listWrapper(
     state => ({
@@ -43,37 +49,85 @@ import { Button } from 'antd';
 class importImport extends React.Component {
     constructor(props) {
         super(props);
+        let cols = [{
+            title: '客户姓名',
+            dataIndex: 'realName'
+        }, {
+            title: '身份证',
+            dataIndex: 'idNo'
+        }, {
+            title: '贷款金额',
+            dataIndex: 'loanAmount',
+            amount: true
+        }, {
+            title: '总期数',
+            dataIndex: 'periods'
+        }, {
+            title: '剩余金额',
+            dataIndex: 'remainAmount',
+            amount: true
+        }, {
+            title: '逾期金额',
+            dataIndex: 'overdueAmount',
+            amount: true
+        }, {
+            title: '逾期日期',
+            dataIndex: 'overdueDatetime',
+            type: 'date'
+        }, {
+            title: '放款日期',
+            dataIndex: 'fkDatetime',
+            type: 'date'
+        }];
         this.state = {
             data: [],
-            cols: []
+            cols: cols,
+            fileList: [],
+            loanBank: [{
+                title: '贷款银行编号',
+                field: 'loanBankCode',
+                keyName: 'bankCode',
+                valueName: '{{bankName.DATA}}-{{subbranch.DATA}}'
+            }],
+            loanBankData: []
         };
     }
-    makeCols = (refstr) => {
-        var o = [];
-        var range = XLSX.utils.decode_range(refstr);
-        for(var i = 0; i <= range.e.c; ++i) {
-            o.push({ name: XLSX.utils.encode_col(i), key: i });
-        }
-        console.log(o);
-        return o;
+
+    componentDidMount() {
+        this.props.doFetching();
+        fetch(632037, {}).then((data) => {
+            this.setState({
+                loanBankData: data
+            });
+            this.props.cancelFetching();
+        }).catch(this.props.cancelFetching);
     }
 
-    handleChange = (files) => {
-        files = files.target.files;
-        if (!files || !files.length) {
-            return;
-        }
-        let file = files[0];
+    handleChange = (file) => {
         const reader = new FileReader();
         const rABS = !!reader.readAsBinaryString;
         reader.onload = (e) => {
             const bstr = e.target.result;
-            const wb = XLSX.read(bstr, { type: rABS ? 'binary' : 'array' });
+            const wb = XLSX.read(bstr, {type: rABS ? 'binary' : 'array'});
             const wsname = wb.SheetNames[0];
             const ws = wb.Sheets[wsname];
-            let data = XLSX.utils.sheet_to_json(ws, { header: 1 });
-            this.setState({ data: data, cols: this.makeCols(ws['!ref']) });
-            console.log(data);
+            let XLSXData = XLSX.utils.sheet_to_json(ws, {header: 1});
+            let data = [];
+            delete XLSXData[0];
+            XLSXData.forEach((item, i) => {
+                data.push({
+                    code: i,
+                    realName: item[0],
+                    idNo: item[1],
+                    loanAmount: item[2],
+                    periods: item[3],
+                    remainAmount: item[4],
+                    overdueAmount: item[5],
+                    overdueDatetime: item[6],
+                    fkDatetime: item[7]
+                });
+            });
+            this.setState({data: data});
         };
         if (rABS) {
             reader.readAsBinaryString(file);
@@ -81,21 +135,112 @@ class importImport extends React.Component {
             reader.readAsArrayBuffer(file);
         }
     }
+
+    // 确认导入
+    handleImprot = () => {
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (err) {
+                return;
+            }
+            let param = {};
+            param.loanBankCode = values.loanBankCode;
+            param.overdueList = this.state.data;
+            this.props.doFetching();
+            fetch(632300, param).then(() => {
+                showSucMsg('导入成功');
+                this.props.cancelFetching();
+                setTimeout(() => {
+                    this.setState({data: []});
+                }, 1000);
+            }).catch(this.props.cancelFetching);
+        });
+    }
+
+    getSelectProps = (item) => {
+        const props = {
+            showSearch: true,
+            allowClear: true,
+            optionFilterProp: 'children',
+            filterOption: (input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+            style: {width: '100%'},
+            placeholder: '请选择'
+        };
+        if (item.onChange) {
+            props.onChange = (v) => {
+                item.onChange(v, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1.code === v) : {}, this.props);
+            };
+        }
+        return props;
+    }
+
     render() {
+        const _this = this;
+        const {getFieldDecorator} = this.props.form;
+        const props = {
+            name: 'file',
+            headers: {
+                authorization: 'authorization-text'
+            },
+            onChange(info) {
+                if (info.file.status !== 'uploading') {
+                    _this.setState({ fileList: [info.file] });
+                    console.log(info.fileList);
+                }
+                if (info.file.status === 'done') {
+                } else if (info.file.status === 'error') {
+                }
+            },
+            beforeUpload(file) {
+                if (!file) {
+                    return false;
+                }
+                _this.handleChange(file);
+                return false;
+            },
+            fileList: _this.state.fileList
+        };
+
         return (
-            <div>
-                <input type="file" onChange={this.handleChange}/>
-                <table className="table table-striped">
-                    <thead>
-                    <tr>{this.state.cols.map(c => <th key={c.key}>{c.name}</th>)}</tr>
-                    </thead>
-                    <tbody>
-                    {this.state.data.map((r, i) => <tr key={i}>
-                        {this.state.cols.map(c => <td key={c.key}>{ r[c.key] }</td>)}
-                    </tr>)}
-                    </tbody>
-                </table>
-            </div>
+            <Form>
+                <FormItem key={this.state.loanBank[0].field}
+                          label={this.state.loanBank[0].title}>
+                    { getFieldDecorator(this.state.loanBank[0].field, {
+                        rules: [{
+                            required: true,
+                            message: '必填字段'
+                        }],
+                        initialValue: ''})(
+                        <Select {...this.getSelectProps(this.state.loanBank[0])}>
+                            {this.state.loanBankData.map(d => (
+                            <Option key={d[this.state.loanBank[0].keyName]}
+                                    value={d[this.state.loanBank[0].keyName]}>{tempString(this.state.loanBank[0].valueName, d)}</Option>))}
+                        </Select>)}
+                </FormItem>
+                <FormItem label='逾期名单' >
+                    <Upload {...props}>
+                        <Button>
+                            <Icon type="upload"/>选择文件
+                        </Button>
+                    </Upload>
+                </FormItem>
+                <div className="table-wrapper">
+                    <Table
+                        bordered
+                        rowKey={record => record['code']}
+                        dataSource={this.state.data}
+                        columns={this.state.cols}
+                        loading={this.props.fetching}
+                    />
+                </div>
+                <FormItem style={{marginTop: 30}} {...tailFormItemLayout}>
+                    <Button type="primary" key="importBtn" onClick={() => {
+                        this.handleImprot();
+                    }}>确认导入</Button>
+                    <Button type="primary" key="backBtn" style={{marginLeft: 30}} onClick={() => {
+                        this.props.history.go(-1);
+                    }}>返回</Button>
+                </FormItem>
+            </Form>
         );
     }
 }

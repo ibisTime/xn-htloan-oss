@@ -56,7 +56,7 @@ class archivesCertain extends React.Component {
             title: '档案存放位置',
             field: 'enterLocation',
             type: 'select',
-            listCode: '632747',
+            listCode: '632827',
             params: {},
             keyName: 'code',
             valueName: 'name',
