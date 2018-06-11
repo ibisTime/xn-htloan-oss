@@ -53,6 +53,7 @@ export default class Warning extends React.Component {
       <div>
         {
           this.state.contractsMap[todayStr].map(item => (
+
             <a style={{display: 'block'}} key={item.code} onClick={() => this.goDetail(item.contractNo)}>
               {item.archive.realName}
             </a>

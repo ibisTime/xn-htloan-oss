@@ -27,7 +27,7 @@ import {
 class historicalApplyCheck extends React.Component {
     constructor(props) {
         super(props);
-        this.code = getQueryString('staffCode', this.props.location.search);
+        this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
     }
     render() {

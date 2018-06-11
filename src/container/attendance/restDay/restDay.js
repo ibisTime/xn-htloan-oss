@@ -1,8 +1,12 @@
 import React from 'react';
-import {Calendar, Badge} from 'antd';
+import {Calendar, Badge, Form, Checkbox} from 'antd';
 import moment from 'moment';
 import fetch from 'common/js/fetch';
 import { formatDate } from 'common/js/util';
+import { formItemLayout } from 'common/js/config';
+
+const {Item: FormItem} = Form;
+const CheckboxGroup = Checkbox.Group;
 
 export default class RestDay extends React.Component {
     constructor(props) {
@@ -20,12 +24,15 @@ export default class RestDay extends React.Component {
     }
 
     componentDidMount() {
-        fetch(632685, {
-            date: formatDate(new Date(), 'yyyy-MM-01')
-        }).then(data => {
+        // fetch(632685, {
+        //     date: formatDate(new Date(), 'yyyy-MM-01')
+        // }).then(data => {
+        //     this.createDateMap(data);
+        // }).catch(() => {});
+
+        fetch(632837).then(data => {
             this.createDateMap(data);
-        }).catch(() => {
-        });
+        }).catch(() => {});
     }
 
     createDateMap(data) {
@@ -35,6 +42,7 @@ export default class RestDay extends React.Component {
             result[key] = result[key] || [];
             result[key].push(d);
         });
+        console.log(result);
         this.setState({contractsMap: result});
     }
 
@@ -47,9 +55,11 @@ export default class RestDay extends React.Component {
             <div>
                 {
                     this.state.contractsMap[todayStr].map(item => (
-                        <a style={{display: 'block'}} key={item.code} onClick={() => this.goDetail(item.contractNo)}>
-                            {item.archive.realName}
-                        </a>
+                        <FormItem key={todayStr}>
+                            <CheckboxGroup>
+                                {<Checkbox key={todayStr} value={todayStr}>休息日</Checkbox>}
+                            </CheckboxGroup>
+                        </FormItem>
                     ))
                 }
             </div>
