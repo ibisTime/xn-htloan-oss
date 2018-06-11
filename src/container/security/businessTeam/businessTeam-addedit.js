@@ -41,7 +41,8 @@ class businessTeamAddedit extends React.Component {
                 type: 'P'
             },
             keyName: 'userId',
-            valueName: '{{companyName.DATA}}-{{departmentName.DATA}}-{{realName.DATA}}',
+            valueName: '{{companyName.DATA}}-{{departmentName.DATA}}-{{realName.DATA}}-{{mobile.DATA}}',
+            searchName: 'keyword',
             required: true
         }, {
             field: 'bank',

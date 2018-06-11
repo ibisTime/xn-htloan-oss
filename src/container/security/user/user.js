@@ -26,8 +26,11 @@ class User extends React.Component {
   render() {
     const fields = [{
       title: '用户名',
-      field: 'loginName',
-      search: true
+      field: 'keyword',
+      search: true,
+        render: (v, data) => {
+          return data.loginName;
+        }
     }, {
         title: '真实姓名',
         field: 'realName',
