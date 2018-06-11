@@ -90,7 +90,6 @@ class greenListPayment extends React.Component {
           title: '线上代扣',
           handler: (param) => {
             param.approveResult = '1';
-            param.approveNote = this.projectCode;
             param.operator = getUserId();
             this.props.doFetching();
             fetch(632135, param).then(() => {
@@ -107,7 +106,6 @@ class greenListPayment extends React.Component {
           title: '线下收取',
           handler: (param) => {
             param.approveResult = '1';
-            param.approveNote = this.projectCode;
             param.operator = getUserId();
             this.props.doFetching();
             fetch(632135, param).then(() => {

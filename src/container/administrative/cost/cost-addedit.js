@@ -39,7 +39,50 @@ class costAddedit extends React.Component {
         this.refAssertCodeHideStatus = true;
         this.refBudgetOrderCodeHideStatus = true;
         this.buttons = [];
-        this.fields = [{
+        this.checkFalg = false;
+        this.certainFalg = false;
+    }
+
+    // 获取关联表
+    getRelation = (bizCode, params) => {
+        this.props.setSelectData({
+            data: [],
+            key: 'refAssertCode'
+        });
+        this.props.form.setFieldsValue({
+            refAssertCode: ''
+        });
+        this.props.doFetching();
+        fetch(bizCode, params).then((data) => {
+            this.props.setSelectData({
+                data: data.list ? data.list : data,
+                key: 'refAssertCode'
+            });
+            this.props.cancelFetching();
+        }).catch(this.props.cancelFetching);
+    }
+
+    // 获取关联车贷业务
+    getRelationLoan = (bizCode, params) => {
+        this.props.setSelectData({
+            data: [],
+            key: 'refBudgetOrderCode'
+        });
+        this.props.form.setFieldsValue({
+            refBudgetOrderCode: ''
+        });
+        this.props.doFetching();
+        fetch(bizCode, params).then((data) => {
+            this.props.setSelectData({
+                data: data.list ? data.list : data,
+                key: 'refBudgetOrderCode'
+            });
+            this.props.cancelFetching();
+        }).catch(this.props.cancelFetching);
+    }
+
+    render() {
+        let fields = [{
             title: '类型',
             field: 'type',
             type: 'select',
@@ -134,9 +177,10 @@ class costAddedit extends React.Component {
             readonly: false
         }];
 
-        if (this.isCheck || this.isFinance) {
+        if ((this.isCheck && !this.checkFalg) || (this.isFinance && !this.checkFalg)) {
             this.fields = this.fields.concat(checkFields);
             let bizCode = this.isCheck ? 632671 : 632672;
+            this.checkFalg = true;
 
             this.buttons = [{
                 title: '通过',
@@ -211,8 +255,9 @@ class costAddedit extends React.Component {
             required: true
         }];
 
-        if (this.isCertain) {
+        if (this.isCertain && !this.certainFalg) {
             this.fields = this.fields.concat(certainFields);
+            this.isCertain = true;
 
             this.buttons = [{
                 title: '确定',
@@ -235,48 +280,8 @@ class costAddedit extends React.Component {
                 }
             }];
         }
-    }
-    // 获取关联表
-    getRelation = (bizCode, params) => {
-        this.props.setSelectData({
-            data: [],
-            key: 'refAssertCode'
-        });
-        this.props.form.setFieldsValue({
-            refAssertCode: ''
-        });
-        this.props.doFetching();
-        fetch(bizCode, params).then((data) => {
-            this.props.setSelectData({
-                data: data.list ? data.list : data,
-                key: 'refAssertCode'
-            });
-            this.props.cancelFetching();
-        }).catch(this.props.cancelFetching);
-    }
-
-    // 获取关联车贷业务
-    getRelationLoan = (bizCode, params) => {
-        this.props.setSelectData({
-            data: [],
-            key: 'refBudgetOrderCode'
-        });
-        this.props.form.setFieldsValue({
-            refBudgetOrderCode: ''
-        });
-        this.props.doFetching();
-        fetch(bizCode, params).then((data) => {
-            this.props.setSelectData({
-                data: data.list ? data.list : data,
-                key: 'refBudgetOrderCode'
-            });
-            this.props.cancelFetching();
-        }).catch(this.props.cancelFetching);
-    }
-
-    render() {
         return this.props.buildDetail({
-            fields: this.fields,
+            fields,
             code: this.code,
             view: this.view,
             addCode: 632670,

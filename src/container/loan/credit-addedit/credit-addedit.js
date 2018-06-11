@@ -45,6 +45,48 @@ class CreditAddedit extends React.Component {
         this.creditUserListIndex = 6;
         this.buttons = [];
 
+        this.concatFalg = false;
+    }
+
+    // 录入银行征信结果
+    setEnteringVisible = (entryVisible, selectKey) => {
+        if (entryVisible) {
+            let creditResult = this.state.creditResult;
+            for (let i = 0; i < this.state.creditResult.length; i++) {
+                if (creditResult[i].creditUserCode === selectKey) {
+                    let selectData = creditResult[i];
+                    this.setState({
+                        selectData
+                    });
+                    break;
+                }
+            }
+        } else {
+            this.setState({
+                selectData: {}
+            });
+        }
+        this.setState({entryVisible, selectKey});
+    };
+
+    creditEntryFun = (data) => {
+        let creditResult = this.state.creditResult;
+        for (let i = 0; i < this.state.creditResult.length; i++) {
+            if (creditResult[i].creditUserCode === data.creditUserCode) {
+                creditResult[i] = data;
+                this.setState({
+                    creditResult
+                });
+                return;
+            }
+        }
+        creditResult.push(data);
+        this.setState({
+            creditResult
+        });
+    };
+
+    render() {
         let o2mFields = [{
             title: '姓名',
             field: 'userName',
@@ -105,7 +147,8 @@ class CreditAddedit extends React.Component {
             single: true,
             required: true
         }];
-        if (!this.isAddedit) {
+        if (!this.isAddedit && !this.concatFalg) {
+            this.concatFalg = true;
             o2mFields = o2mFields.concat([{
                 title: '征信报告',
                 field: 'bankCreditResultPdf',
@@ -122,7 +165,7 @@ class CreditAddedit extends React.Component {
             }]);
         }
 
-        this.fields = [{
+        let fields = [{
             title: '银行',
             field: 'loanBankCode',
             type: 'select',
@@ -301,52 +344,11 @@ class CreditAddedit extends React.Component {
                 }
             }];
         }
-    }
-
-    // 录入银行征信结果
-    setEnteringVisible = (entryVisible, selectKey) => {
-        if (entryVisible) {
-            let creditResult = this.state.creditResult;
-            for (let i = 0; i < this.state.creditResult.length; i++) {
-                if (creditResult[i].creditUserCode === selectKey) {
-                    let selectData = creditResult[i];
-                    this.setState({
-                        selectData
-                    });
-                    break;
-                }
-            }
-        } else {
-            this.setState({
-                selectData: {}
-            });
-        }
-        this.setState({entryVisible, selectKey});
-    };
-
-    creditEntryFun = (data) => {
-        let creditResult = this.state.creditResult;
-        for (let i = 0; i < this.state.creditResult.length; i++) {
-            if (creditResult[i].creditUserCode === data.creditUserCode) {
-                creditResult[i] = data;
-                this.setState({
-                    creditResult
-                });
-                return;
-            }
-        }
-        creditResult.push(data);
-        this.setState({
-            creditResult
-        });
-    };
-
-    render() {
         return (
             <div>
                 {
                     this.props.buildDetail({
-                        fields: this.fields,
+                        fields,
                         code: this.code,
                         view: this.view,
                         detailCode: 632117,

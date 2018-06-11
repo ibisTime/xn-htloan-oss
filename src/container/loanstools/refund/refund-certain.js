@@ -12,6 +12,7 @@ import {
   showSucMsg,
   getUserId
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
   DetailWrapper
 } from 'common/js/build-detail';
@@ -59,10 +60,15 @@ class refundCertain extends React.Component {
         }, {
             title: '收款账号',
             field: 'backAdvanceAccount',
+            bankCard: true,
             required: true
         }, {
             title: '开户行',
             field: 'backAdvanceOpenBank',
+            type: 'select',
+            listCode: 802116,
+            keyName: 'bankCode',
+            valueName: 'bankName',
             required: true
         }, {
             title: '开户支行',

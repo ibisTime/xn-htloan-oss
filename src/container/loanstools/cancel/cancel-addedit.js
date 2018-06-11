@@ -28,23 +28,52 @@ class CancelAddedit extends React.Component {
   }
   render() {
     const fields = [{
+      title: '业务编号',
+      field: 'code',
+      readonly: true
+    }, {
       title: '客户姓名',
-      field: 'companyCode',
-      select: true,
-      required: true
+      field: 'applyUserName',
+      readonly: true
     }, {
-      title: '作废原因',
-      field: 'receiptBank',
-      required: true
+      title: '贷款银行',
+      field: 'loanBankName',
+      readonly: true
     }, {
-      title: '预算单',
-      field: 'receiptAccount'
+      title: '贷款金额',
+      field: 'loanAmount',
+      amount: true,
+      readonly: true
+    }, {
+      title: '是否垫资',
+      field: 'isAdvanceFund',
+      type: 'select',
+      data: [{
+        key: '1',
+        value: '是'
+      }, {
+        key: '0',
+        value: '否'
+      }],
+      keyName: 'key',
+      valueName: 'value',
+      readonly: true
+    }, {
+      title: '垫资时间',
+      field: 'advanceFundDatetime',
+      type: 'date',
+      readonly: true
+    }, {
+      title: '垫资金额',
+      field: 'advanceFundAmount',
+      amount: true,
+      readonly: true
     }];
     return this.props.buildDetail({
       fields,
       code: this.code,
       view: this.view,
-      detailCode: 632106
+      detailCode: 632196
     });
   }
 }

@@ -66,7 +66,7 @@ class refundAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632106
+            detailCode: 632186
         });
     }
 }
