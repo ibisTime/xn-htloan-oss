@@ -77,7 +77,11 @@ class blackList extends React.Component {
   }];
     return this.props.buildList({
       fields,
-      pageCode: 630520
+      pageCode: 630520,
+      searchParams: {
+        refType: '1',
+        curNodeCodeList: ['005_04']
+      }
     });
   }
 }
