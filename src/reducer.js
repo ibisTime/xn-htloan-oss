@@ -442,6 +442,37 @@ import { securityBusinessTeamAddedit } from './redux/security/businessTeam-added
 import { securityMemberList } from './redux/security/memberList';
 import { securityMemberListAddedit } from './redux/security/memberList-addedit';
 
+//  还款业务管理 + 详情 + 修改银行卡号 + 查看还款计划 + 确定结清
+import { waresRefundBusiness } from './redux/wares/refundBusiness';
+import { waresRefundBusinessAddedit } from './redux/wares/refundBusiness-addedit';
+import { waresRefundBusinessPlan } from './redux/wares/refundBusiness-plan';
+import { waresRefundBusinessChangeCard } from './redux/wares/refundBusiness-changeCard';
+import { waresRefundBusinessCertian } from './redux/wares/refundBusiness-certain';
+
+//  当月还款账单 + 详情
+import { waresRefundList } from './redux/wares/refundList';
+import { waresRefundListAddedit } from './redux/wares/refundList-addedit';
+
+//  逾期名单 + 详情 + 处理
+import { waresOverdueList } from './redux/wares/overdueList';
+import { waresOverdueListAddedit } from './redux/wares/overdueList-addedit';
+import { waresOverdueListDispose } from './redux/wares/overdueList-dispose';
+
+//  绿名单 + 详情 + 缴纳清收成本
+import { waresGreenList } from './redux/wares/greenList';
+import { waresGreenListAddedit } from './redux/wares/greenList-addedit';
+import { waresGreenListPayment } from './redux/wares/greenList-payment';
+
+//  黑名单 + 详情
+import { waresBlackList } from './redux/wares/blackList';
+import { waresBlackListAddedit } from './redux/wares/blackList-addedit';
+import { waresBlackListDispose } from './redux/wares/blackList-dispose';
+
+//  历史业务管理 + 详情
+import { waresHistoryBusinessManage } from './redux/wares/historyBusinessManage';
+import { waresHistoryBusinessManageAddedit } from './redux/wares/historyBusinessManage-addedit';
+import { waresHistoryBusinessManageAddeditAddedit } from './redux/wares/historyBusinessManage-addedit-addedit';
+
 export default combineReducers({
   user,
   menu,
@@ -703,5 +734,24 @@ export default combineReducers({
   bizUserRedemptionCheckFinance,
   carloanfinancePointreturn,
   carloanfinancePointreturnAddedit,
-  carloanfinancePointreturnReturn
+  carloanfinancePointreturnReturn,
+  waresRefundBusiness,
+  waresRefundBusinessAddedit,
+  waresRefundBusinessPlan,
+  waresRefundBusinessChangeCard,
+  waresRefundBusinessCertian,
+  waresRefundList,
+  waresRefundListAddedit,
+  waresOverdueList,
+  waresOverdueListAddedit,
+  waresOverdueListDispose,
+  waresGreenList,
+  waresGreenListAddedit,
+  waresGreenListPayment,
+  waresBlackList,
+  waresBlackListAddedit,
+  waresBlackListDispose,
+  waresHistoryBusinessManage,
+  waresHistoryBusinessManageAddedit,
+  waresHistoryBusinessManageAddeditAddedit
 });
