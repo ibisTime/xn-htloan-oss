@@ -147,8 +147,7 @@ class CreditAddedit extends React.Component {
             single: true,
             required: true
         }];
-        if (!this.isAddedit && !this.concatFalg) {
-            this.concatFalg = true;
+        if (!this.isAddedit) {
             o2mFields = o2mFields.concat([{
                 title: '征信报告',
                 field: 'bankCreditResultPdf',
