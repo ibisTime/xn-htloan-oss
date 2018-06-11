@@ -58,9 +58,6 @@ class cancel extends React.Component {
             field: 'applyUserName',
             search: true
         }, {
-            title: '汽车经销商',
-            field: '22'
-        }, {
             title: '贷款银行',
             field: 'loanBankName'
         }, {
@@ -68,8 +65,10 @@ class cancel extends React.Component {
             field: 'loanAmount',
             amount: true
         }, {
-            title: '购车途径',
-            field: '11'
+            title: '业务种类',
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer'
         }, {
             title: '是否垫资',
             field: 'isAdvanceFund',

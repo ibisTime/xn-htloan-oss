@@ -72,7 +72,7 @@ class redList extends React.Component {
         fields,
         pageCode: 630520,
         searchParams: {
-          status: ''
+          refYtpe: '1'
         },
         btnEvent: {
           pay: (selectedRowKeys, selectedRows) => {
