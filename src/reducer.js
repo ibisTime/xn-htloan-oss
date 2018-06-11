@@ -53,6 +53,11 @@ import { financeEnchashments } from '@redux/finance/enchashments';
 import { financeEnchashmentsAddEdit } from '@redux/finance/enchashments-addedit';
 import { creditAddEdit } from '@redux/demo/credit-addedit';
 
+//  返点支付
+import { carloanfinancePointreturn } from './redux/carloanfinance/pointreturn';
+import { carloanfinancePointreturnAddedit } from './redux/carloanfinance/pointreturn-addedit';
+import { carloanfinancePointreturnReturn } from './redux/carloanfinance/pointreturn-return';
+
 //  车贷申请单 + 处理
 import { bizHandleApply } from './redux/biz/handleApply';
 import { bizHandleApplyCheck } from './redux/biz/handleApply-check';
@@ -695,5 +700,8 @@ export default combineReducers({
   bizUserRedemptionAddEdit,
   bizUserRedemptionApplyRedeem,
   bizUserRedemptionCheckDirector,
-  bizUserRedemptionCheckFinance
+  bizUserRedemptionCheckFinance,
+  carloanfinancePointreturn,
+  carloanfinancePointreturnAddedit,
+  carloanfinancePointreturnReturn
 });

@@ -103,7 +103,7 @@ class cancel extends React.Component {
             pageCode: 632195,
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {
-                    this.props.history.push(`/loanstools/cancel/apply?code=${selectedRowKeys[0]}`);
+                    this.props.history.push(`/loanstools/cancel/apply?`);
                 },
                 check: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {

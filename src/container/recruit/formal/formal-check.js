@@ -7,7 +7,7 @@ import {
   setPageData,
   restore
 } from '@redux/recruit/formal-check.js';
-import {getQueryString, getUserId, showSucMsg} from 'common/js/util';
+import {getQueryString, getUserId, showSucMsg, formatDate} from 'common/js/util';
 import fetch from 'common/js/fetch';
 import {
   CollapseWrapper
@@ -115,12 +115,16 @@ class formalCheck extends React.Component {
             }, {
                 title: '试用期开始',
                 field: 'probationStartDatetime',
-                type: 'date',
+                formatter: (v, d) => {
+                    return d.entryApply ? formatDate(d.entryApply.probationStartDatetime) : '-';
+                },
                 readonly: true
             }, {
                 title: '试用期结束',
                 field: 'probationEndDatetime',
-                type: 'date',
+                formatter: (v, d) => {
+                    return d.entryApply ? formatDate(d.entryApply.probationEndDatetime) : '-';
+                },
                 readonly: true
             }],
             [{
