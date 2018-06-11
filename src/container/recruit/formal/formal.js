@@ -103,13 +103,13 @@ class formal extends React.Component {
             title: '试用期开始',
             field: 'probationStartDatetime',
             render: (v, d) => {
-                return formatDate(d.entryApply.probationStartDatetime);
+                return d.entryApply ? formatDate(d.entryApply.probationStartDatetime) : '-';
             }
         }, {
             title: '试用期结束',
             field: 'probationEndDatetime',
             render: (v, d) => {
-                return formatDate(d.entryApply.probationEndDatetime);
+                return d.entryApply ? formatDate(d.entryApply.probationEndDatetime) : '-';
             }
         }, {
             title: '生效日期',
