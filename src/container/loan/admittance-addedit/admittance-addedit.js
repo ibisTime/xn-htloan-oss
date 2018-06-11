@@ -31,6 +31,7 @@ class AdmittanceAddEdit extends React.Component {
         this.isCheckDirector = !!getQueryString('isCheckDirector', this.props.location.search);
         this.rateData = {
         };
+        this.wanFactor = 0;
     }
 
     render() {
@@ -57,8 +58,12 @@ class AdmittanceAddEdit extends React.Component {
                             }
                         });
 
+                        if (!v) {
+                            this.wanFactor = 0;
+                        }
                         let loanAmount = this.props.form.getFieldValue('loanAmount');
                         if (loanAmount) {
+                            this.wanFactor = wanFactor;
                             // 月供=万元系数*贷款额/10000
                             this.props.form.setFieldsValue({
                                 monthDeposit: moneyFormat((wanFactor * (moneyParse(loanAmount))) / 10000000)
@@ -112,12 +117,22 @@ class AdmittanceAddEdit extends React.Component {
                     amount: true,
                     onChange: (v, data) => {
                         let firstAmount = this.props.form.getFieldValue('firstAmount');
+                        let loanAmount = 0;
                         if (firstAmount) {
                             v = moneyParse(v);
                             firstAmount = moneyParse(firstAmount);
+                            loanAmount = moneyFormat(v - firstAmount);
                             this.props.form.setFieldsValue({
                                 firstRate: (firstAmount / v * 100).toFixed(2),
-                                loanAmount: moneyFormat(v - firstAmount)
+                                loanAmount: loanAmount
+                            });
+                        }
+
+                        let wanFactor = this.wanFactor;
+                        if (wanFactor !== 0) {
+                            // 月供=万元系数*贷款额/10000
+                            this.props.form.setFieldsValue({
+                                monthDeposit: moneyFormat((wanFactor * (moneyParse(loanAmount))) / 10000000)
                             });
                         }
                     },
@@ -134,12 +149,22 @@ class AdmittanceAddEdit extends React.Component {
                     amount: true,
                     onChange: (v) => {
                         let invoicePrice = this.props.form.getFieldValue('invoicePrice');
+                        let loanAmount = 0;
                         if (invoicePrice) {
                             v = moneyParse(v);
                             invoicePrice = moneyParse(invoicePrice);
+                            loanAmount = moneyFormat(invoicePrice - v);
                             this.props.form.setFieldsValue({
                                 firstRate: (v / invoicePrice * 100).toFixed(2),
-                                loanAmount: moneyFormat(invoicePrice - v)
+                                loanAmount: loanAmount
+                            });
+                        }
+
+                        let wanFactor = this.wanFactor;
+                        if (wanFactor !== 0) {
+                            // 月供=万元系数*贷款额/10000
+                            this.props.form.setFieldsValue({
+                                monthDeposit: moneyFormat((wanFactor * (moneyParse(loanAmount))) / 10000000)
                             });
                         }
                     },
@@ -153,7 +178,16 @@ class AdmittanceAddEdit extends React.Component {
                     field: 'loanAmount',
                     title: '贷款额(元)',
                     amount: true,
-                    required: true
+                    required: true,
+                    onChange: (value) => {
+                        let wanFactor = this.wanFactor;
+                        if (wanFactor !== 0) {
+                            // 月供=万元系数*贷款额/10000
+                            this.props.form.setFieldsValue({
+                                monthDeposit: moneyFormat((wanFactor * (moneyParse(value))) / 10000000)
+                            });
+                        }
+                    }
                 }, {
                     field: 'monthDeposit',
                     title: '月供(元)',
