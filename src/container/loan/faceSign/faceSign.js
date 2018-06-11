@@ -106,7 +106,7 @@ class FaceSign extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== '002_05' && selectedRows[0].curNodeCode !== '002_08') {
                         showWarnMsg('当前不是录入面签信息节点');
                     } else {
-                        this.props.history.push(`/loan/faceSign/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/faceSign/addedit?code=${selectedRowKeys[0]}`);
                     }
                 },
                 check: (selectedRowKeys, selectedRows) => {
