@@ -71,10 +71,6 @@ class importImport extends React.Component {
             dataIndex: 'overdueAmount',
             amount: true
         }, {
-            title: '逾期日期',
-            dataIndex: 'overdueDatetime',
-            type: 'date'
-        }, {
             title: '放款日期',
             dataIndex: 'fkDatetime',
             type: 'date'
@@ -121,10 +117,8 @@ class importImport extends React.Component {
                     idNo: item[1],
                     loanAmount: item[2],
                     periods: item[3],
-                    remainAmount: item[4],
-                    overdueAmount: item[5],
-                    overdueDatetime: item[6],
-                    fkDatetime: item[7]
+                    overdueAmount: item[4],
+                    fkDatetime: item[5]
                 });
             });
             this.setState({data: data});
