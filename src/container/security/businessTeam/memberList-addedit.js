@@ -39,6 +39,7 @@ class memberListAddedit extends React.Component {
             },
             keyName: 'userId',
             valueName: '{{companyName.DATA}}-{{departmentName.DATA}}-{{realName.DATA}}',
+            searchName: 'keyword',
             required: true
         }, {
             field: 'teamCode',

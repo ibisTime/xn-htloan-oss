@@ -71,6 +71,55 @@ class handleApplyCheck extends React.Component {
             field: 'remark',
             readonly: true
         }];
+        let buttons = [{
+            title: '返回',
+            handler: (param) => {
+                this.props.history.go(-1);
+            }
+        }];
+
+        if (!this.view) {
+            buttons = [{
+                title: '通过',
+                handler: (param) => {
+                    param.result = '0';
+                    param.approveNote = this.projectCode;
+                    param.handler = getUserId();
+                    this.props.doFetching();
+                    fetch(630431, param).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                },
+                check: true,
+                type: 'primary'
+            }, {
+                title: '不通过',
+                handler: (param) => {
+                    param.approveResult = '1';
+                    param.approveNote = this.projectCode;
+                    param.handler = getUserId();
+                    this.props.doFetching();
+                    fetch(630431, param).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                },
+                check: true
+            }, {
+                title: '返回',
+                handler: (param) => {
+                    this.props.history.go(-1);
+                }
+            }];
+        }
+
         return this
             .props
             .buildDetail({
@@ -78,45 +127,7 @@ class handleApplyCheck extends React.Component {
                 code: this.code,
                 view: this.view,
                 detailCode: 630437,
-                buttons: [{
-                    title: '通过',
-                    handler: (param) => {
-                        param.result = '0';
-                        param.approveNote = this.projectCode;
-                        param.handler = getUserId();
-                        this.props.doFetching();
-                        fetch(630431, param).then(() => {
-                            showSucMsg('操作成功');
-                            this.props.cancelFetching();
-                            setTimeout(() => {
-                                this.props.history.go(-1);
-                            }, 1000);
-                        }).catch(this.props.cancelFetching);
-                    },
-                    check: true,
-                    type: 'primary'
-                }, {
-                    title: '不通过',
-                    handler: (param) => {
-                        param.approveResult = '1';
-                        param.approveNote = this.projectCode;
-                        param.handler = getUserId();
-                        this.props.doFetching();
-                        fetch(630431, param).then(() => {
-                            showSucMsg('操作成功');
-                            this.props.cancelFetching();
-                            setTimeout(() => {
-                                this.props.history.go(-1);
-                            }, 1000);
-                        }).catch(this.props.cancelFetching);
-                    },
-                    check: true
-                }, {
-                    title: '返回',
-                    handler: (param) => {
-                        this.props.history.go(-1);
-                    }
-                }]
+                buttons: buttons
             });
     }
 }

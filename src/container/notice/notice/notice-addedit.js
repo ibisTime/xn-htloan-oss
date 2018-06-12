@@ -112,7 +112,7 @@ class noticeAddedit extends React.Component {
             type: 'select',
             keyName: this.isUserId ? 'userId' : 'code',
             valueName: this.isUserId ? '{{postName.DATA}}-{{realName.DATA}}' : 'name',
-            searchName: this.isUserId ? 'realName' : '',
+            searchName: this.isUserId ? 'keyword' : '',
             required: true,
             hidden: this.hideStatus,
             formatter: (v, data) => {
