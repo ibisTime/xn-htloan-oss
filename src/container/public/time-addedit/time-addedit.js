@@ -41,7 +41,7 @@ class TimeAddEdit extends React.Component {
         check: true,
         handler: (params) => {
           this.props.doFetching();
-          fetch(630032, params).then(() => {
+          fetch(630042, params).then(() => {
             showSucMsg('操作成功');
             this.props.cancelFetching();
           }).catch(this.props.cancelFetching);
