@@ -12,6 +12,7 @@ import {
   getUserId,
   showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
   DetailWrapper
 } from 'common/js/build-detail';
@@ -89,10 +90,11 @@ class greenListPayment extends React.Component {
         buttons: [{
           title: '线上代扣',
           handler: (param) => {
-            param.approveResult = '1';
             param.operator = getUserId();
+            param.costList = this.props.o2mSKeys.costList;
+            param.payType = '1';
             this.props.doFetching();
-            fetch(632135, param).then(() => {
+            fetch(630533, param).then(() => {
               showSucMsg('操作成功');
               this.props.cancelFetching();
               setTimeout(() => {
@@ -105,10 +107,11 @@ class greenListPayment extends React.Component {
         }, {
           title: '线下收取',
           handler: (param) => {
-            param.approveResult = '1';
             param.operator = getUserId();
+            param.costList = this.props.o2mSKeys.costList;
+            param.payType = '2';
             this.props.doFetching();
-            fetch(632135, param).then(() => {
+            fetch(630533, param).then(() => {
               showSucMsg('操作成功');
               this.props.cancelFetching();
               setTimeout(() => {

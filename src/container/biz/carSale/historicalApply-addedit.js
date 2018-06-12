@@ -27,7 +27,7 @@ import {
 class historicalApplyAddedit extends React.Component {
     constructor(props) {
         super(props);
-        this.code = getQueryString('staffCode', this.props.location.search);
+        this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
     }
     render() {
@@ -36,12 +36,10 @@ class historicalApplyAddedit extends React.Component {
             field: 'code'
         }, {
             title: '申请人',
-            field: 'userId',
-            type: 'select',
-            listCode: 630066,
-            keyName: 'userId',
-            valueName: 'realName',
-            search: true
+            field: 'realName',
+            formatter: (v, d) => {
+              return d.user.realName;
+            }
         }, {
             title: '车辆总价',
             amount: true,

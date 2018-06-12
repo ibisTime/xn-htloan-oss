@@ -49,11 +49,10 @@ class HistoricalApply extends React.Component {
       field: 'code'
     }, {
       title: '申请人',
-      field: 'userId',
-      type: 'select',
-      listCode: 630066,
-      keyName: 'userId',
-      valueName: 'realName',
+      field: 'realName',
+      render: (v, d) => {
+        return d.user.realName;
+      },
       search: true
     }, {
       title: '车辆总价',

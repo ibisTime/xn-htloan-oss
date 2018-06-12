@@ -90,6 +90,10 @@ class bankMoney extends React.Component {
             render: dateTimeFormat,
             search: true
         }, {
+            title: '放款日期',
+            field: 'bankFkDatetime',
+            type: 'date'
+        }, {
             title: '当前节点',
             field: 'curNodeCode',
             type: 'select',
