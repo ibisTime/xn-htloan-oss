@@ -53,6 +53,9 @@ class historicalApplyAddedit extends React.Component {
             amount: true,
             field: 'sfAmount'
         }, {
+            title: '车贷计算器信息',
+            field: 'saleDesc'
+        }, {
             title: '申请时间',
             field: 'createDatetime',
             type: 'date'

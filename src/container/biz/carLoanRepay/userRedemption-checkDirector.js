@@ -72,34 +72,51 @@ class userRedemptionDispose extends React.Component {
             title: '流水',
             field: 'jourPdf',
             type: 'img',
-            readonly: true
+            readonly: true,
+            _keys: ['overdueRepayPlan', 'jourPdf']
         }, {
             title: '房产',
             field: 'housePdf',
             type: 'img',
-            readonly: true
+            readonly: true,
+            _keys: ['overdueRepayPlan', 'housePdf']
         }, {
             title: '担保人姓名',
             field: 'guaName',
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+              return d.overdueRepayPlan.guaName;
+            }
         }, {
             title: '担保人身份证号',
             field: 'guaIdNo',
             idCard: true,
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+              return d.overdueRepayPlan.guaIdNo;
+            }
         }, {
             title: '担保人手机号',
             field: 'guaMobile',
             mobile: true,
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+              return d.overdueRepayPlan.guaMobile;
+            }
         }, {
             title: '担保人现居住地址',
             field: 'guaNowAddress',
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+              return d.overdueRepayPlan.guaNowAddress;
+            }
         }, {
             title: '赎回说明',
             field: 'guaNote',
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+              return d.overdueRepayPlan.guaNote;
+            }
         }, {
             title: '建议',
             field: 'suggest',

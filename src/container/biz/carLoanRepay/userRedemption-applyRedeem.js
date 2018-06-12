@@ -71,31 +71,25 @@ class userRedemptionDispose extends React.Component {
         }, {
             title: '流水',
             field: 'jourPdf',
-            type: 'img',
-            required: true
+            type: 'img'
         }, {
             title: '房产',
             field: 'housePdf',
-            type: 'img',
-            required: true
+            type: 'img'
         }, {
             title: '担保人姓名',
-            field: 'guaName',
-            required: true
+            field: 'guaName'
         }, {
             title: '担保人身份证号',
             field: 'guaIdNo',
-            idCard: true,
-            required: true
+            idCard: true
         }, {
             title: '担保人手机号',
             field: 'guaMobile',
-            mobile: true,
-            required: true
+            mobile: true
         }, {
             title: '担保人现居住地址',
-            field: 'guaNowAddress',
-            required: true
+            field: 'guaNowAddress'
         }, {
             title: '赎回说明',
             field: 'guaNote'

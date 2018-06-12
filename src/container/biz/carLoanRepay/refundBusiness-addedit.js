@@ -50,10 +50,6 @@ class refundBusinessAddedit extends React.Component {
         amount: true,
         readonly: true
       }, {
-        title: '是否提前还款',
-        field: 'subbranch',
-        readonly: true
-      }, {
         title: '总期数',
         field: 'periods',
         readonly: true

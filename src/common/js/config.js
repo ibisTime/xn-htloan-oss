@@ -36,3 +36,16 @@ export const tailFormItemLayout = {
     }
   }
 };
+
+export const tailFormItemLayout1 = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0
+    },
+    sm: {
+      span: 19,
+      offset: 5
+    }
+  }
+};

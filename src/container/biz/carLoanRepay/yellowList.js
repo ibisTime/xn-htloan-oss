@@ -1,4 +1,4 @@
-import React from 'react';
+  import React from 'react';
 import {
     setTableData,
     setPagination,
@@ -64,14 +64,12 @@ class yellowList extends React.Component {
             field: 'totalFee',
             amount: true
         }, {
-            title: '未还清收成本(元)',
-            field: 'restTotalCost',
-            render: (v, d) => {
-                return moneyFormat(d.repayBiz.restTotalCost);
-            }
+            title: '已缴纳清收成本(元)',
+            field: 'payedFee',
+            amount: true
         }, {
             title: '代偿款(元)',
-            field: 'realRepayAmount',
+            field: 'overdueAmount',
             amount: true
         }, {
             title: '代偿是否缴纳',
@@ -85,16 +83,12 @@ class yellowList extends React.Component {
                 value: '是'
             }],
             keyName: 'key',
-            valueName: 'value'
+            valueName: 'value',
+            search: true
         }, {
             title: '保证金(元)',
-            field: 'lyDeposit'
-        }, {
-            title: '可退保证金(元)',
-            field: 'loanAmount',
-            render: (v, d) => {
-                return moneyFormat(d.lyDeposit - d.cutLyDeposit);
-            }
+            field: 'overdueDeposit',
+            amount: true
         }];
         return this.props.buildList({
             fields,
@@ -118,6 +112,8 @@ class yellowList extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].isRepay !== '0') {
+                        showWarnMsg('代偿已缴纳');
                     } else {
                         this.props.history.push(`/biz/yellowList/payCompensate?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
                     }

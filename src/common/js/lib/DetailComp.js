@@ -7,13 +7,13 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import E from 'wangeditor';
 import XLSX from 'xlsx';
-import {getDictList} from 'api/dict';
-import {getQiniuToken} from 'api/general';
+import { getDictList } from 'api/dict';
+import { getQiniuToken } from 'api/general';
 import {
     formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat,
     tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg, getUserId
 } from 'common/js/util';
-import {UPLOAD_URL, PIC_PREFIX, formItemLayout, tailFormItemLayout} from '../config';
+import { UPLOAD_URL, PIC_PREFIX, formItemLayout, tailFormItemLayout, tailFormItemLayout1 } from '../config';
 import fetch from 'common/js/fetch';
 import cityData from './city';
 import ModalDetail from 'common/js/build-modal-detail';
@@ -1181,7 +1181,7 @@ export default class DetailComponent extends React.Component {
     }
 
     getBtnItemProps() {
-        return tailFormItemLayout;
+        return this.options.moreBtns ? tailFormItemLayout1 : tailFormItemLayout;
     }
 
     getInputItemProps() {

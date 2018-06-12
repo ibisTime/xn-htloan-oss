@@ -12,7 +12,8 @@ import {
 import {
     showWarnMsg,
     showSucMsg,
-    tempString
+    tempString,
+    moneyFormat
 } from 'common/js/util';
 import {
     listWrapper
@@ -58,18 +59,14 @@ class importImport extends React.Component {
         }, {
             title: '贷款金额',
             dataIndex: 'loanAmount',
-            amount: true
+            render: moneyFormat
         }, {
             title: '总期数',
             dataIndex: 'periods'
         }, {
-            title: '剩余金额',
-            dataIndex: 'remainAmount',
-            amount: true
-        }, {
             title: '逾期金额',
             dataIndex: 'overdueAmount',
-            amount: true
+            render: moneyFormat
         }, {
             title: '放款日期',
             dataIndex: 'fkDatetime',
@@ -82,7 +79,7 @@ class importImport extends React.Component {
             loanBank: [{
                 title: '贷款银行编号',
                 field: 'loanBankCode',
-                keyName: 'bankCode',
+                keyName: 'code',
                 valueName: '{{bankName.DATA}}-{{subbranch.DATA}}'
             }],
             loanBankData: []
@@ -115,9 +112,9 @@ class importImport extends React.Component {
                     code: i,
                     realName: item[0],
                     idNo: item[1],
-                    loanAmount: item[2],
+                    loanAmount: item[2] * 1000,
                     periods: item[3],
-                    overdueAmount: item[4],
+                    overdueAmount: item[4] * 1000,
                     fkDatetime: item[5]
                 });
             });
@@ -144,7 +141,7 @@ class importImport extends React.Component {
                 showSucMsg('导入成功');
                 this.props.cancelFetching();
                 setTimeout(() => {
-                    this.setState({data: []});
+                    this.props.history.go(-1);
                 }, 1000);
             }).catch(this.props.cancelFetching);
         });

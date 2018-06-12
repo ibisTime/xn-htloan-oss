@@ -48,12 +48,57 @@ class yellowListAddedit extends React.Component {
             field: 'repayDatetime',
             type: 'date'
           }, {
-            title: '为还清收成本',
-            field: 'restTotalCost',
-            formatter: (v, d) => {
-                return moneyFormat(d.repayBiz.restTotalCost);
+              title: '代偿金额(元)',
+              field: 'overdueAmount',
+              amount: true,
+              readonly: true
+          }, {
+              title: '代偿是否缴纳',
+              field: 'isRepay',
+              type: 'select',
+              data: [{
+                  key: '0',
+                  value: '否'
+              }, {
+                  key: '1',
+                  value: '是'
+              }],
+              keyName: 'key',
+              valueName: 'value'
+          }, {
+            title: '已缴纳清收成本(元)',
+            field: 'payedFee',
+            amount: true
+          }, {
+            title: '清收成本清单',
+            field: 'costList',
+            type: 'o2m',
+            options: {
+                fields: [{
+                    title: '编号',
+                    field: 'code'
+                }, {
+                    title: '费用项',
+                    field: 'item'
+                }, {
+                    title: '金额（元）',
+                    field: 'amount',
+                    amount: true
+                }, {
+                    title: '发生时间',
+                    field: 'payDatetime',
+                    type: 'date'
+                }, {
+                    title: '状态',
+                    field: 'status',
+                    type: 'select',
+                    key: 'cost_status'
+                }, {
+                    title: '备注',
+                    field: 'remark'
+                }]
             }
-          }];
+        }];
         return this
             .props
             .buildDetail({

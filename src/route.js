@@ -707,11 +707,6 @@ const ROUTES = [
     path: '/basedata/bank/addedit',
     component: asyncComponent(() => import('container/basedata/bank/bank-addedit'))
   },
-  //  返点比例
-  {
-    path: '/basedata/rebate',
-    component: asyncComponent(() => import('container/basedata/rebate/rebate'))
-  },
   //  节点材料清单
   {
     path: '/basedata/materiallist',

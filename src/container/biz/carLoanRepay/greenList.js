@@ -50,16 +50,12 @@ class greenList extends React.Component {
         field: 'totalFee',
         amount: true
       }, {
-        title: '未还清收成本(元)',
-        field: 'restTotalCost',
+        title: '已缴纳清收成本(元)',
+        field: 'payedFee',
         amount: true
       }, {
-        title: '再次逾期保证金(元)',
+        title: '逾期保证金(元)',
         field: 'overdueDeposit',
-        amount: true
-      }, {
-        title: '可退保证金(元)',
-        field: 'shouldDeposit',
         amount: true
       }
     ];

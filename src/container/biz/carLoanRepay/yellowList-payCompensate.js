@@ -33,10 +33,29 @@ class yellowListPayCompensate extends React.Component {
         this.view = !!getQueryString('v', this.props.location.search);
         this.userId = getQueryString('userId', this.props.location.search);
     }
+    handleSubmit(param) {
+      this.props.doFetching();
+      fetch(630534, param).then(() => {
+          showSucMsg('操作成功');
+          this.props.cancelFetching();
+          setTimeout(() => {
+              this.props.history.go(-1);
+          }, 1000);
+      }).catch(this.props.cancelFetching);
+    }
     render() {
         const fields = [{
-            title: '业务编号',
+            field: 'operator',
+            value: getUserId(),
+            hidden: true
+        }, {
             field: 'code',
+            value: this.code,
+            hidden: true
+        }, {
+            title: '业务编号',
+            field: 'code1',
+            value: this.code,
             readonly: true
         }, {
             field: 'user',
@@ -51,8 +70,8 @@ class yellowListPayCompensate extends React.Component {
             type: 'date',
             readonly: true
         }, {
-            title: '未还代偿金额',
-            field: 'restTotalCost',
+            title: '代偿金额(元)',
+            field: 'overdueAmount',
             amount: true,
             readonly: true
         }];
@@ -67,15 +86,7 @@ class yellowListPayCompensate extends React.Component {
                     title: '线上代扣',
                     handler: (param) => {
                         param.payType = '1';
-                        param.operator = getUserId();
-                        this.props.doFetching();
-                        fetch(632534, param).then(() => {
-                            showSucMsg('操作成功');
-                            this.props.cancelFetching();
-                            setTimeout(() => {
-                                this.props.history.go(-1);
-                            }, 1000);
-                        }).catch(this.props.cancelFetching);
+                        this.handleSubmit(param);
                     },
                     check: true,
                     type: 'primary'
@@ -83,15 +94,7 @@ class yellowListPayCompensate extends React.Component {
                     title: '线下收取',
                     handler: (param) => {
                         param.payType = '2';
-                        param.operator = getUserId();
-                        this.props.doFetching();
-                        fetch(632534, param).then(() => {
-                            showSucMsg('操作成功');
-                            this.props.cancelFetching();
-                            setTimeout(() => {
-                                this.props.history.go(-1);
-                            }, 1000);
-                        }).catch(this.props.cancelFetching);
+                        this.handleSubmit(param);
                     },
                     check: true,
                     type: 'primary'

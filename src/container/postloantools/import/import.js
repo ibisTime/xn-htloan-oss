@@ -86,7 +86,8 @@ class imports extends React.Component {
                 value: '已处理'
             }],
             keyName: 'key',
-            valueName: 'value'
+            valueName: 'value',
+            search: true
         }];
         return this.props.buildList({
             fields,
@@ -100,6 +101,8 @@ class imports extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
+                } else if (selectedRows[0].status !== '0') {
+                  showWarnMsg('该条记录不是待处理状态');
                 } else {
                   this.props.history.push(`/postloantools/import/dispose?code=${selectedRowKeys[0]}`);
                 }

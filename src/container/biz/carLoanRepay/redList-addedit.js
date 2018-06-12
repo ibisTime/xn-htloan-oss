@@ -54,6 +54,32 @@ class redListAddedit extends React.Component {
                 return d.repayBiz.loanAmount / 1000;
             },
             readonly: true
+        }, {
+            title: '申请金额',
+            field: 'tsCarAmount',
+            amount: true,
+            required: true
+        }, {
+            title: '收款账号',
+            field: 'tsBankcardNumber',
+            required: true,
+            bankCard: true
+        }, {
+            title: '开户行',
+            field: 'tsBankName',
+            type: 'select',
+            listCode: 802116,
+            keyName: 'bankCode',
+            valueName: 'bankName',
+            required: true
+        }, {
+            title: '开户支行',
+            field: 'tsSubbranch',
+            required: true
+        }, {
+            title: '申请说明',
+            field: 'tcApplyNote',
+            required: true
         }];
         return this
             .props
@@ -61,9 +87,7 @@ class redListAddedit extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                addCode: 630500,
-                editCode: 630502,
-                detailCode: 630507
+                detailCode: 630521
             });
     }
 }

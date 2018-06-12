@@ -6,7 +6,7 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/biz/overdueList-addedit';
+} from '@redux/biz/greenList-addedit';
 import {getQueryString} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 
@@ -42,10 +42,36 @@ class greenListAddedit extends React.Component {
       type: 'date',
       readonly: true
     }, {
-      title: '为还清收成本',
-      field: 'restTotalCost',
+      title: '已缴纳清收成本(元)',
+      field: 'payedFee',
       amount: true,
       readonly: true
+    }, {
+      title: '清收成本清单',
+      field: 'costList',
+      type: 'o2m',
+      options: {
+        fields: [{
+          title: '费用项',
+          field: 'item'
+        }, {
+          title: '金额（元）',
+          field: 'amount',
+          amount: true
+        }, {
+          title: '发生时间',
+          field: 'payDatetime',
+          type: 'date'
+        }, {
+          title: '状态',
+          field: 'status',
+          type: 'select',
+          key: 'cost_status'
+        }, {
+          title: '备注',
+          field: 'remark'
+        }]
+      }
     }];
     return this
       .props

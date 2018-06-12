@@ -65,7 +65,7 @@ class refundBusiness extends React.Component {
       title: '贷款银行',
       field: 'loanBankName'
   }, {
-      title: '贷款金额',
+      title: '贷款金额(元)',
       field: 'loanAmount',
       amount: true
     }, {
@@ -78,25 +78,21 @@ class refundBusiness extends React.Component {
       title: '还款日',
       field: 'monthDatetime'
     }, {
-      title: '月供',
+      title: '月供(元)',
       field: 'monthAmount',
       amount: true
     }, {
-      title: '剩余欠款',
+      title: '剩余欠款(元)',
       field: 'restAmount',
       amount: true
     }, {
-      title: '未还清收成本',
+      title: '未还清收总成本(元)',
       field: 'restTotalCost',
       amount: true
     }, {
-      title: '逾期金额',
+      title: '逾期金额(元)',
       field: 'overdueAmount',
       amount: true
-    }, {
-      title: '逾期日期',
-      field: 'repayDatetime',
-      type: 'date'
     }, {
       title: '累计逾期期数',
       field: 'totalOverdueCount'
@@ -105,7 +101,7 @@ class refundBusiness extends React.Component {
       field: 'curOverdueCount'
     }, {
       title: '放款日期',
-      field: 'fkDatetime',
+      field: 'bankFkDatetime',
       type: 'date'
     }, {
       title: '当前节点',

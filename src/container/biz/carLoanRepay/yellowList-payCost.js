@@ -51,11 +51,9 @@ class yellowListPayCost extends React.Component {
             type: 'date',
             readonly: true
         }, {
-            title: '为还清收成本',
-            field: 'restTotalCost',
-            formatter: (v, d) => {
-                return moneyFormat(d.repayBiz.restTotalCost);
-            },
+            title: '已缴纳清收成本(元)',
+            field: 'payedFee',
+            amount: true,
             readonly: true
           }, {
             title: '清收成本清单',
@@ -73,9 +71,6 @@ class yellowListPayCost extends React.Component {
                     field: 'amount',
                     amount: true
                 }, {
-                    title: '备注',
-                    field: 'remark'
-                }, {
                     title: '发生时间',
                     field: 'payDatetime',
                     type: 'date'
@@ -83,7 +78,10 @@ class yellowListPayCost extends React.Component {
                     title: '状态',
                     field: 'status',
                     type: 'select',
-                    key: 'status'
+                    key: 'cost_status'
+                }, {
+                    title: '备注',
+                    field: 'remark'
                 }]
             }
         }];

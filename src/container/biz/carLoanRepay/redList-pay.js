@@ -56,12 +56,14 @@ class redListaPay extends React.Component {
             title: '申请金额',
             field: 'tsCarAmount',
             amount: true,
-            required: true
+            required: true,
+            readonly: true
         }, {
             title: '收款账号',
             field: 'tsBankcardNumber',
             required: true,
-            bankCard: true
+            bankCard: true,
+            readonly: true
         }, {
             title: '开户行',
             field: 'tsBankName',
@@ -69,15 +71,18 @@ class redListaPay extends React.Component {
             listCode: 802116,
             keyName: 'bankCode',
             valueName: 'bankName',
-            required: true
+            required: true,
+            readonly: true
         }, {
             title: '开户支行',
             field: 'tsSubbranch',
-            required: true
+            required: true,
+            readonly: true
         }, {
             title: '申请说明',
             field: 'tcApplyNote',
-            required: true
+            required: true,
+            readonly: true
         }, {
             title: '打款金额',
             field: 'remitAmount',

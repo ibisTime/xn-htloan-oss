@@ -222,9 +222,6 @@ import { bizBeforeloan } from './redux/basedata/beforeloan';
 import { bizBank } from './redux/basedata/bank';
 import { bizBankAddEdit } from './redux/basedata/bank-addedit';
 
-//  返点比例
-import { basedataRebate } from './redux/basedata/rebate';
-
 //  节点材料清单 + 详情 + 修改 + 删除
 import { basedataMateriallist } from './redux/basedata/materiallist';
 import { basedataMateriallistAddEdit } from './redux/basedata/materiallist-addedit';
@@ -625,7 +622,6 @@ export default combineReducers({
   transmitAddedit,
   transmitSend,
   transmitCheck,
-  basedataRebate,
   postloantoolsApplyGps,
   postloantoolsApplyGpsAddedit,
   postloantoolsApplyGpsApply,

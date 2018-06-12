@@ -49,8 +49,8 @@ class greenListPayment extends React.Component {
       type: 'date',
       readonly: true
     }, {
-      title: '为还清收成本',
-      field: 'restTotalCost',
+      title: '已缴纳清收成本(元)',
+      field: 'payedFee',
       amount: true,
       readonly: true
     }, {
@@ -66,9 +66,6 @@ class greenListPayment extends React.Component {
           field: 'amount',
           amount: true
         }, {
-          title: '备注',
-          field: 'remark'
-        }, {
           title: '发生时间',
           field: 'payDatetime',
           type: 'date'
@@ -76,7 +73,10 @@ class greenListPayment extends React.Component {
           title: '状态',
           field: 'status',
           type: 'select',
-          key: 'status'
+          key: 'cost_status'
+        }, {
+          title: '备注',
+          field: 'remark'
         }]
       }
     }];

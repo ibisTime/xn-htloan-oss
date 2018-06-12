@@ -73,7 +73,9 @@ class settlementStationed extends React.Component {
             }, {
                 key: '1',
                 value: '是'
-            }]
+            }],
+            keyName: 'key',
+            valueName: 'value'
         }, {
             title: '总期数',
             field: 'periods',

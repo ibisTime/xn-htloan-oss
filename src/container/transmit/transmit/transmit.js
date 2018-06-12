@@ -112,6 +112,8 @@ class transmit extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
+                } else if (selectedRows[0].status !== '0' && selectedRows[0].status !== '3') {
+                  showWarnMsg('当前不是待发件节点');
                 } else {
                   this.props.history.push(`/transmit/transmit/send?code=${selectedRowKeys[0]}`);
                 }
@@ -121,6 +123,8 @@ class transmit extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
+                } else if (selectedRows[0].status !== '1') {
+                  showWarnMsg('当前不是待收件节点');
                 } else {
                   this.props.history.push(`/transmit/transmit/check?code=${selectedRowKeys[0]}`);
                 }

@@ -31,8 +31,22 @@ class blackListDispose extends React.Component {
         this.code = getQueryString('staffCode', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
     }
+    handlerSumbit(param) {
+      this.props.doFetching();
+      fetch(630532, param).then(() => {
+          showSucMsg('操作成功');
+          this.props.cancelFetching();
+          setTimeout(() => {
+              this.props.history.go(-1);
+          }, 1000);
+      }).catch(this.props.cancelFetching);
+    }
     render() {
         const fields = [{
+            field: 'code',
+            value: this.code,
+            hidden: true
+        }, {
             title: '贷款人',
             field: 'name',
             readonly: true,
@@ -55,6 +69,11 @@ class blackListDispose extends React.Component {
             field: 'curPeriods',
             readonly: true
         }, {
+            title: '逾期金额',
+            field: 'overdueAmount',
+            amount: true,
+            readonly: true
+        }, {
             title: '逾期日期',
             field: 'repayDatetime',
             type: 'date',
@@ -64,9 +83,6 @@ class blackListDispose extends React.Component {
             field: 'remindLogList',
             type: 'o2m',
             options: {
-                add: true,
-                edit: true,
-                delete: true,
                 fields: [{
                     title: '催收方式',
                     field: 'way',
@@ -81,14 +97,16 @@ class blackListDispose extends React.Component {
                     field: 'content'
                 }, {
                     title: '催收时间',
-                    field: 'createDatetime'
+                    field: 'createDatetime',
+                    type: 'datetime'
                 }]
             }
         }, {
-            title: '再次逾期保证金',
-            field: 'overdueDeposit'
+            title: '逾期保证金',
+            field: 'overdueDeposit',
+            amount: true
         }, {
-            title: '再次逾期保证金收取方式',
+            title: '逾期保证金收取方式',
             field: 'overdueDepositWay',
             type: 'select',
             select: true,
@@ -125,23 +143,31 @@ class blackListDispose extends React.Component {
                 code: this.code,
                 view: this.view,
                 detailCode: 630541,
+                moreBtns: true,
                 buttons: [{
-                    title: '保存',
+                    title: '记绿名单并代扣',
                     handler: (param) => {
-                        param.bankcardCode = this.bankcardCode;
-                        param.code = this.code;
-                        param.updater = getUserId();
-                        this.props.doFetching();
-                        fetch(630532, param).then(() => {
-                            showSucMsg('操作成功');
-                            this.props.cancelFetching();
-                            setTimeout(() => {
-                                this.props.history.go(-1);
-                            }, 1000);
-                        }).catch(this.props.cancelFetching);
+                        param.dealResult = '1';
+                        this.handlerSumbit(param);
                     },
-                    check: true,
-                    type: 'primary'
+                    type: 'primary',
+                    check: true
+                }, {
+                    title: '记黄名单并代偿',
+                    handler: (param) => {
+                        param.dealResult = '3';
+                        this.handlerSumbit(param);
+                    },
+                    type: 'primary',
+                    check: true
+                }, {
+                    title: '催收失败记红名单',
+                    handler: (param) => {
+                        param.dealResult = '2';
+                        this.handlerSumbit(param);
+                    },
+                    type: 'primary',
+                    check: true
                 }, {
                     title: '返回',
                     handler: (param) => {

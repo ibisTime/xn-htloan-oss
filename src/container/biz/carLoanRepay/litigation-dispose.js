@@ -32,8 +32,26 @@ class litigationDispose extends React.Component {
         this.view = !!getQueryString('v', this.props.location.search);
         this.userId = getQueryString('userId', this.props.location.search);
     }
+    handlerSubmit(param) {
+      this.props.doFetching();
+      fetch(630559, param).then(() => {
+          showSucMsg('操作成功');
+          this.props.cancelFetching();
+          setTimeout(() => {
+              this.props.history.go(-1);
+          }, 1000);
+      }).catch(this.props.cancelFetching);
+    }
     render() {
         const fields = [{
+            field: 'code',
+            value: this.code,
+            hidden: true
+        }, {
+            field: 'operator',
+            value: getUserId(),
+            hidden: true
+        }, {
             title: '客户姓名',
             field: 'realName',
             formatter: (v, d) => {
@@ -47,6 +65,10 @@ class litigationDispose extends React.Component {
         }, {
             title: '贷款银行',
             field: 'loanBank',
+            type: 'select',
+            listCode: 632037,
+            keyName: 'code',
+            valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
             readonly: true
         }, {
             title: '贷款金额',
@@ -73,48 +95,24 @@ class litigationDispose extends React.Component {
                 buttons: [{
                     title: '确认坏账',
                     handler: (param) => {
-                        param.updater = getUserId();
                         param.way = '0';
-                        this.props.doFetching();
-                        fetch(630559, param).then(() => {
-                            showSucMsg('操作成功');
-                            this.props.cancelFetching();
-                            setTimeout(() => {
-                                this.props.history.go(-1);
-                            }, 1000);
-                        }).catch(this.props.cancelFetching);
+                        this.handlerSubmit(param);
                     },
                     check: true,
                     type: 'primary'
                 }, {
                     title: '业务团队买断',
                     handler: (param) => {
-                        param.updater = getUserId();
                         param.way = '1';
-                        this.props.doFetching();
-                        fetch(630559, param).then(() => {
-                            showSucMsg('操作成功');
-                            this.props.cancelFetching();
-                            setTimeout(() => {
-                                this.props.history.go(-1);
-                            }, 1000);
-                        }).catch(this.props.cancelFetching);
+                        this.handlerSubmit(param);
                     },
                     check: true,
                     type: 'primary'
                 }, {
                     title: '业务团队租凭',
                     handler: (param) => {
-                        param.updater = getUserId();
                         param.way = '2';
-                        this.props.doFetching();
-                        fetch(630559, param).then(() => {
-                            showSucMsg('操作成功');
-                            this.props.cancelFetching();
-                            setTimeout(() => {
-                                this.props.history.go(-1);
-                            }, 1000);
-                        }).catch(this.props.cancelFetching);
+                        this.handlerSubmit(param);
                     },
                     check: true,
                     type: 'primary'
