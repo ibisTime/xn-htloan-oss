@@ -35,7 +35,7 @@ export default class RestDay extends React.Component {
         }).catch(() => {});
     }
 
-    createDateMap(data) {
+    createDateMap = (data) => {
         let result = {};
         data.forEach(d => {
             let key = moment(d.endDatetime).format('YYYY-MM-DD');
@@ -44,6 +44,10 @@ export default class RestDay extends React.Component {
         });
         console.log(result);
         this.setState({contractsMap: result});
+    }
+
+    handleCheckboxOnChange = () => {
+        console.log(1);
     }
 
     dateCellRender = (date) => {
@@ -57,7 +61,7 @@ export default class RestDay extends React.Component {
                     this.state.contractsMap[todayStr].map(item => (
                         <FormItem key={todayStr}>
                             <CheckboxGroup>
-                                {<Checkbox key={todayStr} value={todayStr}>休息日</Checkbox>}
+                                {<Checkbox key={todayStr} value={todayStr} onChange={this.handleCheckboxOnChange()}>休息日</Checkbox>}
                             </CheckboxGroup>
                         </FormItem>
                     ))

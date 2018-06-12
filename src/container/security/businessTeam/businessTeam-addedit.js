@@ -59,11 +59,7 @@ class businessTeamAddedit extends React.Component {
         }, {
             field: 'accountNo',
             title: '收款账号',
-            required: true
-        }, {
-            field: 'waterBill',
-            title: '水单',
-            type: 'img',
+            bankCard: true,
             required: true
         }];
         return this.props.buildDetail({

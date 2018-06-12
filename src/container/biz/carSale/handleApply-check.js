@@ -37,13 +37,16 @@ class handleApplyCheck extends React.Component {
             field: 'code',
             readonly: true
         }, {
-            title: '申请人姓名',
+            title: '申请人',
             field: 'userId',
             type: 'select',
             listCode: 630066,
             keyName: 'userId',
             valueName: 'realName',
-            readonly: true
+            readonly: true,
+            formatter: (v, data) => {
+                return data.userMobile;
+            }
         }, {
             title: '首付比例',
             field: 'sfRate',

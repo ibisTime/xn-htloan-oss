@@ -54,7 +54,10 @@ class HandleApply extends React.Component {
       listCode: 630066,
       keyName: 'userId',
       valueName: 'realName',
-      search: true
+      search: true,
+      render: (v, data) => {
+        return data.user.mobile;
+      }
     }, {
       title: '车辆总价',
       amount: true,
