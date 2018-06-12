@@ -60,7 +60,8 @@ class litigationDispose extends React.Component {
             readonly: true
         }, {
             title: '业务编号',
-            field: 'code',
+            field: 'code1',
+            value: this.code,
             readonly: true
         }, {
             title: '贷款银行',
@@ -77,7 +78,10 @@ class litigationDispose extends React.Component {
             readonly: true
         }, {
             title: '业务团队',
-            field: 'loanAmount',
+            field: 'leadUser',
+            formatter: (v, d) => {
+              return `${d.bizTeam.name}(${d.leadUser.realName})`;
+            },
             readonly: true
         }, {
             title: '业务团队扣款金额',

@@ -10,7 +10,8 @@ import {
 import {
     getQueryString,
     getUserId,
-    showSucMsg
+    showSucMsg,
+    moneyFormat
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import {
@@ -57,13 +58,19 @@ class redListaPay extends React.Component {
             field: 'tsCarAmount',
             amount: true,
             required: true,
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+              return moneyFormat(d.overdueRepayPlan.tsCarAmount);
+            }
         }, {
             title: '收款账号',
             field: 'tsBankcardNumber',
             required: true,
             bankCard: true,
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+              return d.overdueRepayPlan.tsBankcardNumber;
+            }
         }, {
             title: '开户行',
             field: 'tsBankName',
@@ -72,17 +79,26 @@ class redListaPay extends React.Component {
             keyName: 'bankCode',
             valueName: 'bankName',
             required: true,
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+              return d.overdueRepayPlan.tsBankName;
+            }
         }, {
             title: '开户支行',
             field: 'tsSubbranch',
             required: true,
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+              return d.overdueRepayPlan.tsSubbranch;
+            }
         }, {
             title: '申请说明',
             field: 'tcApplyNote',
             required: true,
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+              return d.overdueRepayPlan.tcApplyNote;
+            }
         }, {
             title: '打款金额',
             field: 'remitAmount',
