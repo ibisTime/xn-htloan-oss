@@ -97,12 +97,13 @@ class yellowListPayCost extends React.Component {
                 buttons: [{
                     title: '线上代扣',
                     handler: (param) => {
-                        param.payType = '1';
                         param.operator = getUserId();
+                        param.costList = this.props.o2mSKeys.costList;
+                        param.payType = '1';
                         console.log(this.props.o2mSKeys);
                         param.o2mSKeys = this.props.o2mSKeys;
                         this.props.doFetching();
-                        fetch(630534, param).then(() => {
+                        fetch(630533, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -115,10 +116,11 @@ class yellowListPayCost extends React.Component {
                 }, {
                     title: '线下收取',
                     handler: (param) => {
-                        param.payType = '2';
                         param.operator = getUserId();
+                        param.costList = this.props.o2mSKeys.costList;
+                        param.payType = '2';
                         this.props.doFetching();
-                        fetch(630534, param).then(() => {
+                        fetch(630533, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
