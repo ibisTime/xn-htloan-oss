@@ -19,6 +19,8 @@ class LoanCreditEnteringEdit extends React.Component {
             }, {
                 title: '银行征信结果说明',
                 field: 'bankCreditResultRemark',
+                type: 'textarea',
+                normalArea: true,
                 required: true
             }],
             buttons: [{

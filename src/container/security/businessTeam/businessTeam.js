@@ -42,6 +42,12 @@ class BusinessTeam extends React.Component {
             valueName: 'name',
             search: true
         }, {
+            title: '区域',
+            field: 'place'
+        }, {
+            title: '地名',
+            field: 'region'
+        }, {
             field: 'updaterName',
             title: '最新修改人'
         }, {

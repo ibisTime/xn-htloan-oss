@@ -24,6 +24,7 @@ class DataDictAddEdit extends React.Component {
     const fields = [{
       title: '父菜单编号',
       field: 'parentKey',
+      type: 'select',
       listCode: '630036',
       params: {
         type: 0
@@ -34,7 +35,6 @@ class DataDictAddEdit extends React.Component {
       title: '字典键',
       field: 'dkey',
       required: true,
-      readonly: true,
       maxlength: 15
     }, {
       title: '字典值',

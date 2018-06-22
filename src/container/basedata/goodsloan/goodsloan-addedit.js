@@ -84,6 +84,19 @@ class goodsloanAddedit extends React.Component {
             number: true,
             help: '请输入0～1之间的数值',
             required: true
+        }, {
+            title: '是否前置',
+            field: 'isPre',
+            type: 'select',
+            data: [{
+                key: '0',
+                value: '否'
+            }, {
+                key: '1',
+                value: '是'
+            }],
+            keyName: 'key',
+            valueName: 'value'
         }];
         return this.props.buildDetail({
             fields,

@@ -53,6 +53,10 @@ class installGpsEnter extends React.Component {
             amount: true,
             readonly: true
         }, {
+            field: 'carFrameNo',
+            title: '车架号',
+            required: true
+        }, {
             title: 'GPS安装列表',
             field: this.edit ? 'budgetOrderGpsList' : 'gpsAzList',
             type: 'o2m',

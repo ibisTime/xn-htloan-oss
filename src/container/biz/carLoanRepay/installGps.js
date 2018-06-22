@@ -71,6 +71,9 @@ class installGps extends React.Component {
             type: 'select',
             key: 'budget_orde_biz_typer'
         }, {
+            field: 'carFrameNo',
+            title: '车架号'
+        }, {
             title: '业务员',
             field: 'saleUserName'
         }, {

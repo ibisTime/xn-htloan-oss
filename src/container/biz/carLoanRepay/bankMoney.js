@@ -59,7 +59,7 @@ class bankMoney extends React.Component {
             type: 'select',
             keyName: 'code',
             valueName: 'name',
-            required: true
+            search: true
         }, {
             title: '客户姓名',
             field: 'applyUserName',

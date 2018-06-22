@@ -59,6 +59,19 @@ class Goodsloan extends React.Component {
             title: '前置利率',
             field: 'preRate'
         }, {
+            title: '是否前置',
+            field: 'isPre',
+            type: 'select',
+            data: [{
+                key: '0',
+                value: '否'
+            }, {
+                key: '1',
+                value: '是'
+            }],
+            keyName: 'key',
+            valueName: 'value'
+        }, {
             title: '状态',
             field: 'status',
             type: 'select',

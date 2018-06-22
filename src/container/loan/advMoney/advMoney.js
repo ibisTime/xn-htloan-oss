@@ -44,6 +44,9 @@ class AdvMoney extends React.Component {
             title: '业务公司',
             field: 'companyName'
         }, {
+            title: '团队',
+            field: 'teamName'
+        }, {
             title: '客户姓名',
             field: 'applyUserName'
         }, {

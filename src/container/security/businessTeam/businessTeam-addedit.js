@@ -61,6 +61,14 @@ class businessTeamAddedit extends React.Component {
             title: '收款账号',
             bankCard: true,
             required: true
+        }, {
+            title: '区域',
+            field: 'place',
+            required: true
+        }, {
+            title: '地名',
+            field: 'region',
+            required: true
         }];
         return this.props.buildDetail({
             fields,

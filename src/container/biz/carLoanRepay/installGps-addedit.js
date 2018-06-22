@@ -47,6 +47,10 @@ class installGpsAddedit extends React.Component {
             field: 'loanAmount',
             amount: true
         }, {
+            field: 'carFrameNo',
+            title: '车架号',
+            required: true
+        }, {
             title: 'GPS安装列表',
             field: 'budgetOrderGpsList',
             type: 'o2m',

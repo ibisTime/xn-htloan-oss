@@ -38,7 +38,8 @@ class applyGpsApply extends React.Component {
       required: true
     }, {
       title: '申领原因',
-      field: 'applyReason'
+      field: 'applyReason',
+      required: true
     }];
     return this.props.buildDetail({
       fields,

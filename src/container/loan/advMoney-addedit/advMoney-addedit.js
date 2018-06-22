@@ -37,6 +37,18 @@ class AdvMoneyAddedit extends React.Component {
         let buttons = [];
 
         let fields = [{
+            title: '业务公司',
+            field: 'companyName',
+            readonly: true
+        }, {
+            title: '团队',
+            field: 'teamName',
+            readonly: true
+        }, {
+            title: '业务员',
+            field: 'saleUserName',
+            readonly: true
+        }, {
             title: '客户姓名',
             field: 'applyUserName',
             required: true,
@@ -77,6 +89,23 @@ class AdvMoneyAddedit extends React.Component {
             field: 'billPdf',
             type: 'img',
             readonly: (this.isCheck || this.view) ? 'true' : false
+        }, {
+            title: '资金划转授权书 ',
+            field: 'advanceFundAmountPdf',
+            type: 'img',
+            readonly: (this.isCheck || this.view) ? 'true' : false
+        }, {
+            title: '水单',
+            field: 'billPdf',
+            type: 'img',
+            readonly: (this.isCheck || this.view) ? 'true' : false
+        }, {
+            title: '其他资料',
+            field: 'advanceFundOtherPdf',
+            type: 'file',
+            required: true,
+            readonly: (this.isCheck || this.view) ? 'true' : false,
+            single: true
         }];
         // 准入审查
         if (this.isCheck) {

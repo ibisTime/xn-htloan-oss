@@ -70,8 +70,18 @@ class parchives extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      deleteCode: 632801,
-      pageCode: 632805
+      pageCode: 632805,
+      btnEvent: {
+        enter: (selectedRowKeys, selectedRows) => {
+          if (!selectedRowKeys.length) {
+            showWarnMsg('请选择记录');
+          } else if (selectedRowKeys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else {
+            this.props.history.push(`/personalarchives/parchives/enter?code=${selectedRowKeys[0]}`);
+          }
+        }
+      }
     });
   }
 }

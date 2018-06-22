@@ -138,13 +138,11 @@ class CreditAddedit extends React.Component {
             title: '征信查询授权书',
             field: 'authPdf',
             type: 'img',
-            single: true,
             required: true
         }, {
             title: '面签照片',
             field: 'interviewPic',
             type: 'img',
-            single: true,
             required: true
         }];
         if (!this.isAddedit) {
@@ -160,6 +158,8 @@ class CreditAddedit extends React.Component {
                 field: 'bankCreditResultRemark',
                 required: true,
                 readonly: !this.isEntry,
+                type: 'textarea',
+                normalArea: true,
                 hidden: !this.view
             }]);
         }

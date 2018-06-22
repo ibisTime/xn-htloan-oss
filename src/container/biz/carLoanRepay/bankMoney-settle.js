@@ -79,6 +79,11 @@ class bankMoneyAddedit extends React.Component {
             field: 'carSyx',
             type: 'img',
             required: true
+        }, {
+            title: '其他资料',
+            field: 'carSettleOtherPdf',
+            type: 'file',
+            required: true
         }];
         return this.props.buildDetail({
             fields,

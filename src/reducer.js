@@ -309,6 +309,7 @@ import { analysisProtect } from './redux/analysis/protect';
 // 人事档案 + 详情
 import { personalarchivesParchives } from './redux/personalarchives/parchives';
 import { personalarchivesParchivesAddedit } from './redux/personalarchives/parchives-addedit';
+import { personalarchivesParchivesEnter } from './redux/personalarchives/parchives-enter';
 
 // 车贷档案
 import { loanarchivesLocationcode } from './redux/loanarchives/locationcode';
@@ -649,6 +650,7 @@ export default combineReducers({
   mortgagesRelieve,
   personalarchivesParchives,
   personalarchivesParchivesAddedit,
+  personalarchivesParchivesEnter,
   loanarchivesLocationcode,
   loanarchivesLocationcodeAddedit,
   loanarchivesArchivesquery,

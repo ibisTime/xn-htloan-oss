@@ -923,6 +923,11 @@ const ROUTES = [
     path: '/personalarchives/parchives/addedit',
     component: asyncComponent(() => import('container/personalarchives/parchives/parchives-addedit'))
   },
+  //  人事档案 详情
+  {
+    path: '/personalarchives/parchives/enter',
+    component: asyncComponent(() => import('container/personalarchives/parchives/parchives-enter'))
+  },
   //  人事分析
   {
     path: '/personalarchives/panalysis',
