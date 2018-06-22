@@ -1,9 +1,6 @@
-/dist/
 .idea/
 .project
 node_modules/
-static/
 build.zip
-build/asset-manifest.json
-build/index.html
-build/service-worker.js
+build/
+
