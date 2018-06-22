@@ -7,7 +7,7 @@ import {
   setPageData,
   restore
 } from '@redux/biz/carSeries-addedit';
-import { getQueryString } from 'common/js/util';
+import { getQueryString, getUserId } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
@@ -27,6 +27,9 @@ class CarSeriesAddEdit extends React.Component {
       type: 'select',
       search: true,
       listCode: 630406,
+      params: {
+          status: 1
+      },
       keyName: 'code',
       valueName: 'name',
       required: true
@@ -61,7 +64,7 @@ class CarSeriesAddEdit extends React.Component {
       editCode: 630412,
       detailCode: 630417,
       beforeSubmit: (param) => {
-          param.updater = '';
+          param.updater = getUserId();
           return param;
       }
     });
