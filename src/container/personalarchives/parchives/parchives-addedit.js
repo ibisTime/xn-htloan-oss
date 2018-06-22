@@ -139,7 +139,7 @@ class parchivesAddedit extends React.Component {
             }], [{
                 title: '工资卡账号',
                 field: 'salaryCard',
-                idCard: true
+                bankCard: true
             }, {
                 title: '开户行',
                 field: 'bankName',
