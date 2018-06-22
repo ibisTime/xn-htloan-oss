@@ -88,8 +88,10 @@ li {
 .ant-form-item-control{
   z-index: 99;
 }
-
 .restDay-div{
   width: 100%;
   text-align: center;
+}
+.ant-back-top{
+  z-index: 1000;
 }

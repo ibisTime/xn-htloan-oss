@@ -7,13 +7,13 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import E from 'wangeditor';
 import XLSX from 'xlsx';
-import { getDictList } from 'api/dict';
-import { getQiniuToken } from 'api/general';
+import {getDictList} from 'api/dict';
+import {getQiniuToken} from 'api/general';
 import {
     formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat,
     tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg, getUserId
 } from 'common/js/util';
-import { UPLOAD_URL, PIC_PREFIX, formItemLayout, tailFormItemLayout, tailFormItemLayout1 } from '../config';
+import {UPLOAD_URL, PIC_PREFIX, formItemLayout, tailFormItemLayout, tailFormItemLayout1} from '../config';
 import fetch from 'common/js/fetch';
 import cityData from './city';
 import ModalDetail from 'common/js/build-modal-detail';
@@ -200,6 +200,7 @@ export default class DetailComponent extends React.Component {
             handler && handler(params);
         });
     }
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -377,6 +378,8 @@ export default class DetailComponent extends React.Component {
                 return this.getCitySelect(item, initVal, rules, getFieldDecorator);
             case 'checkbox':
                 return this.getCheckboxComp(item, initVal, rules, getFieldDecorator);
+            case 'button':
+                return this.getFieldsButton(item);
             default:
                 return this.getInputComp(item, initVal, rules, getFieldDecorator);
         }
@@ -391,6 +394,21 @@ export default class DetailComponent extends React.Component {
         }));
     }
 
+    getFieldsButton(item) {
+        return (
+            <FormItem
+                className={item.hidden ? 'hidden' : ''}
+                key={item.field}>
+                {
+                    item.readonly ? null
+                        : (<Button onClick={() => { item.onClick(); }} style={{width: '100%', marginTop: 10}} type="dashed">
+                            <Icon type="plus"/>{item.title}
+                        </Button>)
+                }
+            </FormItem>
+        );
+    }
+
     getTableItem(item, initVal, rules, getFieldDecorator) {
         const columns = this.getTableColumns(item);
         const {o2mSKeys} = this.state;
@@ -403,7 +421,8 @@ export default class DetailComponent extends React.Component {
         };
         const hasSelected = selectedRowKeys.length > 0;
         return (
-            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
+                      label={this.getLabel(item)}>
                 {this.getTableBtn(item, hasSelected)}
                 <Table {...this.getTableProps(rowSelection, columns, item, dataSource)} />
             </FormItem>
@@ -714,7 +733,8 @@ export default class DetailComponent extends React.Component {
         let format = isTime ? DATETIME_FORMAT : DATE_FORMAT;
         let places = isTime ? '选择时间' : '选择日期';
         return (
-            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
+                      label={this.getLabel(item)}>
                 {
                     item.readonly ? <div className="readonly-text">{initVal}</div>
                         : getFieldDecorator(item.field, {
@@ -750,7 +770,8 @@ export default class DetailComponent extends React.Component {
             };
         }
         return (
-            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
+                      label={this.getLabel(item)}>
                 {
                     item.readonly ? <div className="readonly-text">{initVal}</div>
                         : getFieldDecorator(item.field, {
@@ -805,7 +826,8 @@ export default class DetailComponent extends React.Component {
 
     getCitySelect(item, initVal, rules, getFieldDecorator) {
         return (
-            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
+                      label={this.getLabel(item)}>
                 {
                     item.readonly ? <div className="readonly-text">{initVal}</div>
                         : getFieldDecorator(item.field, {
@@ -823,19 +845,21 @@ export default class DetailComponent extends React.Component {
             val = initVal.map(v => item.data.find(d => d[item.keyName] === v)[item.valueName]).join('、');
         }
         return (
-            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
+                      label={this.getLabel(item)}>
                 {
                     item.readonly ? <div className='readonly-text'>{val}</div>
-                    : getFieldDecorator(item.field, {
-                        rules,
-                        initialValue: initVal
-                    })(
-                      <CheckboxGroup disabled={item.readonly}>
-                        {item.data && item.data.length
-                          ? item.data.map(d => <Checkbox key={d[item.keyName]} value={d[item.keyName]}>{d[item.valueName]}</Checkbox>)
-                          : null}
-                      </CheckboxGroup>
-                    )
+                        : getFieldDecorator(item.field, {
+                            rules,
+                            initialValue: initVal
+                        })(
+                        <CheckboxGroup disabled={item.readonly}>
+                            {item.data && item.data.length
+                                ? item.data.map(d => <Checkbox key={d[item.keyName]}
+                                                               value={d[item.keyName]}>{d[item.valueName]}</Checkbox>)
+                                : null}
+                        </CheckboxGroup>
+                        )
                 }
             </FormItem>
         );
@@ -1247,8 +1271,14 @@ export default class DetailComponent extends React.Component {
         }
         if (item.bankCard) {
             rules.push({
-                pattern: /^([1-9]{1})(\d{14}|\d{18})$/,
+                pattern: /^([1-9]{1})(\d{13,19})$/,
                 message: '请输入合法的银行卡号'
+            });
+        }
+        if (item.amount) {
+            rules.push({
+                pattern: /(^[1-9](,\d{3}|[0-9])*(\.\d{1,2})?$)|([0])/,
+                message: '金额必须>=0，且小数点后最多2位'
             });
         }
         return rules;
