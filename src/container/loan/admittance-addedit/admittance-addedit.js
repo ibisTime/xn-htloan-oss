@@ -36,6 +36,7 @@ class AdmittanceAddEdit extends React.Component {
         };
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
+        this.bizType = getQueryString('bizType', this.props.location.search);
         this.isCheckCommissioner = !!getQueryString('isCheckCommissioner', this.props.location.search);
         this.isCheckDirector = !!getQueryString('isCheckDirector', this.props.location.search);
         this.wanFactor = 0;
@@ -86,7 +87,8 @@ class AdmittanceAddEdit extends React.Component {
                     type: 'select',
                     listCode: '632177',
                     params: {
-                        status: '2'
+                        status: '2',
+                        type: this.bizType
                     },
                     keyName: 'code',
                     valueName: 'name',
@@ -113,8 +115,10 @@ class AdmittanceAddEdit extends React.Component {
                         }
                     }
                 }, {
-                    field: 'area',
+                    field: 'region',
                     title: '所属区域',
+                    type: 'select',
+                    key: 'region',
                     required: true
                 }]
             ]
@@ -236,6 +240,7 @@ class AdmittanceAddEdit extends React.Component {
                     title: '车辆类型',
                     field: 'carType',
                     type: 'select',
+                    key: 'car_type',
                     required: true
                 }, {
                     field: 'carColor',
@@ -272,7 +277,7 @@ class AdmittanceAddEdit extends React.Component {
             items: [
                 [{
                     field: 'applyUserName',
-                    title: '申请人姓名',
+                    title: '姓名',
                     required: true,
                     readonly: true
                 }],
@@ -283,13 +288,25 @@ class AdmittanceAddEdit extends React.Component {
                     key: 'gender',
                     required: true
                 }, {
+                    field: 'age',
+                    title: '年龄',
+                    number: true,
+                    positive: true,
+                    required: true
+                }, {
+                    field: 'idNo',
+                    title: '身份证号',
+                    idCard: true,
+                    readonly: true,
+                    required: true
+                }],
+                [{
                     field: 'marryState',
                     title: '婚姻状况',
                     type: 'select',
                     key: 'marry_state',
                     required: true
-                }],
-                [{
+                }, {
                     field: 'nation',
                     title: '民族',
                     required: true
@@ -301,10 +318,8 @@ class AdmittanceAddEdit extends React.Component {
                     required: true
                 }],
                 [{
-                    field: 'idNo',
-                    title: '身份证号',
-                    idCard: true,
-                    readonly: true,
+                    field: 'political',
+                    title: '政治面貌',
                     required: true
                 }, {
                     field: 'familyNumber',
@@ -312,7 +327,7 @@ class AdmittanceAddEdit extends React.Component {
                     required: true
                 }, {
                     field: 'mobile',
-                    title: '手机号',
+                    title: '联系电话',
                     mobile: true,
                     required: true
                 }],
@@ -322,7 +337,13 @@ class AdmittanceAddEdit extends React.Component {
                     required: true
                 }, {
                     field: 'postCode1',
-                    title: '邮编1',
+                    title: '现居住地址邮编',
+                    required: true
+                }, {
+                    field: 'isCardMailAddress',
+                    title: '是否卡邮寄地址',
+                    type: 'select',
+                    key: 'is_card_mail_address',
                     required: true
                 }],
                 [{
@@ -331,17 +352,61 @@ class AdmittanceAddEdit extends React.Component {
                     required: true
                 }, {
                     field: 'postCode2',
-                    title: '邮编2',
+                    title: '户口所在地邮编',
                     required: true
                 }],
                 [{
                     field: 'familyMainAsset',
-                    title: '家庭主要财产(万元)',
+                    title: '家庭主要财产(元)',
                     required: true
                 }, {
                     field: 'mainAssetInclude',
                     title: '主要财产包括',
                     required: true
+                }],
+                [{
+                    field: 'houseContract',
+                    title: '购房合同及房产本',
+                    type: 'img'
+                }, {
+                    title: '其他辅助资产',
+                    field: 'assetPdf',
+                    type: 'img'
+                }, {
+                    field: 'housePicture',
+                    title: '家访照片',
+                    type: 'img'
+                }]
+            ]
+        }, {
+            title: '工作情况',
+            items: [
+                [{
+                    field: 'workCompanyName',
+                    title: '单位名称',
+                    required: true
+                }],
+                [{
+                    field: 'workCompanyAddress',
+                    title: '单位地址',
+                    required: true
+                }, {
+                    field: 'workIsCardMailAddress',
+                    title: '是否卡邮寄地址',
+                    type: 'select',
+                    key: 'is_card_mail_address',
+                    required: true
+                }],
+                [{
+                    field: 'workBelongIndustry',
+                    title: '所属行业',
+                    type: 'select',
+                    key: 'work_belong_industry'
+                }, {
+                    field: 'workCompanyProperty',
+                    title: '单位经济性质',
+                    type: 'select',
+                    key: 'work_company_property'
                 }, {
                     field: 'mainIncome',
                     title: '主要收入来源',
@@ -366,50 +431,28 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
-                    field: 'workCompanyName',
-                    title: '工作单位名称',
-                    required: true
-                }, {
-                    field: 'workCompanyProperty',
-                    title: '单位经济性质',
+                    field: 'position',
+                    title: '职务',
                     type: 'select',
-                    key: 'work_company_property',
-                    onChange: (v, data) => {
-                    }
-                }],
-                [{
-                    field: 'workCompanyAddress',
-                    title: '工作单位地址',
-                    required: true
-                }],
-                [{
-                    field: 'workBelongIndustry',
-                    title: '所属行业',
-                    type: 'select',
-                    key: 'work_belong_industry'
+                    key: 'position'
                 }, {
                     field: 'workProfession',
                     title: '职业',
                     type: 'select',
                     key: 'work_profession'
                 }, {
-                    field: 'position',
-                    title: '职位',
-                    type: 'select',
-                    key: 'position'
-                }],
-                [{
                     field: 'postTitle',
                     title: '职称'
-                }, {
-                    field: 'workDatetime',
-                    title: '何时进入现单位工作',
-                    type: 'date'
-                }, {
+                }],
+                [{
                     field: 'monthIncome',
                     title: '月收入(元)',
                     amount: true,
                     required: true
+                }, {
+                    field: 'workDatetime',
+                    title: '何时进入现单位工作',
+                    type: 'date'
                 }],
                 [{
                     field: 'selfCompanyArea',
@@ -427,9 +470,10 @@ class AdmittanceAddEdit extends React.Component {
                     hidden: this.state.isSelfCompany
                 }],
                 [{
-                    title: '其它资产资料',
+                    title: '其他工作描述',
                     field: 'assetPdf',
-                    type: 'img'
+                    type: 'textarea',
+                    normalArea: true
                 }]
             ]
         }, {
@@ -541,15 +585,24 @@ class AdmittanceAddEdit extends React.Component {
                 }]
             ]
         }, {
-            title: '家庭房产情况及家访',
+            title: '其他基本资料上传',
             items: [
                 [{
-                    field: 'houseContract',
-                    title: '购房合同',
+                    field: 'hkBookPdf',
+                    title: '户口本',
                     type: 'img'
                 }, {
-                    field: 'housePicture',
-                    title: '房屋照片',
+                    field: 'idCardPdf',
+                    title: '身份证',
+                    type: 'img'
+                }, {
+                    field: 'marryPdf',
+                    title: '结婚证',
+                    type: 'img'
+                }],
+                [{
+                    field: 'otherPdf',
+                    title: '其他资料',
                     type: 'img'
                 }]
             ]
@@ -583,8 +636,14 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
+                    title: '流水结息',
+                    field: 'zfbJourInterest',
+                    type: 'select',
+                    key: 'interest'
+                }],
+                [{
                     field: 'zfbJourIncome',
-                    title: '收入(元)',
+                    title: '总收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime1');
@@ -597,10 +656,9 @@ class AdmittanceAddEdit extends React.Component {
                             });
                         }
                     }
-                },
-                    {
+                }, {
                         field: 'zfbJourExpend',
-                        title: '支出(元)',
+                        title: '总支出(元)',
                         amount: true,
                         onChange: (v) => {
                             let jourDatetime = this.props.form.getFieldValue('jourDatetime1');
@@ -630,7 +688,7 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'zfbJourRemark',
-                    title: '备注',
+                    title: '流水说明',
                     type: 'textarea',
                     normalArea: true
                 }],
@@ -670,8 +728,14 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
+                    title: '流水结息',
+                    field: 'wxJouInterest',
+                    type: 'select',
+                    key: 'interest'
+                }],
+                [{
                     field: 'wxJourIncome',
-                    title: '收入(元)',
+                    title: '总收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime2');
@@ -686,7 +750,7 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }, {
                     field: 'wxJourExpend',
-                    title: '支出(元)',
+                    title: '总支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime2');
@@ -715,7 +779,7 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'wxJourRemark',
-                    title: '备注',
+                    title: '流水说明',
                     type: 'textarea',
                     normalArea: true
                 }],
@@ -755,8 +819,14 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
+                    title: '流水结息',
+                    field: 'jourInterest',
+                    type: 'select',
+                    key: 'interest'
+                }],
+                [{
                     field: 'jourIncome',
-                    title: '收入(元)',
+                    title: '总收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime3');
@@ -771,7 +841,7 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }, {
                     field: 'jourExpend',
-                    title: '支出(元)',
+                    title: '总支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime3');
@@ -800,7 +870,7 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'jourRemark',
-                    title: '备注',
+                    title: '流水说明',
                     type: 'textarea',
                     normalArea: true
                 }],
@@ -840,8 +910,14 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
+                    title: '流水结息',
+                    field: 'mateZfbJourInterest',
+                    type: 'select',
+                    key: 'interest'
+                }],
+                [{
                     field: 'mateZfbJourIncome',
-                    title: '收入(元)',
+                    title: '总收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime4');
@@ -856,7 +932,7 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }, {
                     field: 'mateZfbJourExpend',
-                    title: '支出(元)',
+                    title: '总支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime4');
@@ -885,7 +961,7 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'mateZfbJourRemark',
-                    title: '备注',
+                    title: '流水说明',
                     type: 'textarea',
                     normalArea: true
                 }],
@@ -925,8 +1001,14 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
+                    title: '流水结息',
+                    field: 'mateWxJourInterest',
+                    type: 'select',
+                    key: 'interest'
+                }],
+                [{
                     field: 'mateWxJourIncome',
-                    title: '收入(元)',
+                    title: '总收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime5');
@@ -941,7 +1023,7 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }, {
                     field: 'mateWxJourExpend',
-                    title: '支出(元)',
+                    title: '总支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime5');
@@ -970,7 +1052,7 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'mateWxJourRemark',
-                    title: '备注',
+                    title: '流水说明',
                     type: 'textarea',
                     normalArea: true
                 }],
@@ -1010,8 +1092,14 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
+                    title: '流水结息',
+                    field: 'mateJourInterest',
+                    type: 'select',
+                    key: 'interest'
+                }],
+                [{
                     field: 'mateJourIncome',
-                    title: '收入(元)',
+                    title: '总收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime6');
@@ -1026,7 +1114,7 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }, {
                     field: 'mateJourExpend',
-                    title: '支出(元)',
+                    title: '总支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime6');
@@ -1055,7 +1143,7 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'mateJourRemark',
-                    title: '备注',
+                    title: '流水说明',
                     type: 'textarea',
                     normalArea: true
                 }],
@@ -1094,8 +1182,14 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
+                    title: '流水结息',
+                    field: 'guaZfbJourInterest',
+                    type: 'select',
+                    key: 'interest'
+                }],
+                [{
                     field: 'guaZfbJourIncome',
-                    title: '收入(元)',
+                    title: '总收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime7');
@@ -1110,7 +1204,7 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }, {
                     field: 'guaZfbJourExpend',
-                    title: '支出(元)',
+                    title: '总支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime7');
@@ -1139,7 +1233,7 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'guaZfbJourRemark',
-                    title: '备注',
+                    title: '流水说明',
                     type: 'textarea',
                     normalArea: true
                 }],
@@ -1179,8 +1273,14 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
+                    title: '流水结息',
+                    field: 'guaWxJourInterest',
+                    type: 'select',
+                    key: 'interest'
+                }],
+                [{
                     field: 'guaWxJourIncome',
-                    title: '收入(元)',
+                    title: '总收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime8');
@@ -1195,7 +1295,7 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }, {
                     field: 'guaWxJourExpend',
-                    title: '支出(元)',
+                    title: '总支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime8');
@@ -1224,7 +1324,7 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'guaWxJourRemark',
-                    title: '备注',
+                    title: '流水说明',
                     type: 'textarea',
                     normalArea: true
                 }],
@@ -1264,8 +1364,14 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
+                    title: '流水结息',
+                    field: 'guaJourInterest',
+                    type: 'select',
+                    key: 'interest'
+                }],
+                [{
                     field: 'guaJourIncome',
-                    title: '收入(元)',
+                    title: '总收入(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime9');
@@ -1280,7 +1386,7 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }, {
                     field: 'guaJourExpend',
-                    title: '支出(元)',
+                    title: '总支出(元)',
                     amount: true,
                     onChange: (v) => {
                         let jourDatetime = this.props.form.getFieldValue('jourDatetime9');
@@ -1309,7 +1415,7 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'guaJourRemark',
-                    title: '备注',
+                    title: '流水说明',
                     type: 'textarea',
                     normalArea: true
                 }],
