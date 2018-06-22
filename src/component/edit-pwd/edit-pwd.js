@@ -22,7 +22,7 @@ class EditPwd extends React.Component {
         required: true,
         maxlength: 30
       }],
-      addCode: 627304
+      addCode: 630054
     };
     return (
       <ModalDetail

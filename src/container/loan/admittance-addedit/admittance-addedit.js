@@ -353,8 +353,7 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'postTitle',
-                    title: '职称',
-                    required: true
+                    title: '职称'
                 }, {
                     field: 'workDatetime',
                     title: '何时进入现单位工作',
