@@ -200,6 +200,7 @@ export default class DetailComponent extends React.Component {
             handler && handler(params);
         });
     }
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -1247,8 +1248,14 @@ export default class DetailComponent extends React.Component {
         }
         if (item.bankCard) {
             rules.push({
-                pattern: /^([1-9]{1})(\d{14}|\d{18})$/,
+                pattern: /^([1-9]{1})(\d{13,19})$/,
                 message: '请输入合法的银行卡号'
+            });
+        }
+        if (item.amount) {
+            rules.push({
+                pattern: /(^[1-9](,\d{3}|[0-9])*(\.\d{1,2})?$)|([0])/,
+                message: '金额必须>=0，且小数点后最多2位'
             });
         }
         return rules;

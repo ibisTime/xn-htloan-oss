@@ -15,6 +15,7 @@ const col5Props = {xs: 32, sm: 24, md: 12, lg: 5};
 const col55Props = {xs: 32, sm: 24, md: 12, lg: 4};
 const DATE_FORMAT = 'YYYY-MM-DD';
 const DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+let lengthList = [];
 
 class CollapseDetail extends DetailComp {
   buildDetail = (options) => {
@@ -30,9 +31,11 @@ class CollapseDetail extends DetailComp {
 
     const children = [];
     const children1 = [];
+    lengthList = [];
     this.options.fields.forEach((field, i) => {
       let comp;
       if (field.items) {
+        lengthList.push(String(i));
         comp = (
           <Panel header={field.title} key={i}>
             {
@@ -147,7 +150,7 @@ class CollapseDetail extends DetailComp {
     return (
       <Spin spinning={this.props.fetching}>
         <Form className="detail-form-wrapper" onSubmit={this.handleSubmit}>
-          <Collapse defaultActiveKey={['0']}>
+          <Collapse defaultActiveKey={lengthList}>
             {children}
           </Collapse>
           <div style={{marginTop: 20}}>
