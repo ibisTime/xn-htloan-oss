@@ -79,13 +79,12 @@ class Post extends React.Component {
   }
   // 新增岗位
   addPost() {
-    if (!this.props.selectedKeys.length) {
-      showWarnMsg('请先选择部门');
-    } else if (this.props.compInfo[this.props.selectedKeys[0]].type !== '2') {
-      showWarnMsg('请选择部门');
-    } else {
-      this.setPostVisible(true);
-    }
+    // if (!this.props.selectedKeys.length) {
+    //   showWarnMsg('请先选择部门');
+    // } else if (this.props.compInfo[this.props.selectedKeys[0]].type !== '2') {
+    //   showWarnMsg('请选择部门');
+    // } else {
+    this.setPostVisible(true);
   }
   // 删除岗位
   deletePost() {

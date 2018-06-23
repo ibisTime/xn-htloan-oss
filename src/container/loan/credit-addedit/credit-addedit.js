@@ -283,8 +283,8 @@ class CreditAddedit extends React.Component {
                     let data = {};
                     data.creditCode = this.code;
                     for (let i = 0; i < params.creditUserList.length; i++) {
-                        if (!params.creditUserList[i].dkdyCount) {
-                            params.creditUserList[i].creditUserCode = params.creditUserList[i].code;
+                        params.creditUserList[i].creditUserCode = params.creditUserList[i].code;
+                        if (!params.creditUserList[i].bankCreditResultPdf) {
                             showWarnMsg('请录入' + params.creditUserList[i].userName + '的银行征信结果！');
                             return;
                         }
@@ -332,7 +332,7 @@ class CreditAddedit extends React.Component {
                     params.creditCode = this.code;
                     params.buttonCode = '1';
                     params.operator = getUserId();
-                    if (params.creditUserList || params.creditUserList.length < 1) {
+                    if (!params.creditUserList || params.creditUserList.length < 1) {
                         showWarnMsg('至少录入一条征信信息');
                         return;
                     }

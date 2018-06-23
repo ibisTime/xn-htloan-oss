@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     Form, Select, Input, Button, Tooltip, Icon, Spin, Upload,
-    Modal, Cascader, DatePicker, Table, Checkbox
+    Modal, Cascader, DatePicker, Table, Checkbox, TreeSelect
 } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -20,10 +20,11 @@ import ModalDetail from 'common/js/build-modal-detail';
 import locale from './date-locale';
 
 moment.locale('zh-cn');
-const {Item: FormItem} = Form;
-const {Option} = Select;
-const {TextArea} = Input;
-const {RangePicker} = DatePicker;
+const { Item: FormItem } = Form;
+const { Option } = Select;
+const { TextArea } = Input;
+const { RangePicker } = DatePicker;
+const { TreeNode } = TreeSelect;
 const CheckboxGroup = Checkbox.Group;
 const DATE_FORMAT = 'YYYY-MM-DD';
 const DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
@@ -58,7 +59,8 @@ export default class DetailComponent extends React.Component {
             o2mSKeys: {},
             searchData: {},
             modalVisible: false,
-            modalOptions: {}
+            modalOptions: {},
+            treeData: []
         };
         this.o2mFirst = {};
         this.textareas = {};
@@ -139,6 +141,13 @@ export default class DetailComponent extends React.Component {
                 if (!f.data) {
                     f.data = this.props.selectData[f.field];
                     this.first && this.getSelectData(f);
+                } else if (!this.props.selectData[f.field]) {
+                    this.props.setSelectData({data: f.data, key: f.field});
+                }
+            } else if (f.type === 'treeSelect') {
+                if (!f.data) {
+                    f.data = this.props.selectData[f.field];
+                    this.first && this.getTreeSelectData(f);
                 } else if (!this.props.selectData[f.field]) {
                     this.props.setSelectData({data: f.data, key: f.field});
                 }
@@ -340,6 +349,64 @@ export default class DetailComponent extends React.Component {
         }
     }
 
+    // 获取treeSelect框的数据
+    getTreeSelectData(item) {
+        let param = item.params || {};
+        fetch(item.listCode, param).then(data => {
+            this.props.setSelectData({data, key: item.field});
+            this.getTree(data, item);
+        });
+    }
+    // 生成tree
+    getTree(data, item) {
+      let result = {};
+      data.forEach(v => {
+        v.parentCode = v.parentCode === '0' ? 'ROOT' : v.parentCode;
+        if (!result[v.parentCode]) {
+          result[v.parentCode] = [];
+        }
+        let obj = {
+            title: v[item.valueName],
+            key: v[item.keyName]
+        };
+        if (item.bParams) {
+            item.bParams.forEach(p => {
+              obj[p] = v[p];
+            });
+        }
+        result[v.parentCode].push(obj);
+      });
+      this.result = result;
+      let tree = [];
+      this.getTreeNode(result['ROOT'], tree);
+      this.setState({ treeData: tree });
+    }
+    // 生成treeNode
+    getTreeNode(arr, children) {
+      arr.forEach(a => {
+        if (this.result[a.key]) {
+          a.children = [];
+          children.push(a);
+          this.getTreeNode(this.result[a.key], a.children);
+        } else {
+          children.push(a);
+        }
+      });
+    }
+    // 生成treeSelect结构
+    renderTreeNodes = (data, field) => {
+      return data.map((item) => {
+        if (item.children) {
+          return (
+            <TreeNode title={item.title} key={item.key} value={item.key} disabled={field.disabled ? field.disabled(item) : false}>
+              {this.renderTreeNodes(item.children, field)}
+            </TreeNode>
+          );
+        }
+        return <TreeNode title={item.title} key={item.key} value={item.key} disabled={field.disabled ? field.disabled(item) : false}/>;
+      });
+    }
+
     getPageComponent = (children) => {
         const {previewImage, previewVisible} = this.state;
         return (
@@ -389,6 +456,8 @@ export default class DetailComponent extends React.Component {
                 return this.getCheckboxComp(item, initVal, rules, getFieldDecorator);
             case 'button':
                 return this.getFieldsButton(item);
+            case 'treeSelect':
+                return this.getTreeSelectComp(item, initVal, rules, getFieldDecorator);
             default:
                 return this.getInputComp(item, initVal, rules, getFieldDecorator);
         }
@@ -736,6 +805,36 @@ export default class DetailComponent extends React.Component {
         this.setState((prevState, props) => ({
             searchData: {...prevState.searchData, [key]: data}
         }));
+    }
+
+    // 获取treeSelect
+    getTreeSelectComp(item, initVal, rules, getFieldDecorator) {
+        return (
+            <FormItem
+                className={item.hidden ? 'hidden' : ''}
+                key={item.field}
+                {...this.getInputItemProps()}
+                label={this.getLabel(item)}>
+                {
+                    item.readonly ? <div className="readonly-text">{initVal}</div>
+                        : getFieldDecorator(item.field, {
+                            rules,
+                            initialValue: initVal
+                        })(
+                            <TreeSelect
+                              showSearch
+                              style={{ width: '100%' }}
+                              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                              placeholder="请选择"
+                              allowClear
+                              treeDefaultExpandAll
+                            >
+                                {this.renderTreeNodes(this.state.treeData, item)}
+                            </TreeSelect>
+                        )
+                }
+            </FormItem>
+        );
     }
 
     getDateItem(item, initVal, rules, getFieldDecorator, isTime = false) {

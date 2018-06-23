@@ -47,3 +47,18 @@ export function setUserPost(params) {
 export function getListUserArchive(params) {
     return fetch(632805, params);
 }
+
+// 分页查询平台用户
+export function getPageSysUser(start, limit, keyword) {
+  return fetch(630065, {
+    start,
+    limit,
+    keyword,
+    status: '0'
+  });
+}
+
+// 列表查询平台用户
+export function getSysUsers() {
+  return fetch(630066, { status: '0' });
+}
