@@ -40,7 +40,7 @@ export function setRoleInfo({
 }) {
   cookies.set('roleCode', roleCode);
   cookies.set('userName', loginName);
-  teamCode && cookies.set('teamCode', teamCode);
+  cookies.set('teamCode', teamCode || '');
 }
 
 // 获取用户角色编号
