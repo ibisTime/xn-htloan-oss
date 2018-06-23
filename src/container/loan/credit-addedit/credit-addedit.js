@@ -282,9 +282,13 @@ class CreditAddedit extends React.Component {
                 handler: (params) => {
                     let data = {};
                     data.creditCode = this.code;
-                    params.creditUserList.forEach((v, i) => {
-                        v.creditUserCode = v.code;
-                    });
+                    for (let i = 0; i < params.creditUserList.length; i++) {
+                        if (!params.creditUserList[i].dkdyCount) {
+                            params.creditUserList[i].creditUserCode = params.creditUserList[i].code;
+                            showWarnMsg('请录入' + params.creditUserList[i].userName + '的银行征信结果！');
+                            return;
+                        }
+                    }
                     data.creditResult = params.creditUserList;
                     data.operator = getUserId();
                     this.props.doFetching();
@@ -307,7 +311,6 @@ class CreditAddedit extends React.Component {
         if(this.isAddedit) {
             this.buttons = [{
                 title: '保存',
-                check: true,
                 handler: (params) => {
                     params.creditCode = this.code;
                     params.buttonCode = '0';
@@ -329,6 +332,20 @@ class CreditAddedit extends React.Component {
                     params.creditCode = this.code;
                     params.buttonCode = '1';
                     params.operator = getUserId();
+                    if (params.creditUserList || params.creditUserList.length < 1) {
+                        showWarnMsg('至少录入一条征信信息');
+                        return;
+                    }
+                    let flag = false;
+                    for (let i = 0; i < params.creditUserList.length; i++) {
+                        if (params.creditUserList[i].relation === '1' && params.creditUserList[i].loanRole === '1') {
+                            flag = true;
+                        }
+                    }
+                    if (!flag) {
+                        showWarnMsg('请录入申请人的征信信息！');
+                        return;
+                    }
                     this.props.doFetching();
                     let bizCode = this.code ? 632112 : 632110;
                     fetch(bizCode, params).then(() => {
