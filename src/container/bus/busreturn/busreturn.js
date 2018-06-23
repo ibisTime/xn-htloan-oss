@@ -62,13 +62,13 @@ class Busreturn extends React.Component {
             type: 'date'
         }, {
             title: '归还时间',
-            field: 'code',
+            field: 'returnDatetime',
             type: 'date'
         }, {
             title: '状态',
             field: 'status',
             type: 'select',
-            key: '111',
+            key: 'bus_borrow_status',
             search: true
         }, {
             title: '更新人',
@@ -80,7 +80,7 @@ class Busreturn extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632315,
+            pageCode: 632795,
             btnEvent: {
               check: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {
@@ -88,7 +88,7 @@ class Busreturn extends React.Component {
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else {
-                  this.props.history.push(`/bus/busapply/check?code=${selectedRowKeys[0]}`);
+                  this.props.history.push(`/bus/busreturn/check?code=${selectedRowKeys[0]}`);
                 }
               },
               return: (selectedRowKeys, selectedRows) => {
@@ -97,7 +97,7 @@ class Busreturn extends React.Component {
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else {
-                  this.props.history.push(`/bus/busapply/return?code=${selectedRowKeys[0]}`);
+                  this.props.history.push(`/bus/busreturn/return?code=${selectedRowKeys[0]}`);
                 }
               }
             }

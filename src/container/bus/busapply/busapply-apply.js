@@ -6,10 +6,12 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/bus/busapply-addedit.js';
+} from '@redux/bus/busapply-apply.js';
 import {
   getQueryString,
-  formatDate
+  formatDate,
+  dateTimeFormat,
+  getUserId
 } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
@@ -33,27 +35,34 @@ class BusapplyApply extends React.Component {
     const fields = [{
         title: '申领车辆',
         field: 'busCode',
+        type: 'select',
+        listCode: 632787,
+        keyName: 'code',
+        valueName: 'model',
         required: true
     }, {
         title: '使用时间',
         field: 'time',
         rangedate: ['useDatetimeStart', 'useDatetimeEnd'],
-        render: (v, d) => {
-           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.useDatetimeStart) + '~' + formatDate(d.useDatetimeEnd)}</span>;
-        },
+        type: 'date',
+        render: dateTimeFormat,
         required: true
     }, {
         title: '领用原因',
-        field: 'applyNote'
+        field: 'applyNote',
+        required: true
     }];
     return this
       .props
       .buildDetail({
         fields,
-        code: this.code,
         view: this.view,
         addCode: 632790,
-        detailCode: 632796
+        detailCode: 632796,
+        beforeSubmit: (data) => {
+            data.applyUser = getUserId();
+            return data;
+        }
       });
   }
 }

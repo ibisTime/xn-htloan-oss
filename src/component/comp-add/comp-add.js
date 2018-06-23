@@ -7,7 +7,16 @@ class CompAdd extends React.Component {
     const options = {
       fields: [{
         field: 'parentCode',
-        hidden: true,
+        title: '上级',
+        type: 'treeSelect',
+        listCode: 630106,
+        keyName: 'code',
+        valueName: 'name',
+        bParams: ['type'],
+        params: {
+          status: 1,
+          typeList: [1, 2]
+        },
         value: this.props.parentCode
       }, {
         field: 'name',
@@ -15,15 +24,21 @@ class CompAdd extends React.Component {
         required: true,
         maxlength: 30
       }, {
-        field: 'leadName',
+        field: 'leadUserId',
         title: '负责人',
-        required: true,
-        maxlength: 30
+        type: 'select',
+        listCode: 630066,
+        keyName: 'userId',
+        valueName: '{{realName.DATA}}-{{mobile.DATA}}',
+        searchName: 'keyword',
+        required: true
       }, {
-        field: 'mobile',
-        title: '负责人手机号',
+        field: 'orderNo',
+        title: 'UI次序',
         required: true,
-        mobile: true
+        help: '数字越小，排序越靠前',
+        integer: true,
+        maxlength: 30
       }, {
         field: 'type',
         title: '类型',
@@ -44,7 +59,7 @@ class CompAdd extends React.Component {
         that.props.addComp({
           ...params,
           code: data.code
-        }, this.props.parentCode);
+        });
       }
     };
     return (

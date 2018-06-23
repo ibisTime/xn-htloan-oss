@@ -1,5 +1,6 @@
 import { getCompList, deleteComp, updateComp } from 'api/company';
 import { getOwnerBtns } from 'api/menu';
+import { getSysUsers } from 'api/user';
 import { showSucMsg } from 'common/js/util';
 
 const PREFIX = 'SECURITY_COMP_CONSTRUCT_';
@@ -11,20 +12,27 @@ const SET_COMP_INFO = PREFIX + 'SET_COMP_INFO';
 const SET_SELECTED_KEYS = PREFIX + 'SET_SELECTED_KEYS';
 const SET_CHECKED_KEYS = PREFIX + 'SET_CHECKED_KEYS';
 const SET_EXPANDED_KEYS = PREFIX + 'SET_EXPANDED_KEYS';
+const SET_USER_LIST = PREFIX + 'SET_USER_LIST';
+const SET_COMP_LIST = PREFIX + 'SET_COMP_LIST';
+const SET_CUR_PARENT_CODE = PREFIX + 'SET_CUR_PARENT_CODE';
 
 const initState = {
   fetching: false,
   msg: '',
   btnList: [],
+  userList: [],
   treeData: [],
   compInfo: {},
+  curParentCode: '',
   defaultExpandedKeys: [],
   checkedKeys: [],
-  selectedKeys: []
+  selectedKeys: [],
+  compList: []
 };
 
 let listInfo = {};
 let compInfo = {};
+let compList;
 
 export function securityCompConstruct(state = initState, action) {
   switch(action.type) {
@@ -44,6 +52,12 @@ export function securityCompConstruct(state = initState, action) {
       return {...state, fetching: true};
     case CANCEL_LOADING:
       return {...state, fetching: false};
+    case SET_USER_LIST:
+      return {...state, userList: action.payload};
+    case SET_COMP_LIST:
+      return {...state, compList: action.payload};
+    case SET_CUR_PARENT_CODE:
+      return {...state, curParentCode: action.payload};
     default:
       return state;
   }
@@ -74,6 +88,15 @@ function setCompInfo(data) {
   return { type: SET_COMP_INFO, payload: data };
 }
 
+// 设置compList
+function setCompList(data) {
+  return { type: SET_COMP_LIST, payload: data };
+}
+
+function setCurParentCode(code) {
+  return { type: SET_CUR_PARENT_CODE, payload: code };
+}
+
 // 设置选中的keys
 function _setSelectedKeys(keys) {
   return { type: SET_SELECTED_KEYS, payload: keys };
@@ -90,13 +113,14 @@ export function setSelectedKeys(keys, setFieldsValue) {
     dispatch(_setSelectedKeys(keys));
     dispatch(_setCheckedKeys(keys));
     let current = keys.length ? compInfo[keys[0]] : {};
+    dispatch(setCurParentCode(current.parentCode));
     setFieldsValue({
       code: current.code,
-      parentCode: current.parentCode || '',
+      parentCode: current.parentCode === 'ROOT' ? '0' : current.parentCode,
       name: current.name || '',
-      leadName: current.leadName || '',
-      mobile: current.mobile || '',
-      type: current.type || ''
+      type: current.type || '',
+      leadUserId: current.leadUserId || '',
+      orderNo: current.orderNo || 1
     });
   };
 }
@@ -107,14 +131,15 @@ function setExpandedKeys(keys) {
 }
 
 // 新增部门/公司
-export function addComp(company, parentCode) {
+export function addComp(company) {
   return dispatch => {
-    console.log(company, parentCode, listInfo);
+    let parentCode = company.parentCode;
     listInfo[parentCode] = listInfo[parentCode] || [];
     compInfo[company.code] = company;
     listInfo[parentCode].push({
       title: company.name,
-      key: company.code
+      key: company.code,
+      orderNo: company.orderNo
     });
     let tree = [];
     getTreeNode(listInfo['ROOT'], tree);
@@ -152,10 +177,12 @@ export function updateCompany(params) {
       params.parentCode = params.parentCode || 'ROOT';
       compInfo[params.code] = params;
       let parentCode = params.parentCode;
-      listInfo[params.parentCode] = {
+      let idx = listInfo[params.parentCode].findIndex(v => v.key === params.code);
+      listInfo[parentCode].splice(idx, 1, {
         key: params.code,
-        title: params.name
-      };
+        title: params.name,
+        orderNo: params.orderNo
+      });
       let tree = [];
       getTreeNode(listInfo['ROOT'], tree);
       dispatch(setTreeData(tree));
@@ -172,17 +199,53 @@ export function initData() {
     dispatch(doFetching());
     Promise.all([
       getOwnerBtns(getState().menu.subMenuCode),
-      getCompList()
-    ]).then(([btnData, compData]) => {
+      getCompList(),
+      getSysUsers()
+    ]).then(([btnData, compData, userList]) => {
       dispatch(cancelFetching());
       dispatch(setBtnList(btnData));
       getTree(compData, dispatch);
+      getCompTree(compData, dispatch);
       dispatch(_setSelectedKeys([]));
       dispatch(_setCheckedKeys([]));
+      dispatch(setUserList(userList));
     }).catch(() => {
       dispatch(cancelFetching());
     });
   };
+}
+function getCompTree(data, dispatch) {
+  let result = {};
+  data.forEach(v => {
+    v.parentCode = v.parentCode === '0' ? 'ROOT' : v.parentCode;
+    if (!result[v.parentCode]) {
+      result[v.parentCode] = [];
+    }
+    result[v.parentCode].push({
+      title: v.name,
+      key: v.code,
+      type: v.type
+    });
+  });
+  compList = result;
+  let tree = [];
+  getCompTreeNode(result['ROOT'], tree);
+  dispatch(setCompList(tree));
+}
+function getCompTreeNode(arr, children) {
+  arr.forEach(a => {
+    if (compList[a.key]) {
+      a.children = [];
+      children.push(a);
+      getCompTreeNode(compList[a.key], a.children);
+    } else {
+      children.push(a);
+    }
+  });
+}
+// 设置用户列表
+function setUserList(list) {
+  return { type: SET_USER_LIST, payload: list };
 }
 // 生成数结构步骤1
 function getTree(data, dispatch) {
@@ -196,7 +259,8 @@ function getTree(data, dispatch) {
     info[v.code] = v;
     result[v.parentCode].push({
       title: v.name,
-      key: v.code
+      key: v.code,
+      orderNo: v.orderNo
     });
   });
   listInfo = result;
@@ -209,7 +273,7 @@ function getTree(data, dispatch) {
 }
 // 生成数结构步骤2
 function getTreeNode(arr, children) {
-  arr.forEach(a => {
+  arr.sort((a, b) => +a.orderNo > +b.orderNo).forEach(a => {
     if (listInfo[a.key]) {
       a.children = [];
       children.push(a);

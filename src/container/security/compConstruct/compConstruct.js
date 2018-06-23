@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Spin, Button, Tree, Modal, Row, Col, Form, Input, Select } from 'antd';
+import { Spin, Button, Tree, Modal, Row, Col, Form,
+  Input, Select, Tooltip, Icon, TreeSelect } from 'antd';
 import CompAdd from 'component/comp-add/comp-add';
 import { showSucMsg, showWarnMsg, getUserName } from 'common/js/util';
 import { initData, setSelectedKeys, addComp, deleteCompany, updateCompany } from '@redux/security/compConstruct';
@@ -9,6 +10,7 @@ import { formItemLayout, tailFormItemLayout } from 'common/js/config';
 const { TreeNode } = Tree;
 const { Item } = Form;
 const { Option } = Select;
+const { TreeNode: TreeNodeSelect } = TreeSelect;
 const rule0 = [{
   required: true,
   message: '必填字段'
@@ -17,10 +19,14 @@ const rule0 = [{
   max: 30,
   message: '请输入一个长度最多是30的字符串'
 }];
-const rule1 = [{
+const rule1 = {
   required: true,
   message: '必填字段'
-}];
+};
+const rule2 = {
+  pattern: /^-?\d+$/,
+  message: '请输入整数'
+};
 
 @connect(
   state => state.securityCompConstruct,
@@ -76,10 +82,10 @@ class CompConstruct extends React.Component {
   }
   // 新增部门
   addCompany() {
-    if (!this.props.selectedKeys.length && this.props.treeData.length) {
-      showWarnMsg('请先选择公司/部门');
-      return;
-    }
+    // if (!this.props.selectedKeys.length && this.props.treeData.length) {
+    //   showWarnMsg('请先选择公司/部门');
+    //   return;
+    // }
     this.setCompVisible(true);
   }
   // 删除部门
@@ -95,6 +101,19 @@ class CompConstruct extends React.Component {
       onOk: () => {
         this.props.deleteCompany(this.props.selectedKeys[0]);
       }
+    });
+  }
+  // 生成上级组件
+  renderCompNodes = (data) => {
+    return data.map((item) => {
+      if (item.children) {
+        return (
+          <TreeNodeSelect title={item.title} key={item.key} value={item.key}>
+            {this.renderCompNodes(item.children)}
+          </TreeNodeSelect>
+        );
+      }
+      return <TreeNodeSelect title={item.title} key={item.key} value={item.key}/>;
     });
   }
   render() {
@@ -134,39 +153,73 @@ class CompConstruct extends React.Component {
                 <Form onSubmit={this.handleSubmit}>
                   <Item key='updater' {...formItemLayout} className='hidden'>
                     {getFieldDecorator('updater', {
-                      rules: rule1,
+                      rules: [rule1],
                       initialValue: getUserName()
                     })(<Input type='hidden'/>)}
                   </Item>
-                  <Item key='parentCode' {...formItemLayout} className='hidden'>
+                  <Item
+                    key='parentCode'
+                    {...formItemLayout}
+                    label='上级'
+                    className={this.props.curParentCode === 'ROOT' ? 'hidden' : ''}>
                     {getFieldDecorator('parentCode', {
-                      rules: rule1
-                    })(<Input type='hidden'/>)}
+                      rules: [rule1]
+                    })(
+                      this.props.curParentCode === 'ROOT'
+                        ? <Input type='hidden'/>
+                        : <TreeSelect
+                            showSearch
+                            style={{minWidth: 300}}
+                            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                            placeholder="请选择"
+                            allowClear
+                            treeDefaultExpandAll
+                          >
+                            {this.renderCompNodes(this.props.compList)}
+                          </TreeSelect>
+                    )}
                   </Item>
                   <Item key='code' {...formItemLayout} className='hidden'>
                     {getFieldDecorator('code', {
-                      rules: rule1
+                      rules: [rule1]
                     })(<Input type='hidden'/>)}
                   </Item>
                   <Item key='name' {...formItemLayout} label='名称'>
                     {getFieldDecorator('name', {
                       rules: rule0
-                    })(<Input />)}
+                    })(<Input style={{minWidth: 300}} />)}
                   </Item>
-                  <Item key='leadName' {...formItemLayout} label='负责人'>
-                    {getFieldDecorator('leadName', {
-                      rules: rule0
-                    })(<Input />)}
+                  <Item key='leadUserId' {...formItemLayout} label='负责人'>
+                    {
+                      getFieldDecorator('leadUserId', {
+                        rules: rule0
+                      })(
+                        <Select
+                          allowClear
+                          style={{minWidth: 300}}
+                          filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                          optionLabelProp="children"
+                          notFoundContent='暂无数据'
+                          placeholder="请选择">
+                          {this.props.userList.map(d => (
+                            <Option key={d.userId} value={d.userId}>{`${d.realName || d.loginName}${d.mobile ? '-' + d.mobile : ''}`}</Option>
+                          ))}
+                        </Select>)
+                      }
                   </Item>
-                  <Item key='mobile' {...formItemLayout} label='负责人手机号'>
-                    {getFieldDecorator('mobile', {
-                      rules: rule0
-                    })(<Input />)}
+                  <Item key='orderNo' {...formItemLayout} label={(
+                    <span>顺序<Tooltip title='数字越小，排序越靠前'>
+                        <Icon type="question-circle-o"/>
+                    </Tooltip></span>
+                  )}>
+                    {getFieldDecorator('orderNo', {
+                      rules: [rule1, rule2]
+                    })(<Input style={{minWidth: 300}} />)}
                   </Item>
                   <Item key='type' {...formItemLayout} label='类型'>
                     {getFieldDecorator('type', {
-                      rules: rule1
-                    })(<Select>
+                      rules: [rule1]
+                    })(<Select style={{minWidth: 300}}>
                       <Option key='1' value='1'>公司</Option>
                       <Option key='2' value='2'>部门</Option>
                     </Select>)}
