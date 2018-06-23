@@ -33,7 +33,7 @@ import fetch from 'common/js/fetch';
 )
 class TravelApply extends React.Component {
     getSumMoney = (v, key) => {
-        console.log(v);
+        console.log(key);
         let aircraftBudget = +moneyParse(this.props.form.getFieldValue('aircraftBudget')) || 0;
         let trainBudget = +moneyParse(this.props.form.getFieldValue('trainBudget')) || 0;
         let urbanBudget = +moneyParse(this.props.form.getFieldValue('urbanBudget')) || 0;
@@ -108,7 +108,7 @@ class TravelApply extends React.Component {
                 }, {
                     title: '火车票预算金额',
                     field: 'trainBudget',
-                    onChange: this.getSumMoney,
+                    onChange: (v) => this.getSumMoney(v, 'trainBudget'),
                     amount: true
                 }],
                 [{
@@ -121,23 +121,23 @@ class TravelApply extends React.Component {
                 }, {
                     title: '市内交通预算金额',
                     field: 'urbanBudget',
-                    onChange: this.getSumMoney,
+                    onChange: (v) => this.getSumMoney(v, 'urbanBudget'),
                     amount: true
                 }],
                 [{
                     title: '住宿费',
                     field: 'hotelCost',
-                    onChange: this.getSumMoney,
+                    onChange: (v) => this.getSumMoney(v, 'hotelCost'),
                     amount: true
                 }, {
                     title: '伙食补助',
                     field: 'foodSubsidy',
-                    onChange: this.getSumMoney,
+                    onChange: (v) => this.getSumMoney(v, 'foodSubsidy'),
                     amount: true
                 }, {
                     title: '招待费',
                     field: 'entertainmentCost',
-                    onChange: this.getSumMoney,
+                    onChange: (v) => this.getSumMoney(v, 'entertainmentCost'),
                     amount: true
                 }],
                 [{
@@ -154,7 +154,7 @@ class TravelApply extends React.Component {
                 }, {
                     title: '备用金',
                     field: 'spareCash',
-                    onChange: this.getSumMoney,
+                    onChange: (v) => this.getSumMoney(v, 'spareCash'),
                     amount: true
                 }, {
                     title: '费用合计',
