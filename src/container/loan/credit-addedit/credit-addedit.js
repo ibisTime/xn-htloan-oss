@@ -283,7 +283,7 @@ class CreditAddedit extends React.Component {
                     let data = {};
                     data.creditCode = this.code;
                     for (let i = 0; i < params.creditUserList.length; i++) {
-                        if (!params.creditUserList[i].dkdyCount) {
+                        if (!params.creditUserList[i].bankCreditResultPdf) {
                             params.creditUserList[i].creditUserCode = params.creditUserList[i].code;
                             showWarnMsg('请录入' + params.creditUserList[i].userName + '的银行征信结果！');
                             return;
