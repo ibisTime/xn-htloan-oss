@@ -36,13 +36,14 @@ class BusapplyCheck extends React.Component {
   render() {
     const fields = [{
         title: '申领车辆',
-        field: 'busCode',
+        field: 'busMobile',
         readonly: true
     }, {
         title: '使用时间',
         field: 'time',
         rangedate: ['useDatetimeStart', 'useDatetimeEnd'],
         render: dateTimeFormat,
+        type: 'date',
         readonly: true
     }, {
         title: '领用原因',

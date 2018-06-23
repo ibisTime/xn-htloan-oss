@@ -52,7 +52,7 @@ class Busmanager extends React.Component {
             key: 'bus_status'
         }, {
             title: '更新人',
-            field: 'updater'
+            field: 'updaterName'
         }, {
             title: '更新时间',
             field: 'updaterDatetime',

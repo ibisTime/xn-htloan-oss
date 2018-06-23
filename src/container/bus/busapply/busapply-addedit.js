@@ -9,7 +9,8 @@ import {
 } from '@redux/bus/busapply-addedit.js';
 import {
   getQueryString,
-  formatDate
+  formatDate,
+  dateTimeFormat
 } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
@@ -32,15 +33,14 @@ class BusapplyAddedit extends React.Component {
   render() {
     const fields = [{
         title: '申领车辆',
-        field: 'busCode',
+        field: 'busMobile',
         required: true
     }, {
         title: '使用时间',
         field: 'time',
         rangedate: ['useDatetimeStart', 'useDatetimeEnd'],
-        render: (v, d) => {
-           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.useDatetimeStart) + '~' + formatDate(d.useDatetimeEnd)}</span>;
-        },
+        render: dateTimeFormat,
+        type: 'date',
         required: true
     }, {
         title: '领用原因',

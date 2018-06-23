@@ -157,12 +157,12 @@ class TakeFreeEnter extends React.Component {
                     type: 'select',
                     key: 'remit_type'
                 },
-                //  {
-                //     title: '交款项目',
-                //     field: 'remitProject',
-                //     key: 'remit_project',
-                //     type: 'checkbox'
-                // },
+                 {
+                    title: '交款项目',
+                    field: 'remitProject',
+                    key: 'remit_project',
+                    type: 'checkbox'
+                },
                 {
                     title: '金额小写',
                     field: 'amount',

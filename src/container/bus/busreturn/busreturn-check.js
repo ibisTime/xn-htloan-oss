@@ -11,7 +11,8 @@ import {
   getQueryString,
   formatDate,
   showSucMsg,
-  getUserId
+  getUserId,
+  dateTimeFormat
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import { DetailWrapper } from 'common/js/build-detail';
@@ -35,15 +36,14 @@ class BusreturnCheck extends React.Component {
   render() {
     const fields = [{
       title: '申领车辆',
-      field: 'busCode',
+      field: 'busMobile',
       readonly: true
   }, {
       title: '使用时间',
       field: 'time',
       rangedate: ['useDatetimeStart', 'useDatetimeEnd'],
-      render: (v, d) => {
-         return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.useDatetimeStart) + '~' + formatDate(d.useDatetimeEnd)}</span>;
-      },
+      render: dateTimeFormat,
+      type: 'date',
       readonly: true
   }, {
       title: '行驶公里数',

@@ -22,7 +22,7 @@ import {
 import fetch from 'common/js/fetch';
 
 @CollapseWrapper(
-    state => state.attendanceTravelDepartmentCheck, {
+    state => state.attendanceTraveldepartmentCheck, {
         initStates,
         doFetching,
         cancelFetching,
@@ -32,6 +32,11 @@ import fetch from 'common/js/fetch';
     }
 )
 class TravelDepartmentCheck extends React.Component {
+    constructor(props) {
+        super(props);
+        this.code = getQueryString('code', this.props.location.search);
+        this.view = !!getQueryString('v', this.props.location.search);
+    }
     render() {
         const fields = [{
             title: '出差申请信息',
@@ -149,13 +154,6 @@ class TravelDepartmentCheck extends React.Component {
                     readonly: true
                 }],
                 [{
-                    title: '备注',
-                    field: 'applyNote',
-                    type: 'textarea',
-                    normalArea: true,
-                    readonly: true
-                }],
-                [{
                     title: '审核说明',
                     field: 'applyNote',
                     type: 'textarea',
@@ -174,7 +172,7 @@ class TravelDepartmentCheck extends React.Component {
                 param.approveResult = '1';
                 param.operator = getUserId();
                 this.props.doFetching();
-                fetch(630691, param).then(() => {
+                fetch(632691, param).then(() => {
                   showSucMsg('操作成功');
                   this.props.cancelFetching();
                   setTimeout(() => {
@@ -190,7 +188,7 @@ class TravelDepartmentCheck extends React.Component {
                 param.approveResult = '0';
                 param.operator = getUserId();
                 this.props.doFetching();
-                fetch(630691, param).then(() => {
+                fetch(632691, param).then(() => {
                   showSucMsg('操作成功');
                   this.props.cancelFetching();
                   setTimeout(() => {

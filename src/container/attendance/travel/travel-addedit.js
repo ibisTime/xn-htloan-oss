@@ -6,7 +6,7 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/attendance/travel-departmentCheck';
+} from '@redux/attendance/travel-addedit';
 import {
     getQueryString,
     getUserId,
@@ -22,7 +22,7 @@ import {
 import fetch from 'common/js/fetch';
 
 @CollapseWrapper(
-    state => state.attendanceTravelDepartmentCheck, {
+    state => state.attendanceTravelAddedit, {
         initStates,
         doFetching,
         cancelFetching,
@@ -31,7 +31,12 @@ import fetch from 'common/js/fetch';
         restore
     }
 )
-class TravelDepartmentCheck extends React.Component {
+class TravelAddedit extends React.Component {
+    constructor(props) {
+        super(props);
+        this.code = getQueryString('code', this.props.location.search);
+        this.view = !!getQueryString('v', this.props.location.search);
+    }
     render() {
         const fields = [{
             title: '出差申请信息',
@@ -149,11 +154,10 @@ class TravelDepartmentCheck extends React.Component {
                     readonly: true
                 }],
                 [{
-                    title: '备注',
+                    title: '审核说明',
                     field: 'applyNote',
                     type: 'textarea',
-                    normalArea: true,
-                    readonly: true
+                    normalArea: true
                 }]
             ]
         }];
@@ -166,4 +170,4 @@ class TravelDepartmentCheck extends React.Component {
     }
 }
 
-export default TravelDepartmentCheck;
+export default TravelAddedit;

@@ -52,7 +52,7 @@ class Busreturn extends React.Component {
             search: true
         }, {
             title: '申领车辆',
-            field: 'busCode'
+            field: 'busMobile'
         }, {
             title: '车牌号',
             field: 'number'
@@ -72,7 +72,7 @@ class Busreturn extends React.Component {
             search: true
         }, {
             title: '更新人',
-            field: 'updater'
+            field: 'updaterName'
         }, {
             title: '更新时间',
             field: 'updateDatetime',
