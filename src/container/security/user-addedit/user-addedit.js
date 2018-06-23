@@ -195,7 +195,7 @@ class Post extends React.Component {
                     </Item>
                     <Item key='archiveCode' {...formItemLayout} label='档案'>
                         {getFieldDecorator('archiveCode', {
-                            rules,
+                            rules: [],
                             initialValue: ''
                         })(<Select {...this.getSelectProps(this.state.fields['archiveCode'])}>
                             {this.state.archiveData.map(d => (

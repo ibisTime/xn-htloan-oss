@@ -35,19 +35,22 @@ export function getUserId() {
 // 设置用户角色信息
 export function setRoleInfo({
   roleCode,
-  kind,
-  level,
-  loginName
+  loginName,
+  teamCode
 }) {
   cookies.set('roleCode', roleCode);
-  // cookies.set('loginKind', kind);
-  // cookies.set('roleLevel', level);
   cookies.set('userName', loginName);
+  teamCode && cookies.set('teamCode', teamCode);
 }
 
 // 获取用户角色编号
 export function getRoleCode() {
   return cookies.get('roleCode');
+}
+
+// 获取用户团队编号
+export function getTeamCode() {
+    return cookies.get('teamCode');
 }
 
 // 获取用户username

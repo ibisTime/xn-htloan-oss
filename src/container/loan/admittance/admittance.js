@@ -13,7 +13,8 @@ import {
     showWarnMsg,
     showSucMsg,
     getRoleCode,
-    dateTimeFormat
+    dateTimeFormat,
+    getTeamCode
 } from 'common/js/util';
 import {
     listWrapper
@@ -104,7 +105,8 @@ class Admittance extends React.Component {
             fields,
             pageCode: 632148,
             searchParams: {
-                roleCode: getRoleCode()
+                roleCode: getRoleCode(),
+                teamCode: getTeamCode()
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {
