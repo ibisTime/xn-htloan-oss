@@ -105,8 +105,9 @@ function setExpandedKeys(keys) {
 }
 
 // 新增职位
-export function addPost(post, parentCode) {
+export function addPost(post) {
   return dispatch => {
+    let parentCode = post.parentCode;
     listInfo[parentCode] = listInfo[parentCode] || [];
     compInfo[post.code] = post;
     listInfo[parentCode].push({

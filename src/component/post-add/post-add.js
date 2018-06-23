@@ -10,8 +10,22 @@ class PostAdd extends React.Component {
         hidden: true,
         value: '3'
       }, {
-        field: 'parentCode',
+        field: 'orderNo',
         hidden: true,
+        value: 0
+      }, {
+        field: 'parentCode',
+        title: '上级',
+        type: 'treeSelect',
+        listCode: 630106,
+        keyName: 'code',
+        valueName: 'name',
+        bParams: ['type'],
+        disabled: (item) => item.type !== '2',
+        params: {
+          status: 1,
+          typeList: [1, 2]
+        },
         value: this.props.parentCode
       }, {
         field: 'name',
@@ -24,7 +38,7 @@ class PostAdd extends React.Component {
         that.props.addPost({
           ...params,
           code: data.code
-        }, this.props.parentCode);
+        });
       }
     };
     return (

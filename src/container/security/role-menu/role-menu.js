@@ -40,6 +40,7 @@ class RoleMenu extends React.Component {
   }
   getTree(data) {
     let result = {};
+    let parentKeyMap = {};
     data.forEach(v => {
       v.parentCode = v.parentCode || 'ROOT';
       if (!result[v.parentCode]) {
@@ -49,7 +50,9 @@ class RoleMenu extends React.Component {
         title: v.name,
         key: v.code
       });
+      parentKeyMap[v.code] = v.parentCode === 'ROOT' ? '' : v.parentCode;
     });
+    this.parentKeyMap = parentKeyMap;
     this.result = result;
     let tree = [];
     this.getTreeNode(result['ROOT'], tree);
@@ -87,6 +90,19 @@ class RoleMenu extends React.Component {
           checked.splice(idx, 1);
         }
       });
+      if (this.parentKeyMap[key]) {
+        let flag = true;
+        this.result[this.parentKeyMap[key]].forEach(r => {
+          let idx = checked.findIndex(v => v === r.key);
+          if (idx > -1) {
+            flag = false;
+          }
+        });
+        if (flag) {
+          let idx = checked.findIndex(c => c === this.parentKeyMap[key]);
+          checked.splice(idx, 1);
+        }
+      }
     } else {
       childrenKeys.forEach(c => {
         let idx = checked.findIndex(v => c === v);
@@ -94,6 +110,13 @@ class RoleMenu extends React.Component {
           checked.push(c);
         }
       });
+      while(this.parentKeyMap[key]) {
+        let idx = checked.findIndex(c => c === this.parentKeyMap[key]);
+        if (idx === -1) {
+          checked.push(this.parentKeyMap[key]);
+        }
+        key = this.parentKeyMap[key];
+      }
     }
     this.setState({ checkedKeys });
   }
