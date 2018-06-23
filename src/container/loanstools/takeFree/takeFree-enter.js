@@ -72,8 +72,11 @@ class TakeFreeEnter extends React.Component {
             field: 'remitType',
             type: 'select',
             key: 'remit_type',
-            render: (v, d) => {
-                return d.remitType || d.unSubmitBudgetOrderFeeDetail.remitType;
+            formatter: (v, d) => {
+                if(d.unSubmitBudgetOrderFeeDetail) {
+                    return d.unSubmitBudgetOrderFeeDetail.remitType;
+                }
+                return d.remitType;
             },
             required: true
         }, {
@@ -81,16 +84,16 @@ class TakeFreeEnter extends React.Component {
             field: 'remitProject',
             key: 'remit_project',
             type: 'checkbox',
-            render: (v, d) => {
-                return d.remitProject || d.unSubmitBudgetOrderFeeDetail.remitProject;
-            },
             required: true
         }, {
             title: '金额',
             field: 'amount',
             amount: true,
-            render: (v, d) => {
-                return d.amount || d.unSubmitBudgetOrderFeeDetail.amount;
+            formatter: (v, d) => {
+                if(d.unSubmitBudgetOrderFeeDetail) {
+                    return d.unSubmitBudgetOrderFeeDetail.amount;
+                }
+                return d.amount;
             },
             required: true
         }, {
@@ -104,46 +107,35 @@ class TakeFreeEnter extends React.Component {
             },
             keyName: 'code',
             valueName: 'bankcardNumber',
-            render: (v, d) => {
-                return d.platBankcard || d.unSubmitBudgetOrderFeeDetail.platBankcard;
+            formatter: (v, d) => {
+                if(d.unSubmitBudgetOrderFeeDetail) {
+                    return d.unSubmitBudgetOrderFeeDetail.platBankcard;
+                }
+                return d.platBankcard;
             }
         }, {
             title: '汇款人',
             field: 'remitUser',
-            render: (v, d) => {
-                return d.remitUser || d.unSubmitBudgetOrderFeeDetail.remitUser;
+            formatter: (v, d) => {
+                if(d.unSubmitBudgetOrderFeeDetail) {
+                    return d.unSubmitBudgetOrderFeeDetail.remitUser;
+                }
+                return d.remitUser;
             },
             required: true
         }, {
             title: '到账日期',
             field: 'reachDatetime',
             type: 'datetime',
-            render: (v, d) => {
-                return d.reachDatetime || d.unSubmitBudgetOrderFeeDetail.reachDatetime;
-            },
             required: true
-        }, {
-            title: '是否结清',
-            field: 'isSettled',
-            required: true,
-            type: 'select',
-            data: [{
-                key: '0',
-                value: '否'
-            }, {
-                key: '1',
-                value: '是'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            render: (v, d) => {
-                return d.isSettled || d.unSubmitBudgetOrderFeeDetail.isSettled;
-            }
         }, {
             title: '备注',
             field: 'remark',
-            render: (v, d) => {
-                return d.remark || d.unSubmitBudgetOrderFeeDetail.remark;
+            formatter: (v, d) => {
+                if(d.unSubmitBudgetOrderFeeDetail) {
+                    return d.unSubmitBudgetOrderFeeDetail.remark;
+                }
+                return d.remark;
             }
         }, {
             title: '服务费清单',
@@ -208,9 +200,6 @@ class TakeFreeEnter extends React.Component {
                     fetch(632160, params).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
                     }).catch(this.props.cancelFetching);
                 }
             }, {
