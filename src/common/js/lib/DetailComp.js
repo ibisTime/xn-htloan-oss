@@ -201,6 +201,15 @@ export default class DetailComponent extends React.Component {
         });
     }
 
+    customSubmitSave = (handler) => {
+        let values = this.props.form.getFieldsValue();
+        let params = this.beforeSubmit('', values);
+        if (!params) {
+            return;
+        }
+        handler && handler(params);
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -1186,7 +1195,7 @@ export default class DetailComponent extends React.Component {
                             style={{marginRight: 20}}
                             key={i}
                             type={b.type || ''}
-                            onClick={() => b.check ? this.customSubmit(b.handler) : b.handler()}>
+                            onClick={() => b.check ? this.customSubmit(b.handler) : this.customSubmitSave(b.handler)}>
                             {b.title}
                         </Button>
                     ))

@@ -42,7 +42,7 @@ class AdmittanceAddEdit extends React.Component {
         this.wanFactor = 0;
     }
 
-    /* 公司服务费
+    /* 团队服务费
     *  前置产品：贷款额*前置利率
     *  非前置产品：(贷款额*(年化利率*3-9)/100)/(1+前置利率)）
     * */
@@ -205,24 +205,14 @@ class AdmittanceAddEdit extends React.Component {
                     field: 'firstRate',
                     title: '首付比例(%)',
                     required: true
-                }, {
+                }],
+                [{
                     field: 'monthDeposit',
                     title: '月供(元)',
                     amount: true,
                     required: true
-                }],
-                [{
-                    field: 'companyFee',
-                    title: '公司服务费(元)',
-                    amount: true,
-                    required: true
                 }, {
-                    field: 'bankFee',
-                    title: '银行服务费(元)',
-                    amount: true,
-                    required: true
-                }, {
-                    field: 'companyTeamFee',
+                    field: 'teamFee',
                     title: '团队服务费(元)',
                     amount: true,
                     required: true
@@ -268,6 +258,11 @@ class AdmittanceAddEdit extends React.Component {
                 [{
                     field: 'carPic',
                     title: '车辆照片',
+                    type: 'img',
+                    required: true
+                }, {
+                    field: 'carHgzPic',
+                    title: '合格证照片',
                     type: 'img',
                     required: true
                 }]
@@ -457,28 +452,33 @@ class AdmittanceAddEdit extends React.Component {
                 [{
                     field: 'selfCompanyArea',
                     title: '自营公司单位面积',
-                    hidden: this.state.isSelfCompany
+                    hidden: this.view ? false : this.state.isSelfCompany
                 }, {
                     field: 'employeeQuantity',
                     title: '员工数量',
                     number: true,
-                    hidden: this.state.isSelfCompany
+                    hidden: this.view ? false : this.state.isSelfCompany
                 }, {
                     field: 'enterpriseMonthOutput',
                     title: '企业月产值',
                     amount: true,
-                    hidden: this.state.isSelfCompany
+                    hidden: this.view ? false : this.state.isSelfCompany
                 }],
                 [{
                     title: '其他工作描述',
-                    field: 'assetPdf',
+                    field: 'otherWorkNote',
                     type: 'textarea',
                     normalArea: true
+                }],
+                [{
+                    title: '工作资料上传',
+                    field: 'workAssetPdf',
+                    type: 'img'
                 }]
             ]
         }, {
             title: '配偶信息',
-            hidden: this.state.mateStatus,
+            hidden: this.view ? false : this.state.mateStatus,
             items: [
                 [{
                     field: 'mateName',
@@ -517,7 +517,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '担保人信息',
-            hidden: this.state.guaStatus,
+            hidden: this.view ? false : this.state.guaStatus,
             items: [
                 [{
                     field: 'guaName',
@@ -608,7 +608,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '申请人支付宝流水数据',
-            hidden: this.state.applyUserAccount,
+            hidden: this.view ? false : this.state.applyUserAccount,
             items: [
                 [{
                     field: 'jourDatetime1',
@@ -700,7 +700,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '申请人微信流水数据',
-            hidden: this.state.applyUserAccount,
+            hidden: this.view ? false : this.state.applyUserAccount,
             items: [
                 [{
                     field: 'jourDatetime2',
@@ -791,7 +791,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '申请人银行流水数据',
-            hidden: this.state.applyUserAccount,
+            hidden: this.view ? false : this.state.applyUserAccount,
             items: [
                 [{
                     field: 'jourDatetime3',
@@ -882,7 +882,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '配偶支付宝流水数据',
-            hidden: this.state.mateAccount,
+            hidden: this.view ? false : this.state.mateAccount,
             items: [
                 [{
                     field: 'jourDatetime4',
@@ -973,7 +973,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '配偶微信流水数据',
-            hidden: this.state.mateAccount,
+            hidden: this.view ? false : this.state.mateAccount,
             items: [
                 [{
                     field: 'jourDatetime5',
@@ -1064,7 +1064,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '配偶银行流水数据',
-            hidden: this.state.mateAccount,
+            hidden: this.view ? false : this.state.mateAccount,
             items: [
                 [{
                     field: 'jourDatetime6',
@@ -1155,7 +1155,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '担保人支付宝流水数据',
-            hidden: this.state.guaAccount,
+            hidden: this.view ? false : this.state.guaAccount,
             items: [
                 [{
                     field: 'jourDatetime7',
@@ -1245,7 +1245,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '担保人微信流水数据',
-            hidden: this.state.guaAccount,
+            hidden: this.view ? false : this.state.guaAccount,
             items: [
                 [{
                     field: 'jourDatetime8',
@@ -1336,7 +1336,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '担保人银行流水数据',
-            hidden: this.state.guaAccount,
+            hidden: this.view ? false : this.state.guaAccount,
             items: [
                 [{
                     field: 'jourDatetime9',
@@ -1587,16 +1587,18 @@ class AdmittanceAddEdit extends React.Component {
             buttons = [{
                 title: '保存',
                 handler: (params) => {
-                    console.log(params);
-                    // params.code = this.code;
-                    // params.dealType = '0';
-                    // params.operator = getUserId();
-                    // params.creditCode = this.props.pageData.creditCode;
-                    // this.props.doFetching();
-                    // fetch(632120, params).then(() => {
-                    //     showSucMsg('操作成功');
-                    //     this.props.cancelFetching();
-                    // }).catch(this.props.cancelFetching);
+                    params.code = this.code;
+                    params.dealType = '0';
+                    params.operator = getUserId();
+                    params.creditCode = this.props.pageData.creditCode;
+                    params.applyUserName = this.props.pageData.applyUserName;
+                    params.bizType = this.props.pageData.bizType;
+                    params.idNo = this.props.pageData.idNo;
+                    this.props.doFetching();
+                    fetch(632120, params).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                    }).catch(this.props.cancelFetching);
                 }
             }, {
                 title: '发送',
@@ -1606,6 +1608,9 @@ class AdmittanceAddEdit extends React.Component {
                     params.dealType = '1';
                     params.operator = getUserId();
                     params.creditCode = this.props.pageData.creditCode;
+                    params.applyUserName = this.props.pageData.applyUserName;
+                    params.bizType = this.props.pageData.bizType;
+                    params.idNo = this.props.pageData.idNo;
                     this.props.doFetching();
                     fetch(632120, params).then(() => {
                         showSucMsg('操作成功');

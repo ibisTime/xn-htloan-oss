@@ -42,3 +42,8 @@ export function setUserPost(params) {
     updater: getUserId()
   });
 }
+
+// 列表获取
+export function getListUserArchive(params) {
+    return fetch(632805, params);
+}
