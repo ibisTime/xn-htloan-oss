@@ -372,6 +372,7 @@ import { attendanceOvertimeAddedit } from './redux/attendance/overtime-addedit';
 //  出差申请 + 详情 + 申请 + 审核
 import { attendanceTravel } from './redux/attendance/travel';
 import { attendanceTravelAddedit } from './redux/attendance/travel-addedit';
+import { attendanceTravelApply } from './redux/attendance/travel-apply';
 
 //  公出申请 + 详情 + 申请 + 审核
 import { attendancePublicity } from './redux/attendance/publicity';
@@ -397,6 +398,25 @@ import { stockProductnameAddedit } from './redux/stock/productname-addedit';
 // 库存管理
 import { stockStock } from './redux/stock/stock';
 import { stockStockAddedit } from './redux/stock/stock-addedit';
+
+// 公车管理
+// 公车使用申请 + 详情 + 申请 + 审核
+import { busBusapply } from './redux/bus/busapply';
+import { busBusapplyAddedit } from './redux/bus/busapply-addedit';
+import { busBusapplyApply } from './redux/bus/busapply-apply';
+import { busBusapplyCheck } from './redux/bus/busapply-check';
+
+// 公车管理 + 详情  + 审核
+import { busBusmanager } from './redux/bus/busmanager';
+import { busBusmanagerAddedit } from './redux/bus/busmanager-addedit';
+import { busBushistory } from './redux/bus/bushistory';
+import { busBushistoryAddedit } from './redux/bus/bushistory-addedit';
+
+// 公车归还 + 详情 + 归还 + 审核
+import { busBusreturn } from './redux/bus/busreturn';
+import { busBusreturnAddedit } from './redux/bus/busreturn-addedit';
+import { busBusreturnReturn } from './redux/bus/busreturn-return';
+import { busBusreturnCheck } from './redux/bus/busreturn-check';
 
 // 通知公告
 // 公告管理
@@ -687,6 +707,7 @@ export default combineReducers({
   attendanceOvertimeAddedit,
   attendanceTravel,
   attendanceTravelAddedit,
+  attendanceTravelApply,
   attendancePublicity,
   attendancePublicityAddedit,
   attendanceSummary,
@@ -751,5 +772,17 @@ export default combineReducers({
   waresBlackListDispose,
   waresHistoryBusinessManage,
   waresHistoryBusinessManageAddedit,
-  waresHistoryBusinessManageAddeditAddedit
+  waresHistoryBusinessManageAddeditAddedit,
+  busBusapply,
+  busBusapplyAddedit,
+  busBusapplyApply,
+  busBusapplyCheck,
+  busBusmanager,
+  busBusmanagerAddedit,
+  busBushistory,
+  busBushistoryAddedit,
+  busBusreturn,
+  busBusreturnAddedit,
+  busBusreturnReturn,
+  busBusreturnCheck
 });

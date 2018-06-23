@@ -202,7 +202,6 @@ class TakeFreeEnter extends React.Component {
             detailCode: 632166,
             buttons: [{
                 title: '保存',
-                check: true,
                 handler: (params) => {
                     params.dealType = '0';
                     this.props.doFetching();
