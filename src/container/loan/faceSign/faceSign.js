@@ -12,7 +12,8 @@ import {
 import {
     showWarnMsg,
     showSucMsg,
-    getRoleCode
+    getRoleCode,
+    getTeamCode
 } from 'common/js/util';
 import {
     listWrapper
@@ -95,7 +96,8 @@ class FaceSign extends React.Component {
             fields,
             pageCode: 632148,
             searchParams: {
-                roleCode: getRoleCode()
+                roleCode: getRoleCode(),
+                teamCode: getTeamCode()
             },
             btnEvent: {
                 edit: (selectedRowKeys, selectedRows) => {

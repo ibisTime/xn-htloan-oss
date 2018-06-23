@@ -10,13 +10,13 @@ import {
 import {
   getQueryString,
   showSucMsg,
-  getUserId
+  getUserId,
+  isExpressConfirm
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
     state => state.bizBankMoneyEnter, {
@@ -111,8 +111,9 @@ class bankMoneyEnter extends React.Component {
                 param.approveNote = this.projectCode;
                 param.operator = getUserId();
                 this.props.doFetching();
-                fetch(632135, param).then(() => {
+                fetch(632135, param).then((data) => {
                   showSucMsg('操作成功');
+                  isExpressConfirm(data);
                   this.props.cancelFetching();
                   setTimeout(() => {
                     this.props.history.go(-1);

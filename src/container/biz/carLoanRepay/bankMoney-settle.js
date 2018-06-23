@@ -10,7 +10,8 @@ import {
 import {
   getQueryString,
   showSucMsg,
-  getUserId
+  getUserId,
+  isExpressConfirm
 } from 'common/js/util';
 import {
     DetailWrapper
@@ -90,7 +91,13 @@ class bankMoneyAddedit extends React.Component {
             code: this.code,
             view: this.view,
             detailCode: 632146,
-            editCode: 632128
+            editCode: 632128,
+            onOk: (data) => {
+                isExpressConfirm(data);
+                setTimeout(() => {
+                    this.props.history.go(-1);
+                }, 1000);
+            }
         });
     }
 }
