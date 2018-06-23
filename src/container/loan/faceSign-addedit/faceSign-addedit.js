@@ -140,14 +140,6 @@ class FaceSignAddedit extends React.Component {
             editCode: 632123,
             buttons: buttons,
             beforeSubmit: (params) => {
-                if (!params.interviewVideo) {
-                    showWarnMsg('请上传面签视频');
-                    return false;
-                }
-                if (!params.interviewContract) {
-                    showWarnMsg('请上传面签合同');
-                    return false;
-                }
                 delete params.loanAmount;
                 params.operator = getUserId();
                 return params;
