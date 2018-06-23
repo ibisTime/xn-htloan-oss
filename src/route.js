@@ -1272,6 +1272,27 @@ const ROUTES = [
       path: '/administrative/cost/detail',
       component: asyncComponent(() => import('container/administrative/cost/cost-detail'))
   },
+  //  公车管理
+  //  公车管理
+  {
+      path: '/bus/busmanager',
+      component: asyncComponent(() => import('container/bus/busmanager/busmanager'))
+  },
+  //  公车管理 详情
+  {
+      path: '/bus/busmanager/addedit',
+      component: asyncComponent(() => import('container/bus/busmanager/busmanager-addedit'))
+  },
+  //  公车管理 历史
+  {
+      path: '/bus/bushistory',
+      component: asyncComponent(() => import('container/bus/busmanager/bushistory'))
+  },
+  //  公车管理 历史详情
+  {
+      path: '/bus/bushistory/addedit',
+      component: asyncComponent(() => import('container/bus/busmanager/bushistory-addedit'))
+  },
   //  gps申领
   {
       path: '/administrative/applyGps',

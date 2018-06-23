@@ -42,7 +42,7 @@ import {
         setSearchData
     }
 )
-class pointreturn extends React.Component {
+class Pointreturn extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
@@ -97,4 +97,4 @@ class pointreturn extends React.Component {
     }
 }
 
-export default pointreturn;
+export default Pointreturn;

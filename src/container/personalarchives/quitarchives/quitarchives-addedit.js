@@ -67,7 +67,7 @@ class quitarchivesAddedit extends React.Component {
                 view: this.view,
                 addCode: 632810,
                 editCode: 632812,
-                detailCode: 632816,
+                detailCode: 632806,
                 beforeSubmit: (param) => {
                     console.log(this.props.selectData);
                     let code = this.props.selectData.code.find(v => v.code === param.code);
