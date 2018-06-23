@@ -12,7 +12,9 @@ import {
 import {
   showWarnMsg,
   showSucMsg,
-  dateTimeFormat
+  dateTimeFormat,
+  getRoleCode,
+  formatDate
 } from 'common/js/util';
 import {
     listWrapper
@@ -50,28 +52,30 @@ class travel extends React.Component {
             title: '部门',
             field: 'departmentName'
         }, {
-            title: '职务',
+            title: '职位',
             field: 'postName'
         }, {
-            title: '共计(小时)',
-            field: 'totalHour'
-        }, {
-            title: '申请时间',
-            field: 'applyDatetime',
-            rangedate: ['startDatetime', 'endDatetime'],
-            type: 'date',
-            render: dateTimeFormat,
+            title: '出差时间',
+            field: 'time',
+            rangedate: ['tripDatetimeStart', 'tripDatetimeEnd'],
+            render: (v, d) => {
+               return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.tripDatetimeStart) + '~' + formatDate(d.tripDatetimeEnd)}</span>;
+            },
             search: true
         }, {
-            title: '状态',
-            field: 'status',
+            title: '当前节点',
+            field: 'curNodeCode',
             type: 'select',
-            key: 'leave_apply_status',
-            search: true
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632625,
+            pageCode: 632695,
+            searchParams: {
+                roleCode: getRoleCode()
+            },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {
                     this.props.history.push(`/attendance/travel/apply`);
@@ -81,7 +85,7 @@ class travel extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].status !== '0') {
+                    } else if (selectedRows[0].curNodeCode !== '009_02') {
                         showWarnMsg('不是待审核的记录！');
                     } else {
                         this.props.history.push(`/attendance/travel/departmentCheck?code=${selectedRowKeys[0]}`);
@@ -92,7 +96,7 @@ class travel extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].status !== '0') {
+                    } else if (selectedRows[0].curNodeCode !== '009_03') {
                         showWarnMsg('不是待审核的记录！');
                     } else {
                         this.props.history.push(`/attendance/travel/financeCheck?code=${selectedRowKeys[0]}`);
@@ -103,7 +107,7 @@ class travel extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].status !== '0') {
+                    } else if (selectedRows[0].curNodeCode !== '009_04') {
                         showWarnMsg('不是待审核的记录！');
                     } else {
                         this.props.history.push(`/attendance/travel/managerCheck?code=${selectedRowKeys[0]}`);
