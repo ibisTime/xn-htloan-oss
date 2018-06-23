@@ -1113,6 +1113,26 @@ const ROUTES = [
       path: '/attendance/travel/addedit',
       component: asyncComponent(() => import('container/attendance/travel/travel-addedit'))
   },
+  //  出差申请 申请
+  {
+      path: '/attendance/travel/apply',
+      component: asyncComponent(() => import('container/attendance/travel/travel-apply'))
+  },
+  //  公出申请 部门主管审核
+  {
+      path: '/attendance/travel/departmentCheck',
+      component: asyncComponent(() => import('container/attendance/travel/travel-departmentCheck'))
+  },
+  //  公出申请 财务经理审核
+  {
+      path: '/attendance/travel/financeCheck',
+      component: asyncComponent(() => import('container/attendance/travel/travel-financeCheck'))
+  },
+  //  公出申请 总经理审核
+  {
+      path: '/attendance/travel/managerCheck',
+      component: asyncComponent(() => import('container/attendance/travel/travel-managerCheck'))
+  },
   //  公出申请
   {
       path: '/attendance/publicity',

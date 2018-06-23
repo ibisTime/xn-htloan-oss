@@ -13,6 +13,7 @@ import {
   showSucMsg,
   getUserId
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
@@ -43,7 +44,7 @@ class BusreturnCheck extends React.Component {
       render: (v, d) => {
          return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.useDatetimeStart) + '~' + formatDate(d.useDatetimeEnd)}</span>;
       },
-      required: true
+      readonly: true
   }, {
       title: '行驶公里数',
       field: 'driveKil',
@@ -58,8 +59,7 @@ class BusreturnCheck extends React.Component {
         fields,
         code: this.code,
         view: this.view,
-        addCode: 632316,
-        detailCode: 632316,
+        detailCode: 632796,
         buttons: [{
           title: '通过',
           handler: (param) => {

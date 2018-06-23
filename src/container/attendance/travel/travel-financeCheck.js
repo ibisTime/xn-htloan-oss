@@ -154,6 +154,12 @@ class TravelDepartmentCheck extends React.Component {
                     type: 'textarea',
                     normalArea: true,
                     readonly: true
+                }],
+                [{
+                    title: '审核说明',
+                    field: 'applyNote',
+                    type: 'textarea',
+                    normalArea: true
                 }]
             ]
         }];
@@ -161,7 +167,44 @@ class TravelDepartmentCheck extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632696
+            detailCode: 632696,
+            buttons: [{
+              title: '通过',
+              handler: (param) => {
+                param.approveResult = '1';
+                param.operator = getUserId();
+                this.props.doFetching();
+                fetch(630692, param).then(() => {
+                  showSucMsg('操作成功');
+                  this.props.cancelFetching();
+                  setTimeout(() => {
+                    this.props.history.go(-1);
+                  }, 1000);
+                }).catch(this.props.cancelFetching);
+              },
+              check: true,
+              type: 'primary'
+            }, {
+              title: '不通过',
+              handler: (param) => {
+                param.approveResult = '0';
+                param.operator = getUserId();
+                this.props.doFetching();
+                fetch(630692, param).then(() => {
+                  showSucMsg('操作成功');
+                  this.props.cancelFetching();
+                  setTimeout(() => {
+                    this.props.history.go(-1);
+                  }, 1000);
+                }).catch(this.props.cancelFetching);
+              },
+              check: true
+            }, {
+              title: '返回',
+              handler: (param) => {
+                this.props.history.go(-1);
+              }
+            }]
         });
     }
 }

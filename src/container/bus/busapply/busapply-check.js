@@ -6,13 +6,15 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/bus/busapply-addedit.js';
+} from '@redux/bus/busapply-check.js';
 import {
   getQueryString,
   formatDate,
   getUserId,
-  showSucMsg
+  showSucMsg,
+  dateTimeFormat
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
@@ -35,18 +37,17 @@ class BusapplyCheck extends React.Component {
     const fields = [{
         title: '申领车辆',
         field: 'busCode',
-        required: true
+        readonly: true
     }, {
         title: '使用时间',
         field: 'time',
         rangedate: ['useDatetimeStart', 'useDatetimeEnd'],
-        render: (v, d) => {
-           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.useDatetimeStart) + '~' + formatDate(d.useDatetimeEnd)}</span>;
-        },
-        required: true
+        render: dateTimeFormat,
+        readonly: true
     }, {
         title: '领用原因',
-        field: 'applyNote'
+        field: 'applyNote',
+        readonly: true
     }, {
         title: '审核说明',
         field: 'remark'
@@ -64,7 +65,7 @@ class BusapplyCheck extends React.Component {
             param.approveResult = '1';
             param.updater = getUserId();
             this.props.doFetching();
-            fetch(630503, param).then(() => {
+            fetch(632791, param).then(() => {
               showSucMsg('操作成功');
               this.props.cancelFetching();
               setTimeout(() => {
@@ -80,7 +81,7 @@ class BusapplyCheck extends React.Component {
             param.approveResult = '0';
             param.updater = getUserId();
             this.props.doFetching();
-            fetch(630503, param).then(() => {
+            fetch(632791, param).then(() => {
               showSucMsg('操作成功');
               this.props.cancelFetching();
               setTimeout(() => {

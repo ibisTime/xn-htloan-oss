@@ -46,9 +46,6 @@ class BusreturnAddedit extends React.Component {
         title: '行驶公里数',
         field: 'driveKil',
         readonly: true
-    }, {
-        title: '备注',
-        field: '222'
     }];
     return this
       .props
@@ -56,7 +53,7 @@ class BusreturnAddedit extends React.Component {
         fields,
         code: this.code,
         view: this.view,
-        detailCode: 632316
+        detailCode: 632796
       });
   }
 }

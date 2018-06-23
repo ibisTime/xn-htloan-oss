@@ -83,8 +83,8 @@ class Bushistory extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 632795,
-            seachParams: {
-                code: this.code,
+            searchParams: {
+                busCode: this.code,
                 status: '4'
             },
             buttons: [{

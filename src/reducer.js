@@ -373,6 +373,9 @@ import { attendanceOvertimeAddedit } from './redux/attendance/overtime-addedit';
 import { attendanceTravel } from './redux/attendance/travel';
 import { attendanceTravelAddedit } from './redux/attendance/travel-addedit';
 import { attendanceTravelApply } from './redux/attendance/travel-apply';
+import { attendanceTraveldepartmentCheck } from './redux/attendance/travel-departmentCheck';
+import { attendanceTravelfinanceCheck } from './redux/attendance/travel-financeCheck';
+import { attendanceTravelmanagerCheck } from './redux/attendance/travel-managerCheck';
 
 //  公出申请 + 详情 + 申请 + 审核
 import { attendancePublicity } from './redux/attendance/publicity';
@@ -708,6 +711,9 @@ export default combineReducers({
   attendanceTravel,
   attendanceTravelAddedit,
   attendanceTravelApply,
+  attendanceTraveldepartmentCheck,
+  attendanceTravelfinanceCheck,
+  attendanceTravelmanagerCheck,
   attendancePublicity,
   attendancePublicityAddedit,
   attendanceSummary,

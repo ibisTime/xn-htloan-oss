@@ -67,7 +67,7 @@ class BushistoryAddedit extends React.Component {
         readonly: true
     }, {
         title: '状态',
-        field: 'code',
+        field: 'status',
         type: 'select',
         key: 'bus_borrow_status',
         readonly: true
@@ -78,7 +78,7 @@ class BushistoryAddedit extends React.Component {
         fields,
         code: this.code,
         view: this.view,
-        detailCode: 632316
+        detailCode: 632796
       });
   }
 }
