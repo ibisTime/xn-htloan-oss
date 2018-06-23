@@ -332,7 +332,7 @@ class CreditAddedit extends React.Component {
                     params.creditCode = this.code;
                     params.buttonCode = '1';
                     params.operator = getUserId();
-                    if (params.creditUserList || params.creditUserList.length < 1) {
+                    if (!params.creditUserList || params.creditUserList.length < 1) {
                         showWarnMsg('至少录入一条征信信息');
                         return;
                     }
