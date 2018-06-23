@@ -1,0 +1,72 @@
+.dashboard-layout .right-content{
+    padding: 0;
+}
+.home-wrap{
+    width: 100%;
+    height: 100%;
+    background-color: #f0f2f5;
+}
+.top-wrap{
+    width: 100%;
+    overflow: hidden;
+}
+.below-wrap{
+    width: 100%;
+    margin-top: 24px;
+}
+.card{
+    border-radius: 5px;
+    overflow: hidden;
+}
+.card-top{
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+}
+.card-content{
+    width: 100%;
+    background-color: #fff;
+}
+.user-wrap{
+    width: 270px;
+    height: 240px;
+    float: left;
+}
+.user-wrap .card-top{
+    height: 100px;
+    background-image: url('../../images/home-userBg.png');
+}
+.user-wrap .card-content{
+    height: 140px;
+}
+.top-right{
+    width: calc(100% - 294px);
+    height: 240px;
+    float: right;
+}
+.top-right .card-top{
+    width: 140px;
+    height: 100%;
+    float: left;
+    background-image: url('../../images/home-backlogBg.png');
+}
+.top-right .card-content{
+    width: calc(100% - 140px);
+    height: 100%;
+    float: right;
+}
+.companysystem-wrap{
+    width: 100%;
+}
+.companysystem-wrap .card-top{
+    width: 100%;
+    height: 100px;
+    background-image: url('../../images/home-companysystemBg.png');
+    background-color: #9a65fc;
+    background-size: auto 100%;
+    background-position: left;
+}
+.companysystem-wrap .card-content{
+    height: 288px;
+}
