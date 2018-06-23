@@ -1,12 +1,17 @@
 import cookies from 'browser-cookies';
 import {
   message,
-  Modal
+  Modal,
+  notification
 } from 'antd';
 import {
   PIC_PREFIX
 } from './config';
 import './lib/BigDecimal';
+
+notification.config({
+    placement: 'bottomRight'
+});
 
 /**
  * 保存用户登录信息
@@ -291,4 +296,17 @@ export function showDelConfirm({
     onOk,
     onCancel
   });
+}
+
+// 资料传递提示
+export function isExpressConfirm(
+   data,
+   type = 'success'
+) {
+    if (data.isExpress === '1') {
+        notification[type]({
+            message: '系统提示',
+            description: '资料传递记录已生成，待发件'
+        });
+    }
 }

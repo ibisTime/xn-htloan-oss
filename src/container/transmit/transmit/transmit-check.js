@@ -10,7 +10,8 @@ import {
 import {
   getQueryString,
   getUserId,
-  showSucMsg
+  showSucMsg,
+  isExpressConfirm
 } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
@@ -29,8 +30,9 @@ class transmitAddedit extends React.Component {
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
   }
-  doSuccess = () => {
+  doSuccess = (data) => {
     showSucMsg('操作成功');
+    isExpressConfirm(data);
     this.props.cancelFetching();
     setTimeout(() => {
         this.props.history.go(-1);
@@ -112,9 +114,7 @@ class transmitAddedit extends React.Component {
         title: '备注',
         field: 'remark'
     }];
-    return this
-      .props
-      .buildDetail({
+    return this.props.buildDetail({
         fields,
         code: this.code,
         view: this.view,
@@ -122,8 +122,8 @@ class transmitAddedit extends React.Component {
         buttons: [{
             title: '收件并审核通过',
             handler: (param) => {
-                fetch(632151, param).then(() => {
-                    this.doSuccess();
+                fetch(632151, param).then((data) => {
+                    this.doSuccess(data);
                 }).catch(this.props.cancelFetching);
             },
             check: true

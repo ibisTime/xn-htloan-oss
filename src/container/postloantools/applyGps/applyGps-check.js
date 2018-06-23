@@ -9,8 +9,10 @@ import {
 } from '@redux/postloantools/applyGps-check';
 import {
   getQueryString,
+  showWarnMsg,
   showSucMsg,
-  getUserId
+  getUserId,
+  isExpressConfirm
 } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
@@ -81,9 +83,14 @@ class applyGpsCheck extends React.Component {
         handler: (param) => {
           param.approveResult = '1';
           param.approveUser = getUserId();
+          if (!param.gpsList || param.gpsList.length < 1) {
+            showWarnMsg('请添加GPS列表');
+            return;
+          }
           this.props.doFetching();
-          fetch(632711, param).then(() => {
+          fetch(632711, param).then((data) => {
             showSucMsg('操作成功');
+            isExpressConfirm(data);
             this.props.cancelFetching();
             setTimeout(() => {
               this.props.history.go(-1);
