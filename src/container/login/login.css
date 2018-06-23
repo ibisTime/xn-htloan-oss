@@ -1,4 +1,122 @@
+body {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.login-body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url('../../images/login-bg.jpg');
+    background-repeat: no-repeat;
+    background-position: center left;
+    background-size: 50% 100%;
+}
+.logo-wrap{
+    width: 50%;
+    height: 100%;
+    float: left;
+    padding: 50px 70px;
+}
+.logo-wrap img{
+    width: 132px;
+    margin-bottom: 20px;
+    opacity: .94;
+}
+.logo-wrap p{
+    width: 132px;
+    text-align: center;
+    color: #fff;
+    font-size: 18px;
+    opacity: .94;
+}
+.login-wrap {
+    width: 50%;
+    float: right;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+}
+
+.title {
+    width: 100%;
+    font-size: 24px;
+    text-align: center;
+    color: #000;
+}
+
 .login-form {
-  width: 300px;
-  margin: 100px auto;
+    width: 480px;
+    margin: 80px auto 0;
+}
+
+.login-form-button {
+    width: 100%;
+    height: 56px;
+    background-color: #028eff;
+    border-radius: 0;
+    font-size: 16px;
+    box-shadow: 0 4px 12px rgba(2, 142, 255, 0.3);
+}
+
+.form-item {
+    width: 100%;
+    height: 56px;
+    background-color: #f6f9ff;
+    border-radius: 0;
+    position: relative;
+    margin-bottom: 30px;
+}
+.form-item .ant-form-item-children{
+    width: 100%;
+    height: 56px;
+    display: block;
+    padding-left: 106px;
+}
+
+.form-item .ant-form-item-control .ant-input{
+    width: 374px;
+    height: 54px;
+    border: 0;
+    background-color: transparent;
+    border-radius: 0;
+    color: #000;
+    font-size: 14px;
+    margin-top: 1px;
+}
+.form-item .ant-form-explain{
+    position: absolute;
+    right: 10px;
+    top: 20px;
+    text-align: right;
+}
+.form-item .icon{
+    width: 106px;
+    height: 56px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    box-shadow: 0 2px 5px rgba(2, 142, 255, 0.2);
+}
+.form-item .icon.icon-user{
+    background-image: url('../../images/login-user.png');
+}
+.form-item .icon.icon-pwd{
+    background-image: url('../../images/login-pwd.png');
+}
+.button-wrap{
+    margin-top: 70px;
 }
