@@ -37,46 +37,53 @@ class Busapply extends React.Component {
     render() {
         const fields = [{
             title: '领用人',
-            field: 'code',
+            field: 'applyUser',
             search: true
         }, {
             title: '所属部门',
-            field: 'departmentName',
+            field: 'departmentCode',
+            type: 'select',
+            listCode: 630106,
+            params: {
+                typeList: ['2']
+            },
+            keyName: 'code',
+            valueName: 'name',
             search: true
         }, {
             title: '申领车辆',
-            field: 'code'
+            field: 'busCode'
         }, {
             title: '车牌号',
-            field: 'code'
+            field: 'number'
         }, {
             title: '申请时间',
-            field: 'code',
+            field: 'applyDatetime',
             type: 'date'
         }, {
             title: '用车时间',
-            field: 'code',
-            rangedate: ['loanStartDatetime', 'loanEndDatetime'],
+            field: 'time',
+            rangedate: ['useDatetimeStart', 'useDatetimeEnd'],
             render: (v, d) => {
-               return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.loanStartDatetime) + '~' + formatDate(d.loanEndDatetime)}</span>;
+               return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.useDatetimeStart) + '~' + formatDate(d.useDatetimeEnd)}</span>;
             }
         }, {
             title: '状态',
-            field: 'code',
+            field: 'status',
             type: 'select',
             key: '111',
             search: true
         }, {
             title: '更新人',
-            field: 'code'
+            field: 'updater'
         }, {
             title: '更新时间',
-            field: 'code',
+            field: 'updateDatetime',
             type: 'date'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632315,
+            pageCode: 632795,
             btnEvent: {
               check: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {

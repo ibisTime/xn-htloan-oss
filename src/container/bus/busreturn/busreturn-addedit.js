@@ -32,22 +32,19 @@ class BusreturnAddedit extends React.Component {
   render() {
     const fields = [{
         title: '申领车辆',
-        field: 'captain',
-        listCode: 11111,
-        keyName: '11',
-        valueName: '22',
+        field: 'busCode',
         readonly: true
     }, {
         title: '使用时间',
-        field: 'code',
-        rangedate: ['loanStartDatetime', 'loanEndDatetime'],
+        field: 'time',
+        rangedate: ['useDatetimeStart', 'useDatetimeEnd'],
         render: (v, d) => {
-           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.loanStartDatetime) + '~' + formatDate(d.loanEndDatetime)}</span>;
+           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.useDatetimeStart) + '~' + formatDate(d.useDatetimeEnd)}</span>;
         },
-        readonly: true
+        required: true
     }, {
         title: '行驶公里数',
-        field: '222',
+        field: 'driveKil',
         readonly: true
     }, {
         title: '备注',

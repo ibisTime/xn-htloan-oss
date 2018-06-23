@@ -58,9 +58,7 @@ class BusmanagerAddedit extends React.Component {
         fields,
         code: this.code,
         view: this.view,
-        addCode: 632780,
-        editCode: 632782,
-        detailCode: 632786
+        detailCode: 632796
       });
   }
 }

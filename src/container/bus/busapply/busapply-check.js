@@ -9,7 +9,9 @@ import {
 } from '@redux/bus/busapply-addedit.js';
 import {
   getQueryString,
-  formatDate
+  formatDate,
+  getUserId,
+  showSucMsg
 } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
@@ -32,23 +34,22 @@ class BusapplyCheck extends React.Component {
   render() {
     const fields = [{
         title: '申领车辆',
-        field: 'captain',
-        listCode: 11111,
-        keyName: '11',
-        valueName: '22',
-        readonly: true
+        field: 'busCode',
+        required: true
     }, {
         title: '使用时间',
-        field: 'code',
-        rangedate: ['loanStartDatetime', 'loanEndDatetime'],
+        field: 'time',
+        rangedate: ['useDatetimeStart', 'useDatetimeEnd'],
         render: (v, d) => {
-           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.loanStartDatetime) + '~' + formatDate(d.loanEndDatetime)}</span>;
+           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.useDatetimeStart) + '~' + formatDate(d.useDatetimeEnd)}</span>;
         },
-        readonly: true
+        required: true
     }, {
         title: '领用原因',
-        field: '222',
-        readonly: true
+        field: 'applyNote'
+    }, {
+        title: '审核说明',
+        field: 'remark'
     }];
     return this
       .props
@@ -56,13 +57,12 @@ class BusapplyCheck extends React.Component {
         fields,
         code: this.code,
         view: this.view,
-        addCode: 632316,
-        detailCode: 632316,
+        detailCode: 632796,
         buttons: [{
           title: '通过',
           handler: (param) => {
             param.approveResult = '1';
-            param.operator = getUserId();
+            param.updater = getUserId();
             this.props.doFetching();
             fetch(630503, param).then(() => {
               showSucMsg('操作成功');
@@ -78,7 +78,7 @@ class BusapplyCheck extends React.Component {
           title: '不通过',
           handler: (param) => {
             param.approveResult = '0';
-            param.operator = getUserId();
+            param.updater = getUserId();
             this.props.doFetching();
             fetch(630503, param).then(() => {
               showSucMsg('操作成功');

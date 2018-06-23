@@ -32,23 +32,19 @@ class BusapplyAddedit extends React.Component {
   render() {
     const fields = [{
         title: '申领车辆',
-        field: 'captain',
-        listCode: 11111,
-        keyName: '11',
-        valueName: '22',
+        field: 'busCode',
         required: true
     }, {
         title: '使用时间',
-        field: 'code',
-        rangedate: ['loanStartDatetime', 'loanEndDatetime'],
+        field: 'time',
+        rangedate: ['useDatetimeStart', 'useDatetimeEnd'],
         render: (v, d) => {
-           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.loanStartDatetime) + '~' + formatDate(d.loanEndDatetime)}</span>;
+           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.useDatetimeStart) + '~' + formatDate(d.useDatetimeEnd)}</span>;
         },
         required: true
     }, {
         title: '领用原因',
-        field: '222',
-        required: true
+        field: 'applyNote'
     }];
     return this
       .props
@@ -56,7 +52,7 @@ class BusapplyAddedit extends React.Component {
         fields,
         code: this.code,
         view: this.view,
-        detailCode: 632316
+        detailCode: 632796
       });
   }
 }

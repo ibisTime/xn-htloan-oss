@@ -32,32 +32,45 @@ class BushistoryAddedit extends React.Component {
   render() {
     const fields = [{
         title: '领用人',
-        field: 'code'
+        field: 'applyUser',
+        readonly: true
     }, {
         title: '所属部门',
-        field: 'departmentName'
+        field: 'departmentCode',
+        type: 'select',
+        listCode: 630106,
+        params: {
+            typeList: ['2']
+        },
+        keyName: 'code',
+        valueName: 'name',
+        readonly: true
     }, {
         title: '领用时间',
-        field: 'code',
+        field: 'applyDatetime',
         type: 'date'
     }, {
         title: '用车时间',
-        field: 'code',
-        rangedate: ['loanStartDatetime', 'loanEndDatetime'],
+        field: 'time',
+        rangedate: ['useDatetimeStart', 'useDatetimeEnd'],
         render: (v, d) => {
-           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.loanStartDatetime) + '~' + formatDate(d.loanEndDatetime)}</span>;
-        }
+           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.useDatetimeStart) + '~' + formatDate(d.useDatetimeEnd)}</span>;
+        },
+        readonly: true
     }, {
         title: '行驶公里数',
-        field: 'code'
+        field: 'driveKil',
+        readonly: true
     }, {
         title: '领用原因',
-        field: 'code'
+        field: 'applyNote',
+        readonly: true
     }, {
         title: '状态',
         field: 'code',
         type: 'select',
-        key: '111'
+        key: 'bus_borrow_status',
+        readonly: true
     }];
     return this
       .props

@@ -37,21 +37,28 @@ class Busreturn extends React.Component {
     render() {
         const fields = [{
             title: '领用人',
-            field: 'code',
+            field: 'applyUser',
             search: true
         }, {
             title: '所属部门',
-            field: 'departmentName',
+            field: 'departmentCode',
+            type: 'select',
+            listCode: 630106,
+            params: {
+                typeList: ['2']
+            },
+            keyName: 'code',
+            valueName: 'name',
             search: true
         }, {
             title: '申领车辆',
-            field: 'code'
+            field: 'busCode'
         }, {
             title: '车牌号',
-            field: 'code'
+            field: 'number'
         }, {
             title: '申请时间',
-            field: 'code',
+            field: 'applyDatetime',
             type: 'date'
         }, {
             title: '归还时间',
@@ -59,16 +66,16 @@ class Busreturn extends React.Component {
             type: 'date'
         }, {
             title: '状态',
-            field: 'code',
+            field: 'status',
             type: 'select',
             key: '111',
             search: true
         }, {
             title: '更新人',
-            field: 'code'
+            field: 'updater'
         }, {
             title: '更新时间',
-            field: 'code',
+            field: 'updateDatetime',
             type: 'date'
         }];
         return this.props.buildList({

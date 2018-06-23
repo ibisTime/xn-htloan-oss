@@ -9,7 +9,9 @@ import {
 } from '@redux/bus/busreturn-check.js';
 import {
   getQueryString,
-  formatDate
+  formatDate,
+  showSucMsg,
+  getUserId
 } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
@@ -31,27 +33,24 @@ class BusreturnCheck extends React.Component {
   }
   render() {
     const fields = [{
-        title: '申领车辆',
-        field: 'captain',
-        listCode: 11111,
-        keyName: '11',
-        valueName: '22',
-        readonly: true
-    }, {
-        title: '使用时间',
-        field: 'code',
-        rangedate: ['loanStartDatetime', 'loanEndDatetime'],
-        render: (v, d) => {
-           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.loanStartDatetime) + '~' + formatDate(d.loanEndDatetime)}</span>;
-        },
-        readonly: true
-    }, {
-        title: '行驶公里数',
-        field: '222',
-        readonly: true
-    }, {
+      title: '申领车辆',
+      field: 'busCode',
+      readonly: true
+  }, {
+      title: '使用时间',
+      field: 'time',
+      rangedate: ['useDatetimeStart', 'useDatetimeEnd'],
+      render: (v, d) => {
+         return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.useDatetimeStart) + '~' + formatDate(d.useDatetimeEnd)}</span>;
+      },
+      required: true
+  }, {
+      title: '行驶公里数',
+      field: 'driveKil',
+      readonly: true
+  }, {
         title: '审核说明',
-        field: '222'
+        field: 'remark'
     }];
     return this
       .props
@@ -65,9 +64,9 @@ class BusreturnCheck extends React.Component {
           title: '通过',
           handler: (param) => {
             param.approveResult = '1';
-            param.operator = getUserId();
+            param.updater = getUserId();
             this.props.doFetching();
-            fetch(630503, param).then(() => {
+            fetch(632793, param).then(() => {
               showSucMsg('操作成功');
               this.props.cancelFetching();
               setTimeout(() => {
@@ -81,9 +80,9 @@ class BusreturnCheck extends React.Component {
           title: '不通过',
           handler: (param) => {
             param.approveResult = '0';
-            param.operator = getUserId();
+            param.updater = getUserId();
             this.props.doFetching();
-            fetch(630503, param).then(() => {
+            fetch(632793, param).then(() => {
               showSucMsg('操作成功');
               this.props.cancelFetching();
               setTimeout(() => {

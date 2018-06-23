@@ -61,6 +61,7 @@ class Busmanager extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 632785,
+            deleteCode: 632781,
             btnEvent: {
               check: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {
@@ -68,7 +69,7 @@ class Busmanager extends React.Component {
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else {
-                  this.props.history.push(`/bus/busmanager/check?code=${selectedRowKeys[0]}&entryCode=${selectedRows[0].entryCode}`);
+                  this.props.history.push(`/bus/bushistory?code=${selectedRowKeys[0]}`);
                 }
               }
             }

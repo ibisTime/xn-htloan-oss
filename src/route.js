@@ -1293,6 +1293,46 @@ const ROUTES = [
       path: '/bus/bushistory/addedit',
       component: asyncComponent(() => import('container/bus/busmanager/bushistory-addedit'))
   },
+  //  公车使用申领
+  {
+      path: '/bus/busapply',
+      component: asyncComponent(() => import('container/bus/busapply/busapply'))
+  },
+  //  公车使用申领 详情
+  {
+      path: '/bus/busapply/addedit',
+      component: asyncComponent(() => import('container/bus/busapply/busapply-addedit'))
+  },
+  //  公车使用申领 申请
+  {
+      path: '/bus/busapply/apply',
+      component: asyncComponent(() => import('container/bus/busapply/busapply-apply'))
+  },
+  //  公车使用申领 审核
+  {
+      path: '/bus/busapply/check',
+      component: asyncComponent(() => import('container/bus/busapply/busapply-check'))
+  },
+  //  公车归还
+  {
+      path: '/bus/busreturn',
+      component: asyncComponent(() => import('container/bus/busreturn/busreturn'))
+  },
+  //  公车归还 详情
+  {
+      path: '/bus/busreturn/addedit',
+      component: asyncComponent(() => import('container/bus/busreturn/busreturn-addedit'))
+  },
+  //  公车归还 归还
+  {
+      path: '/bus/busreturn/return',
+      component: asyncComponent(() => import('container/bus/busreturn/busreturn-return'))
+  },
+  //  公车归还 审核
+  {
+      path: '/bus/busreturn/check',
+      component: asyncComponent(() => import('container/bus/busreturn/busreturn-check'))
+  },
   //  gps申领
   {
       path: '/administrative/applyGps',

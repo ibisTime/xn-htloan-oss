@@ -43,11 +43,18 @@ class Bushistory extends React.Component {
     render() {
         const fields = [{
             title: '领用人',
-            field: 'code',
+            field: 'applyUser',
             search: true
         }, {
             title: '所属部门',
-            field: 'departmentName',
+            field: 'departmentCode',
+            type: 'select',
+            listCode: 630106,
+            params: {
+                typeList: ['2']
+            },
+            keyName: 'code',
+            valueName: 'name',
             search: true
         }, {
             title: '领用时间',
@@ -55,14 +62,14 @@ class Bushistory extends React.Component {
             type: 'date'
         }, {
             title: '用车时间',
-            field: 'code',
-            rangedate: ['loanStartDatetime', 'loanEndDatetime'],
+            field: 'time',
+            rangedate: ['useDatetimeStart', 'useDatetimeEnd'],
             render: (v, d) => {
-               return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.loanStartDatetime) + '~' + formatDate(d.loanEndDatetime)}</span>;
+               return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.useDatetimeStart) + '~' + formatDate(d.useDatetimeEnd)}</span>;
             }
         }, {
             title: '行驶公里数',
-            field: 'code'
+            field: 'driveKil'
         }, {
             title: '领用原因',
             field: 'code'
@@ -75,10 +82,18 @@ class Bushistory extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632315,
+            pageCode: 632795,
             seachParams: {
-                code: this.code
-            }
+                code: this.code,
+                status: '4'
+            },
+            buttons: [{
+                code: 'detail',
+                name: '详情',
+                handler: () => {
+                    this.props.history.push(`/bus/bushistory/addedit?code=${this.code}`);
+                }
+            }]
         });
     }
 }

@@ -9,7 +9,9 @@ import {
 } from '@redux/bus/busreturn-return.js';
 import {
   getQueryString,
-  formatDate
+  formatDate,
+  showSucMsg,
+  getUserId
 } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
@@ -32,26 +34,23 @@ class BusreturnReturn extends React.Component {
   render() {
     const fields = [{
         title: '申领车辆',
-        field: 'captain',
-        listCode: 11111,
-        keyName: '11',
-        valueName: '22',
+        field: 'busCode',
         readonly: true
     }, {
         title: '使用时间',
-        field: 'code',
-        rangedate: ['loanStartDatetime', 'loanEndDatetime'],
+        field: 'time',
+        rangedate: ['useDatetimeStart', 'useDatetimeEnd'],
         render: (v, d) => {
-           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.loanStartDatetime) + '~' + formatDate(d.loanEndDatetime)}</span>;
+           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.useDatetimeStart) + '~' + formatDate(d.useDatetimeEnd)}</span>;
         },
-        readonly: true
-    }, {
-        title: '行驶公里数',
-        field: '222',
         required: true
     }, {
+        title: '行驶公里数',
+        field: 'driveKil',
+        readonly: true
+    }, {
         title: '备注',
-        field: '222'
+        field: 'remark'
     }];
     return this
       .props
@@ -59,15 +58,13 @@ class BusreturnReturn extends React.Component {
         fields,
         code: this.code,
         view: this.view,
-        addCode: 632316,
         detailCode: 632316,
         buttons: [{
-          title: '通过',
+          title: '确认',
           handler: (param) => {
-            param.approveResult = '1';
-            param.operator = getUserId();
+            param.updater = getUserId();
             this.props.doFetching();
-            fetch(630503, param).then(() => {
+            fetch(632792, param).then(() => {
               showSucMsg('操作成功');
               this.props.cancelFetching();
               setTimeout(() => {
@@ -77,21 +74,6 @@ class BusreturnReturn extends React.Component {
           },
           check: true,
           type: 'primary'
-        }, {
-          title: '不通过',
-          handler: (param) => {
-            param.approveResult = '0';
-            param.operator = getUserId();
-            this.props.doFetching();
-            fetch(630503, param).then(() => {
-              showSucMsg('操作成功');
-              this.props.cancelFetching();
-              setTimeout(() => {
-                this.props.history.go(-1);
-              }, 1000);
-            }).catch(this.props.cancelFetching);
-          },
-          check: true
         }, {
           title: '返回',
           handler: (param) => {
