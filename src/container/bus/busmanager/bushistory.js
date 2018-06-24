@@ -43,7 +43,7 @@ class Bushistory extends React.Component {
     render() {
         const fields = [{
             title: '领用人',
-            field: 'applyUser',
+            field: 'applyUserName',
             search: true
         }, {
             title: '所属部门',
@@ -58,7 +58,7 @@ class Bushistory extends React.Component {
             search: true
         }, {
             title: '领用时间',
-            field: 'code',
+            field: 'applyDatetime',
             type: 'date'
         }, {
             title: '用车时间',
@@ -72,12 +72,12 @@ class Bushistory extends React.Component {
             field: 'driveKil'
         }, {
             title: '领用原因',
-            field: 'code'
+            field: 'applyNote'
         }, {
             title: '状态',
-            field: 'code',
+            field: 'status',
             type: 'select',
-            key: '111',
+            key: 'bus_borrow_status',
             search: true
         }];
         return this.props.buildList({

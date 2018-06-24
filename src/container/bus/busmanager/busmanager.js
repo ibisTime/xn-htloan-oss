@@ -44,7 +44,8 @@ class Busmanager extends React.Component {
             field: 'model'
         }, {
             title: '车牌号',
-            field: 'number'
+            field: 'number',
+            search: true
         }, {
             title: '保险到期日',
             field: 'insuranceEndDatetime',
@@ -53,13 +54,14 @@ class Busmanager extends React.Component {
             title: '领用状态',
             field: 'status',
             type: 'select',
-            key: 'bus_status'
+            key: 'bus_status',
+            search: true
         }, {
             title: '更新人',
             field: 'updaterName'
         }, {
             title: '更新时间',
-            field: 'updaterDatetime',
+            field: 'updateDatetime',
             type: 'date'
         }];
         return this.props.buildList({

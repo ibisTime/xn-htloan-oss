@@ -45,7 +45,14 @@ class FaceSign extends React.Component {
     render() {
         const fields = [{
             title: '业务公司',
-            field: 'companyName',
+            field: 'companyCode',
+            type: 'select',
+            listCode: 630106,
+            params: {
+                typeList: ['1']
+            },
+            keyName: 'code',
+            valueName: 'name',
             search: true
         }, {
             title: '客户姓名',

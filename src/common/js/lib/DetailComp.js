@@ -125,6 +125,7 @@ export default class DetailComponent extends React.Component {
             this.props.initStates({code: this.options.code, view: this.options.view});
             this.props.setPageData(this.options.useData);
         } else if (this.first) {
+            console.log(this.options);
             this.options.code && this.options.detailCode && this.getDetailInfo();
             this.props.initStates({code: this.options.code, view: this.options.view});
         }
@@ -157,6 +158,11 @@ export default class DetailComponent extends React.Component {
         children.push(this.getBtns(this.options.buttons));
         this.first = false;
         return this.getPageComponent(children);
+    }
+
+    getBuildDetail = (code) => {
+        this.first = true;
+        this.buildDetail({ code });
     }
 
     beforeSubmit(err, values) {
@@ -1006,6 +1012,9 @@ export default class DetailComponent extends React.Component {
         if (initVal) {
             value = initVal;
         }
+        // if (item.onChange && value) {
+        //     item.onChange(value, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1[item.keyName] === value) : {}, this.props);
+        // }
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
                       label={this.getLabel(item)}>
