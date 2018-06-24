@@ -195,8 +195,9 @@ class CreditAddedit extends React.Component {
             key: 'budget_orde_biz_typer',
             required: true,
             onChange: (value) => {
-                console.log(value);
-                this.newCar = value === '0';
+                if (value) {
+                    this.newCar = value === '0';
+                }
             }
         }, {
             title: '贷款金额',
