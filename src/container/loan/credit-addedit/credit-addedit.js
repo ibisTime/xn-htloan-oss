@@ -193,7 +193,6 @@ class CreditAddedit extends React.Component {
             field: 'bizType',
             type: 'select',
             key: 'budget_orde_biz_typer',
-            value: this.code ? '' : '0',
             required: true,
             onChange: (value) => {
                 console.log(value);
@@ -342,8 +341,9 @@ class CreditAddedit extends React.Component {
                     fetch(bizCode, params).then((data) => {
                         if (!this.code) {
                             this.code = data.code;
+                            // this.props.history.replace(`/loan/credit/addedit?isAddedit=1&code=${data.code}`);
                         }
-                        this.concatFalg = true;
+                        this.props.getBuildDetail(this.code);
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                     }).catch(this.props.cancelFetching);
