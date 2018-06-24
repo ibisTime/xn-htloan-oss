@@ -8,7 +8,9 @@ import {
   setSubMenuCode,
   setSubOpenCode,
   clearSubOpenCode,
-  restoreSubOpenCode
+  restoreSubOpenCode,
+  clearTopCode,
+  clearSubMenuCode
 } from '@redux/menu';
 import { clearUser } from 'common/js/util';
 import asyncComponent from '../async-component/async-component';
@@ -23,7 +25,7 @@ const Home = asyncComponent(() => import('../../container/home/home'));
 
 @connect(
   state => ({ ...state.menu, loginName: state.user.loginName }),
-  { getMenuList, setTopCode, setSubMenuCode, setSubOpenCode, clearSubOpenCode, restoreSubOpenCode }
+  { getMenuList, setTopCode, setSubMenuCode, setSubOpenCode, clearSubOpenCode, restoreSubOpenCode, clearTopCode, clearSubMenuCode }
 )
 class Dashboard extends React.Component {
   constructor(props) {
@@ -99,8 +101,11 @@ class Dashboard extends React.Component {
     );
     return (
       <Header className="header">
-        <div className="logo">
-          <img src={logo}/>
+        <div className="logo" onClick={() => {
+          this.props.setTopCode('');
+          this.props.history.push('/');
+        }}>
+            <img src={logo}/>
         </div>
         <Menu
           theme="dark"
