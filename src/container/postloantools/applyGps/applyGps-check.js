@@ -82,7 +82,7 @@ class applyGpsCheck extends React.Component {
         title: '通过',
         handler: (param) => {
           param.approveResult = '1';
-          param.approveUser = getUserId();
+          param.operater = getUserId();
           if (!param.gpsList || param.gpsList.length < 1) {
             showWarnMsg('请添加GPS列表');
             return;
@@ -104,7 +104,7 @@ class applyGpsCheck extends React.Component {
         handler: (param) => {
           param.approveResult = '0';
           param.approveNote = this.projectCode;
-          param.approveUser = getUserId();
+          param.operater = getUserId();
           this.props.doFetching();
           fetch(632711, param).then(() => {
             showSucMsg('操作成功');
