@@ -53,6 +53,8 @@ class BusapplyApply extends React.Component {
     }, {
         title: '领用原因',
         field: 'applyNote',
+        type: 'textarea',
+        normalArea: true,
         required: true
     }];
     return this
