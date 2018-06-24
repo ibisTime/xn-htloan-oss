@@ -125,7 +125,6 @@ export default class DetailComponent extends React.Component {
             this.props.initStates({code: this.options.code, view: this.options.view});
             this.props.setPageData(this.options.useData);
         } else if (this.first) {
-            console.log(this.options);
             this.options.code && this.options.detailCode && this.getDetailInfo();
             this.props.initStates({code: this.options.code, view: this.options.view});
         }
@@ -470,8 +469,8 @@ export default class DetailComponent extends React.Component {
                 return this.getCitySelect(item, initVal, rules, getFieldDecorator);
             case 'checkbox':
                 return this.getCheckboxComp(item, initVal, rules, getFieldDecorator);
-            case 'button':
-                return this.getFieldsButton(item);
+            // case 'button':
+            //     return this.getFieldsButton(item);
             case 'treeSelect':
                 return this.getTreeSelectComp(item, initVal, rules, getFieldDecorator);
             default:
@@ -488,20 +487,20 @@ export default class DetailComponent extends React.Component {
         }));
     }
 
-    getFieldsButton(item) {
-        return (
-            <FormItem
-                className={item.hidden ? 'hidden' : ''}
-                key={item.field}>
-                {
-                    item.readonly ? null
-                        : (<Button onClick={() => { item.onClick(); }} style={{width: '100%', marginTop: 10}} type="dashed">
-                            <Icon type="plus"/>{item.title}
-                        </Button>)
-                }
-            </FormItem>
-        );
-    }
+    // getFieldsButton(item) {
+    //     return (
+    //         <FormItem
+    //             className={item.hidden ? 'hidden' : ''}
+    //             key={item.field}>
+    //             {
+    //                 item.readonly ? null
+    //                     : (<Button onClick={() => { item.onClick(); }} style={{width: '100%', marginTop: 10}} type="dashed">
+    //                         <Icon type="plus"/>{item.title}
+    //                     </Button>)
+    //             }
+    //         </FormItem>
+    //     );
+    // }
 
     getTableItem(item, initVal, rules, getFieldDecorator) {
         const columns = this.getTableColumns(item);
