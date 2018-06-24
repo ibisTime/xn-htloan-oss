@@ -114,9 +114,9 @@ export default class DetailComponent extends React.Component {
 
     componentWillUnmount() {
         this.props.restore();
-        this.options.fields.forEach(item => {
-            this.getSelectComp[item.field] = false;
-        });
+        // this.options.fields.forEach(item => {
+        //     this.getSelectComp[item.field] = false;
+        // });
     }
 
     buildDetail = (options) => {
