@@ -6,7 +6,7 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/transmit/collectionGPS-addedit';
+} from '@redux/transmit/collectionGPS-check';
 import {
   getQueryString,
   getUserId,
