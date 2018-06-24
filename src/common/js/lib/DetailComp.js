@@ -60,7 +60,7 @@ export default class DetailComponent extends React.Component {
             searchData: {},
             modalVisible: false,
             modalOptions: {},
-            treeData: []
+            treeData: {}
         };
         this.o2mFirst = {};
         this.textareas = {};
@@ -193,7 +193,11 @@ export default class DetailComponent extends React.Component {
             } else if (v.type === 'o2m') {
                 values[v.field] = this.props.pageData[v.field];
             } else if (v.type === 'checkbox') {
-                values[v.field] = values[v.field].join(',');
+                if (values[v.field] !== '' && values.push) {
+                    values[v.field] = values[v.field].join(',');
+                } else {
+                    values[v.field] = values[v.field] || '';
+                }
             }
         });
         values.updater = values.updater || getUserId();
@@ -376,18 +380,23 @@ export default class DetailComponent extends React.Component {
         }
         result[v.parentCode].push(obj);
       });
-      this.result = result;
+      this.getTree[item.field] = result;
       let tree = [];
-      this.getTreeNode(result['ROOT'], tree);
-      this.setState({ treeData: tree });
+      this.getTreeNode(result['ROOT'], tree, item);
+      this.setState({
+        treeData: {
+          ...this.state.treeData,
+          [item.field]: tree
+        }
+      });
     }
     // 生成treeNode
-    getTreeNode(arr, children) {
+    getTreeNode(arr, children, item) {
       arr.forEach(a => {
-        if (this.result[a.key]) {
+        if (this.getTree[item.field][a.key]) {
           a.children = [];
           children.push(a);
-          this.getTreeNode(this.result[a.key], a.children);
+          this.getTreeNode(this.getTree[item.field][a.key], a.children, item);
         } else {
           children.push(a);
         }
@@ -395,6 +404,7 @@ export default class DetailComponent extends React.Component {
     }
     // 生成treeSelect结构
     renderTreeNodes = (data, field) => {
+      if (!data) return null;
       return data.map((item) => {
         if (item.children) {
           return (
@@ -843,7 +853,7 @@ export default class DetailComponent extends React.Component {
                               allowClear
                               treeDefaultExpandAll
                             >
-                                {this.renderTreeNodes(this.state.treeData, item)}
+                                {this.renderTreeNodes(this.state.treeData[item.field], item)}
                             </TreeSelect>
                         )
                 }
