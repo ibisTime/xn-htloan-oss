@@ -39,7 +39,7 @@ class pointreturnAddedit extends React.Component {
         valueName: 'realName'
     }, {
         title: '业务编号',
-        field: 'code'
+        field: 'bizCode'
     }, {
         title: '收款银行',
         field: 'bank',

@@ -46,7 +46,7 @@ class Pointreturn extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'code'
+            field: 'bizCode'
         }, {
             title: '业务团队队长',
             field: 'captain',

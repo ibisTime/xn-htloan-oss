@@ -8,14 +8,13 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/transmit/transmit';
+} from '@redux/transmit/collection';
 import {
     listWrapper
 } from 'common/js/build-list';
 import {
     showWarnMsg,
-    showSucMsg,
-    getUserId
+    showSucMsg
 } from 'common/js/util';
 import {
     Button,
@@ -29,7 +28,7 @@ import {
 
 @listWrapper(
     state => ({
-        ...state.transmit,
+        ...state.transmitCollection,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -42,7 +41,7 @@ import {
         setSearchData
     }
 )
-class transmit extends React.Component {
+class Collection extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
@@ -108,20 +107,9 @@ class transmit extends React.Component {
             fields,
             pageCode: 632155,
             searchParmas: {
-                userId: getUserId()
+                receive: '0'
             },
             btnEvent: {
-              send: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].status !== '0' && selectedRows[0].status !== '3') {
-                  showWarnMsg('当前不是待发件节点');
-                } else {
-                  this.props.history.push(`/transmit/transmit/send?code=${selectedRowKeys[0]}`);
-                }
-              },
               check: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {
                   showWarnMsg('请选择记录');
@@ -130,7 +118,7 @@ class transmit extends React.Component {
                 } else if (selectedRows[0].status !== '1') {
                   showWarnMsg('当前不是待收件节点');
                 } else {
-                  this.props.history.push(`/transmit/transmit/check?code=${selectedRowKeys[0]}`);
+                  this.props.history.push(`/transmit/collection/check?code=${selectedRowKeys[0]}`);
                 }
               }
             }
@@ -138,4 +126,4 @@ class transmit extends React.Component {
     }
 }
 
-export default transmit;
+export default Collection;

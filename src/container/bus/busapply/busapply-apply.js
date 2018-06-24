@@ -37,6 +37,9 @@ class BusapplyApply extends React.Component {
         field: 'busCode',
         type: 'select',
         listCode: 632787,
+        params: {
+            status: '0'
+        },
         keyName: 'code',
         valueName: 'model',
         required: true
@@ -50,6 +53,8 @@ class BusapplyApply extends React.Component {
     }, {
         title: '领用原因',
         field: 'applyNote',
+        type: 'textarea',
+        normalArea: true,
         required: true
     }];
     return this

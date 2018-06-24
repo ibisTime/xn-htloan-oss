@@ -73,3 +73,7 @@ export function loanGoodsSoldOut(code) {
 export function getListProduct() {
     return fetch(632177, { status: '3' });
 }
+// 公车管理  作废
+export function toVoid(code) {
+    return fetch(632781, { code, updater: getUserId() });
+}

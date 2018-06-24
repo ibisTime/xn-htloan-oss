@@ -841,26 +841,52 @@ const ROUTES = [
       component: asyncComponent(() => import('container/loanstools/cancel/cancel-certain'))
   },
   //  资料传递
-  //  资料传递
+  //  发件
   {
     path: '/transmit/transmit',
     component: asyncComponent(() => import('container/transmit/transmit/transmit'))
   },
-  //  资料传递 详情
+  //  发件 详情
   {
     path: '/transmit/transmit/addedit',
     component: asyncComponent(() => import('container/transmit/transmit/transmit-addedit'))
   },
-  //  资料传递 发件
+  //  发件 发件
   {
     path: '/transmit/transmit/send',
     component: asyncComponent(() => import('container/transmit/transmit/transmit-send'))
   },
-  //  资料传递 收件并审核
+  //  收件
   {
-    path: '/transmit/transmit/check',
-    component: asyncComponent(() => import('container/transmit/transmit/transmit-check'))
+    path: '/transmit/collection',
+    component: asyncComponent(() => import('container/transmit/collection/collection'))
   },
+  //  收件 详情
+  {
+    path: '/transmit/collection/addedit',
+    component: asyncComponent(() => import('container/transmit/collection/collection-addedit'))
+  },
+  //  收件 收件并审核
+  {
+    path: '/transmit/collection/check',
+    component: asyncComponent(() => import('container/transmit/collection/collection-check'))
+  },
+  //  GPS收件
+  {
+    path: '/transmit/collectionGPS',
+    component: asyncComponent(() => import('container/transmit/collectionGPS/collectionGPS'))
+  },
+  //  GPS收件 详情
+  {
+    path: '/transmit/collectionGPS/addedit',
+    component: asyncComponent(() => import('container/transmit/collectionGPS/collectionGPS-addedit'))
+  },
+  //  GPS收件 收件并审核
+  {
+    path: '/transmit/collectionGPS/check',
+    component: asyncComponent(() => import('container/transmit/collectionGPS/collectionGPS-check'))
+  },
+
   //  贷后工具
   //  gps申领
   {
@@ -1305,12 +1331,12 @@ const ROUTES = [
   },
   //  公车管理 历史
   {
-      path: '/bus/bushistory',
+      path: '/bus/busmanager/bushistory',
       component: asyncComponent(() => import('container/bus/busmanager/bushistory'))
   },
   //  公车管理 历史详情
   {
-      path: '/bus/bushistory/addedit',
+      path: '/bus/busmanager/bushistory/addedit',
       component: asyncComponent(() => import('container/bus/busmanager/bushistory-addedit'))
   },
   //  公车使用申领

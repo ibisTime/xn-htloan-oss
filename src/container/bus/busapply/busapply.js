@@ -85,18 +85,20 @@ class Busapply extends React.Component {
             fields,
             pageCode: 632795,
             btnEvent: {
-              check: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else {
-                  this.props.history.push(`/bus/busapply/check?code=${selectedRowKeys[0]}`);
+                check: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].status === '0') {
+                        showWarnMsg('该状态不是待审核状态');
+                    } else {
+                    this.props.history.push(`/bus/busapply/check?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                apply: (selectedRowKeys, selectedRows) => {
+                    this.props.history.push(`/bus/busapply/apply`);
                 }
-              },
-              apply: (selectedRowKeys, selectedRows) => {
-                  this.props.history.push(`/bus/busapply/apply`);
-              }
             }
         });
     }

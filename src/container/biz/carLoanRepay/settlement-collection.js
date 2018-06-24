@@ -144,6 +144,14 @@ class settlementCollection extends React.Component {
             title: '扣除违约金金额',
             field: 'cutLyDeposit',
             amount: true,
+            onChange: (v) => {
+                let lyDeposit = this.props.pageData.lyDeposit;
+                let actualRefunds = this.props.pageData.actualRefund;
+                this.props.setPageData({
+                    ...this.props.pageData,
+                    actualRefunds: lyDeposit - v
+                });
+            },
             required: true
         }, {
             title: '实际退款金额',

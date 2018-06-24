@@ -58,12 +58,8 @@ class Balancedetail extends React.Component {
             amount: true
         }, {
             title: '放款日期',
-            field: 'updater',
-            render: (v, d) => {
-                if(d.loanOrder !== undefined) {
-                    return formatDate(d.loanOrder.fkDatetime);
-                }
-            }
+            field: 'bankFkDatetime',
+            type: 'date'
         }, {
             title: '月供还款日',
             field: 'monthDatetime',

@@ -36,10 +36,7 @@ class businessTeamAddedit extends React.Component {
             field: 'captain',
             title: '团队长',
             type: 'select',
-            pageCode: 630065,
-            params: {
-                type: 'P'
-            },
+            listCode: 630066,
             keyName: 'userId',
             valueName: '{{companyName.DATA}}-{{departmentName.DATA}}-{{realName.DATA}}-{{mobile.DATA}}',
             searchName: 'keyword',
