@@ -39,7 +39,8 @@ class CollapseDetail extends DetailComp {
             lengthList.push(String(i));
         }
         comp = (
-          <Panel header={field.title} key={i} className={field.hidden ? 'hidden' : ''}>
+          //  <Panel header={field.title} key={i} className={field.hidden ? 'hidden' : ''}>
+          <Panel header={field.title} key={i}>
             {
               field.items.map((fld, k) => (
                 <Row gutter={24} key={k}>
