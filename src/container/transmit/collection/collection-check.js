@@ -6,7 +6,7 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/transmit/collection-addedit';
+} from '@redux/transmit/collection-check';
 import {
   getQueryString,
   getUserId,
