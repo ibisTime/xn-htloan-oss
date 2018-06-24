@@ -55,7 +55,7 @@ class Busapply extends React.Component {
             field: 'busMobile'
         }, {
             title: '车牌号',
-            field: 'number'
+            field: 'busNumber'
         }, {
             title: '申请时间',
             field: 'applyDatetime',

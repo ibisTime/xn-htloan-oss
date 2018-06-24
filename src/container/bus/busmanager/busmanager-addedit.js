@@ -28,6 +28,7 @@ class BusmanagerAddedit extends React.Component {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
+    console.log(this.view);
   }
   render() {
     const fields = [{
@@ -52,6 +53,14 @@ class BusmanagerAddedit extends React.Component {
         field: 'pic',
         type: 'img'
     }];
+    if(this.view) {
+        fields.push({
+            title: '领用状态',
+            field: 'status',
+            type: 'select',
+            key: 'bus_status'
+        });
+    }
     return this
       .props
       .buildDetail({
