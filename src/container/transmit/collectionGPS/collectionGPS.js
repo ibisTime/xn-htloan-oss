@@ -107,7 +107,7 @@ class CollectionGPS extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 632155,
-            searchParmas: {
+            searchParams: {
                 receive: getUserId()
             },
             btnEvent: {
