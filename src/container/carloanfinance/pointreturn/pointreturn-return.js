@@ -35,10 +35,11 @@ class pointreturnReturn extends React.Component {
         const fields = [{
             title: '业务团队队长',
             field: 'captain',
-            type: 'select',
-            listCode: 630207,
-            keyName: 'userId',
-            valueName: 'realName',
+            formatter: (v, d) => {
+                if (d.user) {
+                    return d.user.realName;
+                }
+            },
             readonly: true
         }, {
             title: '业务编号',

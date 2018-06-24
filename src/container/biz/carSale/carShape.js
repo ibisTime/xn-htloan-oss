@@ -32,6 +32,13 @@ class CarShape extends React.Component {
       shelfVisible: false,
       selectKey: ''
     };
+    this.arr = [{
+        key: '0',
+        value: '普通'
+    }, {
+        key: '1',
+        value: '首页推荐'
+    }];
   }
   setShelfVisible = (shelfVisible) => {
     this.setState({ shelfVisible });
@@ -69,19 +76,11 @@ class CarShape extends React.Component {
       amount: true,
       field: 'salePrice'
     }, {
-      title: 'UI位置',
       field: 'location',
-      search: true,
-      type: 'select',
-      data: [{
-        key: 0,
-        value: '首页推荐'
-      }, {
-        key: 1,
-        value: '普通'
-      }],
-      keyName: 'key',
-      valueName: 'value'
+      title: 'UI位置',
+      render: (v, d) => {
+        return this.arr[d.location].value;
+      }
     }, {
       title: 'UI次序',
       field: 'orderNo',
@@ -146,7 +145,7 @@ class CarShape extends React.Component {
           console.log(item);
           if (!key || !key.length || !item || !item.length) {
               showWarnMsg('请选择记录');
-          } else if (item[0].status === '2') {
+          } else if (item[0].status === '1') {
               showWarnMsg('下架后才能修改');
           } else {
               this.props.history.push(`/biz/carShape/addedit?code=${item[0].code}`);

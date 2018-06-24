@@ -122,6 +122,7 @@ class CollectionCheck extends React.Component {
         buttons: [{
             title: '收件并审核通过',
             handler: (param) => {
+                param.operator = getUserId();
                 fetch(632151, param).then((data) => {
                     this.doSuccess(data);
                 }).catch(this.props.cancelFetching);
@@ -130,6 +131,7 @@ class CollectionCheck extends React.Component {
         }, {
             title: '收件待补件',
             handler: (param) => {
+                param.operator = getUserId();
                 fetch(632152, param).then(() => {
                     this.doSuccess();
                 }).catch(this.props.cancelFetching);
