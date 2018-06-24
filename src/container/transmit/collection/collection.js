@@ -107,7 +107,7 @@ class Collection extends React.Component {
             fields,
             pageCode: 632155,
             searchParams: {
-                receive: '0'
+                receiver: '0'
             },
             btnEvent: {
               check: (selectedRowKeys, selectedRows) => {

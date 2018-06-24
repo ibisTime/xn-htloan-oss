@@ -108,7 +108,7 @@ class CollectionGPS extends React.Component {
             fields,
             pageCode: 632155,
             searchParams: {
-                receive: getUserId()
+                receiver: getUserId()
             },
             btnEvent: {
               check: (selectedRowKeys, selectedRows) => {
