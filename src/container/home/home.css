@@ -52,6 +52,9 @@
     height: 48px;
     overflow: hidden;
 }
+.content-item a{
+    color: #595959;
+}
 .content-item .icon{
     float: left;
     height: 5px;
@@ -67,6 +70,7 @@
     padding: 0 16px;
     font-size: 14px;
     line-height: 48px;
+    color: #595959;
 }
 .content-item .date{
     font-size: 14px;
@@ -184,4 +188,11 @@
 }
 .companysystem-wrap .card-content .content-item:first-child{
     border: 0px;
+}
+.noData{
+    width: 100%;
+    line-height: 100px;
+    font-size: 15px;
+    color: #484848;
+    text-align: center;
 }

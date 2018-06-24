@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
     getUserName,
     getRoleCode,
@@ -15,7 +16,6 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            fetching: true,
             role: null,
             noticeData: [],
             companysystemData: []
@@ -28,7 +28,7 @@ class Home extends React.Component {
             getPageMyCompanysystem()
         ]).then(([roleData, noticeData, companysystemData]) => {
             this.getUserRole(roleData);
-            this.setState({ roleData: roleData, noticeData: noticeData.list, companysystemData: companysystemData.list, fetching: false });
+            this.setState({ roleData: roleData, noticeData: noticeData.list, companysystemData: companysystemData.list });
         }).catch(() => this.setState({ fetching: false }));
     }
 
@@ -60,14 +60,15 @@ class Home extends React.Component {
                     <div className="card top-right notice-wrap">
                         <div className="card-top">
                             <div className="title">公司公告</div>
-                            {/* <div className="more">MORE<img src={iconMore}/></div> */}
                         </div>
                         <div className="card-content">
                             { this.state.noticeData && this.state.noticeData.length > 1 ? this.state.noticeData.map(d => (
-                                <div className="content-item" key={d.code}>
-                                    <img className="icon" src={iconLi}/>
-                                    <p className="txt">{d.notice.title}</p>
-                                    <samp className="date">{dateFormat(d.notice.updateDatetime)}</samp>
+                                <div className="content-item" key={d.notice.code}>
+                                    <Link to={'/notice/notice/addedit?v=1&code=' + d.notice.code}>
+                                        <img className="icon" src={iconLi}/>
+                                        <p className="txt">{d.notice.title}</p>
+                                        <samp className="date">{dateFormat(d.notice.updateDatetime)}</samp>
+                                    </Link>
                                 </div>
                             )) : <div className="noData">暂无公司公告</div>}
                         </div>
@@ -80,10 +81,12 @@ class Home extends React.Component {
                         </div>
                         <div className="card-content">
                             { this.state.companysystemData && this.state.companysystemData.length > 1 ? this.state.companysystemData.map(d => (
-                                <div className="content-item" key={d.code}>
-                                    <img className="icon" src={iconLi}/>
-                                    <p className="txt">{d.regime.content}</p>
-                                    <samp className="date">{dateFormat(d.regime.updateDatetime)}</samp>
+                                <div className="content-item" key={d.regime.code}>
+                                    <Link to={'/notice/companysystem/addedit?v=1&code=' + d.regime.code}>
+                                        <img className="icon" src={iconLi}/>
+                                        <p className="txt">{d.regime.content}</p>
+                                        <samp className="date">{dateFormat(d.regime.updateDatetime)}</samp>
+                                    </Link>
                                 </div>
                             )) : <div className="noData">暂无公司制度</div>}
                         </div>

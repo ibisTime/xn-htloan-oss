@@ -61,6 +61,17 @@ export function clearSubOpenCode() {
   };
 }
 
+export function clearTopCode() {
+    return (dispatch, getState) => {
+        dispatch({ type: SET_TOP_MENU_CODE, payload: [] });
+    };
+}
+
+export function clearSubMenuCode() {
+    return (dispatch, getState) => {
+        dispatch({ type: SET_SUB_MENU_CODE, payload: [] });
+    };
+}
 export function restoreSubOpenCode() {
   return { type: RESTORE_SUB_OPEN_CODE, payload: preSubOpenCode };
 }
@@ -161,9 +172,9 @@ function sortSubMenus(result) {
 
 function getSubCode(code, state) {
   return {
-    subOpenCode: [state.top2SubObj[code][0].code],
-    subMenuCode: state.top2SubObj[code][0].children ? state.top2SubObj[code][0].children[0].code : '',
-    subMenuList: state.top2SubObj[code]
+    subOpenCode: code ? [state.top2SubObj[code][0].code] : [],
+    subMenuCode: code ? state.top2SubObj[code][0].children ? state.top2SubObj[code][0].children[0].code : '' : '',
+    subMenuList: code ? state.top2SubObj[code] : []
   };
 }
 
