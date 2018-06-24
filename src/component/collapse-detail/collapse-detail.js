@@ -5,7 +5,7 @@ import { isUndefined, moneyParse, getUserId } from 'common/js/util';
 import DetailComp from 'common/js/lib/DetailComp';
 import ModalDetail from 'common/js/build-modal-detail';
 
-const {Panel} = Collapse;
+const { Panel } = Collapse;
 const col1Props = {xs: 32, sm: 24, md: 24, lg: 24};
 const col2Props = {xs: 32, sm: 24, md: 12, lg: 12};
 const col3Props = {xs: 32, sm: 24, md: 12, lg: 8};
@@ -60,6 +60,13 @@ class CollapseDetail extends DetailComp {
                         } else if (!this.props.selectData[f.field]) {
                           this.props.setSelectData({ data: f.data, key: f.field });
                         }
+                      } else if (f.type === 'treeSelect') {
+                          if (!f.data) {
+                              f.data = this.props.selectData[f.field];
+                              this.first && this.getTreeSelectData(f);
+                          } else if (!this.props.selectData[f.field]) {
+                              this.props.setSelectData({ data: f.data, key: f.field });
+                          }
                       }
                       let props = fld.length === 1
                         ? col1Props
@@ -101,6 +108,13 @@ class CollapseDetail extends DetailComp {
           } else if (!this.props.selectData[field.field]) {
             this.props.setSelectData({ data: field.data, key: field.field });
           }
+        } else if (field.type === 'treeSelect') {
+            if (!field.data) {
+                field.data = this.props.selectData[field.field];
+                this.first && this.getTreeSelectData(field);
+            } else if (!this.props.selectData[field.field]) {
+                this.props.setSelectData({ data: field.data, key: field.field });
+            }
         }
         comp = this.getItemByType(field.type, field);
         children1.push(comp);
