@@ -65,7 +65,7 @@ class Home extends React.Component {
                         <div className="card-content">
                             { this.state.noticeData && this.state.noticeData.length > 1 ? this.state.noticeData.map(d => (
                                 <div className="content-item" key={d.notice.code}>
-                                    <Link to={'/notice/notice/addedit?v=1&code=' + d.notice.code}>
+                                    <Link to={'/home/noticeDetail?code=' + d.notice.code}>
                                         <img className="icon" src={iconLi}/>
                                         <p className="txt">{d.notice.title}</p>
                                         <samp className="date">{dateFormat(d.notice.updateDatetime)}</samp>
@@ -83,7 +83,7 @@ class Home extends React.Component {
                         <div className="card-content">
                             { this.state.companysystemData && this.state.companysystemData.length > 1 ? this.state.companysystemData.map(d => (
                                 <div className="content-item" key={d.regime.code}>
-                                    <Link to={'/notice/companysystem/addedit?v=1&code=' + d.regime.code}>
+                                    <Link to={'/home/companysystemDetail?code=' + d.regime.code}>
                                         <img className="icon" src={iconLi}/>
                                         <p className="txt">{d.regime.content}</p>
                                         <samp className="date">{dateFormat(d.regime.updateDatetime)}</samp>

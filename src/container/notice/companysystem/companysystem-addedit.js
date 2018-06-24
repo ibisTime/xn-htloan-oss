@@ -36,7 +36,8 @@ class companysystemAddedit extends React.Component {
     render() {
         const fields = [{
             field: 'regimeCode',
-            title: '制度编号'
+            title: '制度编号',
+            required: true
         }, {
             field: 'type',
             title: '类型',

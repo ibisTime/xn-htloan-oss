@@ -1506,10 +1506,15 @@ const ROUTES = [
       path: '/wares/historyBusinessManage/addedit',
       component: asyncComponent(() => import('container/wares/loanRepay/historyBusinessManage-addedit'))
   },
-  //  历史业务管理详情的详情
+  //  home公告详情
   {
-      path: '/wares/historyBusinessManage/addedit/addedit',
-      component: asyncComponent(() => import('container/wares/loanRepay/historyBusinessManage-addedit-addedit'))
+      path: '/home/noticeDetail',
+      component: asyncComponent(() => import('container/home/notice-detail'))
+  },
+  //  home制度详情
+  {
+      path: '/home/companysystemDetail',
+      component: asyncComponent(() => import('container/home/companysystem-detail'))
   }
 ];
 

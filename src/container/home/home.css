@@ -202,3 +202,18 @@
     color: #999;
     margin-top: 20px;
 }
+.detail-wrap{
+    width: 100%;
+}
+.detail-wrap .title{
+    text-align: center;
+    font-size: 18px;
+}
+.detail-wrap .content{
+    margin: 30px 0 70px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.detail-wrap .button{
+    text-align: center;
+}
