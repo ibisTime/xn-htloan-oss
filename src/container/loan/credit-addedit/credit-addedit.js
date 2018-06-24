@@ -123,6 +123,7 @@ class CreditAddedit extends React.Component {
         }, {
             title: '手机号',
             field: 'mobile',
+            mobile: true,
             required: true,
             render: (v) => {
                 let val = (v && v.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2')) || '';
@@ -196,12 +197,6 @@ class CreditAddedit extends React.Component {
             required: true,
             onChange: (value) => {
                 this.newCar = value === '0';
-            },
-            formatter: (value) => {
-                if(value) {
-                    this.newCar = value === '0';
-                }
-                return value;
             }
         }, {
             title: '贷款金额',
@@ -336,8 +331,10 @@ class CreditAddedit extends React.Component {
                     params.creditCode = this.code;
                     params.buttonCode = '0';
                     params.operator = getUserId();
-                    for (let i = 0; i < params.creditUserList.length; i++) {
-                        params.creditUserList[i].creditUserCode = params.creditUserList[i].code;
+                    if(this.code) {
+                        for (let i = 0; i < params.creditUserList.length; i++) {
+                            params.creditUserList[i].creditUserCode = params.creditUserList[i].code;
+                        }
                     }
                     this.props.doFetching();
                     let bizCode = this.code ? 632112 : 632110;
