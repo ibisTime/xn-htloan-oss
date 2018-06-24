@@ -193,7 +193,11 @@ export default class DetailComponent extends React.Component {
             } else if (v.type === 'o2m') {
                 values[v.field] = this.props.pageData[v.field];
             } else if (v.type === 'checkbox') {
-                values[v.field] = values[v.field].join(',');
+                if (values[v.field] !== '' && values.push) {
+                    values[v.field] = values[v.field].join(',');
+                } else {
+                    values[v.field] = values[v.field] || '';
+                }
             }
         });
         values.updater = values.updater || getUserId();

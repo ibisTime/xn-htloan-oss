@@ -66,7 +66,7 @@ class parchivesEnter extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                detailCode: 632816,
+                detailCode: 632806,
                 buttons: [{
                     title: '确定',
                     check: true,

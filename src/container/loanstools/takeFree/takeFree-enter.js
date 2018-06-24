@@ -7,13 +7,18 @@ import {
     setPageData,
     restore
 } from '@redux/loanstools/takeFree-enter';
+import moment from 'moment';
 import {
   getQueryString,
   showSucMsg,
-  getUserId
+  getUserId,
+  moneyFormat,
+  dateTimeFormat
 } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
+
+const DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 @DetailWrapper(
     state => state.loanstoolsTakeFreeEnter, {
@@ -30,6 +35,13 @@ class TakeFreeEnter extends React.Component {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
+    }
+    getRealDateVal(result) {
+        let readonly = this.view;
+        if (readonly) {
+            return result ? dateTimeFormat(result, DATETIME_FORMAT) : null;
+        }
+        return result ? moment(dateTimeFormat(result), DATETIME_FORMAT) : null;
     }
     render() {
         const fields = [{
@@ -73,10 +85,13 @@ class TakeFreeEnter extends React.Component {
             type: 'select',
             key: 'remit_type',
             formatter: (v, d) => {
-                if(d.unSubmitBudgetOrderFeeDetail) {
+                if(d.remitType) {
+                    return d.remitType;
+                } else if(d.unSubmitBudgetOrderFeeDetail) {
                     return d.unSubmitBudgetOrderFeeDetail.remitType;
+                } else {
+                    return d.remitType;
                 }
-                return d.remitType;
             },
             required: true
         }, {
@@ -85,10 +100,13 @@ class TakeFreeEnter extends React.Component {
             key: 'remit_project',
             type: 'checkbox',
             formatter: (v, d) => {
-                if(d.unSubmitBudgetOrderFeeDetail) {
+                if(d.remitProject) {
+                    return d.remitProject;
+                } else if(d.unSubmitBudgetOrderFeeDetail) {
                     return d.unSubmitBudgetOrderFeeDetail.remitProject;
+                } else {
+                    return d.remitProject;
                 }
-                return d.remitProject;
             },
             required: true
         }, {
@@ -96,10 +114,13 @@ class TakeFreeEnter extends React.Component {
             field: 'amount',
             amount: true,
             formatter: (v, d) => {
-                if(d.unSubmitBudgetOrderFeeDetail) {
-                    return d.unSubmitBudgetOrderFeeDetail.amount;
+                if(d.amount) {
+                    return moneyFormat(d.amount);
+                } else if(d.unSubmitBudgetOrderFeeDetail) {
+                    return moneyFormat(d.unSubmitBudgetOrderFeeDetail.amount);
+                } else {
+                    return moneyFormat(d.amount);
                 }
-                return d.amount;
             },
             required: true
         }, {
@@ -114,34 +135,54 @@ class TakeFreeEnter extends React.Component {
             keyName: 'code',
             valueName: 'bankcardNumber',
             formatter: (v, d) => {
-                if(d.unSubmitBudgetOrderFeeDetail) {
-                    return d.unSubmitBudgetOrderFeeDetail.platBankcard;
+                if(d.bankcardNumber) {
+                    return d.bankcardNumber;
+                } else if(d.unSubmitBudgetOrderFeeDetail) {
+                    return d.unSubmitBudgetOrderFeeDetail.bankcardNumber;
+                } else {
+                    return d.bankcardNumber;
                 }
-                return d.platBankcard;
             }
         }, {
             title: '汇款人',
             field: 'remitUser',
             formatter: (v, d) => {
-                if(d.unSubmitBudgetOrderFeeDetail) {
+                if(d.remitUser) {
+                    return d.remitUser;
+                } else if(d.unSubmitBudgetOrderFeeDetail) {
                     return d.unSubmitBudgetOrderFeeDetail.remitUser;
+                } else {
+                    return d.remitUser;
                 }
-                return d.remitUser;
             },
             required: true
         }, {
             title: '到账日期',
             field: 'reachDatetime',
             type: 'datetime',
+            formatter: (v, d) => {
+                let val;
+                if(d.reachDatetime) {
+                    val = d.reachDatetime;
+                } else if(d.unSubmitBudgetOrderFeeDetail) {
+                    val = d.unSubmitBudgetOrderFeeDetail.reachDatetime;
+                } else {
+                    val = d.reachDatetime;
+                }
+                return this.getRealDateVal(val);
+            },
             required: true
         }, {
             title: '备注',
             field: 'remark',
             formatter: (v, d) => {
-                if(d.unSubmitBudgetOrderFeeDetail) {
+                if(d.remark) {
+                    return d.remark;
+                } else if(d.unSubmitBudgetOrderFeeDetail) {
                     return d.unSubmitBudgetOrderFeeDetail.remark;
+                } else {
+                    return d.remark;
                 }
-                return d.remark;
             }
         }, {
             title: '服务费清单',
