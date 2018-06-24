@@ -43,8 +43,7 @@ class TravelAddedit extends React.Component {
             items: [
                 [{
                     title: '出差人',
-                    field: 'applyUserCode',
-                    value: getUserName(),
+                    field: 'applyUserName',
                     readonly: true
                 }, {
                     title: '出差时间',

@@ -149,7 +149,7 @@ class settlementCollection extends React.Component {
                 let actualRefunds = this.props.pageData.actualRefund;
                 this.props.setPageData({
                     ...this.props.pageData,
-                    actualRefunds: lyDeposit - v
+                    actualRefunds: lyDeposit - v * 1000
                 });
             },
             required: true

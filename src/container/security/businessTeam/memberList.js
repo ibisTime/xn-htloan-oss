@@ -37,14 +37,12 @@ class MemberList extends React.Component {
             field: 'realName',
             title: '成员名称'
         }, {
-            field: 'team',
-            title: '所属团队'
-        }, {
             field: 'companyName',
             title: '所属公司'
         }];
         return this.props.buildList({
             fields,
+            rowKey: 'userId',
             pageCode: 630205,
             deleteCode: 630201,
             searchParams: {
