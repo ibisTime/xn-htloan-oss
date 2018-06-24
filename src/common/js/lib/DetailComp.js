@@ -762,7 +762,21 @@ export default class DetailComponent extends React.Component {
                     };
                 }
             } else if (f.type === 'img') {
-                obj.render = (value) => value ? <img style={{maxWidth: 25, maxHeight: 25}} src={PIC_PREFIX + value}/> : '';
+                if(f.single) {
+                    obj.render = (value) => value ? <img style={{maxWidth: 25, maxHeight: 25}} src={PIC_PREFIX + value}/> : '';
+                } else {
+                    obj.render = (value) => {
+                        if (value) {
+                            let imgStr = value.split('||');
+                            return (<div>
+                                { imgStr.map(pic => (
+                                    <img key={pic} style={{maxWidth: 25, maxHeight: 25, marginRight: 10}} src={PIC_PREFIX + pic}/>
+                                ))}
+                            </div>);
+                        }
+                        return '';
+                    };
+                }
             }
             if (f.amount && !f.render) {
                 obj.render = (v, d) => <span style={{whiteSpace: 'nowrap'}}>{moneyFormat(v, d)}</span>;

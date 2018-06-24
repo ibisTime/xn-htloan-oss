@@ -44,7 +44,6 @@ class CreditAddedit extends React.Component {
         this.newCar = true;
         this.creditUserListIndex = 6;
         this.buttons = [];
-
         this.concatFalg = false;
     }
 
@@ -104,7 +103,23 @@ class CreditAddedit extends React.Component {
             field: 'loanRole',
             type: 'select',
             key: 'credit_user_loan_role',
-            required: true
+            required: true,
+            onChange: (v, data, props) => {
+                let creditUserList = this.props.pageData.creditUserList;
+                let loanRoleList = {};
+                props.selectData.loanRole.map(l => {
+                    loanRoleList[l.dkey] = l.dvalue;
+                });
+                creditUserList && creditUserList.forEach(d => {
+                   if (d.loanRole === v) {
+                       setTimeout(() => {
+                           props.form.setFieldsValue({loanRole: ''});
+                       }, 100);
+                       showWarnMsg(loanRoleList[v] + '记录已添加');
+                       return false;
+                   }
+                });
+            }
         }, {
             title: '手机号',
             field: 'mobile',
@@ -177,10 +192,16 @@ class CreditAddedit extends React.Component {
             field: 'bizType',
             type: 'select',
             key: 'budget_orde_biz_typer',
-            value: this.code ? '' : '0',
+            value: this.code && !this.concatFalg ? '' : '0',
             required: true,
             onChange: (value) => {
                 this.newCar = value === '0';
+            },
+            formatter: (value) => {
+                if(value) {
+                    this.newCar = value === '0';
+                }
+                return value;
             }
         }, {
             title: '贷款金额',
@@ -315,12 +336,16 @@ class CreditAddedit extends React.Component {
                     params.creditCode = this.code;
                     params.buttonCode = '0';
                     params.operator = getUserId();
+                    for (let i = 0; i < params.creditUserList.length; i++) {
+                        params.creditUserList[i].creditUserCode = params.creditUserList[i].code;
+                    }
                     this.props.doFetching();
                     let bizCode = this.code ? 632112 : 632110;
                     fetch(bizCode, params).then((data) => {
                         if (!this.code) {
                             this.code = data.code;
                         }
+                        this.concatFalg = true;
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                     }).catch(this.props.cancelFetching);
@@ -338,6 +363,7 @@ class CreditAddedit extends React.Component {
                     }
                     let flag = false;
                     for (let i = 0; i < params.creditUserList.length; i++) {
+                        params.creditUserList[i].creditUserCode = params.creditUserList[i].code;
                         if (params.creditUserList[i].relation === '1' && params.creditUserList[i].loanRole === '1') {
                             flag = true;
                         }
