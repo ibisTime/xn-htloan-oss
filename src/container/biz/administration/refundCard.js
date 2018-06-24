@@ -38,7 +38,7 @@ class refundCard extends React.Component {
         }, {
             title: '开户行',
             field: 'bankName',
-            render: (v, d) => d.bankName + d.subbranch
+            render: (v, d) => d.subbranch
         }, {
             title: '户名',
             field: 'realName',

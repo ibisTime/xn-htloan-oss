@@ -90,6 +90,19 @@ class TakeFreeAddedit extends React.Component {
                     field: 'reachDatetime',
                     type: 'date'
                 }, {
+                    title: '是否还清',
+                    field: 'isSettled',
+                    type: 'select',
+                    data: [{
+                        key: '0',
+                        value: '否'
+                    }, {
+                        key: '1',
+                        value: '是'
+                    }],
+                    keyName: 'key',
+                    valueName: 'value'
+                }, {
                     title: '更新人',
                     field: 'updater'
                 }, {

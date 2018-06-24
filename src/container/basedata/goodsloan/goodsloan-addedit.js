@@ -96,7 +96,8 @@ class goodsloanAddedit extends React.Component {
                 value: '是'
             }],
             keyName: 'key',
-            valueName: 'value'
+            valueName: 'value',
+            required: true
         }];
         return this.props.buildDetail({
             fields,

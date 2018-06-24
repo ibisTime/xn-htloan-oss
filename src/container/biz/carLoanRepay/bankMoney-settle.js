@@ -66,11 +66,6 @@ class bankMoneyAddedit extends React.Component {
             type: 'img',
             required: true
         }, {
-            title: '合格证',
-            field: 'carHgz',
-            type: 'img',
-            required: true
-        }, {
             title: '交强险',
             field: 'carJqx',
             type: 'img',

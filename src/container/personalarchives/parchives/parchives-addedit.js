@@ -176,7 +176,7 @@ class parchivesAddedit extends React.Component {
                 title: '紧急联系人',
                 field: 'emergencyContact'
             }, {
-                title: '紧急联系号码：',
+                title: '紧急联系号码',
                 field: 'emergencyContactMobile',
                 mobile: true
             }], [{
