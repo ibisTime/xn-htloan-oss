@@ -71,7 +71,15 @@ class Busapply extends React.Component {
             title: '状态',
             field: 'status',
             type: 'select',
-            key: 'bus_borrow_status',
+            data: [{
+                key: '0',
+                value: '待审核'
+            }, {
+                key: '2',
+                value: '审核不通过'
+            }],
+            keyName: 'key',
+            valueName: 'value',
             search: true
         }, {
             title: '更新人',
@@ -84,6 +92,9 @@ class Busapply extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 632795,
+            searchParams: {
+                statusList: ['0', '2']
+            },
             btnEvent: {
                 check: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {

@@ -92,6 +92,9 @@ class Busreturn extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 632795,
+            searchParams: {
+                statusList: ['1', '3', '4']
+            },
             btnEvent: {
               check: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {
