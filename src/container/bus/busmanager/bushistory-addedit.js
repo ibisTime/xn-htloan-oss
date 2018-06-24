@@ -48,14 +48,13 @@ class BushistoryAddedit extends React.Component {
     }, {
         title: '领用时间',
         field: 'applyDatetime',
-        type: 'date'
+        type: 'date',
+        readonly: true
     }, {
         title: '用车时间',
         field: 'time',
         rangedate: ['useDatetimeStart', 'useDatetimeEnd'],
-        render: (v, d) => {
-           return <span style={{whiteSpace: 'nowrap'}}>{formatDate(d.useDatetimeStart) + '~' + formatDate(d.useDatetimeEnd)}</span>;
-        },
+        type: 'datetime',
         readonly: true
     }, {
         title: '行驶公里数',

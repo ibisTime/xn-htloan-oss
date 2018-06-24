@@ -114,6 +114,9 @@ export default class DetailComponent extends React.Component {
 
     componentWillUnmount() {
         this.props.restore();
+        this.options.fields.forEach(item => {
+            this.getSelectComp[item.field] = false;
+        });
     }
 
     buildDetail = (options) => {
@@ -125,7 +128,6 @@ export default class DetailComponent extends React.Component {
             this.props.initStates({code: this.options.code, view: this.options.view});
             this.props.setPageData(this.options.useData);
         } else if (this.first) {
-            console.log(this.options);
             this.options.code && this.options.detailCode && this.getDetailInfo();
             this.props.initStates({code: this.options.code, view: this.options.view});
         }
@@ -470,8 +472,8 @@ export default class DetailComponent extends React.Component {
                 return this.getCitySelect(item, initVal, rules, getFieldDecorator);
             case 'checkbox':
                 return this.getCheckboxComp(item, initVal, rules, getFieldDecorator);
-            case 'button':
-                return this.getFieldsButton(item);
+            // case 'button':
+            //     return this.getFieldsButton(item);
             case 'treeSelect':
                 return this.getTreeSelectComp(item, initVal, rules, getFieldDecorator);
             default:
@@ -488,20 +490,20 @@ export default class DetailComponent extends React.Component {
         }));
     }
 
-    getFieldsButton(item) {
-        return (
-            <FormItem
-                className={item.hidden ? 'hidden' : ''}
-                key={item.field}>
-                {
-                    item.readonly ? null
-                        : (<Button onClick={() => { item.onClick(); }} style={{width: '100%', marginTop: 10}} type="dashed">
-                            <Icon type="plus"/>{item.title}
-                        </Button>)
-                }
-            </FormItem>
-        );
-    }
+    // getFieldsButton(item) {
+    //     return (
+    //         <FormItem
+    //             className={item.hidden ? 'hidden' : ''}
+    //             key={item.field}>
+    //             {
+    //                 item.readonly ? null
+    //                     : (<Button onClick={() => { item.onClick(); }} style={{width: '100%', marginTop: 10}} type="dashed">
+    //                         <Icon type="plus"/>{item.title}
+    //                     </Button>)
+    //             }
+    //         </FormItem>
+    //     );
+    // }
 
     getTableItem(item, initVal, rules, getFieldDecorator) {
         const columns = this.getTableColumns(item);
@@ -1012,9 +1014,12 @@ export default class DetailComponent extends React.Component {
         if (initVal) {
             value = initVal;
         }
-        // if (item.onChange && value) {
-        //     item.onChange(value, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1[item.keyName] === value) : {}, this.props);
-        // }
+        if (item.field === 'bizType') {
+            if (item.onChange && this.props.isLoaded && !this.getSelectComp[item.field]) {
+                this.getSelectComp[item.field] = true;
+                item.onChange(value, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1[item.keyName] === value) : {}, this.props);
+            }
+        }
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
                       label={this.getLabel(item)}>

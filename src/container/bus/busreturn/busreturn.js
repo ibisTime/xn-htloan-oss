@@ -68,7 +68,18 @@ class Busreturn extends React.Component {
             title: '状态',
             field: 'status',
             type: 'select',
-            key: 'bus_borrow_status',
+            data: [{
+                key: '1',
+                value: '待归还'
+            }, {
+                key: '3',
+                value: '归还待审核'
+            }, {
+                key: '4',
+                value: '已归还'
+            }],
+            keyName: 'key',
+            valueName: 'value',
             search: true
         }, {
             title: '更新人',
@@ -81,6 +92,9 @@ class Busreturn extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 632795,
+            searchParams: {
+                statusList: ['1', '3', '4']
+            },
             btnEvent: {
               check: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {

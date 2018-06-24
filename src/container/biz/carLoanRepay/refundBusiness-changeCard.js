@@ -54,10 +54,10 @@ class refundBusinessChangeCard extends React.Component {
       }
     }, {
       title: '原银行卡号',
-      field: 'idNo',
+      field: 'cardNumber',
       readonly: true,
       formatter: (v, d) => {
-        return d.loanOrder.bankcardNumber;
+        return d.budgetOrder.repayBankcardNumber;
       }
     }, {
       title: '银行卡号',

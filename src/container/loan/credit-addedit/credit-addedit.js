@@ -341,7 +341,6 @@ class CreditAddedit extends React.Component {
                     fetch(bizCode, params).then((data) => {
                         if (!this.code) {
                             this.code = data.code;
-                            // this.props.history.replace(`/loan/credit/addedit?isAddedit=1&code=${data.code}`);
                         }
                         this.props.getBuildDetail(this.code);
                         showSucMsg('操作成功');
