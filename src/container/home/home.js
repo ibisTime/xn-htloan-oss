@@ -10,6 +10,7 @@ import { getPageMyNotice, getPageMyCompanysystem } from 'api/home';
 import './home.css';
 import userPhoto from '../../images/home-userPhoto.png';
 import iconMore from '../../images/home-icon-more.png';
+import noData from '../../images/noData.png';
 import iconLi from '../../images/home-icon-li.png';
 
 class Home extends React.Component {
@@ -70,7 +71,7 @@ class Home extends React.Component {
                                         <samp className="date">{dateFormat(d.notice.updateDatetime)}</samp>
                                     </Link>
                                 </div>
-                            )) : <div className="noData">暂无公司公告</div>}
+                            )) : <div className="noData"><img src={noData}/><p>暂无公司公告</p></div>}
                         </div>
                     </div>
                 </div>
@@ -88,7 +89,7 @@ class Home extends React.Component {
                                         <samp className="date">{dateFormat(d.regime.updateDatetime)}</samp>
                                     </Link>
                                 </div>
-                            )) : <div className="noData">暂无公司制度</div>}
+                            )) : <div className="noData"><img src={noData}/><p>暂无公司制度</p></div>}
                         </div>
                     </div>
                 </div>

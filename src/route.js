@@ -1353,36 +1353,6 @@ const ROUTES = [
       path: '/bus/busreturn/check',
       component: asyncComponent(() => import('container/bus/busreturn/busreturn-check'))
   },
-  //  gps申领
-  {
-      path: '/administrative/applyGps',
-      component: asyncComponent(() => import('container/postloantools/applyGps/applyGps'))
-  },
-  //  gps申领 详情
-  {
-      path: '/administrative/applyGps/addedit',
-      component: asyncComponent(() => import('container/postloantools/applyGps/applyGps-addedit'))
-  },
-  //  gps申领 申领
-  {
-      path: '/administrative/applyGps/apply',
-      component: asyncComponent(() => import('container/postloantools/applyGps/applyGps-apply'))
-  },
-  //  gps申领 GPS管理员审核
-  {
-      path: '/administrative/applyGps/check',
-      component: asyncComponent(() => import('container/postloantools/applyGps/applyGps-check'))
-  },
-  //  gps库存管理
-  {
-      path: '/administrative/manageGps',
-      component: asyncComponent(() => import('container/postloantools/manageGps/manageGps'))
-  },
-  //  gps库存管理 详情
-  {
-      path: '/administrative/manageGps/addedit',
-      component: asyncComponent(() => import('container/postloantools/manageGps/manageGps-addedit'))
-  },
   // // 系统管理-公司管理
   //  业务团队
   {
