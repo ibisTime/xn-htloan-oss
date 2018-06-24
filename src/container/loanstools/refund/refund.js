@@ -103,6 +103,9 @@ class refund extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 632185,
+            searchParams: {
+                isAdvanceFund: '0'
+            },
             btnEvent: {
               certain: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {

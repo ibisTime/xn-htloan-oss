@@ -84,6 +84,12 @@ class TakeFreeEnter extends React.Component {
             field: 'remitProject',
             key: 'remit_project',
             type: 'checkbox',
+            formatter: (v, d) => {
+                if(d.unSubmitBudgetOrderFeeDetail) {
+                    return d.unSubmitBudgetOrderFeeDetail.remitProject;
+                }
+                return d.remitProject;
+            },
             required: true
         }, {
             title: '金额',

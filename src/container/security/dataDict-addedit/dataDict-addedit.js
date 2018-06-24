@@ -51,6 +51,7 @@ class DataDictAddEdit extends React.Component {
       key: 'id',
       code: this.code,
       view: this.view,
+      addCode: 630030,
       editCode: 630032,
       detailCode: 630037
     });

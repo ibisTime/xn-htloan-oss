@@ -135,6 +135,16 @@ class Commodity extends React.Component {
                         updownVisible: true
                     });
                 }
+            },
+            edit: (key, item) => {
+                console.log(item);
+                if (!key || !key.length || !item || !item.length) {
+                    showWarnMsg('请选择记录');
+                } else if (item[0].status === '2') {
+                    showWarnMsg('下架后才能修改');
+                } else {
+                    this.props.history.push(`/wares/commodity/addedit?code=${item[0].code}`);
+                }
             }
         };
         return (

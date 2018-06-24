@@ -13,7 +13,9 @@ import {
     showWarnMsg,
     showSucMsg,
     getRoleCode,
-    getTeamCode
+    getTeamCode,
+    dateTimeFormat,
+    dateFormat
 } from 'common/js/util';
 import {
     listWrapper
@@ -43,10 +45,12 @@ class FaceSign extends React.Component {
     render() {
         const fields = [{
             title: '业务公司',
-            field: 'companyName'
+            field: 'companyName',
+            search: true
         }, {
             title: '客户姓名',
-            field: 'applyUserName'
+            field: 'applyUserName',
+            search: true
         }, {
             title: '手机号',
             field: 'mobile'
@@ -83,7 +87,10 @@ class FaceSign extends React.Component {
         }, {
             title: '申请日期',
             field: 'applyDatetime',
-            type: 'datetime'
+            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
+            render: dateFormat,
+            type: 'date',
+            search: true
         }, {
             title: '当前节点',
             field: 'curNodeCode',

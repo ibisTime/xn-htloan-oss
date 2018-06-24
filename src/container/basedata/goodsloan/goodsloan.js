@@ -85,7 +85,7 @@ class Goodsloan extends React.Component {
                 lower: (key, item) => {
                     if (!key || !key.length || !item || !item.length) {
                         showWarnMsg('请选择记录');
-                    } else if (item[0].status !== '3') {
+                    } else if (item[0].status !== '2') {
                         showWarnMsg('该状态不可下架');
                     } else {
                         Modal.confirm({
@@ -110,7 +110,7 @@ class Goodsloan extends React.Component {
                 onShelf: (key, item) => {
                     if (!key || !key.length || !item || !item.length) {
                         showWarnMsg('请选择记录');
-                    } else if (item[0].status === '3') {
+                    } else if (item[0].status === '2') {
                         showWarnMsg('该状态不可上架');
                     } else {
                         Modal.confirm({
@@ -130,6 +130,16 @@ class Goodsloan extends React.Component {
                                 });
                             }
                         });
+                    }
+                },
+                edit: (key, item) => {
+                    console.log(item);
+                    if (!key || !key.length || !item || !item.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (item[0].status === '2') {
+                        showWarnMsg('下架后才能修改');
+                    } else {
+                        this.props.history.push(`/basedata/goodsloan/addedit?code=${item[0].code}`);
                     }
                 }
             }
