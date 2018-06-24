@@ -85,7 +85,7 @@ class TakeFreeEnter extends React.Component {
             type: 'select',
             key: 'remit_type',
             formatter: (v, d) => {
-                if(d.remitType) {
+                if (d.remitType) {
                     return d.remitType;
                 } else if(d.unSubmitBudgetOrderFeeDetail) {
                     return d.unSubmitBudgetOrderFeeDetail.remitType;
@@ -100,12 +100,12 @@ class TakeFreeEnter extends React.Component {
             key: 'remit_project',
             type: 'checkbox',
             formatter: (v, d) => {
-                if(d.remitProject) {
-                    return d.remitProject;
+                if (d.remitProject) {
+                    return d.remitProject.split(',');
                 } else if(d.unSubmitBudgetOrderFeeDetail) {
-                    return d.unSubmitBudgetOrderFeeDetail.remitProject;
+                    return d.unSubmitBudgetOrderFeeDetail.remitProject.split(',');
                 } else {
-                    return d.remitProject;
+                    return [];
                 }
             },
             required: true
@@ -135,10 +135,10 @@ class TakeFreeEnter extends React.Component {
             keyName: 'code',
             valueName: 'bankcardNumber',
             formatter: (v, d) => {
-                if(d.bankcardNumber) {
+                if (d.bankcardNumber) {
                     return d.bankcardNumber;
                 } else if(d.unSubmitBudgetOrderFeeDetail) {
-                    return d.unSubmitBudgetOrderFeeDetail.bankcardNumber;
+                    return d.unSubmitBudgetOrderFeeDetail.platBankcard;
                 } else {
                     return d.bankcardNumber;
                 }

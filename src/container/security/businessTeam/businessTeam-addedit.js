@@ -38,7 +38,7 @@ class businessTeamAddedit extends React.Component {
             type: 'select',
             listCode: 630066,
             keyName: 'userId',
-            valueName: '{{companyName.DATA}}-{{departmentName.DATA}}-{{realName.DATA}}-{{mobile.DATA}}',
+            valueName: '{{realName.DATA}}-{{mobile.DATA}}',
             searchName: 'keyword',
             required: true
         }, {

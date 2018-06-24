@@ -57,6 +57,19 @@ class TakeFreeAddedit extends React.Component {
             amount: true,
             readonly: true
         }, {
+            title: '是否还清',
+            field: 'isSettled',
+            type: 'select',
+            data: [{
+                key: '0',
+                value: '否'
+            }, {
+                key: '1',
+                value: '是'
+            }],
+            keyName: 'key',
+            valueName: 'value'
+        }, {
             title: '服务费清单',
             field: 'BudgetOrderFeeDetailList',
             type: 'o2m',

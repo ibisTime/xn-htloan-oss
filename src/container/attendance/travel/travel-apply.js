@@ -33,7 +33,6 @@ import fetch from 'common/js/fetch';
 )
 class TravelApply extends React.Component {
     getSumMoney = (v, key) => {
-        console.log(key);
         let aircraftBudget = +moneyParse(this.props.form.getFieldValue('aircraftBudget')) || 0;
         let trainBudget = +moneyParse(this.props.form.getFieldValue('trainBudget')) || 0;
         let urbanBudget = +moneyParse(this.props.form.getFieldValue('urbanBudget')) || 0;
@@ -73,11 +72,6 @@ class TravelApply extends React.Component {
             title: '出差申请信息',
             items: [
                 [{
-                    title: '出差人',
-                    field: 'applyUserCode',
-                    value: getUserName(),
-                    readonly: true
-                }, {
                     title: '出差时间',
                     field: 'time',
                     rangedate: ['tripDatetimeStart', 'tripDatetimeEnd'],

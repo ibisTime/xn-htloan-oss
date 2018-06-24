@@ -50,7 +50,8 @@ class BusmanagerAddedit extends React.Component {
     }, {
         title: '车辆照片',
         field: 'pic',
-        type: 'img'
+        type: 'img',
+        required: true
     }];
     return this
       .props
