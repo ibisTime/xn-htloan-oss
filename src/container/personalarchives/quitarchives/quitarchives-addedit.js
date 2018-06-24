@@ -33,7 +33,7 @@ class quitarchivesAddedit extends React.Component {
         const fields = [{
             title: '姓名',
             field: 'code',
-            listCode: 632807,
+            listCode: 630066,
             type: 'select',
             keyName: 'code',
             valueName: 'realName',
@@ -46,7 +46,7 @@ class quitarchivesAddedit extends React.Component {
         }, {
             title: '交接人',
             field: 'heirPeople',
-            listCode: 632807,
+            listCode: 630066,
             type: 'select',
             keyName: 'userId',
             valueName: 'realName',
@@ -54,6 +54,8 @@ class quitarchivesAddedit extends React.Component {
         }, {
             title: '离职缘由',
             field: 'leaveReason',
+            type: 'textarea',
+            normalArea: true,
             required: true
         }, {
             title: '备注',
