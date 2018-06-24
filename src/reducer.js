@@ -272,11 +272,21 @@ import { loanstoolsRefundCertain } from './redux/loanstools/refund-certain';
 /**
  * 资料传递
  */
-//  资料传递 + 详情 + 发件 + 收件并审核
+//  发件 + 详情 + 发件
 import { transmit } from './redux/transmit/transmit';
 import { transmitAddedit } from './redux/transmit/transmit-addedit';
 import { transmitSend } from './redux/transmit/transmit-send';
 import { transmitCheck } from './redux/transmit/transmit-check';
+
+// 收件 + 详情 + 收件并审核
+import { transmitCollection } from './redux/transmit/collection';
+import { transmitCollectionAddedit } from './redux/transmit/collection-addedit';
+import { transmitCollectionCheck } from './redux/transmit/collection-check';
+
+// GPS收件
+import { transmitCollectionGPS } from './redux/transmit/collectionGPS';
+import { transmitCollectionGPSAddedit } from './redux/transmit/collectionGPS-addedit';
+import { transmitCollectionGPSCheck } from './redux/transmit/collectionGPS-check';
 
 /**
  * 贷后工具
@@ -646,6 +656,12 @@ export default combineReducers({
   transmitAddedit,
   transmitSend,
   transmitCheck,
+  transmitCollection,
+  transmitCollectionAddedit,
+  transmitCollectionCheck,
+  transmitCollectionGPS,
+  transmitCollectionGPSAddedit,
+  transmitCollectionGPSCheck,
   postloantoolsApplyGps,
   postloantoolsApplyGpsAddedit,
   postloantoolsApplyGpsApply,

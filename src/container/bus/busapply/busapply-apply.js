@@ -37,6 +37,9 @@ class BusapplyApply extends React.Component {
         field: 'busCode',
         type: 'select',
         listCode: 632787,
+        params: {
+            status: '0'
+        },
         keyName: 'code',
         valueName: 'model',
         required: true

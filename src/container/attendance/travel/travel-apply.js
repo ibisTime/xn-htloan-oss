@@ -166,17 +166,19 @@ class TravelApply extends React.Component {
                     title: '出差事由',
                     field: 'tripReason',
                     type: 'textarea',
-                    normalArea: true
+                    normalArea: true,
+                    required: true
                 }],
                 [{
                     title: '出差路线',
                     field: 'tripLine',
                     type: 'textarea',
-                    normalArea: true
+                    normalArea: true,
+                    required: true
                 }],
                 [{
                     title: '备注',
-                    field: 'applyNote',
+                    field: 'remark',
                     type: 'textarea',
                     normalArea: true
                 }]

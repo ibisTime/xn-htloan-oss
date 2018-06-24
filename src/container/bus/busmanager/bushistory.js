@@ -91,7 +91,7 @@ class Bushistory extends React.Component {
                 code: 'detail',
                 name: '详情',
                 handler: () => {
-                    this.props.history.push(`/bus/bushistory/addedit?code=${this.code}`);
+                    this.props.history.push(`/bus/busmanager/bushistory/addedit?code=${this.code}`);
                 }
             }]
         });
