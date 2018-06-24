@@ -57,28 +57,33 @@ class parchivesAddedit extends React.Component {
                 required: true,
                 type: 'date'
             }, {
-                title: '部门',
-                field: 'departmentCode',
-                type: 'select',
-                required: true,
-                listCode: 630106,
-                params: {
-                  typeList: ['2']
-                },
-                keyName: 'code',
-                valueName: 'name',
-                search: true
+              field: 'departmentCode',
+              title: '部门',
+              type: 'treeSelect',
+              listCode: 630106,
+              keyName: 'code',
+              valueName: 'name',
+              bParams: ['type'],
+              params: {
+                status: 1,
+                typeList: [1, 2]
+              },
+              disabled: (item) => item.type !== '2',
+              required: true
             }], [{
-                title: '岗位',
-                field: 'postCode',
-                type: 'select',
-                required: true,
-                listCode: 630106,
-                params: {
-                  typeList: ['3']
-                },
-                keyName: 'code',
-                valueName: 'name'
+              field: 'postCode',
+              title: '岗位',
+              type: 'treeSelect',
+              listCode: 630106,
+              keyName: 'code',
+              valueName: 'name',
+              bParams: ['type'],
+              params: {
+                status: 1,
+                typeList: [1, 2, 3]
+              },
+              disabled: (item) => item.type !== '3',
+              required: true
             }, {
                 title: '上班班次',
                 field: 'jobClasses',
