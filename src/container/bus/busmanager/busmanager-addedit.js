@@ -53,6 +53,11 @@ class BusmanagerAddedit extends React.Component {
         field: 'pic',
         type: 'img',
         required: true
+    }, {
+        title: '领用状态',
+        field: 'status',
+        type: 'select',
+        key: 'bus_status'
     }];
     if(this.view) {
         fields.push({
