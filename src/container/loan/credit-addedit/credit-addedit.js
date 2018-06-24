@@ -193,9 +193,10 @@ class CreditAddedit extends React.Component {
             field: 'bizType',
             type: 'select',
             key: 'budget_orde_biz_typer',
-            value: this.code && !this.concatFalg ? '' : '0',
+            value: this.code ? '' : '0',
             required: true,
             onChange: (value) => {
+                console.log(value);
                 this.newCar = value === '0';
             }
         }, {

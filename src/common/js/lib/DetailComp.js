@@ -1006,6 +1006,9 @@ export default class DetailComponent extends React.Component {
         if (initVal) {
             value = initVal;
         }
+        // if (item.onChange && value) {
+        //     item.onChange(value, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1[item.keyName] === value) : {}, this.props);
+        // }
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
                       label={this.getLabel(item)}>
