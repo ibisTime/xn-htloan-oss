@@ -175,10 +175,12 @@ export function updateCompany(params) {
       dispatch(cancelFetching());
       showSucMsg('修改成功');
       params.parentCode = params.parentCode || 'ROOT';
+      let oldParentCode = compInfo[params.code].parentCode;
+      let idx = listInfo[oldParentCode].findIndex(v => v.key === params.code);
+      listInfo[oldParentCode].splice(idx, 1);
       compInfo[params.code] = params;
       let parentCode = params.parentCode;
-      let idx = listInfo[params.parentCode].findIndex(v => v.key === params.code);
-      listInfo[parentCode].splice(idx, 1, {
+      listInfo[parentCode].push({
         key: params.code,
         title: params.name,
         orderNo: params.orderNo
