@@ -114,6 +114,9 @@ export default class DetailComponent extends React.Component {
 
     componentWillUnmount() {
         this.props.restore();
+        this.options.fields.forEach(item => {
+            this.getSelectComp[item.field] = false;
+        });
     }
 
     buildDetail = (options) => {
@@ -1011,9 +1014,12 @@ export default class DetailComponent extends React.Component {
         if (initVal) {
             value = initVal;
         }
-        // if (item.onChange && value) {
-        //     item.onChange(value, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1[item.keyName] === value) : {}, this.props);
-        // }
+        if (item.field === 'bizType') {
+            if (item.onChange && this.props.isLoaded && !this.getSelectComp[item.field]) {
+                this.getSelectComp[item.field] = true;
+                item.onChange(value, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1[item.keyName] === value) : {}, this.props);
+            }
+        }
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
                       label={this.getLabel(item)}>
