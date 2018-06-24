@@ -42,7 +42,7 @@ class pointreturnReturn extends React.Component {
             readonly: true
         }, {
             title: '业务编号',
-            field: 'code',
+            field: 'bizCode',
             readonly: true
         }, {
             title: '收款银行',

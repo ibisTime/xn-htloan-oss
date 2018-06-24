@@ -82,10 +82,6 @@ class CompConstruct extends React.Component {
   }
   // 新增部门
   addCompany() {
-    // if (!this.props.selectedKeys.length && this.props.treeData.length) {
-    //   showWarnMsg('请先选择公司/部门');
-    //   return;
-    // }
     this.setCompVisible(true);
   }
   // 删除部门
