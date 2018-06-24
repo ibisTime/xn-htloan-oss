@@ -35,7 +35,7 @@ class TakeFreeAddedit extends React.Component {
             readonly: true
         }, {
             title: '业务编号',
-            field: 'code',
+            field: 'budgetOrder',
             readonly: true
         }, {
             title: '贷款金额',
