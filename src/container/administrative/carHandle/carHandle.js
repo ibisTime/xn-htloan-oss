@@ -35,9 +35,7 @@ class carHandle extends React.Component {
         title: '违章人',
         field: 'realName',
         render: (v, d) => {
-          if(d.applyUserArchive) {
-            return d.applyUserArchive.realName;
-          }
+          return d.applyUserArchive ? d.applyUserArchive.realName : '-';
         }
     }, {
         title: '违章地点',
