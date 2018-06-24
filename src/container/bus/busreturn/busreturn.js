@@ -37,7 +37,7 @@ class Busreturn extends React.Component {
     render() {
         const fields = [{
             title: '领用人',
-            field: 'applyUser',
+            field: 'applyUserName',
             search: true
         }, {
             title: '所属部门',
