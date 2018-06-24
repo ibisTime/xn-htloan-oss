@@ -34,7 +34,8 @@ class DataDictAddEdit extends React.Component {
     }, {
       title: '字典键',
       field: 'dkey',
-      required: true,
+      required: !this.code,
+      readonly: this.code,
       maxlength: 15
     }, {
       title: '字典值',

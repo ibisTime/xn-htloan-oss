@@ -55,7 +55,7 @@ class Busreturn extends React.Component {
             field: 'busMobile'
         }, {
             title: '车牌号',
-            field: 'number'
+            field: 'busNumber'
         }, {
             title: '申请时间',
             field: 'applyDatetime',
@@ -87,7 +87,7 @@ class Busreturn extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].status === '3') {
+                } else if (selectedRows[0].status !== '3') {
                     showWarnMsg('该状态不是归还待审核状态');
                 } else {
                   this.props.history.push(`/bus/busreturn/check?code=${selectedRowKeys[0]}`);
@@ -98,7 +98,7 @@ class Busreturn extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].status === '1') {
+                } else if (selectedRows[0].status !== '1') {
                     showWarnMsg('该状态不是待归还状态');
                 } else {
                   this.props.history.push(`/bus/busreturn/return?code=${selectedRowKeys[0]}`);

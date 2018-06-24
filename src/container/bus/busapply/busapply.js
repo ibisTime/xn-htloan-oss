@@ -55,7 +55,7 @@ class Busapply extends React.Component {
             field: 'busMobile'
         }, {
             title: '车牌号',
-            field: 'number'
+            field: 'busNumber'
         }, {
             title: '申请时间',
             field: 'applyDatetime',
@@ -90,7 +90,7 @@ class Busapply extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].status === '0') {
+                    } else if (selectedRows[0].status !== '0') {
                         showWarnMsg('该状态不是待审核状态');
                     } else {
                     this.props.history.push(`/bus/busapply/check?code=${selectedRowKeys[0]}`);

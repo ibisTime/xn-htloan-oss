@@ -51,7 +51,9 @@ class BusreturnCheck extends React.Component {
       readonly: true
   }, {
         title: '审核说明',
-        field: 'remark'
+        field: 'applyNote',
+        type: 'textarea',
+        normalArea: true
     }];
     return this
       .props

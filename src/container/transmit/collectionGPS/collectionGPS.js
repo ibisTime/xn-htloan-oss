@@ -107,7 +107,7 @@ class CollectionGPS extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 632155,
-            searchParmas: {
+            searchParams: {
                 receive: getUserId()
             },
             btnEvent: {
@@ -119,7 +119,7 @@ class CollectionGPS extends React.Component {
                 } else if (selectedRows[0].status !== '1') {
                   showWarnMsg('当前不是待收件节点');
                 } else {
-                  this.props.history.push(`/transmit/collection/check?code=${selectedRowKeys[0]}`);
+                  this.props.history.push(`/transmit/collectionGPS/check?code=${selectedRowKeys[0]}`);
                 }
               }
             }

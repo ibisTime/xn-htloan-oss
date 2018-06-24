@@ -106,7 +106,7 @@ class Collection extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 632155,
-            searchParmas: {
+            searchParams: {
                 receive: '0'
             },
             btnEvent: {

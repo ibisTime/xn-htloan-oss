@@ -33,12 +33,9 @@ class memberListAddedit extends React.Component {
             field: 'userId',
             title: '成员名称',
             type: 'select',
-            pageCode: 630065,
-            params: {
-                type: 'P'
-            },
+            listCode: 630066,
             keyName: 'userId',
-            valueName: '{{companyName.DATA}}-{{departmentName.DATA}}-{{realName.DATA}}',
+            valueName: '{{realName.DATA}}-{{mobile.DATA}}',
             searchName: 'keyword',
             required: true
         }, {
