@@ -90,8 +90,14 @@ class Bushistory extends React.Component {
             buttons: [{
                 code: 'detail',
                 name: '详情',
-                handler: () => {
-                    this.props.history.push(`/bus/busmanager/bushistory/addedit?code=${this.code}`);
+                handler: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                      showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                      showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/bus/busmanager/bushistory/addedit?code=${selectedRows[0].code}`);
+                    }
                 }
             }]
         });
