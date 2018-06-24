@@ -10,7 +10,8 @@ import {
 import {
   getQueryString,
   showSucMsg,
-  getUserId
+  getUserId,
+  isExpressConfirm
 } from 'common/js/util';
 import {
     DetailWrapper
@@ -78,8 +79,9 @@ class mortgageEnter extends React.Component {
                 param.approveNote = this.projectCode;
                 param.approveUser = getUserId();
                 this.props.doFetching();
-                fetch(632131, param).then(() => {
+                fetch(632131, param).then((data) => {
                   showSucMsg('操作成功');
+                  isExpressConfirm(data);
                   this.props.cancelFetching();
                   setTimeout(() => {
                     this.props.history.go(-1);
