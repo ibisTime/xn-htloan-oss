@@ -113,7 +113,7 @@ class AdmittanceAddEdit extends React.Component {
                     onChange: (v) => {
                         let loanProductList = this.props.selectData.loanProductCode;
                         let wanFactor = 0;
-                        loanProductList.map((item) => {
+                        loanProductList && loanProductList.map((item) => {
                             if (item.code === v) {
                                 wanFactor = item.wanFactor;
                             }
