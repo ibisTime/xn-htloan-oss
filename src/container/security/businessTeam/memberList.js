@@ -9,12 +9,9 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/security/memberList';
-import {getQueryString, showWarnMsg, showSucMsg, getUserId} from 'common/js/util';
+import {getQueryString, showWarnMsg, showSucMsg, showDelConfirm, getUserId} from 'common/js/util';
 import {listWrapper} from 'common/js/build-list';
 import fetch from 'common/js/fetch';
-import {
-    Modal
-} from 'antd';
 
 @listWrapper(
     state => ({
@@ -58,26 +55,21 @@ class MemberList extends React.Component {
                 code: 'delete',
                 name: '删除',
                 handler: (selectedRowKeys, selectedRows) => {
-                    if (!this.state.selectedRowKeys.length) {
+                    if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
-                    } else if (this.state.selectedRowKeys.length > 1) {
+                    } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        Modal.confirm({
-                            okText: '确认',
-                            cancelText: '取消',
-                            content: '确定删除？',
+                        showDelConfirm({
                             onOk: () => {
                                 this.props.doFetching();
                                 fetch(630201, {
-                                    userId: this.state.selectedRows[0].userId,
+                                    userId: selectedRowKeys[0],
                                     updater: getUserId()
                                 }).then(() => {
                                     showSucMsg('操作成功');
+                                    this.props.getPageData();
                                     this.props.cancelFetching();
-                                    setTimeout(() => {
-                                        this.props.history.go(-1);
-                                    }, 1000);
                                 }).catch(this.props.cancelFetching);
                             }
                         });
