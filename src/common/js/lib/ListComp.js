@@ -74,10 +74,8 @@ export default class ListComponent extends React.Component {
           this.addRender(f, dateFormat);
         }
       } else if (f.type === 'select') {
-        if (f.key) {
-          f.keyName = f.keyName || 'dkey';
-          f.valueName = f.valueName || 'dvalue';
-        }
+        f.keyName = f.keyName || 'dkey';
+        f.valueName = f.valueName || 'dvalue';
         if (!f.data) {
           f.data = this.props.searchData[f.field];
           this.first && this.getSelectData(f);

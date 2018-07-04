@@ -197,6 +197,14 @@ export function moneyParse(money, rate = 1000) {
 }
 
 /**
+ * 把格式化金额去掉逗号
+ * @param money
+ */
+export function moneyReplaceComma(money) {
+    return ('' + money).replace(/,/g, '');
+}
+
+/**
  * 大数相乘
  * @param a
  * @param b
@@ -309,4 +317,159 @@ export function isExpressConfirm(
             description: '资料传递记录已生成，待发件'
         });
     }
+}
+
+/**
+ * 金额转换大写
+ * @param money
+ */
+export function moneyUppercase(Num) {
+    if (isNaN(Num)) {
+        return '-';
+    }
+    if (!/^[1-9](,\d{3}|[0-9])*(\.\d{1,2})?$/.test(Num)) {
+        return '';
+    }
+    // 字符处理完毕，开始转换，转换采用前后两部分分别转换
+    let part = String(Num).split('.');
+    let newchar = '';
+    // 小数点前进行转化
+    for (let i = part[0].length - 1; i >= 0; i--) {
+        // 判断是否超过拾亿单位
+        if (part[0].length > 10) {
+            return '';
+        }
+        let tmpnewchar = '';
+        let perchar = part[0].charAt(i);
+        switch (perchar) {
+            case '0':
+                tmpnewchar = '零' + tmpnewchar;
+                break;
+            case '1':
+                tmpnewchar = '壹' + tmpnewchar;
+                break;
+            case '2':
+                tmpnewchar = '贰' + tmpnewchar;
+                break;
+            case '3':
+                tmpnewchar = '叁' + tmpnewchar;
+                break;
+            case '4':
+                tmpnewchar = '肆' + tmpnewchar;
+                break;
+            case '5':
+                tmpnewchar = '伍' + tmpnewchar;
+                break;
+            case '6':
+                tmpnewchar = '陆' + tmpnewchar;
+                break;
+            case '7':
+                tmpnewchar = '柒' + tmpnewchar;
+                break;
+            case '8':
+                tmpnewchar = '捌' + tmpnewchar;
+                break;
+            case '9':
+                tmpnewchar = '玖' + tmpnewchar;
+                break;
+        }
+        switch (part[0].length - i - 1) {
+            case 0:
+                tmpnewchar = tmpnewchar + '元';
+                break;
+            case 1:
+                if (perchar !== '0') tmpnewchar = tmpnewchar + '拾';
+                break;
+            case 2:
+                if (perchar !== '0') tmpnewchar = tmpnewchar + '佰';
+                break;
+            case 3:
+                if (perchar !== '0') tmpnewchar = tmpnewchar + '仟';
+                break;
+            case 4:
+                tmpnewchar = tmpnewchar + '万';
+                break;
+            case 5:
+                if (perchar !== '0') tmpnewchar = tmpnewchar + '拾';
+                break;
+            case 6:
+                if (perchar !== '0') tmpnewchar = tmpnewchar + '佰';
+                break;
+            case 7:
+                if (perchar !== '0') tmpnewchar = tmpnewchar + '仟';
+                break;
+            case 8:
+                tmpnewchar = tmpnewchar + '亿';
+                break;
+            case 9:
+                tmpnewchar = tmpnewchar + '拾';
+                break;
+        }
+        newchar = tmpnewchar + newchar;
+    }
+    // 小数点之后进行转化
+    if (String(Num).indexOf('.') !== -1) {
+        if (part[1].length > 2) {
+            // 小数点之后只能保留两位,自动截段
+            part[1] = part[1].substr(0, 2);
+        }
+        for (let i = 0; i < part[1].length; i++) {
+            let tmpnewchar = '';
+            let perchar = part[1].charAt(i);
+            switch (perchar) {
+                case '0':
+                    tmpnewchar = '零' + tmpnewchar;
+                    break;
+                case '1':
+                    tmpnewchar = '壹' + tmpnewchar;
+                    break;
+                case '2':
+                    tmpnewchar = '贰' + tmpnewchar;
+                    break;
+                case '3':
+                    tmpnewchar = '叁' + tmpnewchar;
+                    break;
+                case '4':
+                    tmpnewchar = '肆' + tmpnewchar;
+                    break;
+                case '5':
+                    tmpnewchar = '伍' + tmpnewchar;
+                    break;
+                case '6':
+                    tmpnewchar = '陆' + tmpnewchar;
+                    break;
+                case '7':
+                    tmpnewchar = '柒' + tmpnewchar;
+                    break;
+                case '8':
+                    tmpnewchar = '捌' + tmpnewchar;
+                    break;
+                case '9':
+                    tmpnewchar = '玖' + tmpnewchar;
+                    break;
+            }
+            if (i === 0) {
+                tmpnewchar = tmpnewchar + '角';
+            }
+            if (i === 1) {
+                tmpnewchar = tmpnewchar + '分';
+            }
+            newchar = newchar + tmpnewchar;
+        }
+    }
+    // 替换所有无用汉字
+    while (newchar.search('零零') !== -1) {
+        newchar = newchar.replace('零零', '零');
+    }
+    newchar = newchar.replace('零亿', '亿');
+    newchar = newchar.replace('亿万', '亿');
+    newchar = newchar.replace('零万', '万');
+    newchar = newchar.replace('零元', '元');
+    newchar = newchar.replace('零角', '');
+    newchar = newchar.replace('零分', '');
+
+    if (newchar.charAt(newchar.length - 1) === '元' || newchar.charAt(newchar.length - 1) === '角') {
+        newchar = newchar + '整';
+    }
+    return newchar;
 }

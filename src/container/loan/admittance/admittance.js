@@ -141,6 +141,17 @@ class Admittance extends React.Component {
                     } else {
                         this.props.history.push(`/loan/admittance/addedit?v=1&isCheckDirector=1&code=${selectedRowKeys[0]}`);
                     }
+                },
+                regionalManager: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_24') {
+                        showWarnMsg('当前不是区域经理审核节点');
+                    } else {
+                        this.props.history.push(`/loan/admittance/addedit?v=1&isCheckRegionalManager=1&code=${selectedRowKeys[0]}`);
+                    }
                 }
             }
         });
