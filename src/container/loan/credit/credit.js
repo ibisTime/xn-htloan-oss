@@ -78,7 +78,10 @@ class Credit extends React.Component {
             listCode: 630066,
             keyName: 'userId',
             valueName: 'realName',
-            search: true
+            search: true,
+            render: (v, data) => {
+                return data.saleUserName;
+            }
         }, {
             title: '申请日期',
             field: 'applyDatetime',
