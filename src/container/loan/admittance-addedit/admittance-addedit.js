@@ -43,6 +43,7 @@ class AdmittanceAddEdit extends React.Component {
         this.loanBank = getQueryString('loanBank', this.props.location.search);
         this.isCheckCommissioner = !!getQueryString('isCheckCommissioner', this.props.location.search);
         this.isCheckDirector = !!getQueryString('isCheckDirector', this.props.location.search);
+        this.isCheckRegionalManager = !!getQueryString('isCheckRegionalManager', this.props.location.search);
         this.wanFactor = 0;
     }
 
@@ -1547,23 +1548,33 @@ class AdmittanceAddEdit extends React.Component {
             title: '审核说明',
             type: 'textarea',
             normalArea: true,
-            readonly: !(this.isCheckCommissioner || this.isCheckDirector)
+            readonly: !(this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager)
         }];
 
         let buttons = [];
+        let bizCode;
+        if (this.isCheckCommissioner) {
+            bizCode = 632121;
+        } else if (this.isCheckDirector) {
+            bizCode = 632122;
+        } else if (this.isCheckRegionalManager) {
+            bizCode = 632140;
+        }
 
-        if (this.isCheckCommissioner || this.isCheckDirector) {
+        if (this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager) {
             fields = fields.concat(checkFields);
 
             buttons = [{
                 title: '通过',
                 check: true,
                 handler: (params) => {
-                    params.approveResult = '1';
-                    params.operator = getUserId();
-                    let bizCode = this.isCheckCommissioner ? 632121 : 632122;
+                    let data = {};
+                    data.code = this.code;
+                    data.approveNote = params.approveNote;
+                    data.approveResult = '1';
+                    data.operator = getUserId();
                     this.props.doFetching();
-                    fetch(bizCode, params).then(() => {
+                    fetch(bizCode, data).then(() => {
                         this.props.cancelFetching();
                         showSucMsg('操作成功');
                         setTimeout(() => {
@@ -1577,11 +1588,13 @@ class AdmittanceAddEdit extends React.Component {
                 title: '不通过',
                 check: true,
                 handler: (params) => {
-                    params.approveResult = '0';
-                    params.operator = getUserId();
-                    let bizCode = this.isCheckCommissioner ? 632121 : 632122;
+                    let data = {};
+                    data.code = this.code;
+                    data.approveNote = params.approveNote;
+                    data.approveResult = '0';
+                    data.operator = getUserId();
                     this.props.doFetching();
-                    fetch(bizCode, params).then(() => {
+                    fetch(bizCode, data).then(() => {
                         this.props.cancelFetching();
                         showSucMsg('操作成功');
                         setTimeout(() => {
@@ -1599,7 +1612,7 @@ class AdmittanceAddEdit extends React.Component {
             }];
         }
 
-        if (!this.view && !this.isCheckCommissioner && !this.isCheckDirector) {
+        if (!this.view && !this.isCheckCommissioner && !this.isCheckDirector && !this.isCheckRegionalManager) {
             buttons = [{
                 title: '保存',
                 handler: (params) => {

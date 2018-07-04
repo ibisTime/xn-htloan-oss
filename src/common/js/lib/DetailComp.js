@@ -7,23 +7,23 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import E from 'wangeditor';
 import XLSX from 'xlsx';
-import {getDictList} from 'api/dict';
-import {getQiniuToken} from 'api/general';
+import { getDictList } from 'api/dict';
+import { getQiniuToken } from 'api/general';
 import {
     formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat,
     tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg, getUserId
 } from 'common/js/util';
-import {UPLOAD_URL, PIC_PREFIX, formItemLayout, tailFormItemLayout, tailFormItemLayout1} from '../config';
+import { UPLOAD_URL, PIC_PREFIX, formItemLayout, tailFormItemLayout, tailFormItemLayout1 } from '../config';
 import fetch from 'common/js/fetch';
 import cityData from './city';
 import ModalDetail from 'common/js/build-modal-detail';
 import locale from './date-locale';
 
 moment.locale('zh-cn');
-const { Item: FormItem } = Form;
-const { Option } = Select;
-const { TextArea } = Input;
-const { RangePicker } = DatePicker;
+const {Item: FormItem} = Form;
+const {Option} = Select;
+const {TextArea} = Input;
+const {RangePicker} = DatePicker;
 const { TreeNode } = TreeSelect;
 const CheckboxGroup = Checkbox.Group;
 const DATE_FORMAT = 'YYYY-MM-DD';
@@ -60,6 +60,7 @@ export default class DetailComponent extends React.Component {
             searchData: {},
             modalVisible: false,
             modalOptions: {},
+            selectFetch: {},
             treeData: {}
         };
         this.o2mFirst = {};
@@ -136,10 +137,17 @@ export default class DetailComponent extends React.Component {
             f.readonly = isUndefined(f.readonly) ? this.options.view : f.readonly;
             if (f.type === 'citySelect') {
                 f.cFields = f.cFields || ['province', 'city', 'area'];
-            } else if (f.type === 'select' || f.type === 'checkbox') {
-                if (f.key) {
-                    f.keyName = f.keyName || 'dkey';
-                    f.valueName = f.valueName || 'dvalue';
+            } else if (f.type === 'select' || f.type === 'checkbox' || f.type === 'provSelect') {
+                f.keyName = f.keyName || 'dkey';
+                f.valueName = f.valueName || 'dvalue';
+
+                if (f.type === 'provSelect') {
+                    f.keyName = 'value';
+                    f.valueName = 'label';
+                    f.data = cityData.map(c => ({
+                        value: c.value,
+                        label: c.label
+                    }));
                 }
                 if (!f.data) {
                     f.data = this.props.selectData[f.field];
@@ -213,7 +221,19 @@ export default class DetailComponent extends React.Component {
     }
 
     customSubmit = (handler) => {
-        this.props.form.validateFieldsAndScroll((err, values) => {
+        let fieldsList = [];
+        this.options.fields.map(v => {
+            if (v.items) {
+                v.items.map(v1 => {
+                    v1.map(v2 => {
+                        fieldsList.push(v2.field);
+                    });
+                });
+            } else {
+                fieldsList.push(v.field);
+            }
+        });
+        this.props.form.validateFieldsAndScroll(fieldsList, (err, values) => {
             let params = this.beforeSubmit(err, values);
             if (!params) {
                 return;
@@ -321,11 +341,19 @@ export default class DetailComponent extends React.Component {
 
     // 获取搜索框数据
     searchSelectChange({keyword, item, start = 1, limit = 20, key}) {
+        let selectFetch = this.state.selectFetch;
         if (this.timeout) {
             clearTimeout(this.timeout);
             this.timeout = null;
         }
+        if (!this.props.selectData[item.field]) {
+            this.props.setSelectData({data: [], key: item.field});
+        }
         this.setSearchLoading(item, true);
+        selectFetch[item.field] = false;
+        this.setState({
+            selectFetch: selectFetch
+        });
         this.props.setSelectData({data: [], key: item.field});
         let params = item.params || {};
         params.start = start;
@@ -339,8 +367,16 @@ export default class DetailComponent extends React.Component {
                 let list = this.props.selectData[item.field] || [];
                 list = start === 1 ? [] : list;
                 this.props.setSelectData({data: list.concat(data.list), key: item.field});
+                selectFetch[item.field] = true;
+                this.setState({
+                    selectFetch: selectFetch
+                });
             }).catch(() => {
                 !key && this.setSearchLoading(item, false);
+                selectFetch[item.field] = false;
+                this.setState({
+                    selectFetch: selectFetch
+                });
             });
         }, 300);
     }
@@ -446,9 +482,10 @@ export default class DetailComponent extends React.Component {
         switch (type) {
             case 'o2m':
                 return this.getTableItem(item, initVal, rules, getFieldDecorator);
+            case 'provSelect':
             case 'select':
                 // 解析select的数据，如详情查询返回userId，则根据该字段的配置把它解析成可以读懂的信息
-                if (item.pageCode && initVal && !this.getItemByType[item.field]) {
+                if (item.pageCode && initVal && this.props.isLoaded && !this.getItemByType[item.field]) {
                     this.getItemByType[item.field] = true;
                     this.searchSelectChange({item, keyword: initVal, key: item.keyName});
                 }
@@ -472,8 +509,6 @@ export default class DetailComponent extends React.Component {
                 return this.getCitySelect(item, initVal, rules, getFieldDecorator);
             case 'checkbox':
                 return this.getCheckboxComp(item, initVal, rules, getFieldDecorator);
-            // case 'button':
-            //     return this.getFieldsButton(item);
             case 'treeSelect':
                 return this.getTreeSelectComp(item, initVal, rules, getFieldDecorator);
             default:
@@ -490,21 +525,6 @@ export default class DetailComponent extends React.Component {
         }));
     }
 
-    // getFieldsButton(item) {
-    //     return (
-    //         <FormItem
-    //             className={item.hidden ? 'hidden' : ''}
-    //             key={item.field}>
-    //             {
-    //                 item.readonly ? null
-    //                     : (<Button onClick={() => { item.onClick(); }} style={{width: '100%', marginTop: 10}} type="dashed">
-    //                         <Icon type="plus"/>{item.title}
-    //                     </Button>)
-    //             }
-    //         </FormItem>
-    //     );
-    // }
-
     getTableItem(item, initVal, rules, getFieldDecorator) {
         const columns = this.getTableColumns(item);
         const {o2mSKeys} = this.state;
@@ -517,8 +537,7 @@ export default class DetailComponent extends React.Component {
         };
         const hasSelected = selectedRowKeys.length > 0;
         return (
-            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
-                      label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
                 {this.getTableBtn(item, hasSelected)}
                 <Table {...this.getTableProps(rowSelection, columns, item, dataSource)} />
             </FormItem>
@@ -743,10 +762,8 @@ export default class DetailComponent extends React.Component {
                     return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateFormat(v)}</span> : dateFormat(v);
                 };
             } else if (f.type === 'select' || f.type === 'checkbox') {
-                if (f.key) {
-                    f.keyName = f.keyName || 'dkey';
-                    f.valueName = f.valueName || 'dvalue';
-                }
+                f.keyName = f.keyName || 'dkey';
+                f.valueName = f.valueName || 'dvalue';
                 if (!f.data) {
                     f.data = this.state.searchData[f.field];
                     first && this.getO2MSelectData(f);
@@ -811,7 +828,9 @@ export default class DetailComponent extends React.Component {
                 obj.fixed = f.fixed;
                 obj.width = f.width || 100;
             }
-            result.push(obj);
+            if (!f.noVisible) {
+                result.push(obj);
+            }
         });
         this.o2mFirst[item.field] = false;
         return result;
@@ -873,8 +892,7 @@ export default class DetailComponent extends React.Component {
         let format = isTime ? DATETIME_FORMAT : DATE_FORMAT;
         let places = isTime ? '选择时间' : '选择日期';
         return (
-            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
-                      label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
                 {
                     item.readonly ? <div className="readonly-text">{initVal}</div>
                         : getFieldDecorator(item.field, {
@@ -910,8 +928,7 @@ export default class DetailComponent extends React.Component {
             };
         }
         return (
-            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
-                      label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
                 {
                     item.readonly ? <div className="readonly-text">{initVal}</div>
                         : getFieldDecorator(item.field, {
@@ -951,7 +968,12 @@ export default class DetailComponent extends React.Component {
                             onSearch={v => this.searchSelectChange({item, keyword: v})}
                             optionLabelProp="children"
                             notFoundContent={this.state.fetching[item.field] ? <Spin size="small"/> : '暂无数据'}
-                            placeholder="请输入关键字搜索">
+                            placeholder="请输入关键字搜索"
+                            onChange={v => {
+                                if (item.onChange && this.state.selectFetch[item.field]) {
+                                    item.onChange(v, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1.code === v) : {}, this.props);
+                                }
+                            }}>
                             {item.data ? item.data.map(d => (
                                 <Option key={d[item.keyName]} value={d[item.keyName]}>
                                     {d[item.valueName] ? d[item.valueName] : tempString(item.valueName, d)}
@@ -966,8 +988,7 @@ export default class DetailComponent extends React.Component {
 
     getCitySelect(item, initVal, rules, getFieldDecorator) {
         return (
-            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
-                      label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
                 {
                     item.readonly ? <div className="readonly-text">{initVal}</div>
                         : getFieldDecorator(item.field, {
@@ -985,8 +1006,7 @@ export default class DetailComponent extends React.Component {
             val = initVal.map(v => item.data.find(d => d[item.keyName] === v)[item.valueName]).join('、');
         }
         return (
-            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
-                      label={this.getLabel(item)}>
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
                 {
                     item.readonly ? <div className='readonly-text'>{val}</div>
                         : getFieldDecorator(item.field, {
@@ -995,8 +1015,7 @@ export default class DetailComponent extends React.Component {
                         })(
                         <CheckboxGroup disabled={item.readonly}>
                             {item.data && item.data.length
-                                ? item.data.map(d => <Checkbox key={d[item.keyName]}
-                                                               value={d[item.keyName]}>{d[item.valueName]}</Checkbox>)
+                                ? item.data.map(d => <Checkbox key={d[item.keyName]} value={d[item.keyName]}>{d[item.valueName]}</Checkbox>)
                                 : null}
                         </CheckboxGroup>
                         )
@@ -1013,10 +1032,6 @@ export default class DetailComponent extends React.Component {
         let value = '';
         if (initVal) {
             value = initVal;
-        }
-        if (item.onChange && this.props.isLoaded && !this.getSelectComp[item.field]) {
-            this.getSelectComp[item.field] = true;
-            item.onChange(value, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1[item.keyName] === value) : {}, this.props);
         }
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
@@ -1048,15 +1063,15 @@ export default class DetailComponent extends React.Component {
         if (item.onChange) {
             props.onChange = (e) => {
                 const {value} = e.target;
-                item.onChange(value);
+                item.onChange(value, this.props);
             };
         }
         return (
-            <FormItem
-                className={item.hidden ? 'hidden' : ''}
+            <FormItem className={item.hidden ? 'hidden' : ''}
                 key={item.field}
                 {...this.getInputItemProps()}
-                label={this.getLabel(item)}>
+                label={item.title ? this.getLabel(item) : ''}>
+                {item.title ? '' : <samp>&nbsp;</samp>}
                 {
                     item.readonly ? <div className="readonly-text">{initVal}</div>
                         : getFieldDecorator(item.field, {
@@ -1132,7 +1147,7 @@ export default class DetailComponent extends React.Component {
         };
         if (item.onChange) {
             props.onChange = (v) => {
-                item.onChange(v, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1.code === v) : {}, this.props);
+                item.onChange(v, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1[item.keyName] === v) : {}, this.props);
             };
         }
         return props;
@@ -1219,7 +1234,7 @@ export default class DetailComponent extends React.Component {
         try {
             if (item._keys) {
                 result = this.getValFromKeys(item);
-            } else if (!isUndefined(item.value)) {
+            } else if (!isUndefined(item.value) && !result) {
                 result = item.value;
             }
             if (item.type === 'citySelect') {
@@ -1311,13 +1326,13 @@ export default class DetailComponent extends React.Component {
     getLabel(item) {
         return (
             <span
-                className={item.required && item.type === 'textarea' && !item.normalArea ? 'ant-form-item-required' : ''}>
+            className={item.required && ((item.type === 'textarea' && !item.normalArea) || (item.type === 'o2m')) ? 'ant-form-item-required' : ''}>
         {item.title + (item.single ? '(单)' : '')}
-                {item.help
-                    ? <Tooltip title={item.help}>
-                        <Icon type="question-circle-o"/>
-                    </Tooltip> : null}
-      </span>
+            {item.help
+                ? <Tooltip title={item.help}>
+                    <Icon type="question-circle-o"/>
+                </Tooltip> : null}
+            </span>
         );
     }
 
