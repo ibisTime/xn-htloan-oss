@@ -77,26 +77,22 @@ class FaceSignAddedit extends React.Component {
             field: 'advanceFundAmountPdf',
             type: 'img',
             required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false,
-            single: true
+            readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
             title: '银行面签图片',
             field: 'bankPhoto',
             type: 'img',
             required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false,
-            single: true
+            readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
             title: '其他视频',
             field: 'otherVideo',
             type: 'file',
-            required: true,
             readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
             title: '其他资料',
             field: 'interviewOtherPdf',
             type: 'file',
-            required: true,
             readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
             title: '公司合同',

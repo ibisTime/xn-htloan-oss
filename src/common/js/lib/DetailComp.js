@@ -1379,13 +1379,7 @@ export default class DetailComponent extends React.Component {
                 message: '必填字段'
             });
         }
-        if (item.maxlength) {
-            rules.push({
-                min: 1,
-                max: item.maxlength,
-                message: `请输入一个长度最多是${item.maxlength}的字符串`
-            });
-        }
+
         if (item.email) {
             rules.push({
                 type: 'email',
@@ -1438,6 +1432,40 @@ export default class DetailComponent extends React.Component {
             rules.push({
                 pattern: /(^[1-9](,\d{3}|[0-9])*(\.\d{1,2})?$)|([0])/,
                 message: '金额必须>=0，且小数点后最多2位'
+            });
+        }
+
+        // if (item.min) {
+        //     rules.push({
+        //         validator: (rule, value, callback) => {
+        //             const { getFieldValue } = this.props.form;
+        //             var error = '';
+        //             if (value && value < getFieldValue(item.field)) {
+        //                 error = `请输入一个最小为${item.min}的值`;
+        //             }
+        //             callback(error);
+        //         }
+        //     });
+        // }
+        //
+        // if (item.max) {
+        //     rules.push({
+        //         validator: (rule, value, callback) => {
+        //             const { getFieldValue } = this.props.form;
+        //             var error = '';
+        //             if (value && value >= getFieldValue(item.field)) {
+        //                 error = `请输入一个最大为${item.max}的值`;
+        //             }
+        //             callback(error);
+        //         }
+        //     });
+        // }
+
+        if (item.maxlength) {
+            rules.push({
+                min: 1,
+                max: item.maxlength,
+                message: `请输入一个长度最多是${item.maxlength}的字符串`
             });
         }
         return rules;

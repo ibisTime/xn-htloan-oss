@@ -95,15 +95,13 @@ class AdvMoneyAddedit extends React.Component {
             field: 'advanceFundAmountPdf',
             type: 'img',
             required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: !this.view
+            readonly: true
         }, {
             title: '其他资料',
             field: 'interviewOtherPdf',
             type: 'file',
             required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: !this.view
+            readonly: true
         }];
         // 准入审查
         if (this.isCheck) {

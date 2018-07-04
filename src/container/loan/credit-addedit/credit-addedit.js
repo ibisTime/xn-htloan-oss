@@ -317,18 +317,20 @@ class CreditAddedit extends React.Component {
                         }, 1000);
                     }).catch(this.props.cancelFetching);
                 }
-            }, {
-                title: '退回',
-                check: true,
-                handler: (params) => {
-                    fetch(632111).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.props.cancelFetching);
-                }
+            // }, {
+                // title: '退回征信',
+                // check: true,
+                // handler: (params) => {
+                //     let data = {};
+                //     data.operator = getUserId();
+                //     fetch(632111, data).then(() => {
+                //         showSucMsg('操作成功');
+                //         this.props.cancelFetching();
+                //         setTimeout(() => {
+                //             this.props.history.go(-1);
+                //         }, 1000);
+                //     }).catch(this.props.cancelFetching);
+                // }
             }, {
                 title: '返回',
                 handler: (param) => {

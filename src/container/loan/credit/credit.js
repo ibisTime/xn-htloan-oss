@@ -71,14 +71,15 @@ class Credit extends React.Component {
         }, {
             title: '业务员',
             field: 'saleUserId',
-            type: 'select',
-            params: {
-                type: 'PS'
-            },
-            listCode: 630066,
-            keyName: 'userId',
-            valueName: 'realName',
-            search: true,
+            // type: 'select',
+            // params: {
+            //     type: 'PS'
+            // },
+            // pageCode: 630065,
+            // keyName: 'userId',
+            // valueName: 'realName',
+            // searchName: '{{companyName.DATA}}-{{realName.DATA}}',
+            // search: true,
             render: (v, data) => {
                 return data.saleUserName;
             }
@@ -96,10 +97,11 @@ class Credit extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
-        }, {
-            title: '关键字搜索',
-            field: '11',
-            search: true
+        // }, {
+        //     title: '关键字搜索',
+        //     field: 'keywords',
+        //     hidden: true,
+        //     search: true
         }];
         return this.props.buildList({
             fields,
