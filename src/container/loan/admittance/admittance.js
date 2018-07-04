@@ -86,7 +86,7 @@ class Admittance extends React.Component {
             valueName: 'dvalue'
         }, {
             title: '业务员',
-            field: 'saleUserName',
+            field: 'saleUserId',
             type: 'select',
             params: {
                 type: 'PS'
@@ -109,6 +109,10 @@ class Admittance extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
+        }, {
+            title: '关键字搜索',
+            field: '11',
+            search: true
         }];
         return this.props.buildList({
             fields,
