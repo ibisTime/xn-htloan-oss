@@ -73,10 +73,40 @@ class FaceSignAddedit extends React.Component {
             readonly: (this.isCheck || this.view) ? 'true' : false,
             single: true
         }, {
-            title: '面签合同',
-            field: 'interviewContract',
+            title: '资金划转授权书',
+            field: 'advanceFundAmountPdf',
             type: 'img',
             required: true,
+            readonly: (this.isCheck || this.view) ? 'true' : false,
+            single: true
+        }, {
+            title: '银行面签图片',
+            field: 'bankPhoto',
+            type: 'img',
+            required: true,
+            readonly: (this.isCheck || this.view) ? 'true' : false,
+            single: true
+        }, {
+            title: '其他视频',
+            field: 'otherVideo',
+            type: 'file',
+            required: true,
+            readonly: (this.isCheck || this.view) ? 'true' : false
+        }, {
+            title: '其他资料',
+            field: 'interviewOtherPdf',
+            type: 'file',
+            required: true,
+            readonly: (this.isCheck || this.view) ? 'true' : false
+        }, {
+            title: '公司合同',
+            field: 'companyContract',
+            type: 'img',
+            readonly: (this.isCheck || this.view) ? 'true' : false
+        }, {
+            title: '银行合同',
+            field: 'bankContract',
+            type: 'img',
             readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
             title: '审核说明',

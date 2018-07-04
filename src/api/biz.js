@@ -77,3 +77,7 @@ export function getListProduct() {
 export function toVoid(code) {
     return fetch(632781, { code, updater: getUserId() });
 }
+// 发起征信  撤回
+export function creditWithdraw(code) {
+    return fetch(632781, { code, updater: getUserId() });
+}
