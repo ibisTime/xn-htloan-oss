@@ -20,10 +20,9 @@ import {
     listWrapper
 } from 'common/js/build-list';
 import {
-    lowerFrame,
-    onShelf,
-    sendMsg
+    creditWithdraw
 } from 'api/biz';
+import { Button, Upload, Modal } from 'antd';
 
 @listWrapper(
     state => ({
@@ -127,6 +126,31 @@ class Credit extends React.Component {
                     } else {
                         this.props.history.push(`/loan/credit/addedit?v=1&isEntry=1&code=${selectedRowKeys[0]}`);
                     }
+                },
+                withdraw: (key, item) => {
+                  if (!key || !key.length || !item || !item.length) {
+                    showWarnMsg('请选择记录');
+                  } else if (item[0].curNodeCode !== '001_01' || item[0].curNodeCode !== '001_02') {
+                    showWarnMsg('该状态不可撤回');
+                  } else {
+                    Modal.confirm({
+                      okText: '确认',
+                      cancelText: '取消',
+                      content: '确定撤回？',
+                      onOk: () => {
+                        this.props.doFetching();
+                        return creditWithdraw(key[0]).then(() => {
+                          this.props.getPageData();
+                          showWarnMsg('操作成功');
+                          setTimeout(() => {
+                              this.props.getPageData();
+                          }, 500);
+                        }).catch(() => {
+                          this.props.cancelFetching();
+                        });
+                      }
+                    });
+                  }
                 }
             }
         });

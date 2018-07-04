@@ -47,7 +47,8 @@ class Admittance extends React.Component {
             field: 'companyName'
         }, {
             title: '客户姓名',
-            field: 'applyUserName'
+            field: 'applyUserName',
+            search: true
         }, {
             title: '手机号',
             field: 'mobile'
@@ -85,7 +86,15 @@ class Admittance extends React.Component {
             valueName: 'dvalue'
         }, {
             title: '业务员',
-            field: 'saleUserName'
+            field: 'saleUserName',
+            type: 'select',
+            params: {
+                type: 'PS'
+            },
+            listCode: 630066,
+            keyName: 'userId',
+            valueName: 'realName',
+            search: true
         }, {
             title: '申请日期',
             field: 'applyDatetime',
