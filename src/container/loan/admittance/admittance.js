@@ -89,7 +89,7 @@ class Admittance extends React.Component {
             field: 'saleUserId',
             type: 'select',
             params: {
-                type: 'PS'
+                type: 'P'
             },
             pageCode: 630065,
             keyName: 'userId',
