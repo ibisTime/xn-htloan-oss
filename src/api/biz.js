@@ -79,5 +79,5 @@ export function toVoid(code) {
 }
 // 发起征信  撤回
 export function creditWithdraw(code) {
-    return fetch(632781, { code, updater: getUserId() });
+    return fetch(632114, { code, operator: getUserId() });
 }
