@@ -160,6 +160,11 @@ class CreditAddedit extends React.Component {
             field: 'interviewPic',
             type: 'img',
             required: true
+        }, {
+            title: '说明',
+            field: '11',
+            type: 'textarea',
+            normalArea: true
         }];
         if (!this.isAddedit) {
             o2mFields = o2mFields.concat([{
