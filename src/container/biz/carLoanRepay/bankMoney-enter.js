@@ -61,22 +61,22 @@ class bankMoneyEnter extends React.Component {
             title: '银行账单日',
             field: 'repayBillDate',
             required: true,
-            min: 1,
-            max: 28,
+            min: '1',
+            max: '28',
             number: true
         }, {
             title: '银行还款日',
             field: 'repayBankDate',
             required: true,
-            min: 1,
-            max: 28,
+            min: '1',
+            max: '28',
             number: true
         }, {
             title: '公司还款日',
             field: 'repayCompanyDate',
             required: true,
-            min: 1,
-            max: 28,
+            min: '1',
+            max: '28',
             number: true
         }, {
             title: '首期还款日期',

@@ -1435,31 +1435,33 @@ export default class DetailComponent extends React.Component {
             });
         }
 
-        // if (item.min) {
-        //     rules.push({
-        //         validator: (rule, value, callback) => {
-        //             const { getFieldValue } = this.props.form;
-        //             var error = '';
-        //             if (value && value < getFieldValue(item.field)) {
-        //                 error = `请输入一个最小为${item.min}的值`;
-        //             }
-        //             callback(error);
-        //         }
-        //     });
-        // }
-        //
-        // if (item.max) {
-        //     rules.push({
-        //         validator: (rule, value, callback) => {
-        //             const { getFieldValue } = this.props.form;
-        //             var error = '';
-        //             if (value && value >= getFieldValue(item.field)) {
-        //                 error = `请输入一个最大为${item.max}的值`;
-        //             }
-        //             callback(error);
-        //         }
-        //     });
-        // }
+        if (item.min) {
+            rules.push({
+                validator: (rule, value, callback) => {
+                    let reg = /^-?\d+(\.\d+)?$/.test(value);
+                    if (reg && value && value < item.min) {
+                        let error = `请输入一个最小为${item.min}的值`;
+                        callback(error);
+                    } else {
+                        callback();
+                    }
+                }
+            });
+        }
+
+        if (item.max) {
+            rules.push({
+                validator: (rule, value, callback) => {
+                    let reg = /^-?\d+(\.\d+)?$/.test(value);
+                    if (reg && value && value > item.max) {
+                        let error = `请输入一个最大为${item.max}的值`;
+                        callback(error);
+                    } else {
+                        callback();
+                    }
+                }
+            });
+        }
 
         if (item.maxlength) {
             rules.push({
