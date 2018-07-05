@@ -53,10 +53,7 @@ class Credit extends React.Component {
             search: true
         }, {
             title: '手机号',
-            field: 'mobile',
-            render: (e, t) => {
-                return (t.creditUser ? t.creditUser.mobile : '-');
-            }
+            field: 'mobile'
         }, {
             title: '贷款银行',
             field: 'loanBankCode',
