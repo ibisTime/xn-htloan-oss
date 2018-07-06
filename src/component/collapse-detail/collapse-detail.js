@@ -4,6 +4,7 @@ import { Form, Collapse, Row, Col, Spin, Modal } from 'antd';
 import { isUndefined, moneyParse, getUserId } from 'common/js/util';
 import DetailComp from 'common/js/lib/DetailComp';
 import ModalDetail from 'common/js/build-modal-detail';
+import {PIC_PREFIX} from "../../common/js/config";
 
 const { Panel } = Collapse;
 const col1Props = {xs: 32, sm: 24, md: 24, lg: 24};
@@ -162,6 +163,11 @@ class CollapseDetail extends DetailComp {
   }
   getPageComponent = (children, children1) => {
     const { previewImage, previewVisible } = this.state;
+    let imgUrl = '';
+    if (this.state.previewImageField && this.props.form.getFieldValue(this.state.previewImageField).split('||')) {
+        let url = this.props.form.getFieldValue(this.state.previewImageField).split('||')[0];
+        imgUrl = PIC_PREFIX + '/' + url + '?attname=' + url + '.jpg';
+    }
     return (
       <Spin spinning={this.props.fetching}>
         <Form className="detail-form-wrapper" onSubmit={this.handleSubmit}>
@@ -175,14 +181,31 @@ class CollapseDetail extends DetailComp {
             {this.getBtns(this.options.buttons)}
           </div>
         </Form>
-        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-          <img alt="图片" style={{ width: '100%' }} src={previewImage} />
-        </Modal>
+          <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+              <div className="previewImg-wrap">
+                  <Carousel ref={(carousel => this.carousel = carousel)} afterChange={(a) => {
+                      let url = this.props.form.getFieldValue(this.state.previewImageField).split('||')[a];
+                      imgUrl = PIC_PREFIX + '/' + url + '?attname=' + url + '.jpg';
+                  }}>
+                      {
+                          this.state.previewImageField && this.props.form.getFieldValue(this.state.previewImageField).split('||').map(v => {
+                              let url = PIC_PREFIX + '/' + v;
+                              return (<div className='img-wrap' key={v}><img alt="图片" style={{width: '100%'}} src={url}/></div>);
+                          })
+                      }
+                  </Carousel>
+              </div>
+              <div className="down-wrap">
+                  <Button icon="left" onClick={() => this.carousel.prev()}></Button>
+                  <Button style={{marginLeft: 20}} icon="right" onClick={() => this.carousel.next()}></Button>
+                  <Button style={{marginLeft: 20}} onClick={() => { location.href = imgUrl; }} icon="download">下载</Button>
+              </div>
+          </Modal>
       </Spin>
     );
   }
   getInputItemProps() {
-    return {};
+   return {};
   }
 }
 
