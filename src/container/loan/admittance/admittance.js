@@ -91,14 +91,10 @@ class Admittance extends React.Component {
             params: {
                 type: 'P'
             },
-            pageCode: 630065,
+            listCode: 630066,
             keyName: 'userId',
             valueName: 'realName',
-            searchName: '{{companyName.DATA}}-{{realName.DATA}}',
-            search: true,
-            render: (v, data) => {
-                return data.saleUserName;
-            }
+            search: true
         }, {
             title: '申请日期',
             field: 'applyDatetime',
@@ -115,7 +111,7 @@ class Admittance extends React.Component {
             valueName: 'name'
         }, {
             title: '关键字搜索',
-            field: 'keywords',
+            field: 'keyword',
             hidden: true,
             search: true
         }];

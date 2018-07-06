@@ -53,10 +53,7 @@ class Credit extends React.Component {
             search: true
         }, {
             title: '手机号',
-            field: 'mobile',
-            render: (e, t) => {
-                return (t.creditUser ? t.creditUser.mobile : '-');
-            }
+            field: 'mobile'
         }, {
             title: '贷款银行',
             field: 'loanBankCode',
@@ -75,14 +72,13 @@ class Credit extends React.Component {
             params: {
                 type: 'P'
             },
-            pageCode: 630065,
+            listCode: 630066,
             keyName: 'userId',
             valueName: 'realName',
-            searchName: '{{companyName.DATA}}-{{realName.DATA}}',
-            search: true,
-            render: (v, d) => {
-                return d.saleUserName;
-            }
+            search: true
+        }, {
+            title: '驻行内勤',
+            field: 'operatorName'
         }, {
             title: '申请日期',
             field: 'applyDatetime',
@@ -99,13 +95,13 @@ class Credit extends React.Component {
             valueName: 'name'
         }, {
             title: '是否通过',
-            field: 'curNodeCode',
+            field: 'isPass',
             type: 'select',
             data: [{
-                key: '001_04',
+                key: '0',
                 value: '不通过'
             }, {
-                key: '001_09',
+                key: '1',
                 value: '通过'
             }],
             keyName: 'key',
@@ -114,7 +110,7 @@ class Credit extends React.Component {
             search: true
         }, {
             title: '关键字搜索',
-            field: 'keywords',
+            field: 'keyWord',
             hidden: true,
             search: true
         }];
@@ -129,7 +125,7 @@ class Credit extends React.Component {
                 apply: (selectedRowKeys, selectedRows) => {
                     let code = selectedRowKeys ? selectedRowKeys[0] : '';
                     if (code) {
-                        if (selectedRows[0].curNodeCode !== '001_01' && selectedRows[0].curNodeCode !== '001_04') {
+                        if (selectedRows[0].curNodeCode !== '001_01' && selectedRows[0].curNodeCode !== '001_05' && selectedRows[0].curNodeCode !== '001_07') {
                             showWarnMsg('当前不是填写征信单的节点');
                             return;
                         }
@@ -154,7 +150,7 @@ class Credit extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '001_02') {
+                    } else if (selectedRows[0].curNodeCode !== '001_02' && selectedRows[0].curNodeCode !== '001_06') {
                         showWarnMsg('当前不是录入征信结果的节点');
                     } else {
                         this.props.history.push(`/loan/credit/addedit?v=1&isEntry=1&code=${selectedRowKeys[0]}`);
@@ -163,7 +159,7 @@ class Credit extends React.Component {
                 withdraw: (key, item) => {
                   if (!key || !key.length || !item || !item.length) {
                     showWarnMsg('请选择记录');
-                  } else if (item[0].curNodeCode !== '001_01' || item[0].curNodeCode !== '001_02') {
+                  } else if (item[0].curNodeCode !== '001_01' && item[0].curNodeCode !== '001_02') {
                     showWarnMsg('该状态不可撤回');
                   } else {
                     Modal.confirm({

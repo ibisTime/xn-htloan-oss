@@ -160,11 +160,6 @@ class CreditAddedit extends React.Component {
             field: 'interviewPic',
             type: 'img',
             required: true
-        }, {
-            title: '说明',
-            field: '11',
-            type: 'textarea',
-            normalArea: true
         }];
         if (!this.isAddedit) {
             o2mFields = o2mFields.concat([{
@@ -249,6 +244,11 @@ class CreditAddedit extends React.Component {
             field: 'approveNote',
             readonly: !this.isCheck,
             hidden: !this.isCheck
+        }, {
+            title: '说明',
+            field: 'note',
+            type: 'textarea',
+            normalArea: true
         }];
 
         // 业务员初审
@@ -314,6 +314,7 @@ class CreditAddedit extends React.Component {
                     }
                     data.creditResult = params.creditUserList;
                     data.operator = getUserId();
+                    data.dealType = '1';
                     this.props.doFetching();
                     fetch(632111, data).then(() => {
                         showSucMsg('操作成功');
@@ -328,7 +329,9 @@ class CreditAddedit extends React.Component {
                 check: true,
                 handler: (params) => {
                     let data = {};
+                    data.creditCode = this.code;
                     data.operator = getUserId();
+                    data.dealType = '0';
                     fetch(632111, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
