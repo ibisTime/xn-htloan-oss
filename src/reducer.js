@@ -93,6 +93,7 @@ import { bizBankMoneySettle } from './redux/biz/bankMoney-settle';
 import { bizBankMoneySub } from './redux/biz/bankMoney-sub';
 import { bizBankMoneyCertain } from './redux/biz/bankMoney-certain';
 import { bizBankMoneyEnter } from './redux/biz/bankMoney-enter';
+import { bizBankMoneyRecord } from './redux/biz/bankMoney-record';
 
 //  车辆抵押 + 详情 + 车辆落户 + 确认提交银行 + 确认收款
 import { bizMortgage } from './redux/biz/mortgage';
@@ -616,6 +617,7 @@ export default combineReducers({
   bizBankMoneySub,
   bizBankMoneyCertain,
   bizBankMoneyEnter,
+  bizBankMoneyRecord,
   bizMortgage,
   bizMortgageAddEdit,
   bizMortgageEnter,

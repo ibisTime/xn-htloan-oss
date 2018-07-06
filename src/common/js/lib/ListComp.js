@@ -3,7 +3,7 @@ import XLSX from 'xlsx';
 import { Form, Select, DatePicker, Input, Button, Table } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import { moneyFormat, dateTimeFormat, dateFormat, tempString,
+import { moneyFormat, dateTimeFormat, dateFormat, monthFormat, tempString,
   showWarnMsg, showSucMsg, showDelConfirm } from 'common/js/util';
 import { PIC_PREFIX } from 'common/js/config';
 import { getOwnerBtns } from 'api/menu';
@@ -17,6 +17,7 @@ const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const DATE_FORMAT = 'YYYY-MM-DD';
 const DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+const MONTH_FORMAT = 'YYYY-MM';
 
 export default class ListComponent extends React.Component {
   constructor(props, context) {
@@ -72,6 +73,15 @@ export default class ListComponent extends React.Component {
              return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateFormat(v)}</span> : dateFormat(v);
           };
           this.addRender(f, dateFormat);
+        }
+      } else if (f.type === 'month') {
+        if (f.render) {
+          obj.render = f.render;
+        } else {
+          obj.render = (v) => {
+             return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{monthFormat(v)}</span> : monthFormat(v);
+          };
+          this.addRender(f, monthFormat);
         }
       } else if (f.type === 'select') {
         f.keyName = f.keyName || 'dkey';
@@ -220,8 +230,8 @@ export default class ListComponent extends React.Component {
   getRealSearchParams(params) {
     let result = {};
     this.options.fields.forEach(v => {
-      if (v.type === 'date' || v.type === 'datetime') {
-        let format = v.type === 'date' ? DATE_FORMAT : DATETIME_FORMAT;
+      if (v.type === 'date' || v.type === 'datetime' || v.type === 'month') {
+        let format = v.type === 'date' ? DATE_FORMAT : v.type === 'month' ? MONTH_FORMAT : DATETIME_FORMAT;
         if (v.rangedate) {
           let bDate = params[v.field] ? [...params[v.field]] : [];
           if (bDate.length) {
@@ -430,6 +440,8 @@ export default class ListComponent extends React.Component {
         return item.rangedate ? this.getRangeDateItem(item) : this.getDateItem(item);
       case 'datetime':
         return item.rangedate ? this.getRangeDateItem(item, true) : this.getDateItem(item, true);
+      case 'month':
+      return item.rangedate ? this.getRangeMonthItem(item) : this.getMonthItem(item);
       default:
         return <Input style={{ width: 200 }} placeholder={item.placeholder} />;
     }
@@ -493,5 +505,26 @@ export default class ListComponent extends React.Component {
             ranges={{ '今天': [moment(), moment()], '本月': [moment(), moment().endOf('month')] }}
             format={format}
             showTime={isTime} />;
+  }
+  getMonthItem(item) {
+    let format = MONTH_FORMAT;
+    let places = '选择日期';
+    return <DatePicker
+            allowClear={false}
+            locale={locale}
+            placeholder={places}
+            format={format}
+            showTime={false} />;
+  }
+  getRangeMonthItem(item) {
+    let format = MONTH_FORMAT;
+    let places = ['开始日期', '结束日期'];
+    return <RangePicker
+            allowClear={false}
+            locale={locale}
+            placeholder={places}
+            ranges={{ '今天': [moment(), moment()], '本月': [moment(), moment().endOf('month')] }}
+            format={format}
+            showTime={false} />;
   }
 }
