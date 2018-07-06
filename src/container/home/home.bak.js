@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import {
     getUserName,
     getRoleCode,
-    dateFormat
+    dateFormat,
+    getNowCurNodePageUrl
 } from 'common/js/util';
 import { getRoleList } from 'api/company';
-import { getPageMyNotice, getPageMyCompanysystem } from 'api/home';
+import { getDictList } from 'api/dict';
+import { getPageMyNotice, getPageMyCompanysystem, getPageMyToDoList, getCurNodeCode } from 'api/home';
 import './home.css';
 import userPhoto from '../../images/home-userPhoto.png';
 import iconMore from '../../images/home-icon-more.png';
@@ -19,17 +21,37 @@ class Home extends React.Component {
         this.state = {
             role: null,
             noticeData: [],
-            companysystemData: []
+            companysystemData: [],
+            toDoListData: [],
+            curNodeData: {},
+            nodeTypeData: {}
         };
     }
     componentDidMount() {
         Promise.all([
             getRoleList(),
             getPageMyNotice(),
-            getPageMyCompanysystem()
-        ]).then(([roleData, noticeData, companysystemData]) => {
+            getPageMyCompanysystem(),
+            getPageMyToDoList(),
+            getCurNodeCode(),
+            getDictList({parentKey: 'node_type'})
+        ]).then(([roleData, noticeData, companysystemData, toDoListData, curNodeData, nodeType]) => {
+            let curNodeD = {};
+            let nodeTypeD = {};
+            curNodeData.map(v => {
+                curNodeD[v.code] = v.name;
+            });
+            nodeType.map(v => {
+                nodeTypeD[v.dkey] = v.dvalue;
+            });
             this.getUserRole(roleData);
-            this.setState({ roleData: roleData, noticeData: noticeData.list, companysystemData: companysystemData.list });
+            this.setState({
+                roleData: roleData,
+                noticeData: noticeData.list,
+                companysystemData: companysystemData.list,
+                toDoListData: toDoListData.list,
+                curNodeData: curNodeD,
+                nodeTypeData: nodeTypeD});
         }).catch(() => this.setState({ fetching: false }));
     }
 
@@ -58,7 +80,28 @@ class Home extends React.Component {
                             <div className="user-role">{this.state.role}</div>
                         </div>
                     </div>
-                    <div className="card top-right notice-wrap">
+                    <div className="card top-right">
+                        <div className="card-top">
+                            <div className="title">待办事项</div>
+                            <div className="more" onClick={() => {
+                                this.props.history.push(`/home/toDoList`);
+                            }}>MORE <img src={iconMore}/></div>
+                        </div>
+                        <div className="card-content">
+                            { this.state.toDoListData && this.state.toDoListData.length > 1 ? this.state.toDoListData.map(d => (
+                                <div className="content-item" key={d.id}>
+                                    <Link to={getNowCurNodePageUrl(d)}>
+                                        <img className="icon" src={iconLi}/>
+                                        <p className="txt">{d.companyName} 客户{d.userName} {this.state.nodeTypeData[d.flowTypeCode]} {this.state.curNodeData[d.curNodeCode]}</p>
+                                        <samp className="date">{dateFormat(d.updateDatetime)}</samp>
+                                    </Link>
+                                </div>
+                            )) : <div className="noData"><img src={noData}/><p>暂无待办事项</p></div>}
+                        </div>
+                    </div>
+                </div>
+                <div className="below-wrap">
+                    <div className="card notice-wrap">
                         <div className="card-top">
                             <div className="title">公司公告</div>
                         </div>
@@ -74,8 +117,6 @@ class Home extends React.Component {
                             )) : <div className="noData"><img src={noData}/><p>暂无公司公告</p></div>}
                         </div>
                     </div>
-                </div>
-                <div className="below-wrap">
                     <div className="card companysystem-wrap">
                         <div className="card-top">
                             <div className="title">公司制度</div>

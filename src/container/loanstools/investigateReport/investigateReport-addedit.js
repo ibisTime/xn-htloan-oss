@@ -31,7 +31,7 @@ class InvestigateReportAddedit extends React.Component {
 
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
-        this.bizType = getQueryString('bizType', this.props.location.search) === '1' ? 'true' : 'false';
+        this.bizType = String(getQueryString('bizType', this.props.location.search)) === '1' ? 'false' : 'true';
         this.loanBank = getQueryString('loanBank', this.props.location.search);
         this.isCheckCommissioner = !!getQueryString('isCheckCommissioner', this.props.location.search);
         this.isCheckStationed = !!getQueryString('isCheckStationed', this.props.location.search);
@@ -112,16 +112,13 @@ class InvestigateReportAddedit extends React.Component {
                     field: 'houseContract',
                     title: '购房合同及房产本',
                     type: 'img'
-                }, {
-                    title: '其他辅助资产',
-                    field: 'assetPdf',
-                    type: 'img'
                 }],
                 [{
                     title: '家访地址',
                     field: 'homeVisit',
                     required: true
-                }, {
+                }],
+                [{
                     title: '家访照片',
                     field: 'housePicture',
                     type: 'img'
