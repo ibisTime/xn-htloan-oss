@@ -96,7 +96,7 @@ class mortgage extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632145,
+            pageCode: 632148,
             searchParams: {
               roleCode: getRoleCode(),
               curNodeCodeList: ['002_18', '002_19', '002_20', '002_21']

@@ -129,7 +129,7 @@ class Admittance extends React.Component {
             searchParams: {
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode(),
-                curNodeCodeList: ['002_01', '002_02', '002_03', '002_04']
+                curNodeCodeList: ['002_01', '002_02', '002_03', '002_04', '002_24']
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {

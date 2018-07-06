@@ -15,7 +15,8 @@ import {
 import {
     showWarnMsg,
     showSucMsg,
-    dateTimeFormat
+    dateTimeFormat,
+    getRoleCode
 } from 'common/js/util';
 import {
     Button,
@@ -98,8 +99,9 @@ class archives extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632145,
+            pageCode: 632148,
             searchParams: {
+                roleCode: getRoleCode(),
               curNodeCodeList: ['002_22']
             },
             btnEvent: {
