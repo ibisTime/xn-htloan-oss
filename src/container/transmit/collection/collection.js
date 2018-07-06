@@ -107,6 +107,7 @@ class Collection extends React.Component {
             fields,
             pageCode: 632155,
             searchParams: {
+                statusList: ['1', '2', '3'],
                 receiver: '0'
             },
             btnEvent: {

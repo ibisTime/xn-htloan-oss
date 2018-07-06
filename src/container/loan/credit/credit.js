@@ -73,13 +73,17 @@ class Credit extends React.Component {
             title: '业务员',
             field: 'saleUserId',
             type: 'select',
+            pageCode: 630065,
             params: {
                 type: 'P'
             },
-            listCode: 630066,
             keyName: 'userId',
-            valueName: 'realName',
-            search: true
+            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
+            searchName: 'realName',
+            search: true,
+            render: (v, d) => {
+                return d.saleUserName;
+            }
         }, {
             title: '驻行内勤',
             field: 'operatorName'
@@ -163,7 +167,7 @@ class Credit extends React.Component {
                 withdraw: (key, item) => {
                   if (!key || !key.length || !item || !item.length) {
                     showWarnMsg('请选择记录');
-                  } else if (item[0].curNodeCode !== '001_01' && item[0].curNodeCode !== '001_02') {
+                  } else if (item[0].curNodeCode !== '001_01' && item[0].curNodeCode !== '001_02' && item[0].curNodeCode !== '001_06') {
                     showWarnMsg('该状态不可撤回');
                   } else {
                     Modal.confirm({

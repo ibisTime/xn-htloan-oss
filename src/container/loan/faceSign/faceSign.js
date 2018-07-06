@@ -115,7 +115,8 @@ class FaceSign extends React.Component {
             pageCode: 632148,
             searchParams: {
                 roleCode: getRoleCode(),
-                teamCode: getTeamCode()
+                teamCode: getTeamCode(),
+                curNodeCodeList: ['002_05', '002_06', '002_08']
             },
             btnEvent: {
                 edit: (selectedRowKeys, selectedRows) => {

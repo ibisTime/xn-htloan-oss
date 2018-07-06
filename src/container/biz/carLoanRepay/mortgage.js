@@ -98,7 +98,8 @@ class mortgage extends React.Component {
             fields,
             pageCode: 632145,
             searchParams: {
-              roleCode: getRoleCode()
+              roleCode: getRoleCode(),
+              curNodeCodeList: ['002_18', '002_19', '002_20', '002_21']
             },
             btnEvent: {
               enter: (selectedRowKeys, selectedRows) => {

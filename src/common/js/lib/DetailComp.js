@@ -27,7 +27,7 @@ moment.locale('zh-cn');
 const {Item: FormItem} = Form;
 const {Option} = Select;
 const {TextArea} = Input;
-const {RangePicker} = DatePicker;
+const {RangePicker, MonthPicker} = DatePicker;
 const { TreeNode } = TreeSelect;
 const CheckboxGroup = Checkbox.Group;
 const DATE_FORMAT = 'YYYY-MM-DD';
@@ -971,7 +971,7 @@ export default class DetailComponent extends React.Component {
                             rules,
                             initialValue: initVal || null
                         })(
-                        <DatePicker
+                        <MonthPicker
                             allowClear={false}
                             locale={locale}
                             placeholder={places}

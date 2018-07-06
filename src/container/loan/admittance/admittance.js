@@ -92,13 +92,17 @@ class Admittance extends React.Component {
             title: '业务员',
             field: 'saleUserId',
             type: 'select',
+            pageCode: 630065,
             params: {
                 type: 'P'
             },
-            listCode: 630066,
             keyName: 'userId',
-            valueName: 'realName',
-            search: true
+            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
+            searchName: 'realName',
+            search: true,
+            render: (v, d) => {
+                return d.saleUserName;
+            }
         }, {
             title: '申请日期',
             field: 'applyDatetime',
@@ -124,7 +128,8 @@ class Admittance extends React.Component {
             pageCode: 632148,
             searchParams: {
                 roleCode: getRoleCode(),
-                teamCode: getTeamCode()
+                teamCode: getTeamCode(),
+                curNodeCodeList: ['002_01', '002_02', '002_03', '002_04']
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {

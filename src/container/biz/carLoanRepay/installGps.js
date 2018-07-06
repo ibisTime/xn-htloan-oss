@@ -95,7 +95,8 @@ class installGps extends React.Component {
             fields,
             pageCode: 632148,
             searchParams: {
-                roleCode: getRoleCode()
+                roleCode: getRoleCode(),
+                curNodeCodeList: ['002_09', '002_10', '002_12']
             },
             btnEvent: {
                 check: (selectedRowKeys, selectedRows) => {
