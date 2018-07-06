@@ -509,6 +509,9 @@ import { waresHistoryBusinessManage } from './redux/wares/historyBusinessManage'
 import { waresHistoryBusinessManageAddedit } from './redux/wares/historyBusinessManage-addedit';
 import { waresHistoryBusinessManageAddeditAddedit } from './redux/wares/historyBusinessManage-addedit-addedit';
 
+//  首页待办事项 更多
+import { homeToDoList } from './redux/home/toDoList';
+
 export default combineReducers({
   user,
   menu,
@@ -814,5 +817,6 @@ export default combineReducers({
   busBusreturn,
   busBusreturnAddedit,
   busBusreturnReturn,
-  busBusreturnCheck
+  busBusreturnCheck,
+  homeToDoList
 });

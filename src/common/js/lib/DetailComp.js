@@ -14,7 +14,10 @@ import {
     formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat, monthFormat,
     tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg, getUserId
 } from 'common/js/util';
-import { UPLOAD_URL, PIC_PREFIX, formItemLayout, tailFormItemLayout, tailFormItemLayout1 } from '../config';
+import {
+    UPLOAD_URL, PIC_PREFIX, PIC_BASEURL_M, PIC_BASEURL_L, formItemLayout,
+    tailFormItemLayout, tailFormItemLayout1
+} from '../config';
 import fetch from 'common/js/fetch';
 import cityData from './city';
 import ModalDetail from 'common/js/build-modal-detail';
@@ -226,10 +229,12 @@ export default class DetailComponent extends React.Component {
     customSubmit = (handler) => {
         let fieldsList = [];
         this.options.fields.map(v => {
-            if (v.items) {
+            if (v.items && !v.hidden) {
                 v.items.map(v1 => {
                     v1.map(v2 => {
-                        fieldsList.push(v2.field);
+                        if (!v2.readonly) {
+                            fieldsList.push(v2.field);
+                        }
                     });
                 });
             } else {
@@ -487,7 +492,7 @@ export default class DetailComponent extends React.Component {
                         }}>
                             {
                                 this.state.previewImageField && this.props.form.getFieldValue(this.state.previewImageField).split('||').map(v => {
-                                    let url = PIC_PREFIX + '/' + v;
+                                    let url = PIC_PREFIX + '/' + v + PIC_BASEURL_L;
                                     return (<div className='img-wrap' key={v}><img alt="图片" style={{width: '100%'}} src={url}/></div>);
                                 })
                             }
@@ -731,7 +736,17 @@ export default class DetailComponent extends React.Component {
                                 if (i === 0) {
                                     titles.push(f.title);
                                 }
-                                temp.push(f.render ? f.render(d[f.field], d) : f.amount ? moneyFormat(d[f.field]) : d[f.field]);
+                                let value = '';
+                                if (f.render) {
+                                    value = f.render(d[f.field], d);
+                                } else if (f.amount) {
+                                    value = moneyFormat(d[f.field]);
+                                } else if (f.type === 'date' || f.type === 'datetime') {
+                                    value = f.type === 'date' ? dateFormat(d[f.field]) : dateTimeFormat(d[f.field]);
+                                } else {
+                                    value = d[f.field];
+                                }
+                                temp.push(value);
                             });
                             bodys.push(temp);
                         });
