@@ -4,7 +4,7 @@ import { Form, Collapse, Row, Col, Spin, Modal } from 'antd';
 import { isUndefined, moneyParse, getUserId } from 'common/js/util';
 import DetailComp from 'common/js/lib/DetailComp';
 import ModalDetail from 'common/js/build-modal-detail';
-import {PIC_PREFIX} from "../../common/js/config";
+import {PIC_PREFIX} from 'common/js/config';
 
 const { Panel } = Collapse;
 const col1Props = {xs: 32, sm: 24, md: 24, lg: 24};
