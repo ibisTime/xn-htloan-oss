@@ -1,7 +1,8 @@
 import React from 'react';
 import {
     Form, Select, Input, Button, Tooltip, Icon, Spin, Upload,
-    Modal, Cascader, DatePicker, Table, Checkbox, TreeSelect
+    Modal, Cascader, DatePicker, Table, Checkbox, TreeSelect,
+    Carousel
 } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -53,6 +54,7 @@ export default class DetailComponent extends React.Component {
         this.state = {
             previewVisible: false,
             previewImage: '',
+            previewImageField: null,
             token: '',
             textareas: {},
             fetching: {},
@@ -290,10 +292,12 @@ export default class DetailComponent extends React.Component {
         return '';
     }
     handleCancel = () => this.setState({previewVisible: false})
-    handlePreview = (file) => {
+
+    handlePreview = (file, previewImageField) => {
         this.setState({
             previewImage: file.url || file.thumbUrl,
-            previewVisible: true
+            previewVisible: true,
+            previewImageField: previewImageField
         });
     }
     handleFilePreview = (file) => {
@@ -463,13 +467,36 @@ export default class DetailComponent extends React.Component {
 
     getPageComponent = (children) => {
         const {previewImage, previewVisible} = this.state;
+        let imgUrl = '';
+        if (this.state.previewImageField && this.props.form.getFieldValue(this.state.previewImageField).split('||')) {
+            let url = this.props.form.getFieldValue(this.state.previewImageField).split('||')[0];
+            imgUrl = PIC_PREFIX + '/' + url + '?attname=' + url + '.jpg';
+        }
+
         return (
             <Spin spinning={this.props.fetching}>
                 <Form className="detail-form-wrapper" onSubmit={this.handleSubmit}>
                     {children}
                 </Form>
                 <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                    <img alt="图片" style={{width: '100%'}} src={previewImage}/>
+                    <div className="previewImg-wrap">
+                        <Carousel ref={(carousel => this.carousel = carousel)} afterChange={(a) => {
+                            let url = this.props.form.getFieldValue(this.state.previewImageField).split('||')[a];
+                            imgUrl = PIC_PREFIX + '/' + url + '?attname=' + url + '.jpg';
+                        }}>
+                            {
+                                this.state.previewImageField && this.props.form.getFieldValue(this.state.previewImageField).split('||').map(v => {
+                                    let url = PIC_PREFIX + '/' + v;
+                                    return (<div className='img-wrap' key={v}><img alt="图片" style={{width: '100%'}} src={url}/></div>);
+                                })
+                            }
+                        </Carousel>
+                    </div>
+                    <div className="down-wrap">
+                        <Button icon="left" onClick={() => this.carousel.prev()}></Button>
+                        <Button style={{marginLeft: 20}} icon="right" onClick={() => this.carousel.next()}></Button>
+                        <Button style={{marginLeft: 20}} onClick={() => { location.href = imgUrl; }} icon="download">下载</Button>
+                    </div>
                 </Modal>
             </Spin>
         );
@@ -1129,7 +1156,9 @@ export default class DetailComponent extends React.Component {
         const imgProps = {
             ...commProps,
             onChange: ({fileList}) => this.setUploadFileUrl(fileList, true),
-            onPreview: this.handlePreview,
+            onPreview: (file) => {
+                this.handlePreview(file, item.field);
+            },
             listType: 'picture-card',
             accept: 'image/*'
         };

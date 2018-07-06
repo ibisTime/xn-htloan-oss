@@ -175,7 +175,6 @@ class importImport extends React.Component {
             onChange(info) {
                 if (info.file.status !== 'uploading') {
                     _this.setState({ fileList: [info.file] });
-                    console.log(info.fileList);
                 }
                 if (info.file.status === 'done') {
                 } else if (info.file.status === 'error') {
