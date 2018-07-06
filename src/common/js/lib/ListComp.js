@@ -14,7 +14,7 @@ import locale from './date-locale';
 moment.locale('zh-cn');
 const FormItem = Form.Item;
 const Option = Select.Option;
-const { RangePicker } = DatePicker;
+const { RangePicker, MonthPicker } = DatePicker;
 const DATE_FORMAT = 'YYYY-MM-DD';
 const DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 const MONTH_FORMAT = 'YYYY-MM';
@@ -509,7 +509,7 @@ export default class ListComponent extends React.Component {
   getMonthItem(item) {
     let format = MONTH_FORMAT;
     let places = '选择日期';
-    return <DatePicker
+    return <MonthPicker
             allowClear={false}
             locale={locale}
             placeholder={places}
@@ -519,7 +519,7 @@ export default class ListComponent extends React.Component {
   getRangeMonthItem(item) {
     let format = MONTH_FORMAT;
     let places = ['开始日期', '结束日期'];
-    return <RangePicker
+    return <MonthPicker
             allowClear={false}
             locale={locale}
             placeholder={places}

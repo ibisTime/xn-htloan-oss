@@ -58,7 +58,7 @@ class archives extends React.Component {
             type: 'select',
             keyName: 'code',
             valueName: 'name',
-            required: true
+            search: true
         }, {
             title: '客户姓名',
             field: 'applyUserName',
@@ -99,6 +99,9 @@ class archives extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 632145,
+            searchParams: {
+              curNodeCodeList: ['002_22']
+            },
             btnEvent: {
               certain: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {

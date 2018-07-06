@@ -10,7 +10,8 @@ import {
 import {
   getQueryString,
   showSucMsg,
-  getUserId
+  getUserId,
+  getTeamCode
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import {
@@ -38,6 +39,9 @@ class CancelApply extends React.Component {
       field: 'code',
       type: 'select',
       pageCode: 632145,
+      params: {
+        teamCode: getTeamCode()
+      },
       searchName: 'key',
       keyName: 'code',
       valueName: '{{code.DATA}}-{{applyUserName.DATA}}',

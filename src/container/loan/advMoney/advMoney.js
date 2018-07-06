@@ -13,7 +13,8 @@ import {
     showWarnMsg,
     showSucMsg,
     getRoleCode,
-    getTeamCode
+    getTeamCode,
+    dateTimeFormat
 } from 'common/js/util';
 import {
     listWrapper
@@ -47,13 +48,22 @@ class AdvMoney extends React.Component {
             search: true
         }, {
             title: '业务公司',
-            field: 'companyName'
+            field: 'companyCode',
+            listCode: 630106,
+            params: {
+                typeList: [1]
+            },
+            type: 'select',
+            keyName: 'code',
+            valueName: 'name',
+            search: true
         }, {
             title: '团队',
             field: 'teamName'
         }, {
             title: '客户姓名',
-            field: 'applyUserName'
+            field: 'applyUserName',
+            search: true
         }, {
             title: '手机号',
             field: 'mobile'
@@ -90,7 +100,10 @@ class AdvMoney extends React.Component {
         }, {
             title: '申请日期',
             field: 'applyDatetime',
-            type: 'datetime'
+            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
+            type: 'date',
+            render: dateTimeFormat,
+            search: true
         }, {
             title: '当前节点',
             field: 'curNodeCode',
@@ -104,7 +117,8 @@ class AdvMoney extends React.Component {
             pageCode: 632148,
             searchParams: {
                 roleCode: getRoleCode(),
-                teamCode: getTeamCode()
+                teamCode: getTeamCode(),
+                curNodeCodeList: ['002_07']
             },
             btnEvent: {
                 add: (selectedRowKeys, selectedRows) => {

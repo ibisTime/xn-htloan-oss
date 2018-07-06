@@ -28,6 +28,9 @@ class BusinessTeam extends React.Component {
             field: 'captainName',
             title: '团队长'
         }, {
+            title: '团队名称',
+            field: 'name'
+        }, {
             field: 'companyCode',
             title: '所属公司',
             type: 'select',
