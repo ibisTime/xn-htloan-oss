@@ -16,36 +16,18 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/loan/admittance-addedit';
+} from '@redux/biz/bankMoney-record';
 import fetch from 'common/js/fetch';
 
 @CollapseWrapper(
-    state => state.loanAdmittanceAddedit,
+    state => state.bizBankMoneyRecord,
     {initStates, doFetching, cancelFetching, setSelectData, setPageData, restore}
 )
-class AdmittanceAddEdit extends React.Component {
+class BankMoneyRecord extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            isSelfCompany: true
-        };
-
-        // this.state = {
-        //     isSelfCompany: true,
-        //     mateStatus: true,
-        //     guaStatus: true,
-        //     applyUserAccount: true,
-        //     mateAccount: true,
-        //     guaAccount: true
-        // };
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
-        this.bizType = getQueryString('bizType', this.props.location.search);
-        this.loanBank = getQueryString('loanBank', this.props.location.search);
-        this.isCheckCommissioner = !!getQueryString('isCheckCommissioner', this.props.location.search);
-        this.isCheckDirector = !!getQueryString('isCheckDirector', this.props.location.search);
-        this.isCheckRegionalManager = !!getQueryString('isCheckRegionalManager', this.props.location.search);
-        this.wanFactor = 0;
     }
 
     render() {
@@ -57,33 +39,13 @@ class AdmittanceAddEdit extends React.Component {
                     title: '业务种类',
                     type: 'select',
                     key: 'budget_orde_biz_typer',
-                    required: true,
                     readonly: true
-                    // formatter: (value, data) => {
-                    //     if (value) {
-                    //         let mateStatus = true;
-                    //         let guaStatus = true;
-                    //         if (data.mateName) {
-                    //             mateStatus = false;
-                    //         }
-                    //         if (data.guaName) {
-                    //             guaStatus = false;
-                    //         }
-                    //         setTimeout(() => {
-                    //             this.setState({
-                    //                 mateStatus: mateStatus,
-                    //                 guaStatus: guaStatus
-                    //             });
-                    //         }, 100);
-                    //     }
-                    //     return value;
-                    // }
                 }, {
                     field: 'loanPeriod',
                     title: '贷款期限',
                     type: 'select',
                     key: 'loan_period',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'isAdvanceFund',
                     title: '是否垫资',
@@ -97,7 +59,7 @@ class AdmittanceAddEdit extends React.Component {
                     }],
                     keyName: 'key',
                     valueName: 'value',
-                    required: true
+                    readonly: true
                 }],
                 [{
                     field: 'loanProductCode',
@@ -111,34 +73,13 @@ class AdmittanceAddEdit extends React.Component {
                     },
                     keyName: 'code',
                     valueName: 'name',
-                    required: true,
-                    onChange: (v) => {
-                        let loanProductList = this.props.selectData.loanProductCode;
-                        let wanFactor = 0;
-                        loanProductList && loanProductList.map((item) => {
-                            if (item.code === v) {
-                                wanFactor = item.wanFactor;
-                            }
-                        });
-
-                        if (!v) {
-                            this.wanFactor = 0;
-                        }
-                        let loanAmount = this.props.form.getFieldValue('loanAmount');
-                        if (loanAmount) {
-                            this.wanFactor = wanFactor;
-                            // 月供=万元系数*贷款额/10000
-                            this.props.form.setFieldsValue({
-                                monthDeposit: moneyFormat((wanFactor * (moneyParse(loanAmount))) / 10000000)
-                            });
-                        }
-                    }
+                    readonly: true
                 }, {
                     field: 'region',
                     title: '所属区域',
                     type: 'select',
                     key: 'region',
-                    required: true
+                    readonly: true
                 }]
             ]
         }, {
@@ -147,143 +88,92 @@ class AdmittanceAddEdit extends React.Component {
                 [{
                     field: 'invoiceCompany',
                     title: '开票单位',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'invoicePrice',
                     title: '开票价(元)',
                     amount: true,
-                    onChange: (v, data) => {
-                        let firstAmount = this.props.form.getFieldValue('firstAmount');
-                        let loanAmount = 0;
-                        if (firstAmount) {
-                            v = moneyParse(v);
-                            firstAmount = moneyParse(firstAmount);
-                            loanAmount = moneyFormat(v - firstAmount);
-                            this.props.form.setFieldsValue({
-                                firstRate: (firstAmount / v * 100).toFixed(2),
-                                loanAmount: loanAmount
-                            });
-                        }
-
-                        let wanFactor = this.wanFactor;
-                        if (wanFactor !== 0) {
-                            // 月供=万元系数*贷款额/10000
-                            this.props.form.setFieldsValue({
-                                monthDeposit: moneyFormat((wanFactor * (moneyParse(loanAmount))) / 10000000)
-                            });
-                        }
-                    },
-                    required: true
+                    readonly: true
                 }, {
                     field: 'originalPrice',
                     title: '市场指导价(元)',
                     amount: true,
-                    required: true
+                    readonly: true
                 }],
                 [{
                     field: 'firstAmount',
                     title: '首付金额(元)',
                     amount: true,
-                    onChange: (v) => {
-                        let invoicePrice = this.props.form.getFieldValue('invoicePrice');
-                        let loanAmount = 0;
-                        if (invoicePrice) {
-                            v = moneyParse(v);
-                            invoicePrice = moneyParse(invoicePrice);
-                            loanAmount = moneyFormat(invoicePrice - v);
-                            this.props.form.setFieldsValue({
-                                firstRate: (v / invoicePrice * 100).toFixed(2),
-                                loanAmount: loanAmount
-                            });
-                        }
-
-                        let wanFactor = this.wanFactor;
-                        if (wanFactor !== 0) {
-                            // 月供=万元系数*贷款额/10000
-                            this.props.form.setFieldsValue({
-                                monthDeposit: moneyFormat((wanFactor * (moneyParse(loanAmount))) / 10000000)
-                            });
-                        }
-                    },
-                    required: true
+                    readonly: true
                 }, {
                     field: 'firstRate',
                     title: '首付比例(%)',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'loanAmount',
                     title: '贷款额(元)',
                     amount: true,
-                    required: true,
-                    onChange: (value) => {
-                        let wanFactor = this.wanFactor;
-                        if (wanFactor !== 0) {
-                            // 月供=万元系数*贷款额/10000
-                            this.props.form.setFieldsValue({
-                                monthDeposit: moneyFormat((wanFactor * (moneyParse(value))) / 10000000)
-                            });
-                        }
-                    }
+                    readonly: true
                 }],
                 [{
                     field: 'monthDeposit',
                     title: '月供(元)',
                     amount: true,
-                    required: true
+                    readonly: true
                 }, {
                     field: 'teamFee',
                     title: '团队服务费(元)',
                     amount: true,
-                    required: true
+                    readonly: true
                 }],
                 [{
                     title: '车辆品牌',
                     field: 'carBrand',
-                    required: true
+                    readonly: true
                 }, {
                     title: '详细配置',
                     field: 'carSeries',
-                    required: true
+                    readonly: true
                 }],
                 [{
                     title: '车辆类型',
                     field: 'carType',
                     type: 'select',
                     key: 'car_type',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'carColor',
                     title: '颜色',
-                    required: true
+                    readonly: true
                 }],
                 [{
                     title: '车辆型号',
                     field: 'carModel',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'carFrameNo',
                     title: '车架号',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'carEngineNo',
                     title: '发动机号',
-                    required: true
+                    readonly: true
                 }],
                 [{
                     field: 'settleAddress',
                     title: '落户地点',
-                    required: true
+                    readonly: true
                 }],
                 [{
                     field: 'carPic',
                     title: '车辆照片',
                     type: 'img',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'carHgzPic',
                     title: '合格证照片',
                     type: 'img',
-                    required: true
+                    readonly: true
                 }]
             ]
         }, {
@@ -292,7 +182,6 @@ class AdmittanceAddEdit extends React.Component {
                 [{
                     field: 'applyUserName',
                     title: '姓名',
-                    required: true,
                     readonly: true
                 }],
                 [{
@@ -300,96 +189,98 @@ class AdmittanceAddEdit extends React.Component {
                     title: '性别',
                     type: 'select',
                     key: 'gender',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'age',
                     title: '年龄',
                     number: true,
                     positive: true,
-                    required: true
+                    readonly: true
                 }, {
                     field: 'idNo',
                     title: '身份证号',
                     idCard: true,
-                    readonly: true,
-                    required: true
+                    readonly: true
                 }],
                 [{
                     field: 'marryState',
                     title: '婚姻状况',
                     type: 'select',
                     key: 'marry_state',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'nation',
                     title: '民族',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'education',
                     title: '学历',
                     type: 'select',
                     key: 'education',
-                    required: true
+                    readonly: true
                 }],
                 [{
                     field: 'political',
                     title: '政治面貌',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'familyNumber',
                     title: '家庭人口',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'mobile',
                     title: '联系电话',
                     mobile: true,
-                    required: true
+                    readonly: true
                 }],
                 [{
                     field: 'nowAddress',
                     title: '现居住地址',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'postCode1',
                     title: '现居住地址邮编',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'isCardMailAddress',
                     title: '是否卡邮寄地址',
                     type: 'select',
                     key: 'is_card_mail_address',
-                    required: true
+                    readonly: true
                 }],
                 [{
                     field: 'residenceAddress',
                     title: '户口所在地',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'postCode2',
                     title: '户口所在地邮编',
-                    required: true
+                    readonly: true
                 }],
                 [{
                     field: 'familyMainAsset',
                     title: '家庭主要财产(元)',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'mainAssetInclude',
                     title: '主要财产包括',
-                    required: true
+                    readonly: true
                 }],
                 [{
                     field: 'houseContract',
                     title: '购房合同及房产本',
-                    type: 'img'
+                    type: 'img',
+                    readonly: true
                 }, {
                     title: '其他辅助资产',
                     field: 'assetPdf',
-                    type: 'img'
+                    type: 'img',
+                    readonly: true
                 }, {
                     field: 'housePicture',
                     title: '家访照片',
-                    type: 'img'
+                    type: 'img',
+                    readonly: true
                 }]
             ]
         }, {
@@ -398,101 +289,93 @@ class AdmittanceAddEdit extends React.Component {
                 [{
                     field: 'workCompanyName',
                     title: '单位名称',
-                    required: true
+                    readonly: true
                 }],
                 [{
                     field: 'workCompanyAddress',
                     title: '单位地址',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'workIsCardMailAddress',
                     title: '是否卡邮寄地址',
                     type: 'select',
                     key: 'is_card_mail_address',
-                    required: true
+                    readonly: true
                 }],
                 [{
                     field: 'workBelongIndustry',
                     title: '所属行业',
                     type: 'select',
-                    key: 'work_belong_industry'
+                    key: 'work_belong_industry',
+                    readonly: true
                 }, {
                     field: 'workCompanyProperty',
                     title: '单位经济性质',
                     type: 'select',
-                    key: 'work_company_property'
+                    key: 'work_company_property',
+                    readonly: true
                 }, {
                     field: 'mainIncome',
                     title: '主要收入来源',
                     type: 'select',
                     key: 'main_income',
-                    required: true,
-                    onChange: (v, data) => {
-                        if (v === '4') {
-                            this.setState({
-                                isSelfCompany: false
-                            });
-                        } else {
-                            this.setState({
-                                isSelfCompany: true
-                            });
-                            this.props.form.setFieldsValue({
-                                selfCompanyArea: '',
-                                employeeQuantity: '',
-                                enterpriseMonthOutput: ''
-                            });
-                        }
-                    }
+                    readonly: true
                 }],
                 [{
                     field: 'position',
                     title: '职务',
                     type: 'select',
-                    key: 'position'
+                    key: 'position',
+                    readonly: true
                 }, {
                     field: 'workProfession',
                     title: '职业',
                     type: 'select',
-                    key: 'work_profession'
+                    key: 'work_profession',
+                    readonly: true
                 }, {
                     field: 'postTitle',
-                    title: '职称'
+                    title: '职称',
+                    readonly: true
                 }],
                 [{
                     field: 'monthIncome',
                     title: '月收入(元)',
                     amount: true,
-                    required: true
+                    readonly: true
                 }, {
                     field: 'workDatetime',
                     title: '何时进入现单位工作',
-                    type: 'month'
+                    type: 'month',
+                    readonly: true
                 }],
                 [{
                     field: 'selfCompanyArea',
                     title: '自营公司单位面积',
-                    hidden: this.view ? false : this.state.isSelfCompany
+                    readonly: true
                 }, {
                     field: 'employeeQuantity',
                     title: '员工数量',
                     number: true,
-                    hidden: this.view ? false : this.state.isSelfCompany
+                    readonly: true
                 }, {
                     field: 'enterpriseMonthOutput',
                     title: '企业月产值',
                     amount: true,
-                    hidden: this.view ? false : this.state.isSelfCompany
+                    readonly: true
                 }],
                 [{
                     title: '其他工作描述',
                     field: 'otherWorkNote',
                     type: 'textarea',
-                    normalArea: true
+                    normalArea: true,
+                    readonly: true
                 }],
                 [{
                     title: '工作资料上传',
                     field: 'workAssetPdf',
-                    type: 'img'
+                    type: 'img',
+                    readonly: true
                 }]
             ]
         }, {
@@ -576,31 +459,34 @@ class AdmittanceAddEdit extends React.Component {
                 [{
                     field: 'emergencyName1',
                     title: '联系人1姓名',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'emergencyRelation1',
                     title: '与申请人关系',
                     type: 'select',
                     key: 'credit_user_relation',
-                    required: true
+                    readonly: true
                 }, {
                     field: 'emergencyMobile1',
                     title: '手机号码',
                     mobile: true,
-                    required: true
+                    readonly: true
                 }],
                 [{
                     field: 'emergencyName2',
-                    title: '联系人2姓名'
+                    title: '联系人2姓名',
+                    readonly: true
                 }, {
                     field: 'emergencyRelation2',
                     title: '与申请人关系',
                     type: 'select',
-                    key: 'credit_user_relation'
+                    key: 'credit_user_relation',
+                    readonly: true
                 }, {
                     field: 'emergencyMobile2',
                     title: '手机号码',
-                    mobile: true
+                    mobile: true,
+                    readonly: true
                 }]
             ]
         }, {
@@ -609,20 +495,24 @@ class AdmittanceAddEdit extends React.Component {
                 [{
                     field: 'hkBookPdf',
                     title: '户口本',
-                    type: 'img'
+                    type: 'img',
+                    readonly: true
                 }, {
                     field: 'idCardPdf',
                     title: '身份证',
-                    type: 'img'
+                    type: 'img',
+                    readonly: true
                 }, {
                     field: 'marryPdf',
                     title: '结婚证',
-                    type: 'img'
+                    type: 'img',
+                    readonly: true
                 }],
                 [{
                     field: 'otherPdf',
                     title: '其他资料',
-                    type: 'img'
+                    type: 'img',
+                    readonly: true
                 }]
             ]
         }, {
@@ -1443,230 +1333,36 @@ class AdmittanceAddEdit extends React.Component {
                     type: 'img'
                 }]
             ]
-        // }, {
-        //     title: '录入配偶信息',
-        //     field: 'btnMateStatus',
-        //     type: 'button',
-        //     hidden: !this.state.mateStatus,
-        //     onClick: () => {
-        //         if (this.state.mateStatus) {
-        //             this.setState({
-        //                 mateStatus: false
-        //             });
-        //         } else {
-        //             this.setState({
-        //                 mateStatus: true
-        //             });
-        //             this.props.form.setFieldsValue({
-        //                 mateName: '',
-        //                 mateMobile: '',
-        //                 mateEducation: '',
-        //                 mateCompanyName: '',
-        //                 mateCompanyContactNo: '',
-        //                 mateCompanyAddress: '',
-        //                 mateAssetPdf: ''
-        //             });
-        //         }
-        //     }
-        // }, {
-        //     title: '录入担保人信息',
-        //     field: 'btnGuaStatus',
-        //     type: 'button',
-        //     hidden: !this.state.guaStatus,
-        //     onClick: () => {
-        //         if (this.state.guaStatus) {
-        //             this.setState({
-        //                 guaStatus: false
-        //             });
-        //         } else {
-        //             this.setState({
-        //                 guaStatus: true
-        //             });
-        //             this.props.form.setFieldsValue({
-        //                 guaName: '',
-        //                 guaMobile: '',
-        //                 guaIdNo: '',
-        //                 guaPhone: '',
-        //                 guaCompanyName: '',
-        //                 guaCompanyAddress: '',
-        //                 guaHouseAssetAddress: '',
-        //                 guaAssetPdf: ''
-        //             });
-        //         }
-        //     }
-        // }, {
-        //     title: '录入申请人流水数据',
-        //     field: 'btnApplyUserAccount',
-        //     type: 'button',
-        //     hidden: !this.state.applyUserAccount,
-        //     onClick: () => {
-        //         if (this.state.applyUserAccount) {
-        //             this.setState({
-        //                 applyUserAccount: false
-        //             });
-        //         } else {
-        //             this.setState({
-        //                 applyUserAccount: true
-        //             });
-        //         }
-        //     }
-        // }, {
-        //     title: '录入配偶流水数据',
-        //     field: 'btnMateAccount',
-        //     type: 'button',
-        //     hidden: !this.state.mateAccount,
-        //     onClick: () => {
-        //         if (this.state.mateAccount) {
-        //             this.setState({
-        //                 mateAccount: false
-        //             });
-        //         } else {
-        //             this.setState({
-        //                 mateAccount: true
-        //             });
-        //         }
-        //     }
-        // }, {
-        //     title: '录入担保人流水数据',
-        //     field: 'btnGuaAccount',
-        //     type: 'button',
-        //     hidden: !this.state.guaAccount,
-        //     onClick: () => {
-        //         if (this.state.guaAccount) {
-        //             this.setState({
-        //                 guaAccount: false
-        //             });
-        //         } else {
-        //             this.setState({
-        //                 guaAccount: true
-        //             });
-        //         }
-        //     }
         }];
-
-        let checkFields = [{
-            field: 'approveNote',
-            title: '审核说明',
-            type: 'textarea',
-            normalArea: true,
-            readonly: !(this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager)
-        }];
-
-        let buttons = [];
-        let bizCode;
-        if (this.isCheckCommissioner) {
-            bizCode = 632121;
-        } else if (this.isCheckDirector) {
-            bizCode = 632122;
-        } else if (this.isCheckRegionalManager) {
-            bizCode = 632140;
-        }
-
-        if (this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager) {
-            fields = fields.concat(checkFields);
-
-            buttons = [{
-                title: '通过',
-                check: true,
-                handler: (params) => {
-                    let data = {};
-                    data.code = this.code;
-                    data.approveNote = params.approveNote;
-                    data.approveResult = '1';
-                    data.operator = getUserId();
-                    this.props.doFetching();
-                    fetch(bizCode, data).then(() => {
-                        this.props.cancelFetching();
-                        showSucMsg('操作成功');
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(() => {
-                        this.props.cancelFetching();
-                    });
-                }
-            }, {
-                title: '不通过',
-                check: true,
-                handler: (params) => {
-                    let data = {};
-                    data.code = this.code;
-                    data.approveNote = params.approveNote;
-                    data.approveResult = '0';
-                    data.operator = getUserId();
-                    this.props.doFetching();
-                    fetch(bizCode, data).then(() => {
-                        this.props.cancelFetching();
-                        showSucMsg('操作成功');
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(() => {
-                        this.props.cancelFetching();
-                    });
-                }
-            }, {
-                title: '返回',
-                handler: () => {
-                    this.props.history.go(-1);
-                }
-            }];
-        }
-
-        if (!this.view && !this.isCheckCommissioner && !this.isCheckDirector && !this.isCheckRegionalManager) {
-            buttons = [{
-                title: '保存',
-                handler: (params) => {
-                    params.code = this.code;
-                    params.dealType = '0';
-                    params.operator = getUserId();
-                    params.creditCode = this.props.pageData.creditCode;
-                    params.applyUserName = this.props.pageData.applyUserName;
-                    params.bizType = this.props.pageData.bizType;
-                    params.idNo = this.props.pageData.idNo;
-                    this.props.doFetching();
-                    fetch(632120, params).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                    }).catch(this.props.cancelFetching);
-                }
-            }, {
-                title: '发送',
-                check: true,
-                handler: (params) => {
-                    params.code = this.code;
-                    params.dealType = '1';
-                    params.operator = getUserId();
-                    params.creditCode = this.props.pageData.creditCode;
-                    params.applyUserName = this.props.pageData.applyUserName;
-                    params.bizType = this.props.pageData.bizType;
-                    params.idNo = this.props.pageData.idNo;
-                    this.props.doFetching();
-                    fetch(632120, params).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.props.cancelFetching);
-                }
-            }, {
-                title: '返回',
-                handler: (param) => {
-                    this.props.history.go(-1);
-                }
-            }];
-        }
 
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            editCode: 632120,
             detailCode: 632146,
-            buttons: buttons
+            buttons: [{
+              title: '确认',
+              handler: (param) => {
+                param.updater = getUserId();
+                this.props.doFetching();
+                fetch(632141, param).then((data) => {
+                  showSucMsg('操作成功');
+                  this.props.cancelFetching();
+                  setTimeout(() => {
+                    this.props.history.go(-1);
+                  }, 1000);
+                }).catch(this.props.cancelFetching);
+              },
+              check: true,
+              type: 'primary'
+            }, {
+              title: '返回',
+              handler: (param) => {
+                this.props.history.go(-1);
+              }
+            }]
         });
     }
 }
 
-export default AdmittanceAddEdit;
+export default BankMoneyRecord;

@@ -11,7 +11,7 @@ import XLSX from 'xlsx';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
 import {
-    formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat,
+    formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat, monthFormat,
     tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg, getUserId
 } from 'common/js/util';
 import { UPLOAD_URL, PIC_PREFIX, formItemLayout, tailFormItemLayout, tailFormItemLayout1 } from '../config';
@@ -28,6 +28,7 @@ const {RangePicker} = DatePicker;
 const { TreeNode } = TreeSelect;
 const CheckboxGroup = Checkbox.Group;
 const DATE_FORMAT = 'YYYY-MM-DD';
+const MONTH_FORMAT = 'YYYY-MM';
 const DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 const imgUploadBtn = (
     <div>
@@ -196,8 +197,8 @@ export default class DetailComponent extends React.Component {
                 v.cFields.forEach((f, i) => {
                     values[f] = mid[i];
                 });
-            } else if (v.type === 'date' || v.type === 'datetime') {
-                let format = v.type === 'date' ? DATE_FORMAT : DATETIME_FORMAT;
+            } else if (v.type === 'date' || v.type === 'datetime' || v.type === 'month') {
+                let format = v.type === 'date' ? DATE_FORMAT : v.type === 'month' ? MONTH_FORMAT : DATETIME_FORMAT;
                 if (v.rangedate) {
                     let bDate = values[v.field] ? [...values[v.field]] : [];
                     if (bDate.length) {
@@ -524,6 +525,8 @@ export default class DetailComponent extends React.Component {
                 return item.rangedate
                     ? this.getRangeDateItem(item, initVal, rules, getFieldDecorator, type === 'datetime')
                     : this.getDateItem(item, initVal, rules, getFieldDecorator, type === 'datetime');
+            case 'month':
+                return this.getMonthItem(item, initVal, rules, getFieldDecorator);
             case 'img':
                 return this.getImgComp(item, initVal, rules, getFieldDecorator);
             case 'file':
@@ -788,6 +791,10 @@ export default class DetailComponent extends React.Component {
                 obj.render = (v) => {
                     return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateFormat(v)}</span> : dateFormat(v);
                 };
+            } else if (f.type === 'month' && !f.render) {
+                obj.render = (v) => {
+                    return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{monthFormat(v)}</span> : monthFormat(v);
+                };
             } else if (f.type === 'select' || f.type === 'checkbox') {
                 f.keyName = f.keyName || 'dkey';
                 f.valueName = f.valueName || 'dvalue';
@@ -932,6 +939,29 @@ export default class DetailComponent extends React.Component {
                             placeholder={places}
                             format={format}
                             showTime={isTime}/>
+                        )
+                }
+            </FormItem>
+        );
+    }
+
+    getMonthItem(item, initVal, rules, getFieldDecorator) {
+        let format = MONTH_FORMAT;
+        let places = '选择日期';
+        return (
+            <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
+                {
+                    item.readonly ? <div className="readonly-text">{initVal}</div>
+                        : getFieldDecorator(item.field, {
+                            rules,
+                            initialValue: initVal || null
+                        })(
+                        <DatePicker
+                            allowClear={false}
+                            locale={locale}
+                            placeholder={places}
+                            format={format}
+                            showTime={false}/>
                         )
                 }
             </FormItem>
@@ -1268,7 +1298,7 @@ export default class DetailComponent extends React.Component {
             }
             if (item.type === 'citySelect') {
                 result = this.getCityVal(item, result);
-            } else if (item.type === 'date' || item.type === 'datetime') {
+            } else if (item.type === 'date' || item.type === 'datetime' || item.type === 'month') {
                 result = this.getRealDateVal(item, result);
             } else if (item.type === 'checkbox') {
                 result = this.getRealCheckboxVal(item, result);
@@ -1288,8 +1318,8 @@ export default class DetailComponent extends React.Component {
     }
 
     getRealDateVal(item, result) {
-        let format = item.type === 'date' ? DATE_FORMAT : DATETIME_FORMAT;
-        let format1 = item.type === 'date' ? dateFormat : dateTimeFormat;
+        let format = item.type === 'date' ? DATE_FORMAT : item.type === 'month' ? MONTH_FORMAT : DATETIME_FORMAT;
+        let format1 = item.type === 'date' ? dateFormat : item.type === 'month' ? monthFormat : dateTimeFormat;
         let readonly = this.options.view || item.readonly;
         if (readonly) {
             return item.rangedate
