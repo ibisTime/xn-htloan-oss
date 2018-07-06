@@ -94,13 +94,11 @@ class AdvMoneyAddedit extends React.Component {
             title: '资金划转授权书 ',
             field: 'advanceFundAmountPdf',
             type: 'img',
-            required: true,
             readonly: true
         }, {
             title: '其他资料',
             field: 'interviewOtherPdf',
             type: 'file',
-            required: true,
             readonly: true
         }];
         // 准入审查
