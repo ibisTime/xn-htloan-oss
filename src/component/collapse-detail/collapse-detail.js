@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Collapse, Row, Col, Spin, Modal } from 'antd';
+import { Form, Collapse, Row, Col, Spin, Modal, Carousel, Button } from 'antd';
 import { isUndefined, moneyParse, getUserId } from 'common/js/util';
 import DetailComp from 'common/js/lib/DetailComp';
 import ModalDetail from 'common/js/build-modal-detail';

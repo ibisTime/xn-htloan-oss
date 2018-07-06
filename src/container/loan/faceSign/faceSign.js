@@ -44,6 +44,10 @@ import {
 class FaceSign extends React.Component {
     render() {
         const fields = [{
+            title: '业务编号',
+            field: 'code',
+            search: true
+        }, {
             title: '业务公司',
             field: 'companyCode',
             type: 'select',
