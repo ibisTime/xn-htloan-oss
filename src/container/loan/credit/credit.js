@@ -14,7 +14,8 @@ import {
     showSucMsg,
     getRoleCode,
     dateTimeFormat,
-    getTeamCode
+    getTeamCode,
+    monthFormat
 } from 'common/js/util';
 import {
     listWrapper
@@ -82,10 +83,13 @@ class Credit extends React.Component {
         }, {
             title: '申请日期',
             field: 'applyDatetime',
-            type: 'date',
-            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
-            render: dateTimeFormat,
-            search: true
+            render: (v, d) => {
+                return monthFormat(d.applyDatetime);
+            }
+            // type: 'date',
+            // rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
+            // render: dateTimeFormat,
+            // search: true
         }, {
             title: '当前节点',
             field: 'curNodeCode',
