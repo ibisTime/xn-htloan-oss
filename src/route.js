@@ -785,6 +785,17 @@ const ROUTES = [
       component: asyncComponent(() => import('container/loan/advMoney-addedit/advMoney-addedit'))
   },
   //  贷前工具
+  //  调查报告
+  {
+      path: '/loanstools/investigateReport',
+      component: asyncComponent(() => import('container/loanstools/investigateReport/investigateReport'))
+  },
+  //  收回手续费 详情
+  {
+      path: '/loanstools/investigateReport/addedit',
+      component: asyncComponent(() => import('container/loanstools/investigateReport/investigateReport-addedit'))
+  },
+
   //  收回手续费
   {
     path: '/loanstools/takeFree',

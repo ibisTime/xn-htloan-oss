@@ -252,6 +252,10 @@ import { loanAdvMoneyAddedit } from './redux/loan/advMoney-addedit';
 /**
  * 贷前工具
  */
+//  调查报告
+import { loanstoolsInvestigateReport } from './redux/loanstools/investigateReport';
+import { loanstoolsInvestigateReportAddedit } from './redux/loanstools/investigateReport-addedit';
+
 //  收回手续费 + 详情 + 收款回录
 import { loanstoolstakeFree } from './redux/loanstools/takeFree';
 import { loanstoolsTakeFreeAddedit } from './redux/loanstools/takeFree-addedit';
@@ -634,6 +638,8 @@ export default combineReducers({
   loanFaceSignAddedit,
   loanAdvMoney,
   loanAdvMoneyAddedit,
+  loanstoolsInvestigateReport,
+  loanstoolsInvestigateReportAddedit,
   loanstoolstakeFree,
   loanstoolsTakeFreeAddedit,
   loanstoolsTakeFreeEnter,

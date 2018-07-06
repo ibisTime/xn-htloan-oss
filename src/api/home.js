@@ -10,3 +10,8 @@ export function getPageMyNotice() {
 export function getPageMyCompanysystem() {
     return fetch(632738, { userId: getUserId(), start: 1, limit: 5 });
 }
+
+// 分页查询我的待办事项
+export function getPageMyToDoList() {
+    return fetch(632738, { userId: getUserId(), start: 1, limit: 5 });
+}
