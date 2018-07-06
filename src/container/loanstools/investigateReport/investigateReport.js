@@ -124,7 +124,7 @@ class InvestigateReport extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== '010_01') {
                         showWarnMsg('当前不是提交调查申请节点');
                     } else {
-                        this.props.history.push(`/loanstools/investigateReport/addedit?code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}&loanBank=${selectedRows[0].loanBank}`);
+                        this.props.history.push(`/loanstools/investigateReport/addedit?code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}`);
                     }
                 },
                 checkCommissioner: (selectedRowKeys, selectedRows) => {
@@ -135,10 +135,10 @@ class InvestigateReport extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== '010_02') {
                         showWarnMsg('当前不是风控专员审核节点');
                     } else {
-                        this.props.history.push(`/loanstools/investigateReport/addedit?v=1&isCheckCommissioner=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loanstools/investigateReport/addedit?v=1&isCheckCommissioner=1&code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}`);
                     }
                 },
-                checkDirector: (selectedRowKeys, selectedRows) => {
+                checkStationed: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
@@ -146,7 +146,16 @@ class InvestigateReport extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== '010_03') {
                         showWarnMsg('当前不是驻行人员审核节点');
                     } else {
-                        this.props.history.push(`/loanstools/investigateReport/addedit?v=1&isCheckDirector=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loanstools/investigateReport/addedit?v=1&isCheckStationed=1&code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}`);
+                    }
+                },
+                detail: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/loanstools/investigateReport/addedit?v=1&code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}`);
                     }
                 }
             }

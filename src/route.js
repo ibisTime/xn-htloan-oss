@@ -1531,6 +1531,11 @@ const ROUTES = [
   {
       path: '/home/companysystemDetail',
       component: asyncComponent(() => import('container/home/companysystem-detail'))
+  },
+  //  历史业务管理
+  {
+      path: '/home/toDoList',
+      component: asyncComponent(() => import('container/home/toDoList'))
   }
 ];
 

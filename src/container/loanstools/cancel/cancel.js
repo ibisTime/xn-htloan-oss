@@ -110,6 +110,8 @@ class cancel extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '007_02') {
+                        showWarnMsg('当前不是填写业务总监审核节点');
                     } else {
                         this.props.history.push(`/loanstools/cancel/check?code=${selectedRowKeys[0]}`);
                     }
@@ -119,6 +121,8 @@ class cancel extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '007_03') {
+                        showWarnMsg('当前不是填写财务经理审核节点');
                     } else {
                         this.props.history.push(`/loanstools/cancel/certain?code=${selectedRowKeys[0]}`);
                     }

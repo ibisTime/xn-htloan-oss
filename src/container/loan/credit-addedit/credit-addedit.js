@@ -209,7 +209,6 @@ class CreditAddedit extends React.Component {
             title: '二手车评估报告',
             field: 'secondCarReport',
             type: 'file',
-            required: true,
             hidden: this.newCar
         }, {
             title: '行驶证正面',

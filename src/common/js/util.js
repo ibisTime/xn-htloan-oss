@@ -5,7 +5,8 @@ import {
   notification
 } from 'antd';
 import {
-  PIC_PREFIX
+  PIC_PREFIX,
+  curNodePageUrl
 } from './config';
 import './lib/BigDecimal';
 
@@ -257,7 +258,7 @@ export function formatFile(urls, suffix = '') {
  * @param imgs
  * @param suffix
  */
-export function formatImg(imgs, suffix = '?imageMogr2/auto-orient') {
+export function formatImg(imgs, suffix = '?imageMogr2/auto-orient/thumbnail/!300x300') {
   return formatFile(imgs, suffix);
 }
 
@@ -485,4 +486,15 @@ export function moneyUppercase(Num) {
         newchar = newchar + '整';
     }
     return newchar;
+}
+
+// 返回当前节点应跳转的页面
+export function getNowCurNodePageUrl(data) {
+    let url = curNodePageUrl[data.curNodeCode] + data.code;
+
+    // 填写准入申请单
+    if (data.curNodeCode === '002_04' || data.curNodeCode === '002_01') {
+        url = `${url}&bizType=${data.bizType}&loanBank=${data.loanBank}`;
+    }
+    return url;
 }
