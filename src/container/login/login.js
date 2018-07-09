@@ -4,7 +4,7 @@ import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {login} from '@redux/user';
 import './login.css';
-import logoWhite from '../../images/logo-white.png';
+// import logoWhite from '../../images/logo-white.png';
 
 const FormItem = Form.Item;
 
@@ -27,7 +27,7 @@ class Login extends React.Component {
         return (
             <div className="login-body">
                 <div className='logo-wrap'>
-                    <img src={logoWhite}/>
+                    {/* <img src={logoWhite}/> */}
                     <p>后台管理系统</p>
                 </div>
                 <div className="login-wrap">

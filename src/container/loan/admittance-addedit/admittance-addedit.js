@@ -232,7 +232,7 @@ class AdmittanceAddEdit extends React.Component {
                     required: true
                 }, {
                     field: 'teamFee',
-                    title: '团队服务费(元)',
+                    title: '服务费(元)',
                     amount: true,
                     required: true
                 }],
@@ -655,10 +655,19 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
-                    title: '流水结息',
+                    title: '结息时间',
                     field: 'jourInterest',
                     type: 'select',
                     key: 'interest'
+                }],
+                [{
+                    title: '结息1(元)',
+                    field: 'interest1',
+                    amount: true
+                }, {
+                    title: '结息2(元)',
+                    field: 'interest2',
+                    amount: true
                 }],
                 [{
                     field: 'jourIncome',
@@ -746,10 +755,19 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
-                    title: '流水结息',
+                    title: '结息时间',
                     field: 'zfbJourInterest',
                     type: 'select',
                     key: 'interest'
+                }],
+                [{
+                    title: '结息1(元)',
+                    field: 'zfbInterest1',
+                    amount: true
+                }, {
+                    title: '结息2(元)',
+                    field: 'zfbInterest2',
+                    amount: true
                 }],
                 [{
                     field: 'zfbJourIncome',
@@ -838,10 +856,19 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
-                    title: '流水结息',
+                    title: '结息时间',
                     field: 'wxJouInterest',
                     type: 'select',
                     key: 'interest'
+                }],
+                [{
+                    title: '结息1(元)',
+                    field: 'wxInterest1',
+                    amount: true
+                }, {
+                    title: '结息2(元)',
+                    field: 'wxInterest2',
+                    amount: true
                 }],
                 [{
                     field: 'wxJourIncome',
@@ -928,10 +955,28 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
-                    title: '流水结息',
+                    title: '结息时间',
                     field: 'mateJourInterest',
                     type: 'select',
                     key: 'interest'
+                }],
+                [{
+                    title: '结息1(元)',
+                    field: 'mateInterest1',
+                    amount: true
+                }, {
+                    title: '结息2(元)',
+                    field: 'mateInterest2',
+                    amount: true
+                }],
+                [{
+                    title: '结息1',
+                    field: 'interest1',
+                    amount: true
+                }, {
+                    title: '结息2',
+                    field: 'interest2',
+                    amount: true
                 }],
                 [{
                     field: 'mateJourIncome',
@@ -1019,10 +1064,19 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
-                    title: '流水结息',
+                    title: '结息时间',
                     field: 'mateZfbJourInterest',
                     type: 'select',
                     key: 'interest'
+                }],
+                [{
+                    title: '结息1(元)',
+                    field: 'mateZfbInterest1',
+                    amount: true
+                }, {
+                    title: '结息2(元)',
+                    field: 'mateZfbInterest2',
+                    amount: true
                 }],
                 [{
                     field: 'mateZfbJourIncome',
@@ -1110,10 +1164,19 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
-                    title: '流水结息',
+                    title: '结息时间',
                     field: 'mateWxJourInterest',
                     type: 'select',
                     key: 'interest'
+                }],
+                [{
+                    title: '结息1(元)',
+                    field: 'mateWxInterest1',
+                    amount: true
+                }, {
+                    title: '结息2(元)',
+                    field: 'mateWxInterest2',
+                    amount: true
                 }],
                 [{
                     field: 'mateWxJourIncome',
@@ -1201,10 +1264,19 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
-                    title: '流水结息',
+                    title: '结息时间',
                     field: 'guaJourInterest',
                     type: 'select',
                     key: 'interest'
+                }],
+                [{
+                    title: '结息1(元)',
+                    field: 'guaInterest1',
+                    amount: true
+                }, {
+                    title: '结息2(元)',
+                    field: 'guaInterest2',
+                    amount: true
                 }],
                 [{
                     field: 'guaJourIncome',
@@ -1291,10 +1363,19 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
-                    title: '流水结息',
+                    title: '结息时间',
                     field: 'guaZfbJourInterest',
                     type: 'select',
                     key: 'interest'
+                }],
+                [{
+                    title: '结息1(元)',
+                    field: 'guaZfbInterest1',
+                    amount: true
+                }, {
+                    title: '结息2(元)',
+                    field: 'guaZfbInterest2',
+                    amount: true
                 }],
                 [{
                     field: 'guaZfbJourIncome',
@@ -1382,10 +1463,19 @@ class AdmittanceAddEdit extends React.Component {
                     }
                 }],
                 [{
-                    title: '流水结息',
+                    title: '结息时间',
                     field: 'guaWxJourInterest',
                     type: 'select',
                     key: 'interest'
+                }],
+                [{
+                    title: '结息1(元)',
+                    field: 'guaWxInterest1',
+                    amount: true
+                }, {
+                    title: '结息2(元)',
+                    field: 'guaWxInterest2',
+                    amount: true
                 }],
                 [{
                     field: 'guaWxJourIncome',
