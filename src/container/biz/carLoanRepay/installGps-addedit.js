@@ -37,6 +37,9 @@ class installGpsAddedit extends React.Component {
             title: '客户姓名',
             field: 'applyUserName'
         }, {
+            title: '业务团队',
+            field: 'teamName'
+        }, {
             title: '业务编号',
             field: 'code'
         }, {

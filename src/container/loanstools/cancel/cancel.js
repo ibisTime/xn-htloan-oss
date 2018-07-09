@@ -97,10 +97,20 @@ class cancel extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
+        }, {
+            title: '节点时间',
+            field: 'updateDatetime',
+            type: 'datetime'
+        }, {
+            title: '节点操作人',
+            field: 'updaterName'
         }];
         return this.props.buildList({
             fields,
             pageCode: 632195,
+            searchParams: {
+                curNodeCodeList: ['007_01', '007_02', '007_03', '007_04', '007_05']
+            },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {
                     this.props.history.push(`/loanstools/cancel/apply?`);

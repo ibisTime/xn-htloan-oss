@@ -1,5 +1,7 @@
 import React from 'react';
-import { Modal } from 'antd';
+import {
+  Modal
+} from 'antd';
 import {
   setTableData,
   setPagination,
@@ -10,17 +12,30 @@ import {
   cancelFetching,
   setSearchData
 } from '@redux/security/user';
-import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg } from 'common/js/util';
-import { activateSysUser } from 'api/user';
+import {
+  listWrapper
+} from 'common/js/build-list';
+import {
+  showWarnMsg
+} from 'common/js/util';
+import {
+  activateSysUser
+} from 'api/user';
 
 @listWrapper(
   state => ({
     ...state.securityUser,
     parentCode: state.menu.subMenuCode
-  }),
-  { setTableData, clearSearchParam, doFetching, setBtnList,
-    cancelFetching, setPagination, setSearchParam, setSearchData }
+  }), {
+    setTableData,
+    clearSearchParam,
+    doFetching,
+    setBtnList,
+    cancelFetching,
+    setPagination,
+    setSearchParam,
+    setSearchData
+  }
 )
 class User extends React.Component {
   render() {
@@ -28,13 +43,13 @@ class User extends React.Component {
       title: '用户名',
       field: 'keyword',
       search: true,
-        render: (v, data) => {
-          return data.loginName;
-        }
+      render: (v, data) => {
+        return data.loginName;
+      }
     }, {
-        title: '真实姓名',
-        field: 'realName',
-        required: true
+      title: '真实姓名',
+      field: 'realName',
+      required: true
     }, {
       title: '状态',
       field: 'status',
@@ -58,8 +73,17 @@ class User extends React.Component {
       title: '岗位',
       field: 'postName'
     }, {
+      title: '创建时间',
+      field: 'createDatetime',
+      type: 'date'
+    }, {
       title: '备注',
       field: 'remark'
+    }, {
+      title: '关键字搜索',
+      field: 'keyword',
+      hidden: true,
+      search: true
     }];
     return this.props.buildList({
       fields,

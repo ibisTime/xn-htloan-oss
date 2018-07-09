@@ -49,7 +49,7 @@ class refundBusiness extends React.Component {
       search: true
     }, {
       title: '贷款人',
-      field: 'user',
+      field: 'realName',
       search: true,
       render: (v, d) => {
         return d.user.realName;

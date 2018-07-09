@@ -52,6 +52,24 @@ class installGps extends React.Component {
             title: '业务公司',
             field: 'companyName'
         }, {
+            title: '业务团队',
+            field: 'teamName'
+        }, {
+            title: '信贷专员',
+            field: 'saleUserId',
+            type: 'select',
+            pageCode: 630065,
+            params: {
+                type: 'P'
+            },
+            keyName: 'userId',
+            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
+            searchName: 'realName',
+            search: true,
+            render: (v, d) => {
+                return d.saleUserName;
+            }
+        }, {
             title: '客户姓名',
             field: 'applyUserName',
             search: true
@@ -73,9 +91,6 @@ class installGps extends React.Component {
         }, {
             field: 'carFrameNo',
             title: '车架号'
-        }, {
-            title: '业务员',
-            field: 'saleUserName'
         }, {
             title: '申请时间',
             field: 'applyDatetime',

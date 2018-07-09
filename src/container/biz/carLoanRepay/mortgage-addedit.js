@@ -37,6 +37,9 @@ class mortgageAddedit extends React.Component {
             field: 'applyUserName',
             readonly: true
         }, {
+            title: '业务团队',
+            field: 'teamName'
+        }, {
             title: '业务编号',
             field: 'code',
             readonly: true

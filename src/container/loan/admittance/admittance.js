@@ -50,6 +50,24 @@ class Admittance extends React.Component {
             title: '业务公司',
             field: 'companyName'
         }, {
+            title: '业务团队',
+            field: 'teamName'
+        }, {
+            title: '信贷专员',
+            field: 'saleUserId',
+            type: 'select',
+            pageCode: 630065,
+            params: {
+                type: 'P'
+            },
+            keyName: 'userId',
+            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
+            searchName: 'realName',
+            search: true,
+            render: (v, d) => {
+                return d.saleUserName;
+            }
+        }, {
             title: '客户姓名',
             field: 'applyUserName',
             search: true
@@ -89,21 +107,6 @@ class Admittance extends React.Component {
             keyName: 'dkey',
             valueName: 'dvalue'
         }, {
-            title: '业务员',
-            field: 'saleUserId',
-            type: 'select',
-            pageCode: 630065,
-            params: {
-                type: 'P'
-            },
-            keyName: 'userId',
-            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
-            searchName: 'realName',
-            search: true,
-            render: (v, d) => {
-                return d.saleUserName;
-            }
-        }, {
             title: '申请日期',
             field: 'applyDatetime',
             rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
@@ -117,6 +120,13 @@ class Admittance extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
+        }, {
+            title: '节点时间',
+            field: 'updateDatetime',
+            type: 'datetime'
+        }, {
+            title: '节点操作人',
+            field: 'updaterName'
         }, {
             title: '关键字搜索',
             field: 'keyword',

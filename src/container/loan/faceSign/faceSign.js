@@ -59,6 +59,24 @@ class FaceSign extends React.Component {
             valueName: 'name',
             search: true
         }, {
+            title: '业务团队',
+            field: 'teamName'
+        }, {
+            title: '信贷专员',
+            field: 'saleUserId',
+            type: 'select',
+            pageCode: 630065,
+            params: {
+                type: 'P'
+            },
+            keyName: 'userId',
+            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
+            searchName: 'realName',
+            search: true,
+            render: (v, d) => {
+                return d.saleUserName;
+            }
+        }, {
             title: '客户姓名',
             field: 'applyUserName',
             search: true
@@ -93,9 +111,6 @@ class FaceSign extends React.Component {
             keyName: 'dkey',
             valueName: 'dvalue'
         }, {
-            title: '业务员',
-            field: 'saleUserName'
-        }, {
             title: '申请日期',
             field: 'applyDatetime',
             rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
@@ -109,6 +124,13 @@ class FaceSign extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
+        }, {
+            title: '节点时间',
+            field: 'updateDatetime',
+            type: 'datetime'
+        }, {
+            title: '节点操作人',
+            field: 'updaterName'
         }];
         return this.props.buildList({
             fields,

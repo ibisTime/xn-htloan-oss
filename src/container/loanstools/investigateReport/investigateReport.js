@@ -50,6 +50,24 @@ class InvestigateReport extends React.Component {
             title: '业务公司',
             field: 'companyName'
         }, {
+            title: '业务团队',
+            field: 'teamName'
+        }, {
+            title: '信贷专员',
+            field: 'saleUserId',
+            type: 'select',
+            pageCode: 630065,
+            params: {
+                type: 'P'
+            },
+            keyName: 'userId',
+            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
+            searchName: 'realName',
+            search: true,
+            render: (v, d) => {
+                return d.saleUserName;
+            }
+        }, {
             title: '授信客户姓名',
             field: 'applyUserName',
             search: true
@@ -82,17 +100,6 @@ class InvestigateReport extends React.Component {
             keyName: 'dkey',
             valueName: 'dvalue'
         }, {
-            title: '业务员',
-            field: 'saleUserId',
-            type: 'select',
-            params: {
-                type: 'P'
-            },
-            listCode: 630066,
-            keyName: 'userId',
-            valueName: 'realName',
-            search: true
-        }, {
             title: '申请日期',
             field: 'applyDatetime',
             rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
@@ -111,10 +118,20 @@ class InvestigateReport extends React.Component {
             field: 'keyword',
             hidden: true,
             search: true
+        }, {
+            title: '节点时间',
+            field: 'updateDatetime',
+            type: 'datetime'
+        }, {
+            title: '节点操作人',
+            field: 'updaterName'
         }];
         return this.props.buildList({
             fields,
             pageCode: 632205,
+            searchName: {
+                curNodeCodeList: ['010_01', '010_02', '010_03', '010_04']
+            },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {

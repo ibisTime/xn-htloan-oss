@@ -181,6 +181,10 @@ class CreditAddedit extends React.Component {
         }
 
         let fields = [{
+            title: '业务团队',
+            field: 'teamName',
+            hidden: this.isAddedit
+        }, {
             title: '银行',
             field: 'loanBankCode',
             type: 'select',

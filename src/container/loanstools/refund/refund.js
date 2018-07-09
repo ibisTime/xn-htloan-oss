@@ -52,6 +52,24 @@ class refund extends React.Component {
             title: '业务公司',
             field: 'companyName'
         }, {
+            title: '业务团队',
+            field: 'teamName'
+        }, {
+            title: '信贷专员',
+            field: 'saleUserId',
+            type: 'select',
+            pageCode: 630065,
+            params: {
+                type: 'P'
+            },
+            keyName: 'userId',
+            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
+            searchName: 'realName',
+            search: true,
+            render: (v, d) => {
+                return d.saleUserName;
+            }
+        }, {
             title: '客户姓名',
             field: 'applyUserName',
             search: true
@@ -70,9 +88,6 @@ class refund extends React.Component {
             field: 'bizType',
             type: 'select',
             key: 'budget_orde_biz_typer'
-        }, {
-            title: '业务员',
-            field: 'saleUserName'
         }, {
             title: '申请时间',
             field: 'applyDatetime',
@@ -99,6 +114,13 @@ class refund extends React.Component {
             field: 'backAdvanceStatus',
             type: 'select',
             key: 'back_advance_status'
+        }, {
+            title: '节点时间',
+            field: 'updateDatetime',
+            type: 'datetime'
+        }, {
+            title: '节点操作人',
+            field: 'updaterName'
         }];
         return this.props.buildList({
             fields,

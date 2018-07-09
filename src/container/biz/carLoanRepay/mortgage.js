@@ -58,6 +58,24 @@ class mortgage extends React.Component {
             valueName: 'name',
             required: true
         }, {
+            title: '业务团队',
+            field: 'teamName'
+        }, {
+            title: '信贷专员',
+            field: 'saleUserId',
+            type: 'select',
+            pageCode: 630065,
+            params: {
+                type: 'P'
+            },
+            keyName: 'userId',
+            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
+            searchName: 'realName',
+            search: true,
+            render: (v, d) => {
+                return d.saleUserName;
+            }
+        }, {
             title: '客户姓名',
             field: 'applyUserName',
             search: true
@@ -76,9 +94,6 @@ class mortgage extends React.Component {
             field: 'bizType',
             type: 'select',
             key: 'budget_orde_biz_typer'
-        }, {
-            title: '业务员',
-            field: 'saleUserName'
         }, {
             title: '申请日期',
             field: 'applyDatetime',

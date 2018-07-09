@@ -49,6 +49,24 @@ class Credit extends React.Component {
             title: '业务公司',
             field: 'companyName'
         }, {
+            title: '业务团队',
+            field: 'teamName'
+        }, {
+            title: '信贷专员',
+            field: 'saleUserId',
+            type: 'select',
+            pageCode: 630065,
+            params: {
+                type: 'P'
+            },
+            keyName: 'userId',
+            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
+            searchName: 'realName',
+            search: true,
+            render: (v, d) => {
+                return d.saleUserName;
+            }
+        }, {
             title: '客户姓名',
             field: 'userName',
             render: (e, t) => {
@@ -70,21 +88,6 @@ class Credit extends React.Component {
             field: 'loanAmount',
             amount: true
         }, {
-            title: '业务员',
-            field: 'saleUserId',
-            type: 'select',
-            pageCode: 630065,
-            params: {
-                type: 'P'
-            },
-            keyName: 'userId',
-            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
-            searchName: 'realName',
-            search: true,
-            render: (v, d) => {
-                return d.saleUserName;
-            }
-        }, {
             title: '驻行内勤',
             field: 'operatorName'
         }, {
@@ -102,6 +105,13 @@ class Credit extends React.Component {
             keyName: 'code',
             valueName: 'name'
         }, {
+            title: '节点时间',
+            field: 'updateDatetime',
+            type: 'datetime'
+        }, {
+            title: '节点操作人',
+            field: 'updaterName'
+        }, {
             title: '是否通过',
             field: 'isPass',
             type: 'select',
@@ -118,7 +128,7 @@ class Credit extends React.Component {
             search: true
         }, {
             title: '关键字搜索',
-            field: 'keyWord',
+            field: 'keyword',
             hidden: true,
             search: true
         }];
@@ -127,7 +137,8 @@ class Credit extends React.Component {
             pageCode: 632115,
             searchParams: {
                 roleCode: getRoleCode(),
-                teamCode: getTeamCode()
+                teamCode: getTeamCode(),
+                curNodeCodeList: ['001_01', '001_02', '001_03', '001_04', '01_05', '001_06', '001_07']
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {
