@@ -1,6 +1,6 @@
 import { gettotalAcount } from 'api/account';
 
-const PREFIX = 'ANALYSIS_PROTECT_';
+const PREFIX = 'STATISTIC_PROTECT_';
 const SET_CNY_ACCOUNT = PREFIX + 'SET_CNY_ACCOUNT';
 const SET_TG_ACCOUNT = PREFIX + 'SET_TG_ACCOUNT';
 const SET_JF_ACCOUNT = PREFIX + 'SET_JF_ACCOUNT';
@@ -14,7 +14,7 @@ const initState = {
   fetching: true
 };
 
-export function analysisProtect(state = initState, action) {
+export function statisticProtect(state = initState, action) {
   switch(action.type) {
     case SET_CNY_ACCOUNT:
       return {...state, cnyAccount: action.payload};

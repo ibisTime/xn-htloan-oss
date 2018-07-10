@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Card, Row, Col, Button, Spin } from 'antd';
-import { initData } from '@redux/analysis/protect';
+import { initData } from '@redux/statistic/protect';
 import { moneyFormat } from 'common/js/util';
 
 const { Meta } = Card;
 
 @connect(
-  state => state.analysisProtect,
+  state => state.statisticProtect,
   { initData }
 )
 class Protect extends React.Component {

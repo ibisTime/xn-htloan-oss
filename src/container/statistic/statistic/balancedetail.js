@@ -8,7 +8,7 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/analysis/balancedetail';
+} from '@redux/statistic/balancedetail';
 import {
     listWrapper
 } from 'common/js/build-list';

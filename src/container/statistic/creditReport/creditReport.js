@@ -8,7 +8,7 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/analysis/creditReport';
+} from '@redux/statistic/creditReport';
 import {
     showWarnMsg,
     showSucMsg,
@@ -26,7 +26,7 @@ import { Button, Upload, Modal } from 'antd';
 
 @listWrapper(
     state => ({
-        ...state.analysisCreditReport,
+        ...state.statisticCreditReport,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -46,11 +46,12 @@ class CreditReport extends React.Component {
             field: 'code',
             search: true
         }, {
-            title: '业务公司',
-            field: 'companyName'
-        }, {
-            title: '业务团队',
-            field: 'teamName'
+            title: '客户姓名',
+            field: 'userName',
+            render: (e, t) => {
+                return (t.creditUser ? t.creditUser.userName : '-');
+            },
+            search: true
         }, {
             title: '信贷专员',
             field: 'saleUserId',
@@ -67,28 +68,7 @@ class CreditReport extends React.Component {
                 return d.saleUserName;
             }
         }, {
-            title: '客户姓名',
-            field: 'userName',
-            render: (e, t) => {
-                return (t.creditUser ? t.creditUser.userName : '-');
-            },
-            search: true
-        }, {
-            title: '手机号',
-            field: 'mobile'
-        }, {
-            title: '贷款银行',
-            field: 'loanBankCode',
-            type: 'select',
-            listCode: 632037,
-            keyName: 'code',
-            valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
-        }, {
-            title: '贷款金额',
-            field: 'loanAmount',
-            amount: true
-        }, {
-            title: '驻行内勤',
+            title: '内勤',
             field: 'operatorName'
         }, {
             title: '申请日期',
@@ -104,28 +84,6 @@ class CreditReport extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
-        }, {
-            title: '节点时间',
-            field: 'updateDatetime',
-            type: 'datetime'
-        }, {
-            title: '节点操作人',
-            field: 'updaterName'
-        }, {
-            title: '是否通过',
-            field: 'isPass',
-            type: 'select',
-            data: [{
-                key: '0',
-                value: '不通过'
-            }, {
-                key: '1',
-                value: '通过'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            hidden: true,
-            search: true
         }, {
             title: '关键字搜索',
             field: 'keyword',
