@@ -34,6 +34,10 @@ class categoryAddedit extends React.Component {
         title: '图片',
         field: 'img',
         type: 'img'
+      }, {
+        title: 'UI次序',
+        field: 'orderNo',
+        number: true
       }
     ];
     return this
@@ -44,7 +48,11 @@ class categoryAddedit extends React.Component {
         view: this.view,
         addCode: 808000,
         editCode: 808002,
-        detailCode: 808006
+        detailCode: 808006,
+        beforeSubmit: (data) => {
+          data.parentCode = '0';
+          return data;
+        }
       });
   }
 }

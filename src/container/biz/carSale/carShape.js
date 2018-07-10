@@ -79,7 +79,9 @@ class CarShape extends React.Component {
       field: 'location',
       title: 'UI位置',
       render: (v, d) => {
-        return this.arr[d.location].value;
+        if(d.location) {
+          return this.arr[d.location].value;
+        }
       }
     }, {
       title: 'UI次序',
