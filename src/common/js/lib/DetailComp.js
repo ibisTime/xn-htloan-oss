@@ -15,13 +15,13 @@ import {
     tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg, getUserId
 } from 'common/js/util';
 import {
-    UPLOAD_URL, PIC_PREFIX, PIC_BASEURL_M, PIC_BASEURL_L, formItemLayout,
+    UPLOAD_URL, PIC_PREFIX, PIC_BASEURL_L, formItemLayout,
     tailFormItemLayout, tailFormItemLayout1, validateFieldsAndScrollOption
-} from '../config';
+} from 'common/js/config';
 import fetch from 'common/js/fetch';
-import cityData from './city';
+import cityData from 'common/js/lib/city';
 import ModalDetail from 'common/js/build-modal-detail';
-import locale from './date-locale';
+import locale from 'common/js/lib/date-locale';
 
 moment.locale('zh-cn');
 const {Item: FormItem} = Form;
