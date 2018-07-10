@@ -10,7 +10,7 @@ import {
   setSearchData
 } from '@redux/administrative/welfare';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, showSucMsg } from 'common/js/util';
+import { showWarnMsg, showSucMsg, dateTimeFormat } from 'common/js/util';
 
 @listWrapper(
   state => ({
@@ -27,7 +27,9 @@ class welfare extends React.Component {
     const fields = [{
         title: '申请日期',
         field: 'applyDatetime',
+        rangedate: ['startApplyDatetime', 'endApplyDatetime'],
         type: 'date',
+        render: dateTimeFormat,
         search: true
     }, {
         title: '申请人',

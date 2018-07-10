@@ -2,7 +2,7 @@ import React from 'react';
 import { TreeSelect, Form, Spin, Input, Button, Select } from 'antd';
 import { getQueryString, showSucMsg, tempString } from 'common/js/util';
 import { formItemLayout, tailFormItemLayout } from 'common/js/config';
-import { getPostList, getRoleList, addUser } from 'api/company';
+import { getPostList, getRoleList, addUser, editUser } from 'api/company';
 import { getUserById, setUserPost, getListUserArchive } from 'api/user';
 
 const { TreeNode } = TreeSelect;
@@ -120,6 +120,15 @@ class Post extends React.Component {
             if (!err) {
                 this.setState({ fetching: true });
                 addUser(values).then(() => {
+                    this.setState({ fetching: false });
+                    showSucMsg('操作成功');
+                    setTimeout(() => {
+                        this.props.history.go(-1);
+                    }, 1000);
+                }).catch(() => {
+                    this.setState({ fetching: false });
+                });
+                editUser(values).then(() => {
                     this.setState({ fetching: false });
                     showSucMsg('操作成功');
                     setTimeout(() => {

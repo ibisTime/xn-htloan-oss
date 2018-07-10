@@ -50,11 +50,16 @@ class settlement extends React.Component {
             search: true
         }, {
             title: '贷款人',
-            field: 'user',
+            field: 'userId',
             search: true,
             render: (v, d) => {
                 return d.user.realName;
-            }
+            },
+            type: 'select',
+            pageCode: 805120,
+            keyName: 'userId',
+            valueName: 'realName',
+            searchName: 'realName'
         }, {
             title: '手机号',
             field: 'mobile',
@@ -93,8 +98,8 @@ class settlement extends React.Component {
             fields,
             pageCode: 630520,
             searchParams: {
-              refType: '0',
-              curNodeCodeList: ['003_02', '003_03', '003_04', '003_05']
+                refType: '0',
+                curNodeCodeList: ['003_02', '003_03', '003_04', '003_05']
             },
             btnEvent: {
                 collection: (selectedRowKeys, selectedRows) => {

@@ -97,13 +97,6 @@ class cancel extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
-        }, {
-            title: '节点时间',
-            field: 'updateDatetime',
-            type: 'datetime'
-        }, {
-            title: '节点操作人',
-            field: 'updaterName'
         }];
         return this.props.buildList({
             fields,

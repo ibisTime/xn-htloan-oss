@@ -105,6 +105,11 @@ class installGps extends React.Component {
         }, {
             title: '备注',
             field: 'remark'
+        }, {
+            title: '关键字搜索',
+            field: 'keyword',
+            hidden: true,
+            search: true
         }];
         return this.props.buildList({
             fields,

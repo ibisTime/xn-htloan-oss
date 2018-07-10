@@ -25,7 +25,12 @@ export function getRoleList(params) {
     return fetch(630006, params);
 }
 
-// 列表查询角色
+// 新增角色
 export function addUser(params) {
     return fetch(630050, params);
+}
+
+// 修改角色
+export function editUser(params) {
+    return fetch(630060, params);
 }

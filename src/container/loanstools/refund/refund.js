@@ -114,13 +114,6 @@ class refund extends React.Component {
             field: 'backAdvanceStatus',
             type: 'select',
             key: 'back_advance_status'
-        }, {
-            title: '节点时间',
-            field: 'updateDatetime',
-            type: 'datetime'
-        }, {
-            title: '节点操作人',
-            field: 'updaterName'
         }];
         return this.props.buildList({
             fields,

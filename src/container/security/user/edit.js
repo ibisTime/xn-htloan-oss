@@ -33,16 +33,14 @@ class Edit extends React.Component {
     render() {
         const fields = [{
             title: '登录名',
-            field: 'loginName',
-            readonly: true
+            field: 'loginName'
         }, {
             title: '真实姓名',
-            field: 'realName',
-            readonly: true
+            field: 'realName'
         }, {
             title: '手机号',
             field: 'mobile',
-            required: true
+            mobile: true
         }, {
             title: '角色编号',
             field: 'roleCode',
@@ -50,19 +48,26 @@ class Edit extends React.Component {
             required: true,
             listCode: 630006,
             keyName: 'code',
-            valueName: 'name',
-            readonly: true
+            valueName: 'name'
         }, {
             title: '档案',
             field: 'archiveCode',
             listCode: '632807',
             keyName: 'code',
-            valueName: '{{entranceNo.DATA}}-{{realName.DATA}}-{{gender.DATA}}',
-            readonly: true
+            valueName: '{{entranceNo.DATA}}-{{realName.DATA}}-{{gender.DATA}}'
         }, {
-            title: '岗位名称',
-            field: 'postName',
-            readonly: true
+            title: '岗位',
+            field: 'postCode',
+            type: 'treeSelect',
+            listCode: 630106,
+            keyName: 'code',
+            valueName: 'name',
+            bParams: ['typeList'],
+            disabled: (item) => item.typeList !== ['1'] && item.typeList !== ['2'],
+            params: {
+                status: 1,
+                typeList: ['1', '2', '3']
+            }
         }];
 
         return this.props.buildDetail({
@@ -70,7 +75,7 @@ class Edit extends React.Component {
             key: 'userId',
             code: this.code,
             view: this.view,
-            editCode: 630052,
+            editCode: 630060,
             detailCode: 630067
         });
     }

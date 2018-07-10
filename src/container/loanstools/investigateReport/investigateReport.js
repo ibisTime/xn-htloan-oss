@@ -118,13 +118,6 @@ class InvestigateReport extends React.Component {
             field: 'keyword',
             hidden: true,
             search: true
-        }, {
-            title: '节点时间',
-            field: 'updateDatetime',
-            type: 'datetime'
-        }, {
-            title: '节点操作人',
-            field: 'updaterName'
         }];
         return this.props.buildList({
             fields,

@@ -45,7 +45,7 @@ class AdvMoneyAddedit extends React.Component {
             field: 'teamName',
             readonly: true
         }, {
-            title: '业务员',
+            title: '信贷专员',
             field: 'saleUserName',
             readonly: true
         }, {

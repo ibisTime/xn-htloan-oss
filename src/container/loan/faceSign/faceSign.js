@@ -125,12 +125,10 @@ class FaceSign extends React.Component {
             keyName: 'code',
             valueName: 'name'
         }, {
-            title: '节点时间',
-            field: 'updateDatetime',
-            type: 'datetime'
-        }, {
-            title: '节点操作人',
-            field: 'updaterName'
+            title: '关键字搜索',
+            field: 'keyword',
+            hidden: true,
+            search: true
         }];
         return this.props.buildList({
             fields,
