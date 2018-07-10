@@ -740,17 +740,22 @@ const ROUTES = [
   //  余额明细
   {
     path: '/statistic/balancedetail',
-    component: asyncComponent(() => import('container/analysis/statistic/balancedetail'))
+    component: asyncComponent(() => import('container/statistic/statistic/balancedetail'))
   },
   //  在保余额
   {
     path: '/statistic/protect',
-    component: asyncComponent(() => import('container/analysis/statistic/protect'))
+    component: asyncComponent(() => import('container/statistic/statistic/protect'))
   },
   //  在保余额
   {
     path: '/statistic/protect/addedit',
-    component: asyncComponent(() => import('container/analysis/statistic/protect-addedit'))
+    component: asyncComponent(() => import('container/statistic/statistic/protect-addedit'))
+  },
+  //  征信统计表
+  {
+      path: '/statistic/creditReport',
+      component: asyncComponent(() => import('container/statistic/creditReport/creditReport'))
   },
   // 贷前管理
   // 发起征信查询

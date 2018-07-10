@@ -316,14 +316,14 @@ import { postloantoolsImportDispose } from './redux/postloantools/import-dispose
 /**
  * 统计分析
  */
-import { bizBalancedetail } from './redux/analysis/balancedetail';
-import { analysisProtect } from './redux/analysis/protect';
+import { bizBalancedetail } from './redux/statistic/balancedetail';
+import { statisticProtect } from './redux/statistic/protect';
 
 //  征信统计报表
-import { analysisCreditReport } from './redux/analysis/creditReport';
+import { statisticCreditReport } from './redux/statistic/creditReport';
 
 //  进度日统计报表
-import { analysisDayReport } from './redux/analysis/dayReport';
+import { statisticDayReport } from './redux/statistic/dayReport';
 
 /**
  * 人事
@@ -704,7 +704,7 @@ export default combineReducers({
   bizLitigationAddEdit,
   bizLitigationDispose,
   bizBalancedetail,
-  analysisProtect,
+  statisticProtect,
   bizHistoryBusinessManageAddeditAddedit,
   bizSettlement,
   bizSettlementAddEdit,
@@ -846,6 +846,6 @@ export default combineReducers({
   circulationLogCreditBillAddedit,
   circulationLogRepayment,
   circulationLogRepaymentAddedit,
-  analysisCreditReport,
-  analysisDayReport
+  statisticCreditReport,
+  statisticDayReport
 });

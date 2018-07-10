@@ -176,7 +176,7 @@ class Home extends React.Component {
                             }}>MORE <img src={iconMore}/></div>
                         </div>
                         <div className="card-content">
-                            { this.state.toDoListData && this.state.toDoListData.length > 1 ? this.state.toDoListData.map(d => (
+                            { this.state.toDoListData && this.state.toDoListData.length >= 1 ? this.state.toDoListData.map(d => (
                                 <div className="content-item" key={d.id}>
                                     <Link to={getNowCurNodePageUrl(d)}>
                                         <img className="icon" src={iconLi}/>
@@ -194,7 +194,7 @@ class Home extends React.Component {
                             <div className="title">公司公告</div>
                         </div>
                         <div className="card-content">
-                            { this.state.noticeData && this.state.noticeData.length > 1 ? this.state.noticeData.map(d => (
+                            { this.state.noticeData && this.state.noticeData.length >= 1 ? this.state.noticeData.map(d => (
                                 <div className="content-item" key={d.code}>
                                     <Link to={'/home/noticeDetail?code=' + d.code}>
                                         <img className="icon" src={iconLi}/>
@@ -210,7 +210,7 @@ class Home extends React.Component {
                             <div className="title">公司制度</div>
                         </div>
                         <div className="card-content">
-                            { this.state.companysystemData && this.state.companysystemData.length > 1 ? this.state.companysystemData.map(d => (
+                            { this.state.companysystemData && this.state.companysystemData.length >= 1 ? this.state.companysystemData.map(d => (
                                 <div className="content-item" key={d.code}>
                                     <Link to={'/home/companysystemDetail?code=' + d.code}>
                                         <img className="icon" src={iconLi}/>
