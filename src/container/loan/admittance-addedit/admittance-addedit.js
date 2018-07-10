@@ -58,26 +58,27 @@ class AdmittanceAddEdit extends React.Component {
                     type: 'select',
                     key: 'budget_orde_biz_typer',
                     required: true,
-                    readonly: true
-                    // formatter: (value, data) => {
-                    //     if (value) {
-                    //         let mateStatus = true;
-                    //         let guaStatus = true;
-                    //         if (data.mateName) {
-                    //             mateStatus = false;
-                    //         }
-                    //         if (data.guaName) {
-                    //             guaStatus = false;
-                    //         }
-                    //         setTimeout(() => {
-                    //             this.setState({
-                    //                 mateStatus: mateStatus,
-                    //                 guaStatus: guaStatus
-                    //             });
-                    //         }, 100);
-                    //     }
-                    //     return value;
-                    // }
+                    readonly: true,
+                    formatter: (value, data) => {
+                        if (value) {
+                            this.bizType = value;
+                            // let mateStatus = true;
+                            // let guaStatus = true;
+                            // if (data.mateName) {
+                            //     mateStatus = false;
+                            // }
+                            // if (data.guaName) {
+                            //     guaStatus = false;
+                            // }
+                            // setTimeout(() => {
+                            //     this.setState({
+                            //         mateStatus: mateStatus,
+                            //         guaStatus: guaStatus
+                            //     });
+                            // }, 100);
+                        }
+                        return value;
+                    }
                 }, {
                     field: 'loanPeriod',
                     title: '贷款期限',
@@ -281,7 +282,7 @@ class AdmittanceAddEdit extends React.Component {
                     required: true
                 }, {
                     field: 'carHgzPic',
-                    title: '合格证照片',
+                    title: this.bizType ? '绿大本' : '合格证照片',
                     type: 'img',
                     required: true
                 }]

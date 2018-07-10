@@ -64,11 +64,11 @@ class Home extends React.Component {
                         </div>
                         <div className="card-content">
                             { this.state.noticeData && this.state.noticeData.length >= 1 ? this.state.noticeData.map(d => (
-                                <div className="content-item" key={d.notice.code}>
-                                    <Link to={'/home/noticeDetail?code=' + d.notice.code}>
+                                <div className="content-item" key={d.code}>
+                                    <Link to={'/home/noticeDetail?code=' + d.code}>
                                         <img className="icon" src={iconLi}/>
-                                        <p className="txt">{d.notice.title}</p>
-                                        <samp className="date">{dateFormat(d.notice.updateDatetime)}</samp>
+                                        <p className="txt">{d.title}</p>
+                                        <samp className="date">{dateFormat(d.updateDatetime)}</samp>
                                     </Link>
                                 </div>
                             )) : <div className="noData"><img src={noData}/><p>暂无公司公告</p></div>}
@@ -82,11 +82,11 @@ class Home extends React.Component {
                         </div>
                         <div className="card-content">
                             { this.state.companysystemData && this.state.companysystemData.length >= 1 ? this.state.companysystemData.map(d => (
-                                <div className="content-item" key={d.regime.code}>
-                                    <Link to={'/home/companysystemDetail?code=' + d.regime.code}>
+                                <div className="content-item" key={d.code}>
+                                    <Link to={'/home/companysystemDetail?code=' + d.code}>
                                         <img className="icon" src={iconLi}/>
-                                        <p className="txt">{d.regime.content}</p>
-                                        <samp className="date">{dateFormat(d.regime.updateDatetime)}</samp>
+                                        <p className="txt">{d.content}</p>
+                                        <samp className="date">{dateFormat(d.updateDatetime)}</samp>
                                     </Link>
                                 </div>
                             )) : <div className="noData"><img src={noData}/><p>暂无公司制度</p></div>}
