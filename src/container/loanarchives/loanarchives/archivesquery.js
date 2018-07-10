@@ -74,7 +74,7 @@ class Archivesquery extends React.Component {
             type: 'select',
             key: 'budget_orde_biz_typer'
         }, {
-            title: '业务员',
+            title: '信贷专员',
             field: 'saleUserName'
         }, {
             title: '申请日期',

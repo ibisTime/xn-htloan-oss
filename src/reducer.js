@@ -10,6 +10,7 @@ import { securitySysParam } from './redux/security/sysParam';
 import { securitySysParamAddEdit } from './redux/security/sysParam-addedit';
 import { securityUser } from './redux/security/user';
 import { securityAssign } from './redux/security/assign';
+import { securityEdit } from './redux/security/edit';
 import { securityPwdReset } from './redux/security/pwdReset';
 import { securityUserAddEdit } from './redux/security/user-addedit';
 import { securityDataDict } from './redux/security/dataDict';
@@ -522,6 +523,7 @@ export default combineReducers({
   securityMenuAddEdit,
   securityUser,
   securityAssign,
+  securityEdit,
   securityPwdReset,
   securitySysParam,
   securitySysParamAddEdit,

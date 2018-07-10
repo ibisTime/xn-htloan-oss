@@ -36,11 +36,16 @@ class historyBusinessManage extends React.Component {
         search: true
       }, {
         title: '贷款人',
-        field: 'realName',
+        field: 'userId',
+        search: true,
         render: (v, d) => {
           return d.user.realName;
         },
-        search: true
+        type: 'select',
+        pageCode: 805120,
+        keyName: 'userId',
+        valueName: 'realName',
+        searchName: 'realName'
       }, {
         title: '手机号',
         field: 'mobile',
@@ -83,6 +88,11 @@ class historyBusinessManage extends React.Component {
         type: 'select',
         select: true,
         key: 'repay_biz_status',
+        search: true
+      }, {
+        title: '关键字搜索',
+        field: 'keyword',
+        hidden: true,
         search: true
       }
     ];

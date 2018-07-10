@@ -41,6 +41,10 @@ const ROUTES = [
     path: '/system/user/post',
     component: asyncComponent(() => import('container/security/user/post'))
   },
+  {
+    path: '/system/user/edit',
+    component: asyncComponent(() => import('container/security/user/edit'))
+  },
 
   //  系统参数
   {

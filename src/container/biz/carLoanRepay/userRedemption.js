@@ -45,11 +45,16 @@ class userRedemption extends React.Component {
       search: true
     }, {
       title: '贷款人',
-      field: 'user',
+      field: 'userId',
       search: true,
       render: (v, d) => {
         return d.user.realName;
-      }
+      },
+      type: 'select',
+      pageCode: 805120,
+      keyName: 'userId',
+      valueName: 'realName',
+      searchName: 'realName'
     }, {
       title: '手机号',
       field: 'mobile',
@@ -78,6 +83,11 @@ class userRedemption extends React.Component {
       listCode: 630147,
       keyName: 'code',
       valueName: 'name'
+    }, {
+      title: '关键字搜索',
+      field: 'keyword',
+      hidden: true,
+      search: true
     }];
     return this.props.buildList({
       fields,

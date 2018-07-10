@@ -53,11 +53,16 @@ class mortgages extends React.Component {
             search: true
         }, {
             title: '贷款人',
-            field: 'user',
+            field: 'userId',
             search: true,
             render: (v, d) => {
                 return d.user.realName;
-            }
+            },
+            type: 'select',
+            pageCode: 805120,
+            keyName: 'userId',
+            valueName: 'realName',
+            searchName: 'realName'
         }, {
             title: '手机号',
             field: 'mobile',
@@ -75,26 +80,31 @@ class mortgages extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
+        }, {
+            title: '关键字搜索',
+            field: 'keyword',
+            hidden: true,
+            search: true
         }];
         return this.props.buildList({
             fields,
             pageCode: 630520,
             searchParams: {
-              refType: '0',
-              curNodeCode: '003_06'
+                refType: '0',
+                curNodeCode: '003_06'
             },
             btnEvent: {
-              relieve: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].curNodeCode !== '003_06') {
-                    showWarnMsg('当前节点不是解除抵押节点');
-                } else {
-                  this.props.history.push(`/biz/mortgages/relieve?code=${selectedRowKeys[0]}`);
+                relieve: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '003_06') {
+                        showWarnMsg('当前节点不是解除抵押节点');
+                    } else {
+                        this.props.history.push(`/biz/mortgages/relieve?code=${selectedRowKeys[0]}`);
+                    }
                 }
-              }
             }
         });
     }

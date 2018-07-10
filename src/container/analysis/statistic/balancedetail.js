@@ -41,13 +41,16 @@ class Balancedetail extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'name',
+            field: 'userId',
+            search: true,
             render: (v, d) => {
-                if(d.user !== undefined) {
-                    return d.user.realName;
-                }
+              return d.user.realName;
             },
-            search: true
+            type: 'select',
+            pageCode: 805120,
+            keyName: 'userId',
+            valueName: 'realName',
+            searchName: 'realName'
         }, {
             title: '业务编号',
             field: 'code',

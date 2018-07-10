@@ -36,7 +36,7 @@ class CreditAddedit extends React.Component {
         this.isAddedit = !!getQueryString('isAddedit', this.props.location.search);
         // 录入征信结果
         this.isEntry = !!getQueryString('isEntry', this.props.location.search);
-        // 业务员初审
+        // 信贷专员初审
         this.isCheck = !!getQueryString('isCheck', this.props.location.search);
         // 准入审查
         this.isCheckFirst = !!getQueryString('isCheckFirst', this.props.location.search);
@@ -254,7 +254,7 @@ class CreditAddedit extends React.Component {
             normalArea: true
         }];
 
-        // 业务员初审
+        // 信贷专员初审
         if (this.isCheck) {
             this.buttons = [{
                 title: '通过',

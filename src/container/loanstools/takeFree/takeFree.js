@@ -82,13 +82,6 @@ class takeFee extends React.Component {
             field: 'updateDatetime',
             search: true,
             type: 'date'
-        }, {
-            title: '节点时间',
-            field: 'updateDatetime',
-            type: 'datetime'
-        }, {
-            title: '节点操作人',
-            field: 'updaterName'
         }];
         return this.props.buildList({
             fields,
