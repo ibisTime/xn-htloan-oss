@@ -63,7 +63,7 @@ class Home extends React.Component {
                             <div className="title">公司公告</div>
                         </div>
                         <div className="card-content">
-                            { this.state.noticeData && this.state.noticeData.length > 1 ? this.state.noticeData.map(d => (
+                            { this.state.noticeData && this.state.noticeData.length >= 1 ? this.state.noticeData.map(d => (
                                 <div className="content-item" key={d.notice.code}>
                                     <Link to={'/home/noticeDetail?code=' + d.notice.code}>
                                         <img className="icon" src={iconLi}/>
@@ -81,7 +81,7 @@ class Home extends React.Component {
                             <div className="title">公司制度</div>
                         </div>
                         <div className="card-content">
-                            { this.state.companysystemData && this.state.companysystemData.length > 1 ? this.state.companysystemData.map(d => (
+                            { this.state.companysystemData && this.state.companysystemData.length >= 1 ? this.state.companysystemData.map(d => (
                                 <div className="content-item" key={d.regime.code}>
                                     <Link to={'/home/companysystemDetail?code=' + d.regime.code}>
                                         <img className="icon" src={iconLi}/>
