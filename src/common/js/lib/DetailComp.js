@@ -1232,7 +1232,9 @@ export default class DetailComponent extends React.Component {
             <FormItem
                 key={item.field}
                 {...this.getInputItemProps()}
-                label={this.getLabel(item)}>
+                label={this.getLabel(item)}
+                className={item.hidden ? 'hidden' : ''}
+            >
                 {
                     item.readonly ? <div className="readonly-text">{initVal}</div>
                         : getFieldDecorator(item.field, {

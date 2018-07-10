@@ -62,3 +62,8 @@ export function getPageSysUser(start, limit, keyword) {
 export function getSysUsers() {
   return fetch(630066, { status: '0' });
 }
+
+// 修改用户头像
+export function setUserPhoto(photo) {
+    return fetch(630059, { userId: getUserId(), photo });
+}

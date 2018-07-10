@@ -282,9 +282,22 @@ class AdmittanceAddEdit extends React.Component {
                     required: true
                 }, {
                     field: 'carHgzPic',
-                    title: this.bizType ? '绿大本' : '合格证照片',
+                    title: this.bizType === '1' ? '绿大本' : '合格证照片',
                     type: 'img',
                     required: true
+                }],
+                [{
+                    title: '行驶证',
+                    field: 'driveLicense',
+                    type: 'img',
+                    hidden: this.bizType === '1'
+                }],
+                [{
+                    title: '评估栏',
+                    field: 'evaluateColumn',
+                    type: 'textarea',
+                    normalArea: true,
+                    hidden: this.bizType === '1'
                 }]
             ]
         }, {
