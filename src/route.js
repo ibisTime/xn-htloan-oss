@@ -1540,6 +1540,36 @@ const ROUTES = [
   {
       path: '/home/toDoList',
       component: asyncComponent(() => import('container/home/toDoList'))
+  },
+  //  征信单日志
+  {
+      path: '/circulationLog/creditBill',
+      component: asyncComponent(() => import('container/circulationLog/creditBill/creditBill'))
+  },
+  //  征信单日志 详情
+  {
+      path: '/circulationLog/creditBill/addedit',
+      component: asyncComponent(() => import('container/circulationLog/creditBill/creditBill-addedit'))
+  },
+  //  准入单日志
+  {
+      path: '/circulationLog/admittanceBill',
+      component: asyncComponent(() => import('container/circulationLog/admittanceBill/admittanceBill'))
+  },
+  //  准入单日志 详情
+  {
+      path: '/circulationLog/admittanceBill/addedit',
+      component: asyncComponent(() => import('container/circulationLog/admittanceBill/admittanceBill-addedit'))
+  },
+  //  贷后单日志
+  {
+      path: '/circulationLog/repayment',
+      component: asyncComponent(() => import('container/circulationLog/repayment/repayment'))
+  },
+  //  贷后单日志 详情
+  {
+      path: '/circulationLog/repayment/addedit',
+      component: asyncComponent(() => import('container/circulationLog/repayment/repayment-addedit'))
   }
 ];
 

@@ -138,7 +138,7 @@ class Credit extends React.Component {
             searchParams: {
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode(),
-                curNodeCodeList: ['001_01', '001_02', '001_03', '001_04', '01_05', '001_06', '001_07']
+                curNodeCodeList: ['001_01', '001_02', '001_03', '001_04', '001_05', '001_06', '001_07']
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {
