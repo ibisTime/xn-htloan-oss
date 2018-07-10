@@ -49,7 +49,7 @@ class Admittance extends React.Component {
             field: 'userName'
         }, {
             title: '流程类型',
-            field: 'type',
+            field: 'flowTypeCode',
             type: 'select',
             key: 'node_type',
             search: true
@@ -61,8 +61,8 @@ class Admittance extends React.Component {
             keyName: 'code',
             valueName: 'name'
         }, {
-            title: '更新时间',
-            field: 'updateDatetime',
+            title: '开始时间',
+            field: 'startDatetime',
             type: 'datetime'
         }];
         return this.props.buildList({
@@ -72,7 +72,7 @@ class Admittance extends React.Component {
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode()
             },
-            button: {
+            buttons: [{
                 code: 'handle',
                 name: '处理',
                 handler: (selectedRowKeys, selectedRows) => {
@@ -84,7 +84,14 @@ class Admittance extends React.Component {
                         this.props.history.push(getNowCurNodePageUrl(selectedRows[0]));
                     }
                 }
-            }
+            },
+            {
+                code: 'goback',
+                name: '返回',
+                handler: (selectedRowKeys, selectedRows) => {
+                    this.props.history.go(-1);
+                }
+            }]
         });
     }
 }

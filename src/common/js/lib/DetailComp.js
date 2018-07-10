@@ -16,7 +16,7 @@ import {
 } from 'common/js/util';
 import {
     UPLOAD_URL, PIC_PREFIX, PIC_BASEURL_M, PIC_BASEURL_L, formItemLayout,
-    tailFormItemLayout, tailFormItemLayout1
+    tailFormItemLayout, tailFormItemLayout1, validateFieldsAndScrollOption
 } from '../config';
 import fetch from 'common/js/fetch';
 import cityData from './city';
@@ -241,7 +241,7 @@ export default class DetailComponent extends React.Component {
                 fieldsList.push(v.field);
             }
         });
-        this.props.form.validateFieldsAndScroll(fieldsList, (err, values) => {
+        this.props.form.validateFieldsAndScroll(fieldsList, validateFieldsAndScrollOption, (err, values) => {
             let params = this.beforeSubmit(err, values);
             if (!params) {
                 return;
