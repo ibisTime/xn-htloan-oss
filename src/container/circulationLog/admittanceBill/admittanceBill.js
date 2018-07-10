@@ -130,6 +130,7 @@ class AdmittanceBill extends React.Component {
             fields,
             pageCode: 632148,
             searchParams: {
+                roleCode: getRoleCode(),
                 type: 'BO'
             },
             btnEvent: {
@@ -139,7 +140,7 @@ class AdmittanceBill extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(`/circulationLog/creditBill/addedit?code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/circulationLog/admittanceBill/addedit?code=${selectedRowKeys[0]}`);
                     }
                 }
             }
