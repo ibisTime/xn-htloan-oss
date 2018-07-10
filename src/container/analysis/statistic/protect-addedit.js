@@ -110,12 +110,17 @@ class refundBusiness extends React.Component {
       type: 'select',
       select: true,
       key: 'repay_biz_status'
+    }, {
+      title: '关键字搜索',
+      field: 'keyword',
+      hidden: true,
+      search: true
     }];
     return this.props.buildList({
       fields,
       pageCode: 630520,
       searchParams: {
-          status: '0'
+        status: '0'
       },
       btnEvent: {
         refundplan: (selectedRowKeys, selectedRows) => {

@@ -52,14 +52,14 @@ class litigation extends React.Component {
             field: 'userId',
             search: true,
             render: (v, d) => {
-              return d.user.realName;
+                return d.user.realName;
             },
             type: 'select',
             pageCode: 805120,
             keyName: 'userId',
             valueName: 'realName',
             searchName: 'realName'
-          }, {
+        }, {
             title: '手机号',
             field: 'mobile',
             render: (v, d) => {
@@ -87,13 +87,18 @@ class litigation extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
+        }, {
+            title: '关键字搜索',
+            field: 'keyword',
+            hidden: true,
+            search: true
         }];
         return this.props.buildList({
             fields,
             pageCode: 630520,
             searchParams: {
-              refType: '0',
-              curNodeCode: '003_13'
+                refType: '0',
+                curNodeCode: '003_13'
             },
             btnEvent: {
                 dispose: (selectedRowKeys, selectedRows) => {

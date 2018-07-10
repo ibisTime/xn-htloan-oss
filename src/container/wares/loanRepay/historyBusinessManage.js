@@ -89,6 +89,11 @@ class historyBusinessManage extends React.Component {
         select: true,
         key: 'repay_biz_status',
         search: true
+      }, {
+        title: '关键字搜索',
+        field: 'keyword',
+        hidden: true,
+        search: true
       }
     ];
     return this.props.buildList({

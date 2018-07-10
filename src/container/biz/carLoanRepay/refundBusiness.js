@@ -69,7 +69,7 @@ class refundBusiness extends React.Component {
     }, {
       title: '贷款银行',
       field: 'loanBankName'
-  }, {
+    }, {
       title: '贷款金额(元)',
       field: 'loanAmount',
       amount: true
@@ -115,6 +115,11 @@ class refundBusiness extends React.Component {
       listCode: 630147,
       keyName: 'code',
       valueName: 'name'
+    }, {
+      title: '关键字搜索',
+      field: 'keyword',
+      hidden: true,
+      search: true
     }];
     return this.props.buildList({
       fields,

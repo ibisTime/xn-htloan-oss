@@ -108,6 +108,11 @@ class mortgage extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
+        }, {
+            title: '关键字搜索',
+            field: 'keyword',
+            hidden: true,
+            search: true
         }];
         return this.props.buildList({
             fields,
