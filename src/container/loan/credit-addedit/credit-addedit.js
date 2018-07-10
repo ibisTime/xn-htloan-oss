@@ -160,6 +160,12 @@ class CreditAddedit extends React.Component {
             field: 'interviewPic',
             type: 'img',
             required: true
+        }, {
+            title: '信用卡占比',
+            field: 'NotBlank',
+            required: true,
+            readonly: !this.isEntry,
+            help: '请输入0-1之间的数字'
         }];
         if (!this.isAddedit) {
             o2mFields = o2mFields.concat([{
