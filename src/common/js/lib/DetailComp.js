@@ -1453,7 +1453,6 @@ export default class DetailComponent extends React.Component {
                 message: '必填字段'
             });
         }
-
         if (item.email) {
             rules.push({
                 type: 'email',
