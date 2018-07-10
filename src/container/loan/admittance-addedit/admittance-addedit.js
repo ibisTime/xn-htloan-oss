@@ -290,14 +290,14 @@ class AdmittanceAddEdit extends React.Component {
                     title: '行驶证',
                     field: 'driveLicense',
                     type: 'img',
-                    hidden: this.bizType === '1'
+                    hidden: this.bizType !== '1'
                 }],
                 [{
                     title: '评估栏',
                     field: 'evaluateColumn',
                     type: 'textarea',
                     normalArea: true,
-                    hidden: this.bizType === '1'
+                    hidden: this.bizType !== '1'
                 }]
             ]
         }, {
