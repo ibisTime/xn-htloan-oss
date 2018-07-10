@@ -319,6 +319,12 @@ import { postloantoolsImportDispose } from './redux/postloantools/import-dispose
 import { bizBalancedetail } from './redux/analysis/balancedetail';
 import { analysisProtect } from './redux/analysis/protect';
 
+//  征信统计报表
+import { analysisCreditReport } from './redux/analysis/creditReport';
+
+//  进度日统计报表
+import { analysisDayReport } from './redux/analysis/dayReport';
+
 /**
  * 人事
  */
@@ -839,5 +845,7 @@ export default combineReducers({
   circulationLogCreditBill,
   circulationLogCreditBillAddedit,
   circulationLogRepayment,
-  circulationLogRepaymentAddedit
+  circulationLogRepaymentAddedit,
+  analysisCreditReport,
+  analysisDayReport
 });

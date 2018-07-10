@@ -8,7 +8,7 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/circulationLog/admittanceBill';
+} from '@redux/analysis/creditReport';
 import {
     showWarnMsg,
     showSucMsg,
@@ -20,14 +20,13 @@ import {
     listWrapper
 } from 'common/js/build-list';
 import {
-    lowerFrame,
-    onShelf,
-    sendMsg
+    creditWithdraw
 } from 'api/biz';
+import { Button, Upload, Modal } from 'antd';
 
 @listWrapper(
     state => ({
-        ...state.circulationLogAdmittanceBill,
+        ...state.analysisCreditReport,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -40,7 +39,7 @@ import {
         setSearchData
     }
 )
-class AdmittanceBill extends React.Component {
+class CreditReport extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
@@ -69,14 +68,17 @@ class AdmittanceBill extends React.Component {
             }
         }, {
             title: '客户姓名',
-            field: 'applyUserName',
+            field: 'userName',
+            render: (e, t) => {
+                return (t.creditUser ? t.creditUser.userName : '-');
+            },
             search: true
         }, {
             title: '手机号',
             field: 'mobile'
         }, {
             title: '贷款银行',
-            field: 'loanBank',
+            field: 'loanBankCode',
             type: 'select',
             listCode: 632037,
             keyName: 'code',
@@ -86,31 +88,13 @@ class AdmittanceBill extends React.Component {
             field: 'loanAmount',
             amount: true
         }, {
-            title: '贷款期数',
-            field: 'loanPeriod'
-        }, {
-            title: '业务种类',
-            field: 'bizType',
-            type: 'select',
-            key: 'budget_orde_biz_typer'
-        }, {
-            title: '是否垫资',
-            field: 'isAdvanceFund',
-            type: 'select',
-            data: [{
-                dkey: '0',
-                dvalue: '否'
-            }, {
-                dkey: '1',
-                dvalue: '是'
-            }],
-            keyName: 'dkey',
-            valueName: 'dvalue'
+            title: '驻行内勤',
+            field: 'operatorName'
         }, {
             title: '申请日期',
             field: 'applyDatetime',
-            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
             type: 'date',
+            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
             render: dateTimeFormat,
             search: true
         }, {
@@ -121,6 +105,28 @@ class AdmittanceBill extends React.Component {
             keyName: 'code',
             valueName: 'name'
         }, {
+            title: '节点时间',
+            field: 'updateDatetime',
+            type: 'datetime'
+        }, {
+            title: '节点操作人',
+            field: 'updaterName'
+        }, {
+            title: '是否通过',
+            field: 'isPass',
+            type: 'select',
+            data: [{
+                key: '0',
+                value: '不通过'
+            }, {
+                key: '1',
+                value: '通过'
+            }],
+            keyName: 'key',
+            valueName: 'value',
+            hidden: true,
+            search: true
+        }, {
             title: '关键字搜索',
             field: 'keyword',
             hidden: true,
@@ -128,23 +134,14 @@ class AdmittanceBill extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632148,
+            pageCode: 632115,
             searchParams: {
-                type: 'BO'
-            },
-            btnEvent: {
-                detail: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else {
-                        this.props.history.push(`/circulationLog/creditBill/addedit?code=${selectedRowKeys[0]}`);
-                    }
-                }
+                roleCode: getRoleCode(),
+                teamCode: getTeamCode(),
+                curNodeCodeList: ['001_01', '001_02', '001_03', '001_04', '001_05', '001_06', '001_07']
             }
         });
     }
 }
 
-export default AdmittanceBill;
+export default CreditReport;
