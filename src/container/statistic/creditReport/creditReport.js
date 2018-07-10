@@ -23,6 +23,7 @@ import {
     creditWithdraw
 } from 'api/biz';
 import { Button, Upload, Modal } from 'antd';
+import { PIC_PREFIX, PIC_BASEURL_M } from 'common/js/config';
 
 @listWrapper(
     state => ({
@@ -53,6 +54,31 @@ class CreditReport extends React.Component {
             },
             search: true
         }, {
+            title: '日期',
+            field: 'applyDatetime',
+            type: 'date',
+            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
+            render: dateTimeFormat,
+            search: true
+        }, {
+            title: '征信查询结果',
+            field: 'bankCreditResultPdf',
+            type: 'img',
+            render: (value, data) => {
+                if(!data.creditUser || !data.creditUser.bankCreditResultPdf) {
+                    return;
+                }
+                let imgStr = data.creditUser.bankCreditResultPdf.split('||');
+                return (<div>
+                    { imgStr.map(pic => (
+                        <img key={pic} style={{maxWidth: 25, maxHeight: 25, marginRight: 10}} src={PIC_PREFIX + pic + PIC_BASEURL_M}/>
+                    ))}
+                </div>);
+            }
+        }, {
+            title: '信用卡使用占比',
+            field: 'NotBlank'
+        }, {
             title: '信贷专员',
             field: 'saleUserId',
             type: 'select',
@@ -70,13 +96,6 @@ class CreditReport extends React.Component {
         }, {
             title: '内勤',
             field: 'operatorName'
-        }, {
-            title: '申请日期',
-            field: 'applyDatetime',
-            type: 'date',
-            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
-            render: dateTimeFormat,
-            search: true
         }, {
             title: '当前节点',
             field: 'curNodeCode',
