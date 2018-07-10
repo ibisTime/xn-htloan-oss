@@ -513,6 +513,19 @@ import { waresHistoryBusinessManageAddeditAddedit } from './redux/wares/historyB
 //  首页待办事项 更多
 import { homeToDoList } from './redux/home/toDoList';
 
+//  流转日志
+//  准入单流转日志 + 详情
+import { circulationLogAdmittanceBill } from './redux/circulationLog/admittanceBill';
+import { circulationLogAdmittanceBillAddedit } from './redux/circulationLog/admittanceBill-addedit';
+
+//  征信单流转日志 + 详情
+import { circulationLogCreditBill } from './redux/circulationLog/creditBill';
+import { circulationLogCreditBillAddedit } from './redux/circulationLog/creditBill-addedit';
+
+//  贷后单流转日志 + 详情
+import { circulationLogRepayment } from './redux/circulationLog/repayment';
+import { circulationLogRepaymentAddedit } from './redux/circulationLog/repayment-addedit';
+
 export default combineReducers({
   user,
   menu,
@@ -820,5 +833,11 @@ export default combineReducers({
   busBusreturnAddedit,
   busBusreturnReturn,
   busBusreturnCheck,
-  homeToDoList
+  homeToDoList,
+  circulationLogAdmittanceBill,
+  circulationLogAdmittanceBillAddedit,
+  circulationLogCreditBill,
+  circulationLogCreditBillAddedit,
+  circulationLogRepayment,
+  circulationLogRepaymentAddedit
 });
