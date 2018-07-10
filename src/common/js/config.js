@@ -51,6 +51,13 @@ export const tailFormItemLayout1 = {
     }
 };
 
+// 定义 validateFieldsAndScroll 的滚动行为
+export const validateFieldsAndScrollOption = {
+    scroll: {
+        offsetTop: 110
+    }
+};
+
 // 节点详情页
 export const curNodePageUrl = {
     // 贷前管理
