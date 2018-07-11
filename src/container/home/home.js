@@ -188,6 +188,28 @@ class Home extends React.Component {
                         </div>
                     </div>
                 </div>
+                <div className="home-avatar-wrap">
+                    <Modal width={360} visible={this.state.imgVisible} footer={null} onCancel={this.handleCancel}>
+                        <Upload {...imgProps}>
+                            <div>
+                                <Icon type={this.state.loading ? 'loading' : 'plus'} />
+                                <div className="ant-upload-text">Upload</div>
+                            </div>
+                        </Upload>
+                        <div className="down-wrap">
+                            <Button type="primary" onClick={this.handlerSetUserPhoto}>修改</Button>
+                        </div>
+                    </Modal>
+                    <Modal visible={this.state.previewVisible} footer={null} onCancel={() => this.setState({previewVisible: false})}>
+                        {
+                            this.state.previewVisible && this.state.fileList.map(v => {
+                                let key = v.key ? v.key : v.response.key;
+                                let url = PIC_PREFIX + '/' + key + PIC_BASEURL_L;
+                                return (<div className='img-wrap' key={key}><img alt="图片" style={{width: '100%'}} src={url}/></div>);
+                            })
+                        }
+                    </Modal>
+                </div>
             </div>
             </Spin>
         );
