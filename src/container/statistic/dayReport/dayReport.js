@@ -14,7 +14,8 @@ import {
     showSucMsg,
     getRoleCode,
     dateTimeFormat,
-    getTeamCode
+    getTeamCode,
+    getUserId
 } from 'common/js/util';
 import {
     listWrapper
@@ -86,7 +87,7 @@ class DayReport extends React.Component {
             field: 'settleAddress'
         }, {
             title: '代理人',
-            field: 'agent'
+            field: 'pledgeUser'
         }, {
             title: '当前节点',
             field: 'curNodeCode',
@@ -97,10 +98,9 @@ class DayReport extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632148,
+            pageCode: 632913,
             searchParams: {
-                roleCode: getRoleCode(),
-                teamCode: getTeamCode()
+                userId: getUserId()
             }
         });
     }

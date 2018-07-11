@@ -162,7 +162,7 @@ class CreditAddedit extends React.Component {
             required: true
         }, {
             title: '信用卡占比',
-            field: 'NotBlank',
+            field: 'creditCardOccupation',
             required: true,
             readonly: !this.isEntry,
             help: '请输入0-1之间的数字'

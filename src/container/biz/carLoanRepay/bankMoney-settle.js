@@ -56,6 +56,16 @@ class bankMoneyAddedit extends React.Component {
             amount: true,
             readonly: true
         }, {
+            title: '保单日期',
+            field: 'policyDatetime',
+            type: 'date',
+            required: true
+        }, {
+            title: '保单到期日',
+            field: 'policyDueDate',
+            type: 'date',
+            required: true
+        }, {
             title: '落户日期',
             field: 'carSettleDatetime',
             type: 'date',

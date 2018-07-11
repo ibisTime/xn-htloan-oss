@@ -70,7 +70,7 @@ class CreditReport extends React.Component {
             }
         }, {
             title: '信用卡使用占比',
-            field: 'NotBlank'
+            field: 'creditCardOccupation'
         }, {
             title: '信贷专员',
             field: 'saleUserName'

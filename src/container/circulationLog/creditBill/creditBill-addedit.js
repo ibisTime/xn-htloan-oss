@@ -65,7 +65,11 @@ class CreditBillAddedit extends React.Component {
             field: 'speedTime'
         }, {
             title: '处理节点',
-            field: 'dealNode'
+            field: 'dealNode',
+            type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
         }, {
             title: '处理说明',
             field: 'dealNote'

@@ -871,7 +871,7 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     title: '结息时间',
-                    field: 'wxJouInterest',
+                    field: 'wxJourInterest',
                     type: 'select',
                     key: 'interest'
                 }],

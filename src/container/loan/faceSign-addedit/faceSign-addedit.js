@@ -63,25 +63,11 @@ class FaceSignAddedit extends React.Component {
             field: 'bankVideo',
             type: 'file',
             required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false,
-            single: true
+            readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
             title: '公司视频',
             field: 'companyVideo',
             type: 'file',
-            required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false,
-            single: true
-        }, {
-            title: '资金划转授权书',
-            field: 'advanceFundAmountPdf',
-            type: 'img',
-            required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false
-        }, {
-            title: '银行面签图片',
-            field: 'bankPhoto',
-            type: 'img',
             required: true,
             readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
@@ -90,9 +76,15 @@ class FaceSignAddedit extends React.Component {
             type: 'file',
             readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
-            title: '其他资料',
-            field: 'interviewOtherPdf',
-            type: 'file',
+            title: '银行面签图片',
+            field: 'bankPhoto',
+            type: 'img',
+            required: true,
+            readonly: (this.isCheck || this.view) ? 'true' : false
+        }, {
+            title: '银行合同',
+            field: 'bankContract',
+            type: 'img',
             readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
             title: '公司合同',
@@ -100,9 +92,15 @@ class FaceSignAddedit extends React.Component {
             type: 'img',
             readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
-            title: '银行合同',
-            field: 'bankContract',
+            title: '资金划转授权书',
+            field: 'advanceFundAmountPdf',
             type: 'img',
+            required: true,
+            readonly: (this.isCheck || this.view) ? 'true' : false
+        }, {
+            title: '其他资料',
+            field: 'interviewOtherPdf',
+            type: 'file',
             readonly: (this.isCheck || this.view) ? 'true' : false
         }, {
             title: '审核说明',

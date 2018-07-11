@@ -32,6 +32,7 @@ class CarSeries extends React.Component {
       shelfVisible: false,
       selectKey: ''
     };
+    this.arr = ['首页推荐', '普通'];
   }
   setShelfVisible = (shelfVisible) => {
     this.setState({ shelfVisible });
@@ -57,6 +58,12 @@ class CarSeries extends React.Component {
       search: true,
       type: 'select',
       key: 'status'
+    }, {
+      field: 'location',
+      title: 'UI位置',
+      render: (v, d) => {
+        return this.arr[d.location];
+      }
     }, {
       title: '最新修改人',
       field: 'updaterName'
