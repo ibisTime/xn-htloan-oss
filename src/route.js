@@ -757,6 +757,11 @@ const ROUTES = [
       path: '/statistic/creditReport',
       component: asyncComponent(() => import('container/statistic/creditReport/creditReport'))
   },
+  //  贷后统计表
+  {
+      path: '/statistic/postloanReport',
+      component: asyncComponent(() => import('container/statistic/postloanReport/postloanReport'))
+  },
   // 贷前管理
   // 发起征信查询
   {

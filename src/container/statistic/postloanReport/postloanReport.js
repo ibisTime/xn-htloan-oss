@@ -8,7 +8,7 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/statistic/creditReport';
+} from '@redux/statistic/postloanReport';
 import {
     showWarnMsg,
     showSucMsg,
@@ -27,7 +27,7 @@ import { PIC_PREFIX, PIC_BASEURL_M } from 'common/js/config';
 
 @listWrapper(
     state => ({
-        ...state.statisticCreditReport,
+        ...state.statisticPostloanReport,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -40,44 +40,52 @@ import { PIC_PREFIX, PIC_BASEURL_M } from 'common/js/config';
         setSearchData
     }
 )
-class CreditReport extends React.Component {
+class PostloanReport extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
             field: 'code',
             search: true
         }, {
+            title: '贷款银行',
+            field: 'loanBank',
+            type: 'select',
+            listCode: 632037,
+            keyName: 'code',
+            valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
+        }, {
+            title: '地区',
+            field: 'region',
+            type: 'select',
+            key: 'region'
+        }, {
             title: '客户姓名',
-            field: 'userName',
-            render: (e, t) => {
-                return (t.creditUser ? t.creditUser.userName : '-');
-            },
+            field: 'applyUserName',
             search: true
         }, {
-            title: '日期',
-            field: 'applyDatetime',
-            type: 'date',
-            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
-            render: dateTimeFormat,
-            search: true
+            title: '车型',
+            field: 'carModel'
         }, {
-            title: '征信查询结果',
-            field: 'bankCreditResultPdf',
-            type: 'img',
-            render: (value, data) => {
-                if(!data.creditUser || !data.creditUser.bankCreditResultPdf) {
-                    return;
-                }
-                let imgStr = data.creditUser.bankCreditResultPdf.split('||');
-                return (<div>
-                    { imgStr.map(pic => (
-                        <img key={pic} style={{maxWidth: 25, maxHeight: 25, marginRight: 10}} src={PIC_PREFIX + pic + PIC_BASEURL_M}/>
-                    ))}
-                </div>);
-            }
+            title: '贷款金额',
+            field: 'loanAmount',
+            amount: true
         }, {
-            title: '信用卡使用占比',
-            field: 'NotBlank'
+            title: '垫资日期',
+            field: 'advanceFundDatetime',
+            type: 'date'
+        }, {
+            title: '抵押情况',
+            field: 'pledgeStatus'
+        }, {
+            title: '抵押时间',
+            field: 'pledgeDatetime',
+            type: 'date'
+        }, {
+            title: '车牌号',
+            field: 'carNumber'
+        }, {
+            title: '内勤',
+            field: 'operatorName'
         }, {
             title: '信贷专员',
             field: 'saleUserId',
@@ -94,8 +102,8 @@ class CreditReport extends React.Component {
                 return d.saleUserName;
             }
         }, {
-            title: '内勤',
-            field: 'operatorName'
+            title: '资料快递单号及时间',
+            field: 'expressNoAndDatatime'
         }, {
             title: '当前节点',
             field: 'curNodeCode',
@@ -103,6 +111,20 @@ class CreditReport extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
+        }, {
+            title: '归档情况',
+            field: 'enterStatus',
+            type: 'select',
+            data: [{
+                key: '0',
+                value: '否'
+            }, {
+                key: '1',
+                value: '是'
+            }],
+            keyName: 'key',
+            valueName: 'value',
+            search: true
         }, {
             title: '关键字搜索',
             field: 'keyword',
@@ -125,14 +147,14 @@ class CreditReport extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632115,
+            pageCode: 632148,
             searchParams: {
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode(),
-                curNodeCodeList: ['001_01', '001_02', '001_03', '001_04', '001_05', '001_06', '001_07']
+                curNodeCodeList: ['002_01', '002_02', '002_03', '002_04', '002_24']
             }
         });
     }
 }
 
-export default CreditReport;
+export default PostloanReport;

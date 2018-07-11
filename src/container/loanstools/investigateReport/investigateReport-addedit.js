@@ -84,8 +84,7 @@ class InvestigateReportAddedit extends React.Component {
                 }],
                 [{
                     title: '申请人征信情况',
-                    field: 'bankCreditResultPdf',
-                    type: 'img',
+                    field: 'bankCreditResultRemark',
                     required: true,
                     readonly: true
                 }],
