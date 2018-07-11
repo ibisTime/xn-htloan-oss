@@ -8,7 +8,7 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/statistic/dayReport';
+} from '@redux/statistic/teamReport';
 import {
     showWarnMsg,
     showSucMsg,
@@ -30,7 +30,7 @@ import {
 
 @listWrapper(
     state => ({
-        ...state.statisticDayReport,
+        ...state.statisticTeamReport,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -43,61 +43,60 @@ import {
         setSearchData
     }
 )
-class DayReport extends React.Component {
+class TeamReport extends React.Component {
     render() {
         const fields = [{
-            title: '收件日期',
-            field: 'receiptDatetime',
-            type: 'date'
-        }, {
-            title: '客户姓名',
-            field: 'userName',
-            search: true
-        }, {
             title: '信贷专员',
             field: 'creditJob'
         }, {
-            title: '内勤',
-            field: 'insideJob'
+            title: '客户姓名',
+            field: 'userName'
+        }, {
+            title: '身份证号码',
+            field: 'idNo'
+        }, {
+            title: '贷款期限',
+            field: 'loanPeriod'
+        }, {
+            title: '联系电话',
+            field: 'contactNo'
+        }, {
+            title: '汽车品牌',
+            field: 'carBrand'
+        }, {
+            title: '汽车价格',
+            field: 'carPrice',
+            amount: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
         }, {
-            title: '服务费',
-            field: 'bankFee',
+            title: '内勤',
+            field: 'insideJob'
+        }, {
+            title: '第一期月供',
+            field: 'repayFirstMonthAmount',
             amount: true
         }, {
-            title: '入档情况',
-            field: 'enterStatus',
+            title: '每月月供',
+            field: 'repayMonthAmount',
+            amount: true
+        }, {
+            title: '信用卡卡号',
+            field: 'creditCardNo'
+        }, {
+            title: '还款日',
+            field: 'repayBankDate'
+        }, {
+            title: '业务种类',
+            field: 'bizType',
             type: 'select',
-            data: [{
-                key: '0',
-                value: '待入党'
-            }, {
-                key: '1',
-                value: '已入党'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            search: true
-        }, {
-            title: '落户地点',
-            field: 'settleAddress'
-        }, {
-            title: '代理人',
-            field: 'agent'
-        }, {
-            title: '当前节点',
-            field: 'curNodeCode',
-            type: 'select',
-            listCode: 630147,
-            keyName: 'code',
-            valueName: 'name'
+            key: 'biz_type'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632913,
+            pageCode: 632916,
             searchParams: {
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode()
@@ -106,4 +105,4 @@ class DayReport extends React.Component {
     }
 }
 
-export default DayReport;
+export default TeamReport;
