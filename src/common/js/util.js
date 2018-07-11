@@ -31,6 +31,10 @@ export function setUser({
 export function clearUser() {
   cookies.erase('userId');
   cookies.erase('token');
+  cookies.erase('roleCode');
+  cookies.erase('userName');
+  cookies.erase('realName');
+  cookies.erase('teamCode');
 }
 
 // 获取用户编号
@@ -42,11 +46,18 @@ export function getUserId() {
 export function setRoleInfo({
   roleCode,
   loginName,
+  realName,
   teamCode
 }) {
   cookies.set('roleCode', roleCode);
   cookies.set('userName', loginName);
+  cookies.set('realName', realName);
   cookies.set('teamCode', teamCode || '');
+}
+
+// 获取用户姓名
+export function getRealName() {
+    return cookies.get('realName');
 }
 
 // 获取用户角色编号

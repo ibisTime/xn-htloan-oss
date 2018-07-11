@@ -135,13 +135,6 @@ class InvestigateReportAddedit extends React.Component {
                     readonly: true
                 }],
                 [{
-                    title: '流水结息',
-                    field: 'jourInterest',
-                    type: 'select',
-                    key: 'interest',
-                    readonly: true
-                }],
-                [{
                     field: 'jourIncome',
                     title: '总收入(元)',
                     amount: true,
@@ -174,12 +167,6 @@ class InvestigateReportAddedit extends React.Component {
                     type: 'textarea',
                     normalArea: true,
                     readonly: true
-                }],
-                [{
-                    field: 'jourPic',
-                    title: '流水图片',
-                    type: 'img',
-                    readonly: true
                 }]
             ]
         }, {
@@ -191,13 +178,6 @@ class InvestigateReportAddedit extends React.Component {
                     title: '流水时间',
                     type: 'date',
                     rangedate: ['wxJourDatetimeStart', 'wxJourDatetimeEnd'],
-                    readonly: true
-                }],
-                [{
-                    title: '流水结息',
-                    field: 'zfbJourInterest',
-                    type: 'select',
-                    key: 'interest',
                     readonly: true
                 }],
                 [{
@@ -234,12 +214,6 @@ class InvestigateReportAddedit extends React.Component {
                     type: 'textarea',
                     normalArea: true,
                     readonly: true
-                }],
-                [{
-                    field: 'zfbJourPic',
-                    title: '流水图片',
-                    type: 'img',
-                    readonly: true
                 }]
             ]
         }, {
@@ -251,13 +225,6 @@ class InvestigateReportAddedit extends React.Component {
                     title: '流水时间',
                     type: 'date',
                     rangedate: ['wxJourDatetimeStart', 'wxJourDatetimeEnd'],
-                    readonly: true
-                }],
-                [{
-                    title: '流水结息',
-                    field: 'wxJouInterest',
-                    type: 'select',
-                    key: 'interest',
                     readonly: true
                 }],
                 [{
@@ -292,12 +259,6 @@ class InvestigateReportAddedit extends React.Component {
                     title: '流水说明',
                     type: 'textarea',
                     normalArea: true,
-                    readonly: true
-                }],
-                [{
-                    field: 'wxJourPic',
-                    title: '流水图片',
-                    type: 'img',
                     readonly: true
                 }]
             ]
