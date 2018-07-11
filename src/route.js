@@ -762,6 +762,11 @@ const ROUTES = [
       path: '/statistic/postloanReport',
       component: asyncComponent(() => import('container/statistic/postloanReport/postloanReport'))
   },
+  //  团队统计表
+  {
+      path: '/statistic/teamReport',
+      component: asyncComponent(() => import('container/statistic/teamReport/teamReport'))
+  },
   // 贷前管理
   // 发起征信查询
   {

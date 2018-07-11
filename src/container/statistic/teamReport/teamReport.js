@@ -19,14 +19,6 @@ import {
 import {
     listWrapper
 } from 'common/js/build-list';
-import {
-    creditWithdraw
-} from 'api/biz';
-import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
 
 @listWrapper(
     state => ({
@@ -47,15 +39,15 @@ class TeamReport extends React.Component {
     render() {
         const fields = [{
             title: '信贷专员',
-            field: 'creditJob'
+            field: 'saleUserName'
         }, {
             title: '客户姓名',
-            field: 'userName'
+            field: 'applyUserName'
         }, {
             title: '身份证号码',
             field: 'idNo'
         }, {
-            title: '贷款期限',
+            title: '贷款期限(月)',
             field: 'loanPeriod'
         }, {
             title: '联系电话',
@@ -65,7 +57,7 @@ class TeamReport extends React.Component {
             field: 'carBrand'
         }, {
             title: '汽车价格',
-            field: 'carPrice',
+            field: 'originalPrice',
             amount: true
         }, {
             title: '贷款金额',
@@ -84,7 +76,7 @@ class TeamReport extends React.Component {
             amount: true
         }, {
             title: '信用卡卡号',
-            field: 'creditCardNo'
+            field: 'repayBankcardNumber'
         }, {
             title: '还款日',
             field: 'repayBankDate'
@@ -92,13 +84,12 @@ class TeamReport extends React.Component {
             title: '业务种类',
             field: 'bizType',
             type: 'select',
-            key: 'biz_type'
+            key: 'budget_orde_biz_typer'
         }];
         return this.props.buildList({
             fields,
             pageCode: 632916,
             searchParams: {
-                roleCode: getRoleCode(),
                 teamCode: getTeamCode()
             }
         });
