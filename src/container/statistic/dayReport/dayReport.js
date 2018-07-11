@@ -51,11 +51,11 @@ class DayReport extends React.Component {
             type: 'date'
         }, {
             title: '客户姓名',
-            field: 'userName',
+            field: 'applyUserName',
             search: true
         }, {
             title: '信贷专员',
-            field: 'creditJob'
+            field: 'saleUserName'
         }, {
             title: '内勤',
             field: 'insideJob'
@@ -97,7 +97,7 @@ class DayReport extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632913,
+            pageCode: 632148,
             searchParams: {
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode()

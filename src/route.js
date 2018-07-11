@@ -762,10 +762,20 @@ const ROUTES = [
       path: '/statistic/postloanReport',
       component: asyncComponent(() => import('container/statistic/postloanReport/postloanReport'))
   },
+  //  业务报表
+  {
+      path: '/statistic/businessReport',
+      component: asyncComponent(() => import('container/statistic/businessReport/businessReport'))
+  },
   //  团队统计表
   {
       path: '/statistic/teamReport',
       component: asyncComponent(() => import('container/statistic/teamReport/teamReport'))
+  },
+  //  进度日报表
+  {
+    path: '/statistic/dayReport',
+    component: asyncComponent(() => import('container/statistic/dayReport/dayReport'))
   },
   // 贷前管理
   // 发起征信查询
