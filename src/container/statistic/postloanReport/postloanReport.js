@@ -47,12 +47,15 @@ class PostloanReport extends React.Component {
             field: 'code'
         }, {
             title: '贷款银行',
-            field: 'loanBankName',
+            field: 'loanBank',
             type: 'select',
             listCode: 632037,
             keyName: 'code',
             valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
-            search: true
+            search: true,
+            render: (v, data) => {
+                return data.loanBankName;
+            }
         }, {
             title: '地区',
             field: 'region',
@@ -118,7 +121,7 @@ class PostloanReport extends React.Component {
             search: true
         }, {
             title: '是否作废',
-            field: 'isPass',
+            field: 'isCancel',
             type: 'select',
             data: [{
                 key: '0',
@@ -136,8 +139,7 @@ class PostloanReport extends React.Component {
             pageCode: 632148,
             searchParams: {
                 roleCode: getRoleCode(),
-                teamCode: getTeamCode(),
-                curNodeCodeList: ['002_01', '002_02', '002_03', '002_04', '002_24']
+                teamCode: getTeamCode()
             }
         });
     }
