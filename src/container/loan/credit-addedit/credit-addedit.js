@@ -160,15 +160,16 @@ class CreditAddedit extends React.Component {
             field: 'interviewPic',
             type: 'img',
             required: true
-        }, {
-            title: '信用卡占比',
-            field: 'creditCardOccupation',
-            required: true,
-            readonly: !this.isEntry,
-            help: '请输入0-1之间的数字'
         }];
         if (!this.isAddedit) {
             o2mFields = o2mFields.concat([{
+            //     title: '信用卡占比',
+            //     field: 'NotBlank',
+            //     required: true,
+            //     readonly: !this.isEntry,
+            //     hidden: !this.view,
+            //     help: '请输入0-100之间的数字'
+            // }, {
                 title: '征信报告',
                 field: 'bankCreditResultPdf',
                 type: 'img',
@@ -219,20 +220,6 @@ class CreditAddedit extends React.Component {
             title: '二手车评估报告',
             field: 'secondCarReport',
             type: 'file',
-            hidden: this.newCar
-        }, {
-            title: '行驶证正面',
-            field: 'xszFront',
-            type: 'img',
-            required: true,
-            single: true,
-            hidden: this.newCar
-        }, {
-            title: '行驶证反面',
-            field: 'xszReverse',
-            type: 'img',
-            required: true,
-            single: true,
             hidden: this.newCar
         }, {
             title: '征信列表',

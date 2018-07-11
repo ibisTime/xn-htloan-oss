@@ -181,8 +181,7 @@
 }
 
 .below-wrap .card{
-    width: 100%;
-    /*width: calc(50% - 10px);*/
+    width: calc(50% - 10px);
     float: left;
 }
 

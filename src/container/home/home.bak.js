@@ -51,8 +51,19 @@ class Home extends React.Component {
             getRoleList(),
             getPageMyNotice(),
             getPageMyCompanysystem(),
-            getUser()
-        ]).then(([qiniuToken, roleData, noticeData, companysystemData, userData]) => {
+            getUser(),
+            getPageMyToDoList(),
+            getCurNodeCode(),
+            getDictList({parentKey: 'node_type'})
+        ]).then(([qiniuToken, roleData, noticeData, companysystemData, userData, toDoListData, curNodeData, nodeType]) => {
+            let curNodeD = {};
+            let nodeTypeD = {};
+            curNodeData.map(v => {
+                curNodeD[v.code] = v.name;
+            });
+            nodeType.map(v => {
+                nodeTypeD[v.dkey] = v.dvalue;
+            });
             if (!userData.photo) {
                 userData.photo = userPhoto;
             } else {
@@ -65,7 +76,10 @@ class Home extends React.Component {
                 noticeData: noticeData.list,
                 companysystemData: companysystemData.list,
                 userData: userData,
-                fetching: false
+                fetching: false,
+                toDoListData: toDoListData.list,
+                curNodeData: curNodeD,
+                nodeTypeData: nodeTypeD
             });
         }).catch(() => this.setState({ fetching: false }));
     }
@@ -153,7 +167,28 @@ class Home extends React.Component {
                             <div className="user-post">岗位：{this.state.userData && this.state.userData.postName}</div>
                         </div>
                     </div>
-                    <div className="card top-right notice-wrap">
+                    <div className="card top-right">
+                        <div className="card-top">
+                            <div className="title">待办事项</div>
+                            <div className="more" onClick={() => {
+                                this.props.history.push(`/home/toDoList`);
+                            }}>MORE <img src={iconMore}/></div>
+                        </div>
+                        <div className="card-content">
+                            { this.state.toDoListData && this.state.toDoListData.length >= 1 ? this.state.toDoListData.map(d => (
+                                <div className="content-item" key={d.id}>
+                                    <Link to={getNowCurNodePageUrl(d)}>
+                                        <img className="icon" src={iconLi}/>
+                                        <p className="txt">{d.companyName} 客户{d.userName} {this.state.nodeTypeData[d.flowTypeCode]} {this.state.curNodeData[d.curNodeCode]}</p>
+                                        <samp className="date">{dateFormat(d.startDatetime)}</samp>
+                                    </Link>
+                                </div>
+                            )) : <div className="noData"><img src={noData}/><p>暂无待办事项</p></div>}
+                        </div>
+                    </div>
+                </div>
+                <div className="below-wrap">
+                    <div className="card notice-wrap">
                         <div className="card-top">
                             <div className="title">公司公告</div>
                         </div>
@@ -169,8 +204,6 @@ class Home extends React.Component {
                             )) : <div className="noData"><img src={noData}/><p>暂无公司公告</p></div>}
                         </div>
                     </div>
-                </div>
-                <div className="below-wrap">
                     <div className="card companysystem-wrap">
                         <div className="card-top">
                             <div className="title">公司制度</div>

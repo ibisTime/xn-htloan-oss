@@ -287,8 +287,13 @@ class AdmittanceAddEdit extends React.Component {
                     required: true
                 }],
                 [{
-                    title: '行驶证',
-                    field: 'driveLicense',
+                    title: '行驶证正面',
+                    field: 'driveLicenseFront',
+                    type: 'img',
+                    hidden: this.bizType !== '1'
+                }, {
+                    title: '行驶证反面',
+                    field: 'driveLicenseReverse',
                     type: 'img',
                     hidden: this.bizType !== '1'
                 }],

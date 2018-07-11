@@ -12,7 +12,7 @@ import {
   clearTopCode,
   clearSubMenuCode
 } from '@redux/menu';
-import { clearUser } from 'common/js/util';
+import { clearUser, getRealName } from 'common/js/util';
 import asyncComponent from '../async-component/async-component';
 import EditPwd from 'component/edit-pwd/edit-pwd';
 import ROUTES from 'src/route';
@@ -120,7 +120,7 @@ class Dashboard extends React.Component {
           <Item key="user" style={{float: 'right'}}>
             <Dropdown overlay={userShow}>
               <a href="#" style={{display: 'inline'}}>
-                {this.props.loginName} <Icon type="down" />
+                {getRealName()} <Icon type="down" />
               </a>
             </Dropdown>
           </Item>
