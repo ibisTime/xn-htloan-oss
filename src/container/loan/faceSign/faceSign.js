@@ -67,7 +67,8 @@ class FaceSign extends React.Component {
             type: 'select',
             pageCode: 630065,
             params: {
-                type: 'P'
+                type: 'P',
+                roleCode: 'SR201800000000000000YWY'
             },
             keyName: 'userId',
             valueName: '{{companyName.DATA}}-{{realName.DATA}}',

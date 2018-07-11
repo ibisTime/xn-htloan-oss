@@ -1514,7 +1514,7 @@ export default class DetailComponent extends React.Component {
             rules.push({
                 validator: (rule, value, callback) => {
                     let reg = /^-?\d+(\.\d+)?$/.test(value);
-                    if (reg && value && value < item.min) {
+                    if (reg && value && Number(value) < Number(item.min)) {
                         let error = `请输入一个最小为${item.min}的值`;
                         callback(error);
                     } else {
@@ -1528,7 +1528,7 @@ export default class DetailComponent extends React.Component {
             rules.push({
                 validator: (rule, value, callback) => {
                     let reg = /^-?\d+(\.\d+)?$/.test(value);
-                    if (reg && value && value > item.max) {
+                    if (reg && value && Number(value) > Number(item.max)) {
                         let error = `请输入一个最大为${item.max}的值`;
                         callback(error);
                     } else {

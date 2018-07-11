@@ -44,8 +44,7 @@ class CreditReport extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'code',
-            search: true
+            field: 'code'
         }, {
             title: '客户姓名',
             field: 'userName',
@@ -62,37 +61,19 @@ class CreditReport extends React.Component {
             search: true
         }, {
             title: '征信查询结果',
-            field: 'bankCreditResultPdf',
-            type: 'img',
+            field: 'bankCreditResultRemark',
             render: (value, data) => {
-                if(!data.creditUser || !data.creditUser.bankCreditResultPdf) {
+                if(!data.creditUser || !data.creditUser.bankCreditResultRemark) {
                     return;
                 }
-                let imgStr = data.creditUser.bankCreditResultPdf.split('||');
-                return (<div>
-                    { imgStr.map(pic => (
-                        <img key={pic} style={{maxWidth: 25, maxHeight: 25, marginRight: 10}} src={PIC_PREFIX + pic + PIC_BASEURL_M}/>
-                    ))}
-                </div>);
+                return data.creditUser.bankCreditResultRemark;
             }
         }, {
             title: '信用卡使用占比',
             field: 'NotBlank'
         }, {
             title: '信贷专员',
-            field: 'saleUserId',
-            type: 'select',
-            pageCode: 630065,
-            params: {
-                type: 'P'
-            },
-            keyName: 'userId',
-            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
-            searchName: 'realName',
-            search: true,
-            render: (v, d) => {
-                return d.saleUserName;
-            }
+            field: 'saleUserName'
         }, {
             title: '内勤',
             field: 'operatorName'
@@ -103,11 +84,6 @@ class CreditReport extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
-        }, {
-            title: '关键字搜索',
-            field: 'keyword',
-            hidden: true,
-            search: true
         }, {
             title: '是否作废',
             field: 'isPass',
