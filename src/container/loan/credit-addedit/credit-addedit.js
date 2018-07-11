@@ -163,13 +163,13 @@ class CreditAddedit extends React.Component {
         }];
         if (!this.isAddedit) {
             o2mFields = o2mFields.concat([{
-            //     title: '信用卡使用占比',
-            //     field: 'creditCardOccupation',
-            //     required: true,
-            //     readonly: !this.isEntry,
-            //     hidden: !this.view,
-            //     help: '请输入0-100之间的数字'
-            // }, {
+                title: '信用卡使用占比',
+                field: 'creditCardOccupation',
+                required: true,
+                readonly: !this.isEntry,
+                hidden: !this.view,
+                help: '请输入0-100之间的数字'
+            }, {
                 title: '征信报告',
                 field: 'bankCreditResultPdf',
                 type: 'img',
