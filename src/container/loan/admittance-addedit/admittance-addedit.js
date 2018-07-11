@@ -980,21 +980,12 @@ class AdmittanceAddEdit extends React.Component {
                     key: 'interest'
                 }],
                 [{
-                    title: '结息1(元)',
+                    title: '结息1',
                     field: 'mateInterest1',
                     amount: true
                 }, {
-                    title: '结息2(元)',
-                    field: 'mateInterest2',
-                    amount: true
-                }],
-                [{
-                    title: '结息1',
-                    field: 'interest1',
-                    amount: true
-                }, {
                     title: '结息2',
-                    field: 'interest2',
+                    field: 'mateInterest2',
                     amount: true
                 }],
                 [{
