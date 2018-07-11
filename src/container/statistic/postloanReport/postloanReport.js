@@ -44,20 +44,21 @@ class PostloanReport extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'code',
-            search: true
+            field: 'code'
         }, {
             title: '贷款银行',
-            field: 'loanBank',
+            field: 'loanBankName',
             type: 'select',
             listCode: 632037,
             keyName: 'code',
-            valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
+            valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
+            search: true
         }, {
             title: '地区',
             field: 'region',
             type: 'select',
-            key: 'region'
+            key: 'region',
+            search: true
         }, {
             title: '客户姓名',
             field: 'applyUserName',
@@ -75,7 +76,8 @@ class PostloanReport extends React.Component {
             type: 'date'
         }, {
             title: '抵押情况',
-            field: 'pledgeStatus'
+            field: 'pledgeStatus',
+            search: true
         }, {
             title: '抵押时间',
             field: 'pledgeDatetime',
@@ -88,19 +90,7 @@ class PostloanReport extends React.Component {
             field: 'operatorName'
         }, {
             title: '信贷专员',
-            field: 'saleUserId',
-            type: 'select',
-            pageCode: 630065,
-            params: {
-                type: 'P'
-            },
-            keyName: 'userId',
-            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
-            searchName: 'realName',
-            search: true,
-            render: (v, d) => {
-                return d.saleUserName;
-            }
+            field: 'saleUserName'
         }, {
             title: '资料快递单号及时间',
             field: 'expressNoAndDatatime'
@@ -110,7 +100,8 @@ class PostloanReport extends React.Component {
             type: 'select',
             listCode: 630147,
             keyName: 'code',
-            valueName: 'name'
+            valueName: 'name',
+            search: true
         }, {
             title: '归档情况',
             field: 'enterStatus',
@@ -124,11 +115,6 @@ class PostloanReport extends React.Component {
             }],
             keyName: 'key',
             valueName: 'value',
-            search: true
-        }, {
-            title: '关键字搜索',
-            field: 'keyword',
-            hidden: true,
             search: true
         }, {
             title: '是否作废',
