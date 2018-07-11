@@ -325,6 +325,12 @@ import { statisticCreditReport } from './redux/statistic/creditReport';
 //  进度日统计报表
 import { statisticDayReport } from './redux/statistic/dayReport';
 
+//  业务报表
+import { statisticBusinessReport } from './redux/statistic/businessReport';
+
+//  团队报表
+import { statisticTeamReport } from './redux/statistic/teamReport';
+
 /**
  * 人事
  */
@@ -847,5 +853,7 @@ export default combineReducers({
   circulationLogRepayment,
   circulationLogRepaymentAddedit,
   statisticCreditReport,
-  statisticDayReport
+  statisticDayReport,
+  statisticBusinessReport,
+  statisticTeamReport
 });
