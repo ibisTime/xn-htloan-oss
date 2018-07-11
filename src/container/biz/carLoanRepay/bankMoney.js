@@ -177,7 +177,7 @@ class bankMoney extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].curNodeCode !== '002_15' && selectedRows[0].curNodeCode !== '002_16' && selectedRows[0].curNodeCode !== '002_17') {
+          } else if (selectedRows[0].curNodeCode !== '002_11' && selectedRows[0].curNodeCode !== '002_12' && selectedRows[0].curNodeCode !== '002_13' && selectedRows[0].curNodeCode !== '002_14' && selectedRows[0].curNodeCode !== '002_15' && selectedRows[0].curNodeCode !== '002_16') {
             showWarnMsg('当前不是录入节点');
           } else {
             this.props.history.push(`/biz/bankMoney/record?code=${selectedRowKeys[0]}`);

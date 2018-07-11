@@ -43,11 +43,11 @@ import {
 class InvestigateReport extends React.Component {
     render() {
         const fields = [{
-            title: '业务编号',
+            title: '编号',
             field: 'code',
             search: true
         }, {
-            title: '准入单编号',
+            title: '业务编号',
             field: 'budgetOrderCode'
         }, {
             title: '业务公司',
