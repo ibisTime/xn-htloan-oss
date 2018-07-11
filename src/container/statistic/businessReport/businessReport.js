@@ -72,7 +72,7 @@ class BusinessReport extends React.Component {
             field: 'carBrand'
         }, {
             title: '汽车价格',
-            field: 'carPrice',
+            field: 'originalPrice',
             amount: true
         }, {
             title: '贷款金额',
