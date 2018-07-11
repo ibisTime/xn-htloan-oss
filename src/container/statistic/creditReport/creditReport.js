@@ -86,7 +86,7 @@ class CreditReport extends React.Component {
             valueName: 'name'
         }, {
             title: '是否作废',
-            field: 'isPass',
+            field: 'isCancel',
             type: 'select',
             data: [{
                 key: '0',
