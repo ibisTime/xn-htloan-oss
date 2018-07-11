@@ -42,13 +42,17 @@ class TeamReport extends React.Component {
             field: 'saleUserName'
         }, {
             title: '客户姓名',
-            field: 'applyUserName'
+            field: 'applyUserName',
+            search: true
         }, {
             title: '身份证号码',
             field: 'idNo'
         }, {
-            title: '贷款期限(月)',
-            field: 'loanPeriod'
+            title: '贷款期限',
+            field: 'loanPeriod',
+            type: 'select',
+            key: 'loan_period',
+            search: true
         }, {
             title: '联系电话',
             field: 'contactNo'
@@ -84,7 +88,8 @@ class TeamReport extends React.Component {
             title: '业务种类',
             field: 'bizType',
             type: 'select',
-            key: 'budget_orde_biz_typer'
+            key: 'budget_orde_biz_typer',
+            search: true
         }];
         return this.props.buildList({
             fields,
