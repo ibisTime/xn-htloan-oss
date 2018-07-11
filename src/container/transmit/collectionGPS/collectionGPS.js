@@ -54,9 +54,6 @@ class CollectionGPS extends React.Component {
             type: 'select',
             key: 'logistics_type'
         }, {
-            title: '客户姓名',
-            field: 'customerName'
-        }, {
             title: '传递方式',
             field: 'sendType',
             type: 'select',
