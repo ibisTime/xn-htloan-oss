@@ -51,16 +51,20 @@ class BusinessReport extends React.Component {
             amount: true
         }, {
             title: '信贷专员',
-            field: 'creditJob'
+            field: 'saleUserName'
         }, {
             title: '客户姓名',
-            field: 'userName'
+            field: 'applyUserName',
+            search: true
         }, {
             title: '身份证号码',
             field: 'idNo'
         }, {
             title: '贷款期限',
-            field: 'loanPeriod'
+            field: 'loanPeriod',
+            type: 'select',
+            key: 'loan_period',
+            search: true
         }, {
             title: '现住址',
             field: 'nowAddress'
@@ -106,7 +110,12 @@ class BusinessReport extends React.Component {
             field: 'creditCardNo'
         }, {
             title: '贷款进度',
-            field: 'loanProgress'
+            field: 'curNodeCode',
+            type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name',
+            search: true
         }, {
             title: '放款日',
             field: 'bankFkDatetime'
@@ -115,17 +124,18 @@ class BusinessReport extends React.Component {
             field: 'repayBankDate'
         }, {
             title: '保单日期',
-            field: 'insuranceDatetime',
+            field: 'policyDatetime',
             type: 'date'
         }, {
             title: '保单到期日',
-            field: 'insuranceEndDatetime',
+            field: 'policyDueDate',
             type: 'date'
         }, {
             title: '业务种类',
             field: 'bizType',
             type: 'select',
-            key: 'biz_type'
+            key: 'budget_orde_biz_typer',
+            search: true
         }];
         return this.props.buildList({
             fields,
