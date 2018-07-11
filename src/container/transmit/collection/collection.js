@@ -54,8 +54,7 @@ class Collection extends React.Component {
             key: 'logistics_type'
         }, {
             title: '客户姓名',
-            field: 'customerName',
-            search: true
+            field: 'customerName'
         }, {
             title: '传递方式',
             field: 'sendType',
