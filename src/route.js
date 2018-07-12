@@ -46,7 +46,7 @@ const ROUTES = [
     component: asyncComponent(() => import('container/security/user/edit'))
   },
 
-  //  系统参数
+  //  系统参数1
   {
     path: '/system/sysPara',
     component: asyncComponent(() => import('container/security/sysParam/sysParam'))
