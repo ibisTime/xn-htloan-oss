@@ -52,6 +52,7 @@ class Edit extends React.Component {
         }, {
             title: '档案',
             field: 'archiveCode',
+            type: 'select',
             listCode: '632807',
             keyName: 'code',
             valueName: '{{entranceNo.DATA}}-{{realName.DATA}}-{{gender.DATA}}'
@@ -62,8 +63,8 @@ class Edit extends React.Component {
             listCode: 630106,
             keyName: 'code',
             valueName: 'name',
-            bParams: ['typeList'],
-            disabled: (item) => item.typeList !== ['1'] && item.typeList !== ['2'],
+            bParams: ['type'],
+            disabled: (item) => item.type !== '3',
             params: {
                 status: 1,
                 typeList: ['1', '2', '3']
