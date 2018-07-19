@@ -57,7 +57,7 @@ export function receiveGoods(code) {
 
 //  取消订单
 export function cancelBill(code) {
-  return fetch(808053, { code, updater: getUserId() });
+  return fetch(808053, { code, userId: getUserId() });
 }
 
 //  贷款商品上架
