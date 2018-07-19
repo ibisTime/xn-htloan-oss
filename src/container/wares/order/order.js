@@ -36,18 +36,19 @@ class Order extends React.Component {
       search: true
     }, {
       title: '商品名称',
+      field: 'productName',
       render: (v, d) => {
-        return d.productOrderList.productName;
+        return d.productOrderList[0].product.name + '(' + d.productOrderList[0].productSpecsName + ')';
       }
     }, {
       title: '订单价格',
-      render: (v, d) => {
-        return d.productOrderList.price / 1000;
-      }
+      field: 'amount',
+      amount: true
     }, {
       title: '购买数量',
+      field: 'quantity',
       render: (v, d) => {
-        return d.productOrderList.quantity;
+        return d.productOrderList[0].quantity;
       }
     }, {
       title: '首付',
@@ -71,7 +72,9 @@ class Order extends React.Component {
     }, {
       title: '状态',
       field: 'status',
-      key: 'status'
+      type: 'select',
+      key: 'order_status',
+      search: true
     }, {
       title: '备注',
       field: 'remark'
