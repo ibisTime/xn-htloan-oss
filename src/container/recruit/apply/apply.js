@@ -22,8 +22,7 @@ import {
     Modal
 } from 'antd';
 import {
-    receiveGoods,
-    cancelBill
+    receiveGoods
 } from 'api/biz';
 
 @listWrapper(

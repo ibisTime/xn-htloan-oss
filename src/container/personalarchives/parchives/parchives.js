@@ -12,7 +12,7 @@ import {
 import { listWrapper } from 'common/js/build-list';
 import { showWarnMsg, showSucMsg } from 'common/js/util';
 import { Button, Upload, Modal } from 'antd';
-import { receiveGoods, cancelBill } from 'api/biz';
+import { receiveGoods } from 'api/biz';
 
 @listWrapper(
   state => ({

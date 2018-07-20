@@ -1,4 +1,4 @@
-import React from 'react';
+  import React from 'react';
 import {
     initStates,
     doFetching,
@@ -71,7 +71,7 @@ class orderGoods extends React.Component {
                     handler: (param) => {
                         this.props.doFetching();
                         param.approveUser = getUserId();
-                        fetch(630503, param).then(() => {
+                        fetch(808054, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {

@@ -33,21 +33,25 @@ class Order extends React.Component {
     }, {
       title: '下单人',
       field: 'applyUser',
+      render: (v, d) => {
+        return d.user.realName;
+      },
       search: true
     }, {
       title: '商品名称',
+      field: 'productName',
       render: (v, d) => {
-        return d.productOrderList.productName;
+        return d.productOrderList[0].product.name + '(' + d.productOrderList[0].productSpecsName + ')';
       }
     }, {
       title: '订单价格',
-      render: (v, d) => {
-        return d.productOrderList.price / 1000;
-      }
+      field: 'amount',
+      amount: true
     }, {
       title: '购买数量',
+      field: 'quantity',
       render: (v, d) => {
-        return d.productOrderList.quantity;
+        return d.productOrderList[0].quantity;
       }
     }, {
       title: '首付',
@@ -71,7 +75,9 @@ class Order extends React.Component {
     }, {
       title: '状态',
       field: 'status',
-      key: 'status'
+      type: 'select',
+      key: 'order_status',
+      search: true
     }, {
       title: '备注',
       field: 'remark'
@@ -85,6 +91,8 @@ class Order extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
+          } else if (selectedRows[0].status !== '2') {
+            showWarnMsg('当前不是已支付状态');
           } else {
             this.props.history.push(`/wares/order/goods?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
           }
@@ -92,6 +100,8 @@ class Order extends React.Component {
         receiveGoods: (key, item) => {
           if (!key || !key.length || !item || !item.length) {
             showWarnMsg('请选择记录');
+          } else if (item.status !== '4') {
+            showWarnMsg('当前不是已发货状态');
           } else {
             Modal.confirm({
               okText: '确认',
@@ -99,9 +109,12 @@ class Order extends React.Component {
               content: '确定收货成功？',
               onOk: () => {
                 this.props.doFetching();
-                return receiveGoods(key[0], item.user.userId).then(() => {
+                return receiveGoods(key[0]).then(() => {
                   this.props.cancelFetching();
                   showWarnMsg('操作成功');
+                  setTimeout(() => {
+                      this.props.getPageData();
+                  }, 500);
                 }).catch(() => {
                   this.props.cancelFetching();
                 });
@@ -112,6 +125,8 @@ class Order extends React.Component {
         cancel: (key, item) => {
           if (!key || !key.length || !item || !item.length) {
             showWarnMsg('请选择记录');
+          } else if (item.status !== '2') {
+            showWarnMsg('当前不是已支付状态');
           } else {
             Modal.confirm({
               okText: '确认',
@@ -122,6 +137,9 @@ class Order extends React.Component {
                 return cancelBill(key[0]).then(() => {
                   this.props.cancelFetching();
                   showWarnMsg('操作成功');
+                  setTimeout(() => {
+                      this.props.getPageData();
+                  }, 500);
                 }).catch(() => {
                   this.props.cancelFetching();
                 });

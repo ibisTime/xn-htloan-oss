@@ -107,8 +107,7 @@ class transmit extends React.Component {
             fields,
             pageCode: 632155,
             searchParams: {
-                userId: getUserId(),
-                statusList: ['0']
+                statusList: ['0', '3']
             },
             btnEvent: {
               send: (selectedRowKeys, selectedRows) => {

@@ -21,7 +21,7 @@ import logo from './logo.png';
 
 const { SubMenu, Item } = Menu;
 const { Header, Content, Sider } = Layout;
-const Home = asyncComponent(() => import('../../container/home/home'));
+const Home = asyncComponent(() => import('../../container/home/home.bak'));
 
 @connect(
   state => ({ ...state.menu, loginName: state.user.loginName }),
