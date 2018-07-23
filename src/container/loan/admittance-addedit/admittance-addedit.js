@@ -445,9 +445,11 @@ class AdmittanceAddEdit extends React.Component {
                     title: '主要收入来源',
                     type: 'select',
                     key: 'main_income',
+                    multiple: true,
                     required: true,
                     onChange: (v, data) => {
-                        if (v === '4') {
+                        console.log(v);
+                        if (v.includes('4')) {
                             this.setState({
                                 isSelfCompany: false
                             });
