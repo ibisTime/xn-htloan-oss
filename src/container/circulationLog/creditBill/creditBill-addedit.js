@@ -76,6 +76,7 @@ class CreditBillAddedit extends React.Component {
         }];
         return this.props.buildList({
             fields,
+            rowKey: 'id',
             pageCode: 630175,
             searchParams: {
                 refOrder: this.code

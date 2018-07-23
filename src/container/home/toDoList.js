@@ -35,7 +35,7 @@ import {
         setSearchData
     }
 )
-class Admittance extends React.Component {
+class ToDoList extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
@@ -68,6 +68,7 @@ class Admittance extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 632911,
+            rowKey: 'id',
             searchParams: {
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode()
@@ -84,8 +85,7 @@ class Admittance extends React.Component {
                         this.props.history.push(getNowCurNodePageUrl(selectedRows[0]));
                     }
                 }
-            },
-            {
+            }, {
                 code: 'goback',
                 name: '返回',
                 handler: (selectedRowKeys, selectedRows) => {
@@ -96,4 +96,4 @@ class Admittance extends React.Component {
     }
 }
 
-export default Admittance;
+export default ToDoList;
