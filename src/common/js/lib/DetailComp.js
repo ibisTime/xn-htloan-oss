@@ -220,6 +220,8 @@ export default class DetailComponent extends React.Component {
                 } else {
                     values[v.field] = values[v.field] || '';
                 }
+            } else if (v.multiple) {
+                values[v.field] = values[v.field].join(',');
             }
         });
         values.updater = values.updater || getUserId();
@@ -1097,23 +1099,28 @@ export default class DetailComponent extends React.Component {
     }
 
     getSelectComp(item, initVal, rules, getFieldDecorator) {
-        let data;
+        let value;
         if (item.readonly && item.data) {
-            data = item.data.filter(v => v[item.keyName] === initVal);
-        }
-        let value = '';
-        if (initVal) {
-            value = initVal;
+            if (item.multiple) {
+                value = initVal.map(i => {
+                  let obj = item.data.find(v => v[item.keyName] === i);
+                  return obj[item.valueName] || tempString(item.valueName, obj) || '';
+                }).join('、');
+            } else {
+                value = item.data.filter(v => v[item.keyName] === initVal);
+                value = value && value.length
+                  ? value[0][item.valueName] || tempString(item.valueName, value[0])
+                  : initVal;
+            }
         }
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
                       label={this.getLabel(item)}>
                 {
-                    item.readonly ? <div
-                            className="readonly-text">{data && data.length ? data[0][item.valueName] || tempString(item.valueName, data[0]) : value}</div>
+                    item.readonly ? <div className="readonly-text">{value}</div>
                         : getFieldDecorator(item.field, {
                             rules,
-                            initialValue: item.data || initVal ? initVal : ''
+                            initialValue: initVal || ''
                         })(
                         <Select {...this.getSelectProps(item)}>
                             {item.data ? item.data.map(d => (
@@ -1212,6 +1219,7 @@ export default class DetailComponent extends React.Component {
 
     getSelectProps(item) {
         const props = {
+            mode: item.multiple ? 'multiple' : '',
             showSearch: true,
             allowClear: true,
             optionFilterProp: 'children',
@@ -1319,6 +1327,8 @@ export default class DetailComponent extends React.Component {
                 result = this.getRealDateVal(item, result);
             } else if (item.type === 'checkbox') {
                 result = this.getRealCheckboxVal(item, result);
+            } else if (item.multiple) {
+                result = result ? result.split(',') : [];
             }
             if (item.formatter) {
                 result = item.formatter(result, this.props.pageData);
