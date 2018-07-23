@@ -448,7 +448,6 @@ class AdmittanceAddEdit extends React.Component {
                     multiple: true,
                     required: true,
                     onChange: (v, data) => {
-                        console.log(v);
                         if (v.includes('4')) {
                             this.setState({
                                 isSelfCompany: false
