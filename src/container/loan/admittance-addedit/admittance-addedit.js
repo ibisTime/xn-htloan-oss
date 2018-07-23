@@ -139,6 +139,7 @@ class AdmittanceAddEdit extends React.Component {
                     title: '所属区域',
                     type: 'select',
                     key: 'region',
+                    multiple: true,
                     required: true
                 }]
             ]
