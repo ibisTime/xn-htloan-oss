@@ -394,7 +394,7 @@ class AdmittanceAddEdit extends React.Component {
                     required: true
                 }, {
                     field: 'mainAssetInclude',
-                    title: '主要财产包括',
+                    title: '主要财产说明',
                     required: true
                 }],
                 [{
@@ -503,7 +503,7 @@ class AdmittanceAddEdit extends React.Component {
                     hidden: this.view ? false : this.state.isSelfCompany
                 }],
                 [{
-                    title: '其他工作描述',
+                    title: '工作描述及还款来源分析',
                     field: 'otherWorkNote',
                     type: 'textarea',
                     normalArea: true
