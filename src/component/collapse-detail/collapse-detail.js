@@ -156,7 +156,7 @@ class CollapseDetail extends DetailComp {
       } else if (v.type === 'o2m') {
         values[v.field] = this.props.pageData[v.field];
       } else if (v.multiple) {
-          values[v.field] = values[v.field].join(',');
+        values[v.field] = values[v.field] ? values[v.field].join(',') : '';
       }
     });
     values.updater = values.updater || getUserId();

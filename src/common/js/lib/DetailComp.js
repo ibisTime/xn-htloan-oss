@@ -221,7 +221,7 @@ export default class DetailComponent extends React.Component {
                     values[v.field] = values[v.field] || '';
                 }
             } else if (v.multiple) {
-                values[v.field] = values[v.field].join(',');
+                values[v.field] = values[v.field] ? values[v.field].join(',') : '';
             }
         });
         values.updater = values.updater || getUserId();
