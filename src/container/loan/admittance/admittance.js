@@ -133,7 +133,7 @@ class Admittance extends React.Component {
             searchParams: {
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode(),
-                curNodeCodeList: ['002_01', '002_02', '002_03', '002_04', '002_24']
+                curNodeCodeList: ['002_01', '002_02', '002_03', '002_04', '002_24', '002_25']
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {
@@ -178,6 +178,17 @@ class Admittance extends React.Component {
                         showWarnMsg('当前不是区域经理审核节点');
                     } else {
                         this.props.history.push(`/loan/admittance/addedit?v=1&isCheckRegionalManager=1&code=${selectedRowKeys[0]}`);
+                    }
+                },
+                checkNq: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_25') {
+                        showWarnMsg('当前不是内勤主管审核节点');
+                    } else {
+                        this.props.history.push(`/loan/admittance/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
                     }
                 }
             }

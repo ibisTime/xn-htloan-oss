@@ -40,7 +40,7 @@ class CollectionGPSCheck extends React.Component {
   }
   render() {
     const fields = [{
-        title: '客户姓名',
+        title: '申请人',
         field: 'userName',
         readonly: true
     }, {
@@ -52,30 +52,6 @@ class CollectionGPSCheck extends React.Component {
         field: 'type',
         type: 'select',
         key: 'logistics_type',
-        readonly: true
-    }, {
-        title: '发件节点',
-        field: 'fromNodeCode',
-        type: 'select',
-        listCode: 630147,
-        keyName: 'code',
-        valueName: 'name',
-        readonly: true
-    }, {
-        title: '收件节点',
-        field: 'toNodeCode',
-        type: 'select',
-        listCode: 630147,
-        keyName: 'code',
-        valueName: 'name',
-        readonly: true
-    }, {
-        title: '参考材料清单',
-        field: 'refFileList',
-        readonly: true
-    }, {
-        title: '寄送材料清单',
-        field: 'sendFileList',
         readonly: true
     }, {
         title: '传递方式',

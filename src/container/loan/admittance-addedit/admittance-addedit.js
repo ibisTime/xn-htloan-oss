@@ -45,6 +45,7 @@ class AdmittanceAddEdit extends React.Component {
         this.isCheckCommissioner = !!getQueryString('isCheckCommissioner', this.props.location.search);
         this.isCheckDirector = !!getQueryString('isCheckDirector', this.props.location.search);
         this.isCheckRegionalManager = !!getQueryString('isCheckRegionalManager', this.props.location.search);
+        this.isCheckNq = !!getQueryString('isCheckNq', this.props.location.search);
         this.wanFactor = 0;
     }
 
@@ -1650,7 +1651,7 @@ class AdmittanceAddEdit extends React.Component {
             title: '审核说明',
             type: 'textarea',
             normalArea: true,
-            readonly: !(this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager)
+            readonly: !(this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckNq)
         }];
 
         let buttons = [];
@@ -1661,9 +1662,11 @@ class AdmittanceAddEdit extends React.Component {
             bizCode = 632122;
         } else if (this.isCheckRegionalManager) {
             bizCode = 632140;
+        } else if (this.isCheckNq) {
+            bizCode = 632142;
         }
 
-        if (this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager) {
+        if (this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckNq) {
             fields = fields.concat(checkFields);
 
             buttons = [{

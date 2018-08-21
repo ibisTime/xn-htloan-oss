@@ -42,6 +42,9 @@ class CollectionCheck extends React.Component {
     const fields = [{
         title: '客户姓名',
         field: 'userName',
+        formatter: (v, d) => {
+          return d.type === '2' ? d.userName : d.customerName;
+        },
         readonly: true
     }, {
         title: '业务编号',

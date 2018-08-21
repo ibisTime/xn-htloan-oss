@@ -27,7 +27,10 @@ class CollectionGPSAddedit extends React.Component {
   render() {
     const fields = [{
         title: '客户姓名',
-        field: 'userName'
+        field: 'userName',
+        formatter: (v, d) => {
+          return d.type === '2' ? d.userName : d.customerName;
+        }
     }, {
         title: '业务编号',
         field: 'bizCode'
@@ -36,26 +39,6 @@ class CollectionGPSAddedit extends React.Component {
         field: 'type',
         type: 'select',
         key: 'logistics_type'
-    }, {
-        title: '发件节点',
-        field: 'fromNodeCode',
-        type: 'select',
-        listCode: 630147,
-        keyName: 'code',
-        valueName: 'name'
-    }, {
-        title: '收件节点',
-        field: 'toNodeCode',
-        type: 'select',
-        listCode: 630147,
-        keyName: 'code',
-        valueName: 'name'
-    }, {
-        title: '参考材料清单',
-        field: 'refFileList'
-    }, {
-        title: '寄送材料清单',
-        field: 'sendFileList'
     }, {
         title: '传递方式',
         field: 'sendType',

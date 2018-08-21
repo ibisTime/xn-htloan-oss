@@ -55,7 +55,10 @@ class transmit extends React.Component {
             key: 'logistics_type'
         }, {
             title: '客户姓名',
-            field: 'customerName'
+            field: 'customerName',
+            render: (v, d) => {
+                return d.type === '2' ? d.userName : d.customerName;
+            }
         }, {
             title: '传递方式',
             field: 'sendType',
