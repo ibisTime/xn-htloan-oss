@@ -1,4 +1,5 @@
 import React from 'react';
+import { Modal } from 'antd';
 import {
     setTableData,
     setPagination,
@@ -9,10 +10,9 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/public/notice';
-import {showWarnMsg, getUserId} from 'common/js/util';
-import {listWrapper} from 'common/js/build-list';
-import {SYSTEM_CODE} from 'common/js/config';
-import {Button, Upload, Modal} from 'antd';
+import { showWarnMsg, getUserId } from 'common/js/util';
+import { listWrapper } from 'common/js/build-list';
+import { SYSTEM_CODE } from 'common/js/config';
 
 @listWrapper(
     state => ({
@@ -39,15 +39,15 @@ class Notice extends React.Component {
             field: 'status',
             title: '状态',
             type: 'select',
-            search: true,
-            key: 'notice_status'
+            key: 'notice_status',
+            search: true
         }, {
             field: 'updater',
             title: '最近修改人'
         }, {
             field: 'updateDatetime',
             title: '最近修改时间',
-            formatter: 'datetime'
+            type: 'datetime'
         }, {
             field: 'remark',
             title: '备注'

@@ -65,15 +65,6 @@ class transmitAddedit extends React.Component {
         valueName: 'name',
         readonly: true
     }, {
-        title: '参考材料清单',
-        field: 'refFileList'
-    }, {
-      field: 'sendFileList',
-      hidden: true,
-      formatter: (v, d) => {
-        return d.refFileList;
-      }
-    }, {
         title: '寄送方式',
         field: 'sendType',
         type: 'select',

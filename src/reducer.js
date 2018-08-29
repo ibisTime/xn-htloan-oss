@@ -316,8 +316,6 @@ import { postloantoolsImportDispose } from './redux/postloantools/import-dispose
 /**
  * 统计分析
  */
-import { bizBalancedetail } from './redux/statistic/balancedetail';
-import { statisticProtect } from './redux/statistic/protect';
 
 //  征信统计报表
 import { statisticCreditReport } from './redux/statistic/creditReport';
@@ -333,6 +331,9 @@ import { statisticTeamReport } from './redux/statistic/teamReport';
 
 //  业务报表
 import { statisticBusinessReport } from './redux/statistic/businessReport';
+
+//  垫资超1天未放款
+import { statisticOneReport } from './redux/statistic/oneReport';
 
 /**
  * 人事
@@ -527,6 +528,10 @@ import { waresHistoryBusinessManageAddeditAddedit } from './redux/wares/historyB
 
 //  首页待办事项 更多
 import { homeToDoList } from './redux/home/toDoList';
+//  首页公司公告 更多
+import { homeNotices } from './redux/home/notices';
+//  首页公司制度 更多
+import { homeRegulations } from './redux/home/regulations';
 
 //  流转日志
 //  准入单流转日志 + 详情
@@ -712,8 +717,6 @@ export default combineReducers({
   bizLitigation,
   bizLitigationAddEdit,
   bizLitigationDispose,
-  bizBalancedetail,
-  statisticProtect,
   bizHistoryBusinessManageAddeditAddedit,
   bizSettlement,
   bizSettlementAddEdit,
@@ -849,6 +852,8 @@ export default combineReducers({
   busBusreturnReturn,
   busBusreturnCheck,
   homeToDoList,
+  homeNotices,
+  homeRegulations,
   circulationLogAdmittanceBill,
   circulationLogAdmittanceBillAddedit,
   circulationLogCreditBill,
@@ -859,5 +864,6 @@ export default combineReducers({
   statisticDayReport,
   statisticPostloanReport,
   statisticTeamReport,
-  statisticBusinessReport
+  statisticBusinessReport,
+  statisticOneReport
 });

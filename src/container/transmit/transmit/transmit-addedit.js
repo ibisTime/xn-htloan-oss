@@ -7,8 +7,8 @@ import {
   setPageData,
   restore
 } from '@redux/transmit/transmit-addedit';
-import {getQueryString} from 'common/js/util';
-import {DetailWrapper} from 'common/js/build-detail';
+import { getQueryString } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(state => state.transmitAddedit, {
   initStates,
@@ -53,12 +53,6 @@ class transmitAddedit extends React.Component {
         listCode: 630147,
         keyName: 'code',
         valueName: 'name'
-    }, {
-        title: '参考材料清单',
-        field: 'refFileList'
-    }, {
-        title: '寄送材料清单',
-        field: 'sendFileList'
     }, {
         title: '传递方式',
         field: 'sendType',

@@ -9,18 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/loanarchives/archivesquery';
-import {
-    dateTimeFormat,
-    showWarnMsg
-} from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    lowerFrame,
-    onShelf,
-    sendMsg
-} from 'api/biz';
+import { dateTimeFormat, showWarnMsg } from 'common/js/util';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -60,7 +50,8 @@ class Archivesquery extends React.Component {
             search: true
         }, {
             title: '贷款银行',
-            field: 'loanBankName'
+            field: 'loanBankName',
+            render: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : ''
         }, {
             title: '贷款金额',
             field: 'loanAmount',

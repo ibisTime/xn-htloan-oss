@@ -53,7 +53,8 @@ class FaceSign extends React.Component {
             type: 'select',
             listCode: 630106,
             params: {
-                typeList: ['1']
+                typeList: ['1'],
+                status: '1'
             },
             keyName: 'code',
             valueName: 'name',
@@ -162,6 +163,7 @@ class FaceSign extends React.Component {
                         this.props.history.push(`/loan/faceSign/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
                     }
                 },
+                // 内勤主管审核
                 checkNq: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');

@@ -218,7 +218,8 @@ export function moneyFormat(money, format) {
  * @param rate
  */
 export function moneyParse(money, rate = 1000) {
-  return ((+('' + money).replace(/,/g, '')) * rate).toFixed(0);
+  let m0 = ('' + money).replace(/,/g, '');
+  return m0 === '' ? '' : (+m0 * rate).toFixed(0);
 }
 
 /**
@@ -501,10 +502,10 @@ export function moneyUppercase(Num) {
 
 // 返回当前节点应跳转的页面
 export function getNowCurNodePageUrl(data) {
-    let url = curNodePageUrl[data.curNodeCode] + data.code;
+    let url = curNodePageUrl[data.dealNode] + data.refOrder;
 
     // 填写准入申请单
-    if (data.curNodeCode === '002_04' || data.curNodeCode === '002_01') {
+    if (data.dealNode === '002_04' || data.dealNode === '002_01') {
         url = `${url}&bizType=${data.bizType}&loanBank=${data.loanBank}`;
     }
     return url;

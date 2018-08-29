@@ -9,21 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/statistic/creditReport';
-import {
-    showWarnMsg,
-    showSucMsg,
-    getRoleCode,
-    dateTimeFormat,
-    getTeamCode
-} from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    creditWithdraw
-} from 'api/biz';
-import { Button, Upload, Modal } from 'antd';
-import { PIC_PREFIX, PIC_BASEURL_M } from 'common/js/config';
+import { dateFormat } from 'common/js/util';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -43,40 +30,35 @@ import { PIC_PREFIX, PIC_BASEURL_M } from 'common/js/config';
 class CreditReport extends React.Component {
     render() {
         const fields = [{
-            title: '业务编号',
-            field: 'code'
-        }, {
             title: '客户姓名',
             field: 'userName',
-            render: (e, t) => {
-                return (t.creditUser ? t.creditUser.userName : '-');
-            },
             search: true
         }, {
             title: '日期',
             field: 'applyDatetime',
             type: 'date',
             rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
-            render: dateTimeFormat,
+            render: (v) => <span style={{whiteSpace: 'nowrap'}}>{dateFormat(v)}</span>,
             search: true
         }, {
             title: '征信查询结果',
             field: 'bankCreditResultRemark',
             render: (value, data) => {
-                if(!data.creditUser || !data.creditUser.bankCreditResultRemark) {
+                if (!data.creditUser || !data.creditUser.bankCreditResultRemark) {
                     return;
                 }
                 return data.creditUser.bankCreditResultRemark;
             }
         }, {
             title: '信用卡使用占比',
-            field: 'creditCardOccupation'
+            field: 'creditCardOccupation',
+            render: (v, d) => d.creditUser ? d.creditUser.creditCardOccupation : ''
         }, {
             title: '信贷专员',
             field: 'saleUserName'
         }, {
             title: '内勤',
-            field: 'operatorName'
+            field: 'insideJob'
         }, {
             title: '当前节点',
             field: 'curNodeCode',
@@ -96,17 +78,11 @@ class CreditReport extends React.Component {
                 value: '是'
             }],
             keyName: 'key',
-            valueName: 'value',
-            search: true
+            valueName: 'value'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632115,
-            searchParams: {
-                roleCode: getRoleCode(),
-                teamCode: getTeamCode(),
-                curNodeCodeList: ['001_01', '001_02', '001_03', '001_04', '001_05', '001_06', '001_07']
-            }
+            pageCode: 632116
         });
     }
 }

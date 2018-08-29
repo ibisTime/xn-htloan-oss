@@ -36,7 +36,8 @@ class receivablesAddedit extends React.Component {
             field: 'companyCode',
             listCode: 630106,
             params: {
-                typeList: [1]
+                typeList: [1],
+                status: 1
             },
             type: 'select',
             keyName: 'code',

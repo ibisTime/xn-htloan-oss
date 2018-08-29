@@ -9,21 +9,7 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/statistic/postloanReport';
-import {
-    showWarnMsg,
-    showSucMsg,
-    getRoleCode,
-    dateTimeFormat,
-    getTeamCode
-} from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    creditWithdraw
-} from 'api/biz';
-import { Button, Upload, Modal } from 'antd';
-import { PIC_PREFIX, PIC_BASEURL_M } from 'common/js/config';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -52,10 +38,7 @@ class PostloanReport extends React.Component {
             listCode: 632037,
             keyName: 'code',
             valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
-            search: true,
-            render: (v, data) => {
-                return data.loanBankName;
-            }
+            search: true
         }, {
             title: '地区',
             field: 'region',
@@ -80,6 +63,16 @@ class PostloanReport extends React.Component {
         }, {
             title: '抵押情况',
             field: 'pledgeStatus',
+            type: 'select',
+            data: [{
+              k: '0',
+              v: '未完成'
+            }, {
+              k: '1',
+              v: '已完成'
+            }],
+            keyName: 'k',
+            valueName: 'v',
             search: true
         }, {
             title: '抵押时间',
@@ -90,13 +83,13 @@ class PostloanReport extends React.Component {
             field: 'carNumber'
         }, {
             title: '内勤',
-            field: 'operatorName'
+            field: 'insideJob'
         }, {
             title: '信贷专员',
             field: 'saleUserName'
         }, {
             title: '资料快递单号及时间',
-            field: 'expressNoAndDatatime'
+            field: 'informationExpress'
         }, {
             title: '当前节点',
             field: 'curNodeCode',
@@ -136,11 +129,7 @@ class PostloanReport extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632148,
-            searchParams: {
-                roleCode: getRoleCode(),
-                teamCode: getTeamCode()
-            }
+            pageCode: 632914
         });
     }
 }

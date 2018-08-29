@@ -45,7 +45,8 @@ class refundAddedit extends React.Component {
             search: true
         }, {
             title: '贷款银行',
-            field: 'loanBankName'
+            field: 'loanBankName',
+            formatter: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : ''
         }, {
             title: '贷款金额',
             field: 'loanAmount',

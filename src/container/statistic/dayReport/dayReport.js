@@ -9,25 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/statistic/dayReport';
-import {
-    showWarnMsg,
-    showSucMsg,
-    getRoleCode,
-    dateTimeFormat,
-    getTeamCode,
-    getUserId
-} from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    creditWithdraw
-} from 'api/biz';
-import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
+import { getUserId } from 'common/js/util';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -55,12 +38,6 @@ class DayReport extends React.Component {
             field: 'applyUserName',
             search: true
         }, {
-            title: '信贷专员',
-            field: 'saleUserName'
-        }, {
-            title: '内勤',
-            field: 'insideJob'
-        }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
@@ -69,15 +46,22 @@ class DayReport extends React.Component {
             field: 'bankFee',
             amount: true
         }, {
+            title: '当前节点',
+            field: 'curNodeCode',
+            type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
+        }, {
             title: '入档情况',
             field: 'enterStatus',
             type: 'select',
             data: [{
                 key: '0',
-                value: '待入党'
+                value: '待入档'
             }, {
                 key: '1',
-                value: '已入党'
+                value: '已入档'
             }],
             keyName: 'key',
             valueName: 'value',
@@ -89,12 +73,11 @@ class DayReport extends React.Component {
             title: '代理人',
             field: 'pledgeUser'
         }, {
-            title: '当前节点',
-            field: 'curNodeCode',
-            type: 'select',
-            listCode: 630147,
-            keyName: 'code',
-            valueName: 'name'
+            title: '内勤',
+            field: 'insideJob'
+        }, {
+            title: '信贷专员',
+            field: 'saleUserName'
         }];
         return this.props.buildList({
             fields,

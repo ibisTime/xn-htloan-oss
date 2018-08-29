@@ -91,9 +91,6 @@ class Collection extends React.Component {
             keyName: 'code',
             valueName: 'name'
         }, {
-            title: '材料清单',
-            field: 'refFileList'
-        }, {
             title: '状态',
             field: 'status',
             type: 'select',

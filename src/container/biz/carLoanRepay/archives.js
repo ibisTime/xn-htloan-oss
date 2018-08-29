@@ -9,24 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/biz/archives';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    showWarnMsg,
-    showSucMsg,
-    dateTimeFormat,
-    getRoleCode
-} from 'common/js/util';
-import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
-import {
-    lowerFrame,
-    onShelf
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg, dateTimeFormat, getRoleCode } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -54,7 +38,8 @@ class archives extends React.Component {
             field: 'companyCode',
             listCode: 630106,
             params: {
-                typeList: [1]
+                typeList: [1],
+                status: '1'
             },
             type: 'select',
             keyName: 'code',
@@ -85,7 +70,8 @@ class archives extends React.Component {
             search: true
         }, {
             title: '贷款银行',
-            field: 'loanBankName'
+            field: 'loanBankName',
+            render: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : ''
         }, {
             title: '贷款金额',
             field: 'loanAmount',
@@ -122,8 +108,8 @@ class archives extends React.Component {
             fields,
             pageCode: 632148,
             searchParams: {
-                roleCode: getRoleCode(),
-              curNodeCodeList: ['002_22']
+              roleCode: getRoleCode(),
+              curNodeCodeList: ['002_22', '002_23']
             },
             btnEvent: {
               certain: (selectedRowKeys, selectedRows) => {

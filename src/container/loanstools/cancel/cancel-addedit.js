@@ -37,7 +37,11 @@ class CancelAddedit extends React.Component {
       readonly: true
     }, {
       title: '贷款银行',
-      field: 'loanBankName',
+      field: 'loanBank',
+      type: 'select',
+      listCode: 632037,
+      keyName: 'code',
+      valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
       readonly: true
     }, {
       title: '贷款金额',

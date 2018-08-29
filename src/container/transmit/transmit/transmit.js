@@ -9,23 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/transmit/transmit';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    showWarnMsg,
-    showSucMsg,
-    getUserId
-} from 'common/js/util';
-import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
-import {
-    putaway,
-    soldOut
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -94,9 +79,6 @@ class transmit extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
-        }, {
-            title: '材料清单',
-            field: 'refFileList'
         }, {
             title: '状态',
             field: 'status',

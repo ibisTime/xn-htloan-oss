@@ -9,22 +9,8 @@ import {
   cancelFetching,
   setSearchData
 } from '@redux/biz/refundBusiness';
-import {
-  listWrapper
-} from 'common/js/build-list';
-import {
-  showWarnMsg,
-  showSucMsg
-} from 'common/js/util';
-import {
-  Button,
-  Upload,
-  Modal
-} from 'antd';
-import {
-  lowerFrame,
-  onShelf
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg } from 'common/js/util';
 
 @listWrapper(
   state => ({
@@ -68,7 +54,8 @@ class refundBusiness extends React.Component {
       nowrap: true
     }, {
       title: '贷款银行',
-      field: 'loanBankName'
+      field: 'loanBankName',
+      render: (v, d) => d.loanBankName ? d.loanBankName + d.budgetOrder.repaySubbranch : ''
     }, {
       title: '贷款金额(元)',
       field: 'loanAmount',

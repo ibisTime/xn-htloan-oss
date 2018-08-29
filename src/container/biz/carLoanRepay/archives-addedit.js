@@ -7,14 +7,8 @@ import {
     setPageData,
     restore
 } from '@redux/biz/archives-addedit';
-import {
-    getQueryString,
-    dateTimeFormat
-} from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { getQueryString } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
     state => state.bizArchivesAddEdit, {
@@ -47,6 +41,7 @@ class archivesAddedit extends React.Component {
         }, {
             title: '贷款银行',
             field: 'loanBankName',
+            formatter: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : '',
             readonly: true
         }, {
             title: '贷款金额',

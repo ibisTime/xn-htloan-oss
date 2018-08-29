@@ -11,14 +11,11 @@ import {
 } from '@redux/home/toDoList';
 import {
     showWarnMsg,
-    showSucMsg,
     getRoleCode,
     getTeamCode,
     getNowCurNodePageUrl
 } from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -39,23 +36,23 @@ class ToDoList extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'code',
+            field: 'refOrder',
             search: true
         }, {
             title: '业务公司',
-            field: 'companyName'
+            field: 'departmentName'
         }, {
             title: '客户姓名',
             field: 'userName'
         }, {
             title: '流程类型',
-            field: 'flowTypeCode',
+            field: 'refType',
             type: 'select',
             key: 'node_type',
             search: true
         }, {
             title: '当前节点',
-            field: 'curNodeCode',
+            field: 'dealNode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',

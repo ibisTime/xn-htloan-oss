@@ -9,16 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/statistic/teamReport';
-import {
-    showWarnMsg,
-    showSucMsg,
-    getRoleCode,
-    dateTimeFormat,
-    getTeamCode
-} from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
+import { getTeamCode } from 'common/js/util';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -40,6 +32,9 @@ class TeamReport extends React.Component {
         const fields = [{
             title: '信贷专员',
             field: 'saleUserName'
+        }, {
+            title: '内勤',
+            field: 'insideJob'
         }, {
             title: '客户姓名',
             field: 'applyUserName',
@@ -68,9 +63,6 @@ class TeamReport extends React.Component {
             field: 'loanAmount',
             amount: true
         }, {
-            title: '内勤',
-            field: 'insideJob'
-        }, {
             title: '第一期月供',
             field: 'repayFirstMonthAmount',
             amount: true
@@ -95,7 +87,7 @@ class TeamReport extends React.Component {
             fields,
             pageCode: 632916,
             searchParams: {
-                teamCode: getTeamCode()
+              teamCode: getTeamCode()
             }
         });
     }

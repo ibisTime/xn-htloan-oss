@@ -9,14 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/bus/busapply';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    showWarnMsg,
-    showSucMsg,
-    formatDate
-} from 'common/js/util';
+import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg, formatDate } from 'common/js/util';
 
 @listWrapper(
     state => ({

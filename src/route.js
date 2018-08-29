@@ -737,46 +737,41 @@ const ROUTES = [
     component: asyncComponent(() => import('container/basedata/receivables/receivables-addedit'))
   },
   //  统计分析模块
-  //  余额明细
-  {
-    path: '/statistic/balancedetail',
-    component: asyncComponent(() => import('container/statistic/statistic/balancedetail'))
-  },
-  //  在保余额
-  {
-    path: '/statistic/protect',
-    component: asyncComponent(() => import('container/statistic/statistic/protect'))
-  },
-  //  在保余额
-  {
-    path: '/statistic/protect/addedit',
-    component: asyncComponent(() => import('container/statistic/statistic/protect-addedit'))
-  },
   //  征信统计表
   {
-      path: '/statistic/creditReport',
+      path: '/statistic/credit-report',
       component: asyncComponent(() => import('container/statistic/creditReport/creditReport'))
   },
   //  贷后统计表
   {
-      path: '/statistic/postloanReport',
+      path: '/statistic/postloan-report',
       component: asyncComponent(() => import('container/statistic/postloanReport/postloanReport'))
   },
   //  业务报表
   {
-      path: '/statistic/businessReport',
+      path: '/statistic/business-report',
       component: asyncComponent(() => import('container/statistic/businessReport/businessReport'))
   },
   //  团队统计表
   {
-      path: '/statistic/teamReport',
+      path: '/statistic/team-report',
       component: asyncComponent(() => import('container/statistic/teamReport/teamReport'))
   },
   //  进度日报表
   {
-    path: '/statistic/dayReport',
+    path: '/statistic/day-report',
     component: asyncComponent(() => import('container/statistic/dayReport/dayReport'))
   },
+  //  垫资超1天未放款
+  {
+    path: '/statistic/one-report',
+    component: asyncComponent(() => import('container/statistic/oneReport/oneReport'))
+  },
+  {
+    path: '/statistic/one-report/addedit',
+    component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-addedit'))
+  },
+
   // 贷前管理
   // 发起征信查询
   {
@@ -1551,15 +1546,25 @@ const ROUTES = [
       path: '/wares/historyBusinessManage/addedit',
       component: asyncComponent(() => import('container/wares/loanRepay/historyBusinessManage-addedit'))
   },
+  //  home公告列表
+  {
+      path: '/home/notices',
+      component: asyncComponent(() => import('container/home/notices'))
+  },
   //  home公告详情
   {
       path: '/home/noticeDetail',
       component: asyncComponent(() => import('container/home/notice-detail'))
   },
+  //  home制度列表
+  {
+      path: '/home/regulations',
+      component: asyncComponent(() => import('container/home/regulations'))
+  },
   //  home制度详情
   {
-      path: '/home/companysystemDetail',
-      component: asyncComponent(() => import('container/home/companysystem-detail'))
+      path: '/home/regulationDetail',
+      component: asyncComponent(() => import('container/home/regulation-detail'))
   },
   //  历史业务管理
   {

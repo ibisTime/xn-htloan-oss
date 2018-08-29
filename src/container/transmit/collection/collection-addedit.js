@@ -51,13 +51,6 @@ class CollectionAddedit extends React.Component {
         keyName: 'code',
         valueName: 'name'
     }, {
-        title: '参考材料清单',
-        field: 'refFileList',
-        type: 'checkbox'
-    }, {
-        title: '寄送材料清单',
-        field: 'sendFileList'
-    }, {
         title: '传递方式',
         field: 'sendType',
         type: 'select',

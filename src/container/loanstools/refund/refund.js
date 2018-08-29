@@ -76,7 +76,8 @@ class refund extends React.Component {
             search: true
         }, {
             title: '贷款银行',
-            field: 'loanBankName'
+            field: 'loanBankName',
+            render: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : ''
         }, {
             title: '贷款金额',
             field: 'loanAmount',
@@ -111,10 +112,12 @@ class refund extends React.Component {
             keyName: 'key',
             valueName: 'value'
         }, {
-            title: '状态',
-            field: 'backAdvanceStatus',
+            title: '当前节点',
+            field: 'curNodeCode',
             type: 'select',
-            key: 'back_advance_status'
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
         }];
         return this.props.buildList({
             fields,

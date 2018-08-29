@@ -9,24 +9,7 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/statistic/businessReport';
-import {
-    showWarnMsg,
-    showSucMsg,
-    getRoleCode,
-    dateTimeFormat,
-    getTeamCode
-} from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    creditWithdraw
-} from 'api/biz';
-import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -46,12 +29,11 @@ import {
 class BusinessReport extends React.Component {
     render() {
         const fields = [{
-            title: '公司服务费',
-            field: 'companyFee',
-            amount: true
-        }, {
             title: '信贷专员',
             field: 'saleUserName'
+        }, {
+            title: '内勤',
+            field: 'insideJob'
         }, {
             title: '客户姓名',
             field: 'applyUserName',
@@ -87,8 +69,9 @@ class BusinessReport extends React.Component {
             field: 'bankFee',
             amount: true
         }, {
-            title: '内勤',
-            field: 'insideJob'
+            title: '公司服务费',
+            field: 'companyFee',
+            amount: true
         }, {
             title: '刷卡总金额',
             field: 'cardTotalAmount',
@@ -107,7 +90,7 @@ class BusinessReport extends React.Component {
             amount: true
         }, {
             title: '信用卡卡号',
-            field: 'creditCardNo'
+            field: 'repayBankcardNumber'
         }, {
             title: '贷款进度',
             field: 'curNodeCode',
@@ -118,7 +101,8 @@ class BusinessReport extends React.Component {
             search: true
         }, {
             title: '放款日',
-            field: 'bankFkDatetime'
+            field: 'bankFkDatetime',
+            type: 'date'
         }, {
             title: '还款日',
             field: 'repayBankDate'
@@ -139,11 +123,7 @@ class BusinessReport extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632915,
-            searchParams: {
-                roleCode: getRoleCode(),
-                teamCode: getTeamCode()
-            }
+            pageCode: 632915
         });
     }
 }

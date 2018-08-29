@@ -17,6 +17,9 @@
   z-index: 999;
   padding: 0 50px 0 0;
 }
+.dashboard-layout .header .logo {
+  cursor: pointer;
+}
 
 .dashboard-layout .ant-menu-dark.ant-menu-horizontal {
   border-bottom: none;
