@@ -9,23 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/biz/installGps';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    showWarnMsg,
-    showSucMsg,
-    getRoleCode
-} from 'common/js/util';
-import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
-import {
-    lowerFrame,
-    onShelf
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg, getRoleCode, getTeamCode } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -118,6 +103,7 @@ class installGps extends React.Component {
             pageCode: 632148,
             searchParams: {
                 roleCode: getRoleCode(),
+                teamCode: getTeamCode(),
                 curNodeCodeList: ['002_09', '002_10', '002_12']
             },
             btnEvent: {

@@ -15,9 +15,7 @@ import {
     moneyFormat,
     dateTimeFormat
 } from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
+import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
 const DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
@@ -256,16 +254,6 @@ class TakeFreeEnter extends React.Component {
             detailCode: 632166,
             buttons: [{
                 title: '保存',
-                handler: (params) => {
-                    params.dealType = '0';
-                    this.props.doFetching();
-                    fetch(632160, params).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                    }).catch(this.props.cancelFetching);
-                }
-            }, {
-                title: '发送',
                 check: true,
                 handler: (params) => {
                     params.dealType = '1';

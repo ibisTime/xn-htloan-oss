@@ -11,19 +11,11 @@ import {
 } from '@redux/loan/admittance';
 import {
     showWarnMsg,
-    showSucMsg,
     getRoleCode,
     dateTimeFormat,
     getTeamCode
 } from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    lowerFrame,
-    onShelf,
-    sendMsg
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({

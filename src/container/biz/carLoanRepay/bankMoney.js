@@ -9,19 +9,13 @@ import {
   cancelFetching,
   setSearchData
 } from '@redux/biz/bankMoney';
-import {
-  listWrapper
-} from 'common/js/build-list';
+import { listWrapper } from 'common/js/build-list';
 import {
   showWarnMsg,
-  showSucMsg,
   getRoleCode,
+  getTeamCode,
   dateTimeFormat
 } from 'common/js/util';
-import {
-  lowerFrame,
-  onShelf
-} from 'api/biz';
 
 @listWrapper(
   state => ({
@@ -127,6 +121,7 @@ class bankMoney extends React.Component {
       pageCode: 632148,
       searchParams: {
         roleCode: getRoleCode(),
+        teamCode: getTeamCode(),
         curNodeCodeList: ['002_11', '002_13', '002_14', '002_15', '002_16', '002_17']
       },
       btnEvent: {

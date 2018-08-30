@@ -111,6 +111,7 @@ class transmitAddedit extends React.Component {
         buttons: [{
             title: '确认',
             handler: (param) => {
+                this.props.doFetching();
                 param.operator = getUserId();
                 fetch(632150, param).then(() => {
                     showSucMsg('操作成功');

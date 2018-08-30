@@ -9,21 +9,13 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/biz/mortgage';
-import {
-    listWrapper
-} from 'common/js/build-list';
+import { listWrapper } from 'common/js/build-list';
 import {
     showWarnMsg,
-    showSucMsg,
     getRoleCode,
-    dateTimeFormat,
-    getUserId
+    getTeamCode,
+    dateTimeFormat
 } from 'common/js/util';
-import {
-    lowerFrame,
-    onShelf
-} from 'api/biz';
-import fetch from 'common/js/fetch';
 
 @listWrapper(
     state => ({
@@ -121,6 +113,7 @@ class mortgage extends React.Component {
             pageCode: 632148,
             searchParams: {
               roleCode: getRoleCode(),
+              teamCode: getTeamCode(),
               curNodeCodeList: ['002_18', '002_19', '002_20', '002_21']
             },
             btnEvent: {

@@ -13,9 +13,7 @@ import {
   getUserId,
   isExpressConfirm
 } from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
+import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(

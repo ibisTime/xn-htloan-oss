@@ -9,23 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/biz/settlement';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    showWarnMsg,
-    showSucMsg,
-    dateTimeFormat
-} from 'common/js/util';
-import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
-import {
-    lowerFrame,
-    onShelf
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg, isUndefined, moneyFormat } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -49,7 +34,7 @@ class settlement extends React.Component {
             field: 'code',
             search: true
         }, {
-            title: '贷款人',
+            title: '客户姓名',
             field: 'userId',
             search: true,
             render: (v, d) => {
@@ -81,7 +66,9 @@ class settlement extends React.Component {
         }, {
             title: '未还代偿金额',
             field: 'unRepayTotalAmount',
-            amount: true
+            render: (v) => {
+                return isUndefined(v) ? '0.00' : <span style={{whiteSpace: 'nowrap'}}>{moneyFormat(v)}</span>;
+            }
         }, {
             title: '扣除履约保证金',
             field: 'cutLyDeposit',

@@ -7,11 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/biz/archives-certain';
-import {
-  getQueryString,
-  showSucMsg,
-  getUserId
-} from 'common/js/util';
+import { getQueryString, showSucMsg, getUserId } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import { DetailWrapper } from 'common/js/build-detail';
 

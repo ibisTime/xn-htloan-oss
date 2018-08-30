@@ -37,12 +37,9 @@ class historicalApplyAddedit extends React.Component {
         }, {
             title: '申请人',
             field: 'userId',
-            type: 'select',
-            listCode: 630066,
-            keyName: 'userId',
-            valueName: 'realName',
             formatter: (v, data) => {
-                return data.user ? data.user.realName : '-';
+                let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
+                return prefix + (data.user.mobile || '');
             }
         }, {
             title: '车辆总价',
@@ -58,7 +55,7 @@ class historicalApplyAddedit extends React.Component {
         }, {
             title: '申请时间',
             field: 'createDatetime',
-            type: 'date'
+            type: 'datetime'
         }, {
             title: '处理人',
             field: 'handler',

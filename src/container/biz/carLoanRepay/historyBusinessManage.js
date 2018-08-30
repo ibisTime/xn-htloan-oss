@@ -33,7 +33,7 @@ class historyBusinessManage extends React.Component {
         field: 'code',
         search: true
       }, {
-        title: '贷款人',
+        title: '客户姓名',
         field: 'userId',
         search: true,
         render: (v, d) => {
@@ -77,7 +77,7 @@ class historyBusinessManage extends React.Component {
         }
       }, {
         title: '结束时间',
-        field: 'closeDatetime',
+        field: 'updateDatetime',
         type: 'date'
       }, {
         title: '当前节点',

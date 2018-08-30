@@ -9,19 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/loanstools/takeFree';
-import {
-  showWarnMsg,
-  showSucMsg,
- moneyFormat
-} from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-  lowerFrame,
-  onShelf,
-  sendMsg
-} from 'api/biz';
+import { showWarnMsg, moneyFormat } from 'common/js/util';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({

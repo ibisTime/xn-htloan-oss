@@ -236,15 +236,15 @@ class CreditAddedit extends React.Component {
                 fields: o2mFields
             }
         }, {
-            title: '审核说明',
-            field: 'approveNote',
-            readonly: !this.isCheck,
-            hidden: !this.isCheck
-        }, {
             title: '说明',
             field: 'note',
             type: 'textarea',
             normalArea: true
+        }, {
+            title: '审核说明',
+            field: 'approveNote',
+            readonly: !this.isCheck,
+            hidden: !this.isCheck
         }];
 
         // 信贷专员初审

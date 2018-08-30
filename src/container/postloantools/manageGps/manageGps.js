@@ -9,23 +9,7 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/postloantools/manageGps';
-import {
-  showWarnMsg,
-  showSucMsg
-} from 'common/js/util';
-import {
-  Button,
-  Upload,
-  Modal
-} from 'antd';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-  lowerFrame,
-  onShelf,
-  sendMsg
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -59,7 +43,8 @@ class manageGps extends React.Component {
               value: '无线'
             }],
             keyName: 'key',
-            valueName: 'value'
+            valueName: 'value',
+            search: true
         }, {
             title: '归属公司',
             field: 'companyCode',

@@ -9,23 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/postloantools/import';
-import {
-  showWarnMsg,
-  showSucMsg
-} from 'common/js/util';
-import {
-  Button,
-  Upload,
-  Modal
-} from 'antd';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-  lowerFrame,
-  onShelf,
-  sendMsg
-} from 'api/biz';
+import { showWarnMsg } from 'common/js/util';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({

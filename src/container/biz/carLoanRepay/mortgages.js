@@ -9,26 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/biz/mortgages/mortgages';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    showWarnMsg,
-    showSucMsg,
-    getRoleCode,
-    dateTimeFormat,
-    getUserId
-} from 'common/js/util';
-import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
-import {
-    lowerFrame,
-    onShelf
-} from 'api/biz';
-import fetch from 'common/js/fetch';
+import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg } from 'common/js/util';
 
 @listWrapper(
     state => ({
