@@ -6,16 +6,12 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/transmit/transmit-addedit';
-import {
-  getQueryString,
-  getUserId,
-  showSucMsg
-} from 'common/js/util';
+} from '@redux/transmit/transmit-send';
+import { getQueryString, getUserId, showSucMsg } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
-@DetailWrapper(state => state.transmitAddedit, {
+@DetailWrapper(state => state.transmitSend, {
   initStates,
   doFetching,
   cancelFetching,
@@ -23,7 +19,7 @@ import fetch from 'common/js/fetch';
   setPageData,
   restore
 })
-class transmitAddedit extends React.Component {
+class TransmitSend extends React.Component {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
@@ -33,10 +29,7 @@ class transmitAddedit extends React.Component {
   render() {
     const fields = [{
         title: '客户姓名',
-        field: 'userName',
-        formatter: (v, d) => {
-          return d.type === '2' ? d.userName : d.customerName;
-        },
+        field: 'customerName',
         readonly: true
     }, {
         title: '业务编号',
@@ -55,6 +48,7 @@ class transmitAddedit extends React.Component {
         listCode: 630147,
         keyName: 'code',
         valueName: 'name',
+        hidden: !this.props.pageData.fromNodeCode,
         readonly: true
     }, {
         title: '收件节点',
@@ -63,6 +57,7 @@ class transmitAddedit extends React.Component {
         listCode: 630147,
         keyName: 'code',
         valueName: 'name',
+        hidden: !this.props.pageData.toNodeCode,
         readonly: true
     }, {
         title: '寄送方式',
@@ -102,6 +97,11 @@ class transmitAddedit extends React.Component {
     }, {
         title: '发货说明',
         field: 'sendNote'
+    }, {
+        title: '备注',
+        field: 'remark',
+        hidden: !this.props.pageData.remark,
+        readonly: true
     }];
     return this.props.buildDetail({
         fields,
@@ -133,4 +133,4 @@ class transmitAddedit extends React.Component {
   }
 }
 
-export default transmitAddedit;
+export default TransmitSend;

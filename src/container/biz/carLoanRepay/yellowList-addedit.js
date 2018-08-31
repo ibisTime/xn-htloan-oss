@@ -7,16 +7,9 @@ import {
     setPageData,
     restore
 } from '@redux/biz/yellowList-addedit';
-import {
-    getQueryString,
-    getUserId,
-    showSucMsg,
-    moneyFormat
-} from 'common/js/util';
+import { getQueryString } from 'common/js/util';
 import fetch from 'common/js/fetch';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(state => state.bizYellowListAddEdit, {
     initStates,

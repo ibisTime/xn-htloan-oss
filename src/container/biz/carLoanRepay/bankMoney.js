@@ -10,12 +10,7 @@ import {
   setSearchData
 } from '@redux/biz/bankMoney';
 import { listWrapper } from 'common/js/build-list';
-import {
-  showWarnMsg,
-  getRoleCode,
-  getTeamCode,
-  dateTimeFormat
-} from 'common/js/util';
+import { showWarnMsg, getRoleCode, getTeamCode, dateTimeFormat } from 'common/js/util';
 
 @listWrapper(
   state => ({

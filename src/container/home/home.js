@@ -128,7 +128,10 @@ class Home extends React.Component {
             });
         }).catch(() => this.setState({ fetching: false }));
     }
-
+    getNowCurNodePageUrl(data) {
+        let url = getNowCurNodePageUrl(data);
+        url ? this.props.history.push(url) : showWarnMsg('您需要先处理完该笔业务的物流');
+    }
     render() {
         const imgProps = {
             action: UPLOAD_URL,
@@ -174,12 +177,13 @@ class Home extends React.Component {
                         </div>
                         <div className="card-content">
                             { this.state.toDoListData && this.state.toDoListData.length >= 1 ? this.state.toDoListData.map(d => (
-                                <div className="content-item" key={d.id}>
-                                    <Link to={getNowCurNodePageUrl(d)}>
-                                        <img className="icon" src={iconLi}/>
-                                        <p className="txt">{d.departmentName} {d.userName} {this.state.nodeTypeData[d.refType]} {this.state.curNodeData[d.dealNode]}</p>
-                                        <samp className="date">{dateFormat(d.startDatetime)}</samp>
-                                    </Link>
+                                <div className="content-item" key={d.id} onClick={() => this.getNowCurNodePageUrl(d)}>
+                                    {/* <Link to={this.getNowCurNodePageUrl(d)}>
+
+                                    </Link> */}
+                                    <img className="icon" src={iconLi}/>
+                                    <p className="txt">{d.departmentName} {d.userName} {this.state.nodeTypeData[d.refType]} {this.state.curNodeData[d.dealNode]}</p>
+                                    <samp className="date">{dateFormat(d.startDatetime)}</samp>
                                 </div>
                             )) : <div className="noData"><img src={noData}/><p>暂无待办事项</p></div>}
                         </div>

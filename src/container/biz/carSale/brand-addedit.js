@@ -69,7 +69,7 @@ class BrandAddedit extends React.Component {
         value: 'I'
       }, {
         key: '9',
-        value: 'G'
+        value: 'J'
       }, {
         key: '10',
         value: 'K'
@@ -93,7 +93,7 @@ class BrandAddedit extends React.Component {
         value: 'Q'
       }, {
         key: '17',
-        value: 'L'
+        value: 'R'
       }, {
         key: '18',
         value: 'S'

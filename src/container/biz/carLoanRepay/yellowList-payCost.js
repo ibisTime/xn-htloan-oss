@@ -7,16 +7,9 @@ import {
     setPageData,
     restore
 } from '@redux/biz/yellowList-payCost';
-import {
-    getQueryString,
-    getUserId,
-    showSucMsg,
-    moneyFormat
-} from 'common/js/util';
+import { getQueryString, getUserId, showSucMsg } from 'common/js/util';
 import fetch from 'common/js/fetch';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(state => state.bizYellowListPayCost, {
     initStates,

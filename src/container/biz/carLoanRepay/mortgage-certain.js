@@ -7,11 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/biz/mortgage-certain';
-import {
-  getQueryString,
-  showSucMsg,
-  getUserId
-} from 'common/js/util';
+import { getQueryString, showSucMsg, getUserId } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 

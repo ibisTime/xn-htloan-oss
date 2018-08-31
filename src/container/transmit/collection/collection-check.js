@@ -41,10 +41,7 @@ class CollectionCheck extends React.Component {
   render() {
     const fields = [{
         title: '客户姓名',
-        field: 'userName',
-        formatter: (v, d) => {
-          return d.type === '2' ? d.userName : d.customerName;
-        },
+        field: 'customerName',
         readonly: true
     }, {
         title: '业务编号',
@@ -63,6 +60,7 @@ class CollectionCheck extends React.Component {
         listCode: 630147,
         keyName: 'code',
         valueName: 'name',
+        hidden: !this.props.pageData.fromNodeCode,
         readonly: true
     }, {
         title: '收件节点',
@@ -71,6 +69,7 @@ class CollectionCheck extends React.Component {
         listCode: 630147,
         keyName: 'code',
         valueName: 'name',
+        hidden: !this.props.pageData.toNodeCode,
         readonly: true
     }, {
         title: '传递方式',
@@ -127,8 +126,8 @@ class CollectionCheck extends React.Component {
             title: '收件待补件',
             handler: (param) => {
                 param.operator = getUserId();
-                fetch(632152, param).then(() => {
-                    this.doSuccess();
+                fetch(632152, param).then((data) => {
+                    this.doSuccess(data);
                 }).catch(this.props.cancelFetching);
             },
             check: true

@@ -792,6 +792,7 @@ const ROUTES = [
   {
       path: '/loan/admittance/addedit',
       component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-addedit'))
+      // component: asyncComponent(() => import('container/loan/admittance-addedit/demo'))
   },
   // 面签审核
   {
@@ -881,7 +882,7 @@ const ROUTES = [
       component: asyncComponent(() => import('container/loanstools/cancel/cancel-certain'))
   },
   //  资料传递
-  //  发件
+  //  发件列表
   {
     path: '/transmit/transmit',
     component: asyncComponent(() => import('container/transmit/transmit/transmit'))
@@ -910,6 +911,21 @@ const ROUTES = [
   {
     path: '/transmit/collection/check',
     component: asyncComponent(() => import('container/transmit/collection/collection-check'))
+  },
+  //  GPS发件列表
+  {
+    path: '/transmit/transmitGps',
+    component: asyncComponent(() => import('container/transmit/transmitGPS/transmit'))
+  },
+  //  GPS发件 详情
+  {
+    path: '/transmit/transmitGps/addedit',
+    component: asyncComponent(() => import('container/transmit/transmitGPS/transmit-addedit'))
+  },
+  //  GPS发件 发件
+  {
+    path: '/transmit/transmitGps/send',
+    component: asyncComponent(() => import('container/transmit/transmitGPS/transmit-send'))
   },
   //  GPS收件
   {

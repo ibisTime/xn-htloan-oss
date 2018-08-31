@@ -32,10 +32,8 @@ class refundAddedit extends React.Component {
     }
     render() {
         const fields = [{
-
             title: '业务编号',
-            field: 'code',
-            search: true
+            field: 'code'
         }, {
             title: '业务公司',
             field: 'companyName'

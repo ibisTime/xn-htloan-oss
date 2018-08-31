@@ -7,13 +7,8 @@ import {
     setPageData,
     restore
 } from '@redux/biz/bankMoney-addedit';
-import {
-    getQueryString
-} from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { getQueryString } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
     state => state.bizBankMoneyAddEdit, {

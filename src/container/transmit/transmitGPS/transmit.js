@@ -8,13 +8,13 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/transmit/transmit';
+} from '@redux/transmit/transmitGPS';
 import { listWrapper } from 'common/js/build-list';
 import { showWarnMsg } from 'common/js/util';
 
 @listWrapper(
     state => ({
-        ...state.transmit,
+        ...state.transmitGps,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -27,20 +27,15 @@ import { showWarnMsg } from 'common/js/util';
         setSearchData
     }
 )
-class Transmit extends React.Component {
+class transmit extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
             field: 'bizCode',
             search: true
         }, {
-            title: '类型',
-            field: 'type',
-            type: 'select',
-            key: 'logistics_type'
-        }, {
             title: '客户姓名',
-            field: 'customerName'
+            field: 'userName'
         }, {
             title: '传递方式',
             field: 'sendType',
@@ -63,20 +58,6 @@ class Transmit extends React.Component {
             title: '单号',
             field: 'logisticsCode'
         }, {
-            title: '发件节点',
-            field: 'fromNodeCode',
-            type: 'select',
-            listCode: 630147,
-            keyName: 'code',
-            valueName: 'name'
-        }, {
-            title: '收件节点',
-            field: 'toNodeCode',
-            type: 'select',
-            listCode: 630147,
-            keyName: 'code',
-            valueName: 'name'
-        }, {
             title: '状态',
             field: 'status',
             type: 'select',
@@ -90,7 +71,7 @@ class Transmit extends React.Component {
             pageCode: 632155,
             searchParams: {
                 statusList: ['0', '3'],
-                typeList: ['1', '3']
+                type: '2'
             },
             btnEvent: {
               send: (selectedRowKeys, selectedRows) => {
@@ -101,7 +82,7 @@ class Transmit extends React.Component {
                 } else if (selectedRows[0].status !== '0' && selectedRows[0].status !== '3') {
                   showWarnMsg('当前不是待发件节点');
                 } else {
-                  this.props.history.push(`/transmit/transmit/send?code=${selectedRowKeys[0]}`);
+                  this.props.history.push(`/transmit/transmitGps/send?code=${selectedRowKeys[0]}`);
                 }
               }
             }
@@ -109,4 +90,4 @@ class Transmit extends React.Component {
     }
 }
 
-export default Transmit;
+export default transmit;

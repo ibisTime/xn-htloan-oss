@@ -6,17 +6,12 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/transmit/collectionGPS-check';
-import {
-  getQueryString,
-  getUserId,
-  showSucMsg,
-  isExpressConfirm
-} from 'common/js/util';
+} from '@redux/transmit/transmitGPS-send';
+import { getQueryString, getUserId, showSucMsg } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
-@DetailWrapper(state => state.transmitCollectionGPSCheck, {
+@DetailWrapper(state => state.transmitGpsSend, {
   initStates,
   doFetching,
   cancelFetching,
@@ -24,23 +19,16 @@ import fetch from 'common/js/fetch';
   setPageData,
   restore
 })
-class CollectionGPSCheck extends React.Component {
+class TransmitSend extends React.Component {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
-  }
-  doSuccess = (data) => {
-    showSucMsg('操作成功');
-    isExpressConfirm(data);
-    this.props.cancelFetching();
-    setTimeout(() => {
-        this.props.history.go(-1);
-    }, 1000);
+    this.sendTypeFalg = false;
   }
   render() {
     const fields = [{
-        title: '申请人',
+        title: '客户姓名',
         field: 'userName',
         readonly: true
     }, {
@@ -48,7 +36,7 @@ class CollectionGPSCheck extends React.Component {
         field: 'bizCode',
         readonly: true
     }, {
-        title: '传递方式',
+        title: '寄送方式',
         field: 'sendType',
         type: 'select',
         data: [{
@@ -60,29 +48,36 @@ class CollectionGPSCheck extends React.Component {
         }],
         keyName: 'key',
         valueName: 'value',
-        readonly: true
+        required: true,
+        value: '2',
+        onChange: (value) => {
+            this.sendTypeFalg = value === '1';
+        }
     }, {
         title: '快递公司',
         field: 'logisticsCompany',
         type: 'select',
         key: 'kd_company',
-        readonly: true
+        required: !this.sendTypeFalg,
+        hidden: this.sendTypeFalg
     }, {
         title: '快递单号',
         field: 'logisticsCode',
-        readonly: true
+        required: !this.sendTypeFalg,
+        hidden: this.sendTypeFalg
     }, {
         title: '发货时间',
         field: 'sendDatetime',
         type: 'datetime',
-        readonly: true
+        required: true
     }, {
         title: '发货说明',
-        field: 'sendNote',
-        readonly: true
+        field: 'sendNote'
     }, {
         title: '备注',
-        field: 'remark'
+        field: 'remark',
+        hidden: !this.props.pageData.remark,
+        readonly: true
     }];
     return this.props.buildDetail({
         fields,
@@ -90,23 +85,20 @@ class CollectionGPSCheck extends React.Component {
         view: this.view,
         detailCode: 632156,
         buttons: [{
-            title: '收件并审核通过',
+            title: '确认',
             handler: (param) => {
+                this.props.doFetching();
                 param.operator = getUserId();
-                fetch(632151, param).then((data) => {
-                    this.doSuccess(data);
+                fetch(632150, param).then(() => {
+                    showSucMsg('操作成功');
+                    this.props.cancelFetching();
+                    setTimeout(() => {
+                        this.props.history.go(-1);
+                    }, 1000);
                 }).catch(this.props.cancelFetching);
             },
-            check: true
-        }, {
-            title: '收件待补件',
-            handler: (param) => {
-                param.operator = getUserId();
-                fetch(632152, param).then((data) => {
-                    this.doSuccess(data);
-                }).catch(this.props.cancelFetching);
-            },
-            check: true
+            check: true,
+            type: 'primary'
         }, {
             title: '返回',
             handler: (param) => {
@@ -117,4 +109,4 @@ class CollectionGPSCheck extends React.Component {
   }
 }
 
-export default CollectionGPSCheck;
+export default TransmitSend;

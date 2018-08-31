@@ -9,23 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/transmit/collectionGPS';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    showWarnMsg,
-    showSucMsg,
-    getUserId
-} from 'common/js/util';
-import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
-import {
-    putaway,
-    soldOut
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg, getUserId } from 'common/js/util';
 
 @listWrapper(
     state => ({

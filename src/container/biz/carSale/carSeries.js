@@ -11,8 +11,8 @@ import {
 } from '@redux/biz/carSeries';
 import { listWrapper } from 'common/js/build-list';
 import OnOrDownShelf from 'component/onordownshelf/onordownshelf';
-import { showWarnMsg, showSucMsg } from 'common/js/util';
-import { Button, Upload, Modal } from 'antd';
+import { showWarnMsg } from 'common/js/util';
+import { Modal } from 'antd';
 import { lowerFrameSys, onShelfSys } from 'api/biz';
 
 @listWrapper(

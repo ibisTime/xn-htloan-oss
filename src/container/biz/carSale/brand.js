@@ -10,8 +10,8 @@ import {
   setSearchData
 } from '@redux/biz/brand';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, showSucMsg } from 'common/js/util';
-import { Button, Upload, Modal } from 'antd';
+import { showWarnMsg } from 'common/js/util';
+import { Modal } from 'antd';
 import { lowerFrame, onShelf } from 'api/biz';
 
 @listWrapper(
@@ -63,7 +63,7 @@ class Brand extends React.Component {
         value: 'I'
       }, {
         key: '9',
-        value: 'G'
+        value: 'J'
       }, {
         key: '10',
         value: 'K'
@@ -87,7 +87,7 @@ class Brand extends React.Component {
         value: 'Q'
       }, {
         key: '17',
-        value: 'L'
+        value: 'R'
       }, {
         key: '18',
         value: 'S'
@@ -190,7 +190,7 @@ class Brand extends React.Component {
             console.log(item);
             if (!key || !key.length || !item || !item.length) {
                 showWarnMsg('请选择记录');
-            } else if (item[0].status !== '2') {
+            } else if (item[0].status === '1') {
                 showWarnMsg('下架后才能修改');
             } else {
                 this.props.history.push(`/biz/brand/addedit?code=${item[0].code}`);

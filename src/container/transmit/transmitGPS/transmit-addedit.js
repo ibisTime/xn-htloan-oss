@@ -6,11 +6,11 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/transmit/collectionGPS-addedit';
-import {getQueryString} from 'common/js/util';
-import {DetailWrapper} from 'common/js/build-detail';
+} from '@redux/transmit/transmit-addedit';
+import { getQueryString } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 
-@DetailWrapper(state => state.transmitCollectionGPSAddedit, {
+@DetailWrapper(state => state.transmitAddedit, {
   initStates,
   doFetching,
   cancelFetching,
@@ -18,7 +18,7 @@ import {DetailWrapper} from 'common/js/build-detail';
   setPageData,
   restore
 })
-class CollectionGPSAddedit extends React.Component {
+class TransmitAddedit extends React.Component {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
@@ -62,17 +62,17 @@ class CollectionGPSAddedit extends React.Component {
         field: 'sendNote'
     }, {
         title: '备注',
-        field: 'remark'
+        field: 'remark',
+        hidden: !this.props.pageData.remark,
+        readonly: true
     }];
-    return this
-      .props
-      .buildDetail({
-        fields,
-        code: this.code,
-        view: this.view,
-        detailCode: 632156
-      });
+    return this.props.buildDetail({
+      fields,
+      code: this.code,
+      view: this.view,
+      detailCode: 632156
+    });
   }
 }
 
-export default CollectionGPSAddedit;
+export default TransmitAddedit;

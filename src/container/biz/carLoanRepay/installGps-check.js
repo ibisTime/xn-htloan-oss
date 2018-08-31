@@ -7,14 +7,8 @@ import {
   setPageData,
   restore
 } from '@redux/biz/installGps-check';
-import {
-  getQueryString,
-  showSucMsg,
-  getUserId
-} from 'common/js/util';
-import {
-  DetailWrapper
-} from 'common/js/build-detail';
+import { getQueryString, showSucMsg, getUserId } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(

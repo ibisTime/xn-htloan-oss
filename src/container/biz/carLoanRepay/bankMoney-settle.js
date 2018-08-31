@@ -7,15 +7,8 @@ import {
     setPageData,
     restore
 } from '@redux/biz/bankMoney-settle';
-import {
-  getQueryString,
-  showSucMsg,
-  getUserId,
-  isExpressConfirm
-} from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
+import { getQueryString, getUserId, isExpressConfirm } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
     state => state.bizBankMoneySettle, {

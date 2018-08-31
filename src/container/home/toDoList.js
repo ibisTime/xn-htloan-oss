@@ -79,7 +79,8 @@ class ToDoList extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(getNowCurNodePageUrl(selectedRows[0]));
+                        let url = getNowCurNodePageUrl(selectedRows[0]);
+                        url ? this.props.history.push(url) : showWarnMsg('您需要先处理完该笔业务的物流');
                     }
                 }
             }, {

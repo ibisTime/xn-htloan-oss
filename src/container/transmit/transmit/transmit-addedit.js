@@ -18,7 +18,7 @@ import { DetailWrapper } from 'common/js/build-detail';
   setPageData,
   restore
 })
-class transmitAddedit extends React.Component {
+class TransmitAddedit extends React.Component {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
@@ -27,10 +27,7 @@ class transmitAddedit extends React.Component {
   render() {
     const fields = [{
         title: '客户姓名',
-        field: 'userName',
-        formatter: (v, d) => {
-          return d.type === '2' ? d.userName : d.customerName;
-        }
+        field: 'customerName'
     }, {
         title: '业务编号',
         field: 'bizCode'
@@ -85,18 +82,21 @@ class transmitAddedit extends React.Component {
         field: 'sendDatetime',
         type: 'datetime'
     }, {
-        title: '发货备注',
+        title: '发货说明',
         field: 'sendNote'
+    }, {
+        title: '备注',
+        field: 'remark',
+        hidden: !this.props.pageData.remark,
+        readonly: true
     }];
-    return this
-      .props
-      .buildDetail({
-        fields,
-        code: this.code,
-        view: this.view,
-        detailCode: 632156
-      });
+    return this.props.buildDetail({
+      fields,
+      code: this.code,
+      view: this.view,
+      detailCode: 632156
+    });
   }
 }
 
-export default transmitAddedit;
+export default TransmitAddedit;

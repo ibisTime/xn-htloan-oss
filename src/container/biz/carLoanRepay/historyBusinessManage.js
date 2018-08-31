@@ -10,7 +10,7 @@ import {
   setSearchData
 } from '@redux/biz/historyBusinessManage';
 import { listWrapper } from 'common/js/build-list';
-import { formatDate } from 'common/js/util';
+import { formatDate, getTeamCode } from 'common/js/util';
 
 @listWrapper(state => ({
   ...state.bizHistoryBusinessManage,
@@ -97,6 +97,7 @@ class historyBusinessManage extends React.Component {
         fields,
         searchParams: {
           refType: '0',
+          teamCode: getTeamCode(),
           curNodeCodeList: ['003_14', '003_15', '003_16', '003_07', '007_04']
         },
         pageCode: 630520

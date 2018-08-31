@@ -502,8 +502,21 @@ export function moneyUppercase(Num) {
 
 // 返回当前节点应跳转的页面
 export function getNowCurNodePageUrl(data) {
-    let url = curNodePageUrl[data.dealNode] + data.refOrder;
-
+    let url;
+    // 物流单
+    if (!isUndefined(data.logisticsStatus)) {
+        if (data.logisticsStatus === '0' || data.logisticsStatus === '3') {
+            url = '/transmit/transmit/send?code=';
+        } else {
+            url = '/transmit/collection/check?code=';
+        }
+    } else {
+        url = curNodePageUrl[data.dealNode];
+    }
+    if (!url) {
+      return '';
+    }
+    url += data.refOrder;
     // 填写准入申请单
     if (data.dealNode === '002_04' || data.dealNode === '002_01') {
         url = `${url}&bizType=${data.bizType}&loanBank=${data.loanBank}`;
