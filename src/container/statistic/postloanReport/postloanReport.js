@@ -97,6 +97,11 @@ class PostloanReport extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
+            params: {
+              codeList: ['002_09', '002_10', '002_11', '002_12', '002_13',
+                '002_14', '002_15', '002_16', '002_17', '002_18', '002_19',
+                '002_20', '002_21', '002_22', '002_23']
+            },
             search: true
         }, {
             title: '归档情况',
