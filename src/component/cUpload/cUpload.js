@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Upload, Carousel, Modal, Button, Icon, Form } from 'antd';
-import { showErrMsg, formatFile, formatImg, noop, getRealValue } from 'common/js/util';
-import { UPLOAD_URL, PIC_PREFIX, PIC_BASEURL_L } from 'common/js/config';
+import { showErrMsg, formatFile, formatImg, noop, getRealValue, isUndefined } from 'common/js/util';
+import { UPLOAD_URL, PIC_PREFIX, PIC_BASEURL_L, formItemLayout } from 'common/js/config';
 
 const FormItem = Form.Item;
 const fileUploadBtn = <Button><Icon type="upload"/> 上传</Button>;
@@ -22,6 +22,27 @@ export default class CUpload extends React.Component {
       previewId: ''
     };
   }
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.isPropsChange(nextProps) || this.isStateChange(nextState);
+  }
+  isPropsChange(nextProps) {
+    const { field, isLoaded, getFieldDecorator, token, rules, readonly, isSingle,
+      isImg, onChange, accept, getFieldValue, label, hidden, initVal, inline } = this.props;
+    let nowFiles = getFieldValue(field);
+    let flag = this.prevFiles !== nowFiles;
+    if (flag) {
+      this.prevFiles = nowFiles;
+    }
+    return nextProps.field !== field || nextProps.isLoaded !== isLoaded || nextProps.token !== token ||
+      nextProps.rules.length !== rules.length || nextProps.readonly !== readonly || nextProps.isSingle !== isSingle ||
+      nextProps.isImg !== isImg || nextProps.accept !== accept || nextProps.hidden !== hidden ||
+      nextProps.initVal !== initVal || nextProps.inline !== inline || flag;
+  }
+  isStateChange(nextState) {
+    const { previewImage, previewVisible, previewId } = this.state;
+    return nextState.previewImage !== previewImage || nextState.previewVisible !== previewVisible ||
+      nextState.previewId !== previewId;
+  }
   // 预览图片
   handlePreview = (file, previewId) => {
     this.setState({
@@ -33,7 +54,7 @@ export default class CUpload extends React.Component {
   // 隐藏图片
   handleCancel = () => this.setState({previewVisible: false})
   // 获取文件上传的属性
-  getUploadProps = ({ initValue, token, keyName, readonly = false,
+  getUploadProps = ({ initValue, token, field, readonly = false,
     single = false, isImg = true, onChange, accept }) => {
     const commProps = {
       action: UPLOAD_URL,
@@ -52,11 +73,9 @@ export default class CUpload extends React.Component {
     };
     const imgProps = {
       ...commProps,
-      onChange: ({ fileList }) => {
-        this.setUploadFileUrl(fileList, true, onChange);
-      },
+      onChange: ({ fileList }) => this.setUploadFileUrl(fileList, true, onChange),
       onPreview: (file) => {
-        this.handlePreview(file, keyName);
+        this.handlePreview(file, field);
       },
       listType: 'picture-card',
       accept: 'image/*'
@@ -68,7 +87,7 @@ export default class CUpload extends React.Component {
     return isImg ? imgProps : fileProps;
   }
   // 获取文件上传的初始值
-  getFileInitVal(keyName, initVal, isImg = true) {
+  getFileInitVal(initVal, isImg = true) {
     let initValue = [];
     if (initVal) {
       initValue = initVal.split('||').map(key => ({
@@ -129,25 +148,23 @@ export default class CUpload extends React.Component {
     }
   }
   render() {
-    const { keyName, pageData, isLoaded, getFieldDecorator, token, rules, _keys,
-      readonly, isSingle, isImg, onChange, accept, getFieldValue, label, hidden,
-      formatter, value } = this.props;
+    const { field, isLoaded, getFieldDecorator, token, rules, readonly, isSingle,
+      isImg, onChange, accept, getFieldValue, label, hidden, initVal, inline } = this.props;
     const { previewVisible, previewId } = this.state;
-    let initVal = getRealValue({ pageData, _keys, value, formatter, readonly, key: keyName });
-    const initValue = this.getFileInitVal(keyName, initVal, isImg);
-
+    const initValue = this.getFileInitVal(initVal, isImg);
+    let layoutProps = inline ? {} : formItemLayout;
     return (
       hidden ? null : (
-        <FormItem label={label}>
+        <FormItem key={field} {...layoutProps} label={label}>
           {
             isLoaded ? (
-              getFieldDecorator(keyName, {
+              getFieldDecorator(field, {
                 rules,
                 initialValue: initVal,
                 getValueFromEvent: this.normFile
               })(
                 <Upload {...this.getUploadProps({
-                  keyName,
+                  field,
                   token,
                   isImg,
                   accept,
@@ -156,7 +173,7 @@ export default class CUpload extends React.Component {
                   onChange,
                   initValue
                 })}>
-                  {this.getUploadBtn(keyName, getFieldValue, readonly, isSingle, isImg)}
+                  {this.getUploadBtn(field, getFieldValue, readonly, isSingle, isImg)}
                 </Upload>
               )
             ) : null
@@ -193,27 +210,23 @@ CUpload.propTypes = {
   rules: PropTypes.array,
   token: PropTypes.string,
   isImg: PropTypes.bool,
-  _keys: PropTypes.array,
-  value: PropTypes.string,
+  initVal: PropTypes.string,
   accept: PropTypes.string,
   readonly: PropTypes.bool,
   isSingle: PropTypes.bool,
   hidden: PropTypes.bool,
   onChange: PropTypes.func,
-  formatter: PropTypes.func,
-  keyName: PropTypes.string.isRequired,
+  field: PropTypes.string.isRequired,
   getFieldValue: PropTypes.func.isRequired,
   getFieldDecorator: PropTypes.func.isRequired,
-  pageData: PropTypes.object.isRequired,
   isLoaded: PropTypes.bool.isRequired
 };
 
 CUpload.defaultProps = {
   label: 'title',
-  keyName: 'key',
+  field: 'key',
   getFieldValue: noop,
   getFieldDecorator: noop,
-  pageData: {},
   isLoaded: false,
   hidden: false
 };

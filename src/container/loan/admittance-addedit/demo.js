@@ -74,8 +74,8 @@ class Demo extends React.Component {
       getQiniuToken(),
       fetch(632146, { code: this.code })
     ]).then(([bizTypeData, loanPeriodData, loanProductData, regionData,
-      carTypeData, genderData, marryStateData, educationData, uploadToken,
-      addressData, pageData]) => {
+      carTypeData, genderData, marryStateData, educationData, addressData,
+      uploadToken, pageData]) => {
       this.setState({
         bizTypeData,
         loanPeriodData,
@@ -85,6 +85,7 @@ class Demo extends React.Component {
         genderData,
         marryStateData,
         educationData,
+        addressData,
         pageData,
         token: uploadToken.uploadToken,
         fetching: false
@@ -306,6 +307,26 @@ class Demo extends React.Component {
               {this.getInputCol({ key: 'nowAddress', label: '现居住地址' })}
               {this.getInputCol({ key: 'postCode1', label: '现居住地址邮编' })}
               {this.getSelectCol('isCardMailAddress', '是否卡邮寄地址', 'dkey', 'dvalue', addressData, null, 33)}
+            </Row>
+            <Row gutter={54}>
+              {this.getInputCol({ key: 'residenceAddress', label: '户口所在地', split: 2 })}
+              {this.getInputCol({ key: 'postCode2', label: '户口所在地邮编', split: 2 })}
+            </Row>
+            <Row gutter={54}>
+              {this.getInputCol({ key: 'familyMainAsset', label: '家庭主要财产(元)', split: 2 })}
+              {this.getInputCol({ key: 'mainAssetInclude', label: '主要财产说明', split: 2 })}
+            </Row>
+            <Row gutter={54}>
+              {this.getFileCol({ key: 'houseContract', label: '购房合同及房产本', rules: {required: false}, readonly })}
+              {this.getFileCol({ key: 'assetPdf', label: '其他辅助资产', rules: {required: false}, readonly })}
+              {this.getFileCol({ key: 'housePicture', label: '家访照片', rules: {required: false}, readonly })}
+            </Row>
+          </Card>
+          <Card style={{ marginTop: 16 }} title="工作情况">
+            <Row gutter={54}>
+              {this.getInputCol({ key: 'workCompanyName', label: '单位名称' })}
+              {this.getInputCol({ key: 'workCompanyAddress', label: '单位地址' })}
+              {this.getSelectCol('workIsCardMailAddress', '是否卡邮寄地址', 'dkey', 'dvalue', addressData)}
             </Row>
           </Card>
           <Button type="primary" htmlType="submit">提交</Button>

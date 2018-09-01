@@ -507,10 +507,112 @@ export function getNowCurNodePageUrl(data) {
 // 空函数
 export const noop = () => {};
 
+// 获取详情页面空间校验规则
+export const getRules = (item) => {
+  let rules = [];
+  if (item.required && !item.hidden) {
+    rules.push({
+      required: true,
+      message: '必填字段'
+    });
+  }
+  if (item.email) {
+    rules.push({
+      type: 'email',
+      message: '请输入正确格式的电子邮件'
+    });
+  }
+  if (item.mobile) {
+    rules.push({
+      pattern: /^1[3|4|5|6|7|8|9]\d{9}$/,
+      message: '手机格式不对'
+    });
+  }
+  if (item['Z+']) {
+    rules.push({
+      pattern: /^[1-9]\d*$/,
+      message: '请输入正整数'
+    });
+  }
+  if (item.number) {
+    rules.push({
+      pattern: /^-?\d+(\.\d+)?$/,
+      message: '请输入合法的数字'
+    });
+  }
+  if (item.positive) {
+    rules.push({
+      pattern: /^\d+(\.\d+)?$/,
+      message: '请输入正数'
+    });
+  }
+  if (item.integer) {
+    rules.push({
+      pattern: /^-?\d+$/,
+      message: '请输入整数'
+    });
+  }
+  if (item.idCard) {
+    rules.push({
+      pattern: /^([1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3})|([1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X|x))$/,
+      message: '请输入合法的身份证号'
+    });
+  }
+  if (item.bankCard) {
+    rules.push({
+      pattern: /^([1-9]{1})(\d{13,19})$/,
+      message: '请输入合法的银行卡号'
+    });
+  }
+  if (item.amount) {
+    rules.push({
+      pattern: /(^[1-9](,\d{3}|[0-9])*(\.\d{1,2})?$)|([0])/,
+      message: '金额必须>=0，且小数点后最多2位'
+    });
+  }
+
+  if (item.min) {
+    rules.push({
+      validator: (rule, value, callback) => {
+        let reg = /^-?\d+(\.\d+)?$/.test(value);
+        if (reg && value && Number(value) < Number(item.min)) {
+          let error = `请输入一个最小为${item.min}的值`;
+          callback(error);
+        } else {
+          callback();
+        }
+      }
+    });
+  }
+
+  if (item.max) {
+    rules.push({
+      validator: (rule, value, callback) => {
+        let reg = /^-?\d+(\.\d+)?$/.test(value);
+        if (reg && value && Number(value) > Number(item.max)) {
+          let error = `请输入一个最大为${item.max}的值`;
+          callback(error);
+        } else {
+          callback();
+        }
+      }
+    });
+  }
+
+  if (item.maxlength) {
+    rules.push({
+      min: 1,
+      max: item.maxlength,
+      message: `请输入一个长度最多是${item.maxlength}的字符串`
+    });
+  }
+  return rules;
+};
+
 // 获取修改、详情页每个输入框的真实值
-export const getRealValue = ({ pageData, key, type, _keys, value, rangedate,
+export const getRealValue = ({ pageData, field, type, _keys, value, rangedate,
   multiple, formatter, amount, amountRate, cFields, readonly }) => {
-  let result = pageData[key];
+  let result = pageData[field];
   try {
     if (_keys) {
       result = getValFromKeys(_keys, pageData, type);

@@ -782,6 +782,7 @@ const ROUTES = [
   {
       path: '/loan/credit/addedit',
       component: asyncComponent(() => import('container/loan/credit-addedit/credit-addedit'))
+      // component: asyncComponent(() => import('container/loan/credit-addedit/demo'))
   },
   // 准入审查
   {

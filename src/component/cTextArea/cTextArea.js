@@ -1,24 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Form } from 'antd';
-import { noop, getRealValue } from 'common/js/util';
+import { noop } from 'common/js/util';
+import { formItemLayout } from 'common/js/config';
 
 const { TextArea } = Input;
 const FormItem = Form.Item;
 
 export default class CTextArea extends React.Component {
   render() {
-    const { label, keyName, rules, readonly, hidden, getFieldDecorator,
-      pageData, onChange, type, amount, amountRate, formatter, _keys, value } = this.props;
-    let initVal = getRealValue({ pageData, type, _keys, value, formatter, amount, amountRate, readonly, key: keyName });
+    const { label, field, rules, readonly, hidden, getFieldDecorator,
+      onChange, initVal, inline } = this.props;
+    let layoutProps = inline ? {} : formItemLayout;
     return (
-      <FormItem label={label} className={hidden ? 'hidden' : ''}>
+      <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''}>
         {
           readonly ? <div className="readonly-text">{initVal}</div>
-            : getFieldDecorator(keyName, {
-              rules,
-              initialValue: initVal
-            })(<TextArea className="textarea-normalArea" autosize/>)
+            : getFieldDecorator(field, {
+                rules,
+                initialValue: initVal
+              })(<TextArea className="textarea-normalArea" autosize/>)
         }
       </FormItem>
     );
@@ -34,24 +35,19 @@ CTextArea.propTypes = {
   rules: PropTypes.array,
   readonly: PropTypes.bool,
   onChange: PropTypes.func,
-  type: PropTypes.string,
-  _keys: PropTypes.array,
-  value: PropTypes.oneOfType([
+  initVal: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
   ]),
-  amount: PropTypes.bool,
-  amountRate: PropTypes.number,
-  formatter: PropTypes.func,
-  keyName: PropTypes.string.isRequired,
-  getFieldDecorator: PropTypes.func.isRequired,
-  pageData: PropTypes.object.isRequired
+  inline: PropTypes.bool,
+  field: PropTypes.string.isRequired,
+  getFieldDecorator: PropTypes.func.isRequired
 };
 
 CTextArea.defaultProps = {
   label: 'title',
-  keyName: 'key',
+  field: 'key',
   getFieldDecorator: noop,
-  pageData: {},
-  hidden: false
+  hidden: false,
+  inline: false
 };
