@@ -6,20 +6,19 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/mortgage-enter';
+} from '@redux/biz/archives-addedit';
 import {
-  getQueryString,
-  showSucMsg,
-  getUserId,
-  isExpressConfirm
+    getQueryString,
+    getUserId,
+    showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
-import fetch from 'common/js/fetch';
 
 @DetailWrapper(
-    state => state.bizMortgageEnter, {
+    state => state.bizArchivesAddEdit, {
         initStates,
         doFetching,
         cancelFetching,
@@ -28,7 +27,7 @@ import fetch from 'common/js/fetch';
         restore
     }
 )
-class mortgageEnter extends React.Component {
+class archivesAddedit extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -36,52 +35,28 @@ class mortgageEnter extends React.Component {
     }
     render() {
         const fields = [{
-            field: 'operator',
-            hidden: true,
-            value: getUserId()
-        }, {
-            title: '客户姓名',
-            field: 'applyUserName',
-            readonly: true
-        }, {
-            title: '业务编号',
-            field: 'code',
-            readonly: true
-        }, {
-            title: '贷款银行',
-            field: 'loanBankName',
-            readonly: true
-        }, {
-            title: '贷款金额',
-            field: 'loanAmount',
-            amount: true,
-            readonly: true
-        }, {
-            title: '抵押日期',
-            field: 'pledgeDatetime',
-            type: 'date',
-            required: true
-        }, {
-            title: '绿大本扫描件',
-            field: 'greenBigSmj',
-            type: 'img',
+            title: '选择内勤人员',
+            field: 'insideJob',
+            type: 'select',
+            listCode: 630066,
+            params: {
+                roleCode: 'SR20180000000000000NQZY'
+            },
+            keyName: 'userId',
+            valueName: 'realName',
             required: true
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
             buttons: [{
               title: '确认',
               handler: (param) => {
-                param.approveResult = '1';
-                param.approveNote = this.projectCode;
-                param.approveUser = getUserId();
-                this.props.doFetching();
-                fetch(632131, param).then((data) => {
+                param.operator = getUserId();
+                param.creditCode = this.code;
+                fetch(632119, param).then(() => {
                   showSucMsg('操作成功');
-                  isExpressConfirm(data);
                   this.props.cancelFetching();
                   setTimeout(() => {
                     this.props.history.go(-1);
@@ -100,4 +75,4 @@ class mortgageEnter extends React.Component {
     }
 }
 
-export default mortgageEnter;
+export default archivesAddedit;

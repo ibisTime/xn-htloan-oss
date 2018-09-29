@@ -42,15 +42,24 @@ class AdmittanceAddEdit extends React.Component {
         this.view = !!getQueryString('v', this.props.location.search);
         this.bizType = getQueryString('bizType', this.props.location.search);
         this.loanBank = getQueryString('loanBank', this.props.location.search);
-        this.isCheckCommissioner = !!getQueryString('isCheckCommissioner', this.props.location.search);
-        this.isCheckDirector = !!getQueryString('isCheckDirector', this.props.location.search);
+        // 区域经理审核
         this.isCheckRegionalManager = !!getQueryString('isCheckRegionalManager', this.props.location.search);
+        // 内勤主管审核
+        this.checkNq = !!getQueryString('checkNq', this.props.location.search);
+        // 风控一审
+        this.isCheckCommissioner = !!getQueryString('isCheckCommissioner', this.props.location.search);
+        // 风控二审
+        this.checkCommissionerTwo = !!getQueryString('checkCommissionerTwo', this.props.location.search);
+        // 风控终审
+        this.isCheckDirector = !!getQueryString('isCheckDirector', this.props.location.search);
+        // 业务总监审核
+        this.businessCheck = !!getQueryString('businessCheck', this.props.location.search);
         this.wanFactor = 0;
     }
 
     render() {
         let fields = [{
-            title: '贷款信息',
+            title: '贷款车辆信息',
             items: [
                 [{
                     field: 'bizType',
@@ -84,20 +93,6 @@ class AdmittanceAddEdit extends React.Component {
                     title: '贷款期限',
                     type: 'select',
                     key: 'loan_period',
-                    required: true
-                }, {
-                    field: 'isAdvanceFund',
-                    title: '是否垫资',
-                    type: 'select',
-                    data: [{
-                        key: '0',
-                        value: '否'
-                    }, {
-                        key: '1',
-                        value: '是'
-                    }],
-                    keyName: 'key',
-                    valueName: 'value',
                     required: true
                 }],
                 [{
@@ -135,17 +130,44 @@ class AdmittanceAddEdit extends React.Component {
                         }
                     }
                 }, {
+                    field: 'isAdvanceFund',
+                    title: '是否垫资',
+                    type: 'select',
+                    data: [{
+                        key: '0',
+                        value: '否'
+                    }, {
+                        key: '1',
+                        value: '是'
+                    }],
+                    keyName: 'key',
+                    valueName: 'value',
+                    required: true
+                }, {
+                    field: 'isFinancing',
+                    title: '是否融资',
+                    type: 'select',
+                    data: [{
+                        key: '0',
+                        value: '否'
+                    }, {
+                        key: '1',
+                        value: '是'
+                    }],
+                    keyName: 'key',
+                    valueName: 'value',
+                    required: true
+                }, {
                     field: 'region',
                     title: '所属区域',
                     type: 'select',
                     key: 'region',
                     required: true
-                }]
-            ]
-        }, {
-            title: '拟购车辆信息',
-            items: [
+                }],
                 [{
+                    title: '机动车销售公司',
+                    field: 'vehicleCompanyName'
+                }, {
                     field: 'invoiceCompany',
                     title: '开票单位',
                     required: true
@@ -236,14 +258,26 @@ class AdmittanceAddEdit extends React.Component {
                     title: '服务费(元)',
                     amount: true,
                     required: true
+                }, {
+                    title: 'GPS费用',
+                    field: 'gpsFee',
+                    amount: true,
+                    required: true
                 }],
                 [{
-                    title: '车辆品牌',
-                    field: 'carBrand',
+                    title: '公证费',
+                    field: 'authFee',
+                    amount: true,
                     required: true
                 }, {
-                    title: '详细配置',
-                    field: 'carSeries',
+                    title: '月供保证金',
+                    field: 'monthDeposit',
+                    amount: true,
+                    required: true
+                }, {
+                    title: '其他费用',
+                    field: 'otherFee',
+                    amount: true,
                     required: true
                 }],
                 [{
@@ -253,13 +287,25 @@ class AdmittanceAddEdit extends React.Component {
                     key: 'car_type',
                     required: true
                 }, {
-                    field: 'carColor',
-                    title: '颜色',
+                    title: '车辆品牌',
+                    field: 'carBrand',
+                    required: true
+                }, {
+                    title: '车系',
+                    field: 'carSeries',
+                    required: true
+                }, {
+                    title: '车型名称',
+                    field: 'carModelName',
                     required: true
                 }],
                 [{
                     title: '车辆型号',
                     field: 'carModel',
+                    required: true
+                }, {
+                    field: 'carColor',
+                    title: '车辆颜色',
                     required: true
                 }, {
                     field: 'carFrameNo',
@@ -306,7 +352,7 @@ class AdmittanceAddEdit extends React.Component {
                 }]
             ]
         }, {
-            title: '申请人信息',
+            title: '申请人基本信息',
             items: [
                 [{
                     field: 'applyUserName',
@@ -408,6 +454,48 @@ class AdmittanceAddEdit extends React.Component {
                 }, {
                     field: 'housePicture',
                     title: '家访照片',
+                    type: 'img'
+                }],
+                [{
+                    field: 'emergencyName1',
+                    title: '联系人1姓名',
+                    required: true
+                }, {
+                    field: 'emergencyRelation1',
+                    title: '与申请人关系',
+                    type: 'select',
+                    key: 'credit_user_relation',
+                    required: true
+                }, {
+                    field: 'emergencyMobile1',
+                    title: '手机号码',
+                    mobile: true,
+                    required: true
+                }],
+                [{
+                    field: 'emergencyName2',
+                    title: '联系人2姓名'
+                }, {
+                    field: 'emergencyRelation2',
+                    title: '与申请人关系',
+                    type: 'select',
+                    key: 'credit_user_relation'
+                }, {
+                    field: 'emergencyMobile2',
+                    title: '手机号码',
+                    mobile: true
+                }],
+                [{
+                    title: '代理人',
+                    field: 'pledgeUser',
+                    required: true
+                }, {
+                    title: '抵押地点',
+                    field: 'pledgeAddress',
+                    required: true
+                }, {
+                    title: '抵押代理人身份证复印件',
+                    field: 'pledgeUserIdCardCopy',
                     type: 'img'
                 }]
             ]
@@ -588,39 +676,6 @@ class AdmittanceAddEdit extends React.Component {
                     title: '其他辅助资产',
                     field: 'guaAssetPdf',
                     type: 'img'
-                }]
-            ]
-        }, {
-            title: '紧急联系人',
-            items: [
-                [{
-                    field: 'emergencyName1',
-                    title: '联系人1姓名',
-                    required: true
-                }, {
-                    field: 'emergencyRelation1',
-                    title: '与申请人关系',
-                    type: 'select',
-                    key: 'credit_user_relation',
-                    required: true
-                }, {
-                    field: 'emergencyMobile1',
-                    title: '手机号码',
-                    mobile: true,
-                    required: true
-                }],
-                [{
-                    field: 'emergencyName2',
-                    title: '联系人2姓名'
-                }, {
-                    field: 'emergencyRelation2',
-                    title: '与申请人关系',
-                    type: 'select',
-                    key: 'credit_user_relation'
-                }, {
-                    field: 'emergencyMobile2',
-                    title: '手机号码',
-                    mobile: true
                 }]
             ]
         }, {
@@ -1650,20 +1705,32 @@ class AdmittanceAddEdit extends React.Component {
             title: '审核说明',
             type: 'textarea',
             normalArea: true,
-            readonly: !(this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager)
+            readonly: !(this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.checkNq || this.checkCommissionerTwo || this.businessCheck)
         }];
 
         let buttons = [];
         let bizCode;
+        // 区域经理审核
         if (this.isCheckCommissioner) {
+            bizCode = 632140;
+        // 内勤主管审核
+        } else if (this.checkNq) {
+            bizCode = 632142;
+        // 风控一审
+        } else if (this.isCheckCommissioner) {
             bizCode = 632121;
+        // 风控二审
+        } else if (this.checkCommissionerTwo) {
+            bizCode = 632138;
+        // 风控终审
         } else if (this.isCheckDirector) {
             bizCode = 632122;
-        } else if (this.isCheckRegionalManager) {
-            bizCode = 632140;
+        // 业务总监审核
+        } else if (this.businessCheck) {
+            bizCode = 632139;
         }
 
-        if (this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager) {
+        if (this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.checkNq || this.checkCommissionerTwo || this.businessCheck) {
             fields = fields.concat(checkFields);
 
             buttons = [{
@@ -1714,7 +1781,7 @@ class AdmittanceAddEdit extends React.Component {
             }];
         }
 
-        if (!this.view && !this.isCheckCommissioner && !this.isCheckDirector && !this.isCheckRegionalManager) {
+        if (!this.view && !this.isCheckCommissioner && !this.isCheckDirector && !this.isCheckRegionalManager && !this.checkNq && !this.checkCommissionerTwo && !this.businessCheck) {
             buttons = [{
                 title: '保存',
                 handler: (params) => {

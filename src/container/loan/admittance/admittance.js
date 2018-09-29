@@ -147,28 +147,6 @@ class Admittance extends React.Component {
                         this.props.history.push(`/loan/admittance/addedit?code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}&loanBank=${selectedRows[0].loanBank}`);
                     }
                 },
-                checkCommissioner: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '002_02') {
-                        showWarnMsg('当前不是风控专员审核节点');
-                    } else {
-                        this.props.history.push(`/loan/admittance/addedit?v=1&isCheckCommissioner=1&code=${selectedRowKeys[0]}`);
-                    }
-                },
-                checkDirector: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '002_03') {
-                        showWarnMsg('当前不是风控主管审核节点');
-                    } else {
-                        this.props.history.push(`/loan/admittance/addedit?v=1&isCheckDirector=1&code=${selectedRowKeys[0]}`);
-                    }
-                },
                 regionalManager: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -178,6 +156,61 @@ class Admittance extends React.Component {
                         showWarnMsg('当前不是区域经理审核节点');
                     } else {
                         this.props.history.push(`/loan/admittance/addedit?v=1&isCheckRegionalManager=1&code=${selectedRowKeys[0]}`);
+                    }
+                },
+                checkNq: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_25') {
+                        showWarnMsg('当前不是内勤主管审核节点');
+                    } else {
+                        this.props.history.push(`/loan/admittance/addedit?v=1&isCheckcheckNq=1&code=${selectedRowKeys[0]}`);
+                    }
+                },
+                checkCommissioner: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_02') {
+                        showWarnMsg('当前不是风控一审节点');
+                    } else {
+                        this.props.history.push(`/loan/admittance/addedit?v=1&isCheckCommissioner=1&code=${selectedRowKeys[0]}`);
+                    }
+                },
+                checkCommissionerTwo: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_27') {
+                        showWarnMsg('当前不是风控二审节点');
+                    } else {
+                        this.props.history.push(`/loan/admittance/addedit?v=1&checkCommissionerTwo=1&code=${selectedRowKeys[0]}`);
+                    }
+                },
+                checkDirector: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_03') {
+                        showWarnMsg('当前不是风控终审节点');
+                    } else {
+                        this.props.history.push(`/loan/admittance/addedit?v=1&isCheckDirector=1&code=${selectedRowKeys[0]}`);
+                    }
+                },
+                businessCheck: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_28') {
+                        showWarnMsg('当前不是业务总监审核节点');
+                    } else {
+                        this.props.history.push(`/loan/admittance/addedit?v=1&isbusinessCheck=1&code=${selectedRowKeys[0]}`);
                     }
                 }
             }

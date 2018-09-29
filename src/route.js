@@ -788,6 +788,11 @@ const ROUTES = [
       path: '/loan/credit/addedit',
       component: asyncComponent(() => import('container/loan/credit-addedit/credit-addedit'))
   },
+  // 发起征信查询  内勤主管派单
+  {
+      path: '/loan/credit/dispatch',
+      component: asyncComponent(() => import('container/loan/credit/credit-dispatch'))
+  },
   // 准入审查
   {
       path: '/loan/admittance',
