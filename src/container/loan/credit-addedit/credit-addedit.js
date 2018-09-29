@@ -368,6 +368,11 @@ class CreditAddedit extends React.Component {
                     }).catch(this.props.cancelFetching);
                 }
             }, {
+                title: '测试',
+                handler: () => {
+                    fetch(632925).then((data) => {});
+                }
+            }, {
                 title: '发送',
                 check: true,
                 handler: (params) => {

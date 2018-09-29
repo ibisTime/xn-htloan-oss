@@ -90,6 +90,7 @@ class quitarchives extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 632805,
+            deleteCode: 632811,
             searchParams: {
                 workStatus: 3
             }

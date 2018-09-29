@@ -953,15 +953,20 @@ const ROUTES = [
     path: '/postloantools/applyGps/check',
     component: asyncComponent(() => import('container/postloantools/applyGps/applyGps-check'))
   },
-  //  gps安装
+  //  gps库存管理
   {
     path: '/postloantools/manageGps',
     component: asyncComponent(() => import('container/postloantools/manageGps/manageGps'))
   },
-  //  gps安装 详情
+  //  gps库存管理 详情
   {
     path: '/postloantools/manageGps/addedit',
     component: asyncComponent(() => import('container/postloantools/manageGps/manageGps-addedit'))
+  },
+  //  gps库存管理 导入
+  {
+    path: '/postloantools/manageGps/import',
+    component: asyncComponent(() => import('container/postloantools/manageGps/manageGps-import'))
   },
   //  导入逾期名单
   {

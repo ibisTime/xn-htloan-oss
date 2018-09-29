@@ -71,11 +71,7 @@ class CollectionCheck extends React.Component {
         readonly: true
     }, {
         title: '参考材料清单',
-        field: 'refFileList',
-        readonly: true
-    }, {
-        title: '寄送材料清单',
-        field: 'sendFileList',
+        field: 'fileList',
         readonly: true
     }, {
         title: '传递方式',

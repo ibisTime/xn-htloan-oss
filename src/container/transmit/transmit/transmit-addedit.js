@@ -52,10 +52,7 @@ class transmitAddedit extends React.Component {
         valueName: 'name'
     }, {
         title: '参考材料清单',
-        field: 'refFileList'
-    }, {
-        title: '寄送材料清单',
-        field: 'sendFileList'
+        field: 'fileList'
     }, {
         title: '传递方式',
         field: 'sendType',

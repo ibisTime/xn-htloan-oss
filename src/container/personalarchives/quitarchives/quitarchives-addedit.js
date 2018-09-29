@@ -33,7 +33,7 @@ class quitarchivesAddedit extends React.Component {
         const fields = [{
             title: '姓名',
             field: 'code',
-            listCode: 630066,
+            listCode: 632807,
             type: 'select',
             keyName: 'code',
             valueName: 'realName',

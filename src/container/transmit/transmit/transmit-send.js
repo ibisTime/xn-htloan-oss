@@ -63,13 +63,11 @@ class transmitAddedit extends React.Component {
         readonly: true
     }, {
         title: '参考材料清单',
-        field: 'refFileList'
-    }, {
-      field: 'sendFileList',
-      hidden: true,
-      formatter: (v, d) => {
-        return d.refFileList;
-      }
+        field: 'fileList',
+        listCode: 632217,
+        keyName: 'name',
+        valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}',
+        multiple: true
     }, {
         title: '寄送方式',
         field: 'sendType',
