@@ -102,7 +102,7 @@ class handleApplyCheck extends React.Component {
             }, {
                 title: '不通过',
                 handler: (param) => {
-                    param.approveResult = '1';
+                    param.result = '1';
                     param.approveNote = this.projectCode;
                     param.handler = getUserId();
                     this.props.doFetching();
