@@ -35,15 +35,14 @@ class carloanAddedit extends React.Component {
       const fields = [{
         field: 'remark',
         title: '参数名',
+        value: '车贷期数管理的期数和利率',
         readonly: true
       }, {
-        title: '参数值',
+        title: '期数',
+        field: 'ckey'
+      }, {
+        title: '利率',
         field: 'cvalue'
-      }, {
-        title: '最近修改时间',
-        field: 'updateDatetime',
-        type: 'datetime',
-        readonly: true
       }];
       return this.props.buildDetail({
         fields,
@@ -51,7 +50,8 @@ class carloanAddedit extends React.Component {
         code: this.code,
         view: this.view,
         detailCode: '630046',
-        editCode: '630042'
+        editCode: '630042',
+        addCode: '630040'
       });
     }
 }

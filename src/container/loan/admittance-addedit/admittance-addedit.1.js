@@ -24,14 +24,17 @@ import fetch from 'common/js/fetch';
 class AdmittanceAddEdit extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isSelfCompany: true
+        };
 
         this.state = {
-            isSelfCompany: false,
-            mateStatus: false,
-            guaStatus: false,
-            applyUserAccount: false,
-            mateAccount: false,
-            guaAccount: false
+            isSelfCompany: true,
+            mateStatus: true,
+            guaStatus: true,
+            applyUserAccount: true,
+            mateAccount: true,
+            guaAccount: true
         };
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
@@ -449,15 +452,7 @@ class AdmittanceAddEdit extends React.Component {
                 }, {
                     field: 'housePicture',
                     title: '家访照片',
-                    type: 'img',
-                    hidden: !this.checkCommissionerTwo,
-                    readonly: !this.checkCommissionerTwo
-                }, {
-                    field: 'housePicture1',
-                    title: '车辆价格核实报告',
-                    type: 'img',
-                    readonly: !this.checkCommissionerTwo,
-                    hidden: !this.checkCommissionerTwo
+                    type: 'img'
                 }],
                 [{
                     field: 'emergencyName1',
@@ -608,7 +603,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '配偶信息',
-            hidden: !this.state.mateStatus || this.props.pageData.mateName,
+            // hidden: this.view ? false : this.state.mateStatus,
             items: [
                 [{
                     field: 'mateName',
@@ -647,7 +642,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '担保人信息',
-            hidden: !this.state.guaStatus || this.props.pageData.guaName,
+            // hidden: this.view ? false : this.state.guaStatus,
             items: [
                 [{
                     field: 'guaName',
@@ -705,7 +700,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '申请人银行流水数据',
-            hidden: !this.state.applyUserAccount,
+            // hidden: this.view ? false : this.state.applyUserAccount,
             items: [
                 [{
                     field: 'jourDatetime3',
@@ -810,7 +805,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '申请人支付宝流水数据',
-            hidden: !this.state.applyUserAccount,
+            // hidden: this.view ? false : this.state.applyUserAccount,
             items: [
                 [{
                     field: 'jourDatetime1',
@@ -916,7 +911,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '申请人微信流水数据',
-            hidden: !this.state.applyUserAccount,
+            // hidden: this.view ? false : this.state.applyUserAccount,
             items: [
                 [{
                     field: 'jourDatetime2',
@@ -1020,7 +1015,7 @@ class AdmittanceAddEdit extends React.Component {
                 }]
             ]
         }, {title: '配偶银行流水数据',
-            hidden: !this.state.mateAccount,
+            // hidden: this.view ? false : this.state.mateAccount,
             items: [
                 [{
                     field: 'jourDatetime6',
@@ -1125,7 +1120,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '配偶支付宝流水数据',
-            hidden: !this.state.mateAccount,
+            // hidden: this.view ? false : this.state.mateAccount,
             items: [
                 [{
                     field: 'jourDatetime4',
@@ -1230,7 +1225,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '配偶微信流水数据',
-            hidden: !this.state.mateAccount,
+            // hidden: this.view ? false : this.state.mateAccount,
             items: [
                 [{
                     field: 'jourDatetime5',
@@ -1335,7 +1330,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '担保人银行流水数据',
-            hidden: !this.state.guaAccount,
+            // hidden: this.view ? false : this.state.guaAccount,
             items: [
                 [{
                     field: 'jourDatetime9',
@@ -1440,7 +1435,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '担保人支付宝流水数据',
-            hidden: !this.state.guaAccount,
+            // hidden: this.view ? false : this.state.guaAccount,
             items: [
                 [{
                     field: 'jourDatetime7',
@@ -1544,7 +1539,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '担保人微信流水数据',
-            hidden: !this.state.guaAccount,
+            // hidden: this.view ? false : this.state.guaAccount,
             items: [
                 [{
                     field: 'jourDatetime8',
@@ -1650,82 +1645,101 @@ class AdmittanceAddEdit extends React.Component {
         }, {
             title: '录入配偶信息',
             field: 'btnMateStatus',
-            type: 'select',
-            data: [{
-                key: '1',
-                value: '是'
-            }, {
-                key: '0',
-                value: '否'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            onChange: (v) => {
-                this.state.mateStatus = v === '1';
+            type: 'button',
+            hidden: !this.state.mateStatus,
+            onClick: () => {
+                if (this.state.mateStatus) {
+                    this.setState({
+                        mateStatus: false
+                    });
+                } else {
+                    this.setState({
+                        mateStatus: true
+                    });
+                    this.props.form.setFieldsValue({
+                        mateName: '',
+                        mateMobile: '',
+                        mateEducation: '',
+                        mateCompanyName: '',
+                        mateCompanyContactNo: '',
+                        mateCompanyAddress: '',
+                        mateAssetPdf: ''
+                    });
+                }
             }
         }, {
             title: '录入担保人信息',
             field: 'btnGuaStatus',
-            type: 'select',
-            data: [{
-                key: '1',
-                value: '是'
-            }, {
-                key: '0',
-                value: '否'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            onChange: (v) => {
-                this.state.guaStatus = v === '1';
+            type: 'button',
+            hidden: !this.state.guaStatus,
+            onClick: () => {
+                if (this.state.guaStatus) {
+                    this.setState({
+                        guaStatus: false
+                    });
+                } else {
+                    this.setState({
+                        guaStatus: true
+                    });
+                    this.props.form.setFieldsValue({
+                        guaName: '',
+                        guaMobile: '',
+                        guaIdNo: '',
+                        guaPhone: '',
+                        guaCompanyName: '',
+                        guaCompanyAddress: '',
+                        guaHouseAssetAddress: '',
+                        guaAssetPdf: ''
+                    });
+                }
             }
         }, {
             title: '录入申请人流水数据',
             field: 'btnApplyUserAccount',
-            type: 'select',
-            data: [{
-                key: '1',
-                value: '是'
-            }, {
-                key: '0',
-                value: '否'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            onChange: (v) => {
-                this.state.applyUserAccount = v === '1';
+            type: 'button',
+            hidden: !this.state.applyUserAccount,
+            onClick: () => {
+                if (this.state.applyUserAccount) {
+                    this.setState({
+                        applyUserAccount: false
+                    });
+                } else {
+                    this.setState({
+                        applyUserAccount: true
+                    });
+                }
             }
         }, {
             title: '录入配偶流水数据',
             field: 'btnMateAccount',
-            type: 'select',
-            data: [{
-                key: '1',
-                value: '是'
-            }, {
-                key: '0',
-                value: '否'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            onChange: (v) => {
-                this.state.mateAccount = v === '1';
+            type: 'button',
+            hidden: !this.state.mateAccount,
+            onClick: () => {
+                if (this.state.mateAccount) {
+                    this.setState({
+                        mateAccount: false
+                    });
+                } else {
+                    this.setState({
+                        mateAccount: true
+                    });
+                }
             }
         }, {
             title: '录入担保人流水数据',
             field: 'btnGuaAccount',
-            type: 'select',
-            data: [{
-                key: '1',
-                value: '是'
-            }, {
-                key: '0',
-                value: '否'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            onChange: (v) => {
-                this.state.guaAccount = v === '1';
+            type: 'button',
+            hidden: !this.state.guaAccount,
+            onClick: () => {
+                if (this.state.guaAccount) {
+                    this.setState({
+                        guaAccount: false
+                    });
+                } else {
+                    this.setState({
+                        guaAccount: true
+                    });
+                }
             }
         }];
 
@@ -1767,7 +1781,7 @@ class AdmittanceAddEdit extends React.Component {
                 check: true,
                 handler: (params) => {
                     let data = {};
-                    data.budgetOrderCode = this.code;
+                    data.code = this.code;
                     data.approveNote = params.approveNote;
                     data.approveResult = '1';
                     data.operator = getUserId();
@@ -1787,7 +1801,7 @@ class AdmittanceAddEdit extends React.Component {
                 check: true,
                 handler: (params) => {
                     let data = {};
-                    data.budgetOrderCode = this.code;
+                    data.code = this.code;
                     data.approveNote = params.approveNote;
                     data.approveResult = '0';
                     data.operator = getUserId();
@@ -1814,7 +1828,7 @@ class AdmittanceAddEdit extends React.Component {
             buttons = [{
                 title: '保存',
                 handler: (params) => {
-                    params.budgetOrderCode = this.code;
+                    params.code = this.code;
                     params.dealType = '0';
                     params.operator = getUserId();
                     params.creditCode = this.props.pageData.creditCode;
@@ -1831,7 +1845,7 @@ class AdmittanceAddEdit extends React.Component {
                 title: '发送',
                 check: true,
                 handler: (params) => {
-                    params.budgetOrderCode = this.code;
+                    params.code = this.code;
                     params.dealType = '1';
                     params.operator = getUserId();
                     params.creditCode = this.props.pageData.creditCode;
