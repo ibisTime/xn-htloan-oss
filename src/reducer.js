@@ -875,10 +875,7 @@ export default combineReducers({
   statisticPostloanReport,
   statisticTeamReport,
   statisticBusinessReport,
-<<<<<<< HEAD
   bizBankType,
-  bizBankTypeAddEdit
-=======
+  bizBankTypeAddEdit,
   statisticOneReport
->>>>>>> master
 });

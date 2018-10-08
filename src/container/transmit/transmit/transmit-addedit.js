@@ -51,12 +51,9 @@ class TransmitAddedit extends React.Component {
         keyName: 'code',
         valueName: 'name'
     }, {
-<<<<<<< HEAD
         title: '参考材料清单',
         field: 'fileList'
     }, {
-=======
->>>>>>> master
         title: '传递方式',
         field: 'sendType',
         type: 'select',

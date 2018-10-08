@@ -9,14 +9,10 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/postloantools/manageGps';
-<<<<<<< HEAD
 import {
     listWrapper
 } from 'common/js/build-list';
 import { getRoleCode } from 'common/js/util';
-=======
-import { listWrapper } from 'common/js/build-list';
->>>>>>> master
 
 @listWrapper(
     state => ({

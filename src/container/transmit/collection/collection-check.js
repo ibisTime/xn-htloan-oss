@@ -69,14 +69,10 @@ class CollectionCheck extends React.Component {
         listCode: 630147,
         keyName: 'code',
         valueName: 'name',
-<<<<<<< HEAD
         readonly: true
     }, {
         title: '参考材料清单',
         field: 'fileList',
-=======
-        hidden: !this.props.pageData.toNodeCode,
->>>>>>> master
         readonly: true
     }, {
         title: '传递方式',

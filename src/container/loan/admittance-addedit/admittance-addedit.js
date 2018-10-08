@@ -1734,11 +1734,7 @@ class AdmittanceAddEdit extends React.Component {
             title: '审核说明',
             type: 'textarea',
             normalArea: true,
-<<<<<<< HEAD
             readonly: !(this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckcheckNq || this.checkCommissionerTwo || this.isbusinessCheck)
-=======
-            readonly: !(this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckNq)
->>>>>>> master
         }];
 
         let buttons = [];
@@ -1758,22 +1754,12 @@ class AdmittanceAddEdit extends React.Component {
         // 风控终审
         } else if (this.isCheckDirector) {
             bizCode = 632122;
-<<<<<<< HEAD
         // 业务总监审核
         } else if (this.isbusinessCheck) {
             bizCode = 632139;
         }
 
         if (this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckcheckNq || this.checkCommissionerTwo || this.isbusinessCheck) {
-=======
-        } else if (this.isCheckRegionalManager) {
-            bizCode = 632140;
-        } else if (this.isCheckNq) {
-            bizCode = 632142;
-        }
-
-        if (this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckNq) {
->>>>>>> master
             fields = fields.concat(checkFields);
 
             buttons = [{
