@@ -7,8 +7,8 @@ import {
   setPageData,
   restore
 } from '@redux/biz/refundBusiness-addedit';
-import {getQueryString} from 'common/js/util';
-import {DetailWrapper} from 'common/js/build-detail';
+import { getQueryString } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(state => state.bizRefundBusinessAddedit, {
   initStates,

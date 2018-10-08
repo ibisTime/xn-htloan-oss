@@ -7,15 +7,8 @@ import {
     setPageData,
     restore
 } from '@redux/biz/settlement-addedit';
-import {
-    getQueryString,
-    dateTimeFormat,
-    moneyFormat
-} from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { getQueryString, moneyFormat } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
     state => state.bizSettlementAddEdit, {

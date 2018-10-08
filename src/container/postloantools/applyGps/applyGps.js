@@ -9,23 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/postloantools/applyGps';
-import {
-  showWarnMsg,
-  showSucMsg
-} from 'common/js/util';
-import {
-  Button,
-  Upload,
-  Modal
-} from 'antd';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-  lowerFrame,
-  onShelf,
-  sendMsg
-} from 'api/biz';
+import { showWarnMsg } from 'common/js/util';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -57,6 +42,10 @@ class applyGps extends React.Component {
             field: 'applyCount',
             search: true
         }, {
+            title: '申领原因',
+            field: 'applyReason',
+            search: true
+        }, {
             title: '发货时间',
             field: 'sendDatetime',
             type: 'datetime'
@@ -69,10 +58,6 @@ class applyGps extends React.Component {
             field: 'status',
             type: 'select',
             key: 'gps_apply_status',
-            search: true
-        }, {
-            title: '备注',
-            field: 'remark',
             search: true
         }];
         return this.props.buildList({

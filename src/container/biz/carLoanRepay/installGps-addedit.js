@@ -7,14 +7,8 @@ import {
     setPageData,
     restore
 } from '@redux/biz/installGps-addedit';
-import {
-  getQueryString,
-  showSucMsg,
-  getUserId
-} from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
+import { getQueryString } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
     state => state.bizinstallGpsAddEdit, {
@@ -44,7 +38,8 @@ class installGpsAddedit extends React.Component {
             field: 'code'
         }, {
             title: '贷款银行',
-            field: 'loanBankName'
+            field: 'loanBankName',
+            formatter: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : ''
         }, {
             title: '贷款金额',
             field: 'loanAmount',

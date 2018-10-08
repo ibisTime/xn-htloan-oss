@@ -47,8 +47,13 @@ class AdmittanceAddEdit extends React.Component {
         this.checkCommissionerTwo = !!getQueryString('checkCommissionerTwo', this.props.location.search);
         // 风控终审
         this.isCheckDirector = !!getQueryString('isCheckDirector', this.props.location.search);
+<<<<<<< HEAD
         // 业务总监审核
         this.isbusinessCheck = !!getQueryString('isbusinessCheck', this.props.location.search);
+=======
+        this.isCheckRegionalManager = !!getQueryString('isCheckRegionalManager', this.props.location.search);
+        this.isCheckNq = !!getQueryString('isCheckNq', this.props.location.search);
+>>>>>>> master
         this.wanFactor = 0;
     }
 
@@ -1734,7 +1739,11 @@ class AdmittanceAddEdit extends React.Component {
             title: '审核说明',
             type: 'textarea',
             normalArea: true,
+<<<<<<< HEAD
             readonly: !(this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckcheckNq || this.checkCommissionerTwo || this.isbusinessCheck)
+=======
+            readonly: !(this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckNq)
+>>>>>>> master
         }];
 
         let buttons = [];
@@ -1754,12 +1763,22 @@ class AdmittanceAddEdit extends React.Component {
         // 风控终审
         } else if (this.isCheckDirector) {
             bizCode = 632122;
+<<<<<<< HEAD
         // 业务总监审核
         } else if (this.isbusinessCheck) {
             bizCode = 632139;
         }
 
         if (this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckcheckNq || this.checkCommissionerTwo || this.isbusinessCheck) {
+=======
+        } else if (this.isCheckRegionalManager) {
+            bizCode = 632140;
+        } else if (this.isCheckNq) {
+            bizCode = 632142;
+        }
+
+        if (this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckNq) {
+>>>>>>> master
             fields = fields.concat(checkFields);
 
             buttons = [{

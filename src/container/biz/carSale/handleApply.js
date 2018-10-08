@@ -9,23 +9,8 @@ import {
   cancelFetching,
   setSearchData
 } from '@redux/biz/handleApply';
-import {
-  listWrapper
-} from 'common/js/build-list';
-import {
-  showWarnMsg,
-  showSucMsg,
-  dateTimeFormat
-} from 'common/js/util';
-import {
-  Button,
-  Upload,
-  Modal
-} from 'antd';
-import {
-  lowerFrameSys,
-  onShelfSys
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg, dateTimeFormat } from 'common/js/util';
 
 @listWrapper(
   state => ({
@@ -50,13 +35,9 @@ class HandleApply extends React.Component {
     }, {
       title: '申请人',
       field: 'userId',
-      type: 'select',
-      listCode: 630066,
-      keyName: 'userId',
-      valueName: 'realName',
-      search: true,
       render: (v, data) => {
-        return data.user.mobile;
+        let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
+        return prefix + (data.user.mobile || '');
       }
     }, {
       title: '车辆总价',

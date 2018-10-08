@@ -40,42 +40,12 @@ class CollectionGPSCheck extends React.Component {
   }
   render() {
     const fields = [{
-        title: '客户姓名',
+        title: '申请人',
         field: 'userName',
         readonly: true
     }, {
         title: '业务编号',
         field: 'bizCode',
-        readonly: true
-    }, {
-        title: '类型',
-        field: 'type',
-        type: 'select',
-        key: 'logistics_type',
-        readonly: true
-    }, {
-        title: '发件节点',
-        field: 'fromNodeCode',
-        type: 'select',
-        listCode: 630147,
-        keyName: 'code',
-        valueName: 'name',
-        readonly: true
-    }, {
-        title: '收件节点',
-        field: 'toNodeCode',
-        type: 'select',
-        listCode: 630147,
-        keyName: 'code',
-        valueName: 'name',
-        readonly: true
-    }, {
-        title: '参考材料清单',
-        field: 'refFileList',
-        readonly: true
-    }, {
-        title: '寄送材料清单',
-        field: 'sendFileList',
         readonly: true
     }, {
         title: '传递方式',
@@ -132,8 +102,8 @@ class CollectionGPSCheck extends React.Component {
             title: '收件待补件',
             handler: (param) => {
                 param.operator = getUserId();
-                fetch(632152, param).then(() => {
-                    this.doSuccess();
+                fetch(632152, param).then((data) => {
+                    this.doSuccess(data);
                 }).catch(this.props.cancelFetching);
             },
             check: true

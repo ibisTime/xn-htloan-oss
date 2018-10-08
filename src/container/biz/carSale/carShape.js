@@ -12,8 +12,8 @@ import {
 import { listWrapper } from 'common/js/build-list';
 import OnOrDownShelf from 'component/onordownshelf/onordownshelf';
 import { showWarnMsg, showSucMsg } from 'common/js/util';
-import { Button, Upload, Modal } from 'antd';
-import { lowerFrameShape, onShelfShape } from 'api/biz';
+import { Modal } from 'antd';
+import { lowerFrameShape } from 'api/biz';
 
 @listWrapper(
   state => ({

@@ -26,6 +26,7 @@ class FaceSignAddedit extends React.Component {
         this.code = getQueryString('code', this.props.location.search);
         // 审核
         this.isCheck = !!getQueryString('isCheck', this.props.location.search);
+        this.isCheckNq = !!getQueryString('isCheckNq', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
         this.newCar = true;
     }
@@ -105,12 +106,12 @@ class FaceSignAddedit extends React.Component {
         }, {
             title: '审核说明',
             field: 'approveNote',
-            readonly: !this.isCheck,
+            readonly: !(this.isCheck || this.isCheckNq),
             hidden: !this.view
         }];
-
+        let bizCode = this.isCheckNq ? 632137 : 632124;
         // 准入审查
-        if (this.isCheck) {
+        if (this.isCheck || this.isCheckNq) {
             buttons = [{
                 title: '通过',
                 check: true,
@@ -121,7 +122,7 @@ class FaceSignAddedit extends React.Component {
                     data.approveNote = params.approveNote;
                     data.operator = getUserId();
                     this.props.doFetching();
-                    fetch(632124, data).then(() => {
+                    fetch(bizCode, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -139,7 +140,7 @@ class FaceSignAddedit extends React.Component {
                     data.approveNote = params.approveNote;
                     data.operator = getUserId();
                     this.props.doFetching();
-                    fetch(632124, data).then(() => {
+                    fetch(bizCode, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {

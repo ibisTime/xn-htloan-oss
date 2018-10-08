@@ -41,7 +41,7 @@ class Order extends React.Component {
       title: '商品名称',
       field: 'productName',
       render: (v, d) => {
-        return d.productOrderList[0].product.name + '(' + d.productOrderList[0].productSpecsName + ')';
+        return d.productOrderList[0].product.name;
       }
     }, {
       title: '订单价格',

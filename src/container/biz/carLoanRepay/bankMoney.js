@@ -9,19 +9,8 @@ import {
   cancelFetching,
   setSearchData
 } from '@redux/biz/bankMoney';
-import {
-  listWrapper
-} from 'common/js/build-list';
-import {
-  showWarnMsg,
-  showSucMsg,
-  getRoleCode,
-  dateTimeFormat
-} from 'common/js/util';
-import {
-  lowerFrame,
-  onShelf
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg, getRoleCode, getTeamCode, dateTimeFormat } from 'common/js/util';
 
 @listWrapper(
   state => ({
@@ -49,7 +38,8 @@ class bankMoney extends React.Component {
       field: 'companyCode',
       listCode: 630106,
       params: {
-        typeList: [1]
+        typeList: [1],
+        status: '1'
       },
       type: 'select',
       keyName: 'code',
@@ -80,7 +70,8 @@ class bankMoney extends React.Component {
       search: true
     }, {
       title: '贷款银行',
-      field: 'loanBankName'
+      field: 'loanBankName',
+      render: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : ''
     }, {
       title: '贷款金额',
       field: 'loanAmount',
@@ -125,6 +116,7 @@ class bankMoney extends React.Component {
       pageCode: 632148,
       searchParams: {
         roleCode: getRoleCode(),
+        teamCode: getTeamCode(),
         curNodeCodeList: ['002_11', '002_13', '002_14', '002_15', '002_16', '002_17']
       },
       btnEvent: {

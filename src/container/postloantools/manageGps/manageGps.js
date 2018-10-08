@@ -9,10 +9,14 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/postloantools/manageGps';
+<<<<<<< HEAD
 import {
     listWrapper
 } from 'common/js/build-list';
 import { getRoleCode } from 'common/js/util';
+=======
+import { listWrapper } from 'common/js/build-list';
+>>>>>>> master
 
 @listWrapper(
     state => ({
@@ -46,7 +50,8 @@ class manageGps extends React.Component {
               value: '无线'
             }],
             keyName: 'key',
-            valueName: 'value'
+            valueName: 'value',
+            search: true
         }, {
             title: '客户姓名',
             field: 'applyUserName',

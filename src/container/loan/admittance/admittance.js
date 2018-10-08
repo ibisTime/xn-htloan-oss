@@ -11,19 +11,11 @@ import {
 } from '@redux/loan/admittance';
 import {
     showWarnMsg,
-    showSucMsg,
     getRoleCode,
     dateTimeFormat,
     getTeamCode
 } from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    lowerFrame,
-    onShelf,
-    sendMsg
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -133,9 +125,14 @@ class Admittance extends React.Component {
             searchParams: {
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode(),
+<<<<<<< HEAD
                 curNodeCodeList: ['002_01', '002_02', '002_03', '002_04', '002_24', '002_25', '002_27', '002_28']
+=======
+                curNodeCodeList: ['002_01', '002_02', '002_03', '002_04', '002_24', '002_25']
+>>>>>>> master
             },
             btnEvent: {
+                // 申请
                 apply: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -147,6 +144,10 @@ class Admittance extends React.Component {
                         this.props.history.push(`/loan/admittance/addedit?code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}&loanBank=${selectedRows[0].loanBank}`);
                     }
                 },
+<<<<<<< HEAD
+=======
+                // 区域经理审核
+>>>>>>> master
                 regionalManager: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -158,6 +159,10 @@ class Admittance extends React.Component {
                         this.props.history.push(`/loan/admittance/addedit?v=1&isCheckRegionalManager=1&code=${selectedRowKeys[0]}`);
                     }
                 },
+<<<<<<< HEAD
+=======
+                // 内勤主管审核
+>>>>>>> master
                 checkNq: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -166,9 +171,16 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== '002_25') {
                         showWarnMsg('当前不是内勤主管审核节点');
                     } else {
+<<<<<<< HEAD
                         this.props.history.push(`/loan/admittance/addedit?v=1&isCheckcheckNq=1&code=${selectedRowKeys[0]}`);
                     }
                 },
+=======
+                        this.props.history.push(`/loan/admittance/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
+                    }
+                },
+                // 风控专员审核
+>>>>>>> master
                 checkCommissioner: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -180,6 +192,7 @@ class Admittance extends React.Component {
                         this.props.history.push(`/loan/admittance/addedit?v=1&isCheckCommissioner=1&code=${selectedRowKeys[0]}`);
                     }
                 },
+<<<<<<< HEAD
                 checkCommissionerTwo: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -191,6 +204,9 @@ class Admittance extends React.Component {
                         this.props.history.push(`/loan/admittance/addedit?v=1&checkCommissionerTwo=1&code=${selectedRowKeys[0]}`);
                     }
                 },
+=======
+                // 风控主管审核
+>>>>>>> master
                 checkDirector: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -201,6 +217,7 @@ class Admittance extends React.Component {
                     } else {
                         this.props.history.push(`/loan/admittance/addedit?v=1&isCheckDirector=1&code=${selectedRowKeys[0]}`);
                     }
+<<<<<<< HEAD
                 },
                 businessCheck: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
@@ -212,6 +229,8 @@ class Admittance extends React.Component {
                     } else {
                         this.props.history.push(`/loan/admittance/addedit?v=1&isbusinessCheck=1&code=${selectedRowKeys[0]}`);
                     }
+=======
+>>>>>>> master
                 }
             }
         });

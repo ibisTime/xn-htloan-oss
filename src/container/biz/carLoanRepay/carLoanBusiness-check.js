@@ -7,15 +7,9 @@ import {
   setPageData,
   restore
 } from '@redux/biz/carLoanBusiness-check';
-import {
-  getQueryString,
-  showSucMsg,
-  getUserId
-} from 'common/js/util';
+import { getQueryString, showSucMsg, getUserId } from 'common/js/util';
 import fetch from 'common/js/fetch';
-import {
-  DetailWrapper
-} from 'common/js/build-detail';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(state => state.bizCarLoanBusinessCheck, {
   initStates,

@@ -7,9 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/loanstools/takeFree-addedit';
-import {
-    getQueryString
-} from 'common/js/util';
+import { getQueryString } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(

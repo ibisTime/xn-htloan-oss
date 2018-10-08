@@ -32,31 +32,6 @@ class CollectionGPSAddedit extends React.Component {
         title: '业务编号',
         field: 'bizCode'
     }, {
-        title: '类型',
-        field: 'type',
-        type: 'select',
-        key: 'logistics_type'
-    }, {
-        title: '发件节点',
-        field: 'fromNodeCode',
-        type: 'select',
-        listCode: 630147,
-        keyName: 'code',
-        valueName: 'name'
-    }, {
-        title: '收件节点',
-        field: 'toNodeCode',
-        type: 'select',
-        listCode: 630147,
-        keyName: 'code',
-        valueName: 'name'
-    }, {
-        title: '参考材料清单',
-        field: 'refFileList'
-    }, {
-        title: '寄送材料清单',
-        field: 'sendFileList'
-    }, {
         title: '传递方式',
         field: 'sendType',
         type: 'select',
@@ -71,11 +46,6 @@ class CollectionGPSAddedit extends React.Component {
         valueName: 'value',
         required: true
     }, {
-        title: '类型',
-        field: 'type',
-        type: 'select',
-        key: 'logistics_type'
-    }, {
         title: '快递公司',
         field: 'logisticsCompany',
         type: 'select',
@@ -88,8 +58,11 @@ class CollectionGPSAddedit extends React.Component {
         field: 'sendDatetime',
         type: 'datetime'
     }, {
-        title: '发货备注',
+        title: '发货说明',
         field: 'sendNote'
+    }, {
+        title: '备注',
+        field: 'remark'
     }];
     return this
       .props

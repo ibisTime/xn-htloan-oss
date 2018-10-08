@@ -8,7 +8,7 @@ import {
     moneyFormat,
     monthFormat
 } from 'common/js/util';
-import {CollapseWrapper} from 'component/collapse-detail/collapse-detail';
+import { CollapseWrapper } from 'component/collapse-detail/collapse-detail';
 import {
     initStates,
     doFetching,

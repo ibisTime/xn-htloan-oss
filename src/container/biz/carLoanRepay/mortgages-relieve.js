@@ -7,16 +7,9 @@ import {
     setPageData,
     restore
 } from '@redux/biz/mortgages/mortgages-relieve';
-import {
-    getQueryString,
-    getUserId,
-    showSucMsg
-} from 'common/js/util';
+import { getQueryString, getUserId, showSucMsg } from 'common/js/util';
 import fetch from 'common/js/fetch';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
     state => state.mortgagesRelieve, {

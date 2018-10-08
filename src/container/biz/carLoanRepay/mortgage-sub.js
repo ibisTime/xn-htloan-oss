@@ -7,14 +7,8 @@ import {
     setPageData,
     restore
 } from '@redux/biz/mortgage-sub';
-import {
-  getQueryString,
-  showSucMsg,
-  getUserId
-} from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
+import { getQueryString, showSucMsg, getUserId } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
@@ -49,6 +43,7 @@ class mortgageSub extends React.Component {
         }, {
             title: '贷款银行',
             field: 'loanBankName',
+            formatter: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : '',
             readonly: true
         }, {
             title: '贷款金额',

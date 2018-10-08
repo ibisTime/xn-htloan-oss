@@ -9,18 +9,8 @@ import {
   cancelFetching,
   setSearchData
 } from '@redux/biz/userRedemption';
-import {
-  listWrapper
-} from 'common/js/build-list';
-import {
-  showWarnMsg,
-  showSucMsg,
-  moneyFormat
-} from 'common/js/util';
-import {
-  lowerFrame,
-  onShelf
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg } from 'common/js/util';
 
 @listWrapper(
   state => ({

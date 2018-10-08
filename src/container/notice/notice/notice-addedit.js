@@ -53,7 +53,8 @@ class noticeAddedit extends React.Component {
             type: 'select',
             listCode: 630106,
             params: {
-                typeList: ['2']
+                typeList: ['2'],
+                status: '1'
             },
             keyName: 'code',
             valueName: 'name',
@@ -74,14 +75,17 @@ class noticeAddedit extends React.Component {
                     if (value === '1') {
                         bizCode = 630106;
                         params.typeList = ['1'];
+                        params.status = '1';
                     // 部门
                     } else if (value === '2') {
                         bizCode = 630106;
                         params.typeList = ['2'];
+                        params.status = '1';
                     // 职位
                     } else if (value === '3') {
                         bizCode = 630106;
                         params.typeList = ['3'];
+                        params.status = '1';
                     // 具体人
                     } else if (value === '4') {
                         bizCode = 632807;
@@ -126,8 +130,7 @@ class noticeAddedit extends React.Component {
             required: true
         }, {
             title: '备注',
-            field: 'remark',
-            required: true
+            field: 'remark'
         }];
         return this.props.buildDetail({
             fields,

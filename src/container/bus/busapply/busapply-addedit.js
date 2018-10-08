@@ -7,11 +7,7 @@ import {
   setPageData,
   restore
 } from '@redux/bus/busapply-addedit.js';
-import {
-  getQueryString,
-  formatDate,
-  dateTimeFormat
-} from 'common/js/util';
+import { getQueryString, dateTimeFormat } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(

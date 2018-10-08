@@ -108,33 +108,10 @@ class CreditBill extends React.Component {
         }, {
             title: '节点操作人',
             field: 'updaterName'
-        }, {
-            title: '是否通过',
-            field: 'isPass',
-            type: 'select',
-            data: [{
-                key: '0',
-                value: '不通过'
-            }, {
-                key: '1',
-                value: '通过'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            hidden: true,
-            search: true
-        }, {
-            title: '关键字搜索',
-            field: 'keyword',
-            hidden: true,
-            search: true
         }];
         return this.props.buildList({
             fields,
-            pageCode: 630170,
-            searchParams: {
-                type: 'C'
-            },
+            pageCode: 632116,
             btnEvent: {
                 detail: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {

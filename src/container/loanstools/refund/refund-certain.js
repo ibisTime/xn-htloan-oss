@@ -7,16 +7,9 @@ import {
     setPageData,
     restore
 } from '@redux/loanstools/refund-certain';
-import {
-  getQueryString,
-  showSucMsg,
-  getUserId
-} from 'common/js/util';
+import { getQueryString, showSucMsg, getUserId } from 'common/js/util';
 import fetch from 'common/js/fetch';
-import {
-  DetailWrapper
-} from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
     state => state.loanstoolsRefundCertain, {
@@ -37,7 +30,7 @@ class refundCertain extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'companyCode',
+            field: 'applyUserName',
             readonly: true
         }, {
             title: '业务编号',
@@ -46,6 +39,7 @@ class refundCertain extends React.Component {
         }, {
             title: '贷款银行',
             field: 'loanBankName',
+            formatter: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : '',
             readonly: true
         }, {
             title: '贷款金额',

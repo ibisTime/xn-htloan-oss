@@ -7,13 +7,8 @@ import {
     setPageData,
     restore
 } from '@redux/biz/mortgage-addedit';
-import {
-    getQueryString
-} from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { getQueryString } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
     state => state.bizMortgageAddEdit, {
@@ -46,6 +41,7 @@ class mortgageAddedit extends React.Component {
         }, {
             title: '贷款银行',
             field: 'loanBankName',
+            formatter: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : '',
             readonly: true
         }, {
             title: '贷款金额',

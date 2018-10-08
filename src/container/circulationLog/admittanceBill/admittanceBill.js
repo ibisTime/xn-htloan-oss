@@ -124,11 +124,7 @@ class AdmittanceBill extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632148,
-            searchParams: {
-                roleCode: getRoleCode(),
-                type: 'BO'
-            },
+            pageCode: 632145,
             btnEvent: {
                 detail: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {

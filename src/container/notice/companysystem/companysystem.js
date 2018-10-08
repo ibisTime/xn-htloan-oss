@@ -46,6 +46,9 @@ class companysystem extends React.Component {
             field: 'regimeCode',
             title: '制度编号'
         }, {
+            field: 'name',
+            title: '标题'
+        }, {
             field: 'type',
             title: '类型',
             type: 'select',

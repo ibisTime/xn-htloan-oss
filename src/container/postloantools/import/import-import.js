@@ -9,27 +9,15 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/postloantools/import';
-import {
-    showWarnMsg,
-    showSucMsg,
-    tempString,
-    moneyFormat
-} from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    lowerFrame,
-    onShelf,
-    sendMsg
-} from 'api/biz';
+import { showSucMsg, tempString, moneyFormat } from 'common/js/util';
+import { listWrapper } from 'common/js/build-list';
 import XLSX from 'xlsx';
-import {Form, Select, Upload, Button, Icon, Table} from 'antd';
+import { Form, Select, Upload, Button, Icon, Table } from 'antd';
 import fetch from 'common/js/fetch';
-import {tailFormItemLayout} from 'common/js/config';
+import { tailFormItemLayout } from 'common/js/config';
 
-const {Item: FormItem} = Form;
-const {Option} = Select;
+const { Item: FormItem } = Form;
+const { Option } = Select;
 
 @listWrapper(
     state => ({

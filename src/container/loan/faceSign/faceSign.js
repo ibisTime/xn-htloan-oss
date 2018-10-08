@@ -11,20 +11,11 @@ import {
 } from '@redux/loan/faceSign';
 import {
     showWarnMsg,
-    showSucMsg,
     getRoleCode,
     getTeamCode,
-    dateTimeFormat,
     dateFormat
 } from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    lowerFrame,
-    onShelf,
-    sendMsg
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -53,7 +44,8 @@ class FaceSign extends React.Component {
             type: 'select',
             listCode: 630106,
             params: {
-                typeList: ['1']
+                typeList: ['1'],
+                status: '1'
             },
             keyName: 'code',
             valueName: 'name',
@@ -137,7 +129,7 @@ class FaceSign extends React.Component {
             searchParams: {
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode(),
-                curNodeCodeList: ['002_05', '002_06', '002_08']
+                curNodeCodeList: ['002_05', '002_06', '002_08', '002_26']
             },
             btnEvent: {
                 edit: (selectedRowKeys, selectedRows) => {
@@ -160,6 +152,18 @@ class FaceSign extends React.Component {
                         showWarnMsg('当前不是业务总监审核节点');
                     } else {
                         this.props.history.push(`/loan/faceSign/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
+                    }
+                },
+                // 内勤主管审核
+                checkNq: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_26') {
+                        showWarnMsg('当前不是内勤主管审核节点');
+                    } else {
+                        this.props.history.push(`/loan/faceSign/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
                     }
                 }
             }

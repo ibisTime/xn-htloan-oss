@@ -17,14 +17,7 @@ import {
     getTeamCode,
     getQueryString
 } from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    lowerFrame,
-    onShelf,
-    sendMsg
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -48,8 +41,7 @@ class RepaymentAddedit extends React.Component {
     render() {
         const fields = [{
             title: '操作人姓名',
-            field: 'operatorName',
-            search: true
+            field: 'operatorName'
         }, {
             title: '操作人手机号',
             field: 'operatorMobile'

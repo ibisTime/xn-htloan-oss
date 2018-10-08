@@ -14,10 +14,7 @@ import {
     moneyFormat
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
     state => state.bizSettlementCollection, {
@@ -37,7 +34,7 @@ class settlementCollection extends React.Component {
     }
     render() {
         const fields = [{
-            title: '贷款人',
+            title: '客户姓名',
             field: 'applyUserName',
             formatter: (v, d) => {
                 return d.user.realName;

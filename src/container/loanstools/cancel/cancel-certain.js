@@ -13,10 +13,7 @@ import {
   getUserId
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
-import {
-  DetailWrapper
-} from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
     state => state.loanstoolsCancelCertain, {
@@ -45,7 +42,11 @@ class CancelCertain extends React.Component {
         readonly: true
       }, {
         title: '贷款银行',
-        field: 'loanBankName',
+        field: 'loanBank',
+        type: 'select',
+        listCode: 632037,
+        keyName: 'code',
+        valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
         readonly: true
       }, {
         title: '贷款金额',

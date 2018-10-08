@@ -181,8 +181,7 @@
 }
 
 .below-wrap .card{
-    width: 100%;
-    /*width: calc(50% - 10px);*/
+    width: calc(50% - 10px);
     float: left;
 }
 
@@ -236,7 +235,15 @@
 }
 .detail-wrap .title{
     text-align: center;
-    font-size: 18px;
+    font-size: 20px;
+}
+.detail-wrap .sub-title {
+    text-align: center;
+    font-size: 12px;
+    padding-top: 4px;
+}
+.detail-wrap .sub-title span {
+    padding-left: 12px;
 }
 .detail-wrap .content{
     margin: 30px 0 70px;

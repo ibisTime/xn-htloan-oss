@@ -286,12 +286,16 @@ import { loanstoolsRefundCertain } from './redux/loanstools/refund-certain';
 import { transmit } from './redux/transmit/transmit';
 import { transmitAddedit } from './redux/transmit/transmit-addedit';
 import { transmitSend } from './redux/transmit/transmit-send';
-import { transmitCheck } from './redux/transmit/transmit-check';
 
 // 收件 + 详情 + 收件并审核
 import { transmitCollection } from './redux/transmit/collection';
 import { transmitCollectionAddedit } from './redux/transmit/collection-addedit';
 import { transmitCollectionCheck } from './redux/transmit/collection-check';
+
+// GPS发件
+import { transmitGps } from './redux/transmit/transmitGPS';
+import { transmitGpsSend } from './redux/transmit/transmitGPS-send';
+import { transmitGpsAddedit } from './redux/transmit/transmitGPS-addedit';
 
 // GPS收件
 import { transmitCollectionGPS } from './redux/transmit/collectionGPS';
@@ -320,8 +324,6 @@ import { postloantoolsImportDispose } from './redux/postloantools/import-dispose
 /**
  * 统计分析
  */
-import { bizBalancedetail } from './redux/statistic/balancedetail';
-import { statisticProtect } from './redux/statistic/protect';
 
 //  征信统计报表
 import { statisticCreditReport } from './redux/statistic/creditReport';
@@ -337,6 +339,9 @@ import { statisticTeamReport } from './redux/statistic/teamReport';
 
 //  业务报表
 import { statisticBusinessReport } from './redux/statistic/businessReport';
+
+//  垫资超1天未放款
+import { statisticOneReport } from './redux/statistic/oneReport';
 
 /**
  * 人事
@@ -531,6 +536,10 @@ import { waresHistoryBusinessManageAddeditAddedit } from './redux/wares/historyB
 
 //  首页待办事项 更多
 import { homeToDoList } from './redux/home/toDoList';
+//  首页公司公告 更多
+import { homeNotices } from './redux/home/notices';
+//  首页公司制度 更多
+import { homeRegulations } from './redux/home/regulations';
 
 //  流转日志
 //  准入单流转日志 + 详情
@@ -698,15 +707,17 @@ export default combineReducers({
   basedataReceivables,
   basedataReceivablesAddEdit,
   transmit,
-  transmitAddedit,
   transmitSend,
-  transmitCheck,
+  transmitAddedit,
   transmitCollection,
-  transmitCollectionAddedit,
   transmitCollectionCheck,
+  transmitCollectionAddedit,
+  transmitGps,
+  transmitGpsSend,
+  transmitGpsAddedit,
   transmitCollectionGPS,
-  transmitCollectionGPSAddedit,
   transmitCollectionGPSCheck,
+  transmitCollectionGPSAddedit,
   postloantoolsApplyGps,
   postloantoolsApplyGpsAddedit,
   postloantoolsApplyGpsApply,
@@ -716,8 +727,6 @@ export default combineReducers({
   bizLitigation,
   bizLitigationAddEdit,
   bizLitigationDispose,
-  bizBalancedetail,
-  statisticProtect,
   bizHistoryBusinessManageAddeditAddedit,
   bizSettlement,
   bizSettlementAddEdit,
@@ -853,6 +862,8 @@ export default combineReducers({
   busBusreturnReturn,
   busBusreturnCheck,
   homeToDoList,
+  homeNotices,
+  homeRegulations,
   circulationLogAdmittanceBill,
   circulationLogAdmittanceBillAddedit,
   circulationLogCreditBill,
@@ -864,6 +875,10 @@ export default combineReducers({
   statisticPostloanReport,
   statisticTeamReport,
   statisticBusinessReport,
+<<<<<<< HEAD
   bizBankType,
   bizBankTypeAddEdit
+=======
+  statisticOneReport
+>>>>>>> master
 });

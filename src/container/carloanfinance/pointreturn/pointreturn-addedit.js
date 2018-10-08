@@ -7,10 +7,7 @@ import {
   setPageData,
   restore
 } from '@redux/carloanfinance/pointreturn-addedit.js';
-import {
-  getQueryString,
-  formatDate
-} from 'common/js/util';
+import { getQueryString } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(

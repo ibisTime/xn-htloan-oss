@@ -9,23 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/transmit/transmit';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    showWarnMsg,
-    showSucMsg,
-    getUserId
-} from 'common/js/util';
-import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
-import {
-    putaway,
-    soldOut
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -42,7 +27,7 @@ import {
         setSearchData
     }
 )
-class transmit extends React.Component {
+class Transmit extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
@@ -92,9 +77,6 @@ class transmit extends React.Component {
             keyName: 'code',
             valueName: 'name'
         }, {
-            title: '材料清单',
-            field: 'refFileList'
-        }, {
             title: '状态',
             field: 'status',
             type: 'select',
@@ -107,7 +89,8 @@ class transmit extends React.Component {
             fields,
             pageCode: 632155,
             searchParams: {
-                statusList: ['0', '3']
+                statusList: ['0', '3'],
+                typeList: ['1', '3']
             },
             btnEvent: {
               send: (selectedRowKeys, selectedRows) => {
@@ -120,21 +103,10 @@ class transmit extends React.Component {
                 } else {
                   this.props.history.push(`/transmit/transmit/send?code=${selectedRowKeys[0]}`);
                 }
-              },
-              check: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].status !== '1') {
-                  showWarnMsg('当前不是待收件节点');
-                } else {
-                  this.props.history.push(`/transmit/transmit/check?code=${selectedRowKeys[0]}`);
-                }
               }
             }
         });
     }
 }
 
-export default transmit;
+export default Transmit;

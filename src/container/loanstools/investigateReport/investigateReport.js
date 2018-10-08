@@ -11,19 +11,11 @@ import {
 } from '@redux/loanstools/investigateReport';
 import {
     showWarnMsg,
-    showSucMsg,
     getRoleCode,
     dateTimeFormat,
     getTeamCode
 } from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    lowerFrame,
-    onShelf,
-    sendMsg
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -127,7 +119,9 @@ class InvestigateReport extends React.Component {
             fields,
             pageCode: 632205,
             searchName: {
-                curNodeCodeList: ['010_01', '010_02', '010_03', '010_04']
+                curNodeCodeList: ['010_01', '010_02', '010_03', '010_04'],
+                teamCode: getTeamCode(),
+                roleCode: getRoleCode()
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {

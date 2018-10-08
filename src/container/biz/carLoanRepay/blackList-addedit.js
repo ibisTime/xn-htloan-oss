@@ -7,13 +7,8 @@ import {
     setPageData,
     restore
 } from '@redux/biz/blackList-addedit';
-import {
-    getQueryString,
-    moneyFormat
-} from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
+import { getQueryString, moneyFormat } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(state => state.bizBlackListAddedit, {
     initStates,

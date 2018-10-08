@@ -42,7 +42,7 @@ class CancelApply extends React.Component {
       params: {
         teamCode: getTeamCode()
       },
-      searchName: 'key',
+      searchName: 'keyword',
       keyName: 'code',
       valueName: '{{code.DATA}}-{{applyUserName.DATA}}',
       required: true

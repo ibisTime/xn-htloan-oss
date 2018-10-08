@@ -1,39 +1,31 @@
 import React from 'react';
-import {
-    Spin, Button
-} from 'antd';
+import { Spin, Button } from 'antd';
 import { Link } from 'react-router-dom';
-import {
-    getQueryString,
-    getUserName,
-    getRoleCode,
-    dateFormat
-} from 'common/js/util';
-import { getRoleList } from 'api/company';
+import { getQueryString, dateFormat } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import './home.css';
 
-class Home extends React.Component {
+class RegulationDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            fetching: false,
+            fetching: true,
             regimeData: {}
         };
         this.code = getQueryString('code', this.props.location.search);
     }
     componentDidMount() {
-        this.setState({ fetching: true });
         fetch(632736, {code: this.code}).then((data) => {
             this.setState({ regimeData: data, fetching: false });
-        }).catch(this.setState({ fetching: false }));
+        }).catch(() => this.setState({ fetching: false }));
     }
 
     render() {
         return (
             <Spin spinning={this.state.fetching}>
                 <div className="detail-wrap">
-                    <div className="title">{this.state.regimeData.regimeCode}</div>
+                    <div className="title">{this.state.regimeData.name}</div>
+                    <div className="sub-title">发布时间：{dateFormat(this.state.regimeData.updateDatetime)}</div>
                     <div className="content">{this.state.regimeData.content}</div>
                     <div className="button">
                         <Button onClick={() => {
@@ -46,4 +38,4 @@ class Home extends React.Component {
     }
 }
 
-export default Home;
+export default RegulationDetail;

@@ -9,23 +9,8 @@ import {
   cancelFetching,
   setSearchData
 } from '@redux/biz/historicalApply';
-import {
-  listWrapper
-} from 'common/js/build-list';
-import {
-  showWarnMsg,
-  showSucMsg,
-  dateTimeFormat
-} from 'common/js/util';
-import {
-  Button,
-  Upload,
-  Modal
-} from 'antd';
-import {
-  lowerFrameSys,
-  onShelfSys
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
+import { dateTimeFormat } from 'common/js/util';
 
 @listWrapper(
   state => ({
@@ -50,13 +35,9 @@ class HistoricalApply extends React.Component {
     }, {
       title: '申请人',
       field: 'userId',
-      type: 'select',
-      listCode: 630066,
-      keyName: 'userId',
-      valueName: 'realName',
-      search: true,
       render: (v, data) => {
-          return data.user ? data.user.realName : '-';
+        let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
+        return prefix + (data.user.mobile || '');
       }
     }, {
       title: '车辆总价',
@@ -84,14 +65,22 @@ class HistoricalApply extends React.Component {
       title: '状态',
       field: 'status',
       type: 'select',
-      key: 'can_order_status',
+      data: [{
+        k: '1',
+        v: '已处理'
+      }, {
+        k: '2',
+        v: '已作废'
+      }],
+      keyName: 'k',
+      valueName: 'v',
       search: true
     }];
     return this.props.buildList({
       fields,
       pageCode: 630435,
       searchParams: {
-        status: '1'
+        statusList: ['1', '2']
       }
     });
   }

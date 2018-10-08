@@ -9,23 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/transmit/collectionGPS';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    showWarnMsg,
-    showSucMsg,
-    getUserId
-} from 'common/js/util';
-import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
-import {
-    putaway,
-    soldOut
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg, getUserId } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -54,6 +39,9 @@ class CollectionGPS extends React.Component {
             type: 'select',
             key: 'logistics_type'
         }, {
+            title: '申请人',
+            field: 'userName'
+        }, {
             title: '传递方式',
             field: 'sendType',
             type: 'select',
@@ -74,23 +62,6 @@ class CollectionGPS extends React.Component {
         }, {
             title: '单号',
             field: 'logisticsCode'
-        }, {
-            title: '发件节点',
-            field: 'fromNodeCode',
-            type: 'select',
-            listCode: 630147,
-            keyName: 'code',
-            valueName: 'name'
-        }, {
-            title: '收件节点',
-            field: 'toNodeCode',
-            type: 'select',
-            listCode: 630147,
-            keyName: 'code',
-            valueName: 'name'
-        }, {
-            title: '材料清单',
-            field: 'refFileList'
         }, {
             title: '状态',
             field: 'status',
