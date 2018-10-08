@@ -47,13 +47,8 @@ class AdmittanceAddEdit extends React.Component {
         this.checkCommissionerTwo = !!getQueryString('checkCommissionerTwo', this.props.location.search);
         // 风控终审
         this.isCheckDirector = !!getQueryString('isCheckDirector', this.props.location.search);
-<<<<<<< HEAD
         // 业务总监审核
         this.isbusinessCheck = !!getQueryString('isbusinessCheck', this.props.location.search);
-=======
-        this.isCheckRegionalManager = !!getQueryString('isCheckRegionalManager', this.props.location.search);
-        this.isCheckNq = !!getQueryString('isCheckNq', this.props.location.search);
->>>>>>> master
         this.wanFactor = 0;
     }
 

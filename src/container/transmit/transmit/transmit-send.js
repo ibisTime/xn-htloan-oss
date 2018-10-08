@@ -60,7 +60,6 @@ class TransmitSend extends React.Component {
         hidden: !this.props.pageData.toNodeCode,
         readonly: true
     }, {
-<<<<<<< HEAD
         title: '参考材料清单',
         field: 'fileList',
         listCode: 632217,
@@ -74,8 +73,6 @@ class TransmitSend extends React.Component {
         title: '收件人',
         field: 'receiver'
     }, {
-=======
->>>>>>> master
         title: '寄送方式',
         field: 'sendType',
         type: 'select',
