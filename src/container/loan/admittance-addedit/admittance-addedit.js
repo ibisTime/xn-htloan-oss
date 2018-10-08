@@ -40,7 +40,7 @@ class AdmittanceAddEdit extends React.Component {
         // 区域经理审核
         this.isCheckRegionalManager = !!getQueryString('isCheckRegionalManager', this.props.location.search);
         // 内勤主管审核
-        this.checkNq = !!getQueryString('checkNq', this.props.location.search);
+        this.isCheckcheckNq = !!getQueryString('isCheckcheckNq', this.props.location.search);
         // 风控一审
         this.isCheckCommissioner = !!getQueryString('isCheckCommissioner', this.props.location.search);
         // 风控二审
@@ -48,7 +48,7 @@ class AdmittanceAddEdit extends React.Component {
         // 风控终审
         this.isCheckDirector = !!getQueryString('isCheckDirector', this.props.location.search);
         // 业务总监审核
-        this.businessCheck = !!getQueryString('businessCheck', this.props.location.search);
+        this.isbusinessCheck = !!getQueryString('isbusinessCheck', this.props.location.search);
         this.wanFactor = 0;
     }
 
@@ -1734,16 +1734,16 @@ class AdmittanceAddEdit extends React.Component {
             title: '审核说明',
             type: 'textarea',
             normalArea: true,
-            readonly: !(this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.checkNq || this.checkCommissionerTwo || this.businessCheck)
+            readonly: !(this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckcheckNq || this.checkCommissionerTwo || this.isbusinessCheck)
         }];
 
         let buttons = [];
         let bizCode;
         // 区域经理审核
-        if (this.isCheckCommissioner) {
+        if (this.isCheckRegionalManager) {
             bizCode = 632140;
         // 内勤主管审核
-        } else if (this.checkNq) {
+        } else if (this.isCheckcheckNq) {
             bizCode = 632142;
         // 风控一审
         } else if (this.isCheckCommissioner) {
@@ -1755,11 +1755,11 @@ class AdmittanceAddEdit extends React.Component {
         } else if (this.isCheckDirector) {
             bizCode = 632122;
         // 业务总监审核
-        } else if (this.businessCheck) {
+        } else if (this.isbusinessCheck) {
             bizCode = 632139;
         }
 
-        if (this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.checkNq || this.checkCommissionerTwo || this.businessCheck) {
+        if (this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckcheckNq || this.checkCommissionerTwo || this.isbusinessCheck) {
             fields = fields.concat(checkFields);
 
             buttons = [{
@@ -1768,6 +1768,7 @@ class AdmittanceAddEdit extends React.Component {
                 handler: (params) => {
                     let data = {};
                     data.budgetOrderCode = this.code;
+                    data.code = this.code;
                     data.approveNote = params.approveNote;
                     data.approveResult = '1';
                     data.operator = getUserId();
@@ -1788,6 +1789,7 @@ class AdmittanceAddEdit extends React.Component {
                 handler: (params) => {
                     let data = {};
                     data.budgetOrderCode = this.code;
+                    data.code = this.code;
                     data.approveNote = params.approveNote;
                     data.approveResult = '0';
                     data.operator = getUserId();
@@ -1810,7 +1812,7 @@ class AdmittanceAddEdit extends React.Component {
             }];
         }
 
-        if (!this.view && !this.isCheckCommissioner && !this.isCheckDirector && !this.isCheckRegionalManager && !this.checkNq && !this.checkCommissionerTwo && !this.businessCheck) {
+        if (!this.view && !this.isCheckCommissioner && !this.isCheckDirector && !this.isCheckRegionalManager && !this.checkNq && !this.checkCommissionerTwo && !this.isbusinessCheck) {
             buttons = [{
                 title: '保存',
                 handler: (params) => {

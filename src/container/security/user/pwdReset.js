@@ -7,7 +7,7 @@ import {
   setPageData,
   restore
 } from '@redux/security/pwdReset';
-import { getQueryString } from 'common/js/util';
+import { getQueryString, getUserId } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
@@ -43,7 +43,11 @@ class PwdReset extends React.Component {
       code: this.code,
       view: this.view,
       detailCode: 630067,
-      editCode: 630055
+      editCode: 630055,
+      beforeSubmit: (data) => {
+          data.updater = getUserId();
+          return data;
+      }
     });
   }
 }

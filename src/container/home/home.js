@@ -148,7 +148,8 @@ class Home extends React.Component {
                         </div>
                         <div className="card-content">
                             <div className="user-name">
-                                {this.state.userData && this.state.userData.realName}<i> ( {this.state.userData && this.state.userData.loginName} ) </i>
+                                {this.state.userData && this.state.userData.realName}
+                                {/* <i> ( {this.state.userData && this.state.userData.loginName} ) </i> */}
                             </div>
                             <div className="user-post">岗位：{this.state.userData && this.state.userData.postName}</div>
                         </div>

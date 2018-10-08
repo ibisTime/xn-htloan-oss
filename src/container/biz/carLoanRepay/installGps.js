@@ -104,6 +104,20 @@ class installGps extends React.Component {
             keyName: 'code',
             valueName: 'name'
         }, {
+            title: '是否安装',
+            field: 'isGpsAz',
+            type: 'select',
+            data: [{
+                key: '0',
+                value: '否'
+            }, {
+                key: '1',
+                value: '是'
+            }],
+            keyName: 'key',
+            valueName: 'value',
+            search: true
+        }, {
             title: '备注',
             field: 'remark'
         }, {

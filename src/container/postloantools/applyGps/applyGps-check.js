@@ -14,7 +14,9 @@ import {
   getUserId,
   isExpressConfirm
 } from 'common/js/util';
-import { DetailWrapper } from 'common/js/build-detail';
+import {
+  DetailWrapper
+} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
@@ -32,47 +34,70 @@ class applyGpsCheck extends React.Component {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
+    this.state = {
+      ...this.state
+    };
   }
   render() {
     const fields = [{
-        title: '申领个数',
-        field: 'applyCount',
-        readonly: true
-      }, {
-        title: '申领人',
-        field: 'applyUserName',
-        readonly: true
-      }, {
-        title: '申领原因',
-        field: 'applyReason',
-        readonly: true
-      }, {
-        title: 'GPS列表',
-        field: 'gpsList',
-        required: true,
-        type: 'o2m',
-        options: {
-          add: true,
-          delete: true,
-          scroll: {
-            x: 400
+      title: '申请人姓名',
+      field: 'applyUserName',
+      readonly: true
+    }, {
+      title: '业务团队',
+      field: 'teamName',
+      readonly: true
+    }, {
+      title: '角色',
+      field: 'roleName',
+      readonly: true
+    }, {
+      title: '客户姓名',
+      field: 'customerName',
+      readonly: true
+    }, {
+      title: '车架号',
+      field: 'carFrameNo',
+      readonly: true
+    }, {
+      title: '手机号',
+      field: 'mobile',
+      readonly: true
+    }, {
+      title: '申领个数',
+      field: 'applyCount',
+      readonly: true
+    }, {
+      title: '申领原因',
+      field: 'applyReason',
+      readonly: true
+    }, {
+      title: 'GPS列表',
+      field: 'gpsList',
+      required: true,
+      type: 'o2m',
+      options: {
+        add: true,
+        delete: true,
+        scroll: {
+          x: 400
+        },
+        fields: [{
+          title: 'GPS设备号',
+          field: 'code',
+          type: 'select',
+          listCode: 632707,
+          params: {
+            applyStatus: '0',
+            useStatus: '0'
           },
-          fields: [{
-            title: 'GPS设备号',
-            field: 'code',
-            type: 'select',
-            listCode: 632707,
-            params: {
-              applyStatus: '0',
-              useStatus: '0'
-            },
-            keyName: 'code',
-            valueName: 'gpsDevNo',
-            nowrap: true,
-            required: true
-          }]
-        }
-      }];
+          keyName: 'code',
+          valueName: 'gpsDevNo',
+          nowrap: true,
+          required: true
+        }]
+      }
+    }];
     return this.props.buildDetail({
       fields,
       code: this.code,

@@ -69,6 +69,12 @@ class transmitAddedit extends React.Component {
         valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}',
         multiple: true
     }, {
+        title: '发件人',
+        field: 'sender'
+    }, {
+        title: '收件人',
+        field: 'receiver'
+    }, {
         title: '寄送方式',
         field: 'sendType',
         type: 'select',

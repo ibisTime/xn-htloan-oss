@@ -28,6 +28,30 @@ class applyGpsAddedit extends React.Component {
   }
   render() {
     const fields = [{
+      title: '申请人姓名',
+      field: 'applyUserName',
+      readonly: true
+    }, {
+      title: '业务团队',
+      field: 'teamName',
+      readonly: true
+    }, {
+      title: '角色',
+      field: 'roleName',
+      readonly: true
+    }, {
+      title: '客户姓名',
+      field: 'customerName',
+      readonly: true
+    }, {
+      title: '车架号',
+      field: 'carFrameNo',
+      readonly: true
+    }, {
+      title: '手机号',
+      field: 'mobile',
+      readonly: true
+    }, {
       title: '申领个数',
       field: 'applyCount'
     }, {
