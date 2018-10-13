@@ -26,11 +26,35 @@ class CollectionGPSAddedit extends React.Component {
   }
   render() {
     const fields = [{
+        title: '收件人',
+        field: 'userName',
+        readonly: true
+    }, {
+        title: '角色',
+        field: 'userRole',
+        readonly: true
+    }, {
+        title: '业务团队',
+        field: 'teamName',
+        readonly: true
+    }, {
         title: '客户姓名',
-        field: 'userName'
+        field: 'customerName',
+        formatter: (v, d) => {
+            return d.gpsApply.customerName;
+        },
+        readonly: true
+    }, {
+        title: '车架号',
+        field: 'carFrameNo',
+        formatter: (v, d) => {
+            return d.gpsApply.carFrameNo;
+        },
+        readonly: true
     }, {
         title: '业务编号',
-        field: 'bizCode'
+        field: 'bizCode',
+        readonly: true
     }, {
         title: '传递方式',
         field: 'sendType',
@@ -44,25 +68,26 @@ class CollectionGPSAddedit extends React.Component {
         }],
         keyName: 'key',
         valueName: 'value',
-        required: true
+        readonly: true
     }, {
         title: '快递公司',
         field: 'logisticsCompany',
         type: 'select',
-        key: 'kd_company'
+        key: 'kd_company',
+        readonly: true
     }, {
         title: '快递单号',
-        field: 'logisticsCode'
+        field: 'logisticsCode',
+        readonly: true
     }, {
         title: '发货时间',
         field: 'sendDatetime',
-        type: 'datetime'
+        type: 'datetime',
+        readonly: true
     }, {
         title: '发货说明',
-        field: 'sendNote'
-    }, {
-        title: '备注',
-        field: 'remark'
+        field: 'sendNote',
+        readonly: true
     }];
     return this
       .props

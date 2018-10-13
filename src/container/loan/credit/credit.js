@@ -186,6 +186,13 @@ class Credit extends React.Component {
                         this.props.history.push(`/loan/credit/addedit?v=1&isEntry=1&code=${selectedRowKeys[0]}`);
                     }
                 },
+                bigData: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else {
+                        this.props.history.push(`/loan/credit/bigdata?v=1&code=${selectedRowKeys[0]}`);
+                    }
+                },
                 withdraw: (key, item) => {
                   if (!key || !key.length || !item || !item.length) {
                     showWarnMsg('请选择记录');

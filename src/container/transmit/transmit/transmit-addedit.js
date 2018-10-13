@@ -26,11 +26,26 @@ class TransmitAddedit extends React.Component {
   }
   render() {
     const fields = [{
+        title: '业务编号',
+        field: 'bizCode'
+    }, {
         title: '客户姓名',
         field: 'customerName'
     }, {
-        title: '业务编号',
-        field: 'bizCode'
+        title: '发件人',
+        field: 'senderName'
+    }, {
+        title: '收件人',
+        field: 'receiverName'
+    }, {
+        title: '业务团队',
+        field: 'teamName'
+    }, {
+        title: '信贷专员',
+        field: 'saleUserName'
+    }, {
+        title: '内勤专员',
+        field: 'insideJobName'
     }, {
         title: '类型',
         field: 'type',

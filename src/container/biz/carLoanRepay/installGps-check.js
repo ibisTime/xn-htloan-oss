@@ -57,27 +57,51 @@ class installGpsCheck extends React.Component {
       readonly: true,
       options: {
         fields: [{
-          field: 'gpsDevNo',
-          title: 'GPS设备编号'
+            title: 'GPS设备号',
+            field: 'code',
+            type: 'select',
+            listCode: 632707,
+            params: {
+                applyStatus: '1',
+                applyUser: getUserId(),
+                useStatus: '0'
+            },
+            keyName: 'code',
+            valueName: 'gpsDevNo',
+            nowrap: true,
+            readonly: true
         }, {
-          field: 'gpsType',
-          title: 'GPS类型',
-          type: 'select',
-          data: [{
-            key: '1',
-            value: '有线'
-          }, {
-            key: '0',
-            value: '无线'
-          }],
-          keyName: 'key',
-          valueName: 'value'
+            title: '安装位置',
+            field: 'azLocation',
+            nowrap: true,
+            readonly: true
+        }, {
+            title: '安装时间',
+            field: 'azDatetime',
+            type: 'date',
+            nowrap: true,
+            readonly: true
+        }, {
+            title: '安装人员',
+            field: 'azUser',
+            nowrap: true,
+            readonly: true
+        }, {
+            title: '设备图片',
+            field: 'devPhotos',
+            type: 'img',
+            readonly: true
+        }, {
+            title: '安装图片',
+            field: 'azPhotos',
+            type: 'img',
+            readonly: true
         }]
       }
     }, {
       title: '备注',
       field: 'remark'
-    }];
+  }];
     return this.props.buildDetail({
       fields,
       code: this.code,

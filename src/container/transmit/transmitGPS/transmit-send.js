@@ -28,8 +28,30 @@ class TransmitSend extends React.Component {
   }
   render() {
     const fields = [{
+        title: '申请人姓名 ',
+        field: 'receiverName',
+        readonly: true
+    }, {
+        title: '角色',
+        field: 'userRole',
+        readonly: true
+    }, {
+        title: '业务团队',
+        field: 'teamName',
+        readonly: true
+    }, {
         title: '客户姓名',
-        field: 'userName',
+        field: 'customerName',
+        formatter: (v, d) => {
+            return d.gpsApply.customerName;
+        },
+        readonly: true
+    }, {
+        title: '车架号',
+        field: 'carFrameNo',
+        formatter: (v, d) => {
+            return d.gpsApply.carFrameNo;
+        },
         readonly: true
     }, {
         title: '业务编号',

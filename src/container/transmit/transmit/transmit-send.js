@@ -68,10 +68,10 @@ class TransmitSend extends React.Component {
         multiple: true
     }, {
         title: '发件人',
-        field: 'sender'
+        field: 'senderName'
     }, {
         title: '收件人',
-        field: 'receiver'
+        field: 'receiverName'
     }, {
         title: '寄送方式',
         field: 'sendType',

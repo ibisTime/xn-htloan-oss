@@ -88,7 +88,9 @@ class Archivesquery extends React.Component {
             title: '档案位置',
             field: 'enterLocation',
             type: 'select',
-            key: 'enter_location',
+            listCode: '632827',
+            keyName: 'code',
+            valueName: 'name',
             search: true
         }, {
             title: '当前节点',

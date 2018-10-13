@@ -242,6 +242,7 @@ import { basedataReceivablesAddEdit } from './redux/basedata/receivables-addedit
 // 发起征信查询
 import { loanCredit } from './redux/loan/credit';
 import { loanCreditAddedit } from './redux/loan/credit-addedit';
+import { loanBigdata } from './redux/loan/bigdata';
 
 // 准入审查
 import { loanAdmittance } from './redux/loan/admittance';
@@ -680,6 +681,7 @@ export default combineReducers({
   bizredListEnter,
   loanCredit,
   loanCreditAddedit,
+  loanBigdata,
   loanAdmittance,
   loanAdmittanceAddedit,
   loanFaceSign,

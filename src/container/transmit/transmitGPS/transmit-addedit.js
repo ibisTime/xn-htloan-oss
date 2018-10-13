@@ -26,8 +26,32 @@ class TransmitAddedit extends React.Component {
   }
   render() {
     const fields = [{
-        title: '客户姓名',
-        field: 'userName'
+        title: '发件人',
+        field: 'senderName'
+    }, {
+        title: '收件人',
+        field: 'receiverName'
+    }, {
+        title: '业务团队',
+        field: 'teamName'
+    }, {
+        title: '信贷专员',
+        field: 'saleUserName'
+    }, {
+        title: '内勤专员',
+        field: 'insideJobName'
+    }, {
+        title: 'gps无线个数',
+        field: 'applyWirelessCount',
+        formatter: (v, d) => {
+            return d.gpsApply.applyWirelessCount;
+        }
+    }, {
+        title: 'gps有线个数',
+        field: 'applyWiredCount',
+        formatter: (v, d) => {
+            return d.gpsApply.applyWiredCount;
+        }
     }, {
         title: '业务编号',
         field: 'bizCode'

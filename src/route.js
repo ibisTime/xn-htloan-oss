@@ -799,6 +799,11 @@ const ROUTES = [
       path: '/loan/credit/dispatch',
       component: asyncComponent(() => import('container/loan/credit/credit-dispatch'))
   },
+  // 发起征信查询
+  {
+      path: '/loan/credit/bigdata',
+      component: asyncComponent(() => import('container/loan/bigdata/bigdata'))
+  },
   // 准入审查
   {
       path: '/loan/admittance',

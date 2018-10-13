@@ -49,6 +49,10 @@ class AdvMoneyAddedit extends React.Component {
             field: 'saleUserName',
             readonly: true
         }, {
+            title: '业务内勤',
+            field: 'insideJobName',
+            readonly: true
+        }, {
             title: '客户姓名',
             field: 'applyUserName',
             required: true,
