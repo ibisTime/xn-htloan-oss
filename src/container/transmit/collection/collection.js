@@ -90,7 +90,7 @@ class Collection extends React.Component {
             pageCode: 632155,
             searchParams: {
                 statusList: ['1', '2', '3'],
-                receiverName: '0'
+                type: '1'
             },
             btnEvent: {
               check: (selectedRowKeys, selectedRows) => {

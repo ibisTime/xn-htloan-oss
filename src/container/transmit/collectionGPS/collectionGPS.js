@@ -76,7 +76,8 @@ class CollectionGPS extends React.Component {
             pageCode: 632155,
             searchParams: {
                 statusList: ['1', '2', '3'],
-                receiverName: getUserId()
+                receiverName: getUserId(),
+                type: '2'
             },
             btnEvent: {
               check: (selectedRowKeys, selectedRows) => {
