@@ -13,7 +13,6 @@ import {
 import {
     DetailWrapper
 } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
 
 @DetailWrapper(
     state => state.bizCarloanAddEdit, {
@@ -41,7 +40,7 @@ class carloanAddedit extends React.Component {
         title: '期数',
         field: 'ckey'
       }, {
-        title: '利率',
+        title: '利率（%）',
         field: 'cvalue'
       }];
       return this.props.buildDetail({

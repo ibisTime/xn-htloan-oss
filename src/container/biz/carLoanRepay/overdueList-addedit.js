@@ -142,9 +142,7 @@ class overdueListAddedit extends React.Component {
         fields,
         code: this.code,
         view: this.view,
-        addCode: 630500,
-        editCode: 630502,
-        detailCode: 630507
+        detailCode: 630541
       });
   }
 }

@@ -286,9 +286,10 @@ export default class ListComponent extends React.Component {
     } else if (this.options.singleSelect && selectedRowKeys.length > 1) {
       showWarnMsg('请选择一条记录');
     } else {
+      let key = this.options.rowKey || 'code';
       showDelConfirm({
         onOk: () => {
-          let param = { code: selectedRowKeys[0] };
+          let param = { [key]: selectedRowKeys[0] };
           this.options.beforeDelete && this.options.beforeDelete(param);
           this.props.doFetching();
           fetch(this.options.deleteCode, param).then(data => {

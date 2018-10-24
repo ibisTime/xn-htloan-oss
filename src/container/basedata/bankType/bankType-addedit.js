@@ -40,35 +40,36 @@ class BankTypeAddedit extends React.Component {
         }, {
             title: '每日限额',
             field: 'dayAmount',
-            amount: true,
-            required: true
+            hidden: true,
+            value: '0'
         }, {
             title: '每日笔数限制',
             field: 'maxOrder',
-            required: true
+            hidden: true,
+            value: '0'
         }, {
             title: '每月限额',
             field: 'monthAmount',
-            amount: true,
-            required: true
+            hidden: true,
+            value: '0'
         }, {
             title: '单笔限额',
             field: 'orderAmount',
-            required: true
+            hidden: true,
+            value: '0'
+        }, {
+            field: 'channelType',
+            value: '40',
+            hidden: true
+        }, {
+            field: 'channelBank',
+            value: new Date().getTime(),
+            hidden: true
         }, {
             title: '状态',
             field: 'status',
-            type: 'select',
-            data: [{
-                key: '0',
-                value: '不可用'
-            }, {
-                key: '1',
-                value: '可用'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            required: true
+            hidden: true,
+            value: '1'
         }];
         return this.props.buildDetail({
             fields,

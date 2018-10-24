@@ -38,13 +38,10 @@ class Bigdata extends React.Component {
         };
     }
     componentDidMount() {
-        // console.log(this);
-        // debugger;
         let _this = this;
         fetch(632117, {
             code: _this.code
         }).then(data => {
-            debugger;
             this.setState({
                 idNo: data.idNo,
                 mobile: data.mobile,
@@ -52,7 +49,6 @@ class Bigdata extends React.Component {
             });
             // 获取身份证实名认证
             _this.getIdNoAttestation(data.idNo, data.userName).then(data => {
-                // debugger;
                 data = JSON.parse(data).data;
                 _this.props.setPageData({
                     ..._this.props.pageData,
@@ -118,7 +114,6 @@ class Bigdata extends React.Component {
             // });
             // 失信被执行人
             _this.getDiscredit(data.idNo, data.userName).then(data => {
-                // debugger;
                 // data = JSON.parse(data).data;
                 _this.props.setPageData({
                     ..._this.props.pageData,
@@ -237,7 +232,6 @@ class Bigdata extends React.Component {
                         // let idNo = this.props.pageData.idNo;
                         // let mobile = this.props.pageData.mobile;
                         // let userName = this.props.pageData.userName;
-                        debugger;
                         this.getBankCardNoAttestation(v, this.state.idNo, this.state.mobile, this.state.userName).then(data => {
                             data = JSON.parse(data).data;
                             this.props.setPageData({
@@ -289,7 +283,6 @@ class Bigdata extends React.Component {
                     readonly: false,
                     onChange: (v) => {
                         // 社保
-                        debugger;
                         let username = this.props.pageData.username;
                         let password = this.props.pageData.password;
                         if(username === '') {

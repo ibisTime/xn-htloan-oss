@@ -136,7 +136,7 @@ class blackListDispose extends React.Component {
                 fields,
                 code: this.code,
                 view: this.view,
-                detailCode: 630541,
+                detailCode: 632306,
                 moreBtns: true,
                 buttons: [{
                     title: '记绿名单并代扣',

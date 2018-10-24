@@ -37,6 +37,7 @@ class Carloan extends React.Component {
       fields,
       pageCode: 630045,
       rowKey: 'id',
+      deleteCode: 630041,
       searchParams: {
         type: 'car_periods'
       }

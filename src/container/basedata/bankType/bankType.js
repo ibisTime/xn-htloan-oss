@@ -41,20 +41,6 @@ class BankType extends React.Component {
             title: '银行代号',
             field: 'bankCode'
         }, {
-            title: '每日限额',
-            field: 'dayAmount',
-            amount: true
-        }, {
-            title: '每日笔数限制',
-            field: 'maxOrder'
-        }, {
-            title: '每月限额',
-            field: 'monthAmount',
-            amount: true
-        }, {
-            title: '单笔限额',
-            field: 'orderAmount'
-        }, {
             title: '状态',
             field: 'status',
             type: 'select',
@@ -70,7 +56,7 @@ class BankType extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            key: 'id',
+            rowKey: 'id',
             pageCode: 802115
         });
     }

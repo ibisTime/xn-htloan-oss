@@ -1642,6 +1642,21 @@ const ROUTES = [
   {
       path: '/circulationLog/repayment/addedit',
       component: asyncComponent(() => import('container/circulationLog/repayment/repayment-addedit'))
+  },
+  // 大数据 身份证认证报告
+  {
+      path: '/credit/idcheck/report',
+      component: asyncComponent(() => import('container/credit/idcheck-report/idcheck-report'))
+  },
+  // 大数据 银行四要素认证报告
+  {
+      path: '/credit/bank4check/report',
+      component: asyncComponent(() => import('container/credit/bank4check-report/bank4check-report'))
+  },
+  // 电商信用报告
+  {
+      path: '/credit/tbcheck/report',
+      component: asyncComponent(() => import('container/credit/tbcheck-report/tbcheck-report'))
   }
 ];
 
