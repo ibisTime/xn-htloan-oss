@@ -1,13 +1,14 @@
 import React from 'react';
 import { Form, Button, Spin, Modal, Carousel, Tooltip,
   Icon, Collapse, Row, Col } from 'antd';
+import asyncComponent from 'component/async-component/async-component';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
 import {
-  isUndefined, showSucMsg, showErrMsg, showWarnMsg, getUserId,
-  moneyParse, getRules, getRealValue } from 'common/js/util';
+  isUndefined, showSucMsg, showErrMsg, showWarnMsg, getUserName,
+  moneyParse, getRules, getRealValue, dateFormat, dateTimeFormat } from 'common/js/util';
 import fetch from 'common/js/fetch';
-import { UPLOAD_URL, PIC_PREFIX, PIC_BASEURL_L, tailFormItemLayout, tailFormItemLayout1,
+import { UPLOAD_URL, PIC_PREFIX, PIC_BASEURL_L, formItemLayout,
   validateFieldsAndScrollOption, DATE_FORMAT, MONTH_FORMAT, DATETIME_FORMAT } from 'common/js/config';
 import cityData from 'common/js/lib/city';
 import CInput from 'component/cInput/cInput';
@@ -42,6 +43,8 @@ export default class DetailComp extends React.Component {
       fetching: true,
       // 下拉框中的数据
       selectData: {},
+      // field里dict指向的数据
+      dictData: {},
       // 页面详情查数据
       pageData: null,
       // 页面是否加载完成
@@ -64,16 +67,34 @@ export default class DetailComp extends React.Component {
     } else {
       firstFn = Promise.resolve(null);
     }
-    let list = this.fetchList.map(f => {
+    this.fetchFieldsList = [];
+    let list = [];
+    this.fetchList.forEach(f => {
+      this.fetchFieldsList.push({ field: f.field });
+      let flag = false;
       if (f.data) {
-        return Promise.resolve(f.data);
+        list.push(Promise.resolve(f.data));
+        flag = true;
       } else if (f.key) {
-        return getDictList({parentKey: f.key, bizType: f.keyCode});
+        list.push(getDictList({parentKey: f.key, bizType: f.keyCode}));
+        flag = true;
       } else if (f.listCode) {
         let param = f.params || {};
-        return fetch(f.listCode, param);
+        list.push(fetch(f.listCode, param));
+        flag = true;
       }
-      return Promise.resolve([]);
+      !flag && list.push(Promise.resolve([]));
+      if (f.dict) {
+        f.dict.forEach(d => {
+          this.fetchFieldsList.push({
+            field: f.field,
+            hasData: flag,
+            keyName: d[1],
+            valueName: d[0]
+          });
+          list.push(getDictList({parentKey: d[1], bizType: f.keyCode}));
+        });
+      }
     });
     list.unshift(getQiniuToken());
     list.unshift(firstFn);
@@ -89,22 +110,45 @@ export default class DetailComp extends React.Component {
   // 获取所有页面所需的数据
   getInfos(list) {
     let selectData = {};
+    let dictData = {};
     let pageData;
     let token;
     Promise.all(list).then(([...results]) => {
       results.forEach((data, i) => {
+        // 页面详情数据
         if (i === 0) {
           pageData = data;
+          // 七牛云数据
         } else if (i === 1) {
           token = data.uploadToken;
+          // 其它下拉框数据
         } else {
-          selectData[this.fetchList[i - 2].field] = data;
+          let field = this.fetchFieldsList[i - 2];
+          // 是数据字典
+          if (field.keyName) {
+            if (field.hasData) {
+              selectData[field.field].forEach(o => {
+                for(let i = 0; i < data.length; i++) {
+                  if (data[i].dkey === o[field.valueName]) {
+                    o[field.valueName + 'Name'] = data[i].dvalue;
+                    break;
+                  }
+                }
+              });
+            } else {
+              dictData[field.field] = dictData[field.field] || {};
+              dictData[field.field][field.keyName] = data;
+            }
+          } else {
+            selectData[field.field] = data;
+          }
         }
       });
       this.setState({
         pageData,
         token,
         selectData,
+        dictData,
         isLoaded: true,
         fetching: false
       }, () => {
@@ -117,10 +161,13 @@ export default class DetailComp extends React.Component {
             }
           });
         }
+        if (this.options.afterDetail) {
+          this.options.afterDetail();
+        }
       });
     }).catch(() => {});
   }
-  buildDetail(options) {
+  buildDetail = (options) => {
     this.options = { ...this.options, ...options };
     if (!this.first && this.options.useData !== undefined) {
       if (!this.state.pageData) {
@@ -209,7 +256,7 @@ export default class DetailComp extends React.Component {
   }
   // 根据field的type做预处理
   judgeFieldType(f) {
-    f.readonly = isUndefined(f.readonly) ? this.options.view : f.readonly;
+    f.readonly = isUndefined(f.readonly) ? !!this.options.view : !!f.readonly;
     if (f.type === 'citySelect') {
       f.cFields = f.cFields || ['province', 'city', 'area'];
     } else if (f.type === 'select' || f.type === 'checkbox' || f.type === 'provSelect') {
@@ -310,6 +357,7 @@ export default class DetailComp extends React.Component {
       label: this.getLabel(item),
       readonly: item.readonly,
       onChange: item.onChange,
+      placeholder: item.placeholder,
       getFieldError: this.props.form.getFieldError,
       getFieldValue: this.props.form.getFieldValue
     };
@@ -385,6 +433,8 @@ export default class DetailComp extends React.Component {
       label: this.getLabel(item),
       keyName: item.keyName,
       valueName: item.valueName,
+      dict: item.dict,
+      dictData: this.state.dictData[item.field],
       readonly: item.readonly,
       onChange: item.onChange,
       getFieldValue: this.props.form.getFieldValue,
@@ -408,7 +458,7 @@ export default class DetailComp extends React.Component {
       inline: item.inline,
       field: item.field,
       label: this.getLabel(item),
-      isSingle: item.isSingle,
+      single: item.single,
       readonly: item.readonly,
       onChange: item.onChange,
       token: this.state.token,
@@ -541,8 +591,8 @@ export default class DetailComp extends React.Component {
   // 获取页面按钮
   getBtns(buttons) {
     return (
-      <FormItem key='btns' {...this.getBtnItemProps()}>
-        {buttons && buttons.length
+      <FormItem className="cform-item-btn" key='btns' {...formItemLayout} label="&nbsp;">
+        {buttons
           ? buttons.map((b, i) => (
             <Button
               style={{marginRight: 20}}
@@ -553,7 +603,7 @@ export default class DetailComp extends React.Component {
             </Button>
           ))
           : this.options.view
-            ? <Button style={{marginLeft: 20}} onClick={this.onCancel}>返回</Button>
+            ? <Button onClick={this.onCancel}>返回</Button>
             : (
               <div>
                 <Button type="primary" htmlType="submit">{this.options.okText || '保存'}</Button>
@@ -573,10 +623,6 @@ export default class DetailComp extends React.Component {
           {item.help ? <Tooltip title={item.help}><Icon type="question-circle-o"/></Tooltip> : null}
       </span>
     );
-  }
-  // 获取button的props
-  getBtnItemProps() {
-    return this.options.moreBtns ? tailFormItemLayout1 : tailFormItemLayout;
   }
   // 返回
   onCancel = () => {
@@ -624,7 +670,23 @@ export default class DetailComp extends React.Component {
           values[v.field] = values[v.field] ? values[v.field].format(format) : values[v.field];
         }
       } else if (v.type === 'o2m') {
-        values[v.field] = this.state.pageData ? this.state.pageData[v.field] : null;
+        let list = this.state.pageData ? this.state.pageData[v.field] : null;
+        if (list) {
+          v.options.fields.forEach(f => {
+            if (f.type === 'date' || f.type === 'datetime') {
+              let fn = f.type === 'date' ? dateFormat : dateTimeFormat;
+              list.forEach(l => {
+                if (f.rangedate) {
+                  l[f.rangedate[0]] = fn(l[f.rangedate[0]]);
+                  l[f.rangedate[1]] = fn(l[f.rangedate[1]]);
+                } else {
+                  l[f.field] = fn(l[f.field]);
+                }
+              });
+            }
+          });
+        }
+        values[v.field] = list;
       } else if (v.type === 'checkbox') {
         if (values[v.field] !== '' && values[v.field].push) {
           values[v.field] = values[v.field].join(',');
@@ -635,7 +697,7 @@ export default class DetailComp extends React.Component {
         values[v.field] = values[v.field] ? values[v.field].join(',') : '';
       }
     });
-    values.updater = values.updater || getUserId();
+    values.updater = values.updater || getUserName();
     return values;
   }
   // 保存并校验错误

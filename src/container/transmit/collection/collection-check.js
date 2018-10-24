@@ -71,8 +71,33 @@ class CollectionCheck extends React.Component {
         valueName: 'name',
         readonly: true
     }, {
+        title: '业务团队',
+        field: 'teamName',
+        readonly: true
+    }, {
+        title: '信贷专员',
+        field: 'saleUserName',
+        readonly: true
+    }, {
+        title: '内勤专员',
+        field: 'insideJobName',
+        readonly: true
+    }, {
+        title: '发件人',
+        field: 'senderName',
+        hidden: !this.props.pageData.senderName,
+        readonly: true
+    }, {
+        title: '收件人',
+        field: 'receiverName',
+        hidden: !this.props.pageData.receiverName
+    }, {
         title: '参考材料清单',
         field: 'fileList',
+        type: 'checkbox',
+        listCode: 632217,
+        keyName: 'id',
+        valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份',
         readonly: true
     }, {
         title: '传递方式',

@@ -26,23 +26,46 @@ class CollectionGPSAddedit extends React.Component {
   }
   render() {
     const fields = [{
-        title: '收件人',
-        field: 'userName',
-        readonly: true
+        title: '发件人',
+        field: 'senderName'
     }, {
-        title: '角色',
-        field: 'userRole',
+        title: '收件人姓名',
+        field: 'receiverName',
+        formatter: (v, d) => `${d.receiverName}-${d.userRole}`,
         readonly: true
     }, {
         title: '业务团队',
         field: 'teamName',
-        readonly: true
+        hidden: !this.props.pageData.teamName
+    }, {
+        title: '信贷专员',
+        field: 'saleUserName',
+        hidden: !this.props.pageData.saleUserName
+    }, {
+        title: '内勤专员',
+        field: 'insideJobName',
+        hidden: !this.props.pageData.insideJobName
+    }, {
+      title: '申领有线个数',
+      field: 'applyWiredCount',
+      formatter: (v, d) => {
+          return d.gpsApply.applyWiredCount;
+      },
+      readonly: true
+    }, {
+      title: '申领无线个数',
+      field: 'applyWirelessCount',
+      formatter: (v, d) => {
+          return d.gpsApply.applyWirelessCount;
+      },
+      readonly: true
     }, {
         title: '客户姓名',
         field: 'customerName',
         formatter: (v, d) => {
             return d.gpsApply.customerName;
         },
+        hidden: (!this.props.pageData.gpsApply || !this.props.pageData.gpsApply.customerName),
         readonly: true
     }, {
         title: '车架号',
@@ -50,11 +73,16 @@ class CollectionGPSAddedit extends React.Component {
         formatter: (v, d) => {
             return d.gpsApply.carFrameNo;
         },
+        hidden: (!this.props.pageData.gpsApply || !this.props.pageData.gpsApply.carFrameNo),
         readonly: true
     }, {
-        title: '业务编号',
-        field: 'bizCode',
-        readonly: true
+      title: '手机号',
+      field: 'mobile',
+      formatter: (v, d) => {
+          return d.gpsApply.mobile;
+      },
+      hidden: (!this.props.pageData.gpsApply || !this.props.pageData.gpsApply.mobile),
+      readonly: true
     }, {
         title: '传递方式',
         field: 'sendType',

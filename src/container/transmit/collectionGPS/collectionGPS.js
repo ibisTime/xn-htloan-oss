@@ -34,13 +34,32 @@ class CollectionGPS extends React.Component {
             field: 'bizCode',
             search: true
         }, {
-            title: '类型',
-            field: 'type',
-            type: 'select',
-            key: 'logistics_type'
+            title: '发件人',
+            field: 'senderName'
         }, {
-            title: '申请人',
-            field: 'userName'
+            title: '收件人',
+            field: 'receiverName'
+        }, {
+            title: '业务团队',
+            field: 'teamName'
+        }, {
+            title: '信贷专员',
+            field: 'saleUserName'
+        }, {
+            title: '内勤专员',
+            field: 'insideJobName'
+        }, {
+            title: 'gps无线个数',
+            field: 'applyWirelessCount',
+            render: (v, d) => {
+                return d.gpsApply.applyWirelessCount;
+            }
+        }, {
+            title: 'gps有线个数',
+            field: 'applyWiredCount',
+            render: (v, d) => {
+                return d.gpsApply.applyWiredCount;
+            }
         }, {
             title: '传递方式',
             field: 'sendType',

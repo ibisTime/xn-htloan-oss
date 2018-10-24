@@ -14,7 +14,7 @@ notification.config({
  */
 export function setUser({userId, token}) {
   cookies.set('userId', userId);
-  // cookies.set('token', token);
+  cookies.set('token', token);
 }
 
 // 删除用户登录信息
@@ -34,10 +34,11 @@ export function getCompanyCode() {
 }
 
 // 设置用户角色信息
-export function setRoleInfo({roleCode, companyCode, loginName}) {
+export function setRoleInfo({roleCode, companyCode, loginName, teamCode}) {
   cookies.set('roleCode', roleCode);
   companyCode && cookies.set('companyCode', companyCode);
   cookies.set('userName', loginName);
+  teamCode && cookies.set('teamCode', teamCode);
 }
 
 // 获取用户角色编号
@@ -664,9 +665,10 @@ export function getRealName() {
 // 返回当前节点应跳转的页面
 export function getNowCurNodePageUrl(data) {
   let url;
+  // "0", "待发件"，"1", "已发件待收件"，"3", "已收件待补件"
   // 物流单
-  if (!isUndefined(data.logisticsStatus)) {
-    if (data.logisticsStatus === '0' || data.logisticsStatus === '3') {
+  if (data.refType === '012') {
+    if (data.logisticsCode === '0' || data.logisticsCode === '1') {
       url = '/transmit/transmit/send?code=';
     } else {
       url = '/transmit/collection/check?code=';

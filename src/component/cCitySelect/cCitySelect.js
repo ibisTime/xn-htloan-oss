@@ -16,8 +16,8 @@ export default class CCitySelect extends React.Component {
       inline, getFieldError } = this.props;
     let nowValue = getFieldValue(field);
     let flag;
-    if (isUndefined(this.prevValue)) {
-      flag = !(isUndefined(nowValue) || !nowValue.length);
+    if (isUndefined(this.prevValue) || isUndefined(nowValue)) {
+      flag = !(isUndefined(this.prevValue) && isUndefined(nowValue));
     } else if (this.prevValue.length !== nowValue.length) {
       flag = true;
     } else {
@@ -67,6 +67,7 @@ export default class CCitySelect extends React.Component {
     let props = {
       placeholder: '请选择',
       options: cityData,
+      style: { maxWidth: 400 },
       showSearch: {
         filter: (inputValue, path) => {
           return (path.some(option => (option.label).toLowerCase().indexOf(inputValue.toLowerCase()) > -1));

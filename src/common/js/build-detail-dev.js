@@ -1,9 +1,7 @@
 import React from 'react';
-import { Form } from 'antd';
-import DetailComp from 'common/js/lib/DetailComp';
+import DetailComp from 'common/js/lib/DetailCompDev';
 import CO2M from 'component/cO2M/cO2M';
 
-const { Item: FormItem } = Form;
 
 export default class DetailUtil extends DetailComp {
   // o2m选择一行数据的回调

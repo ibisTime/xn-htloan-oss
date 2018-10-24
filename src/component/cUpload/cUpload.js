@@ -80,6 +80,7 @@ export default class CUpload extends React.Component {
       previewVisible: true,
       previewId
     });
+    this.imgUrl = PIC_PREFIX + file.key + '?attname=' + file.key + '.jpg';
   }
   // 隐藏图片
   handleCancel = () => this.setState({previewVisible: false})
@@ -179,7 +180,7 @@ export default class CUpload extends React.Component {
     }
   }
   render() {
-    const { field, isLoaded, getFieldDecorator, token, rules, readonly, isSingle,
+    const { field, isLoaded, getFieldDecorator, token, rules, readonly, single,
       isImg, onChange, accept, getFieldValue, label, hidden, initVal, inline } = this.props;
     const { previewVisible, previewId } = this.state;
     const initValue = this.getFileInitVal(initVal, isImg);
@@ -200,18 +201,18 @@ export default class CUpload extends React.Component {
                   isImg,
                   accept,
                   readonly,
-                  isSingle,
+                  single,
                   onChange,
                   initValue
                 })}>
-                  {this.getUploadBtn(field, getFieldValue, readonly, isSingle, isImg)}
+                  {this.getUploadBtn(field, getFieldValue, readonly, single, isImg)}
                 </Upload>
               )
             ) : null
           }
           <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
             <div className="previewImg-wrap">
-              <Carousel ref={(carousel => this.carousel = carousel)} afterChange={(a) => {
+              <Carousel dots={true} ref={(carousel => this.carousel = carousel)} afterChange={(a) => {
                 let url = getFieldValue(previewId).split('||')[a];
                 this.imgUrl = PIC_PREFIX + url + '?attname=' + url + '.jpg';
               }}>{
@@ -244,7 +245,7 @@ CUpload.propTypes = {
   initVal: PropTypes.string,
   accept: PropTypes.string,
   readonly: PropTypes.bool,
-  isSingle: PropTypes.bool,
+  single: PropTypes.bool,
   hidden: PropTypes.bool,
   onChange: PropTypes.func,
   field: PropTypes.string.isRequired,

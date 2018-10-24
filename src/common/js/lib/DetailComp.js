@@ -193,6 +193,9 @@ export default class DetailComponent extends React.Component {
         let key = this.options.key || 'code';
         values[key] = isUndefined(values[key]) ? this.props.code || '' : values[key];
         this.options.fields.forEach(v => {
+            if (v.readonly) {
+              return;
+            }
             if (v.amount) {
                 values[v.field] = moneyParse(values[v.field], v.amountRate);
             } else if (v.type === 'citySelect') {
@@ -1077,7 +1080,10 @@ export default class DetailComponent extends React.Component {
     getCheckboxComp(item, initVal, rules, getFieldDecorator) {
         let val = '';
         if (item.readonly && initVal && item.data && item.data.length) {
-            val = initVal.map(v => item.data.find(d => d[item.keyName] === v)[item.valueName]).join('、');
+          val = initVal.map(v => {
+            let obj = item.data.find(d => d[item.keyName] === v);
+            return obj[item.valueName] || tempString(item.valueName, obj) || '';
+          }).join('、');
         }
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
@@ -1089,7 +1095,7 @@ export default class DetailComponent extends React.Component {
                         })(
                         <CheckboxGroup disabled={item.readonly}>
                             {item.data && item.data.length
-                                ? item.data.map(d => <Checkbox key={d[item.keyName]} value={d[item.keyName]}>{d[item.valueName]}</Checkbox>)
+                                ? item.data.map(d => <Checkbox key={d[item.keyName]} value={d[item.keyName]}>{d[item.valueName] ? d[item.valueName] : tempString(item.valueName, d)}</Checkbox>)
                                 : null}
                         </CheckboxGroup>
                         )

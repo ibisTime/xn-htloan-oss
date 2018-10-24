@@ -22,8 +22,8 @@ export default class CSearchSelect extends React.Component {
   initList() {
     const { initVal, isLoaded } = this.props;
     if (isLoaded && !this.hasInitVal) {
-      this.hasInitVal = true;
       this.searchSelectChange(initVal);
+      this.hasInitVal = true;
     }
   }
   shouldComponentUpdate(nextProps, nextState) {
@@ -88,7 +88,7 @@ export default class CSearchSelect extends React.Component {
       mode: 'combobox',
       showArrow: false,
       filterOption: false,
-      style: { maxWidth: 400 },
+      style: { minWidth: 200, maxWidth: 400 },
       onSearch: this.searchSelectChange,
       optionLabelProp: 'children',
       notFoundContent: this.state.selectFetch ? <Spin size="small"/> : '暂无数据',
@@ -125,10 +125,26 @@ export default class CSearchSelect extends React.Component {
     let param = params ? {...params} : {};
     param.start = 1;
     param.limit = 20;
-    let key = keyName || searchName || field;
+    let key = searchName || keyName || field;
+    if (!this.hasInitVal) {
+      key = keyName || field;
+    }
     param[key] = keyword;
     this.timeout = setTimeout(() => {
       fetch(this.props.pageCode, param).then(data => {
+        if (this.props.dictData && this.props.dict) {
+          this.props.dict.forEach(d => {
+            let dList = this.props.dictData[d[1]];
+            data.list.forEach(o => {
+              for(let i = 0; i < dList.length; i++) {
+                if (dList[i].dkey === o[d[0]]) {
+                  o[d[0] + 'Name'] = dList[i].dvalue;
+                  break;
+                }
+              }
+            });
+          });
+        }
         this.setState({
           selectFetch: false,
           list: data.list || []

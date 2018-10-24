@@ -183,9 +183,11 @@ export default class CO2M extends React.Component {
       view: false,
       useData
     };
-    this.setState({
-      modalVisible: true
-    });
+    setTimeout(() => {
+      this.setState({
+        modalVisible: true
+      });
+    }, 20);
   }
   // 删除按钮点击
   deleteBtnClick = () => {
@@ -358,19 +360,15 @@ export default class CO2M extends React.Component {
       if (f.render) {
         obj.render = f.render;
       } else {
-        obj.render = (v) => {
-          return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateTimeFormat(v)}</span> : dateTimeFormat(v);
-        };
-        this.addRender(f, dateTimeFormat);
+        obj.render = (v, d) => this.renderDate(v, d, f, dateTimeFormat);
+        this.addRender(f, (v, d) => this.renderDate(v, d, f, dateTimeFormat));
       }
     } else if (f.type === 'date') {
       if (f.render) {
         obj.render = f.render;
       } else {
-        obj.render = (v) => {
-          return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{dateFormat(v)}</span> : dateFormat(v);
-        };
-        this.addRender(f, dateFormat);
+        obj.render = (v, d) => this.renderDate(v, d, f, dateFormat);
+        this.addRender(f, (v, d) => this.renderDate(v, d, f, dateFormat));
       }
     } else if (f.type === 'select' || f.type === 'provSelect') {
       if (f.key) {
@@ -425,6 +423,11 @@ export default class CO2M extends React.Component {
       }
     }
     callback && callback(obj);
+  }
+  // 生成日期的render
+  renderDate(v, d, f, format) {
+    let val = f.rangedate ? `${format(d[f.rangedate[0]])} ~ ${format(d[f.rangedate[1]])}` : format(v);
+    return f.nowrap ? <span style={{whiteSpace: 'nowrap'}}>{val}</span> : val;
   }
   // 生成select的render
   renderSelect(value, f) {

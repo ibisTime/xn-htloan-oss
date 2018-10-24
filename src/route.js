@@ -812,8 +812,8 @@ const ROUTES = [
   // 准入审查 发起
   {
       path: '/loan/admittance/addedit',
-      component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-addedit'))
-      // component: asyncComponent(() => import('container/loan/admittance-addedit/demo'))
+      // component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-addedit'))
+      component: asyncComponent(() => import('container/loan/admittance-addedit/demo'))
   },
   // 面签审核
   {

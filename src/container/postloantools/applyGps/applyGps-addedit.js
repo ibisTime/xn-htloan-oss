@@ -30,33 +30,37 @@ class applyGpsAddedit extends React.Component {
     const fields = [{
       title: '申请人姓名',
       field: 'applyUserName',
+      formatter: (v, d) => `${d.applyUserName}-${d.roleName}`,
       readonly: true
     }, {
       title: '业务团队',
       field: 'teamName',
       readonly: true
     }, {
-      title: '角色',
-      field: 'roleName',
-      readonly: true
+      title: '申领个数',
+      field: 'applyCount'
+    }, {
+      title: '申领有线个数',
+      field: 'applyWiredCount',
+      required: true
+    }, {
+      title: '申领无线个数',
+      field: 'applyWirelessCount',
+      required: true
     }, {
       title: '客户姓名',
       field: 'customerName',
-      readonly: true
+      hidden: !this.props.pageData.customerName
     }, {
       title: '车架号',
       field: 'carFrameNo',
+      hidden: !this.props.pageData.carFrameNo,
       readonly: true
     }, {
       title: '手机号',
       field: 'mobile',
+      hidden: !this.props.pageData.mobile,
       readonly: true
-    }, {
-      title: '申领个数',
-      field: 'applyCount'
-    }, {
-      title: '申领人',
-      field: 'applyUserName'
     }, {
       title: '申领原因',
       field: 'applyReason'

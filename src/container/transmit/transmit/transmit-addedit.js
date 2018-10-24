@@ -26,31 +26,17 @@ class TransmitAddedit extends React.Component {
   }
   render() {
     const fields = [{
-        title: '业务编号',
-        field: 'bizCode'
-    }, {
         title: '客户姓名',
         field: 'customerName'
     }, {
-        title: '发件人',
-        field: 'senderName'
-    }, {
-        title: '收件人',
-        field: 'receiverName'
-    }, {
-        title: '业务团队',
-        field: 'teamName'
-    }, {
-        title: '信贷专员',
-        field: 'saleUserName'
-    }, {
-        title: '内勤专员',
-        field: 'insideJobName'
+        title: '业务编号',
+        field: 'bizCode'
     }, {
         title: '类型',
         field: 'type',
         type: 'select',
-        key: 'logistics_type'
+        key: 'logistics_type',
+        readonly: true
     }, {
         title: '发件节点',
         field: 'fromNodeCode',
@@ -66,8 +52,29 @@ class TransmitAddedit extends React.Component {
         keyName: 'code',
         valueName: 'name'
     }, {
+        title: '发件人',
+        field: 'senderName',
+        hidden: !this.props.pageData.senderName
+    }, {
+        title: '收件人',
+        field: 'receiverName',
+        hidden: !this.props.pageData.receiverName
+    }, {
+        title: '业务团队',
+        field: 'teamName'
+    }, {
+        title: '信贷专员',
+        field: 'saleUserName'
+    }, {
+        title: '内勤专员',
+        field: 'insideJobName'
+    }, {
         title: '参考材料清单',
-        field: 'fileList'
+        field: 'filelist',
+        type: 'checkbox',
+        listCode: 632217,
+        keyName: 'id',
+        valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份'
     }, {
         title: '传递方式',
         field: 'sendType',

@@ -60,18 +60,29 @@ class TransmitSend extends React.Component {
         hidden: !this.props.pageData.toNodeCode,
         readonly: true
     }, {
-        title: '参考材料清单',
-        field: 'fileList',
-        listCode: 632217,
-        keyName: 'name',
-        valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}',
-        multiple: true
+        title: '业务团队',
+        field: 'teamName'
+    }, {
+        title: '信贷专员',
+        field: 'saleUserName'
+    }, {
+        title: '内勤专员',
+        field: 'insideJobName'
     }, {
         title: '发件人',
-        field: 'senderName'
+        field: 'senderName',
+        hidden: !this.props.pageData.senderName
     }, {
         title: '收件人',
-        field: 'receiverName'
+        field: 'receiverName',
+        hidden: !this.props.pageData.receiverName
+    }, {
+        title: '参考材料清单',
+        field: 'filelist',
+        type: 'checkbox',
+        listCode: 632217,
+        keyName: 'id',
+        valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份'
     }, {
         title: '寄送方式',
         field: 'sendType',

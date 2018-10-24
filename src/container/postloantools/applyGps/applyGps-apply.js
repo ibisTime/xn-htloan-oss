@@ -52,6 +52,7 @@ class applyGpsApply extends React.Component {
       },
       keyName: 'code',
       valueName: 'applyUserName',
+      searchName: 'applyUserName',
       onChange: (v) => {
         this.haveUser = v !== '';
         fetch(632148, {
@@ -60,13 +61,14 @@ class applyGpsApply extends React.Component {
           start: 0,
           limit: 10
         }).then((data) => {
-          this.props.setPageData({
-            ...this.props.pageData,
-            carFrameNo: data.list[0].carFrameNo,
-            mobile: data.list[0].mobile
-          });
-          this.props.cancelFetching();
-      }).catch(this.props.cancelFetching);
+            this.props.setPageData({
+              ...this.props.pageData,
+              carFrameNo: data.list[0].carFrameNo,
+              mobile: data.list[0].mobile,
+              customerName: data.list[0].applyUserName
+            });
+            this.props.cancelFetching();
+        }).catch(this.props.cancelFetching);
       }
     }, {
       title: '车架号',
@@ -92,6 +94,7 @@ class applyGpsApply extends React.Component {
           params.type = '2';
           params.carFrameNo = this.props.pageData.carFrameNo;
           params.mobile = this.props.pageData.mobile;
+          params.customerName = this.props.pageData.customerName;
           this.props.doFetching();
           fetch(632710, params).then(() => {
             showSucMsg('操作成功');

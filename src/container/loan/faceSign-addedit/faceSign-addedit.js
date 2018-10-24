@@ -164,12 +164,12 @@ class FaceSignAddedit extends React.Component {
                 title: '保存',
                 check: true,
                 handler: (params) => {
-                    let data = {};
-                    data.code = this.code;
-                    data.operator = getUserId();
-                    data.isSend = '0';
+                    // let data = {};
+                    // params.code = this.code;
+                    params.operator = getUserId();
+                    params.isSend = '0';
                     this.props.doFetching();
-                    fetch(632123, data).then(() => {
+                    fetch(632123, params).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -181,12 +181,12 @@ class FaceSignAddedit extends React.Component {
                 title: '发送',
                 check: true,
                 handler: (params) => {
-                    let data = {};
-                    data.code = this.code;
-                    data.operator = getUserId();
-                    data.isSend = '1';
+                    // let data = {};
+                    // data.code = this.code;
+                    params.operator = getUserId();
+                    params.isSend = '1';
                     this.props.doFetching();
-                    fetch(632123, data).then(() => {
+                    fetch(632123, params).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {

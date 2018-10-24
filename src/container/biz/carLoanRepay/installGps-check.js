@@ -56,6 +56,8 @@ class installGpsCheck extends React.Component {
       type: 'o2m',
       readonly: true,
       options: {
+        detail: true,
+        view: true,
         fields: [{
             title: 'GPS设备号',
             field: 'code',

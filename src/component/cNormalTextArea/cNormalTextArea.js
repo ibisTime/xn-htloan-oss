@@ -90,5 +90,6 @@ CNormalTextArea.defaultProps = {
   getFieldError: noop,
   getFieldDecorator: noop,
   hidden: false,
+  rules: [],
   inline: false
 };
