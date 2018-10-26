@@ -546,14 +546,19 @@ import { homeRegulations } from './redux/home/regulations';
 //  准入单流转日志 + 详情
 import { circulationLogAdmittanceBill } from './redux/circulationLog/admittanceBill';
 import { circulationLogAdmittanceBillAddedit } from './redux/circulationLog/admittanceBill-addedit';
-
 //  征信单流转日志 + 详情
 import { circulationLogCreditBill } from './redux/circulationLog/creditBill';
 import { circulationLogCreditBillAddedit } from './redux/circulationLog/creditBill-addedit';
-
 //  贷后单流转日志 + 详情
 import { circulationLogRepayment } from './redux/circulationLog/repayment';
 import { circulationLogRepaymentAddedit } from './redux/circulationLog/repayment-addedit';
+
+// 大数据管理
+import { creditIdcheck } from './redux/credit/idcheck';
+import { creditBank4Check } from './redux/credit/bank4check';
+import { creditJdcheck } from './redux/credit/jdcheck';
+import { creditMobile } from './redux/credit/mobile';
+import { creditTbCheck } from './redux/credit/tbcheck';
 
 export default combineReducers({
   user,
@@ -879,5 +884,10 @@ export default combineReducers({
   statisticBusinessReport,
   bizBankType,
   bizBankTypeAddEdit,
-  statisticOneReport
+  statisticOneReport,
+  creditIdcheck,
+  creditBank4Check,
+  creditJdcheck,
+  creditMobile,
+  creditTbCheck
 });

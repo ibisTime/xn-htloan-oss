@@ -63,6 +63,7 @@ class applyGpsCheck extends React.Component {
     }, {
       title: '客户姓名',
       field: 'customerName',
+      readonly: true,
       hidden: !this.props.pageData.customerName
     }, {
       title: '车架号',

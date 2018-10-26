@@ -1,6 +1,7 @@
 import React from 'react';
 import { Spin, Form } from 'antd';
 import { getCreditReport } from 'api/biz';
+import { showWarnMsg } from 'common/js/util';
 import { formItemLayout } from 'common/js/config';
 
 const { Item: FormItem } = Form;
@@ -16,6 +17,11 @@ export default class Bank4CheckReport extends React.Component {
   }
   componentDidMount() {
     getCreditReport('bankcard4check', this.idcard).then((data) => {
+      if (!data.result) {
+        showWarnMsg('未获取到银行卡四要素认证报告');
+        this.setState({ fetching: false });
+        return;
+      }
       this.setState({
         fetching: false,
         report: JSON.parse(data.result).data

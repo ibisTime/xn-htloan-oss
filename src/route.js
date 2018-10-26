@@ -1643,20 +1643,55 @@ const ROUTES = [
       path: '/circulationLog/repayment/addedit',
       component: asyncComponent(() => import('container/circulationLog/repayment/repayment-addedit'))
   },
+  // 大数据 身份证列表
+  {
+      path: '/credit/idcheck',
+      component: asyncComponent(() => import('container/credit/idcheck/idcheck'))
+  },
   // 大数据 身份证认证报告
   {
       path: '/credit/idcheck/report',
       component: asyncComponent(() => import('container/credit/idcheck-report/idcheck-report'))
+  },
+  // 大数据 银行四要素
+  {
+      path: '/credit/bank4check',
+      component: asyncComponent(() => import('container/credit/bank4check/bank4check'))
   },
   // 大数据 银行四要素认证报告
   {
       path: '/credit/bank4check/report',
       component: asyncComponent(() => import('container/credit/bank4check-report/bank4check-report'))
   },
-  // 电商信用报告
+  // 大数据 电商
+  {
+      path: '/credit/tbcheck',
+      component: asyncComponent(() => import('container/credit/tbcheck/tbcheck'))
+  },
+  // 大数据 电商信用报告
   {
       path: '/credit/tbcheck/report',
       component: asyncComponent(() => import('container/credit/tbcheck-report/tbcheck-report'))
+  },
+  // 大数据 运营商
+  {
+      path: '/credit/mobile',
+      component: asyncComponent(() => import('container/credit/mobile/mobile'))
+  },
+  // 大数据 运营商信用报告
+  {
+      path: '/credit/mobile/report',
+      component: asyncComponent(() => import('container/credit/mobile-report/mobile-report'))
+  },
+  // 大数据 京东
+  {
+      path: '/credit/jd',
+      component: asyncComponent(() => import('container/credit/jdcheck/jdcheck'))
+  },
+  // 大数据 京东信用报告
+  {
+      path: '/credit/jd/report',
+      component: asyncComponent(() => import('container/credit/jdcheck-report/jdcheck-report'))
   }
 ];
 
