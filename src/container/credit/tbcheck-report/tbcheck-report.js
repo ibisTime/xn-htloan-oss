@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spin, Card, Icon } from 'antd';
 import { getCreditReport } from 'api/biz';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, getQueryString } from 'common/js/util';
 import '../index.css';
 
 export default class TbCheckReport extends React.Component {
@@ -16,6 +16,7 @@ export default class TbCheckReport extends React.Component {
       personas: {
         // 收货地域
         consumeMostCity: {},
+        // 活跃时间段
         activeTimes: []
       },
       // 消费信息
@@ -28,10 +29,18 @@ export default class TbCheckReport extends React.Component {
       contrast: [],
       fetching: true
     };
-    this.idcard = '14272719950821351X';
+    this.id = getQueryString('id', this.props.location.search);
   }
   componentDidMount() {
-    getCreditReport('taobao_report', this.idcard).then((data) => {
+    if (this.id) {
+      this.getCreditReport();
+    } else {
+      showWarnMsg('未传人报告编号');
+      this.setState({ fetching: false });
+    }
+  }
+  getCreditReport() {
+    getCreditReport(this.id).then((data) => {
       if (!data.result) {
         showWarnMsg('未获取到电商报告');
         this.setState({ fetching: false });
@@ -269,7 +278,7 @@ export default class TbCheckReport extends React.Component {
           </Card>
           <Card className="zfb-card" style={{ marginTop: 16 }} title="支付宝信息">
             {zfbInfos && zfbInfos.length ? zfbInfos.map((z, i) => (
-              <div>
+              <div key={i}>
                 <p className="table-title">支付宝信息</p>
                 <table key={i} className="outer-table-wrapper" border="0" cellSpacing="0" cellPadding="0">
                   <tbody>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spin, Card, Icon } from 'antd';
 import { getCreditReport } from 'api/biz';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, getQueryString } from 'common/js/util';
 import '../index.css';
 
 export default class MobileCheckReport extends React.Component {
@@ -65,10 +65,18 @@ export default class MobileCheckReport extends React.Component {
       // 通话联系人分析
       contactAnalysis: []
     };
-    this.idcard = '14272719950821351X';
+    this.id = getQueryString('id', this.props.location.search);
   }
   componentDidMount() {
-    getCreditReport('mobileReportTask', this.idcard).then((data) => {
+    if (this.id) {
+      this.getCreditReport();
+    } else {
+      showWarnMsg('未传人报告编号');
+      this.setState({ fetching: false });
+    }
+  }
+  getCreditReport() {
+    getCreditReport(this.id).then((data) => {
       if (!data.result) {
         showWarnMsg('未获取到运营商报告');
         this.setState({ fetching: false });
@@ -1377,7 +1385,7 @@ export default class MobileCheckReport extends React.Component {
                   </tr>
                   {
                     contactAnalysis && contactAnalysis.length ? contactAnalysis.map((v, i) => (
-                      <tr>
+                      <tr key={i}>
                         <td colSpan="16">{v.callNum}</td>
                         <td colSpan="14">{v.callTag}</td>
                         <td colSpan="8">{v.isHitRiskList === '1' ? '是' : '否'}</td>

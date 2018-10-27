@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spin, Form } from 'antd';
 import { getCreditReport } from 'api/biz';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, getQueryString } from 'common/js/util';
 import { formItemLayout } from 'common/js/config';
 
 const { Item: FormItem } = Form;
@@ -13,10 +13,18 @@ export default class IdCheckReport extends React.Component {
       report: {},
       fetching: true
     };
-    this.idcard = '14272719950821351X';
+    this.id = getQueryString('id', this.props.location.search);
   }
   componentDidMount() {
-    getCreditReport('identity', this.idcard).then((data) => {
+    if (this.id) {
+      this.getCreditReport();
+    } else {
+      showWarnMsg('未传人报告编号');
+      this.setState({ fetching: false });
+    }
+  }
+  getCreditReport() {
+    getCreditReport(this.id).then((data) => {
       if (!data.result) {
         showWarnMsg('未获取到身份证认证报告');
         this.setState({ fetching: false });

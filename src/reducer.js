@@ -554,11 +554,16 @@ import { circulationLogRepayment } from './redux/circulationLog/repayment';
 import { circulationLogRepaymentAddedit } from './redux/circulationLog/repayment-addedit';
 
 // 大数据管理
-import { creditIdcheck } from './redux/credit/idcheck';
+import { creditIdCheck } from './redux/credit/idcheck';
+import { creditIdCheckQuery } from './redux/credit/idcheck-query';
 import { creditBank4Check } from './redux/credit/bank4check';
-import { creditJdcheck } from './redux/credit/jdcheck';
+import { creditBank4CheckQuery } from './redux/credit/bank4check-query';
+import { creditJdCheck } from './redux/credit/jdcheck';
+import { creditJdCheckQuery } from './redux/credit/jdcheck-query';
 import { creditMobile } from './redux/credit/mobile';
+import { creditMobileQuery } from './redux/credit/mobile-query';
 import { creditTbCheck } from './redux/credit/tbcheck';
+import { creditTbCheckQuery } from './redux/credit/tbcheck-query';
 
 export default combineReducers({
   user,
@@ -885,9 +890,14 @@ export default combineReducers({
   bizBankType,
   bizBankTypeAddEdit,
   statisticOneReport,
-  creditIdcheck,
+  creditIdCheck,
+  creditIdCheckQuery,
   creditBank4Check,
-  creditJdcheck,
+  creditBank4CheckQuery,
+  creditJdCheck,
+  creditJdCheckQuery,
   creditMobile,
-  creditTbCheck
+  creditMobileQuery,
+  creditTbCheck,
+  creditTbCheckQuery
 });

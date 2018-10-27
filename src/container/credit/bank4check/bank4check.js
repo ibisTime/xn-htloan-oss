@@ -2,6 +2,7 @@ import React from 'react';
 import { setTableData, setPagination, setBtnList, setSearchParam,
   clearSearchParam, doFetching, cancelFetching, setSearchData } from '@redux/credit/bank4check';
 import { listWrapper } from 'common/js/build-list';
+import { showWarnMsg } from 'common/js/util';
 
 @listWrapper(
   state => ({
@@ -14,27 +15,49 @@ import { listWrapper } from 'common/js/build-list';
 class Bank4Check extends React.Component {
     render() {
       const fields = [{
-        title: '序号',
-        field: 'id'
+        title: '查询时间',
+        field: 'foundDatetime',
+        type: 'datetime'
       }, {
-        title: '名称',
-        field: 'name'
+        title: '姓名',
+        field: 'customerName',
+        search: true
       }, {
-        title: '份数',
-        field: 'number'
+        title: '身份证',
+        field: 'userId'
       }, {
-        title: '更新时间',
-        field: 'updateDatetime',
-        type: 'date'
-      }, {
-        title: '更新人',
-        field: 'updaterName'
+        title: '状态',
+        field: 'status',
+        type: 'select',
+        key: 'lmzx_status',
+        search: true
       }];
       return this.props.buildList({
         fields,
         rowKey: 'id',
-        searchParams: { bizType: 'bankcard4check' },
-        pageCode: 632947
+        searchParams: {
+          bizType: 'bankcard4check',
+          token: ''
+        },
+        pageCode: 632947,
+        btnEvent: {
+          // 发起查询
+          add: () => {
+            this.props.history.push('/credit/bank4check/query');
+          },
+          // 详情
+          detail: (selectedRowKeys, selectedRows) => {
+            if (!selectedRowKeys.length) {
+              showWarnMsg('请选择记录');
+            } else if (selectedRowKeys.length > 1) {
+              showWarnMsg('请选择一条记录');
+            } else if (selectedRows[0].status !== '2') {
+              showWarnMsg('该记录还在查询中');
+            } else {
+              this.props.history.push(`/credit/bank4check/report?id=${selectedRowKeys[0]}`);
+            }
+          }
+        }
       });
     }
   }

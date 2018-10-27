@@ -190,7 +190,7 @@ class Credit extends React.Component {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else {
-                        this.props.history.push(`/loan/credit/bigdata?v=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/credit/bigdata?&code=${selectedRowKeys[0]}`);
                     }
                 },
                 withdraw: (key, item) => {

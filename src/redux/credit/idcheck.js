@@ -11,7 +11,7 @@ const SET_SEARCH_PARAM = PREFIX + 'SET_SEARCH_PARAM';
 
 const initState = { ...commListState };
 
-export function creditIdcheck(state = initState, action) {
+export function creditIdCheck(state = initState, action) {
   switch(action.type) {
     case SET_BUTTON_LIST:
       return {...state, btnList: action.payload};

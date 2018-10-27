@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spin, Card, Icon } from 'antd';
 import { getCreditReport } from 'api/biz';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, getQueryString } from 'common/js/util';
 import '../index.css';
 
 export default class JdCheckReport extends React.Component {
@@ -20,10 +20,18 @@ export default class JdCheckReport extends React.Component {
       orderDetail: [],
       fetching: true
     };
-    this.idcard = '14272719950821351X';
+    this.id = getQueryString('id', this.props.location.search);
   }
   componentDidMount() {
-    getCreditReport('jd', this.idcard).then((data) => {
+    if (this.id) {
+      this.getCreditReport();
+    } else {
+      showWarnMsg('未传人报告编号');
+      this.setState({ fetching: false });
+    }
+  }
+  getCreditReport() {
+    getCreditReport(this.id).then((data) => {
       if (!data.result) {
         showWarnMsg('未获取到京东报告');
         this.setState({ fetching: false });

@@ -799,7 +799,7 @@ const ROUTES = [
       path: '/loan/credit/dispatch',
       component: asyncComponent(() => import('container/loan/credit/credit-dispatch'))
   },
-  // 发起征信查询
+  // 发起征信查询 大数据
   {
       path: '/loan/credit/bigdata',
       component: asyncComponent(() => import('container/loan/bigdata/bigdata'))
@@ -1648,6 +1648,11 @@ const ROUTES = [
       path: '/credit/idcheck',
       component: asyncComponent(() => import('container/credit/idcheck/idcheck'))
   },
+  // 大数据 身份证认证
+  {
+      path: '/credit/idcheck/query',
+      component: asyncComponent(() => import('container/credit/idcheck-query/idcheck-query'))
+  },
   // 大数据 身份证认证报告
   {
       path: '/credit/idcheck/report',
@@ -1658,40 +1663,60 @@ const ROUTES = [
       path: '/credit/bank4check',
       component: asyncComponent(() => import('container/credit/bank4check/bank4check'))
   },
+  // 大数据 银行四要素认证
+  {
+      path: '/credit/bank4check/query',
+      component: asyncComponent(() => import('container/credit/bank4check-query/bank4check-query'))
+  },
   // 大数据 银行四要素认证报告
   {
       path: '/credit/bank4check/report',
       component: asyncComponent(() => import('container/credit/bank4check-report/bank4check-report'))
-  },
-  // 大数据 电商
-  {
-      path: '/credit/tbcheck',
-      component: asyncComponent(() => import('container/credit/tbcheck/tbcheck'))
-  },
-  // 大数据 电商信用报告
-  {
-      path: '/credit/tbcheck/report',
-      component: asyncComponent(() => import('container/credit/tbcheck-report/tbcheck-report'))
-  },
-  // 大数据 运营商
-  {
-      path: '/credit/mobile',
-      component: asyncComponent(() => import('container/credit/mobile/mobile'))
-  },
-  // 大数据 运营商信用报告
-  {
-      path: '/credit/mobile/report',
-      component: asyncComponent(() => import('container/credit/mobile-report/mobile-report'))
   },
   // 大数据 京东
   {
       path: '/credit/jd',
       component: asyncComponent(() => import('container/credit/jdcheck/jdcheck'))
   },
-  // 大数据 京东信用报告
+  // 大数据 京东信用认证
+  {
+      path: '/credit/jd/query',
+      component: asyncComponent(() => import('container/credit/jdcheck-query/jdcheck-query'))
+  },
+  // 大数据 京东信用认证报告
   {
       path: '/credit/jd/report',
       component: asyncComponent(() => import('container/credit/jdcheck-report/jdcheck-report'))
+  },
+  // 大数据 运营商
+  {
+      path: '/credit/mobile',
+      component: asyncComponent(() => import('container/credit/mobile/mobile'))
+  },
+  // 大数据 运营商信用认证
+  {
+      path: '/credit/mobile/query',
+      component: asyncComponent(() => import('container/credit/mobile-query/mobile-query'))
+  },
+  // 大数据 运营商信用报告
+  {
+      path: '/credit/mobile/report',
+      component: asyncComponent(() => import('container/credit/mobile-report/mobile-report'))
+  },
+  // 大数据 电商
+  {
+      path: '/credit/tbcheck',
+      component: asyncComponent(() => import('container/credit/tbcheck/tbcheck'))
+  },
+  // 大数据 电商信用认证
+  {
+      path: '/credit/tbcheck/query',
+      component: asyncComponent(() => import('container/credit/tbcheck-query/tbcheck-query'))
+  },
+  // 大数据 电商信用报告
+  {
+      path: '/credit/tbcheck/report',
+      component: asyncComponent(() => import('container/credit/tbcheck-report/tbcheck-report'))
   }
 ];
 
