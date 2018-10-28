@@ -38,6 +38,20 @@ class MobileQuery extends React.Component {
       showWarnMsg('未获取到报告编号');
     }
   }
+  // 运营商报告结果获取
+  getReportResult(tokendb) {
+    fetch(632937, { tokendb }).then((data) => {
+      data = JSON.parse(data);
+      if (data.code === '0000') {
+        this.props.cancelFetching();
+        this.setState({ current: 2 });
+      } else {
+        setTimeout(() => {
+          this.getReportResult(tokendb);
+        }, 1000);
+      }
+    }).catch(() => this.props.cancelFetching());
+  }
   render() {
     const { current } = this.state;
     const fields = [{
@@ -49,11 +63,13 @@ class MobileQuery extends React.Component {
       field: 'identityCardNo',
       title: '身份证号',
       value: this.identityNo,
+      idCard: true,
       required: true
     }, {
       field: 'username',
       title: '手机号',
       value: this.mobileNo,
+      mobile: true,
       required: true
     }, {
       field: 'password',
@@ -65,7 +81,8 @@ class MobileQuery extends React.Component {
       title: '第一联系人姓名'
     }, {
       field: 'contactMobile1st',
-      title: '第一联系人手机号'
+      title: '第一联系人手机号',
+      mobile: true
     }, {
       field: 'contactRelationship1st',
       title: '第一联系人关系',
@@ -73,13 +90,15 @@ class MobileQuery extends React.Component {
       key: 'lmzx_social_relation'
     }, {
       field: 'contactIdentityNo1st',
-      title: '第一联系人身份证号'
+      title: '第一联系人身份证号',
+      idCard: true
     }, {
       field: 'contactName2nd',
       title: '第二联系人姓名'
     }, {
       field: 'contactMobile2nd',
-      title: '第二联系人手机号'
+      title: '第二联系人手机号',
+      mobile: true
     }, {
       field: 'contactRelationship2nd',
       title: '第二联系人关系',
@@ -87,13 +106,15 @@ class MobileQuery extends React.Component {
       key: 'lmzx_social_relation'
     }, {
       field: 'contactIdentityNo2nd',
-      title: '第二联系人身份证号'
+      title: '第二联系人身份证号',
+      idCard: true
     }, {
       field: 'contactName3rd',
       title: '第三联系人姓名'
     }, {
       field: 'contactMobile3rd',
-      title: '第三联系人手机号'
+      title: '第三联系人手机号',
+      mobile: true
     }, {
       field: 'contactRelationship3rd',
       title: '第三联系人关系',
@@ -101,7 +122,8 @@ class MobileQuery extends React.Component {
       key: 'lmzx_social_relation'
     }, {
       field: 'contactIdentityNo3rd',
-      title: '第三联系人身份证号'
+      title: '第三联系人身份证号',
+      idCard: true
     }];
     return (
       <div>
@@ -122,13 +144,11 @@ class MobileQuery extends React.Component {
                   this.props.doFetching();
                   params.customerName = params.identityName;
                   fetch(632934, params).then((data) => {
-                    this.token = data.token;
-                    let keys = Object.keys(data);
-                    if (!keys && !keys.length) {
+                    if (data.id === '-1') {
                       showWarnMsg('查询失败');
                     } else {
-                      this.id = keys[0];
-                      this.token = JSON.parse(data[keys[0]]).token;
+                      this.id = data.id;
+                      this.token = JSON.parse(data.result).token;
                       this.setState({ current: 1 });
                       this.props.cancelFetching();
                     }
@@ -152,10 +172,7 @@ class MobileQuery extends React.Component {
                   this.props.doFetching();
                   params.tokendb = this.token;
                   fetch(632936, params).then((data) => {
-                    fetch(632938, params).then(() => {
-                      this.props.cancelFetching();
-                      this.setState({ current: 2 });
-                    }).catch(() => this.props.cancelFetching());
+                    this.getReportResult(this.token);
                   }).catch(() => this.props.cancelFetching());
                 }
               }, {

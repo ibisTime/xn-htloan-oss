@@ -104,19 +104,18 @@ class JdCheckQuery extends React.Component {
                   this.props.doFetching();
                   params.customerName = params.identityName;
                   fetch(632939, params).then((data) => {
-                    let keys = Object.keys(data);
-                    if (!keys && !keys.length) {
+                    if (data.id === '-1') {
                       showWarnMsg('查询失败');
                     } else {
-                      this.id = keys[0];
-                      data = JSON.parse(data[keys[0]]);
+                      this.id = data.id;
+                      data = JSON.parse(data.result);
                       setTimeout(() => {
                         fetch(632940, { tokendb: data.token }).then((result) => {
                           result = JSON.parse(result);
                           let base64 = result.input.value;
                           base64 = 'data:image/png;base64,' + base64;
                           this.setState({ base64, current: 1 });
-                          this.startCheck(keys[0]);
+                          this.startCheck(this.id);
                           this.props.cancelFetching();
                         }).catch(() => this.props.cancelFetching());
                       }, 2000);

@@ -36,12 +36,6 @@ class TransmitSend extends React.Component {
         field: 'bizCode',
         readonly: true
     }, {
-        title: '类型',
-        field: 'type',
-        type: 'select',
-        key: 'logistics_type',
-        readonly: true
-    }, {
         title: '发件节点',
         field: 'fromNodeCode',
         type: 'select',
@@ -61,23 +55,28 @@ class TransmitSend extends React.Component {
         readonly: true
     }, {
         title: '业务团队',
-        field: 'teamName'
+        field: 'teamName',
+        readonly: true
     }, {
         title: '信贷专员',
-        field: 'saleUserName'
+        field: 'saleUserName',
+        readonly: true
     }, {
         title: '内勤专员',
-        field: 'insideJobName'
+        field: 'insideJobName',
+        readonly: true
     }, {
         title: '发件人',
         field: 'senderName',
-        hidden: !this.props.pageData.senderName
+        hidden: !this.props.pageData.senderName,
+        readonly: true
     }, {
         title: '收件人',
         field: 'receiverName',
-        hidden: !this.props.pageData.receiverName
+        hidden: !this.props.pageData.receiverName,
+        readonly: true
     }, {
-        title: '参考材料清单',
+        title: '材料清单',
         field: 'filelist',
         type: 'checkbox',
         listCode: 632217,

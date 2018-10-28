@@ -1,42 +1,16 @@
 import React from 'react';
-import {
-  initStates,
-  doFetching,
-  cancelFetching,
-  setSelectData,
-  setPageData,
-  restore
-} from '@redux/postloantools/applyGps-check';
-import {
-  getQueryString,
-  showWarnMsg,
-  showSucMsg,
-  getUserId,
-  isExpressConfirm
-} from 'common/js/util';
-import {
-  DetailWrapper
-} from 'common/js/build-detail';
+import { Form } from 'antd';
+import { getQueryString, showWarnMsg, showSucMsg, getUserId,
+  isExpressConfirm } from 'common/js/util';
+import DetailUtil from 'common/js/build-detail-dev';
 import fetch from 'common/js/fetch';
 
-@DetailWrapper(
-  state => state.postloantoolsApplyGpsCheck, {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-  }
-)
-class applyGpsCheck extends React.Component {
+@Form.create()
+class applyGpsCheck extends DetailUtil {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
-    this.state = {
-      ...this.state
-    };
   }
   render() {
     const fields = [{
@@ -64,16 +38,16 @@ class applyGpsCheck extends React.Component {
       title: '客户姓名',
       field: 'customerName',
       readonly: true,
-      hidden: !this.props.pageData.customerName
+      hidden: !this.state.pageData || !this.state.pageData.customerName
     }, {
       title: '车架号',
       field: 'carFrameNo',
-      hidden: !this.props.pageData.carFrameNo,
+      hidden: !this.state.pageData || !this.state.pageData.carFrameNo,
       readonly: true
     }, {
       title: '手机号',
       field: 'mobile',
-      hidden: !this.props.pageData.mobile,
+      hidden: !this.state.pageData || !this.state.pageData.mobile,
       readonly: true
     }, {
       title: '申领原因',
@@ -100,13 +74,19 @@ class applyGpsCheck extends React.Component {
             useStatus: '0'
           },
           keyName: 'code',
-          valueName: 'gpsDevNo',
+          valueName: (d) => {
+            let obj = {
+              0: '无线',
+              1: '有线'
+            };
+            return `${d.gpsDevNo} ${obj[d.gpsType]}`;
+          },
           nowrap: true,
           required: true
         }]
       }
     }];
-    return this.props.buildDetail({
+    return this.buildDetail({
       fields,
       code: this.code,
       view: this.view,
@@ -120,15 +100,15 @@ class applyGpsCheck extends React.Component {
             showWarnMsg('请添加GPS列表');
             return;
           }
-          this.props.doFetching();
+          this.doFetching();
           fetch(632711, param).then((data) => {
             showSucMsg('操作成功');
             isExpressConfirm(data);
-            this.props.cancelFetching();
+            this.cancelFetching();
             setTimeout(() => {
               this.props.history.go(-1);
             }, 1000);
-          }).catch(this.props.cancelFetching);
+          }).catch(this.cancelFetching);
         },
         check: true,
         type: 'primary'
@@ -138,14 +118,14 @@ class applyGpsCheck extends React.Component {
           param.approveResult = '0';
           param.approveNote = this.projectCode;
           param.operater = getUserId();
-          this.props.doFetching();
+          this.doFetching();
           fetch(632711, param).then(() => {
             showSucMsg('操作成功');
-            this.props.cancelFetching();
+            this.cancelFetching();
             setTimeout(() => {
               this.props.history.go(-1);
             }, 1000);
-          }).catch(this.props.cancelFetching);
+          }).catch(this.cancelFetching);
         },
         check: true
       }, {

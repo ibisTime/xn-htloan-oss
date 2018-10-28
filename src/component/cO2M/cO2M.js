@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button, Table } from 'antd';
 import { noop, isUndefined, dateTimeFormat, dateFormat, monthFormat,
-  moneyFormat, tempString, showWarnMsg } from 'common/js/util';
+  moneyFormat, tempString, showWarnMsg, isFunc } from 'common/js/util';
 import { formItemLayout, MONTH_FORMAT, PIC_PREFIX } from 'common/js/config';
 import cityData from 'common/js/lib/city';
 import fetch from 'common/js/fetch';
 import { getWorkbook } from 'common/js/xlsx-util';
 import { getDictList } from 'api/dict';
-import ModalDetail from 'common/js/build-modal-detail';
+import ModalDetail from 'common/js/build-modal-detail-dev';
 
 const FormItem = Form.Item;
 const btnStyl = { marginRight: 20, marginBottom: 16 };
@@ -435,13 +435,21 @@ export default class CO2M extends React.Component {
     let list = this.state.oSelectData[f.field];
     if (!isUndefined(value) && list && list.length) {
       let item = list.find(v => v[f.keyName] === value);
-      val = item
-        ? item[f.valueName]
-          ? item[f.valueName]
-          : tempString(f.valueName, item)
-        : '';
+      val = item ? this.getValueName(item, f.valueName) : '';
+      // val = item
+      //   ? item[f.valueName]
+      //     ? item[f.valueName]
+      //     : tempString(f.valueName, item)
+      //   : '';
     }
     return val;
+  }
+  getValueName(d, valueName) {
+    return isFunc(valueName)
+      ? valueName(d)
+      : d[valueName]
+        ? d[valueName]
+        : tempString(valueName, d);
   }
   // 添加render
   addRender(f, func) {

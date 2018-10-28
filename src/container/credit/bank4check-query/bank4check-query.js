@@ -32,15 +32,18 @@ class Bank4CheckQuery extends React.Component {
       field: 'identityNo',
       title: '身份证号',
       value: this.identityNo,
+      idCard: true,
       required: true
     }, {
       field: 'bankCardNo',
       title: '银行卡号',
+      bankCard: true,
       required: true
     }, {
       field: 'mobileNo',
       title: '手机号',
       value: this.mobileNo,
+      mobile: true,
       required: true
     }];
     return this.props.buildDetail({
@@ -53,11 +56,12 @@ class Bank4CheckQuery extends React.Component {
           this.props.doFetching();
           params.customerName = params.name;
           fetch(632923, params).then((data) => {
-            let keys = Object.keys(data);
-            if (keys && keys.length) {
-              this.props.history.push(`/credit/bank4check/report?id=${keys[0]}`);
+            this.props.cancelFetching();
+            if (data.id !== '-1') {
+              this.props.history.push(`/credit/bank4check/report?id=${data.id}`);
             } else {
-              showWarnMsg('查询失败');
+              let result = JSON.parse(data.result);
+              showWarnMsg(result.msg || '查询失败');
             }
           }).catch(() => this.props.cancelFetching());
         }

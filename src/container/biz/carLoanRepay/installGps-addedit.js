@@ -53,9 +53,7 @@ class installGpsAddedit extends React.Component {
             field: 'budgetOrderGpsList',
             type: 'o2m',
             options: {
-                add: true,
-                edit: true,
-                delete: true,
+                detail: true,
                 fields: [{
                     title: 'GPS设备号',
                     field: 'gpsDevNo',
@@ -64,28 +62,47 @@ class installGpsAddedit extends React.Component {
                 }, {
                     title: 'GPS类型',
                     field: 'gpsType',
-                    nowrap: true,
+                    type: 'select',
+                    data: [{
+                      key: '1',
+                      value: '有线'
+                    }, {
+                      key: '0',
+                      value: '无线'
+                    }],
+                    keyName: 'key',
+                    valueName: 'value',
                     required: true
                 }, {
                     title: '安装位置',
                     field: 'azLocation',
                     nowrap: true,
-                    required: true
+                    readonly: true
                 }, {
                     title: '安装时间',
                     field: 'azDatetime',
+                    type: 'date',
                     nowrap: true,
-                    required: true
+                    readonly: true
                 }, {
                     title: '安装人员',
                     field: 'azUser',
                     nowrap: true,
-                    required: true
+                    readonly: true
+                }, {
+                    title: '设备图片',
+                    field: 'devPhotos',
+                    type: 'img',
+                    readonly: true
+                }, {
+                    title: '安装图片',
+                    field: 'azPhotos',
+                    type: 'img',
+                    readonly: true
                 }, {
                     title: '备注',
                     field: 'remark',
-                    nowrap: true,
-                    required: true
+                    nowrap: true
                 }]
             }
         }, {

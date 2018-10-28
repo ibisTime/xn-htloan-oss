@@ -30,7 +30,7 @@ import { listWrapper } from 'common/js/build-list';
 class imports extends React.Component {
     render() {
         const fields = [{
-            title: '业务编号',
+            title: '编号',
             field: 'code',
             search: true
         }, {

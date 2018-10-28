@@ -50,17 +50,10 @@ class manageGps extends React.Component {
             search: true
         }, {
             title: '客户姓名',
-            field: 'applyUserName',
+            field: 'customerName',
             render: (v, d) => {
                 return d.budgetOrder ? d.budgetOrder.applyUserName : '';
             },
-            type: 'select',
-            pageCode: 632148,
-            params: {
-                roleCode: getRoleCode()
-            },
-            keyName: 'code',
-            valueName: 'applyUserName',
             search: true
         }, {
             title: '客户手机号',

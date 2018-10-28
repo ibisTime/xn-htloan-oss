@@ -30,6 +30,7 @@ class IdCheckQuery extends React.Component {
     }, {
       field: 'identityNo',
       title: '身份证号',
+      idCard: true,
       value: this.identityNo,
       required: true
     }];
@@ -44,11 +45,10 @@ class IdCheckQuery extends React.Component {
           params.customerName = params.name;
           fetch(632920, params).then((data) => {
             this.props.cancelFetching();
-            let keys = Object.keys(data);
-            if (typeof data !== 'string') {
-              this.props.history.push(`/credit/idcheck/report?id=${keys[0]}`);
+            if (data.id !== '-1') {
+              this.props.history.push(`/credit/idcheck/report?id=${data.id}`);
             } else {
-              let result = JSON.parse(data);
+              let result = JSON.parse(data.result);
               showWarnMsg(result.msg || '查询失败');
             }
           }).catch(() => this.props.cancelFetching());

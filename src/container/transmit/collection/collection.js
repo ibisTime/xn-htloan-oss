@@ -98,7 +98,8 @@ class Collection extends React.Component {
             title: '状态',
             field: 'status',
             type: 'select',
-            key: 'logistics_status'
+            key: 'logistics_status',
+            search: true
         }, {
             title: '备注',
             field: 'remark'
@@ -107,7 +108,6 @@ class Collection extends React.Component {
             fields,
             pageCode: 632155,
             searchParams: {
-                statusList: ['1', '2', '3'],
                 type: '1'
             },
             btnEvent: {

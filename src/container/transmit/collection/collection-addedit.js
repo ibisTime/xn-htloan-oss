@@ -32,11 +32,6 @@ class CollectionAddedit extends React.Component {
         title: '业务编号',
         field: 'bizCode'
     }, {
-        title: '类型',
-        field: 'type',
-        type: 'select',
-        key: 'logistics_type'
-    }, {
         title: '发件节点',
         field: 'fromNodeCode',
         type: 'select',
@@ -72,8 +67,8 @@ class CollectionAddedit extends React.Component {
         field: 'receiverName',
         hidden: !this.props.pageData.receiverName
     }, {
-        title: '参考材料清单',
-        field: 'fileList',
+        title: '材料清单',
+        field: 'filelist',
         type: 'checkbox',
         listCode: 632217,
         keyName: 'id',

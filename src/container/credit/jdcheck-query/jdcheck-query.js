@@ -73,6 +73,7 @@ class JdCheckQuery extends React.Component {
       field: 'idNo',
       title: '身份证号',
       value: this.identityNo,
+      idCard: true,
       required: true
     }, {
       field: 'loginType',
@@ -105,22 +106,23 @@ class JdCheckQuery extends React.Component {
                 handler: (params) => {
                   this.props.doFetching();
                   fetch(632931, params).then((data) => {
-                    let keys = Object.keys(data);
-                    if (!keys && !keys.length) {
-                      showWarnMsg('查询失败');
-                    } else {
-                      this.id = keys[0];
-                      data = JSON.parse(data[keys[0]]);
+                    if (data.id !== '-1') {
+                      this.id = data.id;
+                      data = JSON.parse(data.result);
                       setTimeout(() => {
                         fetch(632944, { bizType: 'jd', tokendb: data.token }).then((result) => {
                           result = JSON.parse(result);
                           let base64 = result.input.value;
                           base64 = 'data:image/png;base64,' + base64;
                           this.setState({ base64, current: 1 });
-                          this.startCheck(keys[0]);
+                          this.startCheck(this.id);
                           this.props.cancelFetching();
                         }).catch(() => this.props.cancelFetching());
                       }, 2000);
+                    } else {
+                      this.props.cancelFetching();
+                      let result = JSON.parse(data.result);
+                      showWarnMsg(result.msg || '查询失败');
                     }
                   }).catch(() => this.props.cancelFetching());
                 }

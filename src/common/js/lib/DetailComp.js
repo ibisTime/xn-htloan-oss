@@ -10,10 +10,9 @@ import E from 'wangeditor';
 import XLSX from 'xlsx';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
-import {
-    formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat, monthFormat,
-    tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg, getUserId
-} from 'common/js/util';
+import { formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat, monthFormat,
+    tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg,
+    getUserId, isFunc } from 'common/js/util';
 import {
     UPLOAD_URL, PIC_PREFIX, PIC_BASEURL_L, formItemLayout,
     tailFormItemLayout, tailFormItemLayout1, validateFieldsAndScrollOption
@@ -906,7 +905,7 @@ export default class DetailComponent extends React.Component {
         }
     }
 
-    setSearchData({data, key}) {
+    setSearchData = ({data, key}) => {
         this.setState((prevState, props) => ({
             searchData: {...prevState.searchData, [key]: data}
         }));
@@ -1081,7 +1080,7 @@ export default class DetailComponent extends React.Component {
         let val = '';
         if (item.readonly && initVal && item.data && item.data.length) {
           val = initVal.map(v => {
-            let obj = item.data.find(d => d[item.keyName] === v);
+            let obj = item.data.find(d => (d[item.keyName] + '') === (v + ''));
             return obj[item.valueName] || tempString(item.valueName, obj) || '';
           }).join('、');
         }
@@ -1103,22 +1102,32 @@ export default class DetailComponent extends React.Component {
             </FormItem>
         );
     }
-
-    getSelectComp(item, initVal, rules, getFieldDecorator) {
-        let value;
-        if (item.readonly && item.data) {
-            if (item.multiple) {
-                value = initVal.map(i => {
-                  let obj = item.data.find(v => v[item.keyName] === i);
-                  return obj[item.valueName] || tempString(item.valueName, obj) || '';
-                }).join('、');
-            } else {
-                value = item.data.filter(v => v[item.keyName] === initVal);
-                value = value && value.length
-                  ? value[0][item.valueName] || tempString(item.valueName, value[0])
-                  : initVal;
-            }
+    getReadonlyValue(initVal, readonly, list, keyName, valueName, multiple) {
+      let value = '';
+      if (readonly && list && initVal) {
+        if (multiple) {
+          value = initVal.map(i => {
+            let obj = list.find(v => v[keyName] === i);
+            return this.getValueName(obj, valueName);
+          }).join('、');
+        } else {
+          value = list.filter(v => v[keyName] === initVal);
+          value = value && value.length
+            ? this.getValueName(value[0], valueName)
+            : initVal;
         }
+      }
+      return value;
+    }
+    getValueName(d, valueName) {
+      return isFunc(valueName)
+        ? valueName(d)
+        : d[valueName]
+          ? d[valueName]
+          : tempString(valueName, d);
+    }
+    getSelectComp(item, initVal, rules, getFieldDecorator) {
+        let value = this.getReadonlyValue(initVal, item.readonly, item.data, item.keyName, item.valueName, item.multiple);
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
                       label={this.getLabel(item)}>
@@ -1131,7 +1140,7 @@ export default class DetailComponent extends React.Component {
                         <Select {...this.getSelectProps(item)}>
                             {item.data ? item.data.map(d => (
                                 <Option key={d[item.keyName]} value={d[item.keyName]}>
-                                    {d[item.valueName] ? d[item.valueName] : tempString(item.valueName, d)}
+                                    {this.getValueName(d, item.valueName)}
                                 </Option>
                             )) : null}
                         </Select>

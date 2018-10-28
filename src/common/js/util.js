@@ -239,6 +239,14 @@ export function isUndefined(value) {
   return value === undefined || value === null || value === '';
 }
 
+/**
+ * 是否是函数
+ * @param func
+ */
+export function isFunc(func) {
+  return typeof func === 'function';
+}
+
 export function tempString(str, data) {
   return str.replace(/\{\{(\w+)\.DATA\}\}/gi, function(matchs) {
     var returns = data[matchs.replace(/\{\{(\w+)\.DATA\}\}/, '$1')];

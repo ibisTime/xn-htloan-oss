@@ -32,12 +32,6 @@ class TransmitAddedit extends React.Component {
         title: '业务编号',
         field: 'bizCode'
     }, {
-        title: '类型',
-        field: 'type',
-        type: 'select',
-        key: 'logistics_type',
-        readonly: true
-    }, {
         title: '发件节点',
         field: 'fromNodeCode',
         type: 'select',
@@ -69,7 +63,7 @@ class TransmitAddedit extends React.Component {
         title: '内勤专员',
         field: 'insideJobName'
     }, {
-        title: '参考材料清单',
+        title: '材料清单',
         field: 'filelist',
         type: 'checkbox',
         listCode: 632217,
@@ -89,11 +83,6 @@ class TransmitAddedit extends React.Component {
         keyName: 'key',
         valueName: 'value',
         required: true
-    }, {
-        title: '类型',
-        field: 'type',
-        type: 'select',
-        key: 'logistics_type'
     }, {
         title: '快递公司',
         field: 'logisticsCompany',

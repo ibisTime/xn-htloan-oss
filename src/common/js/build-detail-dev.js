@@ -2,7 +2,6 @@ import React from 'react';
 import DetailComp from 'common/js/lib/DetailCompDev';
 import CO2M from 'component/cO2M/cO2M';
 
-
 export default class DetailUtil extends DetailComp {
   // o2m选择一行数据的回调
   setO2MSelect = (field, selectedRowKeys) => {

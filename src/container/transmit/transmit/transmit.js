@@ -34,25 +34,8 @@ class Transmit extends React.Component {
             field: 'bizCode',
             search: true
         }, {
-            title: '类型',
-            field: 'type',
-            type: 'select',
-            key: 'logistics_type'
-        }, {
             title: '客户姓名',
             field: 'customerName'
-        }, {
-            title: '业务团队',
-            field: 'teamName',
-            readonly: true
-        }, {
-            title: '信贷专员',
-            field: 'saleUserName',
-            readonly: true
-        }, {
-            title: '内勤专员',
-            field: 'insideJobName',
-            readonly: true
         }, {
             title: '发件人',
             field: 'senderName'
@@ -107,7 +90,8 @@ class Transmit extends React.Component {
             title: '状态',
             field: 'status',
             type: 'select',
-            key: 'logistics_status'
+            key: 'logistics_status',
+            search: true
         }, {
             title: '备注',
             field: 'remark'
@@ -116,8 +100,7 @@ class Transmit extends React.Component {
             fields,
             pageCode: 632155,
             searchParams: {
-                statusList: ['0', '3'],
-                typeList: ['1', '3']
+                type: '1'
             },
             btnEvent: {
               send: (selectedRowKeys, selectedRows) => {

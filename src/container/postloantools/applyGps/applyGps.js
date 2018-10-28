@@ -9,7 +9,7 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/postloantools/applyGps';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, dateTimeFormat } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
@@ -35,7 +35,9 @@ class applyGps extends React.Component {
         }, {
             title: '申领时间',
             field: 'applyDatetime',
-            type: 'datetime',
+            type: 'date',
+            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
+            render: dateTimeFormat,
             search: true
         }, {
             title: '申领个数',
@@ -43,8 +45,7 @@ class applyGps extends React.Component {
             search: true
         }, {
             title: '申领原因',
-            field: 'applyReason',
-            search: true
+            field: 'applyReason'
         }, {
             title: '发货时间',
             field: 'sendDatetime',

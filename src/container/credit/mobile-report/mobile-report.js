@@ -1156,7 +1156,7 @@ export default class MobileCheckReport extends React.Component {
                     <td colSpan="18">{silenceAnalysis.longestSilenceStart}</td>
                     <td colSpan="19">{((silenceAnalysis.longestSilenceTime || 0) / 3600).toFixed(2)}</td>
                     <td colSpan="18">{silenceAnalysis.lastSilenceStart}</td>
-                    <td colSpan="19">{silenceAnalysis.lastSilenceTime}</td>
+                    <td colSpan="19">{((silenceAnalysis.lastSilenceTime || 0) / 3600).toFixed(2)}</td>
                   </tr>
                 </tbody>
               </table>

@@ -41,7 +41,7 @@ class DataDictAddEdit extends React.Component {
       title: '字典值',
       field: 'dvalue',
       required: true,
-      maxlength: 15
+      maxlength: 100
     }, {
       title: '备注',
       field: 'remark',

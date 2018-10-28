@@ -60,16 +60,7 @@ class installGpsCheck extends React.Component {
         view: true,
         fields: [{
             title: 'GPS设备号',
-            field: 'code',
-            type: 'select',
-            listCode: 632707,
-            params: {
-                applyStatus: '1',
-                applyUser: getUserId(),
-                useStatus: '0'
-            },
-            keyName: 'code',
-            valueName: 'gpsDevNo',
+            field: 'gpsDevNo',
             nowrap: true,
             readonly: true
         }, {
@@ -98,6 +89,10 @@ class installGpsCheck extends React.Component {
             field: 'azPhotos',
             type: 'img',
             readonly: true
+        }, {
+            title: '备注',
+            field: 'remark',
+            nowrap: true
         }]
       }
     }, {

@@ -26,6 +26,10 @@ class LocationcodeAddedit extends React.Component {
 
     render() {
         this.fields = [{
+            title: '位置编号',
+            field: 'location',
+            required: true
+        }, {
             title: '位置名称',
             field: 'name',
             required: true

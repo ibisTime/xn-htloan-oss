@@ -85,7 +85,8 @@ class CollectionGPS extends React.Component {
             title: '状态',
             field: 'status',
             type: 'select',
-            key: 'logistics_status'
+            key: 'logistics_status',
+            search: true
         }, {
             title: '备注',
             field: 'remark'
@@ -94,7 +95,6 @@ class CollectionGPS extends React.Component {
             fields,
             pageCode: 632155,
             searchParams: {
-                statusList: ['1', '2', '3'],
                 receiverName: getUserId(),
                 type: '2'
             },

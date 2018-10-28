@@ -48,12 +48,6 @@ class CollectionCheck extends React.Component {
         field: 'bizCode',
         readonly: true
     }, {
-        title: '类型',
-        field: 'type',
-        type: 'select',
-        key: 'logistics_type',
-        readonly: true
-    }, {
         title: '发件节点',
         field: 'fromNodeCode',
         type: 'select',
@@ -92,8 +86,8 @@ class CollectionCheck extends React.Component {
         field: 'receiverName',
         hidden: !this.props.pageData.receiverName
     }, {
-        title: '参考材料清单',
-        field: 'fileList',
+        title: '材料清单',
+        field: 'filelist',
         type: 'checkbox',
         listCode: 632217,
         keyName: 'id',

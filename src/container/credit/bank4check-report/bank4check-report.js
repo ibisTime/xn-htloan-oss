@@ -1,8 +1,8 @@
 import React from 'react';
-import { Spin, Form } from 'antd';
+import { Spin, Form, Button } from 'antd';
 import { getCreditReport } from 'api/biz';
 import { showWarnMsg, getQueryString } from 'common/js/util';
-import { formItemLayout } from 'common/js/config';
+import { formItemLayout, tailFormItemLayout } from 'common/js/config';
 
 const { Item: FormItem } = Form;
 
@@ -36,6 +36,7 @@ export default class Bank4CheckReport extends React.Component {
       });
     }).catch(() => this.setState({ fetching: false }));
   }
+  back = () => this.props.history.go(-1)
   render() {
     const { report, fetching } = this.state;
     return (
@@ -55,6 +56,9 @@ export default class Bank4CheckReport extends React.Component {
           </FormItem>
           <FormItem key='resultMsg' {...formItemLayout} label="匹配结果">
             <div className="readonly-text">{report.resultMsg}</div>
+          </FormItem>
+          <FormItem key='buttons' {...tailFormItemLayout}>
+            <Button style={{marginLeft: 20}} onClick={this.back}>返回</Button>
           </FormItem>
         </Form>
       </Spin>

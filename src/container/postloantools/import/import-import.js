@@ -96,15 +96,17 @@ class importImport extends React.Component {
             let data = [];
             delete XLSXData[0];
             XLSXData.forEach((item, i) => {
-                data.push({
-                    code: i,
-                    realName: item[0],
-                    idNo: item[1],
-                    loanAmount: item[2] * 1000,
-                    periods: item[3],
-                    overdueAmount: item[4] * 1000,
-                    fkDatetime: item[5]
-                });
+                if (item.length) {
+                    data.push({
+                        code: i,
+                        realName: item[0],
+                        idNo: item[1],
+                        loanAmount: item[2] * 1000,
+                        periods: item[3],
+                        overdueAmount: item[4] * 1000,
+                        fkDatetime: item[5]
+                    });
+                }
             });
             this.setState({data: data});
         };

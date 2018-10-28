@@ -38,7 +38,7 @@ class takeFee extends React.Component {
             field: 'companyName'
         }, {
             title: '客户姓名',
-            field: 'userName',
+            field: 'customerName',
             search: true
         }, {
             title: '应收手续费总额',

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Select, Form } from 'antd';
-import { noop, tempString, isUndefined } from 'common/js/util';
+import { noop, tempString, isUndefined, isFunc } from 'common/js/util';
 import { formItemLayout } from 'common/js/config';
 
 const { Option } = Select;
@@ -67,16 +67,23 @@ export default class CSelect extends React.Component {
       if (multiple) {
         value = initVal.map(i => {
           let obj = list.find(v => v[keyName] === i);
-          return obj[valueName] || tempString(valueName, obj) || '';
+          return this.getValueName(obj, valueName);
         }).join('、');
       } else {
         value = list.filter(v => v[keyName] === initVal);
         value = value && value.length
-          ? value[0][valueName] || tempString(valueName, value[0])
+          ? this.getValueName(value[0], valueName)
           : initVal;
       }
     }
     return value;
+  }
+  getValueName(d, valueName) {
+    return isFunc(valueName)
+      ? valueName(d)
+      : d[valueName]
+        ? d[valueName]
+        : tempString(valueName, d);
   }
   render() {
     const { label, field, rules, readonly, hidden, getFieldDecorator,
@@ -94,7 +101,7 @@ export default class CSelect extends React.Component {
               <Select {...this.getSelectProps(multiple, onChange)}>
                 {list && list.length ? list.map(d => (
                   <Option key={d[keyName]} value={d[keyName]}>
-                    {d[valueName] ? d[valueName] : tempString(valueName, d)}
+                    {this.getValueName(d, valueName)}
                   </Option>
                 )) : null}
               </Select>)
@@ -121,7 +128,10 @@ CSelect.propTypes = {
   multiple: PropTypes.bool,
   inline: PropTypes.bool,
   keyName: PropTypes.string.isRequired,
-  valueName: PropTypes.string.isRequired,
+  valueName: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func
+  ]).isRequired,
   field: PropTypes.string.isRequired,
   getFieldError: PropTypes.func.isRequired,
   getFieldValue: PropTypes.func.isRequired,

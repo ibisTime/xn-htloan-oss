@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Modal } from 'antd';
-import DetailComp from 'common/js/lib/DetailComp';
+import DetailComp from 'common/js/lib/DetailCompDev';
 
 class ModalDetail extends DetailComp {
   handleCancelModal = () => {

@@ -53,12 +53,15 @@ class TakeFreeEnter extends React.Component {
             value: getUserId(),
             hidden: true
         }, {
-            title: '客户姓名',
-            field: 'userName',
-            readonly: true
-        }, {
             title: '业务编号',
             field: 'budgetOrder',
+            readonly: true
+        }, {
+            title: '业务公司',
+            field: 'companyName'
+        }, {
+            title: '客户姓名',
+            field: 'customerName',
             readonly: true
         }, {
             title: '贷款金额',

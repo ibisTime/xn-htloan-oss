@@ -28,12 +28,15 @@ class TakeFreeAddedit extends React.Component {
     }
     render() {
         const fields = [{
-            title: '客户姓名',
-            field: 'userName',
-            readonly: true
-        }, {
             title: '业务编号',
             field: 'budgetOrder',
+            readonly: true
+        }, {
+            title: '业务公司',
+            field: 'companyName'
+        }, {
+            title: '客户姓名',
+            field: 'customerName',
             readonly: true
         }, {
             title: '贷款金额',
@@ -100,19 +103,6 @@ class TakeFreeAddedit extends React.Component {
                     title: '到帐日期',
                     field: 'reachDatetime',
                     type: 'date'
-                }, {
-                    title: '是否还清',
-                    field: 'isSettled',
-                    type: 'select',
-                    data: [{
-                        key: '0',
-                        value: '否'
-                    }, {
-                        key: '1',
-                        value: '是'
-                    }],
-                    keyName: 'key',
-                    valueName: 'value'
                 }, {
                     title: '更新人',
                     field: 'updater'
