@@ -103,7 +103,8 @@ class Credit extends React.Component {
             type: 'select',
             listCode: 630147,
             keyName: 'code',
-            valueName: 'name'
+            valueName: 'name',
+            search: true
         }, {
             title: '节点时间',
             field: 'updateDatetime',
