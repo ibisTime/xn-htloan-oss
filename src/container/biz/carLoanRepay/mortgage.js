@@ -10,12 +10,7 @@ import {
     setSearchData
 } from '@redux/biz/mortgage';
 import { listWrapper } from 'common/js/build-list';
-import {
-    showWarnMsg,
-    getRoleCode,
-    getTeamCode,
-    dateTimeFormat
-} from 'common/js/util';
+import { showWarnMsg, getRoleCode, dateTimeFormat, getUserId } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -112,8 +107,8 @@ class mortgage extends React.Component {
             fields,
             pageCode: 632148,
             searchParams: {
+              userId: getUserId(),
               roleCode: getRoleCode(),
-              teamCode: getTeamCode(),
               curNodeCodeList: ['002_18', '002_19', '002_20', '002_21']
             },
             btnEvent: {

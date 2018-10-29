@@ -63,7 +63,11 @@ class archivesCertain extends React.Component {
             readonly: true
         }, {
             title: '档案目录',
-            field: 'fileList',
+            field: 'enterFileList',
+            type: 'checkbox',
+            listCode: 632217,
+            keyName: 'id',
+            valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份',
             readonly: true
         }, {
             title: '贷款金额',

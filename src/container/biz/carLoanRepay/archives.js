@@ -10,7 +10,7 @@ import {
     setSearchData
 } from '@redux/biz/archives';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, dateTimeFormat, getRoleCode, getTeamCode } from 'common/js/util';
+import { showWarnMsg, dateTimeFormat, getRoleCode, getUserId } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -108,8 +108,8 @@ class archives extends React.Component {
             fields,
             pageCode: 632148,
             searchParams: {
+              userId: getUserId(),
               roleCode: getRoleCode(),
-              teamCode: getTeamCode(),
               curNodeCodeList: ['002_22', '002_23']
             },
             btnEvent: {

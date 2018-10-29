@@ -13,7 +13,8 @@ import {
     showWarnMsg,
     getRoleCode,
     dateTimeFormat,
-    getTeamCode
+    getTeamCode,
+    getUserId
 } from 'common/js/util';
 import {
     listWrapper
@@ -69,13 +70,12 @@ class Credit extends React.Component {
         }, {
             title: '客户姓名',
             field: 'userName',
-            render: (e, t) => {
-                return (t.creditUser ? t.creditUser.userName : '-');
-            },
+            render: (v, t) => t.creditUser ? t.creditUser.userName : '-',
             search: true
         }, {
             title: '手机号',
-            field: 'mobile'
+            field: 'mobile',
+            render: (v, t) => t.creditUser ? t.creditUser.mobile : '-'
         }, {
             title: '贷款银行',
             field: 'loanBankCode',
@@ -137,6 +137,7 @@ class Credit extends React.Component {
             fields,
             pageCode: 632115,
             searchParams: {
+                userId: getUserId(),
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode(),
                 curNodeCodeList: ['001_01', '001_02', '001_03', '001_04', '001_05', '001_06', '001_07', '001_08']

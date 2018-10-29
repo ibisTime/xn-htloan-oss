@@ -53,7 +53,6 @@ class AdvMoneyAddedit extends React.Component {
         }, {
             title: '区域经理',
             field: 'areaName',
-            formatter: (v, d) => d.areaName ? `${d.areaName}-${d.areaMobile}` : '',
             readonly: true
         }, {
             title: '业务团队',

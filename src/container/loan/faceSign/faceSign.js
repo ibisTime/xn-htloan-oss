@@ -12,7 +12,7 @@ import {
 import {
     showWarnMsg,
     getRoleCode,
-    getTeamCode,
+    getUserId,
     dateFormat
 } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
@@ -127,8 +127,8 @@ class FaceSign extends React.Component {
             fields,
             pageCode: 632148,
             searchParams: {
+                userId: getUserId(),
                 roleCode: getRoleCode(),
-                teamCode: getTeamCode(),
                 curNodeCodeList: ['002_05', '002_06', '002_08', '002_26']
             },
             btnEvent: {

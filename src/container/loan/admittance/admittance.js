@@ -9,12 +9,7 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/loan/admittance';
-import {
-    showWarnMsg,
-    getRoleCode,
-    dateTimeFormat,
-    getTeamCode
-} from 'common/js/util';
+import { showWarnMsg, getRoleCode, dateTimeFormat, getUserId } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
@@ -123,8 +118,8 @@ class Admittance extends React.Component {
             fields,
             pageCode: 632148,
             searchParams: {
+                userId: getUserId(),
                 roleCode: getRoleCode(),
-                teamCode: getTeamCode(),
                 curNodeCodeList: ['002_01', '002_02', '002_03', '002_04', '002_24', '002_25', '002_27', '002_28']
             },
             btnEvent: {

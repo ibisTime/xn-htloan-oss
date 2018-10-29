@@ -144,13 +144,14 @@ class MobileQuery extends React.Component {
                   this.props.doFetching();
                   params.customerName = params.identityName;
                   fetch(632934, params).then((data) => {
+                    this.props.cancelFetching();
                     if (data.id === '-1') {
-                      showWarnMsg('查询失败');
+                      let result = JSON.parse(data.result);
+                      showWarnMsg(result && result.msg || '查询失败');
                     } else {
                       this.id = data.id;
                       this.token = JSON.parse(data.result).token;
                       this.setState({ current: 1 });
-                      this.props.cancelFetching();
                     }
                   }).catch(() => this.props.cancelFetching());
                 }

@@ -12,10 +12,7 @@ import {
 import {
     listWrapper
 } from 'common/js/build-list';
-import {
-    showWarnMsg,
-    getRoleCode
-} from 'common/js/util';
+import { showWarnMsg, getRoleCode, getUserId } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -120,6 +117,7 @@ class installGps extends React.Component {
             fields,
             pageCode: 632148,
             searchParams: {
+                userId: getUserId(),
                 roleCode: getRoleCode(),
                 curNodeCodeList: ['002_09', '002_10', '002_12']
             },

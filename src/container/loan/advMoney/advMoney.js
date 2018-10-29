@@ -13,7 +13,7 @@ import {
     showWarnMsg,
     showSucMsg,
     getRoleCode,
-    getTeamCode,
+    getUserId,
     dateTimeFormat
 } from 'common/js/util';
 import {
@@ -167,8 +167,8 @@ class AdvMoney extends React.Component {
             fields,
             pageCode: 632148,
             searchParams: {
+                userId: getUserId(),
                 roleCode: getRoleCode(),
-                teamCode: getTeamCode(),
                 curNodeCodeList: ['002_07']
             },
             btnEvent: {

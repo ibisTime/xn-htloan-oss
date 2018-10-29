@@ -1087,6 +1087,11 @@ export default class DetailComponent extends React.Component {
             return obj[item.valueName] || tempString(item.valueName, obj) || '';
           }).join('、');
         }
+        if (item.data && item.data.length) {
+          item.data.map(d => {
+            d[item.keyName] = d[item.keyName] + '';
+          });
+        }
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
                 {

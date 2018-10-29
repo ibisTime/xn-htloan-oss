@@ -676,7 +676,7 @@ export function getNowCurNodePageUrl(data) {
   // "0", "待发件"，"1", "已发件待收件"，"3", "已收件待补件"
   // 物流单
   if (data.refType === '012') {
-    if (data.logisticsStatus === '0' || data.logisticsStatus === '1') {
+    if (data.logisticsStatus === '0' || data.logisticsStatus === '3') {
       url = '/transmit/transmit/send?code=';
     } else {
       url = '/transmit/collection/check?code=';
