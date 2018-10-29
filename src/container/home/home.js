@@ -18,7 +18,7 @@ import { getQiniuToken } from 'api/general';
 import { getUser, setUserPhoto } from 'api/user';
 import { getPageMyNotice, getPageMyCompanysystem, getPageMyToDoList, getCurNodeCode } from 'api/home';
 import { PIC_PREFIX, PIC_BASEURL_L, UPLOAD_URL } from 'common/js/config';
-import './home.bak.css';
+import './home.css';
 import userPhoto from '../../images/home-userPhoto.png';
 import iconMore from '../../images/home-icon-more.png';
 import noData from '../../images/noData.png';

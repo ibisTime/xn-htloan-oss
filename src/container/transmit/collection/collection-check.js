@@ -84,7 +84,8 @@ class CollectionCheck extends React.Component {
     }, {
         title: '收件人',
         field: 'receiverName',
-        hidden: !this.props.pageData.receiverName
+        hidden: !this.props.pageData.receiverName,
+        readonly: true
     }, {
         title: '材料清单',
         field: 'filelist',
