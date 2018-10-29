@@ -34,11 +34,6 @@ class Collection extends React.Component {
             field: 'bizCode',
             search: true
         }, {
-            title: '类型',
-            field: 'type',
-            type: 'select',
-            key: 'logistics_type'
-        }, {
             title: '客户姓名',
             field: 'customerName'
         }, {

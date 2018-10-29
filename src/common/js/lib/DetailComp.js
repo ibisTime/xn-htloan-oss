@@ -927,7 +927,7 @@ export default class DetailComponent extends React.Component {
                         })(
                             <TreeSelect
                               showSearch
-                              style={{ width: '100%' }}
+                              style={{ maxWidth: 400 }}
                               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                               placeholder="请选择"
                               allowClear
@@ -953,6 +953,7 @@ export default class DetailComponent extends React.Component {
                             initialValue: initVal || null
                         })(
                         <DatePicker
+                            style={{ maxWidth: 400 }}
                             allowClear={false}
                             locale={locale}
                             placeholder={places}
@@ -976,6 +977,7 @@ export default class DetailComponent extends React.Component {
                             initialValue: initVal || null
                         })(
                         <MonthPicker
+                            style={{ maxWidth: 400 }}
                             allowClear={false}
                             locale={locale}
                             placeholder={places}
@@ -1040,6 +1042,7 @@ export default class DetailComponent extends React.Component {
                             allowClear
                             mode="combobox"
                             showArrow={false}
+                            style={{ minWidth: 200, maxWidth: 400 }}
                             filterOption={false}
                             onSearch={v => this.searchSelectChange({item, keyword: v})}
                             optionLabelProp="children"
@@ -1070,7 +1073,7 @@ export default class DetailComponent extends React.Component {
                         : getFieldDecorator(item.field, {
                             rules,
                             initialValue: initVal
-                        })(<Cascader placeholder="请选择" options={cityData}/>)
+                        })(<Cascader style={{ maxWidth: 400 }} placeholder="请选择" options={cityData}/>)
                 }
             </FormItem>
         );
@@ -1152,7 +1155,8 @@ export default class DetailComponent extends React.Component {
 
     getInputComp(item, initVal, rules, getFieldDecorator) {
         let props = {
-            type: item.type ? item.type : item.hidden ? 'hidden' : 'text'
+            type: item.type ? item.type : item.hidden ? 'hidden' : 'text',
+            style: { maxWidth: 400 }
         };
         if (item.onChange) {
             props.onChange = (e) => {
@@ -1239,7 +1243,7 @@ export default class DetailComponent extends React.Component {
             allowClear: true,
             optionFilterProp: 'children',
             filterOption: (input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-            style: {width: '100%'},
+            style: {maxWidth: 400},
             placeholder: '请选择'
         };
         if (item.onChange) {

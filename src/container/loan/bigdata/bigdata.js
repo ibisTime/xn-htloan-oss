@@ -67,11 +67,12 @@ export default class BigData extends React.Component {
   }
   // 获取是否认证
   getExtra(key, role) {
-    const info = this.state[`${role}Info`];
-    return info && info[key]
-      ? info[key].split(',')[1] === '2'
-        ? '已认证' : '认证中'
-      : '未认证';
+    let info = this.state[`${role}Info`];
+    if (!info || !info[key]) {
+      return '未认证';
+    }
+    let result = JSON.parse(info[key]);
+    return result.status === 2 ? '已认证' : '认证中';
   }
   // 认证
   queryReport(key, role) {
@@ -94,33 +95,34 @@ export default class BigData extends React.Component {
   goReport(key, role) {
     let url = '';
     let info = this.state[`${role}Info`];
-    if (info && info[key] && info[key].split(',')[1] === '2') {
-      let id = info[key].split(',')[0];
-      if (key === 'identity') {
-        url = `/credit/idcheck/report?id=${id}`;
-      } else if (key === 'bankcard4check') {
-        url = `/credit/bank4check/report?id=${id}`;
-      } else if (key === 'jd') {
-        url = `/credit/jd/report?id=${id}`;
-      } else if (key === 'mobileReportTask') {
-        url = `/credit/mobile/report?id=${id}`;
-      } else if (key === 'taobao_report') {
-        url = `/credit/tbcheck/report?id=${id}`;
+    if (info && info[key]) {
+      let result = JSON.parse(info[key]);
+      if (result.status === 1) {
+        showWarnMsg('报告处于认证中状态，无法查看');
+      } else {
+        let id = result.id;
+        if (key === 'identity') {
+          url = `/credit/idcheck/report?id=${id}`;
+        } else if (key === 'bankcard4check') {
+          url = `/credit/bank4check/report?id=${id}`;
+        } else if (key === 'jd') {
+          url = `/credit/jd/report?id=${id}`;
+        } else if (key === 'mobileReportTask') {
+          url = `/credit/mobile/report?id=${id}`;
+        } else if (key === 'taobao_report') {
+          url = `/credit/tbcheck/report?id=${id}`;
+        }
+        this.props.history.push(url);
       }
-      this.props.history.push(url);
     } else {
-      let msg = '该用户还没有报告，无法查看';
-      if (info && info[key] && info[key].split(',')[1] === '1') {
-        msg = '报告处于认证中状态，无法查看';
-      }
-      showWarnMsg(msg);
+      showWarnMsg('该用户还没有报告，无法查看');
     }
   }
   render() {
     const { mainInfo, ghInfo, dbInfo, fetching } = this.state;
     return (
       <Spin spinning={fetching}>
-        <Card title="申请人">
+        <Card title={`申请人(${this.mainUser.userName})`}>
           <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
             <Col span={8} style={{marginBottom: '20px'}}>
               <Card title="身份证实名核验" extra={this.getExtra('identity', 'main')}>
@@ -167,7 +169,7 @@ export default class BigData extends React.Component {
           </Row>
         </Card>
         {ghInfo ? (
-          <Card title="共还人">
+          <Card title={`共还人(${this.ghUser.userName})`}>
             <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
               <Col span={8} style={{marginBottom: '20px'}}>
                 <Card title="身份证实名核验" extra={this.getExtra('identity', 'gh')}>
@@ -215,7 +217,7 @@ export default class BigData extends React.Component {
           </Card>
         ) : null}
         {dbInfo ? (
-          <Card title="担保人">
+          <Card title={`担保人(${this.dbUser.userName})`}>
             <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
               <Col span={8} style={{marginBottom: '20px'}}>
                 <Card title="身份证实名核验" extra={this.getExtra('identity', 'db')}>
