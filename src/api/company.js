@@ -1,4 +1,5 @@
 import fetch from 'common/js/fetch';
+import { getRoleCode } from 'common/js/util';
 
 // 列表查询公司
 export function getCompList(parentCode) {
@@ -33,4 +34,13 @@ export function addUser(params) {
 // 修改角色
 export function editUser(params) {
     return fetch(630060, params);
+}
+
+// 获取代办数量
+export function getAgencyList() {
+    return fetch(632911, {
+      start: 0,
+      limit: 10,
+      roleCode: getRoleCode()
+    });
 }

@@ -1,0 +1,202 @@
+.credit-report-wrapper .outer-table-wrapper {
+  table-layout: fixed;
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+  border-left: 1px solid #dfdfdf;
+  border-top: 1px solid #dfdfdf;
+}
+.credit-report-wrapper .table-title {
+    text-indent: 1.5em;
+    height: 40px;
+    line-height: 40px;
+    color: #fff;
+    background: #98a1b3;
+}
+.outer-table-wrapper > tbody > tr > th {
+  padding: 10px 20px;
+  padding-right: 10px;
+  vertical-align: top;
+  font-weight: normal;
+  border-right: 1px solid #dfdfdf;
+  border-bottom: 1px solid #dfdfdf;
+  background: #f2f3f5;
+}
+.outer-table-wrapper > tbody > tr > td {
+  vertical-align: top;
+  padding: 10px 20px;
+  padding-right: 10px;
+  border-right: 1px solid #dfdfdf;
+  border-bottom: 1px solid #dfdfdf;
+}
+.message_table.outer-table-wrapper > tbody > tr > td{
+  border-bottom: none;
+}
+.message_table.outer-table-wrapper {
+  border-left: none;
+  border-top: none;
+}
+.outer-table-wrapper.padNone th, .outer-table-wrapper.padNone td {
+  padding-left: 10px;
+  padding-right: 0;
+}
+.outer-table-wrapper.border_right_none > tbody > tr > th,
+.outer-table-wrapper.border_right_none > tbody > tr > td {
+  border-right: none;
+}
+.outer-table-wrapper .overflow {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.credit-report-wrapper table tbody tr td:first-of-type {
+  white-space: normal;
+  word-break: break-word;
+}
+.credit-report-wrapper .child_table td {
+  line-height: 32px;
+  display: inline-block;
+}
+.credit-report-wrapper .child_table.cols_table td {
+  display: table-cell;
+}
+.phoneLine.after {
+  position: relative;
+  padding-right: 12px;
+  margin-left: 10px;
+}
+.phoneLine:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 1px;
+  height: 16px;
+  background-color: #ddd;
+}
+.phoneLine.after:before {
+  top: 3px;
+  background-color: transparent;
+}
+.phoneLine:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 6px;
+    width: 1px;
+    height: 16px;
+    background-color: #ddd;
+}
+.phoneLine.after:after {
+    top: 3px;
+}
+.credit-report-wrapper .valid {
+  color: #39b31b;
+}
+.credit-report-wrapper .unknow {
+  color: #ff6600;
+}
+.credit-report-wrapper .unvalid {
+  color: #f24130;
+}
+.credit-report-wrapper .unvalid .anticon,
+.credit-report-wrapper .valid .anticon,
+.credit-report-wrapper .unknow .anticon {
+  padding-right: 6px;
+}
+.zfb-card .outer-table-wrapper {
+  margin-bottom: 16px;
+}
+.zfb-card .outer-table-wrapper:last-child {
+  margin-bottom: 0;
+}
+.credit-report-wrapper .report-none-data {
+  line-height: 164px;
+  border: 1px solid #dfdfdf;
+  border-top: none;
+  text-align: center;
+}
+.credit-report-wrapper .dis_line {
+  display: inline-block;
+}
+.credit_toggleTable {
+  display: none;
+  margin-top: 14px;
+  width: 100%;
+}
+.credit_toggleTable table {
+  table-layout: fixed;
+  width: 100%;
+}
+.credit_toggleTable table th {
+  padding-left: 16px;
+  font-weight: normal;
+  height: 38px;
+  font-size: 14px;
+  color: #999;
+  background: #f2f3f5;
+}
+.credit_toggleTable table td {
+  padding-left: 16px;
+  height: 40px;
+  color: #000;
+  border-bottom: 1px solid #eee;
+}
+.small_table {
+  table-layout: fixed;
+  width: 100%;
+}
+.MtableMain {
+  table-layout: fixed;
+  width: 100%;
+  border-left: 1px solid #dae6d8;
+  border-top: 1px solid #dae6d8;
+}
+.MtableMain td {
+  padding: 10px 20px;
+  padding-right: 10px;
+  height: 34px;
+  text-align: left;
+  border-right: 1px solid #dae6d8;
+  border-bottom: 1px solid #dae6d8;
+}
+.MtableMain .span1 {
+  display: inline-block;
+  width: 100px;
+}
+.fr {
+  float: right;
+}
+.ml_5 {
+  margin-left: 5px;
+}
+.ml_10 {
+  margin-left: 10px;
+}
+.ml_20 {
+  margin-left: 20px;
+}
+.mt_14 {
+  margin-top: 14px;
+}
+.mt_30 {
+  margin-top: 30px;
+}
+.fs_20 {
+  font-size: 20px;
+}
+.col_000 {
+  color: #000;
+}
+.col_333 {
+  color: #333;
+}
+.col_999 {
+  color: #999;
+}
+.col_red {
+  color: #f24130;
+}
+.col_green {
+  color: #39b31b;
+}

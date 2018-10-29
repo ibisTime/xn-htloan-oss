@@ -32,22 +32,13 @@ class carloanAddedit extends React.Component {
     }
     render() {
       const fields = [{
-        field: 'ckey',
-        title: '期数',
-        type: 'select',
-        data: [{
-          key: '12',
-          value: '12'
-        }, {
-          key: '24',
-          value: '24'
-        }, {
-          key: '36',
-          value: '36'
-        }],
-        keyName: 'key',
-        valueName: 'value',
+        field: 'remark',
+        title: '参数名',
+        value: '车贷期数管理的期数和利率',
         readonly: true
+      }, {
+        title: '期数',
+        field: 'ckey'
       }, {
         title: '利率（%）',
         field: 'cvalue'
@@ -58,7 +49,8 @@ class carloanAddedit extends React.Component {
         code: this.code,
         view: this.view,
         detailCode: '630046',
-        editCode: '630042'
+        editCode: '630042',
+        addCode: '630040'
       });
     }
 }

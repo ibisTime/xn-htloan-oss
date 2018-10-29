@@ -65,14 +65,6 @@ class mortgageEnter extends React.Component {
             field: 'greenBigSmj',
             type: 'img',
             required: true
-        }, {
-            title: '代理人',
-            field: 'pledgeUser',
-            required: true
-        }, {
-            title: '抵押地点',
-            field: 'pledgeAddress',
-            required: true
         }];
         return this.props.buildDetail({
             fields,

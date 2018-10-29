@@ -12,7 +12,7 @@ import {
   clearTopCode,
   clearSubMenuCode
 } from '@redux/menu';
-import { clearUser, getRealName } from 'common/js/util';
+import { clearUser } from 'common/js/util';
 import asyncComponent from '../async-component/async-component';
 import EditPwd from 'component/edit-pwd/edit-pwd';
 import ROUTES from 'src/route';
@@ -22,6 +22,7 @@ import logo from './logo.png';
 const { SubMenu, Item } = Menu;
 const { Header, Content, Sider } = Layout;
 const Home = asyncComponent(() => import('../../container/home/home'));
+const TbReport = asyncComponent(() => import('../../container/credit/tbcheck-report/tbcheck-report'));
 
 @connect(
   state => ({ ...state.menu, loginName: state.user.loginName }),
@@ -120,7 +121,7 @@ class Dashboard extends React.Component {
           <Item key="user" style={{float: 'right'}}>
             <Dropdown overlay={userShow}>
               <a href="#" style={{display: 'inline'}}>
-                {getRealName()} <Icon type="down" />
+                {this.props.loginName} <Icon type="down" />
               </a>
             </Dropdown>
           </Item>
@@ -165,6 +166,7 @@ class Dashboard extends React.Component {
         <Content className="right-content">
           <Switch>
             <Route path='/' exact component={Home}></Route>
+            <Route path='/credit/tbcheck/report' exact component={TbReport}></Route>
             {this.props.topMenuList.length ? this.getRoutes() : null}
           </Switch>
         </Content>

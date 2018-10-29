@@ -34,8 +34,32 @@ class transmit extends React.Component {
             field: 'bizCode',
             search: true
         }, {
-            title: '客户姓名',
-            field: 'userName'
+            title: '发件人',
+            field: 'senderName'
+        }, {
+            title: '收件人',
+            field: 'receiverName'
+        }, {
+            title: '业务团队',
+            field: 'teamName'
+        }, {
+            title: '信贷专员',
+            field: 'saleUserName'
+        }, {
+            title: '内勤专员',
+            field: 'insideJobName'
+        }, {
+            title: 'gps无线个数',
+            field: 'applyWirelessCount',
+            render: (v, d) => {
+                return d.gpsApply.applyWirelessCount;
+            }
+        }, {
+            title: 'gps有线个数',
+            field: 'applyWiredCount',
+            render: (v, d) => {
+                return d.gpsApply.applyWiredCount;
+            }
         }, {
             title: '传递方式',
             field: 'sendType',
@@ -61,7 +85,8 @@ class transmit extends React.Component {
             title: '状态',
             field: 'status',
             type: 'select',
-            key: 'logistics_status'
+            key: 'logistics_status',
+            search: true
         }, {
             title: '备注',
             field: 'remark'
@@ -70,7 +95,6 @@ class transmit extends React.Component {
             fields,
             pageCode: 632155,
             searchParams: {
-                statusList: ['0', '3'],
                 type: '2'
             },
             btnEvent: {

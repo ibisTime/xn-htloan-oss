@@ -22,29 +22,15 @@ class refundCardAddedit extends React.Component {
   }
   render() {
     const fields = [{
-      title: '所属客户',
-      field: 'userId',
-      pageCode: 805120,
-      keyName: 'userId',
-      valueName: '{{mobile.DATA}} {{realName.DATA}}',
-      searchName: 'mobile',
-      type: 'select',
+      title: '户名',
+      field: 'realName',
       required: true
     }, {
       title: '银行名称',
-      field: 'bankCode',
-      listCode: 802116,
-      type: 'select',
-      keyName: 'bankCode',
-      valueName: 'bankName',
-      required: true
+      field: 'bankName'
     }, {
       title: '开户支行',
       field: 'subbranch',
-      required: true
-    }, {
-      title: '户名',
-      field: 'realName',
       required: true
     }, {
       title: '卡号',

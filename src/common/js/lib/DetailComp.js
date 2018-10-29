@@ -10,10 +10,9 @@ import E from 'wangeditor';
 import XLSX from 'xlsx';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
-import {
-    formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat, monthFormat,
-    tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg, getUserId
-} from 'common/js/util';
+import { formatFile, formatImg, isUndefined, dateTimeFormat, dateFormat, monthFormat,
+    tempString, moneyFormat, moneyParse, showSucMsg, showErrMsg, showWarnMsg,
+    getUserId, isFunc } from 'common/js/util';
 import {
     UPLOAD_URL, PIC_PREFIX, PIC_BASEURL_L, formItemLayout,
     tailFormItemLayout, tailFormItemLayout1, validateFieldsAndScrollOption
@@ -193,6 +192,9 @@ export default class DetailComponent extends React.Component {
         let key = this.options.key || 'code';
         values[key] = isUndefined(values[key]) ? this.props.code || '' : values[key];
         this.options.fields.forEach(v => {
+            if (v.readonly) {
+              return;
+            }
             if (v.amount) {
                 values[v.field] = moneyParse(values[v.field], v.amountRate);
             } else if (v.type === 'citySelect') {
@@ -903,7 +905,7 @@ export default class DetailComponent extends React.Component {
         }
     }
 
-    setSearchData({data, key}) {
+    setSearchData = ({data, key}) => {
         this.setState((prevState, props) => ({
             searchData: {...prevState.searchData, [key]: data}
         }));
@@ -925,7 +927,7 @@ export default class DetailComponent extends React.Component {
                         })(
                             <TreeSelect
                               showSearch
-                              style={{ width: '100%' }}
+                              style={{ maxWidth: 400 }}
                               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                               placeholder="请选择"
                               allowClear
@@ -951,6 +953,7 @@ export default class DetailComponent extends React.Component {
                             initialValue: initVal || null
                         })(
                         <DatePicker
+                            style={{ maxWidth: 400 }}
                             allowClear={false}
                             locale={locale}
                             placeholder={places}
@@ -974,6 +977,7 @@ export default class DetailComponent extends React.Component {
                             initialValue: initVal || null
                         })(
                         <MonthPicker
+                            style={{ maxWidth: 400 }}
                             allowClear={false}
                             locale={locale}
                             placeholder={places}
@@ -1038,6 +1042,7 @@ export default class DetailComponent extends React.Component {
                             allowClear
                             mode="combobox"
                             showArrow={false}
+                            style={{ minWidth: 200, maxWidth: 400 }}
                             filterOption={false}
                             onSearch={v => this.searchSelectChange({item, keyword: v})}
                             optionLabelProp="children"
@@ -1068,7 +1073,7 @@ export default class DetailComponent extends React.Component {
                         : getFieldDecorator(item.field, {
                             rules,
                             initialValue: initVal
-                        })(<Cascader placeholder="请选择" options={cityData}/>)
+                        })(<Cascader style={{ maxWidth: 400 }} placeholder="请选择" options={cityData}/>)
                 }
             </FormItem>
         );
@@ -1077,7 +1082,15 @@ export default class DetailComponent extends React.Component {
     getCheckboxComp(item, initVal, rules, getFieldDecorator) {
         let val = '';
         if (item.readonly && initVal && item.data && item.data.length) {
-            val = initVal.map(v => item.data.find(d => d[item.keyName] === v)[item.valueName]).join('、');
+          val = initVal.map(v => {
+            let obj = item.data.find(d => (d[item.keyName] + '') === (v + ''));
+            return obj[item.valueName] || tempString(item.valueName, obj) || '';
+          }).join('、');
+        }
+        if (item.data && item.data.length) {
+          item.data.map(d => {
+            d[item.keyName] = d[item.keyName] + '';
+          });
         }
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
@@ -1089,7 +1102,7 @@ export default class DetailComponent extends React.Component {
                         })(
                         <CheckboxGroup disabled={item.readonly}>
                             {item.data && item.data.length
-                                ? item.data.map(d => <Checkbox key={d[item.keyName]} value={d[item.keyName]}>{d[item.valueName]}</Checkbox>)
+                                ? item.data.map(d => <Checkbox key={d[item.keyName]} value={d[item.keyName]}>{d[item.valueName] ? d[item.valueName] : tempString(item.valueName, d)}</Checkbox>)
                                 : null}
                         </CheckboxGroup>
                         )
@@ -1097,22 +1110,32 @@ export default class DetailComponent extends React.Component {
             </FormItem>
         );
     }
-
-    getSelectComp(item, initVal, rules, getFieldDecorator) {
-        let value;
-        if (item.readonly && item.data) {
-            if (item.multiple) {
-                value = initVal.map(i => {
-                  let obj = item.data.find(v => v[item.keyName] === i);
-                  return obj[item.valueName] || tempString(item.valueName, obj) || '';
-                }).join('、');
-            } else {
-                value = item.data.filter(v => v[item.keyName] === initVal);
-                value = value && value.length
-                  ? value[0][item.valueName] || tempString(item.valueName, value[0])
-                  : initVal;
-            }
+    getReadonlyValue(initVal, readonly, list, keyName, valueName, multiple) {
+      let value = '';
+      if (readonly && list && initVal) {
+        if (multiple) {
+          value = initVal.map(i => {
+            let obj = list.find(v => v[keyName] === i);
+            return this.getValueName(obj, valueName);
+          }).join('、');
+        } else {
+          value = list.filter(v => v[keyName] === initVal);
+          value = value && value.length
+            ? this.getValueName(value[0], valueName)
+            : initVal;
         }
+      }
+      return value;
+    }
+    getValueName(d, valueName) {
+      return isFunc(valueName)
+        ? valueName(d)
+        : d[valueName]
+          ? d[valueName]
+          : tempString(valueName, d);
+    }
+    getSelectComp(item, initVal, rules, getFieldDecorator) {
+        let value = this.getReadonlyValue(initVal, item.readonly, item.data, item.keyName, item.valueName, item.multiple);
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()}
                       label={this.getLabel(item)}>
@@ -1125,7 +1148,7 @@ export default class DetailComponent extends React.Component {
                         <Select {...this.getSelectProps(item)}>
                             {item.data ? item.data.map(d => (
                                 <Option key={d[item.keyName]} value={d[item.keyName]}>
-                                    {d[item.valueName] ? d[item.valueName] : tempString(item.valueName, d)}
+                                    {this.getValueName(d, item.valueName)}
                                 </Option>
                             )) : null}
                         </Select>
@@ -1137,7 +1160,8 @@ export default class DetailComponent extends React.Component {
 
     getInputComp(item, initVal, rules, getFieldDecorator) {
         let props = {
-            type: item.type ? item.type : item.hidden ? 'hidden' : 'text'
+            type: item.type ? item.type : item.hidden ? 'hidden' : 'text',
+            style: { maxWidth: 400 }
         };
         if (item.onChange) {
             props.onChange = (e) => {
@@ -1224,7 +1248,7 @@ export default class DetailComponent extends React.Component {
             allowClear: true,
             optionFilterProp: 'children',
             filterOption: (input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-            style: {width: '100%'},
+            style: {maxWidth: 400},
             placeholder: '请选择'
         };
         if (item.onChange) {

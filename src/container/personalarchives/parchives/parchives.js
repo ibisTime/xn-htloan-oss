@@ -11,8 +11,6 @@ import {
 } from '@redux/personalarchives/parchives';
 import { listWrapper } from 'common/js/build-list';
 import { showWarnMsg, showSucMsg } from 'common/js/util';
-import { Button, Upload, Modal } from 'antd';
-import { receiveGoods } from 'api/biz';
 
 @listWrapper(
   state => ({
@@ -71,6 +69,9 @@ class parchives extends React.Component {
     return this.props.buildList({
       fields,
       pageCode: 632805,
+      searchParams: {
+          workStatusList: ['1', '2']
+      },
       btnEvent: {
         enter: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {

@@ -29,10 +29,6 @@ class archivesCertain extends React.Component {
     }
     render() {
         const fields = [{
-            title: '客户姓名',
-            field: 'applyUserName',
-            readonly: true
-        }, {
             title: '业务编号',
             field: 'code',
             readonly: true
@@ -40,6 +36,38 @@ class archivesCertain extends React.Component {
             title: '贷款银行',
             field: 'loanBankName',
             formatter: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : '',
+            readonly: true
+        }, {
+            title: '客户姓名',
+            field: 'applyUserName',
+            readonly: true
+        }, {
+            title: '车型名称',
+            field: 'carModel',
+            readonly: true
+        }, {
+            title: '车架号',
+            field: 'carFrameNo',
+            readonly: true
+        }, {
+            title: '业务团队',
+            field: 'teamName',
+            readonly: true
+        }, {
+            title: '信贷专员',
+            field: 'saleUserName',
+            readonly: true
+        }, {
+            title: '内勤专员',
+            field: 'insideJobName',
+            readonly: true
+        }, {
+            title: '档案目录',
+            field: 'enterFileList',
+            type: 'checkbox',
+            listCode: 632217,
+            keyName: 'id',
+            valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份',
             readonly: true
         }, {
             title: '贷款金额',
@@ -51,7 +79,6 @@ class archivesCertain extends React.Component {
             field: 'enterLocation',
             type: 'select',
             listCode: '632827',
-            params: {},
             keyName: 'code',
             valueName: 'name',
             required: true

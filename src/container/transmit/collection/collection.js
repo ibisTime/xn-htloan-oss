@@ -34,13 +34,26 @@ class Collection extends React.Component {
             field: 'bizCode',
             search: true
         }, {
-            title: '类型',
-            field: 'type',
-            type: 'select',
-            key: 'logistics_type'
-        }, {
             title: '客户姓名',
             field: 'customerName'
+        }, {
+            title: '业务团队',
+            field: 'teamName',
+            readonly: true
+        }, {
+            title: '信贷专员',
+            field: 'saleUserName',
+            readonly: true
+        }, {
+            title: '内勤专员',
+            field: 'insideJobName',
+            readonly: true
+        }, {
+            title: '发件人',
+            field: 'senderName'
+        }, {
+            title: '收件人',
+            field: 'receiverName'
         }, {
             title: '传递方式',
             field: 'sendType',
@@ -80,7 +93,8 @@ class Collection extends React.Component {
             title: '状态',
             field: 'status',
             type: 'select',
-            key: 'logistics_status'
+            key: 'logistics_status',
+            search: true
         }, {
             title: '备注',
             field: 'remark'
@@ -89,8 +103,7 @@ class Collection extends React.Component {
             fields,
             pageCode: 632155,
             searchParams: {
-                statusList: ['1', '2', '3'],
-                receiver: '0'
+                type: '1'
             },
             btnEvent: {
               check: (selectedRowKeys, selectedRows) => {

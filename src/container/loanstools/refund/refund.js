@@ -46,7 +46,7 @@ class refund extends React.Component {
             pageCode: 630065,
             params: {
                 type: 'P',
-                roleCode: 'SR201800000000000000YWY'
+                roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
             },
             keyName: 'userId',
             valueName: '{{companyName.DATA}}-{{realName.DATA}}',

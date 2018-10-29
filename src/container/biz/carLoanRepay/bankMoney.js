@@ -10,7 +10,7 @@ import {
   setSearchData
 } from '@redux/biz/bankMoney';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, getRoleCode, getTeamCode, dateTimeFormat } from 'common/js/util';
+import { showWarnMsg, getRoleCode, dateTimeFormat, getUserId } from 'common/js/util';
 
 @listWrapper(
   state => ({
@@ -55,7 +55,7 @@ class bankMoney extends React.Component {
       pageCode: 630065,
       params: {
         type: 'P',
-        roleCode: 'SR201800000000000000YWY'
+        roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
       },
       keyName: 'userId',
       valueName: '{{companyName.DATA}}-{{realName.DATA}}',
@@ -115,8 +115,8 @@ class bankMoney extends React.Component {
       fields,
       pageCode: 632148,
       searchParams: {
+        userId: getUserId(),
         roleCode: getRoleCode(),
-        teamCode: getTeamCode(),
         curNodeCodeList: ['002_11', '002_13', '002_14', '002_15', '002_16', '002_17']
       },
       btnEvent: {

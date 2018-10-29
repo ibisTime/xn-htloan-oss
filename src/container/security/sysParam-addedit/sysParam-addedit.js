@@ -26,6 +26,9 @@ class SysParamAddEdit extends React.Component {
       title: '参数名',
       hidden: true
     }, {
+      field: 'ckey',
+      hidden: true
+    }, {
       field: 'remark1',
       title: '参数名',
       formatter: (v, d) => {

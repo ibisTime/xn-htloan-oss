@@ -11,10 +11,10 @@ import {
 } from '@redux/loan/credit';
 import {
     showWarnMsg,
-    showSucMsg,
     getRoleCode,
     dateTimeFormat,
-    getTeamCode
+    getTeamCode,
+    getUserId
 } from 'common/js/util';
 import {
     listWrapper
@@ -58,7 +58,7 @@ class Credit extends React.Component {
             pageCode: 630065,
             params: {
                 type: 'P',
-                roleCode: 'SR201800000000000000YWY'
+                roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
             },
             keyName: 'userId',
             valueName: '{{companyName.DATA}}-{{realName.DATA}}',
@@ -70,13 +70,12 @@ class Credit extends React.Component {
         }, {
             title: '客户姓名',
             field: 'userName',
-            render: (e, t) => {
-                return (t.creditUser ? t.creditUser.userName : '-');
-            },
+            render: (v, t) => t.creditUser ? t.creditUser.userName : '-',
             search: true
         }, {
             title: '手机号',
-            field: 'mobile'
+            field: 'mobile',
+            render: (v, t) => t.creditUser ? t.creditUser.mobile : '-'
         }, {
             title: '贷款银行',
             field: 'loanBankCode',
@@ -104,7 +103,8 @@ class Credit extends React.Component {
             type: 'select',
             listCode: 630147,
             keyName: 'code',
-            valueName: 'name'
+            valueName: 'name',
+            search: true
         }, {
             title: '节点时间',
             field: 'updateDatetime',
@@ -137,9 +137,10 @@ class Credit extends React.Component {
             fields,
             pageCode: 632115,
             searchParams: {
+                userId: getUserId(),
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode(),
-                curNodeCodeList: ['001_01', '001_02', '001_03', '001_04', '001_05', '001_06', '001_07']
+                curNodeCodeList: ['001_01', '001_02', '001_03', '001_04', '001_05', '001_06', '001_07', '001_08']
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {
@@ -152,6 +153,17 @@ class Credit extends React.Component {
                         this.props.history.push(`/loan/credit/addedit?isAddedit=1&code=${code}`);
                     } else {
                         this.props.history.push(`/loan/credit/addedit?isAddedit=1`);
+                    }
+                },
+                dispatch: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '001_08') {
+                        showWarnMsg('当前不是内勤主管派单的节点');
+                    } else {
+                        this.props.history.push(`/loan/credit/dispatch?code=${selectedRowKeys[0]}`);
                     }
                 },
                 check: (selectedRowKeys, selectedRows) => {
@@ -174,6 +186,13 @@ class Credit extends React.Component {
                         showWarnMsg('当前不是录入征信结果的节点');
                     } else {
                         this.props.history.push(`/loan/credit/addedit?v=1&isEntry=1&code=${selectedRowKeys[0]}`);
+                    }
+                },
+                bigData: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else {
+                        this.props.history.push(`/loan/credit/bigdata?&code=${selectedRowKeys[0]}`);
                     }
                 },
                 withdraw: (key, item) => {

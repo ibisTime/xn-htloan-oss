@@ -65,14 +65,32 @@ class Archivesquery extends React.Component {
             type: 'select',
             key: 'budget_orde_biz_typer'
         }, {
+            title: '业务团队',
+            field: 'teamName'
+        }, {
             title: '信贷专员',
             field: 'saleUserName'
+        }, {
+            title: '内勤专员',
+            field: 'insideJobName'
         }, {
             title: '申请日期',
             field: 'applyDatetime',
             rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
             type: 'date',
             render: dateTimeFormat,
+            search: true
+        }, {
+            title: '入档日期',
+            field: 'enterDatetime',
+            type: 'date'
+        }, {
+            title: '档案位置',
+            field: 'enterLocation',
+            type: 'select',
+            listCode: '632827',
+            keyName: 'code',
+            valueName: 'name',
             search: true
         }, {
             title: '当前节点',

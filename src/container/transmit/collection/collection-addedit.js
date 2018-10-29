@@ -32,11 +32,6 @@ class CollectionAddedit extends React.Component {
         title: '业务编号',
         field: 'bizCode'
     }, {
-        title: '类型',
-        field: 'type',
-        type: 'select',
-        key: 'logistics_type'
-    }, {
         title: '发件节点',
         field: 'fromNodeCode',
         type: 'select',
@@ -50,6 +45,35 @@ class CollectionAddedit extends React.Component {
         listCode: 630147,
         keyName: 'code',
         valueName: 'name'
+    }, {
+        title: '业务团队',
+        field: 'teamName',
+        readonly: true
+    }, {
+        title: '信贷专员',
+        field: 'saleUserName',
+        readonly: true
+    }, {
+        title: '内勤专员',
+        field: 'insideJobName',
+        readonly: true
+    }, {
+        title: '发件人',
+        field: 'senderName',
+        hidden: !this.props.pageData.senderName,
+        readonly: true
+    }, {
+        title: '收件人',
+        field: 'receiverName',
+        hidden: !this.props.pageData.receiverName
+    }, {
+        title: '材料清单',
+        field: 'filelist',
+        type: 'checkbox',
+        listCode: 632217,
+        keyName: 'id',
+        valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份',
+        readonly: true
     }, {
         title: '传递方式',
         field: 'sendType',

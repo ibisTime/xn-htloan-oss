@@ -224,6 +224,10 @@ import { bizBeforeloan } from './redux/basedata/beforeloan';
 import { bizBank } from './redux/basedata/bank';
 import { bizBankAddEdit } from './redux/basedata/bank-addedit';
 
+//  银行类别管理 + 详情 + 修改 + 删除
+import { bizBankType } from './redux/basedata/bankType';
+import { bizBankTypeAddEdit } from './redux/basedata/bankType-addedit';
+
 //  节点材料清单 + 详情 + 修改 + 删除
 import { basedataMateriallist } from './redux/basedata/materiallist';
 import { basedataMateriallistAddEdit } from './redux/basedata/materiallist-addedit';
@@ -238,6 +242,7 @@ import { basedataReceivablesAddEdit } from './redux/basedata/receivables-addedit
 // 发起征信查询
 import { loanCredit } from './redux/loan/credit';
 import { loanCreditAddedit } from './redux/loan/credit-addedit';
+import { loanBigdata } from './redux/loan/bigdata';
 
 // 准入审查
 import { loanAdmittance } from './redux/loan/admittance';
@@ -541,14 +546,24 @@ import { homeRegulations } from './redux/home/regulations';
 //  准入单流转日志 + 详情
 import { circulationLogAdmittanceBill } from './redux/circulationLog/admittanceBill';
 import { circulationLogAdmittanceBillAddedit } from './redux/circulationLog/admittanceBill-addedit';
-
 //  征信单流转日志 + 详情
 import { circulationLogCreditBill } from './redux/circulationLog/creditBill';
 import { circulationLogCreditBillAddedit } from './redux/circulationLog/creditBill-addedit';
-
 //  贷后单流转日志 + 详情
 import { circulationLogRepayment } from './redux/circulationLog/repayment';
 import { circulationLogRepaymentAddedit } from './redux/circulationLog/repayment-addedit';
+
+// 大数据管理
+import { creditIdCheck } from './redux/credit/idcheck';
+import { creditIdCheckQuery } from './redux/credit/idcheck-query';
+import { creditBank4Check } from './redux/credit/bank4check';
+import { creditBank4CheckQuery } from './redux/credit/bank4check-query';
+import { creditJdCheck } from './redux/credit/jdcheck';
+import { creditJdCheckQuery } from './redux/credit/jdcheck-query';
+import { creditMobile } from './redux/credit/mobile';
+import { creditMobileQuery } from './redux/credit/mobile-query';
+import { creditTbCheck } from './redux/credit/tbcheck';
+import { creditTbCheckQuery } from './redux/credit/tbcheck-query';
 
 export default combineReducers({
   user,
@@ -676,6 +691,7 @@ export default combineReducers({
   bizredListEnter,
   loanCredit,
   loanCreditAddedit,
+  loanBigdata,
   loanAdmittance,
   loanAdmittanceAddedit,
   loanFaceSign,
@@ -871,5 +887,17 @@ export default combineReducers({
   statisticPostloanReport,
   statisticTeamReport,
   statisticBusinessReport,
-  statisticOneReport
+  bizBankType,
+  bizBankTypeAddEdit,
+  statisticOneReport,
+  creditIdCheck,
+  creditIdCheckQuery,
+  creditBank4Check,
+  creditBank4CheckQuery,
+  creditJdCheck,
+  creditJdCheckQuery,
+  creditMobile,
+  creditMobileQuery,
+  creditTbCheck,
+  creditTbCheckQuery
 });

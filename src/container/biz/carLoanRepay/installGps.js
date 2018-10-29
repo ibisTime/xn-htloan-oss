@@ -9,8 +9,10 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/biz/installGps';
-import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, getRoleCode, getTeamCode } from 'common/js/util';
+import {
+    listWrapper
+} from 'common/js/build-list';
+import { showWarnMsg, getRoleCode, getUserId } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -46,7 +48,7 @@ class installGps extends React.Component {
             pageCode: 630065,
             params: {
                 type: 'P',
-                roleCode: 'SR201800000000000000YWY'
+                roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
             },
             keyName: 'userId',
             valueName: '{{companyName.DATA}}-{{realName.DATA}}',
@@ -61,8 +63,7 @@ class installGps extends React.Component {
             search: true
         }, {
             title: '贷款银行',
-            field: 'loanBankName',
-            render: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : ''
+            field: 'loanBankName'
         }, {
             title: '贷款金额',
             field: 'loanAmount',
@@ -90,6 +91,20 @@ class installGps extends React.Component {
             keyName: 'code',
             valueName: 'name'
         }, {
+            title: '是否安装',
+            field: 'isGpsAz',
+            type: 'select',
+            data: [{
+                key: '0',
+                value: '否'
+            }, {
+                key: '1',
+                value: '是'
+            }],
+            keyName: 'key',
+            valueName: 'value',
+            search: true
+        }, {
             title: '备注',
             field: 'remark'
         }, {
@@ -102,8 +117,8 @@ class installGps extends React.Component {
             fields,
             pageCode: 632148,
             searchParams: {
+                userId: getUserId(),
                 roleCode: getRoleCode(),
-                teamCode: getTeamCode(),
                 curNodeCodeList: ['002_09', '002_10', '002_12']
             },
             btnEvent: {

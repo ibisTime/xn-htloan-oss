@@ -41,6 +41,10 @@ import {
 class Locationcode extends React.Component {
     render() {
         const fields = [{
+            title: '位置编号',
+            field: 'location',
+            search: true
+        }, {
             title: '位置名称',
             field: 'name',
             search: true

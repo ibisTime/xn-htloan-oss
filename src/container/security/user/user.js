@@ -51,7 +51,7 @@ class User extends React.Component {
       title: '状态',
       field: 'status',
       type: 'select',
-      key: 'user_status'
+      key: 'sys_user_status'
     }, {
       title: '角色',
       field: 'roleCode',

@@ -90,6 +90,16 @@ class installGpsEnter extends React.Component {
                     nowrap: true,
                     required: true
                 }, {
+                    title: '设备图片',
+                    field: 'devPhotos',
+                    type: 'img',
+                    required: true
+                }, {
+                    title: '安装图片',
+                    field: 'azPhotos',
+                    type: 'img',
+                    required: true
+                }, {
                     title: '备注',
                     field: 'remark',
                     nowrap: true

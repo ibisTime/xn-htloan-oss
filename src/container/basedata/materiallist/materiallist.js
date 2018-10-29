@@ -12,19 +12,6 @@ import {
 import {
     listWrapper
 } from 'common/js/build-list';
-import {
-    showWarnMsg,
-    showSucMsg
-} from 'common/js/util';
-import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
-import {
-    lowerFrame,
-    onShelf
-} from 'api/biz';
 
 @listWrapper(
     state => ({
@@ -44,26 +31,28 @@ import {
 class materiallist extends React.Component {
     render() {
         const fields = [{
-            title: '节点名称',
-            field: 'bankName'
+            title: '序号',
+            field: 'no',
+            search: true
         }, {
-            title: '材料清单',
-            field: 'subbranch'
+            title: '名称',
+            field: 'name'
         }, {
-            title: '最新修改人',
-            field: 'updater'
+            title: '份数',
+            field: 'number'
         }, {
-            title: '最新修改时间',
+            title: '更新时间',
             field: 'updateDatetime',
             type: 'date'
         }, {
-            title: '备注',
-            field: 'remark'
+            title: '更新人',
+            field: 'updaterName'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632035,
-            deleteCode: 632031
+            rowKey: 'id',
+            pageCode: 632215,
+            deleteCode: 632211
         });
     }
 }

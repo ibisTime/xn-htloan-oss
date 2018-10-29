@@ -114,7 +114,6 @@ class FaceSignAddedit extends React.Component {
         if (this.isCheck || this.isCheckNq) {
             buttons = [{
                 title: '通过',
-                check: true,
                 handler: (params) => {
                     let data = {};
                     data.code = this.code;
@@ -132,7 +131,6 @@ class FaceSignAddedit extends React.Component {
                 }
             }, {
                 title: '不通过',
-                check: true,
                 handler: (params) => {
                     let data = {};
                     data.code = this.code;
@@ -141,6 +139,54 @@ class FaceSignAddedit extends React.Component {
                     data.operator = getUserId();
                     this.props.doFetching();
                     fetch(bizCode, data).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                }
+            }, {
+                title: '返回',
+                handler: (param) => {
+                    this.props.history.go(-1);
+                }
+            }];
+        } else if(this.view) {
+            buttons = [{
+                title: '返回',
+                handler: (param) => {
+                    this.props.history.go(-1);
+                }
+            }];
+        } else {
+            buttons = [{
+                title: '保存',
+                check: true,
+                handler: (params) => {
+                    // let data = {};
+                    // params.code = this.code;
+                    params.operator = getUserId();
+                    params.isSend = '0';
+                    this.props.doFetching();
+                    fetch(632123, params).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                }
+            }, {
+                title: '发送',
+                check: true,
+                handler: (params) => {
+                    // let data = {};
+                    // data.code = this.code;
+                    params.operator = getUserId();
+                    params.isSend = '1';
+                    this.props.doFetching();
+                    fetch(632123, params).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {

@@ -13,7 +13,7 @@ import {
     showWarnMsg,
     showSucMsg,
     getRoleCode,
-    getTeamCode,
+    getUserId,
     dateTimeFormat
 } from 'common/js/util';
 import {
@@ -68,7 +68,7 @@ class AdvMoney extends React.Component {
             pageCode: 630065,
             params: {
                 type: 'P',
-                roleCode: 'SR201800000000000000YWY'
+                roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
             },
             keyName: 'userId',
             valueName: '{{companyName.DATA}}-{{realName.DATA}}',
@@ -82,11 +82,38 @@ class AdvMoney extends React.Component {
             field: 'applyUserName',
             search: true
         }, {
+            title: '业务内勤',
+            field: 'insideJobName'
+        }, {
             title: '手机号',
             field: 'mobile'
         }, {
             title: '贷款金额',
             field: 'loanAmount',
+            amount: true
+        }, {
+            title: 'GPS费用',
+            field: 'gpsFee',
+            amount: true
+        }, {
+            title: '公证费',
+            field: 'authFee',
+            amount: true
+        }, {
+            title: '月供保证金',
+            field: 'monthDeposit',
+            amount: true
+        }, {
+            title: '其他费用',
+            field: 'otherFee',
+            amount: true
+        }, {
+            title: '公司服务费',
+            field: 'companyFee',
+            amount: true
+        }, {
+            title: '团队服务费',
+            field: 'teamFee',
             amount: true
         }, {
             title: '贷款期限',
@@ -130,13 +157,18 @@ class AdvMoney extends React.Component {
             field: 'keyword',
             hidden: true,
             search: true
+        }, {
+            title: '垫资说明',
+            field: 'advanceNote',
+            type: 'textarea',
+            normalArea: true
         }];
         return this.props.buildList({
             fields,
             pageCode: 632148,
             searchParams: {
+                userId: getUserId(),
                 roleCode: getRoleCode(),
-                teamCode: getTeamCode(),
                 curNodeCodeList: ['002_07']
             },
             btnEvent: {

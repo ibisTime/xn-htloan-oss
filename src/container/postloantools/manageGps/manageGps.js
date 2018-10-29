@@ -9,7 +9,10 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/postloantools/manageGps';
-import { listWrapper } from 'common/js/build-list';
+import {
+    listWrapper
+} from 'common/js/build-list';
+import { getRoleCode } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -45,6 +48,37 @@ class manageGps extends React.Component {
             keyName: 'key',
             valueName: 'value',
             search: true
+        }, {
+            title: '客户姓名',
+            field: 'customerName',
+            render: (v, d) => {
+                return d.budgetOrder ? d.budgetOrder.applyUserName : '';
+            },
+            search: true
+        }, {
+            title: '客户手机号',
+            field: 'mobile',
+            render: (v, d) => {
+                return d.budgetOrder ? d.budgetOrder.mobile : '';
+            }
+        }, {
+            title: '业务团队',
+            field: 'teamName',
+            render: (v, d) => {
+                return d.budgetOrder ? d.budgetOrder.teamName : '';
+            }
+        }, {
+            title: '信贷专员',
+            field: 'saleUserName',
+            render: (v, d) => {
+                return d.budgetOrder ? d.budgetOrder.saleUserName : '';
+            }
+        }, {
+            title: '内勤专员',
+            field: 'insideJob',
+            render: (v, d) => {
+                return d.budgetOrder ? d.budgetOrder.insideJob : '';
+            }
         }, {
             title: '归属公司',
             field: 'companyCode',
@@ -101,7 +135,12 @@ class manageGps extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632705
+            pageCode: 632705,
+            btnEvent: {
+              import: () => {
+                  this.props.history.push(`/postloantools/manageGps/import`);
+              }
+            }
         });
     }
 }

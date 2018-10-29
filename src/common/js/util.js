@@ -1,12 +1,7 @@
 import cookies from 'browser-cookies';
 import { message, Modal, notification } from 'antd';
 import moment from 'moment';
-import { PIC_PREFIX, curNodePageUrl } from './config';
-import './lib/BigDecimal';
-
-const DATE_FORMAT = 'YYYY-MM-DD';
-const MONTH_FORMAT = 'YYYY-MM';
-const DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+import { PIC_PREFIX, DATE_FORMAT, MONTH_FORMAT, DATETIME_FORMAT, curNodePageUrl } from './config';
 
 notification.config({
   placement: 'bottomRight'
@@ -26,10 +21,6 @@ export function setUser({userId, token}) {
 export function clearUser() {
   cookies.erase('userId');
   cookies.erase('token');
-  cookies.erase('roleCode');
-  cookies.erase('userName');
-  cookies.erase('realName');
-  cookies.erase('teamCode');
 }
 
 // 获取用户编号
@@ -37,27 +28,22 @@ export function getUserId() {
   return cookies.get('userId');
 }
 
-// 设置用户角色信息
-export function setRoleInfo({roleCode, loginName, realName, teamCode}) {
-  cookies.set('roleCode', roleCode);
-  cookies.set('userName', loginName);
-  cookies.set('realName', realName);
-  cookies.set('teamCode', teamCode || '');
+// 获取公司编号
+export function getCompanyCode() {
+  return cookies.get('companyCode');
 }
 
-// 获取用户姓名
-export function getRealName() {
-  return cookies.get('realName');
+// 设置用户角色信息
+export function setRoleInfo({roleCode, companyCode, loginName, teamCode}) {
+  cookies.set('roleCode', roleCode);
+  companyCode && cookies.set('companyCode', companyCode);
+  cookies.set('userName', loginName);
+  teamCode && cookies.set('teamCode', teamCode);
 }
 
 // 获取用户角色编号
 export function getRoleCode() {
   return cookies.get('roleCode');
-}
-
-// 获取用户团队编号
-export function getTeamCode() {
-  return cookies.get('teamCode');
 }
 
 // 获取用户username
@@ -74,7 +60,7 @@ export function getQueryString(name, search) {
   search = search || window.location.search;
   var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
   var r = search.substr(1).match(reg);
-  if (r != null) {
+  if (r !== null) {
     return decodeURIComponent(r[2]);
   }
   return '';
@@ -124,7 +110,7 @@ export function formatDate(date, fmt = 'yyyy-MM-dd') {
  * 获取两位格式化数字
  * @param str
  */
-function padLeftZero(str) {
+export function padLeftZero(str) {
   return ('00' + str).substr(str.length);
 }
 
@@ -135,6 +121,15 @@ function padLeftZero(str) {
  */
 export function dateFormat(date) {
   return formatDate(date, 'yyyy-MM-dd');
+}
+
+/**
+ * 日期格式转化 yymmdd
+ * @param date
+ * @param format
+ */
+export function dateListFormat(date) {
+  return formatDate(date, 'yyMMdd');
 }
 
 /**
@@ -164,10 +159,10 @@ export function dateTimeFormat(date) {
  * @param money
  * @param format
  */
-export function moneyFormat(money, format) {
+export function moneyFormat(money, format, isRe = true) {
   var flag = true;
-  if (isNaN(money)) {
-    return '-';
+  if (isUndefined(money) || isNaN(money)) {
+    return '';
   }
   if (money < 0) {
     money = -1 * money;
@@ -182,24 +177,14 @@ export function moneyFormat(money, format) {
   money = money.replace(reg, '$1');
   money = parseFloat(money).toFixed(format);
   // 千分位转化
-  var re = /\d{1,3}(?=(\d{3})+$)/g;
-  money = money.replace(/^(\d+)((\.\d+)?)$/, (s, s1, s2) => (s1.replace(re, '$&,') + s2));
+  if (isRe) {
+    var re = /\d{1,3}(?=(\d{3})+$)/g;
+    money = money.replace(/^(\d+)((\.\d+)?)$/, (s, s1, s2) => (s1.replace(re, '$&,') + s2));
+  }
   if (!flag) {
     money = '-' + money;
   }
   return money;
-// var unit = coin === 'SC' ? '1e24' : '1e18';
-// if (isUndefined(money)) {
-//   return '-';
-// }
-// format = typeof format === 'object' ? 8 : format;
-// money = new BigDecimal(money);
-// money = money.divide(new BigDecimal(unit), format, MathContext.ROUND_DOWN).toString();
-// // money = money.replace(/^(.+\..*[^0])0+$/, '$1').replace(/^(.+)\.0+$/, '$1');
-// // 千分位转化
-// var re = /\d{1,3}(?=(\d{3})+$)/g;
-// money = money.replace(/^(\d+)((\.\d+)?)$/, (s, s1, s2) => (s1.replace(re, '$&,') + s2));
-// return money;
 }
 
 /**
@@ -218,20 +203,6 @@ export function moneyParse(money, rate = 1000) {
  */
 export function moneyReplaceComma(money) {
   return ('' + money).replace(/,/g, '');
-}
-
-/**
- * 大数相乘
- * @param a
- * @param b
- */
-export function multiply(a, b) {
-  if (a && b) {
-    let _a = new BigDecimal(a);
-    var _b = new BigDecimal(b);
-    return _a.multiply(_b).toString();
-  }
-  return '';
 }
 
 /**
@@ -266,6 +237,14 @@ export function formatImg(imgs, suffix = '?imageMogr2/auto-orient/thumbnail/!300
 
 export function isUndefined(value) {
   return value === undefined || value === null || value === '';
+}
+
+/**
+ * 是否是函数
+ * @param func
+ */
+export function isFunc(func) {
+  return typeof func === 'function';
 }
 
 export function tempString(str, data) {
@@ -315,199 +294,165 @@ export function showDelConfirm({onOk, onCancel}) {
     onCancel
   });
 }
-
-// 资料传递提示
-export function isExpressConfirm(
-  data, type = 'success'
-) {
-  if (data.isExpress === '1') {
-    notification[type]({
-      message: '系统提示',
-      description: '资料传递记录已生成，待发件'
-    });
+export function convertCurrency(currencyDigits) {
+  if (isUndefined(currencyDigits)) {
+    return '';
   }
-}
+  currencyDigits = moneyReplaceComma(currencyDigits);
+  if (isNaN(currencyDigits)) {
+    return '';
+  }
+  if(currencyDigits < 0) {
+    currencyDigits = -currencyDigits;
+  }
+  var MAXIMUM_NUMBER = 99999999999.99;
+  // Predefine the radix characters and currency symbols for output:
+  var CN_ZERO = '零';
+  var CN_ONE = '壹';
+  var CN_TWO = '贰';
+  var CN_THREE = '叁';
+  var CN_FOUR = '肆';
+  var CN_FIVE = '伍';
+  var CN_SIX = '陆';
+  var CN_SEVEN = '柒';
+  var CN_EIGHT = '捌';
+  var CN_NINE = '玖';
+  var CN_TEN = '拾';
+  var CN_HUNDRED = '佰';
+  var CN_THOUSAND = '仟';
+  var CN_TEN_THOUSAND = '万';
+  var CN_HUNDRED_MILLION = '亿';
+  var CN_DOLLAR = '元';
+  var CN_TEN_CENT = '角';
+  var CN_CENT = '分';
+  var CN_INTEGER = '整';
+  var integral; // Represent integral part of digit number.
+  var decimal; // Represent decimal part of digit number.
+  var outputCharacters; // The output result.
+  var parts;
+  var digits,
+    radices,
+    bigRadices,
+    decimals;
+  var zeroCount;
+  var i,
+    p,
+    d;
+  var quotient,
+    modulus;
+  currencyDigits = currencyDigits.toString();
+  if (currencyDigits === '') {
+    alert('请输入小写金额！');
+    return '';
+  }
+  if (currencyDigits.match(/[^,.\d]/) !== null) {
+    alert('');
+    return '';
+  }
+  if ((currencyDigits).match(/^((\d{1,3}(,\d{3})*(.((\d{3},)*\d{1,3}))?)|(\d+(.\d+)?))$/) == null) {
+    alert('小写金额的格式不正确！');
+    return '';
+  }
+  currencyDigits = currencyDigits.replace(/,/g, ''); // Remove comma delimiters.
+  currencyDigits = currencyDigits.replace(/^0+/, ''); // Trim zeros at the beginning.
+  // Assert the number is not greater than the maximum number.
+  if (Number(currencyDigits) > MAXIMUM_NUMBER) {
+    alert('金额过大，应小于1000亿元！');
+    return '';
+  }
 
+  // Process the coversion from currency digits to characters:
+  // Separate integral and decimal parts before processing coversion:
+  parts = currencyDigits.split('.');
+  if (parts.length > 1 && !/^0+$/.test(parts[1])) {
+    integral = parts[0];
+    decimal = parts[1];
+    // Cut down redundant decimal digits that are after the second.
+    decimal = decimal.substr(0, 2);
+  } else {
+    integral = parts[0];
+    decimal = '';
+  }
+  // Prepare the characters corresponding to the digits:
+  digits = [CN_ZERO, CN_ONE, CN_TWO, CN_THREE, CN_FOUR, CN_FIVE, CN_SIX, CN_SEVEN, CN_EIGHT, CN_NINE];
+  radices = ['', CN_TEN, CN_HUNDRED, CN_THOUSAND];
+  bigRadices = ['', CN_TEN_THOUSAND, CN_HUNDRED_MILLION];
+  decimals = [CN_TEN_CENT, CN_CENT];
+  // Start processing:
+  outputCharacters = '';
+  // Process integral part if it is larger than 0:
+  if (Number(integral) > 0) {
+    zeroCount = 0;
+    for (i = 0; i < integral.length; i++) {
+      p = integral.length - i - 1;
+      d = integral.substr(i, 1);
+      quotient = p / 4;
+      modulus = p % 4;
+      if (d === '0') {
+        zeroCount++;
+      } else {
+        if (zeroCount > 0) {
+          outputCharacters += digits[0];
+        }
+        zeroCount = 0;
+        outputCharacters += digits[Number(d)] + radices[modulus];
+      }
+      if (modulus === 0 && zeroCount < 4) {
+        outputCharacters += bigRadices[quotient];
+        zeroCount = 0;
+      }
+    }
+    outputCharacters += CN_DOLLAR;
+  }
+  // Process decimal part if there is:
+  if (decimal !== '') {
+    for (i = 0; i < decimal.length; i++) {
+      d = decimal.substr(i, 1);
+      if (d !== '0') {
+        outputCharacters += digits[Number(d)] + decimals[i];
+      }
+    }
+  }
+  // Confirm and return the final output string:
+  if (outputCharacters === '') {
+    outputCharacters = CN_ZERO + CN_DOLLAR;
+  }
+  if (decimal === '') {
+    outputCharacters += CN_INTEGER;
+  }
+  return outputCharacters;
+}
 /**
  * 金额转换大写
  * @param money
  */
 export function moneyUppercase(Num) {
-  if (isNaN(Num)) {
-    return '-';
-  }
-  if (!/^[1-9](,\d{3}|[0-9])*(\.\d{1,2})?$/.test(Num)) {
-    return '';
-  }
-  // 字符处理完毕，开始转换，转换采用前后两部分分别转换
-  let part = String(Num).split('.');
-  let newchar = '';
-  // 小数点前进行转化
-  for (let i = part[0].length - 1; i >= 0; i--) {
-    // 判断是否超过拾亿单位
-    if (part[0].length > 10) {
-      return '';
-    }
-    let tmpnewchar = '';
-    let perchar = part[0].charAt(i);
-    switch (perchar) {
-      case '0':
-        tmpnewchar = '零' + tmpnewchar;
-        break;
-      case '1':
-        tmpnewchar = '壹' + tmpnewchar;
-        break;
-      case '2':
-        tmpnewchar = '贰' + tmpnewchar;
-        break;
-      case '3':
-        tmpnewchar = '叁' + tmpnewchar;
-        break;
-      case '4':
-        tmpnewchar = '肆' + tmpnewchar;
-        break;
-      case '5':
-        tmpnewchar = '伍' + tmpnewchar;
-        break;
-      case '6':
-        tmpnewchar = '陆' + tmpnewchar;
-        break;
-      case '7':
-        tmpnewchar = '柒' + tmpnewchar;
-        break;
-      case '8':
-        tmpnewchar = '捌' + tmpnewchar;
-        break;
-      case '9':
-        tmpnewchar = '玖' + tmpnewchar;
-        break;
-    }
-    switch (part[0].length - i - 1) {
-      case 0:
-        tmpnewchar = tmpnewchar + '元';
-        break;
-      case 1:
-        if (perchar !== '0') tmpnewchar = tmpnewchar + '拾';
-        break;
-      case 2:
-        if (perchar !== '0') tmpnewchar = tmpnewchar + '佰';
-        break;
-      case 3:
-        if (perchar !== '0') tmpnewchar = tmpnewchar + '仟';
-        break;
-      case 4: tmpnewchar = tmpnewchar + '万';
-        break;
-      case 5:
-        if (perchar !== '0') tmpnewchar = tmpnewchar + '拾';
-        break;
-      case 6:
-        if (perchar !== '0') tmpnewchar = tmpnewchar + '佰';
-        break;
-      case 7:
-        if (perchar !== '0') tmpnewchar = tmpnewchar + '仟';
-        break;
-      case 8: tmpnewchar = tmpnewchar + '亿';
-        break;
-      case 9: tmpnewchar = tmpnewchar + '拾';
-        break;
-    }
-    newchar = tmpnewchar + newchar;
-  }
-  // 小数点之后进行转化
-  if (String(Num).indexOf('.') !== -1) {
-    if (part[1].length > 2) {
-      // 小数点之后只能保留两位,自动截段
-      part[1] = part[1].substr(0, 2);
-    }
-    for (let i = 0; i < part[1].length; i++) {
-      let tmpnewchar = '';
-      let perchar = part[1].charAt(i);
-      switch (perchar) {
-        case '0':
-          tmpnewchar = '零' + tmpnewchar;
-          break;
-        case '1':
-          tmpnewchar = '壹' + tmpnewchar;
-          break;
-        case '2':
-          tmpnewchar = '贰' + tmpnewchar;
-          break;
-        case '3':
-          tmpnewchar = '叁' + tmpnewchar;
-          break;
-        case '4':
-          tmpnewchar = '肆' + tmpnewchar;
-          break;
-        case '5':
-          tmpnewchar = '伍' + tmpnewchar;
-          break;
-        case '6':
-          tmpnewchar = '陆' + tmpnewchar;
-          break;
-        case '7':
-          tmpnewchar = '柒' + tmpnewchar;
-          break;
-        case '8':
-          tmpnewchar = '捌' + tmpnewchar;
-          break;
-        case '9':
-          tmpnewchar = '玖' + tmpnewchar;
-          break;
-      }
-      if (i === 0) {
-        tmpnewchar = tmpnewchar + '角';
-      }
-      if (i === 1) {
-        tmpnewchar = tmpnewchar + '分';
-      }
-      newchar = newchar + tmpnewchar;
-    }
-  }
-  // 替换所有无用汉字
-  while (newchar.search('零零') !== -1) {
-    newchar = newchar.replace('零零', '零');
-  }
-  newchar = newchar.replace('零亿', '亿');
-  newchar = newchar.replace('亿万', '亿');
-  newchar = newchar.replace('零万', '万');
-  newchar = newchar.replace('零元', '元');
-  newchar = newchar.replace('零角', '');
-  newchar = newchar.replace('零分', '');
-
-  if (newchar.charAt(newchar.length - 1) === '元' || newchar.charAt(newchar.length - 1) === '角') {
-    newchar = newchar + '整';
-  }
-  return newchar;
+  return convertCurrency(Num);
 }
 
-// 返回当前节点应跳转的页面
-export function getNowCurNodePageUrl(data) {
-  let url;
-  // 物流单
-  if (!isUndefined(data.logisticsStatus)) {
-    if (data.logisticsStatus === '0' || data.logisticsStatus === '3') {
-      url = '/transmit/transmit/send?code=';
-    } else {
-      url = '/transmit/collection/check?code=';
-    }
-  } else {
-    url = curNodePageUrl[data.dealNode];
-  }
-  if (!url) {
-    return '';
-  }
-  url += data.refOrder;
-  // 填写准入申请单
-  if (data.dealNode === '002_04' || data.dealNode === '002_01') {
-    url = `${url}&bizType=${data.bizType}&loanBank=${data.loanBank}`;
-  }
-  return url;
+/**
+ * 数字转换大写
+ * @param number
+ */
+export function numUppercase(Num) {
+  let newNum = convertCurrency(Num);
+  newNum = newNum.replace(/元|整/gi, '');
+  return newNum;
+}
+
+/**
+ * 四舍五入保留2位小数（不够位数，则用0替补）
+ * @param number
+ */
+export function keepTwoDecimalFull(num) {
+  let number = Math.round(num * 100) / 100;
+  return number;
 }
 
 // 空函数
 export const noop = () => {};
 
-// 获取详情页面空间校验规则
+// 获取详情页面控件校验规则
 export const getRules = (item) => {
   let rules = [];
   if (item.required && !item.hidden) {
@@ -611,29 +556,38 @@ export const getRules = (item) => {
 
 // 获取修改、详情页每个输入框的真实值
 export const getRealValue = ({ pageData, field, type, _keys, value, rangedate,
-  multiple, formatter, amount, amountRate, cFields, readonly }) => {
-  let result = pageData[field];
-  try {
-    if (_keys) {
-      result = getValFromKeys(_keys, pageData, type);
-    } else if (!isUndefined(value) && !result) {
-      result = value;
-    }
-    if (type === 'citySelect') {
-      result = getCityVal(_keys, cFields, result, pageData);
-    } else if (type === 'date' || type === 'datetime' || type === 'month') {
-      result = getRealDateVal(pageData, type, result, _keys, readonly, rangedate);
-    } else if (type === 'checkbox') {
-      result = this.getRealCheckboxVal(result);
-    } else if (multiple) {
-      result = result ? result.split(',') : [];
-    }
-    if (formatter) {
-      result = formatter(result, pageData);
-    } else if (amount) {
-      result = isUndefined(result) ? '' : moneyFormat(result, amountRate);
-    }
-  } catch (e) {}
+  multiple, formatter, amount, amountRate, cFields, readonly, listCode, selectData }) => {
+  let result;
+  pageData = isUndefined(pageData) ? {} : pageData;
+  if (pageData) {
+    result = pageData[field];
+    try {
+      if (_keys) {
+        result = getValFromKeys(_keys, pageData, type);
+      } else if (!isUndefined(value) && !result) {
+        result = value;
+      }
+      if (type === 'citySelect') {
+        result = getCityVal(_keys, cFields, result, pageData);
+      } else if (type === 'date' || type === 'datetime' || type === 'month') {
+        result = getRealDateVal(pageData, type, result, _keys, readonly, rangedate);
+      } else if (type === 'checkbox') {
+        result = getRealCheckboxVal(result);
+      } else if (multiple) {
+        result = result ? result.split(',') : [];
+      } else if (type === 'o2m') {
+        if (listCode) {
+          result = isUndefined(result) ? selectData[field] : result;
+        }
+        result = result || [];
+      }
+      if (formatter) {
+        result = formatter(result, pageData);
+      } else if (amount) {
+        result = isUndefined(result) ? '' : moneyFormat(result, amountRate);
+      }
+    } catch (e) {}
+  }
   return isUndefined(result) ? '' : result;
 };
 
@@ -644,7 +598,10 @@ function getValFromKeys(keys, pageData, type) {
   keys.forEach(key => {
     _value = isUndefined(_value[key]) ? emptyObj : _value[key];
   });
-  return (type === 'img' || type === 'file') && _value === emptyObj ? '' : _value;
+  return _value === emptyObj
+    ? (type === 'checkbox' || type === 'citySelect' || type === 'o2m')
+      ? [] : ''
+    : _value;
 }
 
 // 获取城市的真实值
@@ -689,4 +646,51 @@ function getRangeDateVal(rangedate, keys, result, format, fn, pageData, readonly
 // 获取checkbox的真实值
 function getRealCheckboxVal(result) {
     return result ? result.split(',') : [];
+}
+
+// 资料传递提示
+export function isExpressConfirm(
+  data, type = 'success'
+) {
+  if (data.isExpress === '1') {
+    notification[type]({
+      message: '系统提示',
+      description: '资料传递记录已生成，待发件'
+    });
+  }
+}
+
+// 获取用户团队编号
+export function getTeamCode() {
+  return cookies.get('teamCode');
+}
+
+// 获取用户姓名
+export function getRealName() {
+  return cookies.get('realName');
+}
+
+// 返回当前节点应跳转的页面
+export function getNowCurNodePageUrl(data) {
+  let url;
+  // "0", "待发件"，"1", "已发件待收件"，"3", "已收件待补件"
+  // 物流单
+  if (data.refType === '012') {
+    if (data.logisticsStatus === '0' || data.logisticsStatus === '3') {
+      url = '/transmit/transmit/send?code=';
+    } else {
+      url = '/transmit/collection/check?code=';
+    }
+  } else {
+    url = curNodePageUrl[data.dealNode];
+  }
+  if (!url) {
+    return '';
+  }
+  url += data.refOrder;
+  // 填写准入申请单
+  if (data.dealNode === '002_04' || data.dealNode === '002_01') {
+    url = `${url}&bizType=${data.bizType}&loanBank=${data.loanBank}`;
+  }
+  return url;
 }

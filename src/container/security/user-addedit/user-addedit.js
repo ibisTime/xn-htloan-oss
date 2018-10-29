@@ -27,20 +27,6 @@ class Post extends React.Component {
             fetching: true,
             treeData: [],
             roleData: [],
-            fields: {
-                'roleCode': {
-                    title: '角色',
-                    field: 'roleCode',
-                    keyName: 'code',
-                    valueName: 'name'
-                },
-                'archiveCode': {
-                    title: '档案',
-                    field: 'archiveCode',
-                    keyName: 'code',
-                    valueName: '{{realName.DATA}}-{{entranceNo.DATA}}'
-                }
-            },
             archiveData: []
         };
 
@@ -145,23 +131,6 @@ class Post extends React.Component {
             }
         });
     }
-
-    getSelectProps = (item) => {
-        const props = {
-            showSearch: true,
-            allowClear: true,
-            optionFilterProp: 'children',
-            filterOption: (input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-            style: {width: '100%'},
-            placeholder: '请选择'
-        };
-        if (item.onChange) {
-            props.onChange = (v) => {
-                item.onChange(v, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1.code === v) : {}, this.props);
-            };
-        }
-        return props;
-    }
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -201,8 +170,16 @@ class Post extends React.Component {
                         {getFieldDecorator('roleCode', {
                             rules,
                             initialValue: ''
-                        })(<Select {...this.getSelectProps(this.state.fields['roleCode'])}>
-                            {this.state.roleData.map(d => (
+                        })(<Select
+                              showSearch={true}
+                              allowClear={true}
+                              optionFilterProp='children'
+                              filterOption={(input, option) => {
+                                return option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+                              }}
+                              style={{width: '100%'}}
+                              placeholder='请选择'>
+                              {this.state.roleData.map(d => (
                                 <Option key={d['code']}
                                         value={d['code']}>{d['name']}</Option>))}
                         </Select>)}
@@ -211,10 +188,18 @@ class Post extends React.Component {
                         {getFieldDecorator('archiveCode', {
                             rules: [],
                             initialValue: ''
-                        })(<Select {...this.getSelectProps(this.state.fields['archiveCode'])}>
+                        })(<Select
+                              showSearch={true}
+                              allowClear={true}
+                              optionFilterProp='children'
+                              filterOption={(input, option) => {
+                                return option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+                              }}
+                              style={{width: '100%'}}
+                              placeholder='请选择'>
                             {this.state.archiveData.map(d => (
                                 <Option key={d['code']}
-                                        value={d['code']}>{d['entranceNo']}-{d['realName']}-{d['gender']}</Option>))}
+                                        value={d['code']}>{`${d['jobNo']}-${d['realName']}-${d['gender'] || ''}`}</Option>))}
                         </Select>)}
                     </Item>
                     <Item key='treeMenu' {...formItemLayout} label='岗位名称'>

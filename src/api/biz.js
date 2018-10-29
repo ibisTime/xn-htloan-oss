@@ -81,3 +81,7 @@ export function toVoid(code) {
 export function creditWithdraw(code) {
     return fetch(632114, { code, operator: getUserId() });
 }
+// 立木征信详情查
+export function getCreditReport(id) {
+  return fetch(632948, { id });
+}

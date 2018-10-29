@@ -7,8 +7,13 @@ import {
   setPageData,
   restore
 } from '@redux/postloantools/manageGps-addedit';
-import { getQueryString, getUserId } from 'common/js/util';
-import { DetailWrapper } from 'common/js/build-detail';
+import {
+  getQueryString,
+  getUserId
+} from 'common/js/util';
+import {
+  DetailWrapper
+} from 'common/js/build-detail';
 
 @DetailWrapper(
   state => state.postloantoolsManageGpsAddedit, {
@@ -28,10 +33,6 @@ class manageGpsAddedit extends React.Component {
   }
   render() {
     const fields = [{
-      title: 'GPS设备号',
-      field: 'gpsDevNo',
-      required: true
-  }, {
       title: 'GPS类型',
       field: 'gpsType',
       type: 'select',
@@ -45,12 +46,17 @@ class manageGpsAddedit extends React.Component {
       keyName: 'key',
       valueName: 'value',
       required: true
+    }, {
+      title: 'GPS设备号',
+      field: 'gpsDevNo',
+      required: true
     }];
     return this.props.buildDetail({
       fields,
       code: this.code,
       view: this.view,
       addCode: 632700,
+      editCode: 632702,
       detailCode: 632706
     });
   }

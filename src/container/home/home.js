@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button, Icon, Spin, Upload, Modal } from 'antd';
+import {
+    Button, Icon, Spin, Upload, Modal
+} from 'antd';
 import { Link } from 'react-router-dom';
 import {
     getUserName,
@@ -16,7 +18,7 @@ import { getQiniuToken } from 'api/general';
 import { getUser, setUserPhoto } from 'api/user';
 import { getPageMyNotice, getPageMyCompanysystem, getPageMyToDoList, getCurNodeCode } from 'api/home';
 import { PIC_PREFIX, PIC_BASEURL_L, UPLOAD_URL } from 'common/js/config';
-import './home.css';
+import './home.bak.css';
 import userPhoto from '../../images/home-userPhoto.png';
 import iconMore from '../../images/home-icon-more.png';
 import noData from '../../images/noData.png';
@@ -128,10 +130,7 @@ class Home extends React.Component {
             });
         }).catch(() => this.setState({ fetching: false }));
     }
-    getNowCurNodePageUrl(data) {
-        let url = getNowCurNodePageUrl(data);
-        url ? this.props.history.push(url) : showWarnMsg('您需要先处理完该笔业务的物流');
-    }
+
     render() {
         const imgProps = {
             action: UPLOAD_URL,
@@ -157,13 +156,13 @@ class Home extends React.Component {
                 <div className="top-wrap">
                     <div className="card user-wrap">
                         <div className="card-top">
-                            <div className="photo" style={{cursor: 'pointer'}} onClick={() => this.setState({imgVisible: true})}>
+                            <div className="photo" onClick={() => this.setState({imgVisible: true})}>
                                 {this.state.userData && (<div style={{backgroundImage: 'url(' + this.state.userData.photo + ')'}}></div>)}
                             </div>
                         </div>
                         <div className="card-content">
                             <div className="user-name">
-                                {this.state.userData && this.state.userData.realName}<i> ( {this.state.userData && this.state.userData.loginName} ) </i>
+                                {this.state.userData && this.state.userData.realName}
                             </div>
                             <div className="user-post">岗位：{this.state.userData && this.state.userData.postName}</div>
                         </div>
@@ -172,18 +171,17 @@ class Home extends React.Component {
                         <div className="card-top">
                             <div className="title">待办事项</div>
                             <div className="more" onClick={() => {
-                                this.props.history.push('/home/toDoList');
+                                this.props.history.push(`/home/toDoList`);
                             }}>MORE <img src={iconMore}/></div>
                         </div>
                         <div className="card-content">
                             { this.state.toDoListData && this.state.toDoListData.length >= 1 ? this.state.toDoListData.map(d => (
-                                <div className="content-item" key={d.id} onClick={() => this.getNowCurNodePageUrl(d)}>
-                                    {/* <Link to={this.getNowCurNodePageUrl(d)}>
-
-                                    </Link> */}
-                                    <img className="icon" src={iconLi}/>
-                                    <p className="txt">{d.departmentName} {d.userName} {this.state.nodeTypeData[d.refType]} {this.state.curNodeData[d.dealNode]}</p>
-                                    <samp className="date">{dateFormat(d.startDatetime)}</samp>
+                                <div className="content-item" key={d.id}>
+                                    <Link to={getNowCurNodePageUrl(d)}>
+                                        <img className="icon" src={iconLi}/>
+                                        <p className="txt">{d.companyName} 客户{d.userName} {this.state.nodeTypeData[d.flowTypeCode]} {this.state.curNodeData[d.curNodeCode]}</p>
+                                        <samp className="date">{dateFormat(d.startDatetime)}</samp>
+                                    </Link>
                                 </div>
                             )) : <div className="noData"><img src={noData}/><p>暂无待办事项</p></div>}
                         </div>
@@ -193,9 +191,6 @@ class Home extends React.Component {
                     <div className="card notice-wrap">
                         <div className="card-top">
                             <div className="title">公司公告</div>
-                            <div className="more" onClick={() => {
-                                this.props.history.push('/home/notices');
-                            }}>MORE <img src={iconMore}/></div>
                         </div>
                         <div className="card-content">
                             { this.state.noticeData && this.state.noticeData.length >= 1 ? this.state.noticeData.map(d => (
@@ -212,16 +207,13 @@ class Home extends React.Component {
                     <div className="card companysystem-wrap">
                         <div className="card-top">
                             <div className="title">公司制度</div>
-                            <div className="more" onClick={() => {
-                                this.props.history.push('/home/regulations');
-                            }}>MORE <img src={iconMore}/></div>
                         </div>
                         <div className="card-content">
                             { this.state.companysystemData && this.state.companysystemData.length >= 1 ? this.state.companysystemData.map(d => (
                                 <div className="content-item" key={d.code}>
-                                    <Link to={'/home/regulationDetail?code=' + d.code}>
+                                    <Link to={'/home/companysystemDetail?code=' + d.code}>
                                         <img className="icon" src={iconLi}/>
-                                        <p className="txt">{d.name}</p>
+                                        <p className="txt">{d.content}</p>
                                         <samp className="date">{dateFormat(d.updateDatetime)}</samp>
                                     </Link>
                                 </div>

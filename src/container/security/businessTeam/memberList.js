@@ -36,6 +36,12 @@ class MemberList extends React.Component {
         }, {
             field: 'companyName',
             title: '所属公司'
+        }, {
+            title: '岗位',
+            field: 'postName'
+        }, {
+            title: '角色',
+            field: 'roleName'
         }];
         return this.props.buildList({
             fields,

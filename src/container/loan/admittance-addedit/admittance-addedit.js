@@ -2,11 +2,9 @@ import React from 'react';
 import {
     getQueryString,
     getUserId,
-    showWarnMsg,
     showSucMsg,
     moneyParse,
-    moneyFormat,
-    monthFormat
+    moneyFormat
 } from 'common/js/util';
 import {CollapseWrapper} from 'component/collapse-detail/collapse-detail';
 import {
@@ -26,32 +24,37 @@ import fetch from 'common/js/fetch';
 class AdmittanceAddEdit extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            isSelfCompany: true
-        };
 
-        // this.state = {
-        //     isSelfCompany: true,
-        //     mateStatus: true,
-        //     guaStatus: true,
-        //     applyUserAccount: true,
-        //     mateAccount: true,
-        //     guaAccount: true
-        // };
+        this.state = {
+            isSelfCompany: false,
+            mateStatus: false,
+            guaStatus: false,
+            applyUserAccount: false,
+            mateAccount: false,
+            guaAccount: false
+        };
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
         this.bizType = getQueryString('bizType', this.props.location.search);
         this.loanBank = getQueryString('loanBank', this.props.location.search);
-        this.isCheckCommissioner = !!getQueryString('isCheckCommissioner', this.props.location.search);
-        this.isCheckDirector = !!getQueryString('isCheckDirector', this.props.location.search);
+        // 区域经理审核
         this.isCheckRegionalManager = !!getQueryString('isCheckRegionalManager', this.props.location.search);
-        this.isCheckNq = !!getQueryString('isCheckNq', this.props.location.search);
+        // 内勤主管审核
+        this.isCheckcheckNq = !!getQueryString('isCheckcheckNq', this.props.location.search);
+        // 风控一审
+        this.isCheckCommissioner = !!getQueryString('isCheckCommissioner', this.props.location.search);
+        // 风控二审
+        this.checkCommissionerTwo = !!getQueryString('checkCommissionerTwo', this.props.location.search);
+        // 风控终审
+        this.isCheckDirector = !!getQueryString('isCheckDirector', this.props.location.search);
+        // 业务总监审核
+        this.isbusinessCheck = !!getQueryString('isbusinessCheck', this.props.location.search);
         this.wanFactor = 0;
     }
 
     render() {
         let fields = [{
-            title: '贷款信息',
+            title: '贷款车辆信息',
             items: [
                 [{
                     field: 'bizType',
@@ -85,20 +88,6 @@ class AdmittanceAddEdit extends React.Component {
                     title: '贷款期限',
                     type: 'select',
                     key: 'loan_period',
-                    required: true
-                }, {
-                    field: 'isAdvanceFund',
-                    title: '是否垫资',
-                    type: 'select',
-                    data: [{
-                        key: '0',
-                        value: '否'
-                    }, {
-                        key: '1',
-                        value: '是'
-                    }],
-                    keyName: 'key',
-                    valueName: 'value',
                     required: true
                 }],
                 [{
@@ -136,17 +125,44 @@ class AdmittanceAddEdit extends React.Component {
                         }
                     }
                 }, {
+                    field: 'isAdvanceFund',
+                    title: '是否垫资',
+                    type: 'select',
+                    data: [{
+                        key: '0',
+                        value: '否'
+                    }, {
+                        key: '1',
+                        value: '是'
+                    }],
+                    keyName: 'key',
+                    valueName: 'value',
+                    required: true
+                }, {
+                    field: 'isFinancing',
+                    title: '是否融资',
+                    type: 'select',
+                    data: [{
+                        key: '0',
+                        value: '否'
+                    }, {
+                        key: '1',
+                        value: '是'
+                    }],
+                    keyName: 'key',
+                    valueName: 'value',
+                    required: true
+                }, {
                     field: 'region',
                     title: '所属区域',
                     type: 'select',
                     key: 'region',
                     required: true
-                }]
-            ]
-        }, {
-            title: '拟购车辆信息',
-            items: [
+                }],
                 [{
+                    title: '机动车销售公司',
+                    field: 'vehicleCompanyName'
+                }, {
                     field: 'invoiceCompany',
                     title: '开票单位',
                     required: true
@@ -237,14 +253,26 @@ class AdmittanceAddEdit extends React.Component {
                     title: '服务费(元)',
                     amount: true,
                     required: true
+                }, {
+                    title: 'GPS费用',
+                    field: 'gpsFee',
+                    amount: true,
+                    required: true
                 }],
                 [{
-                    title: '车辆品牌',
-                    field: 'carBrand',
+                    title: '公证费',
+                    field: 'authFee',
+                    amount: true,
                     required: true
                 }, {
-                    title: '详细配置',
-                    field: 'carSeries',
+                    title: '月供保证金',
+                    field: 'monthDeposit',
+                    amount: true,
+                    required: true
+                }, {
+                    title: '其他费用',
+                    field: 'otherFee',
+                    amount: true,
                     required: true
                 }],
                 [{
@@ -254,13 +282,25 @@ class AdmittanceAddEdit extends React.Component {
                     key: 'car_type',
                     required: true
                 }, {
-                    field: 'carColor',
-                    title: '颜色',
+                    title: '车辆品牌',
+                    field: 'carBrand',
+                    required: true
+                }, {
+                    title: '车系',
+                    field: 'carSeries',
+                    required: true
+                }, {
+                    title: '车型名称',
+                    field: 'carModelName',
                     required: true
                 }],
                 [{
                     title: '车辆型号',
                     field: 'carModel',
+                    required: true
+                }, {
+                    field: 'carColor',
+                    title: '车辆颜色',
                     required: true
                 }, {
                     field: 'carFrameNo',
@@ -307,7 +347,7 @@ class AdmittanceAddEdit extends React.Component {
                 }]
             ]
         }, {
-            title: '申请人信息',
+            title: '申请人基本信息',
             items: [
                 [{
                     field: 'applyUserName',
@@ -409,6 +449,56 @@ class AdmittanceAddEdit extends React.Component {
                 }, {
                     field: 'housePicture',
                     title: '家访照片',
+                    type: 'img',
+                    hidden: !this.checkCommissionerTwo,
+                    readonly: !this.checkCommissionerTwo
+                }, {
+                    field: 'housePicture1',
+                    title: '车辆价格核实报告',
+                    type: 'img',
+                    readonly: !this.checkCommissionerTwo,
+                    hidden: !this.checkCommissionerTwo
+                }],
+                [{
+                    field: 'emergencyName1',
+                    title: '联系人1姓名',
+                    required: true
+                }, {
+                    field: 'emergencyRelation1',
+                    title: '与申请人关系',
+                    type: 'select',
+                    key: 'credit_user_relation',
+                    required: true
+                }, {
+                    field: 'emergencyMobile1',
+                    title: '手机号码',
+                    mobile: true,
+                    required: true
+                }],
+                [{
+                    field: 'emergencyName2',
+                    title: '联系人2姓名'
+                }, {
+                    field: 'emergencyRelation2',
+                    title: '与申请人关系',
+                    type: 'select',
+                    key: 'credit_user_relation'
+                }, {
+                    field: 'emergencyMobile2',
+                    title: '手机号码',
+                    mobile: true
+                }],
+                [{
+                    title: '代理人',
+                    field: 'pledgeUser',
+                    required: true
+                }, {
+                    title: '抵押地点',
+                    field: 'pledgeAddress',
+                    required: true
+                }, {
+                    title: '抵押代理人身份证复印件',
+                    field: 'pledgeUserIdCardCopy',
                     type: 'img'
                 }]
             ]
@@ -518,7 +608,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '配偶信息',
-            // hidden: this.view ? false : this.state.mateStatus,
+            hidden: !this.state.mateStatus || this.props.pageData.mateName,
             items: [
                 [{
                     field: 'mateName',
@@ -557,7 +647,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '担保人信息',
-            // hidden: this.view ? false : this.state.guaStatus,
+            hidden: !this.state.guaStatus || this.props.pageData.guaName,
             items: [
                 [{
                     field: 'guaName',
@@ -592,39 +682,6 @@ class AdmittanceAddEdit extends React.Component {
                 }]
             ]
         }, {
-            title: '紧急联系人',
-            items: [
-                [{
-                    field: 'emergencyName1',
-                    title: '联系人1姓名',
-                    required: true
-                }, {
-                    field: 'emergencyRelation1',
-                    title: '与申请人关系',
-                    type: 'select',
-                    key: 'credit_user_relation',
-                    required: true
-                }, {
-                    field: 'emergencyMobile1',
-                    title: '手机号码',
-                    mobile: true,
-                    required: true
-                }],
-                [{
-                    field: 'emergencyName2',
-                    title: '联系人2姓名'
-                }, {
-                    field: 'emergencyRelation2',
-                    title: '与申请人关系',
-                    type: 'select',
-                    key: 'credit_user_relation'
-                }, {
-                    field: 'emergencyMobile2',
-                    title: '手机号码',
-                    mobile: true
-                }]
-            ]
-        }, {
             title: '其他基本资料上传',
             items: [
                 [{
@@ -648,7 +705,7 @@ class AdmittanceAddEdit extends React.Component {
             ]
         }, {
             title: '申请人银行流水数据',
-            // hidden: this.view ? false : this.state.applyUserAccount,
+            hidden: !this.state.applyUserAccount,
             items: [
                 [{
                     field: 'jourDatetime3',
@@ -677,7 +734,12 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     title: '结息时间',
-                    field: 'jourInterest',
+                    field: 'jourInterest1',
+                    type: 'select',
+                    key: 'interest'
+                }, {
+                    title: '结息时间',
+                    field: 'jourInterest2',
                     type: 'select',
                     key: 'interest'
                 }],
@@ -742,13 +804,13 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'jourPic',
-                    title: '流水图片',
+                    title: '申请人银行流水',
                     type: 'img'
                 }]
             ]
         }, {
             title: '申请人支付宝流水数据',
-            // hidden: this.view ? false : this.state.applyUserAccount,
+            hidden: !this.state.applyUserAccount,
             items: [
                 [{
                     field: 'jourDatetime1',
@@ -777,7 +839,12 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     title: '结息时间',
-                    field: 'zfbJourInterest',
+                    field: 'zfbJourInterest1',
+                    type: 'select',
+                    key: 'interest'
+                }, {
+                    title: '结息时间',
+                    field: 'zfbJourInterest2',
                     type: 'select',
                     key: 'interest'
                 }],
@@ -843,13 +910,13 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'zfbJourPic',
-                    title: '流水图片',
+                    title: '申请人支付宝流水',
                     type: 'img'
                 }]
             ]
         }, {
             title: '申请人微信流水数据',
-            // hidden: this.view ? false : this.state.applyUserAccount,
+            hidden: !this.state.applyUserAccount,
             items: [
                 [{
                     field: 'jourDatetime2',
@@ -878,7 +945,12 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     title: '结息时间',
-                    field: 'wxJourInterest',
+                    field: 'wxJourInterest1',
+                    type: 'select',
+                    key: 'interest'
+                }, {
+                    title: '结息时间',
+                    field: 'wxJourInterest2',
                     type: 'select',
                     key: 'interest'
                 }],
@@ -943,12 +1015,12 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'wxJourPic',
-                    title: '流水图片',
+                    title: '申请人微信流水',
                     type: 'img'
                 }]
             ]
         }, {title: '配偶银行流水数据',
-            // hidden: this.view ? false : this.state.mateAccount,
+            hidden: !this.state.mateAccount,
             items: [
                 [{
                     field: 'jourDatetime6',
@@ -977,7 +1049,12 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     title: '结息时间',
-                    field: 'mateJourInterest',
+                    field: 'mateJourInterest1',
+                    type: 'select',
+                    key: 'interest'
+                }, {
+                    title: '结息时间',
+                    field: 'mateJourInterest2',
                     type: 'select',
                     key: 'interest'
                 }],
@@ -1042,13 +1119,13 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'mateJourPic',
-                    title: '流水图片',
+                    title: '配偶银行流水',
                     type: 'img'
                 }]
             ]
         }, {
             title: '配偶支付宝流水数据',
-            // hidden: this.view ? false : this.state.mateAccount,
+            hidden: !this.state.mateAccount,
             items: [
                 [{
                     field: 'jourDatetime4',
@@ -1077,7 +1154,12 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     title: '结息时间',
-                    field: 'mateZfbJourInterest',
+                    field: 'mateZfbJourInterest1',
+                    type: 'select',
+                    key: 'interest'
+                }, {
+                    title: '结息时间',
+                    field: 'mateZfbJourInterest2',
                     type: 'select',
                     key: 'interest'
                 }],
@@ -1142,13 +1224,13 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'mateZfbJourPic',
-                    title: '流水图片',
+                    title: '配偶支付宝流水',
                     type: 'img'
                 }]
             ]
         }, {
             title: '配偶微信流水数据',
-            // hidden: this.view ? false : this.state.mateAccount,
+            hidden: !this.state.mateAccount,
             items: [
                 [{
                     field: 'jourDatetime5',
@@ -1177,7 +1259,12 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     title: '结息时间',
-                    field: 'mateWxJourInterest',
+                    field: 'mateWxJourInterest1',
+                    type: 'select',
+                    key: 'interest'
+                }, {
+                    title: '结息时间',
+                    field: 'mateWxJourInterest2',
                     type: 'select',
                     key: 'interest'
                 }],
@@ -1242,13 +1329,13 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'mateWxJourPic',
-                    title: '流水图片',
+                    title: '配偶微信流水',
                     type: 'img'
                 }]
             ]
         }, {
             title: '担保人银行流水数据',
-            // hidden: this.view ? false : this.state.guaAccount,
+            hidden: !this.state.guaAccount,
             items: [
                 [{
                     field: 'jourDatetime9',
@@ -1277,7 +1364,12 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     title: '结息时间',
-                    field: 'guaJourInterest',
+                    field: 'guaJourInterest1',
+                    type: 'select',
+                    key: 'interest'
+                }, {
+                    title: '结息时间',
+                    field: 'guaJourInterest2',
                     type: 'select',
                     key: 'interest'
                 }],
@@ -1342,13 +1434,13 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'guaJourPic',
-                    title: '流水图片',
+                    title: '担保人银行流水',
                     type: 'img'
                 }]
             ]
         }, {
             title: '担保人支付宝流水数据',
-            // hidden: this.view ? false : this.state.guaAccount,
+            hidden: !this.state.guaAccount,
             items: [
                 [{
                     field: 'jourDatetime7',
@@ -1376,7 +1468,12 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     title: '结息时间',
-                    field: 'guaZfbJourInterest',
+                    field: 'guaZfbJourInterest1',
+                    type: 'select',
+                    key: 'interest'
+                }, {
+                    title: '结息时间',
+                    field: 'guaZfbJourInterest2',
                     type: 'select',
                     key: 'interest'
                 }],
@@ -1441,13 +1538,13 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'guaZfbJourPic',
-                    title: '流水图片',
+                    title: '担保人支付宝流水',
                     type: 'img'
                 }]
             ]
         }, {
             title: '担保人微信流水数据',
-            // hidden: this.view ? false : this.state.guaAccount,
+            hidden: !this.state.guaAccount,
             items: [
                 [{
                     field: 'jourDatetime8',
@@ -1476,7 +1573,12 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     title: '结息时间',
-                    field: 'guaWxJourInterest',
+                    field: 'guaWxJourInterest1',
+                    type: 'select',
+                    key: 'interest'
+                }, {
+                    title: '结息时间',
+                    field: 'guaWxJourInterest2',
                     type: 'select',
                     key: 'interest'
                 }],
@@ -1541,109 +1643,90 @@ class AdmittanceAddEdit extends React.Component {
                 }],
                 [{
                     field: 'guaWxJourPic',
-                    title: '流水图片',
+                    title: '担保人微信流水',
                     type: 'img'
                 }]
             ]
-        // }, {
-        //     title: '录入配偶信息',
-        //     field: 'btnMateStatus',
-        //     type: 'button',
-        //     hidden: !this.state.mateStatus,
-        //     onClick: () => {
-        //         if (this.state.mateStatus) {
-        //             this.setState({
-        //                 mateStatus: false
-        //             });
-        //         } else {
-        //             this.setState({
-        //                 mateStatus: true
-        //             });
-        //             this.props.form.setFieldsValue({
-        //                 mateName: '',
-        //                 mateMobile: '',
-        //                 mateEducation: '',
-        //                 mateCompanyName: '',
-        //                 mateCompanyContactNo: '',
-        //                 mateCompanyAddress: '',
-        //                 mateAssetPdf: ''
-        //             });
-        //         }
-        //     }
-        // }, {
-        //     title: '录入担保人信息',
-        //     field: 'btnGuaStatus',
-        //     type: 'button',
-        //     hidden: !this.state.guaStatus,
-        //     onClick: () => {
-        //         if (this.state.guaStatus) {
-        //             this.setState({
-        //                 guaStatus: false
-        //             });
-        //         } else {
-        //             this.setState({
-        //                 guaStatus: true
-        //             });
-        //             this.props.form.setFieldsValue({
-        //                 guaName: '',
-        //                 guaMobile: '',
-        //                 guaIdNo: '',
-        //                 guaPhone: '',
-        //                 guaCompanyName: '',
-        //                 guaCompanyAddress: '',
-        //                 guaHouseAssetAddress: '',
-        //                 guaAssetPdf: ''
-        //             });
-        //         }
-        //     }
-        // }, {
-        //     title: '录入申请人流水数据',
-        //     field: 'btnApplyUserAccount',
-        //     type: 'button',
-        //     hidden: !this.state.applyUserAccount,
-        //     onClick: () => {
-        //         if (this.state.applyUserAccount) {
-        //             this.setState({
-        //                 applyUserAccount: false
-        //             });
-        //         } else {
-        //             this.setState({
-        //                 applyUserAccount: true
-        //             });
-        //         }
-        //     }
-        // }, {
-        //     title: '录入配偶流水数据',
-        //     field: 'btnMateAccount',
-        //     type: 'button',
-        //     hidden: !this.state.mateAccount,
-        //     onClick: () => {
-        //         if (this.state.mateAccount) {
-        //             this.setState({
-        //                 mateAccount: false
-        //             });
-        //         } else {
-        //             this.setState({
-        //                 mateAccount: true
-        //             });
-        //         }
-        //     }
-        // }, {
-        //     title: '录入担保人流水数据',
-        //     field: 'btnGuaAccount',
-        //     type: 'button',
-        //     hidden: !this.state.guaAccount,
-        //     onClick: () => {
-        //         if (this.state.guaAccount) {
-        //             this.setState({
-        //                 guaAccount: false
-        //             });
-        //         } else {
-        //             this.setState({
-        //                 guaAccount: true
-        //             });
-        //         }
-        //     }
+        }, {
+            title: '录入配偶信息',
+            field: 'btnMateStatus',
+            type: 'select',
+            data: [{
+                key: '1',
+                value: '是'
+            }, {
+                key: '0',
+                value: '否'
+            }],
+            keyName: 'key',
+            valueName: 'value',
+            onChange: (v) => {
+                this.state.mateStatus = v === '1';
+            }
+        }, {
+            title: '录入担保人信息',
+            field: 'btnGuaStatus',
+            type: 'select',
+            data: [{
+                key: '1',
+                value: '是'
+            }, {
+                key: '0',
+                value: '否'
+            }],
+            keyName: 'key',
+            valueName: 'value',
+            onChange: (v) => {
+                this.state.guaStatus = v === '1';
+            }
+        }, {
+            title: '录入申请人流水数据',
+            field: 'btnApplyUserAccount',
+            type: 'select',
+            data: [{
+                key: '1',
+                value: '是'
+            }, {
+                key: '0',
+                value: '否'
+            }],
+            keyName: 'key',
+            valueName: 'value',
+            onChange: (v) => {
+                this.state.applyUserAccount = v === '1';
+            }
+        }, {
+            title: '录入配偶流水数据',
+            field: 'btnMateAccount',
+            type: 'select',
+            data: [{
+                key: '1',
+                value: '是'
+            }, {
+                key: '0',
+                value: '否'
+            }],
+            keyName: 'key',
+            valueName: 'value',
+            onChange: (v) => {
+                this.state.mateAccount = v === '1';
+            }
+        }, {
+            title: '录入担保人流水数据',
+            field: 'btnGuaAccount',
+            type: 'select',
+            data: [{
+                key: '1',
+                value: '是'
+            }, {
+                key: '0',
+                value: '否'
+            }],
+            keyName: 'key',
+            valueName: 'value',
+            onChange: (v) => {
+                this.state.guaAccount = v === '1';
+            }
         }];
 
         let checkFields = [{
@@ -1651,22 +1734,32 @@ class AdmittanceAddEdit extends React.Component {
             title: '审核说明',
             type: 'textarea',
             normalArea: true,
-            readonly: !(this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckNq)
+            readonly: !(this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckcheckNq || this.checkCommissionerTwo || this.isbusinessCheck)
         }];
 
         let buttons = [];
         let bizCode;
-        if (this.isCheckCommissioner) {
+        // 区域经理审核
+        if (this.isCheckRegionalManager) {
+            bizCode = 632140;
+        // 内勤主管审核
+        } else if (this.isCheckcheckNq) {
+            bizCode = 632142;
+        // 风控一审
+        } else if (this.isCheckCommissioner) {
             bizCode = 632121;
+        // 风控二审
+        } else if (this.checkCommissionerTwo) {
+            bizCode = 632138;
+        // 风控终审
         } else if (this.isCheckDirector) {
             bizCode = 632122;
-        } else if (this.isCheckRegionalManager) {
-            bizCode = 632140;
-        } else if (this.isCheckNq) {
-            bizCode = 632142;
+        // 业务总监审核
+        } else if (this.isbusinessCheck) {
+            bizCode = 632139;
         }
 
-        if (this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckNq) {
+        if (this.isCheckCommissioner || this.isCheckDirector || this.isCheckRegionalManager || this.isCheckcheckNq || this.checkCommissionerTwo || this.isbusinessCheck) {
             fields = fields.concat(checkFields);
 
             buttons = [{
@@ -1674,6 +1767,7 @@ class AdmittanceAddEdit extends React.Component {
                 check: true,
                 handler: (params) => {
                     let data = {};
+                    data.budgetOrderCode = this.code;
                     data.code = this.code;
                     data.approveNote = params.approveNote;
                     data.approveResult = '1';
@@ -1694,6 +1788,7 @@ class AdmittanceAddEdit extends React.Component {
                 check: true,
                 handler: (params) => {
                     let data = {};
+                    data.budgetOrderCode = this.code;
                     data.code = this.code;
                     data.approveNote = params.approveNote;
                     data.approveResult = '0';
@@ -1717,11 +1812,11 @@ class AdmittanceAddEdit extends React.Component {
             }];
         }
 
-        if (!this.view && !this.isCheckCommissioner && !this.isCheckDirector && !this.isCheckRegionalManager) {
+        if (!this.view && !this.isCheckCommissioner && !this.isCheckDirector && !this.isCheckRegionalManager && !this.checkNq && !this.checkCommissionerTwo && !this.isbusinessCheck) {
             buttons = [{
                 title: '保存',
                 handler: (params) => {
-                    params.code = this.code;
+                    params.budgetOrderCode = this.code;
                     params.dealType = '0';
                     params.operator = getUserId();
                     params.creditCode = this.props.pageData.creditCode;
@@ -1738,7 +1833,7 @@ class AdmittanceAddEdit extends React.Component {
                 title: '发送',
                 check: true,
                 handler: (params) => {
-                    params.code = this.code;
+                    params.budgetOrderCode = this.code;
                     params.dealType = '1';
                     params.operator = getUserId();
                     params.creditCode = this.props.pageData.creditCode;
