@@ -1,20 +1,18 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb, Icon, Dropdown, Button } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon, Dropdown, Button, Badge } from 'antd';
 import { Switch, Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   getMenuList,
+  setToDoCount,
   setTopCode,
   setSubMenuCode,
-  setSubOpenCode,
-  clearSubOpenCode,
-  restoreSubOpenCode,
-  clearTopCode,
-  clearSubMenuCode
+  setSubOpenCode
 } from '@redux/menu';
 import { clearUser } from 'common/js/util';
 import asyncComponent from '../async-component/async-component';
 import EditPwd from 'component/edit-pwd/edit-pwd';
+import { getToDoCount } from 'api/biz';
 import ROUTES from 'src/route';
 import './dashboard.css';
 import logo from './logo.png';
@@ -26,7 +24,7 @@ const TbReport = asyncComponent(() => import('../../container/credit/tbcheck-rep
 
 @connect(
   state => ({ ...state.menu, loginName: state.user.loginName }),
-  { getMenuList, setTopCode, setSubMenuCode, setSubOpenCode, clearSubOpenCode, restoreSubOpenCode, clearTopCode, clearSubMenuCode }
+  { getMenuList, setToDoCount, setTopCode, setSubMenuCode, setSubOpenCode }
 )
 class Dashboard extends React.Component {
   constructor(props) {
@@ -40,7 +38,22 @@ class Dashboard extends React.Component {
   }
   componentDidMount() {
     this.props.getMenuList(this.props.location.pathname);
+    this.queryToDoCount();
   }
+  // 获取待办数量
+  queryToDoCount() {
+    getToDoCount().then(data => {
+      this.props.setToDoCount(data.totalCount);
+      setTimeout(() => {
+        this.queryToDoCount();
+      }, 5000);
+    }).catch(() => {
+      setTimeout(() => {
+        this.queryToDoCount();
+      }, 5000);
+    });
+  }
+  // 头部菜单点击
   handleTopMenuClick(e) {
     if (e.key && e.key !== 'user') {
       this.props.setTopCode(e.key);
@@ -50,6 +63,7 @@ class Dashboard extends React.Component {
       this.props.history.push(url);
     }
   }
+  // 左侧菜单点击
   handleSubMenuClick(e) {
     if (e.key) {
       this.props.setSubMenuCode(e.key);
@@ -87,15 +101,20 @@ class Dashboard extends React.Component {
     return menuArr.map(v => (
       <Breadcrumb.Item key={v.code}>
         {v.url !== '#'
-          ? <Link to={v.url.split('.')[0]}>
-            {v.name}
-          </Link> : v.name}
+          ? <Link to={v.url.split('.')[0]}>{v.name}</Link> : v.name}
       </Breadcrumb.Item>
     ));
   }
+  // 点击查看待办事项
+  handleToDo = () => {
+    this.props.setTopCode('');
+    this.props.history.push('/home/toDoList');
+  }
   getHeader() {
+    const { topMenuCode, topMenuList, loginName, toDoCount } = this.props;
     const userShow = (
       <Menu>
+        <Menu.Item><a href="#" onClick={this.handleToDo}>待办事项<Badge count={toDoCount}></Badge></a></Menu.Item>
         <Menu.Item><a href="#" onClick={() => this.setEditPwdVisible(true)}>修改密码</a></Menu.Item>
         <Menu.Item><a href="#" onClick={this.logout}>退出</a></Menu.Item>
       </Menu>
@@ -105,23 +124,21 @@ class Dashboard extends React.Component {
         <div className="logo" onClick={() => {
           this.props.setTopCode('');
           this.props.history.push('/');
-        }}>
-            <img src={logo}/>
-        </div>
+        }}><img src={logo}/></div>
         <Menu
           theme="dark"
           mode="horizontal"
           style={{ lineHeight: '64px' }}
           onClick={this.handleTopMenuClick}
-          selectedKeys={[this.props.topMenuCode]}
+          selectedKeys={[topMenuCode]}
         >
-          {this.props.topMenuList.map(v => (
+          {topMenuList.map(v => (
             <Item key={v.code}>{v.name}</Item>
           ))}
           <Item key="user" style={{float: 'right'}}>
             <Dropdown overlay={userShow}>
               <a href="#" style={{display: 'inline'}}>
-                {this.props.loginName} <Icon type="down" />
+                {loginName}<Badge count={toDoCount}></Badge><Icon type="down" />
               </a>
             </Dropdown>
           </Item>

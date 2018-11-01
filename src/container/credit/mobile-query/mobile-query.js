@@ -147,7 +147,7 @@ class MobileQuery extends React.Component {
                     this.props.cancelFetching();
                     if (data.id === '-1') {
                       let result = JSON.parse(data.result);
-                      showWarnMsg(result && result.msg || '查询失败');
+                      showWarnMsg(result ? result.msg : '查询失败');
                     } else {
                       this.id = data.id;
                       this.token = JSON.parse(data.result).token;

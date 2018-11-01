@@ -46,6 +46,7 @@ export default class CO2M extends React.Component {
         oSelectData[this.fetchList[i].field] = data;
       });
       this.setState({ oSelectData });
+      this.props.setO2MSelectData(oSelectData);
     }).catch(() => {});
   }
   shouldComponentUpdate(nextProps, nextState) {

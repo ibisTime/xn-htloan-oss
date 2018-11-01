@@ -792,7 +792,6 @@ const ROUTES = [
   {
       path: '/loan/credit/addedit',
       component: asyncComponent(() => import('container/loan/credit-addedit/credit-addedit'))
-      // component: asyncComponent(() => import('container/loan/credit-addedit/demo'))
   },
   // 发起征信查询  内勤主管派单
   {
@@ -812,8 +811,7 @@ const ROUTES = [
   // 准入审查 发起
   {
       path: '/loan/admittance/addedit',
-      // component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-addedit'))
-      component: asyncComponent(() => import('container/loan/admittance-addedit/demo'))
+      component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-addedit'))
   },
   // 面签审核
   {

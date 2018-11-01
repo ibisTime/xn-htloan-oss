@@ -1,21 +1,8 @@
 import React from 'react';
-import {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-} from '@redux/loan/credit-addedit';
-import {
-    getQueryString,
-    showWarnMsg,
-    showSucMsg,
-    getUserId
-} from 'common/js/util';
-import {DetailWrapper} from 'common/js/build-detail';
-import {COMPANY_CODE} from 'common/js/config';
-import LoanCreditEnteringEdit from 'component/loanCreditEntering-edit/loanCreditEntering-edit';
+import { initStates, doFetching, cancelFetching, setSelectData, setPageData,
+  restore } from '@redux/loan/credit-addedit';
+import { getQueryString, showWarnMsg, showSucMsg, getUserId } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
@@ -246,6 +233,41 @@ class CreditAddedit extends React.Component {
             field: 'approveNote',
             readonly: !this.isCheck,
             hidden: !this.isCheck
+        }, {
+            title: '流转日志',
+            field: 'list',
+            type: 'o2m',
+            listCode: 630176,
+            params: { refOrder: this.code },
+            options: {
+                rowKey: 'id',
+                noSelect: true,
+                fields: [{
+                    title: '操作人',
+                    field: 'operatorName'
+                }, {
+                    title: '开始时间',
+                    field: 'startDatetime',
+                    type: 'datetime'
+                }, {
+                    title: '结束时间',
+                    field: 'endDatetime',
+                    type: 'datetime'
+                }, {
+                    title: '花费时长',
+                    field: 'speedTime'
+                }, {
+                    title: '审核意见',
+                    field: 'dealNote'
+                }, {
+                    title: '当前节点',
+                    field: 'dealNode',
+                    type: 'select',
+                    listCode: 630147,
+                    keyName: 'code',
+                    valueName: 'name'
+                }]
+            }
         }];
 
         // 信贷专员初审
@@ -369,7 +391,7 @@ class CreditAddedit extends React.Component {
                     }).catch(this.props.cancelFetching);
                 }
             }, {
-                title: '发送',
+                title: '提交',
                 check: true,
                 handler: (params) => {
                     params.creditCode = this.code;

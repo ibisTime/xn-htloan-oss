@@ -108,6 +108,41 @@ class FaceSignAddedit extends React.Component {
             field: 'approveNote',
             readonly: !(this.isCheck || this.isCheckNq),
             hidden: !this.view
+        }, {
+            title: '流转日志',
+            field: 'list',
+            type: 'o2m',
+            listCode: 630176,
+            params: { refOrder: this.code },
+            options: {
+                rowKey: 'id',
+                noSelect: true,
+                fields: [{
+                    title: '操作人',
+                    field: 'operatorName'
+                }, {
+                    title: '开始时间',
+                    field: 'startDatetime',
+                    type: 'datetime'
+                }, {
+                    title: '结束时间',
+                    field: 'endDatetime',
+                    type: 'datetime'
+                }, {
+                    title: '花费时长',
+                    field: 'speedTime'
+                }, {
+                    title: '审核意见',
+                    field: 'dealNote'
+                }, {
+                    title: '当前节点',
+                    field: 'dealNode',
+                    type: 'select',
+                    listCode: 630147,
+                    keyName: 'code',
+                    valueName: 'name'
+                }]
+            }
         }];
         let bizCode = this.isCheckNq ? 632137 : 632124;
         // 准入审查
@@ -162,27 +197,19 @@ class FaceSignAddedit extends React.Component {
         } else {
             buttons = [{
                 title: '保存',
-                check: true,
                 handler: (params) => {
-                    // let data = {};
-                    // params.code = this.code;
                     params.operator = getUserId();
                     params.isSend = '0';
                     this.props.doFetching();
                     fetch(632123, params).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
                     }).catch(this.props.cancelFetching);
                 }
             }, {
-                title: '发送',
+                title: '提交',
                 check: true,
                 handler: (params) => {
-                    // let data = {};
-                    // data.code = this.code;
                     params.operator = getUserId();
                     params.isSend = '1';
                     this.props.doFetching();

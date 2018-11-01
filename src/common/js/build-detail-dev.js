@@ -21,6 +21,14 @@ export default class DetailUtil extends DetailComp {
       }
     }));
   }
+  setO2MSelectData(field, oSelectData) {
+    this.setState(prevState => ({
+      oSelectData: {
+        ...prevState.oSelectData,
+        [field]: oSelectData
+      }
+    }));
+  }
   // 获取o2m表格控件
   getTableItem(item, list) {
     const props = {
@@ -36,6 +44,6 @@ export default class DetailUtil extends DetailComp {
       setO2MSelect: this.setO2MSelect,
       setO2MData: this.setO2MData
     };
-    return <CO2M key={item.field} {...props} />;
+    return <CO2M key={item.field} {...props} setO2MSelectData={(d) => this.setO2MSelectData(item.field, d)}/>;
   }
 }

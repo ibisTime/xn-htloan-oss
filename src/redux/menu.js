@@ -8,6 +8,7 @@ const SET_SUB_OPEN_CODE = 'SET_SUB_OPEN_CODE';
 const CLEAR_SUB_OPEN_CODE = 'CLEAR_SUB_OPEN_CODE';
 const RESTORE_SUB_OPEN_CODE = 'RESTORE_SUB_OPEN_CODE';
 const SET_MENU_LIST = 'SET_MENU_LIST';
+const SET_TO_DO_COUNT = 'SET_TO_DO_COUNT';
 
 let preSubOpenCode = [];
 
@@ -20,7 +21,8 @@ const initState = {
   subMenuList: [],
   topMenuCode: '',
   subMenuCode: '',
-  subOpenCode: []
+  subOpenCode: [],
+  toDoCount: 0
 };
 
 export function menu(state = initState, action) {
@@ -37,6 +39,8 @@ export function menu(state = initState, action) {
       return {...state, subOpenCode: action.payload};
     case SET_MENU_LIST:
       return {...state, ..._getMenuState(action.payload)};
+    case SET_TO_DO_COUNT:
+      return {...state, toDoCount: action.payload};
     default:
       return state;
   }
@@ -74,6 +78,10 @@ export function clearSubMenuCode() {
 }
 export function restoreSubOpenCode() {
   return { type: RESTORE_SUB_OPEN_CODE, payload: preSubOpenCode };
+}
+// 设置代办数量
+export function setToDoCount(count) {
+  return { type: SET_TO_DO_COUNT, payload: count };
 }
 
 function setMenuList(data) {
