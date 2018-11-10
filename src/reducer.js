@@ -286,7 +286,6 @@ import { loanstoolsRefundCertain } from './redux/loanstools/refund-certain';
 //  发件 + 详情 + 发件
 import { transmit } from './redux/transmit/transmit';
 import { transmitAddedit } from './redux/transmit/transmit-addedit';
-import { transmitSend } from './redux/transmit/transmit-send';
 
 // 收件 + 详情 + 收件并审核
 import { transmitCollection } from './redux/transmit/collection';
@@ -295,7 +294,6 @@ import { transmitCollectionCheck } from './redux/transmit/collection-check';
 
 // GPS发件
 import { transmitGps } from './redux/transmit/transmitGPS';
-import { transmitGpsSend } from './redux/transmit/transmitGPS-send';
 import { transmitGpsAddedit } from './redux/transmit/transmitGPS-addedit';
 
 // GPS收件
@@ -719,13 +717,11 @@ export default combineReducers({
   basedataReceivables,
   basedataReceivablesAddEdit,
   transmit,
-  transmitSend,
   transmitAddedit,
   transmitCollection,
   transmitCollectionCheck,
   transmitCollectionAddedit,
   transmitGps,
-  transmitGpsSend,
   transmitGpsAddedit,
   transmitCollectionGPS,
   transmitCollectionGPSCheck,

@@ -1,30 +1,19 @@
 import React from 'react';
-import {
-  initStates,
-  doFetching,
-  cancelFetching,
-  setSelectData,
-  setPageData,
-  restore
-} from '@redux/transmit/transmitGPS-send';
+import { Form } from 'antd';
 import { getQueryString, getUserId, showSucMsg } from 'common/js/util';
-import { DetailWrapper } from 'common/js/build-detail';
+import DetailUtil from 'common/js/build-detail-dev';
 import fetch from 'common/js/fetch';
 
-@DetailWrapper(state => state.transmitGpsSend, {
-  initStates,
-  doFetching,
-  cancelFetching,
-  setSelectData,
-  setPageData,
-  restore
-})
-class TransmitSend extends React.Component {
+@Form.create()
+class TransmitSend extends DetailUtil {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
-    this.sendTypeFalg = false;
+    this.state = {
+      ...this.state,
+      sendTypeFalg: false
+    };
   }
   render() {
     const fields = [{
@@ -35,17 +24,17 @@ class TransmitSend extends React.Component {
     }, {
         title: '业务团队',
         field: 'teamName',
-        hidden: !this.props.pageData.teamName,
+        hidden: !this.state.pageData || !this.state.pageData.teamName,
         readonly: true
     }, {
         title: '信贷专员',
         field: 'saleUserName',
-        hidden: !this.props.pageData.saleUserName,
+        hidden: !this.state.pageData || !this.state.pageData.saleUserName,
         readonly: true
     }, {
         title: '内勤专员',
         field: 'insideJobName',
-        hidden: !this.props.pageData.insideJobName,
+        hidden: !this.state.pageData || !this.state.pageData.insideJobName,
         readonly: true
     }, {
       title: '申领有线个数',
@@ -67,7 +56,7 @@ class TransmitSend extends React.Component {
         formatter: (v, d) => {
             return d.gpsApply.customerName;
         },
-        hidden: (!this.props.pageData.gpsApply || !this.props.pageData.gpsApply.customerName),
+        hidden: (!this.state.pageData || !this.state.pageData.gpsApply || !this.state.pageData.gpsApply.customerName),
         readonly: true
     }, {
         title: '车架号',
@@ -75,7 +64,7 @@ class TransmitSend extends React.Component {
         formatter: (v, d) => {
             return d.gpsApply.carFrameNo;
         },
-        hidden: (!this.props.pageData.gpsApply || !this.props.pageData.gpsApply.carFrameNo),
+        hidden: (!this.state.pageData || !this.state.pageData.gpsApply || !this.state.pageData.gpsApply.carFrameNo),
         readonly: true
     }, {
       title: '手机号',
@@ -83,7 +72,7 @@ class TransmitSend extends React.Component {
       formatter: (v, d) => {
           return d.gpsApply.mobile;
       },
-      hidden: (!this.props.pageData.gpsApply || !this.props.pageData.gpsApply.mobile),
+      hidden: (!this.state.pageData || !this.state.pageData.gpsApply || !this.state.pageData.gpsApply.mobile),
       readonly: true
     }, {
         title: '寄送方式',
@@ -101,20 +90,23 @@ class TransmitSend extends React.Component {
         required: true,
         value: '2',
         onChange: (value) => {
-            this.sendTypeFalg = value === '1';
+            let flag = value === '1';
+            if (flag !== this.state.sendTypeFalg) {
+                this.setState({ sendTypeFalg: flag });
+            }
         }
     }, {
         title: '快递公司',
         field: 'logisticsCompany',
         type: 'select',
         key: 'kd_company',
-        required: !this.sendTypeFalg,
-        hidden: this.sendTypeFalg
+        required: !this.state.sendTypeFalg,
+        hidden: this.state.sendTypeFalg
     }, {
         title: '快递单号',
         field: 'logisticsCode',
-        required: !this.sendTypeFalg,
-        hidden: this.sendTypeFalg
+        required: !this.state.sendTypeFalg,
+        hidden: this.state.sendTypeFalg
     }, {
         title: '发货时间',
         field: 'sendDatetime',
@@ -126,10 +118,10 @@ class TransmitSend extends React.Component {
     }, {
         title: '备注',
         field: 'remark',
-        hidden: !this.props.pageData.remark,
+        hidden: !this.state.pageData || !this.state.pageData.remark,
         readonly: true
     }];
-    return this.props.buildDetail({
+    return this.buildDetail({
         fields,
         code: this.code,
         view: this.view,
@@ -137,15 +129,22 @@ class TransmitSend extends React.Component {
         buttons: [{
             title: '确认',
             handler: (param) => {
-                this.props.doFetching();
+                this.doFetching();
                 param.operator = getUserId();
+                if (param.sendType === '1') {
+                  param = {
+                    ...param,
+                    logisticsCompany: '',
+                    logisticsCode: ''
+                  };
+                }
                 fetch(632150, param).then(() => {
                     showSucMsg('操作成功');
-                    this.props.cancelFetching();
+                    this.cancelFetching();
                     setTimeout(() => {
                         this.props.history.go(-1);
                     }, 1000);
-                }).catch(this.props.cancelFetching);
+                }).catch(this.cancelFetching);
             },
             check: true,
             type: 'primary'

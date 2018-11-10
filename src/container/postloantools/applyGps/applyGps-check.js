@@ -63,9 +63,6 @@ class applyGpsCheck extends DetailUtil {
       options: {
         add: true,
         delete: true,
-        scroll: {
-          x: 400
-        },
         fields: [{
           field: 'gpsType',
           title: 'GPS类型',

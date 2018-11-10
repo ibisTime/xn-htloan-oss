@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, Form } from 'antd';
-import { noop, isUndefined } from 'common/js/util';
+import { noop, isUndefined, tempString } from 'common/js/util';
 import { formItemLayout } from 'common/js/config';
 
 const CheckboxGroup = Checkbox.Group;
@@ -65,15 +65,25 @@ export default class CCheckbox extends React.Component {
   }
   getReadonlyValue(initVal, readonly, list, keyName, valueName) {
     let value = '';
-    if (readonly && list && initVal) {
-      value = initVal.map(v => list.find(d => d[keyName] === v)[valueName]).join('、');
+    if (readonly && list && initVal && list.length) {
+      // value = initVal.map(v => list.find(d => d[keyName] === v)[valueName]).join('、');
+      value = initVal.map(v => {
+        let obj = list.find(d => (d[keyName] + '') === (v + ''));
+        return obj[valueName] || tempString(valueName, obj) || '';
+      }).join('、');
     }
+    return value;
   }
   render() {
     const { label, field, rules, readonly, hidden, getFieldDecorator,
       onChange, initVal, inline, list, keyName, valueName } = this.props;
     let layoutProps = inline ? {} : formItemLayout;
     let value = this.getReadonlyValue(initVal, readonly, list, keyName, valueName);
+    if (list && list.length) {
+      list.map(d => {
+        d[keyName] = d[keyName] + '';
+      });
+    }
     return (
       <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''}>
         {
@@ -84,7 +94,7 @@ export default class CCheckbox extends React.Component {
               })(
               <CheckboxGroup {...this.getCheckProps(onChange, readonly)}>
                 {list && list.length
-                  ? list.map(d => <Checkbox key={d[keyName]} value={d[keyName]}>{d[valueName]}</Checkbox>)
+                  ? list.map(d => <Checkbox key={d[keyName]} value={d[keyName]}>{d[valueName] ? d[valueName] : tempString(valueName, d)}</Checkbox>)
                   : null}
               </CheckboxGroup>)
         }

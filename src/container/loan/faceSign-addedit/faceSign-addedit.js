@@ -1,26 +1,16 @@
 import React from 'react';
-import {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-} from '@redux/loan/faceSign-addedit';
+import { Form } from 'antd';
 import {
     getQueryString,
     showWarnMsg,
     showSucMsg,
     getUserId
 } from 'common/js/util';
-import {DetailWrapper} from 'common/js/build-detail';
+import DetailUtil from 'common/js/build-detail-dev';
 import fetch from 'common/js/fetch';
 
-@DetailWrapper(
-    state => state.loanFaceSignAddedit,
-    {initStates, doFetching, cancelFetching, setSelectData, setPageData, restore}
-)
-class FaceSignAddedit extends React.Component {
+@Form.create()
+class FaceSignAddedit extends DetailUtil {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -28,7 +18,6 @@ class FaceSignAddedit extends React.Component {
         this.isCheck = !!getQueryString('isCheck', this.props.location.search);
         this.isCheckNq = !!getQueryString('isCheckNq', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
-        this.newCar = true;
     }
 
     render() {
@@ -155,14 +144,14 @@ class FaceSignAddedit extends React.Component {
                     data.approveResult = '1';
                     data.approveNote = params.approveNote;
                     data.operator = getUserId();
-                    this.props.doFetching();
+                    this.doFetching();
                     fetch(bizCode, data).then(() => {
                         showSucMsg('操作成功');
-                        this.props.cancelFetching();
+                        this.cancelFetching();
                         setTimeout(() => {
                             this.props.history.go(-1);
                         }, 1000);
-                    }).catch(this.props.cancelFetching);
+                    }).catch(this.cancelFetching);
                 }
             }, {
                 title: '不通过',
@@ -172,14 +161,14 @@ class FaceSignAddedit extends React.Component {
                     data.approveResult = '0';
                     data.approveNote = params.approveNote;
                     data.operator = getUserId();
-                    this.props.doFetching();
+                    this.doFetching();
                     fetch(bizCode, data).then(() => {
                         showSucMsg('操作成功');
-                        this.props.cancelFetching();
+                        this.cancelFetching();
                         setTimeout(() => {
                             this.props.history.go(-1);
                         }, 1000);
-                    }).catch(this.props.cancelFetching);
+                    }).catch(this.cancelFetching);
                 }
             }, {
                 title: '返回',
@@ -200,11 +189,11 @@ class FaceSignAddedit extends React.Component {
                 handler: (params) => {
                     params.operator = getUserId();
                     params.isSend = '0';
-                    this.props.doFetching();
+                    this.doFetching();
                     fetch(632123, params).then(() => {
                         showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                    }).catch(this.props.cancelFetching);
+                        this.cancelFetching();
+                    }).catch(this.cancelFetching);
                 }
             }, {
                 title: '提交',
@@ -212,14 +201,14 @@ class FaceSignAddedit extends React.Component {
                 handler: (params) => {
                     params.operator = getUserId();
                     params.isSend = '1';
-                    this.props.doFetching();
+                    this.doFetching();
                     fetch(632123, params).then(() => {
                         showSucMsg('操作成功');
-                        this.props.cancelFetching();
+                        this.cancelFetching();
                         setTimeout(() => {
                             this.props.history.go(-1);
                         }, 1000);
-                    }).catch(this.props.cancelFetching);
+                    }).catch(this.cancelFetching);
                 }
             }, {
                 title: '返回',
@@ -229,7 +218,7 @@ class FaceSignAddedit extends React.Component {
             }];
         }
 
-        return this.props.buildDetail({
+        return this.buildDetail({
             fields,
             code: this.code,
             view: this.view,

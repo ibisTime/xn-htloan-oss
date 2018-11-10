@@ -98,7 +98,8 @@ class applyGpsApply extends React.Component {
           params.mobile = this.props.pageData.mobile;
           params.customerName = this.props.pageData.customerName;
           this.props.doFetching();
-          fetch(632710, params).then(() => {
+          let bizCode = this.code ? 632713 : 632710;
+          fetch(bizCode, params).then(() => {
             showSucMsg('操作成功');
             setTimeout(() => {
               this.props.history.go(-1);
