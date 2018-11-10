@@ -23,7 +23,23 @@ li {
   height: 100%;
   vertical-align: baseline;
 }
-
+.ant-badge {
+  padding-left: 4px !important;
+  padding-right: 2px !important;
+}
+.ant-scroll-number-only,
+.ant-scroll-number-only > p {
+  height: 16px !important;
+}
+.ant-badge-count {
+  height: 16px !important;
+  line-height: 16px !important;
+  min-width: 16px !important;
+  padding: 0 4px !important;
+}
+.ant-badge-count {
+  box-shadow: 0 0 0 1px #f5222d !important;
+}
 .hidden {
   display: none !important;
 }

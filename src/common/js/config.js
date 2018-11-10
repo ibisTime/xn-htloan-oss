@@ -73,6 +73,7 @@ export const curNodePageUrl = {
     '001_05': '/loan/credit/addedit?isAddedit=1&code=',
     '001_06': '/loan/credit/addedit?v=1&isEntry=1&code=',
     '001_07': '/loan/credit/addedit?isAddedit=1&code=',
+    '001_08': '/loan/credit/dispatch?code=',
 
     // 准入单
     '002_01': '/loan/admittance/addedit?code=',
@@ -81,15 +82,16 @@ export const curNodePageUrl = {
     '002_04': '/loan/admittance/addedit?code=',
     '002_24': '/loan/admittance/addedit?v=1&isCheckRegionalManager=1&code=',
     '002_25': '/loan/admittance/addedit?v=1&isCheckNq=1&code=',
+    '002_27': '/loan/admittance/addedit?v=1&checkCommissionerTwo=1&code=',
+    '002_28': '/loan/admittance/addedit?v=1&isbusinessCheck=1&code=',
 
     // 面签
     '002_05': '/loan/faceSign/addedit?code=',
-    '002_06': '/loan/faceSign/addedit?v=1&isCheck=1&code=',
     '002_08': '/loan/faceSign/addedit?code=',
     '002_26': '/loan/faceSign/addedit?v=1&isCheckNq=1&code=',
 
     // 财务垫资
-    '002_07': '/loan/faceSign/addedit?code=',
+    '002_07': '/loan/advMoney/addedit?code=',
 
     // ************贷前工具************
     // 调查报告
@@ -118,7 +120,7 @@ export const curNodePageUrl = {
     '002_20': '/biz/mortgage/sub?code=',
     '002_21': '/biz/mortgage/certain?code=',
 
-    // 档案入党
+    // 档案入档
     '002_22': '/biz/archives/certain?code=',
 
     // 结清审核

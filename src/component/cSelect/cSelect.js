@@ -57,7 +57,7 @@ export default class CSelect extends React.Component {
       placeholder: '请选择'
     };
     if (onChange) {
-      props.onChange = (v) => onChange(v, this.props.list);
+      props.onChange = (v) => onChange(v, this.props.list, this.props.updateSelectData);
     }
     return props;
   }
@@ -135,7 +135,8 @@ CSelect.propTypes = {
   field: PropTypes.string.isRequired,
   getFieldError: PropTypes.func.isRequired,
   getFieldValue: PropTypes.func.isRequired,
-  getFieldDecorator: PropTypes.func.isRequired
+  getFieldDecorator: PropTypes.func.isRequired,
+  updateSelectData: PropTypes.func.isRequired
 };
 
 CSelect.defaultProps = {
@@ -144,6 +145,7 @@ CSelect.defaultProps = {
   getFieldError: noop,
   getFieldDecorator: noop,
   getFieldValue: noop,
+  updateSelectData: noop,
   hidden: false,
   inline: false,
   list: [],

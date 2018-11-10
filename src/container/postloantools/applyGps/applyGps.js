@@ -65,16 +65,28 @@ class applyGps extends React.Component {
             fields,
             pageCode: 632715,
             btnEvent: {
-              apply: (selectedRowKeys, selectedRows) => {
-                this.props.history.push('/postloantools/applyGps/apply');
-              },
-              check: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
+              // 0 待审核、1 审核通过,待发货、2 审核不通过、3 已发货、4 已收货
+              apply: (keys, items) => {
+                let code = keys ? keys[0] : '';
+                if (code) {
+                  if (items[0].status !== '2') {
+                    showWarnMsg('该状态不可申领');
+                  } else {
+                    this.props.history.push(`/postloantools/applyGps/apply?code=${code}`);
+                  }
                 } else {
-                  this.props.history.push(`/postloantools/applyGps/check?code=${selectedRowKeys[0]}`);
+                  this.props.history.push('/postloantools/applyGps/apply');
+                }
+              },
+              check: (keys, items) => {
+                if (!keys.length) {
+                  showWarnMsg('请选择记录');
+                } else if (keys.length > 1) {
+                  showWarnMsg('请选择一条记录');
+                } else if (items[0].status !== '0') {
+                  showWarnMsg('该状态不可审核');
+                } else {
+                  this.props.history.push(`/postloantools/applyGps/check?code=${keys[0]}`);
                 }
               }
             }

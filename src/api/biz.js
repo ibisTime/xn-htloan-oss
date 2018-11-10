@@ -1,4 +1,4 @@
-import { getUserName, getUserId } from 'common/js/util';
+import { getUserName, getUserId, getTeamCode, getRoleCode } from 'common/js/util';
 import fetch from 'common/js/fetch';
 
 export function lowerFrame(code) {
@@ -84,4 +84,13 @@ export function creditWithdraw(code) {
 // 立木征信详情查
 export function getCreditReport(id) {
   return fetch(632948, { id });
+}
+// 获取待办数量
+export function getToDoCount() {
+  return fetch(632911, {
+    teamCode: getTeamCode(),
+    roleCode: getRoleCode(),
+    start: 1,
+    limit: 1
+  });
 }

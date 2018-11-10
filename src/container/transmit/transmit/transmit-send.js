@@ -1,30 +1,19 @@
 import React from 'react';
-import {
-  initStates,
-  doFetching,
-  cancelFetching,
-  setSelectData,
-  setPageData,
-  restore
-} from '@redux/transmit/transmit-send';
+import { Form } from 'antd';
 import { getQueryString, getUserId, showSucMsg } from 'common/js/util';
-import { DetailWrapper } from 'common/js/build-detail';
+import DetailUtil from 'common/js/build-detail-dev';
 import fetch from 'common/js/fetch';
 
-@DetailWrapper(state => state.transmitSend, {
-  initStates,
-  doFetching,
-  cancelFetching,
-  setSelectData,
-  setPageData,
-  restore
-})
-class TransmitSend extends React.Component {
+@Form.create()
+class TransmitSend extends DetailUtil {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
-    this.sendTypeFalg = false;
+    this.state = {
+      ...this.state,
+      sendTypeFalg: false
+    };
   }
   render() {
     const fields = [{
@@ -42,7 +31,7 @@ class TransmitSend extends React.Component {
         listCode: 630147,
         keyName: 'code',
         valueName: 'name',
-        hidden: !this.props.pageData.fromNodeCode,
+        hidden: !this.state.pageData || !this.state.pageData.fromNodeCode,
         readonly: true
     }, {
         title: '收件节点',
@@ -51,7 +40,7 @@ class TransmitSend extends React.Component {
         listCode: 630147,
         keyName: 'code',
         valueName: 'name',
-        hidden: !this.props.pageData.toNodeCode,
+        hidden: !this.state.pageData || !this.state.pageData.toNodeCode,
         readonly: true
     }, {
         title: '业务团队',
@@ -68,12 +57,12 @@ class TransmitSend extends React.Component {
     }, {
         title: '发件人',
         field: 'senderName',
-        hidden: !this.props.pageData.senderName,
+        hidden: !this.state.pageData || !this.state.pageData.senderName,
         readonly: true
     }, {
         title: '收件人',
         field: 'receiverName',
-        hidden: !this.props.pageData.receiverName,
+        hidden: !this.state.pageData || !this.state.pageData.receiverName,
         readonly: true
     }, {
         title: '材料清单',
@@ -98,20 +87,23 @@ class TransmitSend extends React.Component {
         required: true,
         value: '2',
         onChange: (value) => {
-            this.sendTypeFalg = value === '1';
+            let flag = value === '1';
+            if (flag !== this.state.sendTypeFalg) {
+                this.setState({ sendTypeFalg: flag });
+            }
         }
     }, {
         title: '快递公司',
         field: 'logisticsCompany',
         type: 'select',
         key: 'kd_company',
-        required: !this.sendTypeFalg,
-        hidden: this.sendTypeFalg
+        required: !this.state.sendTypeFalg,
+        hidden: this.state.sendTypeFalg
     }, {
         title: '快递单号',
         field: 'logisticsCode',
-        required: !this.sendTypeFalg,
-        hidden: this.sendTypeFalg
+        required: !this.state.sendTypeFalg,
+        hidden: this.state.sendTypeFalg
     }, {
         title: '发货时间',
         field: 'sendDatetime',
@@ -123,10 +115,10 @@ class TransmitSend extends React.Component {
     }, {
         title: '备注',
         field: 'remark',
-        hidden: !this.props.pageData.remark,
+        hidden: !this.state.pageData || !this.state.pageData.remark,
         readonly: true
     }];
-    return this.props.buildDetail({
+    return this.buildDetail({
         fields,
         code: this.code,
         view: this.view,
@@ -134,15 +126,22 @@ class TransmitSend extends React.Component {
         buttons: [{
             title: '确认',
             handler: (param) => {
-                this.props.doFetching();
+                this.doFetching();
                 param.operator = getUserId();
+                if (param.sendType === '1') {
+                  param = {
+                    ...param,
+                    logisticsCompany: '',
+                    logisticsCode: ''
+                  };
+                }
                 fetch(632150, param).then(() => {
                     showSucMsg('操作成功');
-                    this.props.cancelFetching();
+                    this.cancelFetching();
                     setTimeout(() => {
                         this.props.history.go(-1);
                     }, 1000);
-                }).catch(this.props.cancelFetching);
+                }).catch(this.cancelFetching);
             },
             check: true,
             type: 'primary'

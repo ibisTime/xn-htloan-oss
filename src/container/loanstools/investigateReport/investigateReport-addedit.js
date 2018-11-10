@@ -621,7 +621,7 @@ class InvestigateReportAddedit extends React.Component {
                     }).catch(this.props.cancelFetching);
                 }
             }, {
-                title: '发送',
+                title: '提交',
                 check: true,
                 handler: (params) => {
                     params.code = this.code;

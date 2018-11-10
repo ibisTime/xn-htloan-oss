@@ -21,6 +21,7 @@ class applyGpsCheck extends DetailUtil {
     }, {
       title: '业务团队',
       field: 'teamName',
+      hidden: !this.state.pageData || !this.state.pageData.teamName,
       readonly: true
     }, {
       title: '申领个数',
@@ -37,6 +38,7 @@ class applyGpsCheck extends DetailUtil {
     }, {
       title: '客户姓名',
       field: 'customerName',
+      formatter: (v, d) => `${v}-${d.budgetOrderCode}`,
       readonly: true,
       hidden: !this.state.pageData || !this.state.pageData.customerName
     }, {
@@ -61,10 +63,27 @@ class applyGpsCheck extends DetailUtil {
       options: {
         add: true,
         delete: true,
-        scroll: {
-          x: 400
-        },
         fields: [{
+          field: 'gpsType',
+          title: 'GPS类型',
+          type: 'select',
+          data: [{
+            dkey: '0',
+            dvalue: '无线'
+          }, {
+            dkey: '1',
+            dvalue: '有线'
+          }],
+          keyName: 'dkey',
+          valueName: 'dvalue',
+          required: true,
+          onChange: (v, l, updateSelectData) => {
+            if (updateSelectData && this.state.oSelectData['gpsList']) {
+              let list = this.state.oSelectData['gpsList'].code.filter((c) => c.gpsType === v);
+              updateSelectData('code', list);
+            }
+          }
+        }, {
           title: 'GPS设备号',
           field: 'code',
           type: 'select',
@@ -74,17 +93,16 @@ class applyGpsCheck extends DetailUtil {
             useStatus: '0'
           },
           keyName: 'code',
-          valueName: (d) => {
-            let obj = {
-              0: '无线',
-              1: '有线'
-            };
-            return `${d.gpsDevNo} ${obj[d.gpsType]}`;
-          },
+          valueName: 'gpsDevNo',
           nowrap: true,
           required: true
         }]
       }
+    }, {
+      title: '备注',
+      field: 'remark',
+      textarea: true,
+      normalArea: true
     }];
     return this.buildDetail({
       fields,
@@ -94,8 +112,7 @@ class applyGpsCheck extends DetailUtil {
       buttons: [{
         title: '通过',
         handler: (param) => {
-          param.approveResult = '1';
-          param.operater = getUserId();
+          param.operator = getUserId();
           if (!param.gpsList || param.gpsList.length < 1) {
             showWarnMsg('请添加GPS列表');
             return;
@@ -115,11 +132,9 @@ class applyGpsCheck extends DetailUtil {
       }, {
         title: '不通过',
         handler: (param) => {
-          param.approveResult = '0';
-          param.approveNote = this.projectCode;
-          param.operater = getUserId();
+          param.operator = getUserId();
           this.doFetching();
-          fetch(632711, param).then(() => {
+          fetch(632712, param).then(() => {
             showSucMsg('操作成功');
             this.cancelFetching();
             setTimeout(() => {

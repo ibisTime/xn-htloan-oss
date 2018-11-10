@@ -21,6 +21,7 @@ import fetch from 'common/js/fetch';
 import cityData from 'common/js/lib/city';
 import ModalDetail from 'common/js/build-modal-detail';
 import locale from 'common/js/lib/date-locale';
+import CSearchSelect from 'component/cSearchSelect/cSearchSelect';
 
 moment.locale('zh-cn');
 const {Item: FormItem} = Form;
@@ -167,6 +168,9 @@ export default class DetailComponent extends React.Component {
                 } else if (!this.props.selectData[f.field]) {
                     this.props.setSelectData({data: f.data, key: f.field});
                 }
+            // 如果是O2M并且listCode 并且页面第一次加载
+            } else if (f.type === 'o2m' && f.listCode && this.first) {
+                this.getO2MDatas(f);
             }
             children.push(this.getItemByType(f.type, f));
         });
@@ -174,7 +178,26 @@ export default class DetailComponent extends React.Component {
         this.first = false;
         return this.getPageComponent(children);
     }
-
+    // o2m 请求listCode 接口渲染数据
+    getO2MDatas(item) {
+        item.params = item.params || {};
+        fetch(item.listCode, item.params).then((data) => {
+            this.setO2MDatas(item.field, data);
+        });
+    }
+    setO2MDatas(field, data) {
+      let keys = Object.keys(this.props.pageData);
+      if (keys.length) {
+          this.props.setPageData({
+              ...this.props.pageData,
+              // 为o2m的field赋值
+              [field]: data
+          });
+      } else {
+          this.o2mDataTmpls = this.o2mDataTmpls || {};
+          this.o2mDataTmpls[field] = data;
+      }
+    }
     getBuildDetail = (code) => {
         this.first = true;
         this.buildDetail({ code });
@@ -340,8 +363,21 @@ export default class DetailComponent extends React.Component {
         this.props.doFetching();
         fetch(this.options.detailCode, param).then(data => {
             this.props.cancelFetching();
-            this.props.setPageData(data);
+            this.setPageDataAndO2M(data);
         }).catch(this.props.cancelFetching);
+    }
+    setPageDataAndO2M(data) {
+      let pageData = this.props.pageData || {};
+      if (this.o2mDataTmpls) {
+        for (let key in this.o2mDataTmpls) {
+          pageData[key] = this.o2mDataTmpls[key];
+        }
+      }
+      this.props.setPageData({
+        ...data,
+        ...pageData
+      });
+      this.o2mDataTmpls = null;
     }
 
     setSearchLoading(item, flag) {
@@ -570,10 +606,15 @@ export default class DetailComponent extends React.Component {
         o2mSKeys[item.field] = o2mSKeys[item.field] || [];
         const dataSource = initVal || [];
         const selectedRowKeys = o2mSKeys[item.field];
-        const rowSelection = {
+        let rowSelection = {
             selectedRowKeys,
             onChange: (selectedRowKeys) => this.onSelectChange(selectedRowKeys, item.field)
         };
+        // noSelect为true时 列表不可选
+        if (item.options.noSelect) {
+            rowSelection = null;
+        }
+        item.options.key = item.options.rowKey || item.options.key || 'code';
         const hasSelected = selectedRowKeys.length > 0;
         return (
             <FormItem className={item.hidden ? 'hidden' : ''} key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
@@ -1019,51 +1060,76 @@ export default class DetailComponent extends React.Component {
             </FormItem>
         );
     }
-
+    // 获取搜索框类型的控件
     getSearchSelectItem(item, initVal, rules, getFieldDecorator) {
-        let data;
-        if (item.readonly && item.data) {
-            data = item.data.filter(v => v[item.keyName] === initVal);
-        }
-        let value = '';
-        if (initVal) {
-            value = initVal;
-        }
-        return (
-            <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
-                {
-                    item.readonly ? <div
-                            className="readonly-text">{data && data.length ? data[0][item.valueName] || tempString(item.valueName, data[0]) : value}</div>
-                        : getFieldDecorator(item.field, {
-                            rules,
-                            initialValue: item.data || initVal ? initVal : ''
-                        })(
-                        <Select
-                            allowClear
-                            mode="combobox"
-                            showArrow={false}
-                            style={{ minWidth: 200, maxWidth: 400 }}
-                            filterOption={false}
-                            onSearch={v => this.searchSelectChange({item, keyword: v})}
-                            optionLabelProp="children"
-                            notFoundContent={this.state.fetching[item.field] ? <Spin size="small"/> : '暂无数据'}
-                            placeholder="请输入关键字搜索"
-                            onChange={v => {
-                                if (item.onChange && this.state.selectFetch[item.field]) {
-                                    item.onChange(v, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1.code === v) : {}, this.props);
-                                }
-                            }}>
-                            {item.data ? item.data.map(d => (
-                                <Option key={d[item.keyName]} value={d[item.keyName]}>
-                                    {d[item.valueName] ? d[item.valueName] : tempString(item.valueName, d)}
-                                </Option>
-                            )) : null}
-                        </Select>
-                        )
-                }
-            </FormItem>
-        );
+      const props = {
+        initVal,
+        rules,
+        getFieldDecorator,
+        code: this.options.code,
+        params: item.params,
+        pageCode: item.pageCode,
+        searchName: item.searchName,
+        hidden: item.hidden,
+        inline: item.inline,
+        field: item.field,
+        label: this.getLabel(item),
+        keyName: item.keyName,
+        valueName: item.valueName,
+        // dict: item.dict,
+        // dictData: this.state.dictData[item.field],
+        readonly: item.readonly,
+        onChange: item.onChange,
+        getFieldValue: this.props.form.getFieldValue,
+        getFieldError: this.props.form.getFieldError,
+        isLoaded: !this.options.code || this.props.isLoaded
+      };
+      return <CSearchSelect key={item.field} {...props} />;
     }
+    // getSearchSelectItem(item, initVal, rules, getFieldDecorator) {
+    //     let data;
+    //     if (item.readonly && item.data) {
+    //         data = item.data.filter(v => v[item.keyName] === initVal);
+    //     }
+    //     let value = '';
+    //     if (initVal) {
+    //         value = initVal;
+    //     }
+    //     return (
+    //         <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
+    //             {
+    //                 item.readonly ? <div
+    //                         className="readonly-text">{data && data.length ? data[0][item.valueName] || tempString(item.valueName, data[0]) : value}</div>
+    //                     : getFieldDecorator(item.field, {
+    //                         rules,
+    //                         initialValue: item.data || initVal ? initVal : ''
+    //                     })(
+    //                     <Select
+    //                         allowClear
+    //                         mode="combobox"
+    //                         showArrow={false}
+    //                         style={{ minWidth: 200, maxWidth: 400 }}
+    //                         filterOption={false}
+    //                         onSearch={v => this.searchSelectChange({item, keyword: v})}
+    //                         optionLabelProp="children"
+    //                         notFoundContent={this.state.fetching[item.field] ? <Spin size="small"/> : '暂无数据'}
+    //                         placeholder="请输入关键字搜索"
+    //                         onChange={v => {
+    //                             if (item.onChange && this.state.selectFetch[item.field]) {
+    //                                 item.onChange(v, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1.code === v) : {}, this.props);
+    //                             }
+    //                         }}>
+    //                         {item.data ? item.data.map(d => (
+    //                             <Option key={d[item.keyName]} value={d[item.keyName]}>
+    //                                 {d[item.valueName] ? d[item.valueName] : tempString(item.valueName, d)}
+    //                             </Option>
+    //                         )) : null}
+    //                     </Select>
+    //                     )
+    //             }
+    //         </FormItem>
+    //     );
+    // }
 
     getCitySelect(item, initVal, rules, getFieldDecorator) {
         return (

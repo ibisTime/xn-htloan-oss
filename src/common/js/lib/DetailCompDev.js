@@ -52,7 +52,9 @@ export default class DetailComp extends React.Component {
       // 7牛token
       token: '',
       // o2m选中的keys
-      selectedRowKeys: {}
+      selectedRowKeys: {},
+      // o2m下拉框中的数据
+      oSelectData: {}
     };
     this.fetchList = [];
     this.first = true;
@@ -413,7 +415,8 @@ export default class DetailComp extends React.Component {
       onChange: item.onChange,
       getFieldValue: this.props.form.getFieldValue,
       getFieldError: this.props.form.getFieldError,
-      list: this.state.selectData[item.field]
+      list: this.state.selectData[item.field],
+      updateSelectData: this.updateSelectData
     };
     return <CSelect key={item.field} {...props} />;
   }
@@ -439,7 +442,8 @@ export default class DetailComp extends React.Component {
       onChange: item.onChange,
       getFieldValue: this.props.form.getFieldValue,
       getFieldError: this.props.form.getFieldError,
-      isLoaded: !this.options.code || this.state.isLoaded
+      isLoaded: !this.options.code || this.state.isLoaded,
+      updateSelectData: this.updateSelectData
     };
     return <CSearchSelect key={item.field} {...props} />;
   }
@@ -754,5 +758,14 @@ export default class DetailComp extends React.Component {
   }
   cancelFetching = () => {
     this.setState({ fetching: false });
+  }
+  // 更新selectData的数据
+  updateSelectData = (field, data) => {
+    this.setState(prevState => ({
+      selectData: {
+        ...prevState.selectData,
+        [field]: data
+      }
+    }));
   }
 }

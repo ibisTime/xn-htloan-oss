@@ -46,12 +46,9 @@ class applyGpsApply extends React.Component {
       title: '客户姓名',
       field: 'budgetOrderCode',
       type: 'select',
-      pageCode: 632148,
-      params: {
-        roleCode: getRoleCode()
-      },
+      pageCode: 632145,
       keyName: 'code',
-      valueName: 'applyUserName',
+      valueName: '{{applyUserName.DATA}}-{{code.DATA}}',
       searchName: 'applyUserName',
       onChange: (v) => {
         this.haveUser = v !== '';
@@ -80,6 +77,11 @@ class applyGpsApply extends React.Component {
       field: 'mobile',
       hidden: !this.haveUser,
       readonly: true
+    }, {
+      title: '备注',
+      field: 'remark',
+      readonly: true,
+      hidden: !this.props.pageData.remark
     }];
     return this.props.buildDetail({
       fields,
@@ -96,7 +98,8 @@ class applyGpsApply extends React.Component {
           params.mobile = this.props.pageData.mobile;
           params.customerName = this.props.pageData.customerName;
           this.props.doFetching();
-          fetch(632710, params).then(() => {
+          let bizCode = this.code ? 632713 : 632710;
+          fetch(bizCode, params).then(() => {
             showSucMsg('操作成功');
             setTimeout(() => {
               this.props.history.go(-1);
