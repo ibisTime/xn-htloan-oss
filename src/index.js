@@ -17,6 +17,7 @@ const store = createStore(reducers, compose(
 ));
 const Login = asyncComponent(() => import('container/login/login'));
 const Dashboard = asyncComponent(() => import('component/dashboard/dashboard'));
+const Declare = asyncComponent(() => import('container/declare/declare'));
 
 ReactDOM.render(
   <Provider store={store}>
@@ -25,6 +26,7 @@ ReactDOM.render(
         <AuthRoute></AuthRoute>
         <Switch>
           <Route path='/login' component={Login}></Route>
+          <Route path='/declare' component={Declare}></Route>
           <Route component={Dashboard}></Route>
         </Switch>
         <BackTop />

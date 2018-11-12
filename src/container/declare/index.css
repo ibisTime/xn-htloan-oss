@@ -1,0 +1,14 @@
+.declare-detail-wrap {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+.declare-detail-wrap .title {
+    text-align: center;
+    font-size: 22px;
+}
+.declare-detail-wrap .content {
+    margin: 30px 0 70px;
+    font-size: 16px;
+    line-height: 1.8;
+}

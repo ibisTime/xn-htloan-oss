@@ -8,7 +8,10 @@ class AuthRoute extends React.Component {
     if (cookies.get('userId')) {
       return;
     }
-    this.props.history.push('/login');
+    let path = this.props.location.pathname;
+    if (path !== '/declare') {
+      this.props.history.push('/login');
+    }
   }
   render() {
     return null;
