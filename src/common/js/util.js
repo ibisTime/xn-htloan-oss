@@ -649,13 +649,12 @@ function getRealCheckboxVal(result) {
 }
 
 // 资料传递提示
-export function isExpressConfirm(
-  data, type = 'success'
-) {
+export function isExpressConfirm(data, type = 'success') {
   if (data.isExpress === '1') {
     notification[type]({
       message: '系统提示',
-      description: '资料传递记录已生成，待发件'
+      description: '资料传递记录已生成，待发件',
+      duration: 0
     });
   }
 }

@@ -67,6 +67,8 @@ class Demo extends React.Component {
     this.state = {
       fetching: true,
       token: '',
+      // 用于upload控件判断页面是否初始化完成
+      isLoaded: false,
       // 贷款产品数据
       loanProductData: [],
       /* 页面所需数据字典start */
@@ -179,7 +181,8 @@ class Demo extends React.Component {
         showDbrzfbls: this.isShowCard(dbrzfbls, pageData),
         showDbrwxls: this.isShowCard(dbrwxls, pageData),
         token: uploadToken.uploadToken,
-        fetching: false
+        fetching: false,
+        isLoaded: true
       });
     }).catch(() => this.setState({ fetching: false }));
   }
@@ -267,7 +270,7 @@ class Demo extends React.Component {
       readonly: item.readonly,
       onChange: item.onChange,
       token: this.state.token,
-      isLoaded: !this.code || !this.state.fetching,
+      isLoaded: !this.code || this.state.isLoaded,
       getFieldDecorator: this.props.form.getFieldDecorator,
       getFieldError: this.props.form.getFieldError,
       setFieldsValue: this.props.form.setFieldsValue,

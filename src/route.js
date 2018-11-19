@@ -1631,6 +1631,11 @@ const ROUTES = [
       path: '/circulationLog/admittanceBill/addedit',
       component: asyncComponent(() => import('container/circulationLog/admittanceBill/admittanceBill-addedit'))
   },
+  //  准入单日志 准入单详情
+  {
+      path: '/circulationLog/admittanceBill/zrd',
+      component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-addedit'))
+  },
   //  贷后单日志
   {
       path: '/circulationLog/repayment',

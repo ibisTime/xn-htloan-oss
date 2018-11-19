@@ -126,6 +126,7 @@ class AdmittanceBill extends React.Component {
             fields,
             pageCode: 632145,
             btnEvent: {
+                // 详情
                 detail: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -133,6 +134,16 @@ class AdmittanceBill extends React.Component {
                         showWarnMsg('请选择一条记录');
                     } else {
                         this.props.history.push(`/circulationLog/admittanceBill/addedit?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                // 准入单详情
+                zrDetail: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/circulationLog/admittanceBill/zrd?code=${selectedRowKeys[0]}&v=1`);
                     }
                 }
             }
