@@ -19,7 +19,7 @@ export default class Bank4CheckReport extends React.Component {
     if (this.id) {
       this.getCreditReport();
     } else {
-      showWarnMsg('未传人报告编号');
+      showWarnMsg('未传入报告编号');
       this.setState({ fetching: false });
     }
   }
