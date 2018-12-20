@@ -174,7 +174,21 @@ function createMenus(newList, result) {
 
 function sortSubMenus(result) {
   for (let key in result.top2SubObj) {
-    result.top2SubObj[key].sort((a, b) => +a.orderNo > +b.orderNo);
+    sortArray(result.top2SubObj[key]);
+    for (let i = 0; i < result.top2SubObj[key].length; i++) {
+      if (result.top2SubObj[key][i].children) {
+        sortArray(result.top2SubObj[key][i].children);
+      }
+    }
+  }
+}
+function sortArray(arr) {
+  for (let i = 0; i < arr.length - 1; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (+arr[i].orderNo > +arr[j].orderNo) {
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
   }
 }
 

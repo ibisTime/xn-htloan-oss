@@ -13,12 +13,9 @@ import {
   listWrapper
 } from 'common/js/build-list';
 import {
-  showWarnMsg,
-  showSucMsg
+  showWarnMsg
 } from 'common/js/util';
 import {
-  Button,
-  Upload,
   Modal
 } from 'antd';
 import {

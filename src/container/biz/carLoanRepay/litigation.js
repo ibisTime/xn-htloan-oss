@@ -10,7 +10,7 @@ import {
     setSearchData
 } from '@redux/biz/litigation';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, formatDate } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -65,7 +65,8 @@ class litigation extends React.Component {
             amount: true
         }, {
             title: '拖车时间',
-            field: 'takeDatetime'
+            field: 'takeDatetime',
+            render: (v, d) => d.overdueRepayPlan ? formatDate(d.overdueRepayPlan.takeDatetime) : ''
         }, {
             title: '当前节点',
             field: 'curNodeCode',
@@ -73,11 +74,6 @@ class litigation extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name'
-        }, {
-            title: '关键字搜索',
-            field: 'keyword',
-            hidden: true,
-            search: true
         }];
         return this.props.buildList({
             fields,

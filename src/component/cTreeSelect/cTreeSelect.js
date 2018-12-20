@@ -147,6 +147,7 @@ export default class CTreeSelect extends React.Component {
       value = list.filter(v => v[keyName] === initVal);
       value = value && value.length ? value[0][valueName] : initVal;
     }
+    return value;
   }
   render() {
     const { label, field, rules, readonly, hidden, getFieldDecorator,

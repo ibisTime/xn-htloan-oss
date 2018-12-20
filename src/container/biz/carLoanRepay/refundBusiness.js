@@ -55,7 +55,7 @@ class refundBusiness extends React.Component {
     }, {
       title: '贷款银行',
       field: 'loanBankName',
-      render: (v, d) => d.loanBankName ? d.loanBankName + d.budgetOrder.repaySubbranch : ''
+      render: (v, d) => d.budgetOrder ? d.budgetOrder.loanBankName + d.budgetOrder.repaySubbranch : ''
     }, {
       title: '贷款金额(元)',
       field: 'loanAmount',
@@ -116,6 +116,7 @@ class refundBusiness extends React.Component {
         curNodeCode: '003_01'
       },
       btnEvent: {
+        // 还款计划
         refundplan: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
@@ -125,22 +126,34 @@ class refundBusiness extends React.Component {
             this.props.history.push(`/biz/refundBusiness/plan?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
           }
         },
-        changeCard: (selectedRowKeys, selectedRows) => {
+        // 提前还款申请
+        apply: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
           } else {
-            this.props.history.push(`/biz/refundBusiness/changecard?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
+            this.props.history.push(`/biz/refundBusiness/apply?code=${selectedRowKeys[0]}`);
           }
         },
+        // 提前还款审核
         certain: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
           } else {
-            this.props.history.push(`/biz/refundBusiness/certain?code=${selectedRowKeys[0]}`);
+            this.props.history.push(`/biz/refundBusiness/apply?code=${selectedRowKeys[0]}&check=1`);
+          }
+        },
+        // 详情
+        detail: (selectedRowKeys, selectedRows) => {
+          if (!selectedRowKeys.length) {
+            showWarnMsg('请选择记录');
+          } else if (selectedRowKeys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else {
+            this.props.history.push(`/biz/refundBusiness/addedit?code=${selectedRows[0].budgetOrder.code}&v=1`);
           }
         }
       }

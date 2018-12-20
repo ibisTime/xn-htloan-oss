@@ -829,6 +829,15 @@ export default class DetailComponent extends React.Component {
                         });
                     }}
                 >{item.options.checkName}</Button> : null}
+                {item.options.normalBtn ? <Button
+                    type="primary"
+                    disabled={!hasSelected}
+                    style={{marginRight: 20, marginBottom: 16}}
+                    onClick={() => {
+                        let keys = this.state.o2mSKeys[item.field];
+                        item.options.normalHandler(keys);
+                      }
+                    }>{item.options.normalBtnName}</Button> : null}
             </div>
         );
     }
@@ -966,14 +975,7 @@ export default class DetailComponent extends React.Component {
                             rules,
                             initialValue: initVal
                         })(
-                            <TreeSelect
-                              showSearch
-                              style={{ maxWidth: 400 }}
-                              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                              placeholder="请选择"
-                              allowClear
-                              treeDefaultExpandAll
-                            >
+                            <TreeSelect {...this.getTreeSelectProps(item.onChange)}>
                                 {this.renderTreeNodes(this.state.treeData[item.field], item)}
                             </TreeSelect>
                         )
@@ -981,7 +983,21 @@ export default class DetailComponent extends React.Component {
             </FormItem>
         );
     }
-
+    getTreeSelectProps(onChange) {
+      let props = {
+        showSearch: true,
+        filterTreeNode: (input, treeNode) => treeNode.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+        allowClear: true,
+        treeDefaultExpandAll: true,
+        style: { maxWidth: 400 },
+        dropdownStyle: { maxHeight: 400, overflow: 'auto' },
+        placeholder: '请选择'
+      };
+      if (onChange) {
+        props.onChange = (value, label, extra) => onChange(value, label, extra);
+      }
+      return props;
+    }
     getDateItem(item, initVal, rules, getFieldDecorator, isTime = false) {
         let format = isTime ? DATETIME_FORMAT : DATE_FORMAT;
         let places = isTime ? '选择时间' : '选择日期';

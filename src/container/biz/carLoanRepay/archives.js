@@ -97,11 +97,7 @@ class archives extends React.Component {
             type: 'select',
             listCode: 630147,
             keyName: 'code',
-            valueName: 'name'
-        }, {
-            title: '关键字搜索',
-            field: 'keyword',
-            hidden: true,
+            valueName: 'name',
             search: true
         }];
         return this.props.buildList({
@@ -121,7 +117,16 @@ class archives extends React.Component {
                 } else if (selectedRows[0].curNodeCode !== '002_22') {
                   showWarnMsg('当前不是确认入档节点');
                 } else {
-                  this.props.history.push(`/biz/archives/certain?code=${selectedRowKeys[0]}`);
+                  this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}&e=1`);
+                }
+              },
+              detail: (selectedRowKeys, selectedRows) => {
+                if (!selectedRowKeys.length) {
+                  showWarnMsg('请选择记录');
+                } else if (selectedRowKeys.length > 1) {
+                  showWarnMsg('请选择一条记录');
+                } else {
+                  this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}&v=1`);
                 }
               }
             }

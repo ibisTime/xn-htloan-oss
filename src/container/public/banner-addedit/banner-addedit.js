@@ -76,6 +76,7 @@ class BannerAddEdit extends React.Component {
       title: 'banner图片',
       field: 'pic',
       type: 'img',
+      help: '750*379',
       required: true,
       single: true
     }, {

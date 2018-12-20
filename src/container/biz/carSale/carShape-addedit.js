@@ -65,11 +65,13 @@ class CarShapeAddEdit extends React.Component {
       field: 'pic',
       required: true,
       type: 'img',
+      help: '240*160',
       single: true
     }, {
       title: '广告图',
       field: 'advPic',
       required: true,
+      help: '750*500',
       type: 'img'
     }, {
       title: '广告语',
@@ -107,12 +109,9 @@ class CarShapeAddEdit extends React.Component {
       editCode: 630422,
       detailCode: 630427,
       beforeSubmit: (params) => {
-        console.log(this.props.selectData);
         let brand = this.props.selectData.brandCode.find(v => v.code === params.brandCode);
-        console.log(brand);
         params.brandName = brand.name;
         let series = this.props.selectData.seriesCode.find(v => v.code === params.seriesCode);
-        console.log(series);
         params.seriesName = series.name;
         return params;
       }

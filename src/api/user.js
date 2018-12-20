@@ -65,5 +65,10 @@ export function getSysUsers() {
 
 // 修改用户头像
 export function setUserPhoto(photo) {
-    return fetch(630059, { userId: getUserId(), photo });
+  return fetch(630059, { userId: getUserId(), photo });
+}
+
+// 重置c端用户密码
+export function resetUserPwd(userId, newLoginPwd) {
+  return fetch(805062, { userId, newLoginPwd: 888888 });
 }

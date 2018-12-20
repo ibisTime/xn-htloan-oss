@@ -113,8 +113,8 @@ class settlementManager extends React.Component {
                     }
                 }, {
                     title: '实还金额',
-                    field: 'payedAmount',
-                    amount: true
+                    field: 'realRepayAmount',
+                    render: (v) => v ? moneyFormat(v) : '0.00'
                 }, {
                     title: '逾期金额',
                     field: 'overdueAmount',
@@ -131,10 +131,7 @@ class settlementManager extends React.Component {
             }
         }, {
             title: '可退押金金额',
-            field: 'lyDeposit',
-            render: (v, d) => {
-                return moneyFormat(d.lyDeposit + d.overdueAmount);
-            },
+            field: 'retreatDeposit',
             readonly: true,
             amount: true
         }, {

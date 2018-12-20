@@ -113,8 +113,8 @@ class settlementCollection extends React.Component {
                     }
                 }, {
                     title: '实还金额',
-                    field: 'payedAmount',
-                    amount: true
+                    field: 'realRepayAmount',
+                    render: (v) => v ? moneyFormat(v) : '0.00'
                 }, {
                     title: '逾期金额',
                     field: 'overdueAmount',
@@ -130,11 +130,8 @@ class settlementCollection extends React.Component {
                 }]
             }
         }, {
-            title: '可退押金金额',
-            field: 'lyDeposit',
-            render: (v, d) => {
-                return moneyFormat(d.lyDeposit + d.overdueAmount);
-            },
+            title: '可退保证金',
+            field: 'retreatDeposit',
             readonly: true,
             amount: true
         }, {
@@ -142,12 +139,19 @@ class settlementCollection extends React.Component {
             field: 'cutLyDeposit',
             amount: true,
             onChange: (v) => {
-                let lyDeposit = this.props.pageData.lyDeposit;
-                let actualRefunds = this.props.pageData.actualRefund;
-                this.props.setPageData({
-                    ...this.props.pageData,
-                    actualRefunds: lyDeposit - v * 1000
-                });
+                if (+v) {
+                    let retreatDeposit = this.props.pageData.retreatDeposit;
+                    let actualRefunds = this.props.pageData.actualRefund;
+                    this.props.setPageData({
+                        ...this.props.pageData,
+                        actualRefunds: retreatDeposit - v * 1000
+                    });
+                } else {
+                    this.props.setPageData({
+                        ...this.props.pageData,
+                        actualRefunds: this.props.pageData.retreatDeposit
+                    });
+                }
             },
             required: true
         }, {

@@ -22,39 +22,19 @@ class NoticeAddEdit extends React.Component {
   }
   render() {
     const fields = [{
-      field: 'fromSystemCode',
-      value: SYSTEM_CODE,
+      field: 'type',
+      value: '1',
       hidden: true
-    }, {
-      field: 'toSystemCode',
-      value: SYSTEM_CODE,
-      hidden: true
-    }, {
-      field: 'smsType',
-      hidden: true,
-      value: 1
-    }, {
-      title: '针对人群',
-      field: 'toKind',
-      keyCode: '630036',
-      type: 'select',
-      key: 'user_kind',
-      required: true
     }, {
       title: '标题',
-      field: 'smsTitle',
-      required: true,
-      maxlength: 30
+      field: 'title',
+      maxlength: 50,
+      required: true
     }, {
       title: '内容',
-      field: 'smsContent',
-      maxlength: 255,
-        required: true
-    }, {
-      title: '拟发送时间',
-      field: 'topushDatetime',
-      hidden: true,
-      value: 0
+      field: 'content',
+      type: 'textarea',
+      required: true
     }, {
       title: '备注',
       field: 'remark',
@@ -62,17 +42,12 @@ class NoticeAddEdit extends React.Component {
     }];
     return this.props.buildDetail({
       fields,
-      key: 'id',
       code: this.code,
       view: this.view,
-      detailCode: 804042,
-      addCode: 804034,
-      editCode: 804035,
-      beforeSumit: (params) => {
-          params.systemCode = SYSTEM_CODE;
-          params.companyCode = SYSTEM_CODE;
-          return params;
-      }
+      detailCode: 805307,
+      addCode: 805300,
+      editCode: 805301,
+      okText: this.code ? '发布' : '保存'
     });
   }
 }

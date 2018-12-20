@@ -6,12 +6,12 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/bankMoney-settle';
+} from '@redux/biz/insurance-addedit';
 import { getQueryString, getUserId, isExpressConfirm } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
-    state => state.bizBankMoneySettle, {
+    state => state.bizInsuranceAddEdit, {
         initStates,
         doFetching,
         cancelFetching,
@@ -20,7 +20,7 @@ import { DetailWrapper } from 'common/js/build-detail';
         restore
     }
 )
-class bankMoneyAddedit extends React.Component {
+class InsuranceAddEdit extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -84,21 +84,25 @@ class bankMoneyAddedit extends React.Component {
             field: 'carSettleOtherPdf',
             type: 'file',
             required: true
+        }, {
+            title: '抵押日期',
+            field: 'pledgeDatetime',
+            type: 'date',
+            required: true
+        }, {
+            title: '绿大本扫描件',
+            field: 'greenBigSmj',
+            type: 'img',
+            required: true
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
             detailCode: 632146,
-            editCode: 632128,
-            onOk: (data) => {
-                isExpressConfirm(data);
-                setTimeout(() => {
-                    this.props.history.go(-1);
-                }, 1000);
-            }
+            editCode: 632131
         });
     }
 }
 
-export default bankMoneyAddedit;
+export default InsuranceAddEdit;

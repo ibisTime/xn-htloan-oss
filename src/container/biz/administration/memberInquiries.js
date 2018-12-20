@@ -12,7 +12,7 @@ import {
 } from '@redux/biz/memberInquiries';
 import { showSucMsg, showWarnMsg } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
-import { activateUser } from 'api/user';
+import { activateUser, resetUserPwd } from 'api/user';
 
 @listWrapper(
   state => ({
@@ -43,6 +43,11 @@ class MemberInquiries extends React.Component {
       type: 'select',
       key: 'user_status'
     }, {
+      title: '用户类型',
+      field: 'produceType',
+      key: 'produce_type',
+      type: 'select'
+    }, {
       title: '备注',
       field: 'ramark'
     }];
@@ -51,6 +56,28 @@ class MemberInquiries extends React.Component {
       rowKey: 'userId',
       pageCode: 805120,
       btnEvent: {
+        // 重置密码
+        reset: (keys, items) => {
+          if (!keys || !keys.length) {
+            showWarnMsg('请选择记录');
+          } else {
+            Modal.confirm({
+              okText: '确认',
+              cancelText: '取消',
+              content: `确认重置密码为888888吗？`,
+              onOk: () => {
+                this.props.doFetching();
+                return resetUserPwd(keys[0]).then(() => {
+                  this.props.getPageData();
+                  showWarnMsg('操作成功');
+                }).catch(() => {
+                  this.props.cancelFetching();
+                });
+              }
+            });
+          }
+        },
+        // 注销、激活
         rock: (keys, items) => {
           if (!keys || !keys.length || !items || !items.length) {
             showWarnMsg('请选择记录');

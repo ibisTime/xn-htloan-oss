@@ -29,6 +29,7 @@ class BrandAddedit extends React.Component {
       field: 'logo',
       title: 'logo',
       type: 'img',
+      help: '240*160',
       required: true,
       single: true
     }, {

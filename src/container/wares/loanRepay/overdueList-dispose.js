@@ -85,14 +85,13 @@ class blackListDispose extends React.Component {
                 }]
             }
         }, {
-            title: '再次逾期保证金',
+            title: '逾期保证金',
             field: 'overdueDeposit'
         }, {
-            title: '再次逾期保证金收取方式',
+            title: '逾期保证金收取方式',
             field: 'overdueDepositWay',
-            type: 'select',
-            select: true,
-            key: 'repay_way'
+            value: '1',
+            hidden: true
         }, {
             title: '清收成本清单',
             field: 'costList',
@@ -118,37 +117,35 @@ class blackListDispose extends React.Component {
                 }]
             }
         }];
-        return this
-            .props
-            .buildDetail({
-                fields,
-                code: this.code,
-                view: this.view,
-                detailCode: 630541,
-                buttons: [{
-                    title: '保存',
-                    handler: (param) => {
-                        param.bankcardCode = this.bankcardCode;
-                        param.code = this.code;
-                        param.updater = getUserId();
-                        this.props.doFetching();
-                        fetch(630532, param).then(() => {
-                            showSucMsg('操作成功');
-                            this.props.cancelFetching();
-                            setTimeout(() => {
-                                this.props.history.go(-1);
-                            }, 1000);
-                        }).catch(this.props.cancelFetching);
-                    },
-                    check: true,
-                    type: 'primary'
-                }, {
-                    title: '返回',
-                    handler: (param) => {
-                        this.props.history.go(-1);
-                    }
-                }]
-            });
+        return this.props.buildDetail({
+            fields,
+            code: this.code,
+            view: this.view,
+            detailCode: 630541,
+            buttons: [{
+                title: '已处理',
+                handler: (param) => {
+                    param.bankcardCode = this.bankcardCode;
+                    param.code = this.code;
+                    param.updater = getUserId();
+                    this.props.doFetching();
+                    fetch(630532, param).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                },
+                check: true,
+                type: 'primary'
+            }, {
+                title: '返回',
+                handler: (param) => {
+                    this.props.history.go(-1);
+                }
+            }]
+        });
     }
 }
 
