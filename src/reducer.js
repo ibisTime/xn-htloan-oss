@@ -511,7 +511,6 @@ import { securityMemberListAddedit } from './redux/security/memberList-addedit';
 import { waresRefundBusiness } from './redux/wares/refundBusiness';
 import { waresRefundBusinessAddedit } from './redux/wares/refundBusiness-addedit';
 import { waresRefundBusinessPlan } from './redux/wares/refundBusiness-plan';
-import { waresRefundBusinessChangeCard } from './redux/wares/refundBusiness-changeCard';
 import { waresRefundBusinessCertian } from './redux/wares/refundBusiness-certain';
 
 // 当月还款待审核
@@ -847,7 +846,6 @@ export default combineReducers({
   waresRefundBusiness,
   waresRefundBusinessAddedit,
   waresRefundBusinessPlan,
-  waresRefundBusinessChangeCard,
   waresRefundBusinessCertian,
   waresRefundCheck,
   waresRefundCheckAddedit,

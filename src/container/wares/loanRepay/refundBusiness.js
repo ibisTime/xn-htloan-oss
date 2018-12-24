@@ -137,15 +137,6 @@ class refundBusiness extends React.Component {
             this.props.history.push(`/wares/refundBusiness/plan?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
           }
         },
-        changeCard: (selectedRowKeys, selectedRows) => {
-          if (!selectedRowKeys.length) {
-            showWarnMsg('请选择记录');
-          } else if (selectedRowKeys.length > 1) {
-            showWarnMsg('请选择一条记录');
-          } else {
-            this.props.history.push(`/wares/refundBusiness/changecard?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
-          }
-        },
         certain: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');

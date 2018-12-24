@@ -1601,11 +1601,6 @@ const ROUTES = [
       path: '/wares/refundBusiness/plan',
       component: asyncComponent(() => import('container/wares/loanRepay/refundBusiness-plan'))
   },
-  //  还款业务还款卡变更
-  {
-      path: '/wares/refundBusiness/changecard',
-      component: asyncComponent(() => import('container/wares/loanRepay/refundBusiness-changeCard'))
-  },
   //  还款业务确认结清
   {
       path: '/wares/refundBusiness/certain',
