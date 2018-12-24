@@ -1102,50 +1102,6 @@ export default class DetailComponent extends React.Component {
       };
       return <CSearchSelect key={item.field} {...props} />;
     }
-    // getSearchSelectItem(item, initVal, rules, getFieldDecorator) {
-    //     let data;
-    //     if (item.readonly && item.data) {
-    //         data = item.data.filter(v => v[item.keyName] === initVal);
-    //     }
-    //     let value = '';
-    //     if (initVal) {
-    //         value = initVal;
-    //     }
-    //     return (
-    //         <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
-    //             {
-    //                 item.readonly ? <div
-    //                         className="readonly-text">{data && data.length ? data[0][item.valueName] || tempString(item.valueName, data[0]) : value}</div>
-    //                     : getFieldDecorator(item.field, {
-    //                         rules,
-    //                         initialValue: item.data || initVal ? initVal : ''
-    //                     })(
-    //                     <Select
-    //                         allowClear
-    //                         mode="combobox"
-    //                         showArrow={false}
-    //                         style={{ minWidth: 200, maxWidth: 400 }}
-    //                         filterOption={false}
-    //                         onSearch={v => this.searchSelectChange({item, keyword: v})}
-    //                         optionLabelProp="children"
-    //                         notFoundContent={this.state.fetching[item.field] ? <Spin size="small"/> : '暂无数据'}
-    //                         placeholder="请输入关键字搜索"
-    //                         onChange={v => {
-    //                             if (item.onChange && this.state.selectFetch[item.field]) {
-    //                                 item.onChange(v, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1.code === v) : {}, this.props);
-    //                             }
-    //                         }}>
-    //                         {item.data ? item.data.map(d => (
-    //                             <Option key={d[item.keyName]} value={d[item.keyName]}>
-    //                                 {d[item.valueName] ? d[item.valueName] : tempString(item.valueName, d)}
-    //                             </Option>
-    //                         )) : null}
-    //                     </Select>
-    //                     )
-    //             }
-    //         </FormItem>
-    //     );
-    // }
 
     getCitySelect(item, initVal, rules, getFieldDecorator) {
         return (

@@ -109,7 +109,6 @@ import { bizMortgageEnter } from './redux/biz/mortgage-enter';
 //  档案入党 + 详情 + 确认入党
 import { bizArchives } from './redux/biz/archives';
 import { bizArchivesAddEdit } from './redux/biz/archives-addedit';
-import { bizArchivesCertain } from './redux/biz/archives-certain';
 
 //  还款业务管理 + 查看还款计划 + 提前还款申请
 import { bizRefundBusiness } from './redux/biz/refundBusiness';
@@ -689,7 +688,6 @@ export default combineReducers({
   bizMortgageEnter,
   bizArchives,
   bizArchivesAddEdit,
-  bizArchivesCertain,
   bizredList,
   bizredListAddEdit,
   bizredListApply,

@@ -55,12 +55,12 @@ class ArchivesAddEdit extends React.Component {
     this.code = getQueryString('code', this.props.location.search);
     // this.view = !!getQueryString('v', this.props.location.search);
     this.view = true;
-    this.bizType = getQueryString('bizType', this.props.location.search);
     this.enter = !!getQueryString('e', this.props.location.search);
 
     this.state = {
       fetching: true,
       token: '',
+      bizType: '',
       // 用于upload控件判断页面是否初始化完成
       isLoaded: false,
       // 贷款产品数据
@@ -144,7 +144,7 @@ class ArchivesAddEdit extends React.Component {
   }
   componentDidMount() {
     Promise.all([
-      fetch(632177, { status: '2', type: this.bizType }),
+      fetch(632177, { status: '2' }),
       getDictList({ parentKey: 'budget_orde_biz_typer' }),
       getDictList({ parentKey: 'loan_period' }),
       getDictList({ parentKey: 'region' }),
@@ -195,6 +195,7 @@ class ArchivesAddEdit extends React.Component {
         enterFileData,
         enterLocationData,
         pageData,
+        bizType: pageData.bizType,
         showMate: (!!pageData.mateName || (pageData.marryState === '2' && this.view)),
         showGua: !!pageData.guaName,
         showSqryhls: this.isShowCard(sqryhls, pageData),
@@ -573,7 +574,7 @@ class ArchivesAddEdit extends React.Component {
       carFrameData, enterFileData, enterLocationData, showMate, showGua,
       showSqryhls, showSqrzfbls, showSqrwxls, showPoyhls, showPozfbls,
       showPowxls, showDbryhls, showDbrzfbls, showDbrwxls, pageData,
-      isMarried, showMarry
+      isMarried, showMarry, bizType
     } = this.state;
     return (
       <Spin spinning={this.state.fetching}>
@@ -650,15 +651,15 @@ class ArchivesAddEdit extends React.Component {
             </Row>
             <Row gutter={54}>
               {this.getFileCol({ field: 'carPic', title: '车辆照片', type: 'img' }, 3)}
-              {this.getFileCol({ field: 'carHgzPic', title: this.bizType === '1' ? '绿大本' : '合格证照片', type: 'img' }, 3)}
-              {this.getFileCol({ field: 'secondCarReport', _keys: ['credit', 'secondCarReport'], title: '二手车评估报告', type: 'file', required: this.bizType === '1' && !this.view, hidden: this.bizType !== '1' }, 33)}
+              {this.getFileCol({ field: 'carHgzPic', title: bizType === '1' ? '绿大本' : '合格证照片', type: 'img' }, 3)}
+              {this.getFileCol({ field: 'secondCarReport', _keys: ['credit', 'secondCarReport'], title: '二手车评估报告', type: 'file', required: bizType === '1' && !this.view, hidden: bizType !== '1' }, 33)}
             </Row>
             <Row gutter={54}>
-              {this.getFileCol({ field: 'driveLicenseFront', title: '行驶证正面', hidden: this.bizType !== '1', required: this.bizType === '1', type: 'img' }, 2)}
-              {this.getFileCol({ field: 'driveLicenseReverse', title: '行驶证反面', hidden: this.bizType !== '1', required: this.bizType === '1', type: 'img' }, 2)}
+              {this.getFileCol({ field: 'driveLicenseFront', title: '行驶证正面', hidden: bizType !== '1', required: bizType === '1', type: 'img' }, 2)}
+              {this.getFileCol({ field: 'driveLicenseReverse', title: '行驶证反面', hidden: bizType !== '1', required: bizType === '1', type: 'img' }, 2)}
             </Row>
             <Row gutter={54}>
-              {this.getNormalTextAreaCol({ field: 'evaluateColumn', title: '评估栏', hidden: this.bizType !== '1', required: this.bizType === '1' }, 1)}
+              {this.getNormalTextAreaCol({ field: 'evaluateColumn', title: '评估栏', hidden: bizType !== '1', required: bizType === '1' }, 1)}
             </Row>
             {this.checkCommissionerTwo || !isUndefined(pageData.carPriceCheckReport) ? (
               <Row gutter={54}>

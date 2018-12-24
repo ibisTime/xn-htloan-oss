@@ -117,7 +117,7 @@ class archives extends React.Component {
                 } else if (selectedRows[0].curNodeCode !== '002_22') {
                   showWarnMsg('当前不是确认入档节点');
                 } else {
-                  this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}&e=1`);
+                  this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}&e=1`);
                 }
               },
               detail: (selectedRowKeys, selectedRows) => {
@@ -126,7 +126,7 @@ class archives extends React.Component {
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else {
-                  this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}&v=1`);
+                  this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}&v=1`);
                 }
               }
             }

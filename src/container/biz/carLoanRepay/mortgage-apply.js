@@ -77,8 +77,7 @@ class mortgageApply extends React.Component {
             title: '抵押代理人身份证复印件',
             field: 'pledgeUserIdCardCopy',
             type: 'img',
-            readonly: !this.check,
-            required: this.check
+            readonly: !this.check
         }, {
             title: '抵押地点',
             field: 'pledgeAddress',

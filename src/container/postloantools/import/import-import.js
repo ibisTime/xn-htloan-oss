@@ -143,7 +143,7 @@ class importImport extends React.Component {
             allowClear: true,
             optionFilterProp: 'children',
             filterOption: (input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-            style: {width: '100%'},
+            style: { maxWidth: 400 },
             placeholder: '请选择'
         };
         if (item.onChange) {
@@ -182,8 +182,7 @@ class importImport extends React.Component {
 
         return (
             <Form>
-                <FormItem key={this.state.loanBank[0].field}
-                          label={this.state.loanBank[0].title}>
+                <FormItem key={this.state.loanBank[0].field} label={this.state.loanBank[0].title}>
                     { getFieldDecorator(this.state.loanBank[0].field, {
                         rules: [{
                             required: true,
@@ -196,7 +195,10 @@ class importImport extends React.Component {
                                     value={d[this.state.loanBank[0].keyName]}>{tempString(this.state.loanBank[0].valueName, d)}</Option>))}
                         </Select>)}
                 </FormItem>
-                <FormItem label='逾期名单' >
+                <FormItem label='逾期名单模版'>
+                    <div className="readonly-text"><a href="/download/yqmdmb.xlsx" download="逾期名单模版.xlsx">下载</a></div>
+                </FormItem>
+                <FormItem label='逾期名单'>
                     <Upload {...props}>
                         <Button>
                             <Icon type="upload"/>选择文件
