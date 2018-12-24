@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  Form, Input, Select, Row, Col, Spin, Button, Tabs, Divider,
-  Table, DatePicker, Card, Popconfirm, Icon, Tooltip
-} from 'antd';
+import { Form, Row, Col, Spin, Button, Table, Card, Icon, Tooltip } from 'antd';
 import moment from 'moment';
 import CUpload from 'component/cUpload/cUpload';
 import CInput from 'component/cInput/cInput';
@@ -10,10 +7,7 @@ import CSelect from 'component/cSelect/cSelect';
 import CNormalTextArea from 'component/cNormalTextArea/cNormalTextArea';
 import CMonth from 'component/cMonth/cMonth';
 import CRangeDate from 'component/cRangeDate/cRangeDate';
-import {
-  UPLOAD_URL, tailFormItemLayout, DATE_FORMAT, MONTH_FORMAT,
-  validateFieldsAndScrollOption, formItemLayout
-} from 'common/js/config';
+import { tailFormItemLayout, DATE_FORMAT, MONTH_FORMAT, validateFieldsAndScrollOption } from 'common/js/config';
 import {
   getQueryString, showSucMsg, isUndefined, getUserId, getRules,
   getRealValue, moneyFormat, moneyParse, getUserName, dateTimeFormat
@@ -27,10 +21,6 @@ import {
 } from './config';
 
 const FormItem = Form.Item;
-const { TextArea } = Input;
-const { Option } = Select;
-const { TabPane } = Tabs;
-const ruleRequired = { required: true, message: '必填字段' };
 const col2Props = { xs: 32, sm: 24, md: 12, lg: 12 };
 const col3Props = { xs: 32, sm: 24, md: 12, lg: 8 };
 const col33Props = { xs: 32, sm: 24, md: 24, lg: 8 };
@@ -53,7 +43,7 @@ class AdmittanceAddEdit extends React.Component {
     // 区域经理审核
     this.isCheckRegionalManager = !!getQueryString('isCheckRegionalManager', this.props.location.search);
     // 内勤主管审核
-    this.isCheckcheckNq = !!getQueryString('isCheckcheckNq', this.props.location.search);
+    this.isCheckNq = !!getQueryString('isCheckNq', this.props.location.search);
     // 风控一审
     this.isCheckCommissioner = !!getQueryString('isCheckCommissioner', this.props.location.search);
     // 风控二审
@@ -454,7 +444,7 @@ class AdmittanceAddEdit extends React.Component {
     if (this.isCheckRegionalManager) {
         bizCode = 632140;
     // 内勤主管审核
-    } else if (this.isCheckcheckNq) {
+    } else if (this.isCheckNq) {
         bizCode = 632142;
     // 风控一审
     } else if (this.isCheckCommissioner) {
@@ -696,7 +686,7 @@ class AdmittanceAddEdit extends React.Component {
   // 当前是否时审核环节
   isCheck() {
     return this.isCheckCommissioner || this.isCheckDirector ||
-    this.isCheckRegionalManager || this.isCheckcheckNq ||
+    this.isCheckRegionalManager || this.isCheckNq ||
     this.checkCommissionerTwo || this.isbusinessCheck;
   }
   // 获取控件readonly的值
@@ -800,8 +790,8 @@ class AdmittanceAddEdit extends React.Component {
                   <Col {...col2Props}>
                     <FormItem label='车架价格核算'>
                       <div className="readonly-text">
-                        {carFrameData.map(v => (
-                          <a href={v.dvalue} target="_blank">{v.dvalue}</a>
+                        {carFrameData.map((v, i) => (
+                          <a key={i} href={v.dvalue} target="_blank">{v.dvalue}</a>
                         ))}
                       </div>
                     </FormItem>

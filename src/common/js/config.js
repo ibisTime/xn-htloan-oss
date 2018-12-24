@@ -91,6 +91,7 @@ export const curNodePageUrl = {
 
     // 财务垫资
     '002_07': '/loan/advMoney/addedit?code=',
+    '002_29': '/loan/advMoney/addedit?check=1&v=1&code=',
 
     // ************贷前工具************
     // 调查报告
@@ -114,13 +115,17 @@ export const curNodePageUrl = {
     '002_16': '/biz/bankMoney/enter?code=',
     '002_17': '/biz/bankMoney/certain?code=',
 
+    // 录入发保合
+    '002_18': '/biz/insurance/addedit?code=',
+
     // 车辆抵押
-    '002_18': '/biz/mortgage/enter?code=',
     '002_20': '/biz/mortgage/sub?code=',
-    '002_21': '/biz/mortgage/certain?code=',
+    '002_21': '/biz/mortgage/enter?code=',
+    '002_33': '/biz/mortgage/apply?code=',
+    '002_34': '/biz/mortgage/confirm?check=1&code=',
 
     // 档案入档
-    '002_22': '/biz/archives/certain?code=',
+    '002_22': '/biz/archives/addedit?e=1&code=',
 
     // 结清审核
     '003_02': '/biz/settlement/collection?code=',

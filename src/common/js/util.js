@@ -687,8 +687,10 @@ export function getNowCurNodePageUrl(data) {
     return '';
   }
   url += data.refOrder;
-  // 填写准入申请单
-  if (data.dealNode === '002_04' || data.dealNode === '002_01') {
+  // 准入申请单
+  if (data.dealNode === '002_01' || data.dealNode === '002_02' || data.dealNode === '002_03' ||
+    data.dealNode === '002_04' || data.dealNode === '002_24' || data.dealNode === '002_25' ||
+    data.dealNode === '002_27' || data.dealNode === '002_28') {
     url = `${url}&bizType=${data.bizType}&loanBank=${data.loanBank}`;
   }
   return url;
