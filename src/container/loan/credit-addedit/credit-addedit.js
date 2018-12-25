@@ -189,12 +189,7 @@ class CreditAddedit extends React.Component {
             field: 'bizType',
             type: 'select',
             key: 'budget_orde_biz_typer',
-            required: true,
-            onChange: (value) => {
-                if (value) {
-                    this.newCar = value === '0';
-                }
-            }
+            required: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
@@ -204,7 +199,7 @@ class CreditAddedit extends React.Component {
             title: '二手车评估报告',
             field: 'secondCarReport',
             type: 'file',
-            hidden: this.newCar
+            hidden: this.props.pageData.bizType === '0'
         }, {
             title: '征信列表',
             field: 'creditUserList',

@@ -47,7 +47,11 @@ class IntegralexchangeAddedit extends React.Component {
             code: this.code,
             view: this.view,
             detailCode: '630046',
-            editCode: '630042'
+            editCode: '630042',
+            beforeSubmit: (params) => {
+              params.ckey = this.props.pageData.ckey;
+              return params;
+            }
         });
     }
 }

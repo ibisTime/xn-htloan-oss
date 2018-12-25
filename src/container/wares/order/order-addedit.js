@@ -36,21 +36,26 @@ class orderAddedit extends React.Component {
     }, {
       title: '下单人',
       field: 'applyUser',
-      search: true
+      formatter: (v, d) => {
+        return d.user ? d.user.realName : d.applyUser;
+      }
     }, {
       title: '商品名称',
-      render: (v, d) => {
-        return d.productOrderList.productName;
+      field: 'name',
+      formatter: (v, d) => {
+        return d.productOrderList[0].product.name;
       }
     }, {
       title: '订单价格',
-      render: (v, d) => {
-        return d.productOrderList.price / 1000;
+      field: 'price',
+      formatter: (v, d) => {
+        return d.productOrderList[0].price / 1000;
       }
     }, {
       title: '购买数量',
-      render: (v, d) => {
-        return d.productOrderList.quantity;
+      field: 'quantity',
+      formatter: (v, d) => {
+        return d.productOrderList[0].quantity;
       }
     }, {
       title: '首付',
@@ -74,7 +79,8 @@ class orderAddedit extends React.Component {
     }, {
       title: '状态',
       field: 'status',
-      key: 'status'
+      type: 'select',
+      key: 'order_status'
     }, {
       title: '备注',
       field: 'remark'

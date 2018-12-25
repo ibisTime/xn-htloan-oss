@@ -908,7 +908,7 @@ class ArchivesAddEdit extends React.Component {
             </Row>
             <Row gutter={54}>
               {this.getDateItem({ field: 'pledgeBankCommitDatetime', title: '提交时间' })}
-              {this.getInputCol({ field: 'pledgeBankCommitNot', title: '提交说明' })}
+              {this.getInputCol({ field: 'pledgeBankCommitNote', title: '提交说明' })}
             </Row>
           </Card>
           <Card style={{ marginTop: 16 }} title="发保合">

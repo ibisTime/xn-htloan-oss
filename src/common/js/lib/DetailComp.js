@@ -327,13 +327,15 @@ export default class DetailComponent extends React.Component {
     handleCancel = () => this.setState({previewVisible: false})
 
     handlePreview = (file, previewImageField) => {
-        this.setState({
+      // console.log(file);
+      this.setState({
             previewImage: file.url || file.thumbUrl,
             previewVisible: true,
             previewImageField: previewImageField
         });
     }
     handleFilePreview = (file) => {
+      console.log(file);
         if (file.status === 'done') {
             let key = file.key || (file.response && file.response.key) || '';
             window.open(formatFile(key), true);

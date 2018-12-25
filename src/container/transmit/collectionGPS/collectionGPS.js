@@ -98,7 +98,7 @@ class CollectionGPS extends React.Component {
             fields,
             pageCode: 632155,
             searchParams: {
-                receiverName: getUserId(),
+                receiver: getUserId(),
                 type: '2'
             },
             btnEvent: {

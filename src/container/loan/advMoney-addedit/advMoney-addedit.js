@@ -13,14 +13,17 @@ import {
     showSucMsg,
     getUserId
 } from 'common/js/util';
-import {DetailWrapper} from 'common/js/build-detail';
+// import {DetailWrapper} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
+import { Form } from 'antd';
+import DetailUtil from 'common/js/build-detail-dev';
 
-@DetailWrapper(
-    state => state.loanAdvMoneyAddedit,
-    {initStates, doFetching, cancelFetching, setSelectData, setPageData, restore}
-)
-class AdvMoneyAddedit extends React.Component {
+// @DetailWrapper(
+//     state => state.loanAdvMoneyAddedit,
+//     {initStates, doFetching, cancelFetching, setSelectData, setPageData, restore}
+// )
+@Form.create()
+class AdvMoneyAddedit extends DetailUtil {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -66,6 +69,9 @@ class AdvMoneyAddedit extends React.Component {
         }, {
             title: '区域经理',
             field: 'areaName',
+            formatter: (v, d) => {
+                return d.areaMobile ? `${d.areaName}-${d.areaMobile}` : `${d.areaName}`;
+            },
             readonly: true
         }, {
             title: '业务团队',
@@ -229,7 +235,7 @@ class AdvMoneyAddedit extends React.Component {
             }];
         }
         config.fields = fields;
-        return this.props.buildDetail(config);
+        return this.buildDetail(config);
     }
 }
 

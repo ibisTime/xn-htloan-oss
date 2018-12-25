@@ -101,7 +101,8 @@ class refundBusiness extends React.Component {
       type: 'select',
       listCode: 630147,
       keyName: 'code',
-      valueName: 'name'
+      valueName: 'name',
+      search: true
     }, {
       title: '关键字搜索',
       field: 'keyword',

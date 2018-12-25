@@ -174,6 +174,13 @@ class BankMoneyRecord extends React.Component {
                     title: '合格证照片',
                     type: 'img',
                     readonly: true
+                }],
+                [{
+                  field: 'secondCarReport',
+                  title: '二手车评估报告',
+                  type: 'file',
+                  _keys: ['credit', 'secondCarReport'],
+                  readonly: true
                 }]
             ]
         }, {
@@ -319,6 +326,7 @@ class BankMoneyRecord extends React.Component {
                     title: '主要收入来源',
                     type: 'select',
                     key: 'main_income',
+                    multiple: true,
                     readonly: true
                 }],
                 [{
