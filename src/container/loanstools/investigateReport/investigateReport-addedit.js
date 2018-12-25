@@ -135,6 +135,30 @@ class InvestigateReportAddedit extends React.Component {
                     readonly: true
                 }],
                 [{
+                    field: 'jourInterest1',
+                    title: '结息时间1',
+                    type: 'select',
+                    key: 'interest',
+                    readonly: true
+                }, {
+                    field: 'jourInterest2',
+                    title: '结息时间2',
+                    type: 'select',
+                    key: 'interest',
+                    readonly: true
+                }],
+                [{
+                    field: 'interest1',
+                    title: '结息1(元)',
+                    amount: true,
+                    readonly: true
+                }, {
+                    field: 'interest2',
+                    title: '结息2(元)',
+                    amount: true,
+                    readonly: true
+                }],
+                [{
                     field: 'jourIncome',
                     title: '总收入(元)',
                     amount: true,
@@ -167,6 +191,12 @@ class InvestigateReportAddedit extends React.Component {
                     type: 'textarea',
                     normalArea: true,
                     readonly: true
+                }],
+                [{
+                    field: 'jourPic',
+                    title: '申请人银行流水',
+                    type: 'img',
+                    readonly: true
                 }]
             ]
         }, {
@@ -177,7 +207,31 @@ class InvestigateReportAddedit extends React.Component {
                     field: 'jourDatetime1',
                     title: '流水时间',
                     type: 'date',
-                    rangedate: ['wxJourDatetimeStart', 'wxJourDatetimeEnd'],
+                    rangedate: ['zfbJourDatetimeStart', 'zfbJourDatetimeEnd'],
+                    readonly: true
+                }],
+                [{
+                    field: 'zfbJourInterest1',
+                    title: '结息时间1',
+                    type: 'select',
+                    key: 'interest',
+                    readonly: true
+                }, {
+                    field: 'zfbJourInterest2',
+                    title: '结息时间2',
+                    type: 'select',
+                    key: 'interest',
+                    readonly: true
+                }],
+                [{
+                    field: 'zfbInterest1',
+                    title: '结息1(元)',
+                    amount: true,
+                    readonly: true
+                }, {
+                    field: 'zfbInterest2',
+                    title: '结息2(元)',
+                    amount: true,
                     readonly: true
                 }],
                 [{
@@ -214,6 +268,12 @@ class InvestigateReportAddedit extends React.Component {
                     type: 'textarea',
                     normalArea: true,
                     readonly: true
+                }],
+                [{
+                    field: 'zfbJourPic',
+                    title: '申请人银行流水',
+                    type: 'img',
+                    readonly: true
                 }]
             ]
         }, {
@@ -225,6 +285,30 @@ class InvestigateReportAddedit extends React.Component {
                     title: '流水时间',
                     type: 'date',
                     rangedate: ['wxJourDatetimeStart', 'wxJourDatetimeEnd'],
+                    readonly: true
+                }],
+                [{
+                    field: 'wxJourInterest1',
+                    title: '结息时间1',
+                    type: 'select',
+                    key: 'interest',
+                    readonly: true
+                }, {
+                    field: 'wxJourInterest2',
+                    title: '结息时间2',
+                    type: 'select',
+                    key: 'interest',
+                    readonly: true
+                }],
+                [{
+                    field: 'wxInterest1',
+                    title: '结息1(元)',
+                    amount: true,
+                    readonly: true
+                }, {
+                    field: 'wxInterest2',
+                    title: '结息2(元)',
+                    amount: true,
                     readonly: true
                 }],
                 [{
@@ -259,6 +343,12 @@ class InvestigateReportAddedit extends React.Component {
                     title: '流水说明',
                     type: 'textarea',
                     normalArea: true,
+                    readonly: true
+                }],
+                [{
+                    field: 'wxJourPic',
+                    title: '申请人银行流水',
+                    type: 'img',
                     readonly: true
                 }]
             ]
