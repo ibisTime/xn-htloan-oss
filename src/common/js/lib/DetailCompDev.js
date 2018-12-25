@@ -281,6 +281,7 @@ export default class DetailComp extends React.Component {
   }
   // 设置详情页数据
   setPageData(data) {
+    console.log(this.options.useData);
     this.setState({ pageData: this.options.useData }, () => {
       this.setState({ isLoaded: true });
     });
@@ -449,6 +450,7 @@ export default class DetailComp extends React.Component {
   }
   // 获取文件图片上传类型的控件
   getFileComp(item, initVal, rules, getFieldDecorator, isImg) {
+    console.log(initVal);
     const props = {
       initVal,
       rules,
@@ -761,6 +763,7 @@ export default class DetailComp extends React.Component {
   }
   // 更新selectData的数据
   updateSelectData = (field, data) => {
+    debugger;
     this.setState(prevState => ({
       selectData: {
         ...prevState.selectData,

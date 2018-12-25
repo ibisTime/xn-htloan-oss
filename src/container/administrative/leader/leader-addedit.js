@@ -55,7 +55,7 @@ class leaderAddedit extends React.Component {
                     let data = {};
                     data.code = this.code;
                     data.remark = params.remark;
-                    data.approveResult = '2';
+                    data.approveResult = '0';
                     data.updater = getUserId();
                     this.props.doFetching();
                     fetch(632651, data).then(() => {

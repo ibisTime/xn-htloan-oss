@@ -7,7 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/administrative/fixedAssets-addedit';
-import {getQueryString, getUserId, showSucMsg} from 'common/js/util';
+import {getQueryString, getUserId, showSucMsg, moneyFormat} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
@@ -126,7 +126,7 @@ class fixedAssetsAddedit extends React.Component {
                     required: true,
                     onChange: (v, data, props) => {
                         props.setPageData({
-                            price: data.price
+                            price: moneyFormat(data.price)
                         });
                     }
                 }, {

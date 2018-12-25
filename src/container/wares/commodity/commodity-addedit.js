@@ -1,28 +1,10 @@
 import React from 'react';
-import {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-} from '@redux/wares/commodity-addedit';
-import {
-    getQueryString
-} from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
+import { Form } from 'antd';
+import {getQueryString} from 'common/js/util';
+import DetailUtil from 'common/js/build-detail-dev';
 
-@DetailWrapper(state => state.waresCommoditAddedit, {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-})
-class commodityAddedit extends React.Component {
+@Form.create()
+class commodityAddedit extends DetailUtil {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -58,12 +40,14 @@ class commodityAddedit extends React.Component {
             title: '缩略图',
             field: 'pic',
             required: true,
-            type: 'img'
+            type: 'img',
+            help: '240px*160px'
         }, {
             title: '广告图',
             field: 'advPic',
             required: true,
-            type: 'img'
+            type: 'img',
+            help: '750px*540px'
         }, {
             title: '原价',
             field: 'originalPrice',
@@ -139,7 +123,7 @@ class commodityAddedit extends React.Component {
             type: 'textarea',
             required: true
         }];
-        return this.props.buildDetail({
+        return this.buildDetail({
             fields,
             code: this.code,
             view: this.view,

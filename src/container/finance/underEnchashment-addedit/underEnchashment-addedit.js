@@ -7,7 +7,7 @@ import {
   setPageData,
   restore
 } from '@redux/finance/underEnchashment-addedit';
-import { getQueryString, getUserId } from 'common/js/util';
+import { getQueryString, getUserId, moneyFormat } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
@@ -35,13 +35,24 @@ class UnderEnchashmentAddEdit extends React.Component {
       //     ['type', 'account_type']
       // ],
       params: {
-        currency: 'CNY'
+        currency: 'CNY',
+        start: 1,
+        limit: 10
       },
       keyName: 'accountNumber',
       valueName: '{{realName.DATA}} - {{currency.DATA}} - {{type.DATA}}',
       searchName: 'realName',
       required: true,
-      help: '支持户名查询'
+      help: '支持户名查询',
+      onChange: (v, d, l) => {
+        console.log(v);
+        console.log(d);
+        console.log(l);
+      }
+    }, {
+      field: 'amount1',
+      title: '余额',
+      readonly: true
     }, {
       field: 'amount',
       title: '取现金额',

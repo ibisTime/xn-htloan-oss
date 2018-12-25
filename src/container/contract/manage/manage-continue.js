@@ -74,6 +74,7 @@ class manageContinue extends React.Component {
         buttons: [{
           title: '确认',
           handler: (param) => {
+            param.archiveCode = this.props.pageData.archiveCode;
             param.updater = getUserId();
             this.props.doFetching();
             fetch(632830, param).then(() => {

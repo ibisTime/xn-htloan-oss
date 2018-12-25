@@ -31,10 +31,10 @@ class AdvMoneyAddedit extends DetailUtil {
         this.check = !!getQueryString('check', this.props.location.search);
     }
     checkRecord(params) {
-        this.props.doFetching();
+      this.doFetching();
         fetch(632143, params).then(() => {
             showSucMsg('操作成功');
-            this.props.cancelFetching();
+          this.cancelFetching();
             setTimeout(() => {
                 this.props.history.go(-1);
             }, 1000);

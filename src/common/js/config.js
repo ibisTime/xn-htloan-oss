@@ -153,6 +153,9 @@ export const curNodePageUrl = {
     // 出勤审批
     '009_02': '/attendance/travel/departmentCheck?code=',
     '009_03': '/attendance/travel/financeCheck?code=',
-    '009_04': '/attendance/travel/managerCheck?code='
+    '009_04': '/attendance/travel/managerCheck?code=',
+
+  // 财务退款
+    '008_01': '/loanstools/refund/certain?code='
 
 };

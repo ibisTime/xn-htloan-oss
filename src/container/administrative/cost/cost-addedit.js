@@ -82,7 +82,7 @@ class costAddedit extends React.Component {
     }
 
     render() {
-        let fields = [{
+        this.fields = [{
             title: '类型',
             field: 'type',
             type: 'select',
@@ -281,7 +281,7 @@ class costAddedit extends React.Component {
             }];
         }
         return this.props.buildDetail({
-            fields,
+            fields: this.fields,
             code: this.code,
             view: this.view,
             addCode: 632670,

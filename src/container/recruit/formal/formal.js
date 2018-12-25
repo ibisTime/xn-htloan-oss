@@ -18,11 +18,6 @@ import {
     formatDate
 } from 'common/js/util';
 import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
-import {
     receiveGoods
 } from 'api/biz';
 
@@ -95,7 +90,7 @@ class formal extends React.Component {
             title: '入职日期',
             field: 'entryDatetime',
             render: (v, d) => {
-                return formatDate(d.archice.entryDatetime);
+                return d.entryApply ? formatDate(d.entryApply.entryDatetime) : '-';
             },
             nowrap: true
         }, {

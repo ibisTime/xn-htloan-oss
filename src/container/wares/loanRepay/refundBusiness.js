@@ -17,11 +17,6 @@ import {
   showSucMsg
 } from 'common/js/util';
 import {
-  Button,
-  Upload,
-  Modal
-} from 'antd';
-import {
   lowerFrame,
   onShelf
 } from 'api/biz';
@@ -57,7 +52,7 @@ class refundBusiness extends React.Component {
       type: 'select',
       pageCode: 805120,
       keyName: 'userId',
-      valueName: 'realName',
+      valueName: '{{realName.DATA}}',
       searchName: 'realName'
     }, {
       title: '手机号',
@@ -68,7 +63,14 @@ class refundBusiness extends React.Component {
       nowrap: true
     }, {
       title: '贷款银行',
-      field: 'loanBankName'
+      // field: 'loanBankName'
+      field: 'loanBank',
+      type: 'select',
+      listCode: 802116,
+      keyName: 'bankCode',
+      valueName: 'bankName',
+      _keys: ['repayBiz', 'loanBank'],
+      required: true
   }, {
       title: '贷款金额',
       field: 'loanAmount',

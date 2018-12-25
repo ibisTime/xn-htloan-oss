@@ -100,7 +100,7 @@ class refundAddedit extends React.Component {
             type: 'select',
             listCode: 632037,
             keyName: 'bankCode',
-            valueName: 'bankName'
+            valueName: '{{bankCode.DATA}}-{{bankName.DATA}}'
         }, {
             title: '开户支行',
             field: 'backAdvanceSubbranch'
