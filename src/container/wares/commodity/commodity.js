@@ -70,10 +70,10 @@ class Commodity extends React.Component {
             title: 'UI位置',
             type: 'select',
             data: [{
-                key: '0',
+                key: '1',
                 value: '普通'
             }, {
-                key: '1',
+                key: '0',
                 value: '首页推荐'
             }],
             keyName: 'key',

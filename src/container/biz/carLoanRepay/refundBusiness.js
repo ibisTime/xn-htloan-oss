@@ -38,7 +38,7 @@ class refundBusiness extends React.Component {
       field: 'userId',
       search: true,
       render: (v, d) => {
-        return d.user.realName;
+        return d.realName;
       },
       type: 'select',
       pageCode: 805120,

@@ -35,9 +35,7 @@ class UnderEnchashmentAddEdit extends React.Component {
       //     ['type', 'account_type']
       // ],
       params: {
-        currency: 'CNY',
-        start: 1,
-        limit: 10
+        currency: 'CNY'
       },
       keyName: 'accountNumber',
       valueName: '{{realName.DATA}} - {{currency.DATA}} - {{type.DATA}}',
@@ -49,10 +47,6 @@ class UnderEnchashmentAddEdit extends React.Component {
         console.log(d);
         console.log(l);
       }
-    }, {
-      field: 'amount1',
-      title: '余额',
-      readonly: true
     }, {
       field: 'amount',
       title: '取现金额',

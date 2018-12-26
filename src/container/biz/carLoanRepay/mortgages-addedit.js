@@ -29,13 +29,21 @@ class mortgagesAddedit extends React.Component {
     render() {
         const fields = [{
             title: '客户姓名',
-            field: 'applyUserName'
+            field: 'applyUserName',
+            formatter: (v, d) => {
+              return d.user ? d.user.realName : '-';
+            }
         }, {
             title: '业务编号',
             field: 'code'
         }, {
-            title: '贷款银行',
-            field: 'loanBankName'
+          title: '贷款银行',
+          field: 'loanBank',
+          type: 'select',
+          listCode: 632037,
+          keyName: 'code',
+          valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
+          readonly: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
@@ -49,7 +57,7 @@ class mortgagesAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146
+            detailCode: 630521
         });
     }
 }

@@ -38,7 +38,7 @@ class AdvMoneyAddedit extends DetailUtil {
             setTimeout(() => {
                 this.props.history.go(-1);
             }, 1000);
-        }).catch(this.props.cancelFetching);
+        }).catch(this.cancelFetching);
     }
     render() {
         let _this = this;

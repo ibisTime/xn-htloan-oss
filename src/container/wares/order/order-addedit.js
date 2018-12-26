@@ -69,6 +69,10 @@ class orderAddedit extends React.Component {
       title: '分期期数',
       field: 'periods'
     }, {
+      title: '下单时间',
+      field: 'applyDatetime',
+      type: 'datetime'
+    }, {
       title: '发货时间',
       field: 'deliveryDatetime',
       type: 'datetime'

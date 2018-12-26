@@ -64,7 +64,8 @@ class overdueList extends React.Component {
       }
     }, {
       title: '逾期金额',
-      field: 'overdueAmount'
+      field: 'overdueAmount',
+      amount: true
     }, {
       title: '逾期日期',
       field: 'repayDatetime',

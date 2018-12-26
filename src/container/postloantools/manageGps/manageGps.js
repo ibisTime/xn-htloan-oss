@@ -75,9 +75,9 @@ class manageGps extends React.Component {
             }
         }, {
             title: '内勤专员',
-            field: 'insideJob',
+            field: 'insideJobName',
             render: (v, d) => {
-                return d.budgetOrder ? d.budgetOrder.insideJob : '';
+                return d.budgetOrder ? d.budgetOrder.insideJobName : '';
             }
         }, {
             title: '归属公司',

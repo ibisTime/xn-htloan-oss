@@ -98,7 +98,7 @@ class refundAddedit extends React.Component {
             field: 'backAdvanceOpenBank',
           // field: 'loanBank',
             type: 'select',
-            listCode: 632037,
+            listCode: 802116,
             keyName: 'bankCode',
             valueName: '{{bankCode.DATA}}-{{bankName.DATA}}'
         }, {

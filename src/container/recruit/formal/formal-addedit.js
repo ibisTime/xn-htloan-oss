@@ -7,10 +7,7 @@ import {
   setPageData,
   restore
 } from '@redux/recruit/formal-addedit.js';
-import {
-  getQueryString,
-  formatDate
-} from 'common/js/util';
+import {getQueryString, formatDate} from 'common/js/util';
 import {
   CollapseWrapper
 } from 'component/collapse-detail/collapse-detail';
@@ -38,31 +35,42 @@ class formalAddedit extends React.Component {
             [{
                 title: '姓名',
                 field: 'realName',
-                render: (v, d) => {
+                formatter: (v, d) => {
                     return d.user.realName;
                 },
                 readonly: true
             }, {
-                title: '部门',
-                field: 'departmentCode',
-                listCode: 630106,
-                params: {
-                  typeList: '2'
-                },
-                keyName: 'code',
-                valueName: 'name',
-                readonly: true
+              title: '部门',
+              field: 'departmentCode',
+              type: 'select',
+              formatter: (v, d) => {
+                if (d) {
+                  return d.user.departmentCode;
+                }
+              },
+              listCode: 630106,
+              params: {
+                typeList: ['2']
+              },
+              keyName: 'code',
+              valueName: 'name',
+              readonly: true
             }, {
-                title: '职位',
-                field: 'postCode',
-                required: true,
-                listCode: 630106,
-                params: {
-                  typeList: '3'
-                },
-                keyName: 'code',
-                valueName: 'name',
-                readonly: true
+              title: '职位',
+              field: 'position',
+              type: 'select',
+              formatter: (v, d) => {
+                if (d) {
+                  return d.user.postCode;
+                }
+              },
+              listCode: 630106,
+              params: {
+                typeList: ['3']
+              },
+              keyName: 'code',
+              valueName: 'name',
+              readonly: true
             }],
             [{
                 title: '入职时间',
@@ -111,53 +119,117 @@ class formalAddedit extends React.Component {
         field: 'probationAssessList',
         items: [
             [{
-                title: '本岗位职责',
-                field: 'remitType',
-                type: 'select',
-                key: 'remit_type',
-                required: true
+              title: '本岗位职责',
+              field: 'post_duties',
+              type: 'select',
+              key: 'post_duties',
+              formatter: (v, d) => {
+                if (d) {
+                  return d.probationAssessesList.find(p => {
+                    return p.evalItem === 'post_duties';
+                  }).grade;
+                }
+                return null;
+              },
+              readonly: true
             }, {
-                title: '工作程序',
-                field: 'remitType',
-                type: 'select',
-                key: 'remit_type',
-                required: true
+              title: '工作程序',
+              field: 'work_procedure',
+              type: 'select',
+              key: 'work_procedure',
+              formatter: (v, d) => {
+                if (d) {
+                  return d.probationAssessesList.find(p => {
+                    return p.evalItem === 'work_procedure';
+                  }).grade;
+                }
+                return null;
+              },
+              readonly: true
             }, {
-                title: '工作素质',
-                field: 'remitType',
-                type: 'select',
-                key: 'remit_type',
-                required: true
+              title: '工作素质',
+              field: 'work_quality',
+              type: 'select',
+              key: 'work_quality',
+              formatter: (v, d) => {
+                if (d) {
+                  return d.probationAssessesList.find(p => {
+                    return p.evalItem === 'work_quality';
+                  }).grade;
+                }
+                return null;
+              },
+              readonly: true
             }, {
-                title: '工作效率',
-                field: 'remitType',
-                type: 'select',
-                key: 'remit_type',
-                required: true
+              title: '工作效率',
+              field: 'work_efficiency',
+              type: 'select',
+              key: 'work_efficiency',
+              formatter: (v, d) => {
+                if (d) {
+                  return d.probationAssessesList.find(p => {
+                    return p.evalItem === 'work_efficiency';
+                  }).grade;
+                }
+                return null;
+              },
+              readonly: true
             }, {
-                title: '自觉性',
-                field: 'remitType',
-                type: 'select',
-                key: 'remit_type',
-                required: true
+              title: '自觉性',
+              field: 'consciousness',
+              type: 'select',
+              key: 'consciousness',
+              formatter: (v, d) => {
+                if (d) {
+                  return d.probationAssessesList.find(p => {
+                    return p.evalItem === 'consciousness';
+                  }).grade;
+                }
+                return null;
+              },
+              readonly: true
             }, {
-                title: '沟通能力',
-                field: 'remitType',
-                type: 'select',
-                key: 'remit_type',
-                required: true
+              title: '沟通能力',
+              field: 'communication_skills',
+              type: 'select',
+              key: 'communication_skills',
+              formatter: (v, d) => {
+                if (d) {
+                  return d.probationAssessesList.find(p => {
+                    return p.evalItem === 'communication_skills';
+                  }).grade;
+                }
+                return null;
+              },
+              readonly: true
             }, {
-                title: '领导/合作能力',
-                field: 'remitType',
-                type: 'select',
-                key: 'remit_type',
-                required: true
+              title: '领导/合作能力',
+              field: 'cooperative_ability',
+              type: 'select',
+              key: 'cooperative_ability',
+              formatter: (v, d) => {
+                if (d) {
+                  return d.probationAssessesList.find(p => {
+                    return p.evalItem === 'cooperative_ability';
+                  }).grade;
+                }
+                return null;
+              },
+              readonly: true
             }, {
-                title: '出勤',
-                field: 'remitType',
-                type: 'select',
-                key: 'remit_type',
-                required: true
+              title: '出勤',
+              field: 'attendance',
+              type: 'select',
+              key: 'attendance',
+              formatter: (v, d) => {
+                if (d) {
+                  return d.probationAssessesList.find(p => {
+                    return p.evalItem === 'attendance';
+                  }).grade;
+                }
+                return null;
+              },
+              readonly: true
             }, {
                 title: '总分',
                 field: 'remitType',

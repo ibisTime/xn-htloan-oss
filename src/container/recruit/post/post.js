@@ -18,11 +18,6 @@ import {
     showSucMsg
 } from 'common/js/util';
 import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
-import {
     receiveGoods
 } from 'api/biz';
 
@@ -56,7 +51,7 @@ class post extends React.Component {
             field: 'jobNo',
             render: (v, d) => {
                 if(d && d.user) {
-                    return d.archice.jobNo;
+                    return d.archice ? d.archice.jobNo ? d.archice.jobNo : '-' : '-';
                 }
             }
         }, {

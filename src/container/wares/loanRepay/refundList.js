@@ -10,7 +10,7 @@ import {
   setSearchData
 } from '@redux/wares/refundList';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, moneyFormat } from 'common/js/util';
 import { Modal } from 'antd';
 import { sendMsg } from 'api/biz';
 
@@ -58,7 +58,9 @@ class RefundList extends React.Component {
     }, {
       title: '月供',
       field: 'monthAmount',
-      amount: true
+      render: (v, d) => {
+        return moneyFormat(d.repayBiz.monthAmount);
+      }
     }];
     return this.props.buildList({
         fields,

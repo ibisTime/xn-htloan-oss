@@ -111,6 +111,9 @@ class Repayment extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 630520,
+            searchParams: {
+              refType: 0
+            },
             btnEvent: {
                 refundplan: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {

@@ -128,6 +128,7 @@ class blackListDispose extends React.Component {
                     param.bankcardCode = this.bankcardCode;
                     param.code = this.code;
                     param.updater = getUserId();
+                    param.dealResult = 1;
                     this.props.doFetching();
                     fetch(630532, param).then(() => {
                         showSucMsg('操作成功');
