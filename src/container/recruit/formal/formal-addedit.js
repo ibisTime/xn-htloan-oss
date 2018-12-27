@@ -27,6 +27,34 @@ class formalAddedit extends React.Component {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
+    this.gradeList = [
+      'post_duties',
+      'work_procedure',
+      'work_quality',
+      'work_efficiency',
+      'consciousness',
+      'communication_skills',
+      'cooperative_ability',
+      'attendance'
+    ];
+  }
+  handleChange = (v, d) => {
+    // debugger;
+    setTimeout(() => {
+      let {
+        getFieldsValue
+      } = this.props.form;
+      let result = getFieldsValue(this.gradeList);
+      let sum = 0;
+      console.log(v, d, result);
+      for (let key in result) {
+        sum += Number(result[key]);
+      }
+      this.props.setPageData({
+        ...this.props.pageData,
+        gradeAll: sum
+      });
+    }, 100);
   }
   render() {
     const fields = [{
@@ -131,6 +159,7 @@ class formalAddedit extends React.Component {
                 }
                 return null;
               },
+              onChange: this.handleChange,
               readonly: true
             }, {
               title: '工作程序',
@@ -145,6 +174,7 @@ class formalAddedit extends React.Component {
                 }
                 return null;
               },
+              onChange: this.handleChange,
               readonly: true
             }, {
               title: '工作素质',
@@ -159,6 +189,7 @@ class formalAddedit extends React.Component {
                 }
                 return null;
               },
+              onChange: this.handleChange,
               readonly: true
             }, {
               title: '工作效率',
@@ -173,6 +204,7 @@ class formalAddedit extends React.Component {
                 }
                 return null;
               },
+              onChange: this.handleChange,
               readonly: true
             }, {
               title: '自觉性',
@@ -187,6 +219,7 @@ class formalAddedit extends React.Component {
                 }
                 return null;
               },
+              onChange: this.handleChange,
               readonly: true
             }, {
               title: '沟通能力',
@@ -201,6 +234,7 @@ class formalAddedit extends React.Component {
                 }
                 return null;
               },
+              onChange: this.handleChange,
               readonly: true
             }, {
               title: '领导/合作能力',
@@ -215,6 +249,7 @@ class formalAddedit extends React.Component {
                 }
                 return null;
               },
+              onChange: this.handleChange,
               readonly: true
             }, {
               title: '出勤',
@@ -229,10 +264,11 @@ class formalAddedit extends React.Component {
                 }
                 return null;
               },
+              onChange: this.handleChange,
               readonly: true
             }, {
                 title: '总分',
-                field: 'remitType',
+                field: 'gradeAll',
                 number: true
             }]
         ]

@@ -7,9 +7,8 @@ import {
     setPageData,
     restore
 } from '@redux/biz/mortgage-enter';
-import { getQueryString, showSucMsg, getUserId } from 'common/js/util';
+import { getQueryString, showSucMsg, getUserId, isExpressConfirm } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
-import fetch from 'common/js/fetch';
 
 @DetailWrapper(
     state => state.bizMortgageEnter, {
@@ -106,7 +105,13 @@ class mortgageEnter extends React.Component {
             code: this.code,
             view: this.view,
             detailCode: 632146,
-            editCode: 632133
+            editCode: 632133,
+            onOk: (data) => {
+              isExpressConfirm(data);
+              setTimeout(() => {
+                this.props.history.go(-1);
+              }, 1000);
+            }
         });
     }
 }

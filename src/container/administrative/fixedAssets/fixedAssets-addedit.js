@@ -132,6 +132,7 @@ class fixedAssetsAddedit extends React.Component {
                 }, {
                     title: '出库价格',
                     field: 'price',
+                    amount: this.code,
                     readonly: true,
                     required: true
                 }, {

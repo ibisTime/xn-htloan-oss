@@ -4,7 +4,8 @@ import {
     getQueryString,
     showWarnMsg,
     showSucMsg,
-    getUserId
+    getUserId,
+    isExpressConfirm
 } from 'common/js/util';
 import DetailUtil from 'common/js/build-detail-dev';
 import fetch from 'common/js/fetch';
@@ -145,8 +146,9 @@ class FaceSignAddedit extends DetailUtil {
                     data.approveNote = params.approveNote;
                     data.operator = getUserId();
                     this.doFetching();
-                    fetch(bizCode, data).then(() => {
+                    fetch(bizCode, data).then((res) => {
                         showSucMsg('操作成功');
+                        isExpressConfirm(res);
                         this.cancelFetching();
                         setTimeout(() => {
                             this.props.history.go(-1);
