@@ -9,19 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/circulationLog/creditBill';
-import {
-    showWarnMsg,
-    showSucMsg,
-    getRoleCode,
-    dateTimeFormat,
-    getTeamCode
-} from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    creditWithdraw
-} from 'api/biz';
+import { showWarnMsg, dateTimeFormat } from 'common/js/util';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -113,13 +102,22 @@ class CreditBill extends React.Component {
             fields,
             pageCode: 632116,
             btnEvent: {
-                detail: (selectedRowKeys, selectedRows) => {
+                detail: (selectedRowKeys) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
                         this.props.history.push(`/circulationLog/creditBill/addedit?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                creditDetail: (selectedRowKeys) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/circulationLog/creditBill/credit?code=${selectedRowKeys[0]}&v=1`);
                     }
                 }
             }

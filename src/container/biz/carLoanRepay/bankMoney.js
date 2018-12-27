@@ -116,6 +116,7 @@ class bankMoney extends React.Component {
         intevCurNodeCodeList: ['002_11', '002_13', '002_14', '002_15', '002_16', '002_17', '002_31', '002_37', '002_38']
       },
       btnEvent: {
+        // 确认提交银行
         sub: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
@@ -127,6 +128,7 @@ class bankMoney extends React.Component {
             this.props.history.push(`/biz/bankMoney/sub?code=${selectedRowKeys[0]}`);
           }
         },
+        // 录入放款信息
         enter: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
@@ -138,6 +140,7 @@ class bankMoney extends React.Component {
             this.props.history.push(`/biz/bankMoney/enter?code=${selectedRowKeys[0]}`);
           }
         },
+        // 确认收款
         certain: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
@@ -149,6 +152,7 @@ class bankMoney extends React.Component {
             this.props.history.push(`/biz/bankMoney/certain?code=${selectedRowKeys[0]}`);
           }
         },
+        // 资料补录
         record: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
@@ -161,7 +165,7 @@ class bankMoney extends React.Component {
             selectedRows[0].intevCurNodeCode !== '002_16') {
             showWarnMsg('当前不是录入节点');
           } else {
-            this.props.history.push(`/biz/bankMoney/record?code=${selectedRowKeys[0]}`);
+            this.props.history.push(`/biz/bankMoney/record?code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}`);
           }
         }
       }

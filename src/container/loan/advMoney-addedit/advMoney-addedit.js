@@ -31,10 +31,10 @@ class AdvMoneyAddedit extends DetailUtil {
         this.check = !!getQueryString('check', this.props.location.search);
     }
     checkRecord(params) {
-      this.doFetching();
+        this.doFetching();
         fetch(632143, params).then(() => {
             showSucMsg('操作成功');
-          this.cancelFetching();
+            this.cancelFetching();
             setTimeout(() => {
                 this.props.history.go(-1);
             }, 1000);
@@ -70,7 +70,7 @@ class AdvMoneyAddedit extends DetailUtil {
             title: '区域经理',
             field: 'areaName',
             formatter: (v, d) => {
-                return d.areaMobile ? `${d.areaName}-${d.areaMobile}` : `${d.areaName}`;
+                return d.areaMobile ? `${d.areaName}-${d.areaMobile}` : `${d.areaName || ''}`;
             },
             readonly: true
         }, {

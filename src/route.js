@@ -1716,6 +1716,11 @@ const ROUTES = [
       path: '/circulationLog/creditBill/addedit',
       component: asyncComponent(() => import('container/circulationLog/creditBill/creditBill-addedit'))
   },
+  //  征信单日志 征信详情
+  {
+    path: '/circulationLog/creditBill/credit',
+    component: asyncComponent(() => import('container/loan/credit-addedit/credit-addedit'))
+  },
   //  准入单日志
   {
       path: '/circulationLog/admittanceBill',
@@ -1729,12 +1734,7 @@ const ROUTES = [
   //  准入单日志 准入单详情
   {
       path: '/circulationLog/admittanceBill/zrd',
-      component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-addedit'))
-  },
-  //  准入单日志 财务垫资详情
-  {
-      path: '/circulationLog/admittanceBill/cw',
-      component: asyncComponent(() => import('container/loan/advMoney-addedit/advMoney-addedit'))
+      component: asyncComponent(() => import('container/biz/carLoanRepay/archives-addedit'))
   },
   //  贷后单日志
   {

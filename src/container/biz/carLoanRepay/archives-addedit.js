@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  Form, Input, Select, Row, Col, Spin, Button, Tabs, Divider,
-  Table, DatePicker, Card, Popconfirm, Icon, Tooltip
-} from 'antd';
+import { Form, Row, Col, Spin, Button, Table, Card, Icon, Tooltip } from 'antd';
 import moment from 'moment';
 import CUpload from 'component/cUpload/cUpload';
 import CInput from 'component/cInput/cInput';
@@ -11,27 +8,20 @@ import CNormalTextArea from 'component/cNormalTextArea/cNormalTextArea';
 import CMonth from 'component/cMonth/cMonth';
 import CRangeDate from 'component/cRangeDate/cRangeDate';
 import CDate from 'component/cDate/cDate';
-import {
-  UPLOAD_URL, tailFormItemLayout, DATE_FORMAT, MONTH_FORMAT,
-  validateFieldsAndScrollOption, formItemLayout
-} from 'common/js/config';
+import { tailFormItemLayout, validateFieldsAndScrollOption } from 'common/js/config';
 import {
   getQueryString, showSucMsg, isUndefined, getUserId, getRules,
-  getRealValue, moneyFormat, moneyParse, getUserName, dateTimeFormat
+  getRealValue, dateTimeFormat
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
 import {
-  amountFields, rangeDateFields, sqryhls, sqrzfbls, sqrwxls,
-  poyhls, pozfbls, powxls, dbryhls, dbrzfbls, dbrwxls
+  sqryhls, sqrzfbls, sqrwxls, poyhls, pozfbls, powxls, dbryhls,
+  dbrzfbls, dbrwxls
 } from '../../loan/admittance-addedit/config';
 
 const FormItem = Form.Item;
-const { TextArea } = Input;
-const { Option } = Select;
-const { TabPane } = Tabs;
-const ruleRequired = { required: true, message: '必填字段' };
 const col2Props = { xs: 32, sm: 24, md: 12, lg: 12 };
 const col3Props = { xs: 32, sm: 24, md: 12, lg: 8 };
 const col33Props = { xs: 32, sm: 24, md: 24, lg: 8 };
@@ -80,7 +70,6 @@ class ArchivesAddEdit extends React.Component {
       incomeData: [],
       positionData: [],
       professionData: [],
-      carFrameData: [],
       loanRoleData: [],
       enterFileData: [],
       enterLocationData: [],
@@ -160,7 +149,6 @@ class ArchivesAddEdit extends React.Component {
       getDictList({ parentKey: 'position' }),
       getDictList({ parentKey: 'work_profession' }),
       getDictList({ parentKey: 'interest' }),
-      getDictList({ parentKey: 'car_frame_price_count' }),
       getDictList({ parentKey: 'credit_user_loan_role' }),
       fetch(632217),
       fetch(632827),
@@ -170,7 +158,7 @@ class ArchivesAddEdit extends React.Component {
       loanProductData, bizTypeData, loanPeriodData, regionData, carTypeData,
       genderData, marryStateData, educationData, addressData, relationData,
       industryData, propertyData, incomeData, positionData, professionData,
-      interestData, carFrameData, loanRoleData, enterFileData, enterLocationData,
+      interestData, loanRoleData, enterFileData, enterLocationData,
       uploadToken, pageData
     ]) => {
       this.setState({
@@ -190,7 +178,6 @@ class ArchivesAddEdit extends React.Component {
         positionData,
         professionData,
         interestData,
-        carFrameData,
         loanRoleData,
         enterFileData,
         enterLocationData,
@@ -483,12 +470,6 @@ class ArchivesAddEdit extends React.Component {
   }
   // 返回
   onCancel = () => this.props.history.go(-1)
-  // 当前是否时审核环节
-  isCheck() {
-    return this.isCheckCommissioner || this.isCheckDirector ||
-    this.isCheckRegionalManager || this.isCheckcheckNq ||
-    this.checkCommissionerTwo || this.isbusinessCheck;
-  }
   // 获取控件readonly的值
   isReadonly(item) {
     return isUndefined(item.readonly) ? this.view : item.readonly;
@@ -571,10 +552,9 @@ class ArchivesAddEdit extends React.Component {
       bizTypeData, loanPeriodData, loanProductData, regionData, carTypeData,
       genderData, marryStateData, educationData, addressData, relationData,
       industryData, propertyData, incomeData, positionData, professionData,
-      carFrameData, enterFileData, enterLocationData, showMate, showGua,
-      showSqryhls, showSqrzfbls, showSqrwxls, showPoyhls, showPozfbls,
-      showPowxls, showDbryhls, showDbrzfbls, showDbrwxls, pageData,
-      isMarried, showMarry, bizType
+      enterFileData, enterLocationData, showMate, showGua, showSqryhls,
+      showSqrzfbls, showSqrwxls, showPoyhls, showPozfbls, showPowxls,
+      showDbryhls, showDbrzfbls, showDbrwxls, isMarried, showMarry, bizType
     } = this.state;
     return (
       <Spin spinning={this.state.fetching}>
@@ -661,22 +641,9 @@ class ArchivesAddEdit extends React.Component {
             <Row gutter={54}>
               {this.getNormalTextAreaCol({ field: 'evaluateColumn', title: '评估栏', hidden: bizType !== '1', required: bizType === '1' }, 1)}
             </Row>
-            {this.checkCommissionerTwo || !isUndefined(pageData.carPriceCheckReport) ? (
-              <Row gutter={54}>
-                {this.checkCommissionerTwo ? (
-                  <Col {...col2Props}>
-                    <FormItem label='车架价格核算'>
-                      <div className="readonly-text">
-                        {carFrameData.map(v => (
-                          <a href={v.dvalue} target="_blank">{v.dvalue}</a>
-                        ))}
-                      </div>
-                    </FormItem>
-                  </Col>
-                ) : null}
-                {this.getFileCol({ field: 'carPriceCheckReport', title: '车辆价格核实报告', type: 'img' }, this.checkCommissionerTwo ? 2 : 1)}
-              </Row>
-            ) : null}
+            <Row gutter={54}>
+              {this.getFileCol({ field: 'carPriceCheckReport', title: '车辆价格核实报告', type: 'img' }, 1)}
+            </Row>
           </Card>
           <Card style={{ marginTop: 16 }} title="申请人基本信息">
             <Row gutter={54}>

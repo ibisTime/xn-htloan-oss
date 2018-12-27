@@ -9,21 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/circulationLog/admittanceBill';
-import {
-    showWarnMsg,
-    showSucMsg,
-    getRoleCode,
-    dateTimeFormat,
-    getTeamCode
-} from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    lowerFrame,
-    onShelf,
-    sendMsg
-} from 'api/biz';
+import { showWarnMsg, dateTimeFormat } from 'common/js/util';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -127,7 +114,7 @@ class AdmittanceBill extends React.Component {
             pageCode: 632145,
             btnEvent: {
                 // 详情
-                detail: (selectedRowKeys, selectedRows) => {
+                detail: (selectedRowKeys) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
@@ -137,23 +124,13 @@ class AdmittanceBill extends React.Component {
                     }
                 },
                 // 准入单详情
-                zrDetail: (selectedRowKeys, selectedRows) => {
+                zrDetail: (selectedRowKeys) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
                         this.props.history.push(`/circulationLog/admittanceBill/zrd?code=${selectedRowKeys[0]}&v=1`);
-                    }
-                },
-                // 财务垫资详情
-                cwDetail: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else {
-                        this.props.history.push(`/circulationLog/admittanceBill/cw?code=${selectedRowKeys[0]}&v=1`);
                     }
                 }
             }
