@@ -10,6 +10,7 @@ import {
     setSearchData
 } from '@redux/statistic/businessReport';
 import { listWrapper } from 'common/js/build-list';
+import { getUserId } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -146,7 +147,10 @@ class BusinessReport extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632915
+            pageCode: 632915,
+            searchParams: {
+              userId: getUserId()
+            }
         });
     }
 }

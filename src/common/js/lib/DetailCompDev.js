@@ -763,7 +763,6 @@ export default class DetailComp extends React.Component {
   }
   // 更新selectData的数据
   updateSelectData = (field, data) => {
-    debugger;
     this.setState(prevState => ({
       selectData: {
         ...prevState.selectData,
