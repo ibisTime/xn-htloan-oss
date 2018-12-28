@@ -119,8 +119,6 @@ export default class CUpload extends React.Component {
   }
   // 获取文件上传的初始值
   getFileInitVal(initVal, isImg = true) {
-    // debugger;
-    console.log(initVal);
     let initValue = [];
     if (initVal) {
       initValue = initVal.split('||').map(key => ({
