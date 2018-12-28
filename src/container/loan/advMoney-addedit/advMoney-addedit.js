@@ -1,27 +1,13 @@
 import React from 'react';
 import {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-} from '@redux/loan/advMoney-addedit';
-import {
     getQueryString,
-    showWarnMsg,
     showSucMsg,
     getUserId
 } from 'common/js/util';
-// import {DetailWrapper} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 import { Form } from 'antd';
 import DetailUtil from 'common/js/build-detail-dev';
 
-// @DetailWrapper(
-//     state => state.loanAdvMoneyAddedit,
-//     {initStates, doFetching, cancelFetching, setSelectData, setPageData, restore}
-// )
 @Form.create()
 class AdvMoneyAddedit extends DetailUtil {
     constructor(props) {

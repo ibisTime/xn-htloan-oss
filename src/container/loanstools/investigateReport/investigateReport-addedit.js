@@ -1,31 +1,16 @@
 import React from 'react';
-import {
-    getQueryString,
-    getUserId,
-    showWarnMsg,
-    showSucMsg,
-    moneyParse,
-    moneyFormat
-} from 'common/js/util';
-import {CollapseWrapper} from 'component/collapse-detail/collapse-detail';
-import {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-} from '@redux/loanstools/investigateReport-addedit';
+import { getQueryString, getUserId, showSucMsg } from 'common/js/util';
 import fetch from 'common/js/fetch';
+import { Form } from 'antd';
+import DetailUtil from 'common/js/build-detail-dev';
+import Print from 'common/js/print/init';
 
-@CollapseWrapper(
-    state => state.loanstoolsInvestigateReportAddedit,
-    {initStates, doFetching, cancelFetching, setSelectData, setPageData, restore}
-)
-class InvestigateReportAddedit extends React.Component {
+@Form.create()
+class InvestigateReportAddedit extends DetailUtil {
     constructor(props) {
         super(props);
         this.state = {
+            ...this.state,
             isSelfCompany: true
         };
 
@@ -654,16 +639,14 @@ class InvestigateReportAddedit extends React.Component {
                     data.approveNote = params.approveNote;
                     data.approveResult = '1';
                     data.updater = getUserId();
-                    this.props.doFetching();
+                    this.doFetching();
                     fetch(bizCode, data).then(() => {
-                        this.props.cancelFetching();
+                        this.cancelFetching();
                         showSucMsg('操作成功');
                         setTimeout(() => {
                             this.props.history.go(-1);
                         }, 1000);
-                    }).catch(() => {
-                        this.props.cancelFetching();
-                    });
+                    }).catch(this.cancelFetching);
                 }
             }, {
                 title: '不通过',
@@ -674,15 +657,71 @@ class InvestigateReportAddedit extends React.Component {
                     data.approveNote = params.approveNote;
                     data.approveResult = '0';
                     data.updater = getUserId();
-                    this.props.doFetching();
+                    this.doFetching();
                     fetch(bizCode, data).then(() => {
-                        this.props.cancelFetching();
+                        this.cancelFetching();
                         showSucMsg('操作成功');
                         setTimeout(() => {
                             this.props.history.go(-1);
                         }, 1000);
-                    }).catch(() => {
-                        this.props.cancelFetching();
+                    }).catch(this.cancelFetching);
+                }
+            }, {
+                title: '返回',
+                handler: () => {
+                    this.props.history.go(-1);
+                }
+            }];
+        } else if (!this.view) {
+            buttons = [{
+                title: '保存',
+                handler: (params) => {
+                    params.code = this.code;
+                    params.approveResult = '0';
+                    params.updater = getUserId();
+                    params.creditCode = this.state.pageData.creditCode;
+                    params.applyUserName = this.state.pageData.applyUserName;
+                    params.bizType = this.state.pageData.bizType;
+                    params.idNo = this.state.pageData.idNo;
+                    this.doFetching();
+                    fetch(632200, params).then(() => {
+                        showSucMsg('操作成功');
+                        this.cancelFetching();
+                    }).catch(this.cancelFetching);
+                }
+            }, {
+                title: '提交',
+                check: true,
+                handler: (params) => {
+                    params.code = this.code;
+                    params.approveResult = '1';
+                    params.updater = getUserId();
+                    params.creditCode = this.state.pageData.creditCode;
+                    params.applyUserName = this.state.pageData.applyUserName;
+                    params.bizType = this.state.pageData.bizType;
+                    params.idNo = this.state.pageData.idNo;
+                    this.doFetching();
+                    fetch(632200, params).then(() => {
+                        showSucMsg('操作成功');
+                        this.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.cancelFetching);
+                }
+            }, {
+                title: '返回',
+                handler: () => {
+                    this.props.history.go(-1);
+                }
+            }];
+        } else if (this.view) {
+            buttons = [{
+                title: '打印',
+                handler: () => {
+                    Print.init({
+                        printable: '_content_wrapper_',
+                        documentTitle: '调查报告'
                     });
                 }
             }, {
@@ -693,53 +732,9 @@ class InvestigateReportAddedit extends React.Component {
             }];
         }
 
-        if (!this.view && !this.isCheckCommissioner && !this.isCheckStationed) {
-            buttons = [{
-                title: '保存',
-                handler: (params) => {
-                    params.code = this.code;
-                    params.approveResult = '0';
-                    params.updater = getUserId();
-                    params.creditCode = this.props.pageData.creditCode;
-                    params.applyUserName = this.props.pageData.applyUserName;
-                    params.bizType = this.props.pageData.bizType;
-                    params.idNo = this.props.pageData.idNo;
-                    this.props.doFetching();
-                    fetch(632200, params).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                    }).catch(this.props.cancelFetching);
-                }
-            }, {
-                title: '提交',
-                check: true,
-                handler: (params) => {
-                    params.code = this.code;
-                    params.approveResult = '1';
-                    params.updater = getUserId();
-                    params.creditCode = this.props.pageData.creditCode;
-                    params.applyUserName = this.props.pageData.applyUserName;
-                    params.bizType = this.props.pageData.bizType;
-                    params.idNo = this.props.pageData.idNo;
-                    this.props.doFetching();
-                    fetch(632200, params).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.props.cancelFetching);
-                }
-            }, {
-                title: '返回',
-                handler: (param) => {
-                    this.props.history.go(-1);
-                }
-            }];
-        }
-
-        return this.props.buildDetail({
+        return this.buildDetail({
             fields,
+            type: 'card',
             code: this.code,
             view: this.view,
             detailCode: 632206,
