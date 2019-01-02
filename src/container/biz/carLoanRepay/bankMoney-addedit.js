@@ -47,19 +47,41 @@ class bankMoneyAddedit extends React.Component {
             title: '贷款银行',
             field: 'loanBankName'
         }, {
-            title: '放款时间',
+            title: '卡号',
+            field: 'repayBankcardNumber',
+            bankCard: true
+        }, {
+            title: '放款日期',
             field: 'bankFkDatetime',
-            type: 'date',
-            required: true
+            type: 'date'
+        }, {
+            title: '银行账单日',
+            field: 'repayBillDate'
+        }, {
+            title: '银行还款日',
+            field: 'repayBankDate'
+        }, {
+            title: '公司还款日',
+            field: 'repayCompanyDate'
+        }, {
+            title: '首期还款日期',
+            field: 'repayFirstMonthDatetime',
+            type: 'date'
+        }, {
+            title: '首期月供金额',
+            field: 'repayFirstMonthAmount',
+            amount: true
+        }, {
+            title: '每期月供金额',
+            field: 'repayMonthAmount',
+            amount: true
         }, {
             title: '收款账号',
-            field: 'receiptBankcardNumber',
-            required: true
+            field: 'receiptBankcardNumber'
         }, {
             title: '收款凭证',
             field: 'receiptPdf',
-            type: 'img',
-            required: true
+            type: 'img'
         }, {
             title: '备注',
             field: 'remark'

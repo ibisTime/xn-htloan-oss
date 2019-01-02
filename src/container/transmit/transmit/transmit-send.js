@@ -15,6 +15,9 @@ class TransmitSend extends DetailUtil {
       sendTypeFalg: false
     };
   }
+  sortNumber = (a, b) => {
+    return a - b;
+  }
   render() {
     const fields = [{
         title: '客户姓名',
@@ -126,22 +129,24 @@ class TransmitSend extends DetailUtil {
         buttons: [{
             title: '确认',
             handler: (param) => {
-                this.doFetching();
-                param.operator = getUserId();
-                if (param.sendType === '1') {
-                  param = {
-                    ...param,
-                    logisticsCompany: '',
-                    logisticsCode: ''
-                  };
-                }
-                fetch(632150, param).then(() => {
-                    showSucMsg('操作成功');
-                    this.cancelFetching();
-                    setTimeout(() => {
-                        this.props.history.go(-1);
-                    }, 1000);
-                }).catch(this.cancelFetching);
+              this.doFetching();
+              param.operator = getUserId();
+              if (param.sendType === '1') {
+                param = {
+                  ...param,
+                  logisticsCompany: '',
+                  logisticsCode: ''
+                };
+              }
+              let fileList = param.filelist.split(',').sort(this.sortNumber).toString();
+              param.filelist = fileList;
+              fetch(632150, param).then(() => {
+                  showSucMsg('操作成功');
+                  this.cancelFetching();
+                  setTimeout(() => {
+                      this.props.history.go(-1);
+                  }, 1000);
+              }).catch(this.cancelFetching);
             },
             check: true,
             type: 'primary'

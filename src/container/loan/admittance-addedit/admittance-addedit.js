@@ -1,6 +1,5 @@
 import React from 'react';
-import { Form, Input, Select, Row, Col, Spin, Button, Tabs, Divider,
-  Table, DatePicker, Card, Popconfirm, Icon, Tooltip } from 'antd';
+import { Form, Row, Col, Spin, Button, Table, Card, Icon, Tooltip } from 'antd';
 import moment from 'moment';
 import CUpload from 'component/cUpload/cUpload';
 import CInput from 'component/cInput/cInput';
@@ -8,37 +7,33 @@ import CSelect from 'component/cSelect/cSelect';
 import CNormalTextArea from 'component/cNormalTextArea/cNormalTextArea';
 import CMonth from 'component/cMonth/cMonth';
 import CRangeDate from 'component/cRangeDate/cRangeDate';
-import { UPLOAD_URL, tailFormItemLayout, DATE_FORMAT, MONTH_FORMAT,
-  validateFieldsAndScrollOption, formItemLayout } from 'common/js/config';
-import { getQueryString, showSucMsg, isUndefined, getUserId, getRules,
-  getRealValue, moneyFormat, moneyParse, getUserName } from 'common/js/util';
+import { tailFormItemLayout, DATE_FORMAT, MONTH_FORMAT, validateFieldsAndScrollOption } from 'common/js/config';
+import {
+  getQueryString, showSucMsg, isUndefined, getUserId, getRules,
+  getRealValue, moneyFormat, moneyParse, getUserName, dateTimeFormat
+} from 'common/js/util';
 import fetch from 'common/js/fetch';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
-import { amountFields, rangeDateFields, sqryhls, sqrzfbls, sqrwxls,
-  poyhls, pozfbls, powxls, dbryhls, dbrzfbls, dbrwxls } from './config';
+import {
+  amountFields, rangeDateFields, sqryhls, sqrzfbls, sqrwxls,
+  poyhls, pozfbls, powxls, dbryhls, dbrzfbls, dbrwxls
+} from './config';
 
 const FormItem = Form.Item;
-const { TextArea } = Input;
-const { Option } = Select;
-const { TabPane } = Tabs;
-const ruleRequired = { required: true, message: '必填字段' };
 const col2Props = { xs: 32, sm: 24, md: 12, lg: 12 };
 const col3Props = { xs: 32, sm: 24, md: 12, lg: 8 };
 const col33Props = { xs: 32, sm: 24, md: 24, lg: 8 };
 const col4Props = { xs: 32, sm: 24, md: 12, lg: 6 };
 
 // 是否垫资数据字典
-const isAdvFundData = [{
-  k: '0',
-  v: '否'
-}, {
-  k: '1',
-  v: '是'
-}];
+const isAdvFundData = [
+  { k: '0', v: '否' },
+  { k: '1', v: '是' }
+];
 
 @Form.create()
-class Demo extends React.Component {
+class AdmittanceAddEdit extends React.Component {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
@@ -48,7 +43,7 @@ class Demo extends React.Component {
     // 区域经理审核
     this.isCheckRegionalManager = !!getQueryString('isCheckRegionalManager', this.props.location.search);
     // 内勤主管审核
-    this.isCheckcheckNq = !!getQueryString('isCheckcheckNq', this.props.location.search);
+    this.isCheckNq = !!getQueryString('isCheckNq', this.props.location.search);
     // 风控一审
     this.isCheckCommissioner = !!getQueryString('isCheckCommissioner', this.props.location.search);
     // 风控二审
@@ -92,6 +87,9 @@ class Demo extends React.Component {
       pageData: {},
       // 是否自营企业
       isSelfCompany: false,
+      // 婚姻状况
+      isMarried: false,
+      showMarry: false,
       // 配偶信息
       showMate: false,
       // 担保人信息
@@ -113,8 +111,34 @@ class Demo extends React.Component {
       // 担保人支付宝流水
       showDbrzfbls: false,
       // 担保人微信流水
-      showDbrwxls: false
+      showDbrwxls: false,
+      // 流转日志
+      records: [],
+      // 所有节点（用于解析节点）
+      dealNodeList: []
     };
+    this.columns = [{
+      title: '操作人',
+      dataIndex: 'operatorName'
+    }, {
+      title: '开始时间',
+      dataIndex: 'startDatetime',
+      render: dateTimeFormat
+    }, {
+      title: '结束时间',
+      dataIndex: 'endDatetime',
+      render: dateTimeFormat
+    }, {
+      title: '花费时长',
+      dataIndex: 'speedTime'
+    }, {
+      title: '审核意见',
+      dataIndex: 'dealNote'
+    }, {
+      title: '当前节点',
+      dataIndex: 'dealNode',
+      render: this.formatDealNote
+    }];
   }
   componentDidMount() {
     Promise.all([
@@ -169,7 +193,7 @@ class Demo extends React.Component {
         interestData,
         carFrameData,
         pageData,
-        showMate: !!pageData.mateName,
+        showMate: (!!pageData.mateName || (pageData.marryState === '2' && this.view)),
         showGua: !!pageData.guaName,
         showSqryhls: this.isShowCard(sqryhls, pageData),
         showSqrzfbls: this.isShowCard(sqrzfbls, pageData),
@@ -180,11 +204,20 @@ class Demo extends React.Component {
         showDbryhls: this.isShowCard(dbryhls, pageData),
         showDbrzfbls: this.isShowCard(dbrzfbls, pageData),
         showDbrwxls: this.isShowCard(dbrwxls, pageData),
+        isSelfCompany: pageData.mainIncome && pageData.mainIncome.includes('4'),
+        isMarried: pageData.marryState === '2',
+        showMarry: pageData.marryState === '2' || pageData.marryState === '3',
         token: uploadToken.uploadToken,
         fetching: false,
         isLoaded: true
       });
     }).catch(() => this.setState({ fetching: false }));
+    fetch(630176, { refOrder: this.code }).then((records) => {
+      this.setState({ records });
+    }).catch(() => {});
+    fetch(630147).then((dealNodeList) => {
+      this.setState({ dealNodeList });
+    }).catch(() => {});
   }
   isShowCard(fields, pageData) {
     for (let i = 0; i < fields.length; i++) {
@@ -411,7 +444,7 @@ class Demo extends React.Component {
     if (this.isCheckRegionalManager) {
         bizCode = 632140;
     // 内勤主管审核
-    } else if (this.isCheckcheckNq) {
+    } else if (this.isCheckNq) {
         bizCode = 632142;
     // 风控一审
     } else if (this.isCheckCommissioner) {
@@ -595,6 +628,16 @@ class Demo extends React.Component {
       });
     }
   }
+  // 婚姻情况改变
+  marryChange = (v) => {
+    this.setState({
+      isMarried: v === '2',
+      showMarry: v === '2' || v === '3'
+    });
+    if (v === '2' && !this.state.showMate) {
+      this.setState({ showMate: true });
+    }
+  }
   // 获取label
   getLabel(item) {
     return (
@@ -643,7 +686,7 @@ class Demo extends React.Component {
   // 当前是否时审核环节
   isCheck() {
     return this.isCheckCommissioner || this.isCheckDirector ||
-    this.isCheckRegionalManager || this.isCheckcheckNq ||
+    this.isCheckRegionalManager || this.isCheckNq ||
     this.checkCommissionerTwo || this.isbusinessCheck;
   }
   // 获取控件readonly的值
@@ -655,13 +698,30 @@ class Demo extends React.Component {
     }
     return isUndefined(item.readonly) ? this.view || this.isCheck() : item.readonly;
   }
+  // 获取table的props
+  getTableProps() {
+    return {
+      columns: this.columns,
+      dataSource: this.state.records,
+      rowSelection: null,
+      bordered: true,
+      rowKey: record => record.id
+    };
+  }
+  // 解析流转日志的节点
+  formatDealNote = (v) => {
+    const obj = this.state.dealNodeList.find(d => d.code === v);
+    return obj ? obj.name : '';
+  }
   render() {
-    const { bizTypeData, loanPeriodData, loanProductData, regionData, carTypeData,
+    const {
+      bizTypeData, loanPeriodData, loanProductData, regionData, carTypeData,
       genderData, marryStateData, educationData, addressData, relationData,
       industryData, propertyData, incomeData, positionData, professionData,
       carFrameData, showMate, showGua, showSqryhls, showSqrzfbls, showSqrwxls,
       showPoyhls, showPozfbls, showPowxls, showDbryhls, showDbrzfbls,
-      showDbrwxls, pageData } = this.state;
+      showDbrwxls, pageData, isMarried, showMarry
+    } = this.state;
     let readonly = false;
     return (
       <Spin spinning={this.state.fetching}>
@@ -713,8 +773,9 @@ class Demo extends React.Component {
               {this.getInputCol({ field: 'settleAddress', title: '落户地点', required: true }, 1)}
             </Row>
             <Row gutter={54}>
-              {this.getFileCol({ field: 'carPic', title: '车辆照片', type: 'img', required: true }, 2)}
-              {this.getFileCol({ field: 'carHgzPic', title: this.bizType === '1' ? '绿大本' : '合格证照片', type: 'img', required: true }, 2)}
+              {this.getFileCol({ field: 'carPic', title: '车辆照片', type: 'img', required: true }, 3)}
+              {this.getFileCol({ field: 'carHgzPic', title: this.bizType === '1' ? '绿大本' : '合格证照片', type: 'img', required: true }, 3)}
+              {this.getFileCol({ field: 'secondCarReport', _keys: ['credit', 'secondCarReport'], title: '二手车评估报告', type: 'file', required: this.bizType === '1' && !this.view, hidden: this.bizType !== '1' }, 33)}
             </Row>
             <Row gutter={54}>
               {this.getFileCol({ field: 'driveLicenseFront', title: '行驶证正面', hidden: this.bizType !== '1', required: this.bizType === '1', type: 'img' }, 2)}
@@ -729,8 +790,8 @@ class Demo extends React.Component {
                   <Col {...col2Props}>
                     <FormItem label='车架价格核算'>
                       <div className="readonly-text">
-                        {carFrameData.map(v => (
-                          <a href={v.dvalue} target="_blank">{v.dvalue}</a>
+                        {carFrameData.map((v, i) => (
+                          <a key={i} href={v.dvalue} target="_blank">{v.dvalue}</a>
                         ))}
                       </div>
                     </FormItem>
@@ -750,13 +811,13 @@ class Demo extends React.Component {
               {this.getInputCol({ field: 'idNo', title: '身份证号', readonly: true }, 33)}
             </Row>
             <Row gutter={54}>
-              {this.getSelectCol({ field: 'marryState', title: '婚姻状况', keyName: 'dkey', valueName: 'dvalue', required: true }, marryStateData)}
+              {this.getSelectCol({ field: 'marryState', title: '婚姻状况', keyName: 'dkey', valueName: 'dvalue', required: true, onChange: this.marryChange }, marryStateData)}
               {this.getInputCol({ field: 'nation', title: '民族', required: true })}
               {this.getSelectCol({ field: 'education', title: '学历', keyName: 'dkey', valueName: 'dvalue', required: true }, educationData, 33)}
             </Row>
             <Row gutter={54}>
               {this.getInputCol({ field: 'political', title: '政治面貌', required: true })}
-              {this.getInputCol({ field: 'familyNumber', title: '家庭人口', required: true })}
+              {this.getInputCol({ field: 'familyNumber', title: '家庭人口', required: true, 'Z+': true })}
               {this.getInputCol({ field: 'mobile', title: '联系电话', mobile: true, required: true }, 33)}
             </Row>
             <Row gutter={54}>
@@ -829,7 +890,7 @@ class Demo extends React.Component {
             <Row gutter={54}>
               {this.getFileCol({ field: 'hkBookPdf', title: '户口本', type: 'img' })}
               {this.getFileCol({ field: 'idCardPdf', title: '身份证', type: 'img' })}
-              {this.getFileCol({ field: 'marryPdf', title: '结婚证', type: 'img' }, 33)}
+              {this.getFileCol({ field: 'marryPdf', title: isMarried ? '结婚证' : '离婚证', type: 'img', hidden: !showMarry }, 33)}
             </Row>
             <Row gutter={54}>
               {this.getFileCol({ field: 'otherPdf', title: '其他资料', type: 'img' }, 1)}
@@ -941,6 +1002,9 @@ class Demo extends React.Component {
               <Icon type="plus" />新增 担保人微信流水
             </Button>
           ) : null}
+          <Card style={{ marginTop: 16 }} title="流转日志">
+            <Table {...this.getTableProps()} />
+          </Card>
           {
             this.isCheck() ? (
               <Card style={{ marginTop: 16 }} title="审核说明">
@@ -972,4 +1036,4 @@ class Demo extends React.Component {
   }
 }
 
-export default Demo;
+export default AdmittanceAddEdit;

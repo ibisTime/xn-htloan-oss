@@ -112,15 +112,11 @@ class FaceSign extends React.Component {
             search: true
         }, {
             title: '当前节点',
-            field: 'curNodeCode',
+            field: 'intevCurNodeCode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
-            valueName: 'name'
-        }, {
-            title: '关键字搜索',
-            field: 'keyword',
-            hidden: true,
+            valueName: 'name',
             search: true
         }];
         return this.props.buildList({
@@ -129,7 +125,7 @@ class FaceSign extends React.Component {
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
-                curNodeCodeList: ['002_05', '002_06', '002_08', '002_26']
+                intevCurNodeCodeList: ['002_05', '002_06', '002_08', '002_26']
             },
             btnEvent: {
                 edit: (selectedRowKeys, selectedRows) => {
@@ -137,21 +133,10 @@ class FaceSign extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '002_05' && selectedRows[0].curNodeCode !== '002_08') {
+                    } else if (selectedRows[0].intevCurNodeCode !== '002_05' && selectedRows[0].intevCurNodeCode !== '002_08') {
                         showWarnMsg('当前不是录入面签信息节点');
                     } else {
                         this.props.history.push(`/loan/faceSign/addedit?code=${selectedRowKeys[0]}`);
-                    }
-                },
-                check: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '002_06') {
-                        showWarnMsg('当前不是业务总监审核节点');
-                    } else {
-                        this.props.history.push(`/loan/faceSign/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
                     }
                 },
                 // 内勤主管审核
@@ -160,7 +145,7 @@ class FaceSign extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '002_26') {
+                    } else if (selectedRows[0].intevCurNodeCode !== '002_26') {
                         showWarnMsg('当前不是内勤主管审核节点');
                     } else {
                         this.props.history.push(`/loan/faceSign/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);

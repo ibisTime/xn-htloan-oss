@@ -64,11 +64,6 @@ class blackList extends React.Component {
       title: '未还代偿金额',
       field: 'unRepayTotalAmount',
       amount: true
-    }, {
-      title: '关键字搜索',
-      field: 'keyword',
-      hidden: true,
-      search: true
     }];
     return this.props.buildList({
       fields,

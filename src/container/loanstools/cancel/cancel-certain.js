@@ -54,6 +54,10 @@ class CancelCertain extends React.Component {
         amount: true,
         readonly: true
       }, {
+        title: '作废原因',
+        field: 'remark',
+        readonly: true
+      }, {
         title: '是否垫资',
         field: 'isAdvanceFund',
         type: 'select',

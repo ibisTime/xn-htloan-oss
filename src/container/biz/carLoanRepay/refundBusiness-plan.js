@@ -64,8 +64,8 @@ class refundBusinessPlan extends React.Component {
                     }
                 }, {
                     title: '实还金额',
-                    amount: true,
-                    field: 'payedAmount'
+                    field: 'realRepayAmount',
+                    render: (v) => v ? moneyFormat(v) : '0.00'
                 }, {
                     title: '逾期金额',
                     amount: true,

@@ -327,13 +327,15 @@ export default class DetailComponent extends React.Component {
     handleCancel = () => this.setState({previewVisible: false})
 
     handlePreview = (file, previewImageField) => {
-        this.setState({
+      // console.log(file);
+      this.setState({
             previewImage: file.url || file.thumbUrl,
             previewVisible: true,
             previewImageField: previewImageField
         });
     }
     handleFilePreview = (file) => {
+      console.log(file);
         if (file.status === 'done') {
             let key = file.key || (file.response && file.response.key) || '';
             window.open(formatFile(key), true);
@@ -829,6 +831,15 @@ export default class DetailComponent extends React.Component {
                         });
                     }}
                 >{item.options.checkName}</Button> : null}
+                {item.options.normalBtn ? <Button
+                    type="primary"
+                    disabled={!hasSelected}
+                    style={{marginRight: 20, marginBottom: 16}}
+                    onClick={() => {
+                        let keys = this.state.o2mSKeys[item.field];
+                        item.options.normalHandler(keys);
+                      }
+                    }>{item.options.normalBtnName}</Button> : null}
             </div>
         );
     }
@@ -966,14 +977,7 @@ export default class DetailComponent extends React.Component {
                             rules,
                             initialValue: initVal
                         })(
-                            <TreeSelect
-                              showSearch
-                              style={{ maxWidth: 400 }}
-                              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                              placeholder="请选择"
-                              allowClear
-                              treeDefaultExpandAll
-                            >
+                            <TreeSelect {...this.getTreeSelectProps(item.onChange)}>
                                 {this.renderTreeNodes(this.state.treeData[item.field], item)}
                             </TreeSelect>
                         )
@@ -981,7 +985,21 @@ export default class DetailComponent extends React.Component {
             </FormItem>
         );
     }
-
+    getTreeSelectProps(onChange) {
+      let props = {
+        showSearch: true,
+        filterTreeNode: (input, treeNode) => treeNode.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+        allowClear: true,
+        treeDefaultExpandAll: true,
+        style: { maxWidth: 400 },
+        dropdownStyle: { maxHeight: 400, overflow: 'auto' },
+        placeholder: '请选择'
+      };
+      if (onChange) {
+        props.onChange = (value, label, extra) => onChange(value, label, extra);
+      }
+      return props;
+    }
     getDateItem(item, initVal, rules, getFieldDecorator, isTime = false) {
         let format = isTime ? DATETIME_FORMAT : DATE_FORMAT;
         let places = isTime ? '选择时间' : '选择日期';
@@ -1086,50 +1104,6 @@ export default class DetailComponent extends React.Component {
       };
       return <CSearchSelect key={item.field} {...props} />;
     }
-    // getSearchSelectItem(item, initVal, rules, getFieldDecorator) {
-    //     let data;
-    //     if (item.readonly && item.data) {
-    //         data = item.data.filter(v => v[item.keyName] === initVal);
-    //     }
-    //     let value = '';
-    //     if (initVal) {
-    //         value = initVal;
-    //     }
-    //     return (
-    //         <FormItem key={item.field} {...this.getInputItemProps()} label={this.getLabel(item)}>
-    //             {
-    //                 item.readonly ? <div
-    //                         className="readonly-text">{data && data.length ? data[0][item.valueName] || tempString(item.valueName, data[0]) : value}</div>
-    //                     : getFieldDecorator(item.field, {
-    //                         rules,
-    //                         initialValue: item.data || initVal ? initVal : ''
-    //                     })(
-    //                     <Select
-    //                         allowClear
-    //                         mode="combobox"
-    //                         showArrow={false}
-    //                         style={{ minWidth: 200, maxWidth: 400 }}
-    //                         filterOption={false}
-    //                         onSearch={v => this.searchSelectChange({item, keyword: v})}
-    //                         optionLabelProp="children"
-    //                         notFoundContent={this.state.fetching[item.field] ? <Spin size="small"/> : '暂无数据'}
-    //                         placeholder="请输入关键字搜索"
-    //                         onChange={v => {
-    //                             if (item.onChange && this.state.selectFetch[item.field]) {
-    //                                 item.onChange(v, this.props.selectData[item.field] ? this.props.selectData[item.field].find(v1 => v1.code === v) : {}, this.props);
-    //                             }
-    //                         }}>
-    //                         {item.data ? item.data.map(d => (
-    //                             <Option key={d[item.keyName]} value={d[item.keyName]}>
-    //                                 {d[item.valueName] ? d[item.valueName] : tempString(item.valueName, d)}
-    //                             </Option>
-    //                         )) : null}
-    //                     </Select>
-    //                     )
-    //             }
-    //         </FormItem>
-    //     );
-    // }
 
     getCitySelect(item, initVal, rules, getFieldDecorator) {
         return (
@@ -1606,7 +1580,7 @@ export default class DetailComponent extends React.Component {
         if (item.amount) {
             rules.push({
                 pattern: /(^[1-9](,\d{3}|[0-9])*(\.\d{1,2})?$)|([0])/,
-                message: '金额必须>=0，且小数点后最多2位'
+                message: '必须>=0，且小数点后最多2位'
             });
         }
 

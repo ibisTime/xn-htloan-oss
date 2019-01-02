@@ -16,14 +16,7 @@ import {
     getUserId,
     dateTimeFormat
 } from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    lowerFrame,
-    onShelf,
-    sendMsg
-} from 'api/biz';
+import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -151,11 +144,7 @@ class AdvMoney extends React.Component {
             type: 'select',
             listCode: 630147,
             keyName: 'code',
-            valueName: 'name'
-        }, {
-            title: '关键字搜索',
-            field: 'keyword',
-            hidden: true,
+            valueName: 'name',
             search: true
         }, {
             title: '垫资说明',
@@ -169,10 +158,23 @@ class AdvMoney extends React.Component {
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
-                curNodeCodeList: ['002_07']
+                curNodeCodeList: ['002_07', '002_29']
             },
             btnEvent: {
-                add: (selectedRowKeys, selectedRows) => {
+                // 财务审核
+                check: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode !== '002_29') {
+                        showWarnMsg('当前不是财务审核节点');
+                    } else {
+                        this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRowKeys[0]}&check=1&v=1`);
+                    }
+                },
+                // 财务确认垫资
+                edit: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
@@ -180,7 +182,7 @@ class AdvMoney extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== '002_07') {
                         showWarnMsg('当前不是财务确认垫资节点');
                     } else {
-                        this.props.history.push(`/loan/faceSign/addedit?code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRowKeys[0]}`);
                     }
                 }
             }

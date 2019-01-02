@@ -87,33 +87,33 @@ import { bizinstallGpsAddEdit } from './redux/biz/installGps-addedit';
 import { bizinstallGpsCheck } from './redux/biz/installGps-check';
 import { bizinstallGpsEnter } from './redux/biz/installGps-enter';
 
+// 录入发保合
+import { bizInsurance } from './redux/biz/insurance';
+import { bizInsuranceAddEdit } from './redux/biz/insurance-addedit';
+
 //  银行放款 + 详情 + 录入抵押信息 + 确认提交银行 + 低压完成
 import { bizBankMoney } from './redux/biz/bankMoney';
 import { bizBankMoneyAddEdit } from './redux/biz/bankMoney-addedit';
-import { bizBankMoneySettle } from './redux/biz/bankMoney-settle';
 import { bizBankMoneySub } from './redux/biz/bankMoney-sub';
 import { bizBankMoneyCertain } from './redux/biz/bankMoney-certain';
 import { bizBankMoneyEnter } from './redux/biz/bankMoney-enter';
 import { bizBankMoneyRecord } from './redux/biz/bankMoney-record';
 
-//  车辆抵押 + 详情 + 车辆落户 + 确认提交银行 + 确认收款
+//  车辆抵押 + 详情 + 申请 + 内勤确认 + 确认提交银行 + 内勤录入抵押信息
 import { bizMortgage } from './redux/biz/mortgage';
 import { bizMortgageAddEdit } from './redux/biz/mortgage-addedit';
-import { bizMortgageEnter } from './redux/biz/mortgage-enter';
+import { bizMortgageApply } from './redux/biz/mortgage-apply';
 import { bizMortgageSub } from './redux/biz/mortgage-sub';
-import { bizMortgageCertain } from './redux/biz/mortgage-certain';
+import { bizMortgageEnter } from './redux/biz/mortgage-enter';
 
 //  档案入党 + 详情 + 确认入党
 import { bizArchives } from './redux/biz/archives';
 import { bizArchivesAddEdit } from './redux/biz/archives-addedit';
-import { bizArchivesCertain } from './redux/biz/archives-certain';
 
-//  还款业务管理 + 详情 + 修改银行卡号 + 查看还款计划 + 确定结清
+//  还款业务管理 + 查看还款计划 + 提前还款申请
 import { bizRefundBusiness } from './redux/biz/refundBusiness';
-import { bizRefundBusinessAddedit } from './redux/biz/refundBusiness-addedit';
 import { bizRefundBusinessPlan } from './redux/biz/refundBusiness-plan';
-import { bizRefundBusinessChangeCard } from './redux/biz/refundBusiness-changeCard';
-import { bizRefundBusinessCertian } from './redux/biz/refundBusiness-certain';
+import { bizRefundBusinessApply } from './redux/biz/refundBusiness-apply';
 
 //  当月还款账单 + 详情
 import { bizRefundList } from './redux/biz/refundList';
@@ -147,11 +147,10 @@ import { bizBlackList } from './redux/biz/blackList';
 import { bizBlackListAddedit } from './redux/biz/blackList-addedit';
 import { bizBlackListDispose } from './redux/biz/blackList-dispose';
 
-//  红名单 + 详情 + 申请拖车 + 总经理审批 + 财务打款 + 录入拖车结果
+//  红名单 + 详情 + 申请拖车 + 财务打款 + 录入拖车结果
 import { bizredList } from './redux/biz/redList';
 import { bizredListAddEdit } from './redux/biz/redList-addedit';
 import { bizredListApply } from './redux/biz/redList-apply';
-import { bizredListCheck } from './redux/biz/redList-check';
 import { bizredListPay } from './redux/biz/redList-pay';
 import { bizredListEnter } from './redux/biz/redList-enter';
 
@@ -165,13 +164,14 @@ import { bizLitigation } from './redux/biz/litigation';
 import { bizLitigationAddEdit } from './redux/biz/litigation-addedit';
 import { bizLitigationDispose } from './redux/biz/litigation-dispose';
 
-//  结清审核 + 详情 + 清欠催收部审核 + 驻行人员审核 + 总经理审核 + 财务审核
+//  结清审核 + 详情 + 清欠催收部审核 + 驻行人员审核 + 总经理审核 + 财务审核 + 提前结清审核
 import { bizSettlement } from './redux/biz/settlement';
 import { bizSettlementAddEdit } from './redux/biz/settlement-addedit';
 import { bizSettlementCollection } from './redux/biz/settlement-collection';
 import { bizSettlementFinance } from './redux/biz/settlement-finance';
 import { bizSettlementManager } from './redux/biz/settlement-manager';
 import { bizSettlementStationed } from './redux/biz/settlement-stationed';
+import { bizAdvsettlement } from './redux/biz/advsettlement';
 
 //  解除抵押 + 详情 + 解除抵押
 import { mortgages } from './redux/biz/mortgages/mortgages';
@@ -254,14 +254,12 @@ import { loanFaceSignAddedit } from './redux/loan/faceSign-addedit';
 
 // 财务垫资
 import { loanAdvMoney } from './redux/loan/advMoney';
-import { loanAdvMoneyAddedit } from './redux/loan/advMoney-addedit';
 
 /**
  * 贷前工具
  */
 //  调查报告
 import { loanstoolsInvestigateReport } from './redux/loanstools/investigateReport';
-import { loanstoolsInvestigateReportAddedit } from './redux/loanstools/investigateReport-addedit';
 
 //  收回手续费 + 详情 + 收款回录
 import { loanstoolstakeFree } from './redux/loanstools/takeFree';
@@ -307,7 +305,6 @@ import { transmitCollectionGPSCheck } from './redux/transmit/collectionGPS-check
 //  GPS申领 + 详情 + 申领 + 审核
 import { postloantoolsApplyGps } from './redux/postloantools/applyGps';
 import { postloantoolsApplyGpsAddedit } from './redux/postloantools/applyGps-addedit';
-import { postloantoolsApplyGpsApply } from './redux/postloantools/applyGps-apply';
 import { postloantoolsApplyGpsCheck } from './redux/postloantools/applyGps-check';
 
 //  Gps管理 + 详情
@@ -341,6 +338,12 @@ import { statisticBusinessReport } from './redux/statistic/businessReport';
 
 //  垫资超1天未放款
 import { statisticOneReport } from './redux/statistic/oneReport';
+
+// 内勤主管分配情况
+import { statisticNqzgfpqk } from './redux/statistic/nqzgfpqk';
+
+// 内勤报表
+import { statisticNqReport } from './redux/statistic/nqReport';
 
 /**
  * 人事
@@ -506,8 +509,11 @@ import { securityMemberListAddedit } from './redux/security/memberList-addedit';
 import { waresRefundBusiness } from './redux/wares/refundBusiness';
 import { waresRefundBusinessAddedit } from './redux/wares/refundBusiness-addedit';
 import { waresRefundBusinessPlan } from './redux/wares/refundBusiness-plan';
-import { waresRefundBusinessChangeCard } from './redux/wares/refundBusiness-changeCard';
 import { waresRefundBusinessCertian } from './redux/wares/refundBusiness-certain';
+
+// 当月还款待审核
+import { waresRefundCheck } from './redux/wares/refundCheck';
+import { waresRefundCheckAddedit } from './redux/wares/refundCheck-addedit';
 
 //  当月还款账单 + 详情
 import { waresRefundList } from './redux/wares/refundList';
@@ -621,7 +627,6 @@ export default combineReducers({
   bizCarLoanBusiness,
   bizCarLoanBusinessAddedit,
   bizRefundBusiness,
-  bizRefundBusinessAddedit,
   bizRefundList,
   bizOverdueList,
   bizGreenList,
@@ -629,8 +634,7 @@ export default combineReducers({
   bizHistoryBusinessManage,
   bizCarLoanBusinessCheck,
   bizRefundBusinessPlan,
-  bizRefundBusinessChangeCard,
-  bizRefundBusinessCertian,
+  bizRefundBusinessApply,
   bizOverdueListDispose,
   bizBlackListDispose,
   bizGreenListPayment,
@@ -666,25 +670,24 @@ export default combineReducers({
   bizinstallGpsAddEdit,
   bizinstallGpsCheck,
   bizinstallGpsEnter,
+  bizInsurance,
+  bizInsuranceAddEdit,
   bizBankMoney,
   bizBankMoneyAddEdit,
-  bizBankMoneySettle,
   bizBankMoneySub,
   bizBankMoneyCertain,
   bizBankMoneyEnter,
   bizBankMoneyRecord,
   bizMortgage,
   bizMortgageAddEdit,
-  bizMortgageEnter,
+  bizMortgageApply,
   bizMortgageSub,
-  bizMortgageCertain,
+  bizMortgageEnter,
   bizArchives,
   bizArchivesAddEdit,
-  bizArchivesCertain,
   bizredList,
   bizredListAddEdit,
   bizredListApply,
-  bizredListCheck,
   bizredListPay,
   bizredListEnter,
   loanCredit,
@@ -695,9 +698,7 @@ export default combineReducers({
   loanFaceSign,
   loanFaceSignAddedit,
   loanAdvMoney,
-  loanAdvMoneyAddedit,
   loanstoolsInvestigateReport,
-  loanstoolsInvestigateReportAddedit,
   loanstoolstakeFree,
   loanstoolsTakeFreeAddedit,
   loanstoolsTakeFreeEnter,
@@ -728,7 +729,6 @@ export default combineReducers({
   transmitCollectionGPSAddedit,
   postloantoolsApplyGps,
   postloantoolsApplyGpsAddedit,
-  postloantoolsApplyGpsApply,
   postloantoolsApplyGpsCheck,
   postloantoolsManageGps,
   postloantoolsManageGpsAddedit,
@@ -742,6 +742,7 @@ export default combineReducers({
   bizSettlementFinance,
   bizSettlementManager,
   bizSettlementStationed,
+  bizAdvsettlement,
   postloantoolsImport,
   postloantoolsImportAddedit,
   postloantoolsImportImport,
@@ -841,8 +842,9 @@ export default combineReducers({
   waresRefundBusiness,
   waresRefundBusinessAddedit,
   waresRefundBusinessPlan,
-  waresRefundBusinessChangeCard,
   waresRefundBusinessCertian,
+  waresRefundCheck,
+  waresRefundCheckAddedit,
   waresRefundList,
   waresRefundListAddedit,
   waresOverdueList,
@@ -886,6 +888,8 @@ export default combineReducers({
   bizBankType,
   bizBankTypeAddEdit,
   statisticOneReport,
+  statisticNqzgfpqk,
+  statisticNqReport,
   creditIdCheck,
   creditIdCheckQuery,
   creditBank4Check,

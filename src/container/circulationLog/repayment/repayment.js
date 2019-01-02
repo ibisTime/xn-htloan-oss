@@ -54,7 +54,13 @@ class Repayment extends React.Component {
             nowrap: true
         }, {
             title: '贷款银行',
-            field: 'loanBankName'
+            // field: 'loanBankName',
+            field: 'loanBank',
+            type: 'select',
+            listCode: 632037,
+            keyName: 'code',
+            valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
+            required: true
         }, {
             title: '贷款金额(元)',
             field: 'loanAmount',
@@ -105,6 +111,9 @@ class Repayment extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 630520,
+            searchParams: {
+              refType: 0
+            },
             btnEvent: {
                 refundplan: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {

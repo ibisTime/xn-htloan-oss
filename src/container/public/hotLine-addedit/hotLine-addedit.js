@@ -9,7 +9,6 @@ import {
 } from '@redux/public/hotLine-addedit';
 import { showSucMsg } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
-// import { COMPANY_CODE } from 'common/js/config';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
@@ -41,6 +40,7 @@ class HotLineAddEdit extends React.Component {
         check: true,
         handler: (params) => {
           this.props.doFetching();
+          params.ckey = 'telephone';
           fetch(630042, params).then(() => {
             showSucMsg('操作成功');
             this.props.cancelFetching();

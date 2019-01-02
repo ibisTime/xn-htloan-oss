@@ -30,7 +30,8 @@ class PostloanReport extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'code'
+            field: 'code',
+            nowrap: true
         }, {
             title: '贷款银行',
             field: 'loanBank',
@@ -38,28 +39,34 @@ class PostloanReport extends React.Component {
             listCode: 632037,
             keyName: 'code',
             valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
-            search: true
+            search: true,
+            nowrap: true
         }, {
             title: '地区',
             field: 'region',
             type: 'select',
             key: 'region',
-            search: true
+            search: true,
+            nowrap: true
         }, {
             title: '客户姓名',
             field: 'applyUserName',
-            search: true
+            search: true,
+            nowrap: true
         }, {
             title: '车型',
-            field: 'carModel'
+            field: 'carModel',
+            nowrap: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            amount: true
+            amount: true,
+            nowrap: true
         }, {
             title: '垫资日期',
             field: 'advanceFundDatetime',
-            type: 'date'
+            type: 'date',
+            nowrap: true
         }, {
             title: '抵押情况',
             field: 'pledgeStatus',
@@ -73,23 +80,29 @@ class PostloanReport extends React.Component {
             }],
             keyName: 'k',
             valueName: 'v',
-            search: true
+            search: true,
+            nowrap: true
         }, {
             title: '抵押时间',
             field: 'pledgeDatetime',
-            type: 'date'
+            type: 'date',
+            nowrap: true
         }, {
             title: '车牌号',
-            field: 'carNumber'
+            field: 'carNumber',
+            nowrap: true
         }, {
             title: '内勤',
-            field: 'insideJob'
+            field: 'insideJobName',
+            nowrap: true
         }, {
             title: '信贷专员',
-            field: 'saleUserName'
+            field: 'saleUserName',
+            nowrap: true
         }, {
             title: '资料快递单号及时间',
-            field: 'informationExpress'
+            field: 'informationExpress',
+            nowrap: true
         }, {
             title: '当前节点',
             field: 'curNodeCode',
@@ -102,7 +115,8 @@ class PostloanReport extends React.Component {
                 '002_14', '002_15', '002_16', '002_17', '002_18', '002_19',
                 '002_20', '002_21', '002_22', '002_23']
             },
-            search: true
+            search: true,
+            nowrap: true
         }, {
             title: '归档情况',
             field: 'enterStatus',
@@ -116,7 +130,8 @@ class PostloanReport extends React.Component {
             }],
             keyName: 'key',
             valueName: 'value',
-            search: true
+            search: true,
+            nowrap: true
         }, {
             title: '是否作废',
             field: 'isCancel',
@@ -130,7 +145,8 @@ class PostloanReport extends React.Component {
             }],
             keyName: 'key',
             valueName: 'value',
-            search: true
+            search: true,
+            nowrap: true
         }];
         return this.props.buildList({
             fields,

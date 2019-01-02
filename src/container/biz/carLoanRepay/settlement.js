@@ -74,18 +74,27 @@ class settlement extends React.Component {
             field: 'cutLyDeposit',
             amount: true
         }, {
+            title: '是否提前还款',
+            field: 'isAdvanceSettled',
+            type: 'select',
+            data: [{
+                key: '0',
+                value: '否'
+            }, {
+                key: '1',
+                value: '是'
+            }],
+            keyName: 'key',
+            valueName: 'value'
+        }, {
             title: '当前节点',
             field: 'curNodeCode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
-            valueName: 'name'
-        }, {
-            title: '关键字搜索',
-            field: 'keyword',
-            hidden: true,
+            valueName: 'name',
             search: true
-          }];
+        }];
         return this.props.buildList({
             fields,
             pageCode: 630520,
@@ -94,6 +103,7 @@ class settlement extends React.Component {
                 curNodeCodeList: ['003_02', '003_03', '003_04', '003_05']
             },
             btnEvent: {
+                // 清款催收部审核
                 collection: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -105,6 +115,7 @@ class settlement extends React.Component {
                         this.props.history.push(`/biz/settlement/collection?code=${selectedRowKeys[0]}`);
                     }
                 },
+                // 财务审核
                 finance: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -116,6 +127,7 @@ class settlement extends React.Component {
                         this.props.history.push(`/biz/settlement/finance?code=${selectedRowKeys[0]}`);
                     }
                 },
+                // 总经理审核
                 manager: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -127,6 +139,7 @@ class settlement extends React.Component {
                         this.props.history.push(`/biz/settlement/manager?code=${selectedRowKeys[0]}`);
                     }
                 },
+                // 驻行人员审核
                 stationed: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');

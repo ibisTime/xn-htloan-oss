@@ -257,6 +257,46 @@ const ROUTES = [
     path: '/finance/enchashments/addedit',
     component: asyncComponent(() => import('container/finance/enchashments-addedit/enchashments-addedit'))
   },
+  // 车贷财务 财务垫资
+  {
+    path: '/finance/advMoney',
+    component: asyncComponent(() => import('container/loan/advMoney/advMoney'))
+  },
+  // 车贷财务 财务垫资 详情
+  {
+    path: '/finance/advMoney/addedit',
+    component: asyncComponent(() => import('container/loan/advMoney-addedit/advMoney-addedit'))
+  },
+  // 车贷财务 收回手续费
+  {
+    path: '/finance/takeFree',
+    component: asyncComponent(() => import('container/loanstools/takeFree/takeFree'))
+  },
+  // 车贷财务 收回手续费 详情
+  {
+      path: '/finance/takeFree/addedit',
+      component: asyncComponent(() => import('container/loanstools/takeFree/takeFree-addedit'))
+  },
+  // 车贷财务 收回手续费 手续费收款回录
+  {
+      path: '/finance/takeFree/enter',
+      component: asyncComponent(() => import('container/loanstools/takeFree/takeFree-enter'))
+  },
+  // 车贷财务 退客户垫资款
+  {
+    path: '/finance/refund',
+    component: asyncComponent(() => import('container/loanstools/refund/refund'))
+  },
+  // 车贷财务 退客户垫资款 详情
+  {
+      path: '/finance/refund/addedit',
+      component: asyncComponent(() => import('container/loanstools/refund/refund-addedit'))
+  },
+  // 车贷财务 退客户垫资款 财务确认退款
+  {
+      path: '/finance/refund/certain',
+      component: asyncComponent(() => import('container/loanstools/refund/refund-certain'))
+  },
   //  车辆贷后管理
   //  车贷业务管理
   {
@@ -272,6 +312,16 @@ const ROUTES = [
   {
     path: '/biz/carLoanBusiness/check',
     component: asyncComponent(() => import('container/biz/carLoanRepay/carLoanBusiness-check'))
+  },
+  //  录入发保合
+  {
+    path: '/biz/insurance',
+    component: asyncComponent(() => import('container/biz/insurance/insurance'))
+  },
+  //  录入发保合 详情
+  {
+    path: '/biz/insurance/addedit',
+    component: asyncComponent(() => import('container/biz/insurance/insurance-addedit'))
   },
   //  GPS安装
   {
@@ -303,11 +353,6 @@ const ROUTES = [
     path: '/biz/bankMoney/addedit',
     component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney-addedit'))
   },
-  //  银行放款 车辆落户
-  {
-    path: '/biz/bankMoney/settle',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney-settle'))
-  },
   //  银行放款 确认提交银行
   {
     path: '/biz/bankMoney/sub',
@@ -338,6 +383,16 @@ const ROUTES = [
     path: '/biz/mortgage/addedit',
     component: asyncComponent(() => import('container/biz/carLoanRepay/mortgage-addedit'))
   },
+  //  车辆抵押 抵押申请
+  {
+    path: '/biz/mortgage/apply',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/mortgage-apply'))
+  },
+  //  车辆抵押 内勤确认
+  {
+    path: '/biz/mortgage/confirm',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/mortgage-apply'))
+  },
   //  车辆抵押 录入抵押信息
   {
     path: '/biz/mortgage/enter',
@@ -347,11 +402,6 @@ const ROUTES = [
   {
     path: '/biz/mortgage/sub',
     component: asyncComponent(() => import('container/biz/carLoanRepay/mortgage-sub'))
-  },
-  //  车辆抵押 抵押完成
-  {
-    path: '/biz/mortgage/certain',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/mortgage-certain'))
   },
   //  档案入党
   {
@@ -363,11 +413,11 @@ const ROUTES = [
     path: '/biz/archives/addedit',
     component: asyncComponent(() => import('container/biz/carLoanRepay/archives-addedit'))
   },
-  //  档案入党 确认入档
-  {
-    path: '/biz/archives/certain',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/archives-certain'))
-  },
+  // //  档案入党 确认入档
+  // {
+  //   path: '/biz/archives/certain',
+  //   component: asyncComponent(() => import('container/biz/carLoanRepay/archives-certain'))
+  // },
   //  还款业务管理
   {
     path: '/biz/refundBusiness',
@@ -376,22 +426,17 @@ const ROUTES = [
   //  还款业务详情
   {
     path: '/biz/refundBusiness/addedit',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness-addedit'))
+    component: asyncComponent(() => import('container/biz/carLoanRepay/archives-addedit'))
   },
   //  还款业务还款计划
   {
     path: '/biz/refundBusiness/plan',
     component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness-plan'))
   },
-  //  还款业务还款卡变更
+  //  还款业务提前结清申请
   {
-    path: '/biz/refundBusiness/changecard',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness-changeCard'))
-  },
-  //  还款业务确认结清
-  {
-    path: '/biz/refundBusiness/certain',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness-certain'))
+    path: '/biz/refundBusiness/apply',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness-apply'))
   },
   //  当月还款名单
   {
@@ -493,11 +538,6 @@ const ROUTES = [
     path: '/biz/redList/pay',
     component: asyncComponent(() => import('container/biz/carLoanRepay/redList-pay'))
   },
-  //  红名单 总经理审核
-  {
-    path: '/biz/redList/check',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/redList-check'))
-  },
   //  拖车管理
   {
     path: '/biz/trailer',
@@ -552,6 +592,16 @@ const ROUTES = [
   {
     path: '/biz/litigation/dispose',
     component: asyncComponent(() => import('container/biz/carLoanRepay/litigation-dispose'))
+  },
+  //  提前结清审核
+  {
+    path: '/biz/advsettlement',
+    component: asyncComponent(() => import('container/biz/advsettlement/advsettlement'))
+  },
+  //  提前结清审核 详情
+  {
+    path: '/biz/advsettlement/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/refundBusiness-apply'))
   },
   //  结清审核
   {
@@ -752,25 +802,60 @@ const ROUTES = [
       path: '/statistic/credit-report',
       component: asyncComponent(() => import('container/statistic/creditReport/creditReport'))
   },
+  //  征信统计表 详情
+  {
+      path: '/statistic/credit-report/addedit',
+      component: asyncComponent(() => import('container/biz/carLoanRepay/archives-addedit'))
+  },
   //  贷后统计表
   {
       path: '/statistic/postloan-report',
       component: asyncComponent(() => import('container/statistic/postloanReport/postloanReport'))
+  },
+  //  贷后统计表 详情
+  {
+      path: '/statistic/postloan-report/addedit',
+      component: asyncComponent(() => import('container/biz/carLoanRepay/archives-addedit'))
   },
   //  业务报表
   {
       path: '/statistic/business-report',
       component: asyncComponent(() => import('container/statistic/businessReport/businessReport'))
   },
+  //  业务报表 详情
+  {
+      path: '/statistic/business-report/addedit',
+      component: asyncComponent(() => import('container/biz/carLoanRepay/archives-addedit'))
+  },
   //  团队统计表
   {
       path: '/statistic/team-report',
       component: asyncComponent(() => import('container/statistic/teamReport/teamReport'))
   },
+  //  团队统计表 详情
+  {
+      path: '/statistic/team-report/addedit',
+      component: asyncComponent(() => import('container/biz/carLoanRepay/archives-addedit'))
+  },
   //  进度日报表
   {
     path: '/statistic/day-report',
     component: asyncComponent(() => import('container/statistic/dayReport/dayReport'))
+  },
+  //  进度日报表 详情
+  {
+    path: '/statistic/day-report/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/archives-addedit'))
+  },
+  //  进度日报表
+  {
+    path: '/statistic/nq-report',
+    component: asyncComponent(() => import('container/statistic/nqReport/nqReport'))
+  },
+  //  进度日报表 详情
+  {
+    path: '/statistic/nq-report/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/archives-addedit'))
   },
   //  垫资超1天未放款
   {
@@ -779,7 +864,12 @@ const ROUTES = [
   },
   {
     path: '/statistic/one-report/addedit',
-    component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-addedit'))
+    component: asyncComponent(() => import('container/biz/carLoanRepay/archives-addedit'))
+  },
+  //  内勤主管分配情况
+  {
+    path: '/statistic/nqzgfpqk',
+    component: asyncComponent(() => import('container/statistic/nqzgfpqk/nqzgfpqk'))
   },
 
   // 贷前管理
@@ -855,7 +945,7 @@ const ROUTES = [
       path: '/loanstools/takeFree/addedit',
       component: asyncComponent(() => import('container/loanstools/takeFree/takeFree-addedit'))
   },
-  //  收回手续费 申请
+  //  收回手续费 手续费收款回录
   {
       path: '/loanstools/takeFree/enter',
       component: asyncComponent(() => import('container/loanstools/takeFree/takeFree-enter'))
@@ -870,7 +960,7 @@ const ROUTES = [
       path: '/loanstools/refund/addedit',
       component: asyncComponent(() => import('container/loanstools/refund/refund-addedit'))
   },
-  //  退客户垫资款 申请
+  //  退客户垫资款 财务确认退款
   {
       path: '/loanstools/refund/certain',
       component: asyncComponent(() => import('container/loanstools/refund/refund-certain'))
@@ -1511,11 +1601,6 @@ const ROUTES = [
       path: '/wares/refundBusiness/plan',
       component: asyncComponent(() => import('container/wares/loanRepay/refundBusiness-plan'))
   },
-  //  还款业务还款卡变更
-  {
-      path: '/wares/refundBusiness/changecard',
-      component: asyncComponent(() => import('container/wares/loanRepay/refundBusiness-changeCard'))
-  },
   //  还款业务确认结清
   {
       path: '/wares/refundBusiness/certain',
@@ -1530,6 +1615,16 @@ const ROUTES = [
   {
       path: '/wares/refundList/addedit',
       component: asyncComponent(() => import('container/wares/loanRepay/refundList-addedit'))
+  },
+  //  当月还款待审核
+  {
+      path: '/wares/refundCheck',
+      component: asyncComponent(() => import('container/wares/refundCheck/refundCheck'))
+  },
+  //  当月还款待审核
+  {
+      path: '/wares/refundCheck/addedit',
+      component: asyncComponent(() => import('container/wares/refundCheck/refundCheck-addedit'))
   },
   //  逾期名单
   {
@@ -1621,6 +1716,11 @@ const ROUTES = [
       path: '/circulationLog/creditBill/addedit',
       component: asyncComponent(() => import('container/circulationLog/creditBill/creditBill-addedit'))
   },
+  //  征信单日志 征信详情
+  {
+    path: '/circulationLog/creditBill/credit',
+    component: asyncComponent(() => import('container/loan/credit-addedit/credit-addedit'))
+  },
   //  准入单日志
   {
       path: '/circulationLog/admittanceBill',
@@ -1634,12 +1734,7 @@ const ROUTES = [
   //  准入单日志 准入单详情
   {
       path: '/circulationLog/admittanceBill/zrd',
-      component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-addedit'))
-  },
-  //  准入单日志 财务垫资详情
-  {
-      path: '/circulationLog/admittanceBill/cw',
-      component: asyncComponent(() => import('container/loan/advMoney-addedit/advMoney-addedit'))
+      component: asyncComponent(() => import('container/biz/carLoanRepay/archives-addedit'))
   },
   //  贷后单日志
   {

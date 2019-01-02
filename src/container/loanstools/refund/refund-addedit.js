@@ -95,7 +95,12 @@ class refundAddedit extends React.Component {
             field: 'backAdvanceAccount'
         }, {
             title: '开户行',
-            field: 'backAdvanceOpenBank'
+            field: 'backAdvanceOpenBank',
+          // field: 'loanBank',
+            type: 'select',
+            listCode: 802116,
+            keyName: 'bankCode',
+            valueName: '{{bankCode.DATA}}-{{bankName.DATA}}'
         }, {
             title: '开户支行',
             field: 'backAdvanceSubbranch'

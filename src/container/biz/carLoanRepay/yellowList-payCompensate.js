@@ -76,14 +76,14 @@ class yellowListPayCompensate extends React.Component {
                 view: this.view,
                 detailCode: 630541,
                 buttons: [{
-                    title: '线上代扣',
-                    handler: (param) => {
-                        param.payType = '1';
-                        this.handleSubmit(param);
-                    },
-                    check: true,
-                    type: 'primary'
-                }, {
+                //     title: '线上代扣',
+                //     handler: (param) => {
+                //         param.payType = '1';
+                //         this.handleSubmit(param);
+                //     },
+                //     check: true,
+                //     type: 'primary'
+                // }, {
                     title: '线下收取',
                     handler: (param) => {
                         param.payType = '2';

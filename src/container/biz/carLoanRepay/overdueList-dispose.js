@@ -102,9 +102,11 @@ class blackListDispose extends React.Component {
         }, {
             title: '逾期保证金收取方式',
             field: 'overdueDepositWay',
-            type: 'select',
-            select: true,
-            key: 'repay_way'
+            hidden: true,
+            value: '1'
+            // type: 'select',
+            // select: true,
+            // key: 'repay_way'
         }, {
             title: '清收成本清单',
             field: 'costList',
@@ -139,7 +141,7 @@ class blackListDispose extends React.Component {
                 detailCode: 630541,
                 moreBtns: true,
                 buttons: [{
-                    title: '记绿名单并代扣',
+                    title: '已还欠款记绿名单',
                     handler: (param) => {
                         param.dealResult = '1';
                         this.handlerSumbit(param);

@@ -77,7 +77,7 @@ class stockAddedit extends React.Component {
         }, {
             title: '有效期',
             field: 'datetime',
-            type: 'datetime',
+            type: 'date',
             rangedate: ['validDateStart', 'validDateEnd'],
             required: true
         }, {

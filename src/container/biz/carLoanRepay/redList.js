@@ -67,11 +67,7 @@ class redList extends React.Component {
       type: 'select',
       listCode: 630147,
       keyName: 'code',
-      valueName: 'name'
-    }, {
-      title: '关键字搜索',
-      field: 'keyword',
-      hidden: true,
+      valueName: 'name',
       search: true
     }];
     return this.props.buildList({
@@ -82,6 +78,7 @@ class redList extends React.Component {
         curNodeCodeList: ['003_08', '003_09', '003_10']
       },
       btnEvent: {
+        // 财务打款
         pay: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
@@ -93,15 +90,7 @@ class redList extends React.Component {
             this.props.history.push(`/biz/redList/pay?code=${selectedRowKeys[0]}`);
           }
         },
-        check: (selectedRowKeys, selectedRows) => {
-          if (!selectedRowKeys.length) {
-            showWarnMsg('请选择记录');
-          } else if (selectedRowKeys.length > 1) {
-            showWarnMsg('请选择一条记录');
-          } else {
-            this.props.history.push(`/biz/redList/check?code=${selectedRowKeys[0]}`);
-          }
-        },
+        // 录入拖车结果
         enter: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
@@ -113,6 +102,7 @@ class redList extends React.Component {
             this.props.history.push(`/biz/redList/enter?code=${selectedRowKeys[0]}`);
           }
         },
+        // 申请拖车
         apply: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');

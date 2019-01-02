@@ -12,7 +12,7 @@ import {
 import {
     showWarnMsg,
     showSucMsg,
-    dateTimeFormat
+    dateFormat
 } from 'common/js/util';
 import {
     listWrapper
@@ -83,7 +83,7 @@ class stock extends React.Component {
             title: '有效期',
             field: 'validDate',
             render: (v, data) => {
-                return dateTimeFormat(data.validDateStart) + '至' + dateTimeFormat(data.validDateEnd);
+                return dateFormat(data.validDateStart) + '至' + dateFormat(data.validDateEnd);
             }
         }, {
             title: '备注',

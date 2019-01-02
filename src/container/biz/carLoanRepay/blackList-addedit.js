@@ -97,7 +97,7 @@ class blackListAddedit extends React.Component {
                     }
                 }, {
                     title: '实还金额',
-                    field: 'payedAmount',
+                    field: 'realRepayAmount',
                     amount: true
                 }, {
                     title: '逾期金额',

@@ -39,6 +39,7 @@ class AboutusAddEdit extends React.Component {
         title: '保存',
         check: true,
         handler: (params) => {
+          params.ckey = 'about_us';
           this.props.doFetching();
           fetch(630042, params).then(() => {
             showSucMsg('操作成功');

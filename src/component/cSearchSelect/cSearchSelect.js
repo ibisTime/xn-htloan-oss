@@ -95,7 +95,7 @@ export default class CSearchSelect extends React.Component {
       placeholder: '请输入关键字搜索'
     };
     if (onChange) {
-      props.onSelect = (v) => onChange(v);
+      props.onSelect = (v) => onChange(v, this.props.initVal, this.props.updateSelectData);
     }
     return props;
   }
@@ -208,7 +208,8 @@ CSearchSelect.propTypes = {
   field: PropTypes.string.isRequired,
   getFieldValue: PropTypes.func.isRequired,
   getFieldDecorator: PropTypes.func.isRequired,
-  getFieldError: PropTypes.func.isRequired
+  getFieldError: PropTypes.func.isRequired,
+  updateSelectData: PropTypes.func.isRequired
 };
 
 CSearchSelect.defaultProps = {
@@ -217,6 +218,7 @@ CSearchSelect.defaultProps = {
   getFieldDecorator: noop,
   getFieldValue: noop,
   getFieldError: noop,
+  updateSelectData: noop,
   hidden: false,
   inline: false,
   keyName: 'dkey',

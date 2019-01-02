@@ -17,11 +17,6 @@ import {
   showSucMsg
 } from 'common/js/util';
 import {
-  Button,
-  Upload,
-  Modal
-} from 'antd';
-import {
   lowerFrame,
   onShelf
 } from 'api/biz';
@@ -57,7 +52,7 @@ class refundBusiness extends React.Component {
       type: 'select',
       pageCode: 805120,
       keyName: 'userId',
-      valueName: 'realName',
+      valueName: '{{realName.DATA}}',
       searchName: 'realName'
     }, {
       title: '手机号',
@@ -68,7 +63,14 @@ class refundBusiness extends React.Component {
       nowrap: true
     }, {
       title: '贷款银行',
-      field: 'loanBankName'
+      // field: 'loanBankName'
+      field: 'loanBank',
+      type: 'select',
+      listCode: 802116,
+      keyName: 'bankCode',
+      valueName: 'bankName',
+      _keys: ['repayBiz', 'loanBank'],
+      required: true
   }, {
       title: '贷款金额',
       field: 'loanAmount',
@@ -113,16 +115,12 @@ class refundBusiness extends React.Component {
       field: 'fkDatetime',
       type: 'date'
     }, {
-      title: '状态',
-      field: 'status',
+      title: '当前节点',
+      field: 'curNodeCode',
       type: 'select',
-      select: true,
-      key: 'repay_biz_status'
-    }, {
-      title: '关键字搜索',
-      field: 'keyword',
-      hidden: true,
-      search: true
+      listCode: 630147,
+      keyName: 'code',
+      valueName: 'name'
     }];
     return this.props.buildList({
       fields,
@@ -139,15 +137,6 @@ class refundBusiness extends React.Component {
             showWarnMsg('请选择一条记录');
           } else {
             this.props.history.push(`/wares/refundBusiness/plan?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
-          }
-        },
-        changeCard: (selectedRowKeys, selectedRows) => {
-          if (!selectedRowKeys.length) {
-            showWarnMsg('请选择记录');
-          } else if (selectedRowKeys.length > 1) {
-            showWarnMsg('请选择一条记录');
-          } else {
-            this.props.history.push(`/wares/refundBusiness/changecard?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);
           }
         },
         certain: (selectedRowKeys, selectedRows) => {

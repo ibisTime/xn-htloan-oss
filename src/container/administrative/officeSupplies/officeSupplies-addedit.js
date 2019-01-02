@@ -7,7 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/administrative/officeSupplies-addedit';
-import {getQueryString, getUserId, showSucMsg} from 'common/js/util';
+import {getQueryString, getUserId, showSucMsg, moneyFormat} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
@@ -39,7 +39,7 @@ class officeSuppliesAddedit extends React.Component {
                     let data = {};
                     data.code = this.code;
                     data.remark = params.remark;
-                    data.result = '1';
+                    data.approveResult = '1';
                     data.updater = getUserId();
                     this.props.doFetching();
                     fetch(632641, data).then(() => {
@@ -57,7 +57,7 @@ class officeSuppliesAddedit extends React.Component {
                     let data = {};
                     data.code = this.code;
                     data.remark = params.remark;
-                    data.result = '2';
+                    data.approveResult = '2';
                     data.updater = getUserId();
                     this.props.doFetching();
                     fetch(632641, data).then(() => {
@@ -126,12 +126,13 @@ class officeSuppliesAddedit extends React.Component {
                     required: true,
                     onChange: (v, data, props) => {
                         props.setPageData({
-                            price: data.price
+                            price: moneyFormat(data.price)
                         });
                     }
                 }, {
                     title: '出库价格',
                     field: 'price',
+                    amount: this.code,
                     readonly: true,
                     required: true
                 }, {

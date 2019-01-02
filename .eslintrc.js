@@ -30,7 +30,8 @@ module.exports = {
     'no-unused-vars': 0,
     'indent': 0,
     'no-mixed-spaces-and-tabs': 0,
-    'no-return-assign': 0
+    'no-return-assign': 0,
+    'eqeqeq': 0
   },
   'globals': {
     'BigDecimal': true,

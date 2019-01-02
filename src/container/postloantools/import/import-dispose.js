@@ -68,6 +68,9 @@ class applyGpsAddedit extends React.Component {
         pageCode: 630520,
         keyName: 'code',
         valueName: '{{code.DATA}}-{{realName.DATA}}',
+        params: {
+          refType: 0
+        },
         required: true
     }];
     return this.props.buildDetail({

@@ -86,25 +86,25 @@ class yellowListPayCost extends React.Component {
                 view: this.view,
                 detailCode: 630541,
                 buttons: [{
-                    title: '线上代扣',
-                    handler: (param) => {
-                        param.operator = getUserId();
-                        param.costList = this.props.o2mSKeys.costList;
-                        param.payType = '1';
-                        console.log(this.props.o2mSKeys);
-                        param.o2mSKeys = this.props.o2mSKeys;
-                        this.props.doFetching();
-                        fetch(630533, param).then(() => {
-                            showSucMsg('操作成功');
-                            this.props.cancelFetching();
-                            setTimeout(() => {
-                                this.props.history.go(-1);
-                            }, 1000);
-                        }).catch(this.props.cancelFetching);
-                    },
-                    check: true,
-                    type: 'primary'
-                }, {
+                //     title: '线上代扣',
+                //     handler: (param) => {
+                //         param.operator = getUserId();
+                //         param.costList = this.props.o2mSKeys.costList;
+                //         param.payType = '1';
+                //         console.log(this.props.o2mSKeys);
+                //         param.o2mSKeys = this.props.o2mSKeys;
+                //         this.props.doFetching();
+                //         fetch(630533, param).then(() => {
+                //             showSucMsg('操作成功');
+                //             this.props.cancelFetching();
+                //             setTimeout(() => {
+                //                 this.props.history.go(-1);
+                //             }, 1000);
+                //         }).catch(this.props.cancelFetching);
+                //     },
+                //     check: true,
+                //     type: 'primary'
+                // }, {
                     title: '线下收取',
                     handler: (param) => {
                         param.operator = getUserId();

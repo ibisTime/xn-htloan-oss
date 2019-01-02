@@ -1,15 +1,13 @@
 import React from 'react';
-import { Form, Button, Spin, Modal, Carousel, Tooltip,
-  Icon, Collapse, Row, Col } from 'antd';
-import asyncComponent from 'component/async-component/async-component';
+import { Form, Button, Spin, Tooltip, Icon, Collapse, Row, Col, Card } from 'antd';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
 import {
-  isUndefined, showSucMsg, showErrMsg, showWarnMsg, getUserName,
-  moneyParse, getRules, getRealValue, dateFormat, dateTimeFormat } from 'common/js/util';
+  isUndefined, showSucMsg, getUserName, moneyParse, getRules, getRealValue,
+  dateFormat, dateTimeFormat
+} from 'common/js/util';
 import fetch from 'common/js/fetch';
-import { UPLOAD_URL, PIC_PREFIX, PIC_BASEURL_L, formItemLayout,
-  validateFieldsAndScrollOption, DATE_FORMAT, MONTH_FORMAT, DATETIME_FORMAT } from 'common/js/config';
+import { formItemLayout, validateFieldsAndScrollOption, DATE_FORMAT, MONTH_FORMAT, DATETIME_FORMAT } from 'common/js/config';
 import cityData from 'common/js/lib/city';
 import CInput from 'component/cInput/cInput';
 import CNormalTextArea from 'component/cNormalTextArea/cNormalTextArea';
@@ -188,6 +186,8 @@ export default class DetailComp extends React.Component {
     let pageComp;
     if (this.options.type === 'collapse') {
       pageComp = this.buildCollapseDetail();
+    } else if (this.options.type === 'card') {
+      pageComp = this.buildCardDetail();
     } else {
       pageComp = this.buildNormalDetail();
     }
@@ -198,6 +198,37 @@ export default class DetailComp extends React.Component {
     }
     this.first = false;
     return pageComp;
+  }
+  // 构建card详情页
+  buildCardDetail() {
+    this.fields = [];
+    const children = [];
+    this.options.fields.forEach((field, i) => {
+      let comp;
+      if (field.items) {
+        comp = (
+          <Card title={field.title} key={i} className={field.hidden ? 'hidden' : ''} style={{ marginBottom: 20 }}>{
+            field.items.map((fld, k) => (
+              <Row gutter={24} key={k}>{
+                fld.map((f, j) => {
+                  f.inline = true;
+                  f.hidden = !!field.hidden;
+                  this.fields.push(f);
+                  this.judgeFieldType(f);
+                  let props = this.getColProps(fld, j);
+                  return (
+                    <Col {...props} key={f.field}>
+                      {this.getItemByType(f.type, f)}
+                    </Col>);
+                })}
+              </Row>
+            ))
+          }</Card>
+        );
+        children.push(comp);
+      }
+    });
+    return this.getPageComponent(children);
   }
   // 构建collapse详情页
   buildCollapseDetail() {
@@ -216,6 +247,7 @@ export default class DetailComp extends React.Component {
               <Row gutter={24} key={k}>{
                 fld.map((f, j) => {
                   f.inline = true;
+                  f.hidden = !!field.hidden;
                   this.fields.push(f);
                   this.judgeFieldType(f);
                   let props = this.getColProps(fld, j);
@@ -281,6 +313,7 @@ export default class DetailComp extends React.Component {
   }
   // 设置详情页数据
   setPageData(data) {
+    console.log(this.options.useData);
     this.setState({ pageData: this.options.useData }, () => {
       this.setState({ isLoaded: true });
     });
@@ -293,14 +326,21 @@ export default class DetailComp extends React.Component {
           {
             this.options.type === 'collapse' ? (
               <div>
-                <Collapse defaultActiveKey={lengthList}>
+                <Collapse id="_content_wrapper_" defaultActiveKey={lengthList}>
                   {children}
                 </Collapse>
                 <div style={{marginTop: 20}}>
                   {this.getBtns(this.options.buttons)}
                 </div>
               </div>
-            ) : children
+            ) : this.options.type === 'card' ? (
+              <div>
+                <div id="_content_wrapper_">{children}</div>
+                <div style={{marginTop: 20}}>
+                  {this.getBtns(this.options.buttons)}
+                </div>
+              </div>
+            ) : <div>{children}</div>
           }
         </Form>
       </Spin>
@@ -648,7 +688,7 @@ export default class DetailComp extends React.Component {
     areaKeys.forEach(v => values[v] = this.textareas[v].editorContent);
     let key = this.options.key || 'code';
     values[key] = isUndefined(values[key]) ? this.options.code || '' : values[key];
-    let fields = this.options.type === 'collapse' ? this.fields : this.options.fields;
+    let fields = this.options.type === 'collapse' || this.options.type === 'card' ? this.fields : this.options.fields;
     fields.forEach(v => {
       if (v.readonly) {
         return;
@@ -707,7 +747,7 @@ export default class DetailComp extends React.Component {
   // 保存并校验错误
   customSubmit = (handler) => {
     let fieldsList = [];
-    let fields = this.options.type === 'collapse' ? this.fields : this.options.fields;
+    let fields = this.options.type === 'collapse' || this.options.type === 'card' ? this.fields : this.options.fields;
     fields.forEach(v => {
       if (!v.readonly) {
         fieldsList.push(v.field);

@@ -53,7 +53,7 @@ class installGpsEnter extends React.Component {
             readonly: true
         }, {
             title: 'GPS安装列表',
-            field: this.edit ? 'budgetOrderGpsList' : 'gpsAzList',
+            field: 'budgetOrderGpsList',
             type: 'o2m',
             options: {
                 add: true,
@@ -119,9 +119,7 @@ class installGpsEnter extends React.Component {
               handler: (param) => {
                 param.operator = getUserId();
                 this.props.doFetching();
-                if (this.edit) {
-                    param.gpsAzList = param.budgetOrderGpsList;
-                }
+                param.gpsAzList = param.budgetOrderGpsList;
                 fetch(632126, param).then(() => {
                   showSucMsg('操作成功');
                   this.props.cancelFetching();

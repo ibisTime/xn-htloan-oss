@@ -52,7 +52,8 @@ class historyBusinessManage extends React.Component {
         }
       }, {
         title: '贷款银行',
-        field: 'loanBankName'
+        field: 'loanBankName',
+        render: (v, d) => d.budgetOrder ? d.budgetOrder.loanBankName + d.budgetOrder.repaySubbranch : ''
       }, {
         title: '贷款金额',
         field: 'loanAmount',
@@ -85,11 +86,7 @@ class historyBusinessManage extends React.Component {
         type: 'select',
         listCode: 630147,
         keyName: 'code',
-        valueName: 'name'
-      }, {
-        title: '关键字搜索',
-        field: 'keyword',
-        hidden: true,
+        valueName: 'name',
         search: true
       }
     ];
@@ -97,7 +94,7 @@ class historyBusinessManage extends React.Component {
         fields,
         searchParams: {
           refType: '0',
-          teamCode: getTeamCode(),
+          // teamCode: getTeamCode(),
           curNodeCodeList: ['003_14', '003_15', '003_16', '003_07', '007_04']
         },
         pageCode: 630520

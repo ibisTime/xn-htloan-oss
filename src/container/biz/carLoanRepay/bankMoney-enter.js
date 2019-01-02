@@ -16,6 +16,14 @@ import {
 import fetch from 'common/js/fetch';
 import { DetailWrapper } from 'common/js/build-detail';
 
+let dateList = [];
+for (let i = 1; i <= 28; i++) {
+  dateList.push({
+    key: i,
+    value: i
+  });
+}
+
 @DetailWrapper(
     state => state.bizBankMoneyEnter, {
         initStates,
@@ -56,26 +64,34 @@ class bankMoneyEnter extends React.Component {
             required: true,
             bankCard: true
         }, {
+            title: '放款日期',
+            field: 'bankFkDate',
+            type: 'date',
+            required: true
+        }, {
             title: '银行账单日',
             field: 'repayBillDate',
             required: true,
-            min: '1',
-            max: '28',
-            integer: true
+            type: 'select',
+            data: dateList,
+            keyName: 'key',
+            valueName: 'value'
         }, {
             title: '银行还款日',
             field: 'repayBankDate',
             required: true,
-            min: '1',
-            max: '28',
-            integer: true
+            type: 'select',
+            data: dateList,
+            keyName: 'key',
+            valueName: 'value'
         }, {
             title: '公司还款日',
             field: 'repayCompanyDate',
             required: true,
-            min: '1',
-            max: '28',
-            integer: true
+            type: 'select',
+            data: dateList,
+            keyName: 'key',
+            valueName: 'value'
         }, {
             title: '首期还款日期',
             field: 'repayFirstMonthDatetime',
@@ -90,11 +106,6 @@ class bankMoneyEnter extends React.Component {
             title: '每期月供金额',
             field: 'repayMonthAmount',
             amount: true,
-            required: true
-        }, {
-            title: '放款日期',
-            field: 'bankFkDate',
-            type: 'date',
             required: true
         }];
         return this.props.buildDetail({

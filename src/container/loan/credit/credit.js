@@ -22,7 +22,7 @@ import {
 import {
     creditWithdraw
 } from 'api/biz';
-import { Button, Upload, Modal } from 'antd';
+import { Modal } from 'antd';
 
 @listWrapper(
     state => ({
@@ -125,11 +125,6 @@ class Credit extends React.Component {
             }],
             keyName: 'key',
             valueName: 'value',
-            hidden: true,
-            search: true
-        }, {
-            title: '关键字搜索',
-            field: 'keyword',
             hidden: true,
             search: true
         }];

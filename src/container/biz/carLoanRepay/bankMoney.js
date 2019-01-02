@@ -97,19 +97,15 @@ class bankMoney extends React.Component {
       type: 'date'
     }, {
       title: '当前节点',
-      field: 'curNodeCode',
+      field: 'intevCurNodeCode',
       type: 'select',
       listCode: 630147,
       keyName: 'code',
-      valueName: 'name'
+      valueName: 'name',
+      search: true
     }, {
       title: '备注',
       field: 'remark'
-    }, {
-      title: '关键字搜索',
-      field: 'keyword',
-      hidden: true,
-      search: true
     }];
     return this.props.buildList({
       fields,
@@ -117,62 +113,59 @@ class bankMoney extends React.Component {
       searchParams: {
         userId: getUserId(),
         roleCode: getRoleCode(),
-        curNodeCodeList: ['002_11', '002_13', '002_14', '002_15', '002_16', '002_17']
+        intevCurNodeCodeList: ['002_11', '002_13', '002_14', '002_15', '002_16', '002_17', '002_31', '002_37', '002_38']
       },
       btnEvent: {
-        settle: (selectedRowKeys, selectedRows) => {
-          if (!selectedRowKeys.length) {
-            showWarnMsg('请选择记录');
-          } else if (selectedRowKeys.length > 1) {
-            showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].curNodeCode !== '002_11') {
-            showWarnMsg('当前不是车辆落户节点');
-          } else {
-            this.props.history.push(`/biz/bankMoney/settle?code=${selectedRowKeys[0]}`);
-          }
-        },
+        // 确认提交银行
         sub: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].curNodeCode !== '002_15') {
+          } else if (selectedRows[0].intevCurNodeCode !== '002_15') {
             showWarnMsg('当前不是确认提交银行节点');
           } else {
             this.props.history.push(`/biz/bankMoney/sub?code=${selectedRowKeys[0]}`);
           }
         },
+        // 录入放款信息
         enter: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].curNodeCode !== '002_16') {
+          } else if (selectedRows[0].intevCurNodeCode !== '002_16') {
             showWarnMsg('当前不是录入放款信息节点');
           } else {
             this.props.history.push(`/biz/bankMoney/enter?code=${selectedRowKeys[0]}`);
           }
         },
+        // 确认收款
         certain: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].curNodeCode !== '002_17') {
+          } else if (selectedRows[0].intevCurNodeCode !== '002_17') {
             showWarnMsg('当前不是确认收款节点');
           } else {
             this.props.history.push(`/biz/bankMoney/certain?code=${selectedRowKeys[0]}`);
           }
         },
+        // 资料补录
         record: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].curNodeCode !== '002_11' && selectedRows[0].curNodeCode !== '002_12' && selectedRows[0].curNodeCode !== '002_13' && selectedRows[0].curNodeCode !== '002_14' && selectedRows[0].curNodeCode !== '002_15' && selectedRows[0].curNodeCode !== '002_16') {
+          } else if (selectedRows[0].intevCurNodeCode !== '002_11' &&
+            selectedRows[0].intevCurNodeCode !== '002_13' &&
+            selectedRows[0].intevCurNodeCode !== '002_14' &&
+            selectedRows[0].intevCurNodeCode !== '002_15' &&
+            selectedRows[0].intevCurNodeCode !== '002_16') {
             showWarnMsg('当前不是录入节点');
           } else {
-            this.props.history.push(`/biz/bankMoney/record?code=${selectedRowKeys[0]}`);
+            this.props.history.push(`/biz/bankMoney/record?code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}`);
           }
         }
       }

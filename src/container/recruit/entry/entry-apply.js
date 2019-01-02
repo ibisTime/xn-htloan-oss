@@ -90,13 +90,6 @@ class entryApply extends React.Component {
                     keyName: 'code',
                     valueName: 'name',
                     readonly: true
-                }, {
-                    title: '申请人',
-                    field: 'applyUser',
-                    formatter: (v, d) => {
-                        return d.userId;
-                    },
-                    hidden: true
                 }],
                 [{
                     title: '入职时间',
@@ -289,6 +282,7 @@ class entryApply extends React.Component {
                 buttons: [{
                     title: '确认',
                     handler: (param) => {
+                        param.applyUser = getUserId();
                         param.updater = getUserId();
                         param.probationAssessList = this.gradeList.map(v => ({
                             convertCode: this.code,

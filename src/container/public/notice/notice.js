@@ -10,9 +10,9 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/public/notice';
-import { showWarnMsg, getUserId } from 'common/js/util';
+import { showWarnMsg, showSucMsg, getUserId } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
-import { SYSTEM_CODE } from 'common/js/config';
+import fetch from 'common/js/fetch';
 
 @listWrapper(
     state => ({
@@ -25,93 +25,70 @@ import { SYSTEM_CODE } from 'common/js/config';
     }
 )
 class Notice extends React.Component {
-    render() {
-        const fields = [{
-            field: 'smsTitle',
-            title: '标题'
-        }, {
-            field: 'toKind',
-            title: '针对人群',
-            type: 'select',
-            key: 'user_kind',
-            search: true
-        }, {
-            field: 'status',
-            title: '状态',
-            type: 'select',
-            key: 'notice_status',
-            search: true
-        }, {
-            field: 'updater',
-            title: '最近修改人'
-        }, {
-            field: 'updateDatetime',
-            title: '最近修改时间',
-            type: 'datetime'
-        }, {
-            field: 'remark',
-            title: '备注'
-        }];
-        return this.props.buildList({
-            fields,
-            pageCode: 804040,
-            rowKey: 'id',
-            searchParams: {
-                channelType: '4',
-                systemCode: SYSTEM_CODE,
-                companyCode: SYSTEM_CODE,
-                fromSystemCode: SYSTEM_CODE
-            },
-            btnEvent: {
-                push: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else if (selectedRowKeys[0].status === '0') {
-                        Modal.confirm({
-                            okText: '确认',
-                            cancelText: '取消',
-                            content: '确定发布？',
-                            onOk: () => {
-                                this.props.doFetching();
-                                return fetch(804036, {
-                                    id: selectedRowKeys[0].id,
-                                    systemCode: SYSTEM_CODE,
-                                    updater: getUserId()
-                                }).then(() => {
-                                    this.props.cancelFetching();
-                                    showWarnMsg('操作成功');
-                                }).catch(() => {
-                                    this.props.cancelFetching();
-                                });
-                            }
-                        });
-                    } else if (selectedRowKeys[0].status === '1') {
-                        console.log(1);
-                        Modal.confirm({
-                            okText: '确认',
-                            cancelText: '取消',
-                            content: '确定撤下？',
-                            onOk: () => {
-                                this.props.doFetching();
-                                return fetch(804036, {
-                                    id: selectedRowKeys[0].id,
-                                    systemCode: SYSTEM_CODE,
-                                    updater: getUserId()
-                                }).then(() => {
-                                    this.props.cancelFetching();
-                                    showWarnMsg('操作成功');
-                                }).catch(() => {
-                                    this.props.cancelFetching();
-                                });
-                            }
-                        });
-                    }
-                }
-            }
-        });
-    }
+  back(code) {
+    Modal.confirm({
+      okText: '确认',
+      cancelText: '取消',
+      content: `确认回撤该条公告吗？`,
+      onOk: () => {
+        this.props.doFetching();
+        return fetch(805302, { codeList: [code], updater: getUserId() }).then(data => {
+          this.props.getPageData();
+          showSucMsg('操作成功');
+        }).catch(() => this.props.cancelFetching());
+      }
+    });
+  }
+  render() {
+    const fields = [{
+      field: 'title',
+      title: '标题'
+    }, {
+      field: 'status',
+      title: '状态',
+      type: 'select',
+      key: 'notice_status',
+      search: true
+    }, {
+      field: 'updater',
+      title: '最近修改人'
+    }, {
+      field: 'updateDatetime',
+      title: '最近修改时间',
+      type: 'datetime'
+    }, {
+      field: 'remark',
+      title: '备注'
+    }];
+    return this.props.buildList({
+      fields,
+      pageCode: 805305,
+      btnEvent: {
+        edit: (keys, items) => {
+          if (!keys || !keys.length) {
+            showWarnMsg('请选择记录');
+          } else if (keys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else if (items[0].status !== '0' && items[0].status !== '2') {
+            showWarnMsg('该记录不是待发布状态');
+          } else {
+            this.props.history.push(`/public/notice/addedit?code=${keys[0]}`);
+          }
+        },
+        back: (keys, items) => {
+          if (!keys || !keys.length) {
+            showWarnMsg('请选择记录');
+          } else if (keys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else if (items[0].status !== '1') {
+            showWarnMsg('该记录不是已发布状态');
+          } else {
+            this.back(keys[0]);
+          }
+        }
+      }
+    });
+  }
 }
 
 export default Notice;

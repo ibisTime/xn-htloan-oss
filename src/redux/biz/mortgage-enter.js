@@ -1,6 +1,6 @@
 import { commDetailState } from '../common';
 
-const PREFIX = 'BIZ_MORTGAGE_ENTER_';
+const PREFIX = 'BIZ_MORTGAGE_CONFIRM_';
 const SET_SELECT_DATA = PREFIX + 'SET_SELECT_DATA';
 const LOADING = PREFIX + 'LOADING';
 const CANCEL_LOADING = PREFIX + 'CANCEL_LOADING';

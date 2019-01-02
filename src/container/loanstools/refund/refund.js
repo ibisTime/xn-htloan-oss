@@ -102,7 +102,8 @@ class refund extends React.Component {
             type: 'select',
             listCode: 630147,
             keyName: 'code',
-            valueName: 'name'
+            valueName: 'name',
+            search: true
         }];
         return this.props.buildList({
             fields,
@@ -111,13 +112,14 @@ class refund extends React.Component {
                 isAdvanceFund: '0'
             },
             btnEvent: {
+              // 财务确认退款
               certain: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
                 } else {
-                  this.props.history.push(`/loanstools/refund/certain?code=${selectedRowKeys[0]}`);
+                  this.props.history.push(`${this.props.location.pathname}/certain?code=${selectedRowKeys[0]}`);
                 }
               }
             }

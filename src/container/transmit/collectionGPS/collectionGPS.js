@@ -10,7 +10,7 @@ import {
     setSearchData
 } from '@redux/transmit/collectionGPS';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, getUserId } from 'common/js/util';
+import { showWarnMsg, getUserId, getRoleCode } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -98,8 +98,9 @@ class CollectionGPS extends React.Component {
             fields,
             pageCode: 632155,
             searchParams: {
-                receiverName: getUserId(),
-                type: '2'
+                receiver: getUserId(),
+                type: '2',
+                roleCode: getRoleCode()
             },
             btnEvent: {
               check: (selectedRowKeys, selectedRows) => {

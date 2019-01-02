@@ -10,7 +10,7 @@ import {
   setSearchData
 } from '@redux/biz/userRedemption';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, formatDate } from 'common/js/util';
 
 @listWrapper(
   state => ({
@@ -65,18 +65,15 @@ class userRedemption extends React.Component {
       amount: true
     }, {
       title: '拖车时间',
-      field: 'takeDatetime'
+      field: 'takeDatetime',
+      render: (v, d) => d.overdueRepayPlan ? formatDate(d.overdueRepayPlan.takeDatetime) : ''
     }, {
       title: '当前节点',
       field: 'curNodeCode',
       type: 'select',
       listCode: 630147,
       keyName: 'code',
-      valueName: 'name'
-    }, {
-      title: '关键字搜索',
-      field: 'keyword',
-      hidden: true,
+      valueName: 'name',
       search: true
     }];
     return this.props.buildList({
@@ -84,7 +81,7 @@ class userRedemption extends React.Component {
       pageCode: 630520,
       searchParams: {
         refType: '0',
-        curNodeCodeList: ['003_17', '003_18', '003_19', '003_20', '003_21']
+        curNodeCodeList: ['003_17', '003_18', '003_19']
       },
       btnEvent: {
         applyRedeem: (selectedRowKeys, selectedRows) => {

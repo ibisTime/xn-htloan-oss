@@ -32,12 +32,12 @@ class categoryAddedit extends React.Component {
         required: true
       }, {
         title: '图片',
-        field: 'img',
+        field: 'pic',
         type: 'img'
       }, {
         title: 'UI次序',
         field: 'orderNo',
-        number: true
+        integer: true
       }
     ];
     return this

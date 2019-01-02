@@ -140,7 +140,7 @@ class settlementAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632521
+            detailCode: 630521
         });
     }
 }

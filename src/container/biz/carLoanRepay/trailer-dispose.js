@@ -7,7 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/biz/trailer-dispose';
-import { getQueryString, getUserId, showSucMsg } from 'common/js/util';
+import { getQueryString, getUserId, showSucMsg, moneyFormat } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import { DetailWrapper } from 'common/js/build-detail';
 
@@ -54,7 +54,7 @@ class trailerDispose extends React.Component {
         }, {
             title: '拖车成本',
             field: 'remitAmount',
-            amount: true,
+            formatter: (v, d) => d.overdueRepayPlan ? moneyFormat(d.overdueRepayPlan.remitAmount) : '',
             readonly: true
         }];
         return this

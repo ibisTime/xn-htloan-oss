@@ -1,30 +1,29 @@
 import React from 'react';
-import {
-  initStates,
-  doFetching,
-  cancelFetching,
-  setSelectData,
-  setPageData,
-  restore
-} from '@redux/personalarchives/parchives-addedit.js';
-import {
-  getQueryString
-} from 'common/js/util';
-import {
-  CollapseWrapper
-} from 'component/collapse-detail/collapse-detail';
+import { Form } from 'antd';
+// import {
+//   initStates,
+//   doFetching,
+//   cancelFetching,
+//   setSelectData,
+//   setPageData,
+//   restore
+// } from '@redux/personalarchives/parchives-addedit.js';
+import { getQueryString } from 'common/js/util';
+// import { CollapseWrapper } from 'component/collapse-detail/collapse-detail';
+import DetailUtil from 'common/js/build-detail-dev';
 
-@CollapseWrapper(
-  state => state.personalarchivesParchivesAddedit, {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-  }
-)
-class parchivesAddedit extends React.Component {
+// @CollapseWrapper(
+//   state => state.personalarchivesParchivesAddedit, {
+//     initStates,
+//     doFetching,
+//     cancelFetching,
+//     setSelectData,
+//     setPageData,
+//     restore
+//   }
+// )
+@Form.create()
+class parchivesAddedit extends DetailUtil {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
@@ -44,10 +43,15 @@ class parchivesAddedit extends React.Component {
                 required: true,
                 idCard: true
             }, {
+                title: '照片',
+                field: 'avatar',
+                type: 'img',
+                single: true
+            }], [{
                 title: '手机号码',
                 field: 'mobile',
                 required: true
-            }], [{
+            }, {
                 title: '工号',
                 field: 'jobNo',
                 required: true
@@ -56,20 +60,6 @@ class parchivesAddedit extends React.Component {
                 field: 'entryDatetime',
                 required: true,
                 type: 'date'
-            }, {
-              field: 'departmentCode',
-              title: '部门',
-              type: 'treeSelect',
-              listCode: 630106,
-              keyName: 'code',
-              valueName: 'name',
-              bParams: ['type'],
-              params: {
-                status: 1,
-                typeList: [1, 2]
-              },
-              disabled: (item) => item.type !== '2',
-              required: true
             }], [{
               field: 'postCode',
               title: '岗位',
@@ -305,16 +295,15 @@ class parchivesAddedit extends React.Component {
             }]
         ]
     }];
-    return this
-      .props
-      .buildDetail({
+    return this.buildDetail({
         fields,
+        type: 'collapse',
         code: this.code,
         view: this.view,
         addCode: 632800,
         editCode: 632802,
         detailCode: 632806
-      });
+    });
   }
 }
 

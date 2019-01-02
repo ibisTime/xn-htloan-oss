@@ -63,14 +63,14 @@ export default class CSelect extends React.Component {
   }
   getReadonlyValue(initVal, readonly, list, keyName, valueName, multiple) {
     let value = '';
-    if (readonly && list && initVal) {
+    if (readonly && list && list.length && initVal) {
       if (multiple) {
         value = initVal.map(i => {
-          let obj = list.find(v => v[keyName] === i);
+          let obj = list.find(v => v[keyName] == i);
           return this.getValueName(obj, valueName);
         }).join('、');
       } else {
-        value = list.filter(v => v[keyName] === initVal);
+        value = list.filter(v => v[keyName] == initVal);
         value = value && value.length
           ? this.getValueName(value[0], valueName)
           : initVal;
@@ -123,7 +123,8 @@ CSelect.propTypes = {
   list: PropTypes.array.isRequired,
   initVal: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.number
+    PropTypes.number,
+    PropTypes.array
   ]),
   multiple: PropTypes.bool,
   inline: PropTypes.bool,

@@ -14,11 +14,6 @@ import {
     showSucMsg
 } from 'common/js/util';
 import {
-    Button,
-    Upload,
-    Modal
-} from 'antd';
-import {
     listWrapper
 } from 'common/js/build-list';
 import {
@@ -100,7 +95,8 @@ class cancel extends React.Component {
             type: 'select',
             listCode: 630147,
             keyName: 'code',
-            valueName: 'name'
+            valueName: 'name',
+            search: true
         }];
         return this.props.buildList({
             fields,

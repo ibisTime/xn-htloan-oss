@@ -33,7 +33,13 @@ class UserAccount extends React.Component {
       title: '币种',
       field: 'currency',
       type: 'select',
-      key: 'currency'
+      key: 'currency',
+      onChange: (v, data) => {
+        this.isAmount = false;
+        if(data.type === '1') {
+          this.isAmount = true;
+        }
+      }
     }, {
       title: '类型',
       field: 'type',
@@ -49,7 +55,7 @@ class UserAccount extends React.Component {
     }, {
       title: '余额',
       field: 'amount',
-      amount: true
+      amount: this.isAmount
     }, {
       title: '冻结金额',
       field: 'frozenAmount',

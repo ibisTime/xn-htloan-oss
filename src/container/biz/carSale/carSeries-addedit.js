@@ -47,6 +47,7 @@ class CarSeriesAddEdit extends React.Component {
       field: 'advPic',
       type: 'img',
       required: true,
+      help: '240*160',
       single: true
     }, {
       title: '广告标语',

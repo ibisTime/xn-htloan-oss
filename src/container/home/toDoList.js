@@ -36,8 +36,12 @@ class ToDoList extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'refOrder',
-            search: true
+            field: 'refOrder'
+        }, {
+          title: '业务编号',
+          field: 'parentOrder',
+          hidden: true,
+          search: true
         }, {
             title: '业务公司',
             field: 'departmentName'

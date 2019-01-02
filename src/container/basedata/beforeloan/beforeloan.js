@@ -51,10 +51,11 @@ class Beforeloan extends React.Component {
             buttons: [{
                 title: '确认',
                 handler: (param) => {
-                    fetch(630042, param).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                    }).catch(this.props.cancelFetching);
+                  param.ckey = this.props.pageData.ckey;
+                  fetch(630042, param).then(() => {
+                      showSucMsg('操作成功');
+                      this.props.cancelFetching();
+                  }).catch(this.props.cancelFetching);
                 },
                 check: true,
                 type: 'primary'

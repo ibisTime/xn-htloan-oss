@@ -32,26 +32,31 @@ class DayReport extends React.Component {
         const fields = [{
             title: '收件日期',
             field: 'receiptDatetime',
-            type: 'date'
+            type: 'date',
+            nowrap: true
         }, {
             title: '客户姓名',
             field: 'applyUserName',
-            search: true
+            search: true,
+            nowrap: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            amount: true
+            amount: true,
+            nowrap: true
         }, {
             title: '服务费',
             field: 'bankFee',
-            amount: true
+            amount: true,
+            nowrap: true
         }, {
             title: '当前节点',
             field: 'curNodeCode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
-            valueName: 'name'
+            valueName: 'name',
+            nowrap: true
         }, {
             title: '入档情况',
             field: 'enterStatus',
@@ -65,19 +70,24 @@ class DayReport extends React.Component {
             }],
             keyName: 'key',
             valueName: 'value',
-            search: true
+            search: true,
+            nowrap: true
         }, {
             title: '落户地点',
-            field: 'settleAddress'
+            field: 'settleAddress',
+            nowrap: true
         }, {
             title: '代理人',
-            field: 'pledgeUser'
+            field: 'pledgeUser',
+            nowrap: true
         }, {
             title: '内勤',
-            field: 'insideJob'
+            field: 'insideJobName',
+            nowrap: true
         }, {
             title: '信贷专员',
-            field: 'saleUserName'
+            field: 'saleUserName',
+            nowrap: true
         }];
         return this.props.buildList({
             fields,

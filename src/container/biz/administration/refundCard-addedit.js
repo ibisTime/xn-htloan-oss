@@ -50,7 +50,6 @@ class refundCardAddedit extends React.Component {
       fields,
       code: this.code,
       view: this.view,
-      addCode: 802010,
       editCode: 802012,
       detailCode: 802017,
       beforeSubmit: (params) => {

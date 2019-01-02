@@ -25,8 +25,6 @@ class CreditAddedit extends React.Component {
         this.isEntry = !!getQueryString('isEntry', this.props.location.search);
         // 信贷专员初审
         this.isCheck = !!getQueryString('isCheck', this.props.location.search);
-        // 准入审查
-        this.isCheckFirst = !!getQueryString('isCheckFirst', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
         this.newCar = true;
         this.creditUserListIndex = 6;
@@ -191,23 +189,17 @@ class CreditAddedit extends React.Component {
             field: 'bizType',
             type: 'select',
             key: 'budget_orde_biz_typer',
-            required: true,
-            onChange: (value) => {
-                if (value) {
-                    this.newCar = value === '0';
-                }
-            }
+            required: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true,
-            min: '1',
-            required: true
+            min: '1'
         }, {
             title: '二手车评估报告',
             field: 'secondCarReport',
             type: 'file',
-            hidden: this.newCar
+            hidden: this.props.pageData.bizType === '0'
         }, {
             title: '征信列表',
             field: 'creditUserList',
@@ -219,6 +211,39 @@ class CreditAddedit extends React.Component {
                 delete: this.isAddedit,
                 detail: !(this.isEntry || !this.view),
                 check: this.isEntry,
+                normalBtn: this.isCheck,
+                normalBtnName: '角色互换',
+                normalHandler: (keys) => {
+                  let list = this.props.pageData.creditUserList.slice();
+                  if (!keys.length) {
+                    showWarnMsg('请选择记录');
+                  } else if (keys.length !== 2) {
+                    showWarnMsg('请选择两条记录');
+                  } else {
+                    let idx0 = list.findIndex(l => l.code === keys[0]);
+                    let item0 = list[idx0];
+                    let idx1 = list.findIndex(l => l.code === keys[1]);
+                    let item1 = list[idx1];
+                    if (item0.loanRole !== '1' && item1.loanRole !== '1') {
+                      showWarnMsg('其中一条必须选择申请人');
+                      return;
+                    }
+                    list.splice(idx0, 1, {
+                      ...item0,
+                      loanRole: item1.loanRole,
+                      relation: item1.relation
+                    });
+                    list.splice(idx1, 1, {
+                      ...item1,
+                      loanRole: item0.loanRole,
+                      relation: item0.relation
+                    });
+                    this.props.setPageData({
+                      ...this.props.pageData,
+                      creditUserList: list
+                    });
+                  }
+                },
                 checkName: '录入',
                 scroll: {x: 1300},
                 fields: o2mFields
@@ -233,44 +258,46 @@ class CreditAddedit extends React.Component {
             field: 'approveNote',
             readonly: !this.isCheck,
             hidden: !this.isCheck
-        }, {
-            title: '流转日志',
-            field: 'list',
-            type: 'o2m',
-            listCode: 630176,
-            params: { refOrder: this.code },
-            options: {
-                rowKey: 'id',
-                noSelect: true,
-                fields: [{
-                    title: '操作人',
-                    field: 'operatorName'
-                }, {
-                    title: '开始时间',
-                    field: 'startDatetime',
-                    type: 'datetime'
-                }, {
-                    title: '结束时间',
-                    field: 'endDatetime',
-                    type: 'datetime'
-                }, {
-                    title: '花费时长',
-                    field: 'speedTime'
-                }, {
-                    title: '审核意见',
-                    field: 'dealNote'
-                }, {
-                    title: '当前节点',
-                    field: 'dealNode',
-                    type: 'select',
-                    listCode: 630147,
-                    keyName: 'code',
-                    valueName: 'name'
-                }]
-            }
         }];
-
-        // 信贷专员初审
+        if (this.code) {
+          fields.push({
+              title: '流转日志',
+              field: 'list',
+              type: 'o2m',
+              listCode: 630176,
+              params: { refOrder: this.code },
+              options: {
+                  rowKey: 'id',
+                  noSelect: true,
+                  fields: [{
+                      title: '操作人',
+                      field: 'operatorName'
+                  }, {
+                      title: '开始时间',
+                      field: 'startDatetime',
+                      type: 'datetime'
+                  }, {
+                      title: '结束时间',
+                      field: 'endDatetime',
+                      type: 'datetime'
+                  }, {
+                      title: '花费时长',
+                      field: 'speedTime'
+                  }, {
+                      title: '审核意见',
+                      field: 'dealNote'
+                  }, {
+                      title: '当前节点',
+                      field: 'dealNode',
+                      type: 'select',
+                      listCode: 630147,
+                      keyName: 'code',
+                      valueName: 'name'
+                  }]
+              }
+          });
+        }
+        // 风控专员审核
         if (this.isCheck) {
             this.buttons = [{
                 title: '通过',
@@ -281,6 +308,7 @@ class CreditAddedit extends React.Component {
                     data.approveNote = params.approveNote;
                     data.approveResult = '1';
                     data.operator = getUserId();
+                    data.creditUserList = this.props.pageData.creditUserList;
                     this.props.doFetching();
                     fetch(632113, data).then(() => {
                         showSucMsg('操作成功');

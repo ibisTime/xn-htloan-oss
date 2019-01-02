@@ -51,7 +51,7 @@ class redListAddedit extends React.Component {
             },
             readonly: true
         }, {
-            title: '申请金额',
+            title: '申请拖车金额',
             field: 'tsCarAmount',
             amount: true,
             required: true

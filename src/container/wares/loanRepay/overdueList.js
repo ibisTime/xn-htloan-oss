@@ -13,12 +13,9 @@ import {
   listWrapper
 } from 'common/js/build-list';
 import {
-  showWarnMsg,
-  showSucMsg
+  showWarnMsg
 } from 'common/js/util';
 import {
-  Button,
-  Upload,
   Modal
 } from 'antd';
 import {
@@ -67,7 +64,8 @@ class overdueList extends React.Component {
       }
     }, {
       title: '逾期金额',
-      field: 'overdueAmount'
+      field: 'overdueAmount',
+      amount: true
     }, {
       title: '逾期日期',
       field: 'repayDatetime',
