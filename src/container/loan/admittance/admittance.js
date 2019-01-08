@@ -116,7 +116,7 @@ class Admittance extends React.Component {
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
-                curNodeCodeList: ['002_01', '002_02', '002_03', '002_04', '002_24', '002_25', '002_27', '002_28']
+                curNodeCodeList: ['002_01', '002_02', '002_03', '002_04', '002_24', '002_25', '002_27', '002_28', '002_39']
             },
             btnEvent: {
                 // 申请

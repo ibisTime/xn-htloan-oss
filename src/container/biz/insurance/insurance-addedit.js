@@ -82,18 +82,15 @@ class InsuranceAddEdit extends React.Component {
         }, {
             title: '其他资料',
             field: 'carSettleOtherPdf',
-            type: 'file',
-            required: true
+            type: 'file'
         }, {
             title: '抵押日期',
             field: 'pledgeDatetime',
-            type: 'date',
-            required: true
+            type: 'date'
         }, {
             title: '绿大本扫描件',
             field: 'greenBigSmj',
-            type: 'img',
-            required: true
+            type: 'img'
         }];
         return this.props.buildDetail({
             fields,
