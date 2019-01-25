@@ -9,7 +9,7 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/statistic/nqReport';
-import { getTeamCode, getRoleCode } from 'common/js/util';
+import { getTeamCode, getUserId } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
@@ -102,7 +102,7 @@ class NqReport extends React.Component {
             pageCode: 632916,
             searchParams: {
               teamCode: getTeamCode(),
-              roleCode: getRoleCode()
+              userId: getUserId()
             }
         });
     }
