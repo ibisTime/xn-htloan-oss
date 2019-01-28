@@ -66,6 +66,15 @@ class mortgageEnter extends React.Component {
             field: 'insideJobName',
             readonly: true
         }, {
+            title: '落户日期',
+            field: 'carSettleDatetime',
+            type: 'date',
+            required: true
+        }, {
+            title: '抵押日期',
+            field: 'pledgeDatetime',
+            type: 'date'
+        }, {
             title: '车牌号',
             field: 'carNumber',
             required: true

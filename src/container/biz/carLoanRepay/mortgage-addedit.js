@@ -85,6 +85,16 @@ class mortgageAddedit extends React.Component {
             field: 'approveNote',
             readonly: true
         }, {
+            title: '落户日期',
+            field: 'carSettleDatetime',
+            type: 'date',
+            readonly: true
+        }, {
+            title: '抵押日期',
+            field: 'pledgeDatetime',
+            type: 'date',
+            readonly: true
+        }, {
             title: '车牌号',
             field: 'carNumber',
             readonly: true

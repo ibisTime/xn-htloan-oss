@@ -60,11 +60,6 @@ class InsuranceAddEdit extends React.Component {
             type: 'date',
             required: true
         }, {
-            title: '落户日期',
-            field: 'carSettleDatetime',
-            type: 'date',
-            required: true
-        }, {
             title: '发票',
             field: 'carInvoice',
             type: 'img',
@@ -83,10 +78,6 @@ class InsuranceAddEdit extends React.Component {
             title: '其他资料',
             field: 'carSettleOtherPdf',
             type: 'file'
-        }, {
-            title: '抵押日期',
-            field: 'pledgeDatetime',
-            type: 'date'
         }, {
             title: '绿大本扫描件',
             field: 'greenBigSmj',
