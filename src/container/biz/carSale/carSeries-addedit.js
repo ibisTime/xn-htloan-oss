@@ -38,6 +38,37 @@ class CarSeriesAddEdit extends React.Component {
       title: '名称',
       required: true
     }, {
+      field: 'level',
+      title: '轿车',
+      type: 'select',
+      required: true,
+      data: [{
+        key: '0',
+        value: 'SUV'
+      }, {
+        key: '1',
+        value: '轿车'
+      }, {
+        key: '2',
+        value: 'MPV'
+      }, {
+        key: '3',
+        value: '跑车'
+      }, {
+        key: '4',
+        value: '皮卡'
+      }, {
+        key: '5',
+        value: '房车'
+      }],
+      keyName: 'key',
+      valueName: 'value'
+    }, {
+      field: 'picNumber',
+      title: '照片张数',
+      number: true,
+      required: true
+    }, {
       title: '价格',
       field: 'price',
       amount: true,
@@ -53,6 +84,20 @@ class CarSeriesAddEdit extends React.Component {
       title: '广告标语',
       field: 'slogan',
       required: true
+    }, {
+      title: '是否推荐',
+      type: 'select',
+      field: 'isReferee',
+      required: true,
+      data: [{
+        key: '0',
+        value: '否'
+      }, {
+        key: '1',
+        value: '是'
+      }],
+      keyName: 'key',
+      valueName: 'value'
     }, {
       title: '备注',
       field: 'remark'

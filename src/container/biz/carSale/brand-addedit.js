@@ -7,7 +7,7 @@ import {
   setPageData,
   restore
 } from '@redux/biz/brand-addedit';
-import { getQueryString } from 'common/js/util';
+import { getQueryString, getUserName } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
@@ -42,87 +42,108 @@ class BrandAddedit extends React.Component {
       required: true,
       search: true,
       data: [{
-        key: '0',
+        key: 'A',
         value: 'A'
       }, {
-        key: '1',
+        key: 'B',
         value: 'B'
       }, {
-        key: '2',
+        key: 'C',
         value: 'C'
       }, {
-        key: '3',
+        key: 'D',
         value: 'D'
       }, {
-        key: '4',
+        key: 'E',
         value: 'E'
       }, {
-        key: '5',
+        key: 'F',
         value: 'F'
       }, {
-        key: '6',
+        key: 'G',
         value: 'G'
       }, {
-        key: '7',
+        key: 'H',
         value: 'H'
       }, {
-        key: '8',
+        key: 'I',
         value: 'I'
       }, {
-        key: '9',
+        key: 'J',
         value: 'J'
       }, {
-        key: '10',
+        key: 'K',
         value: 'K'
       }, {
-        key: '11',
+        key: 'L',
         value: 'L'
       }, {
-        key: '12',
+        key: 'M',
         value: 'M'
       }, {
-        key: '13',
+        key: 'N',
         value: 'N'
       }, {
-        key: '14',
+        key: 'O',
         value: 'O'
       }, {
-        key: '15',
+        key: 'P',
         value: 'P'
       }, {
-        key: '16',
+        key: 'Q',
         value: 'Q'
       }, {
-        key: '17',
+        key: 'R',
         value: 'R'
       }, {
-        key: '18',
+        key: 'S',
         value: 'S'
       }, {
-        key: '19',
+        key: 'T',
         value: 'T'
       }, {
-        key: '20',
+        key: 'U',
         value: 'U'
       }, {
-        key: '21',
+        key: 'V',
         value: 'V'
       }, {
-        key: '22',
+        key: 'W',
         value: 'W'
       }, {
-        key: '23',
+        key: 'X',
         value: 'X'
       }, {
-        key: '24',
+        key: 'Y',
         value: 'Y'
       }, {
-        key: '25',
+        key: 'Z',
         value: 'Z'
       }],
       keyName: 'key',
       valueName: 'value'
     }, {
+      title: '是否推荐',
+      type: 'select',
+      field: 'isReferee',
+      required: true,
+      data: [{
+        key: '0',
+        value: '否'
+      }, {
+        key: '1',
+        value: '是'
+      }],
+      keyName: 'key',
+      valueName: 'value'
+    }, {
+      title: '状态',
+      field: 'status',
+      search: true,
+      type: 'select',
+      key: 'status'
+    },
+      {
       title: '备注',
       field: 'remark'
     }];
@@ -132,7 +153,11 @@ class BrandAddedit extends React.Component {
       view: this.view,
       addCode: 630400,
       editCode: 630402,
-      detailCode: 630407
+      detailCode: 630407,
+      beforeSubmit: (data) => {
+        data.updater = getUserName();
+        return data;
+      }
     });
   }
 }

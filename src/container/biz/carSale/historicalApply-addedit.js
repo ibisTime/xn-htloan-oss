@@ -29,12 +29,37 @@ class historicalApplyAddedit extends React.Component {
             title: '订单编号',
             field: 'code'
         }, {
+            title: '品牌',
+            field: 'brandCode',
+            search: true,
+            type: 'select',
+            listCode: 630406,
+            keyName: 'code',
+            valueName: 'name'
+        }, {
             title: '申请人',
             field: 'userId',
             formatter: (v, data) => {
                 let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
                 return prefix + (data.user.mobile || '');
             }
+        }, {
+            title: '车型名称',
+            field: 'carName',
+            readonly: true
+        }, {
+            title: '处理人',
+            field: 'handler',
+            hidden: !this.view,
+            readonly: true
+        }, {
+            title: '车系编号',
+            field: 'seriesCode',
+            readonly: true
+        }, {
+            title: '车系名称',
+            field: 'seriesName',
+            readonly: true
         }, {
             title: '车辆总价',
             amount: true,

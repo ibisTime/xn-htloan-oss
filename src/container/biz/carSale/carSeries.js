@@ -53,6 +53,32 @@ class CarSeries extends React.Component {
       valueName: 'name',
       search: true
     }, {
+      field: 'level',
+      title: '级别',
+      required: true,
+      type: 'select',
+      data: [{
+        key: '0',
+        value: 'SUV'
+      }, {
+        key: '1',
+        value: '轿车'
+      }, {
+        key: '2',
+        value: 'MPV'
+      }, {
+        key: '3',
+        value: '跑车'
+      }, {
+        key: '4',
+        value: '皮卡'
+      }, {
+        key: '5',
+        value: '房车'
+      }],
+      keyName: 'key',
+      valueName: 'value'
+    }, {
       title: '状态',
       field: 'status',
       search: true,
@@ -65,8 +91,19 @@ class CarSeries extends React.Component {
         return this.arr[d.location];
       }
     }, {
-      title: '最新修改人',
-      field: 'updaterName'
+      title: '是否推荐',
+      type: 'select',
+      field: 'isReferee',
+      required: true,
+      data: [{
+        key: '0',
+        value: '否'
+      }, {
+        key: '1',
+        value: '是'
+      }],
+      keyName: 'key',
+      valueName: 'value'
     }, {
       title: '最新修改时间',
       field: 'updateDatetime',

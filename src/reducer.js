@@ -568,7 +568,11 @@ import { creditMobile } from './redux/credit/mobile';
 import { creditMobileQuery } from './redux/credit/mobile-query';
 import { creditTbCheck } from './redux/credit/tbcheck';
 import { creditTbCheckQuery } from './redux/credit/tbcheck-query';
-
+// 商城管理 资讯
+import { bizUserinformation } from './redux/biz/userinformation';
+import { bizUserInformationAddedit } from './redux/biz/userinformation-addedit';
+import { bizVehicleconfiguration } from './redux/biz/vehicleconfiguration';
+import { bizVehicleconfigurationAddedit } from './redux/biz/vehicleconfiguration-addedit';
 export default combineReducers({
   user,
   menu,
@@ -899,5 +903,9 @@ export default combineReducers({
   creditMobile,
   creditMobileQuery,
   creditTbCheck,
-  creditTbCheckQuery
+  creditTbCheckQuery,
+  bizUserInformationAddedit,
+  bizUserinformation,
+  bizVehicleconfigurationAddedit,
+  bizVehicleconfiguration
 });

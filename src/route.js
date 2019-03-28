@@ -1820,6 +1820,24 @@ const ROUTES = [
   {
       path: '/credit/tbcheck/report',
       component: asyncComponent(() => import('container/credit/tbcheck-report/tbcheck-report'))
+  },
+    // 商城管理用户资讯
+    {
+        path: '/container/biz/userinformation',
+        component: asyncComponent(() => import('container/biz/userinformation/userinformation'))},
+    // 商城管理用户资讯--详情
+    {
+        path: '/container/biz/userinformation/addedit',
+        component: asyncComponent(() => import('container/biz/userinformation/userinformation-addedit'))
+  },
+  // 商城管理车辆配置
+  {
+    path: '/container/biz/vehicleconfiguration',
+    component: asyncComponent(() => import('container/biz/vehicleconfiguration/vehicleconfiguration'))},
+  // 商城管理车辆配置--详情
+  {
+    path: '/container/biz/vehicleconfiguration/addedit',
+    component: asyncComponent(() => import('container/biz/vehicleconfiguration/vehicleconfiguration-addedit'))
   }
 ];
 

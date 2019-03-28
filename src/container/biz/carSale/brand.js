@@ -10,7 +10,7 @@ import {
   setSearchData
 } from '@redux/biz/brand';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, getUserName } from 'common/js/util';
 import { Modal } from 'antd';
 import { lowerFrame, onShelf } from 'api/biz';
 
@@ -34,83 +34,84 @@ class Brand extends React.Component {
       title: '字母顺序',
       field: 'letter',
       type: 'select',
+      search: true,
       data: [{
-        key: '0',
+        key: 'A',
         value: 'A'
       }, {
-        key: '1',
+        key: 'B',
         value: 'B'
       }, {
-        key: '2',
+        key: 'C',
         value: 'C'
       }, {
-        key: '3',
+        key: 'D',
         value: 'D'
       }, {
-        key: '4',
+        key: 'E',
         value: 'E'
       }, {
-        key: '5',
+        key: 'F',
         value: 'F'
       }, {
-        key: '6',
+        key: 'G',
         value: 'G'
       }, {
-        key: '7',
+        key: 'H',
         value: 'H'
       }, {
-        key: '8',
+        key: 'I',
         value: 'I'
       }, {
-        key: '9',
+        key: 'J',
         value: 'J'
       }, {
-        key: '10',
+        key: 'K',
         value: 'K'
       }, {
-        key: '11',
+        key: 'L',
         value: 'L'
       }, {
-        key: '12',
+        key: 'M',
         value: 'M'
       }, {
-        key: '13',
+        key: 'N',
         value: 'N'
       }, {
-        key: '14',
+        key: 'O',
         value: 'O'
       }, {
-        key: '15',
+        key: 'P',
         value: 'P'
       }, {
-        key: '16',
+        key: 'Q',
         value: 'Q'
       }, {
-        key: '17',
+        key: 'R',
         value: 'R'
       }, {
-        key: '18',
+        key: 'S',
         value: 'S'
       }, {
-        key: '19',
+        key: 'T',
         value: 'T'
       }, {
-        key: '20',
+        key: 'U',
         value: 'U'
       }, {
-        key: '21',
+        key: 'V',
         value: 'V'
       }, {
-        key: '22',
+        key: 'W',
         value: 'W'
       }, {
-        key: '23',
+        key: 'X',
         value: 'X'
       }, {
-        key: '24',
+        key: 'Y',
         value: 'Y'
       }, {
-        key: '25',
+        key: 'Z',
         value: 'Z'
       }],
       keyName: 'key',
@@ -121,6 +122,20 @@ class Brand extends React.Component {
       search: true,
       type: 'select',
       key: 'status'
+    }, {
+      title: '是否推荐',
+      search: true,
+      type: 'select',
+      field: 'isReferee',
+      data: [{
+        key: '0',
+        value: '否'
+      }, {
+        key: '1',
+        value: '是'
+      }],
+      keyName: 'key',
+      valueName: 'value'
     }, {
       title: '最新修改人',
       field: 'updater'

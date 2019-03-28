@@ -11,7 +11,7 @@ import {
 } from '@redux/biz/carShape';
 import { listWrapper } from 'common/js/build-list';
 import OnOrDownShelf from 'component/onordownshelf/onordownshelf';
-import { showWarnMsg, showSucMsg } from 'common/js/util';
+import { showWarnMsg, showSucMsg, moneyFormat } from 'common/js/util';
 import { Modal } from 'antd';
 import { lowerFrameShape } from 'api/biz';
 
@@ -67,11 +67,17 @@ class CarShape extends React.Component {
     }, {
       title: '厂商指导价',
       amount: true,
-      field: 'originalPrice'
+      field: 'originalPrice',
+      render: (v, d) => {
+        return moneyFormat(v, '', d.originalPrice);
+      }
     }, {
       title: '经销商参考价',
       amount: true,
-      field: 'salePrice'
+      field: 'salePrice',
+      render: (v, d) => {
+          return moneyFormat(v, '', d.salePrice);
+      }
     }, {
       field: 'location',
       title: 'UI位置',
@@ -147,6 +153,15 @@ class CarShape extends React.Component {
           } else {
               this.props.history.push(`/biz/carShape/addedit?code=${item[0].code}`);
           }
+      },
+      cxpz: (selectedRowKeys, selectedRows) => {
+        if (!selectedRowKeys.length) {
+          showWarnMsg('请选择记录');
+        } else if (selectedRowKeys.length > 1) {
+          showWarnMsg('请选择一条记录');
+        } else {
+          this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRowKeys[0]}`);
+        }
       }
     };
     return (

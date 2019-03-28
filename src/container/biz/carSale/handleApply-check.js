@@ -37,6 +37,36 @@ class handleApplyCheck extends React.Component {
             field: 'code',
             readonly: true
         }, {
+            title: '品牌',
+            field: 'brandCode',
+            search: true,
+            type: 'select',
+            listCode: 630406,
+            keyName: 'code',
+            valueName: 'name',
+            readonly: true
+        }, {
+            title: '车型编号',
+            field: 'carCode',
+            readonly: true
+        }, {
+            title: '车型名称',
+            field: 'carName',
+            readonly: true
+        }, {
+            title: '处理人',
+            field: 'handler',
+            hidden: !this.view,
+            readonly: true
+        }, {
+            title: '车系编号',
+            field: 'seriesCode',
+            readonly: true
+        }, {
+            title: '车系名称',
+            field: 'seriesName',
+            readonly: true
+        }, {
             title: '申请人',
             field: 'userId',
             type: 'select',
