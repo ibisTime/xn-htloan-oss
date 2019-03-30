@@ -116,6 +116,15 @@ const ROUTES = [
     path: '/public/banner/addedit',
     component: asyncComponent(() => import('container/public/banner-addedit/banner-addedit'))
   },
+    //  导航管理
+  {
+      path: '/public/navigation',
+    component: asyncComponent(() => import('container/public/navigation/navigation'))
+  },
+  {
+    path: '/public/navigation/addedit',
+    component: asyncComponent(() => import('container/public/navigation/navigation-addedit'))
+  },
   {
     path: '/biz/brand',
     component: asyncComponent(() => import('container/biz/carSale/brand'))
@@ -141,6 +150,16 @@ const ROUTES = [
   {
     path: '/biz/carShape/addedit',
     component: asyncComponent(() => import('container/biz/carSale/carShape-addedit'))
+  },
+  //  车型管理详情
+  {
+    path: '/biz/carShape/cxpz',
+    component: asyncComponent(() => import('container/biz/carSale/carShape-cxpz'))
+  },
+  //  车型管理  选择配置
+  {
+    path: '/biz/carShape/xzpz',
+    component: asyncComponent(() => import('container/biz/carSale/carShape-selectcx'))
   },
   //  车贷申请单
   {

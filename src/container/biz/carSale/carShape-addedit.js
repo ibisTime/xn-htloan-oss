@@ -69,9 +69,6 @@ class CarShapeAddEdit extends React.Component {
         key: '2',
         value: '三厢'
       }, {
-        key: '2',
-        value: '三厢'
-      }, {
         key: '3',
         value: '掀背'
       }, {

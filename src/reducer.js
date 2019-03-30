@@ -573,6 +573,9 @@ import { bizUserinformation } from './redux/biz/userinformation';
 import { bizUserInformationAddedit } from './redux/biz/userinformation-addedit';
 import { bizVehicleconfiguration } from './redux/biz/vehicleconfiguration';
 import { bizVehicleconfigurationAddedit } from './redux/biz/vehicleconfiguration-addedit';
+import { bizCarSeriesCxpz } from './redux/biz/carShape-cxpz';
+// 导航
+import { Navigation } from './redux/biz/navigation';
 export default combineReducers({
   user,
   menu,
@@ -907,5 +910,7 @@ export default combineReducers({
   bizUserInformationAddedit,
   bizUserinformation,
   bizVehicleconfigurationAddedit,
-  bizVehicleconfiguration
+  bizVehicleconfiguration,
+  bizCarSeriesCxpz,
+  Navigation
 });

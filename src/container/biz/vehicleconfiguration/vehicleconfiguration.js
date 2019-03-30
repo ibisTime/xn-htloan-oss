@@ -40,7 +40,8 @@ class Vehicleconfiguration extends React.Component {
     render() {
         const fields = [{
             title: '名称',
-            field: 'name'
+            field: 'name',
+            search: true
         }];
         return this.props.buildList({
             fields,

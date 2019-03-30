@@ -160,7 +160,7 @@ class CarShape extends React.Component {
         } else if (selectedRowKeys.length > 1) {
           showWarnMsg('请选择一条记录');
         } else {
-          this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRowKeys[0]}`);
+          this.props.history.push(`/biz/carShape/cxpz?code=${selectedRows[0].code}&carCode=${selectedRows[0].code}`);
         }
       }
     };
@@ -169,6 +169,7 @@ class CarShape extends React.Component {
         {this.props.buildList({
           fields,
           btnEvent,
+          rowKey: 'carCode',
           pageCode: 630425
         })}
         <OnOrDownShelf
