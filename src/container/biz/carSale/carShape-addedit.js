@@ -41,10 +41,6 @@ class CarShapeAddEdit extends React.Component {
       amount: true,
       required: true
     }, {
-      field: 'insideColor',
-      title: '内部颜色',
-      required: true
-    }, {
       field: 'jsqByhf',
       title: '必要花费',
       amount: true,
@@ -56,6 +52,10 @@ class CarShapeAddEdit extends React.Component {
     }, {
       field: 'outsideColor',
       title: '外部颜色',
+      required: true
+    }, {
+      field: 'insideColor',
+      title: '内部颜色',
       required: true
     }, {
       field: 'structure',
@@ -193,14 +193,14 @@ class CarShapeAddEdit extends React.Component {
       field: 'pic',
       required: true,
       type: 'img',
-      help: '240*160',
-      single: true
+      help: '240*160'
     }, {
       title: '广告图',
       field: 'advPic',
       required: true,
       help: '750*500',
-      type: 'img'
+      type: 'img',
+      single: true
     }, {
       title: '广告语',
       field: 'slogan',
@@ -230,13 +230,13 @@ class CarShapeAddEdit extends React.Component {
       amount: true,
       required: true
     }, {
-      title: '经办银行',
+      title: '贷款银行',
       field: 'bankCode',
       type: 'select',
       required: true,
-      listCode: 802116,
-      keyName: 'bankCode',
-      valueName: 'bankName'
+      listCode: 632037,
+      keyName: 'code',
+      valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
     }, {
       title: '车辆分期介绍',
       field: 'description',

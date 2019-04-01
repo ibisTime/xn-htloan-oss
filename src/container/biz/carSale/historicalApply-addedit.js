@@ -51,6 +51,9 @@ class historicalApplyAddedit extends React.Component {
             title: '处理人',
             field: 'handler',
             hidden: !this.view,
+            formatter: (v, d) => {
+              return d.sysUser ? d.sysUser.realName : '';
+            },
             readonly: true
         }, {
             title: '车系编号',
@@ -69,19 +72,9 @@ class historicalApplyAddedit extends React.Component {
             amount: true,
             field: 'sfAmount'
         }, {
-            title: '车贷计算器信息',
-            field: 'saleDesc'
-        }, {
             title: '申请时间',
             field: 'createDatetime',
             type: 'datetime'
-        }, {
-            title: '处理人',
-            field: 'handler',
-            type: 'select',
-            listCode: 630066,
-            keyName: 'userId',
-            valueName: 'realName'
         }, {
             title: '状态',
             field: 'status',

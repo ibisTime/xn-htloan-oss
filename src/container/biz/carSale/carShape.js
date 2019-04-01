@@ -154,6 +154,14 @@ class CarShape extends React.Component {
               this.props.history.push(`/biz/carShape/addedit?code=${item[0].code}`);
           }
       },
+      detail: (key, item) => {
+        console.log(item);
+        if (!key || !key.length || !item || !item.length) {
+          showWarnMsg('请选择记录');
+        } else {
+          this.props.history.push(`/biz/carShape/addedit?v=1&code=${item[0].code}`);
+        }
+      },
       cxpz: (selectedRowKeys, selectedRows) => {
         if (!selectedRowKeys.length) {
           showWarnMsg('请选择记录');

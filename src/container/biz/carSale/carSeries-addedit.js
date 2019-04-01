@@ -69,11 +69,6 @@ class CarSeriesAddEdit extends React.Component {
       number: true,
       required: true
     }, {
-      title: '价格',
-      field: 'price',
-      amount: true,
-      required: true
-    }, {
       title: '广告图',
       field: 'advPic',
       type: 'img',

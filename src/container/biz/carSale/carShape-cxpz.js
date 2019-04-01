@@ -63,28 +63,34 @@ class CarSeriesCxpz extends React.Component {
                 code: 'delete',
                 name: '删除配置',
                 check: true,
-                handler: (keys, items) => {
-                    console.log(keys);
-                    if (!keys || !keys.length) {
+                handler: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else {
-                        Modal.confirm({
-                            okText: '确认',
-                            cancelText: '取消',
-                            content: `确定删除该配置？`,
-                            onOk: () => {
-                                this.props.doFetching();
-                                return fetch(630444, {
-                                    carCode: this.carCode,
-                                    configCodeList: items[0].configCode
-                                }).then(() => {
-                                    this.props.getPageData();
-                                    showSucMsg('操作成功');
-                                }).catch(() => {
-                                    this.props.cancelFetching();
-                                });
-                            }
-                        });
+                        let codeList = [];
+                        for(let i = 0, len = selectedRows.length; i < len; i++) {
+                            codeList.push(selectedRows[i].configCode);
+                            console.log(codeList);
+                        }
+                        if (codeList.length > 0) {
+                            Modal.confirm({
+                                okText: '确认',
+                                cancelText: '取消',
+                                content: `确定删除？`,
+                                onOk: () => {
+                                    this.props.doFetching();
+                                    return fetch(630444, {
+                                        carCode: this.carCode,
+                                        configCodeList: codeList
+                                    }).then(() => {
+                                        this.props.getPageData();
+                                        showSucMsg('操作成功');
+                                    }).catch(() => {
+                                        this.props.cancelFetching();
+                                    });
+                                }
+                            });
+                        }
                     }
                 }
             }, {

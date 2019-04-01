@@ -60,7 +60,13 @@ module.exports = {
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
-  entry: [require.resolve('./polyfills'), paths.appIndexJs],
+  entry: {
+    'polyfills': require.resolve('./polyfills'),
+    'common_detail': paths.comDetailJs,
+    'common_list': paths.comListJs,
+    'index': paths.appIndexJs
+  },
+//    ,[require.resolve('./polyfills'), paths.appIndexJs],
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -249,6 +255,10 @@ module.exports = {
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In production, it will be an empty string unless you specify "homepage"
     // in `package.json`, in which case it will be the pathname of that URL.
+    new webpack.optimize.CommonsChunkPlugin({
+        names: ['common_list', 'common_detail'],
+      filename: '[name].js'
+}),
     new InterpolateHtmlPlugin(env.raw),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
