@@ -12,7 +12,7 @@ import {
 import { clearUser } from 'common/js/util';
 import asyncComponent from '../async-component/async-component';
 import EditPwd from 'component/edit-pwd/edit-pwd';
-import { getToDoCount } from 'api/biz';
+// import { getToDoCount } from 'api/biz';
 import ROUTES from 'src/route';
 import './dashboard.css';
 import logo from './logo.png';
@@ -38,21 +38,21 @@ class Dashboard extends React.Component {
   }
   componentDidMount() {
     this.props.getMenuList(this.props.location.pathname);
-    this.queryToDoCount();
+    // this.queryToDoCount();
   }
-  // 获取待办数量
-  queryToDoCount() {
-    getToDoCount().then(data => {
-      this.props.setToDoCount(data.totalCount);
-      setTimeout(() => {
-        this.queryToDoCount();
-      }, 5000);
-    }).catch(() => {
-      setTimeout(() => {
-        this.queryToDoCount();
-      }, 5000);
-    });
-  }
+  // // 获取待办数量
+  // queryToDoCount() {
+  //   getToDoCount().then(data => {
+  //     this.props.setToDoCount(data.totalCount);
+  //     setTimeout(() => {
+  //       this.queryToDoCount();
+  //     }, 5000);
+  //   }).catch(() => {
+  //     setTimeout(() => {
+  //       this.queryToDoCount();
+  //     }, 5000);
+  //   });
+  // }
   // 头部菜单点击
   handleTopMenuClick(e) {
     if (e.key && e.key !== 'user') {

@@ -155,7 +155,6 @@ class CarShapeAddEdit extends React.Component {
       field: 'brandCode',
       type: 'select',
       listCode: 630406,
-      hidden: !this.view,
       params: {
         status: '1'
       },
@@ -183,7 +182,6 @@ class CarShapeAddEdit extends React.Component {
       field: 'seriesCode',
       type: 'select',
       required: true,
-      hidden: !this.view,
       params: {
         status: 1
       },
@@ -214,7 +212,7 @@ class CarShapeAddEdit extends React.Component {
       required: true
     }, {
       field: 'picNumber',
-      title: '照片张数 ',
+      title: '图片数量 ',
       required: true,
       number: true
     }, {
@@ -237,7 +235,6 @@ class CarShapeAddEdit extends React.Component {
       type: 'select',
       required: true,
       listCode: 632037,
-      hidden: !this.view,
       keyName: 'code',
       valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
     }, {

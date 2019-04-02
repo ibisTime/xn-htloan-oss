@@ -2,11 +2,11 @@ import { getUserName, getUserId, getTeamCode, getRoleCode } from 'common/js/util
 import fetch from 'common/js/fetch';
 
 export function lowerFrame(code) {
-  return fetch(630404, { code, updater: getUserId() });
+  return fetch(630404, { code, updater: getUserName() });
 }
 
 export function onShelf(code) {
-  return fetch(630403, { code, updater: getUserId() });
+  return fetch(630403, { code, updater: getUserName() });
 }
 
 export function lowerFrameSys(code, location, orderNo) {
@@ -85,12 +85,12 @@ export function creditWithdraw(code) {
 export function getCreditReport(id) {
   return fetch(632948, { id });
 }
-// 获取待办数量
-export function getToDoCount() {
-  return fetch(632911, {
-    teamCode: getTeamCode(),
-    roleCode: getRoleCode(),
-    start: 1,
-    limit: 1
-  });
-}
+// // 获取待办数量
+// export function getToDoCount() {
+//   return fetch(632911, {
+//     teamCode: getTeamCode(),
+//     roleCode: getRoleCode(),
+//     start: 1,
+//     limit: 1
+//   });
+// }

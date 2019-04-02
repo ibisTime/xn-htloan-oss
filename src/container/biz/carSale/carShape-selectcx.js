@@ -64,9 +64,6 @@ class CarSeries extends React.Component {
                         fetch(630448, {
                             carCode: this.carCode
                         }).then((carCodeList) => {
-                            console.log(carCodeList);
-                            console.log('111');
-                            console.log(keys);
                             for(let i = 0, len = carCodeList.length; i < len; i++) {
                                 console.log(carCodeList[i].configCode);
                                 if(carCodeList[i].configCode === keys[0]) {

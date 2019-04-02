@@ -119,9 +119,9 @@ class CarShape extends React.Component {
             content: '确定下架？',
             onOk: () => {
               this.props.doFetching();
-              return lowerFrameShape(key[0]).then(() => {
+              return lowerFrameShape(item[0].code).then(() => {
                 this.props.getPageData();
-                showWarnMsg('操作成功');
+                showSucMsg('操作成功');
                 setTimeout(() => {
                     this.props.getPageData();
                 }, 500);
@@ -139,13 +139,15 @@ class CarShape extends React.Component {
           showWarnMsg('该状态不可上架');
         } else {
           this.setState({
-            selectKey: key[0],
+            selectKey: item[0].code,
             shelfVisible: true
           });
         }
       },
+      add: (key, item) => {
+          this.props.history.push(`/biz/carShape/add`);
+        },
       edit: (key, item) => {
-          console.log(item);
           if (!key || !key.length || !item || !item.length) {
               showWarnMsg('请选择记录');
           } else if (item[0].status === '1') {

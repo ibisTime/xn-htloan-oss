@@ -19,7 +19,7 @@ import {
     getUserName,
     dateTimeFormat
 } from 'common/js/util';
-import { listWrapper } from 'common/js/build-list';
+import {listWrapper} from 'common/js/build-list';
 
 @listWrapper(
     state => ({
@@ -39,16 +39,37 @@ import { listWrapper } from 'common/js/build-list';
 class Userinformation extends React.Component {
     render() {
         const fields = [{
-            title: '标签',
-            field: 'tag'
-        }, {
             title: '标题',
             field: 'title',
             search: true
         }, {
+            title: '作者',
+            field: 'author',
+            required: true
+        }, {
+            title: '照片张数',
+            field: 'picNumber',
+            number: true,
+            required: true
+        }, {
+            title: '浏览次数',
+            field: 'readCount'
+        }, {
             title: '状态',
             field: 'status',
-            search: true
+            search: true,
+            type: 'select',
+            key: 'status'
+        }, {
+            title: '更新人',
+            field: 'updater',
+            render: (v, d) => {
+                return d.sysUser.realName;
+                }
+        }, {
+            title: '更新时间',
+            field: 'updateDatetime',
+            type: 'date'
         }];
         return this.props.buildList({
             fields,
@@ -61,7 +82,7 @@ class Userinformation extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else if (selectedRows[0].status !== '0') {
-                        showWarnMsg('已上架的标签不可修改');
+                        showWarnMsg('已上架的资讯不可修改');
                     } else {
                         this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRowKeys[0]}`);
                     }
@@ -72,12 +93,12 @@ class Userinformation extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else if (selectedRows[0].status === '1') {
-                        showWarnMsg('该标签已上架');
+                        showWarnMsg('该资讯已上架');
                     } else {
                         Modal.confirm({
                             okText: '确认',
                             cancelText: '取消',
-                            content: `确定上架该标签？`,
+                            content: `确定上架该资讯？`,
                             onOk: () => {
                                 this.props.doFetching();
                                 return fetch(630453, {
@@ -99,12 +120,12 @@ class Userinformation extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else if (selectedRows[0].status === '2') {
-                        showWarnMsg('该标签已下架');
+                        showWarnMsg('该资讯已下架');
                     } else {
                         Modal.confirm({
                             okText: '确认',
                             cancelText: '取消',
-                            content: `确定下架该标签？`,
+                            content: `确定下架该资讯？`,
                             onOk: () => {
                                 this.props.doFetching();
                                 return fetch(630454, {

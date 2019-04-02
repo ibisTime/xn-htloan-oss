@@ -151,6 +151,11 @@ const ROUTES = [
     path: '/biz/carShape/addedit',
     component: asyncComponent(() => import('container/biz/carSale/carShape-addedit'))
   },
+  //  车型管理新增
+  {
+    path: '/biz/carShape/add',
+    component: asyncComponent(() => import('container/biz/carSale/carShape-add'))
+  },
   //  车型管理详情
   {
     path: '/biz/carShape/cxpz',

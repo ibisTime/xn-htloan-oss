@@ -73,8 +73,7 @@ class CarSeriesAddEdit extends React.Component {
       field: 'advPic',
       type: 'img',
       required: true,
-      help: '240*160',
-      single: true
+      help: '240*160'
     }, {
       title: '广告标语',
       field: 'slogan',
@@ -93,6 +92,13 @@ class CarSeriesAddEdit extends React.Component {
       }],
       keyName: 'key',
       valueName: 'value'
+    }, {
+      title: '最新修改人',
+      field: 'updaterName'
+    }, {
+      title: '最新修改时间',
+      field: 'updateDatetime',
+      type: 'datetime'
     }, {
       title: '备注',
       field: 'remark'

@@ -79,6 +79,11 @@ class CarSeries extends React.Component {
       keyName: 'key',
       valueName: 'value'
     }, {
+      field: 'picNumber',
+      title: '照片张数 ',
+      required: true,
+      number: true
+    }, {
       title: '状态',
       field: 'status',
       search: true,
@@ -90,6 +95,11 @@ class CarSeries extends React.Component {
       render: (v, d) => {
         return this.arr[d.location];
       }
+    }, {
+      title: 'UI次序',
+      field: 'orderNo',
+      search: true,
+      key: 'order_no'
     }, {
       title: '是否推荐',
       type: 'select',
@@ -104,6 +114,9 @@ class CarSeries extends React.Component {
       }],
       keyName: 'key',
       valueName: 'value'
+    }, {
+      title: '最新修改人',
+      field: 'updaterName'
     }, {
       title: '最新修改时间',
       field: 'updateDatetime',

@@ -53,12 +53,14 @@ class handleApplyCheck extends React.Component {
             title: '车型名称',
             field: 'carName',
             readonly: true
-        }, {
-            title: '处理人',
-            field: 'handler',
-            hidden: !this.view,
-            readonly: true
-        }, {
+        },
+            // {
+            //     title: '处理人',
+            //     field: 'handler',
+            //     hidden: !this.view,
+            //     readonly: true
+            // },
+            {
             title: '车系编号',
             field: 'seriesCode',
             readonly: true

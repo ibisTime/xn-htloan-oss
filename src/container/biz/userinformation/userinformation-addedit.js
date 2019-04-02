@@ -7,7 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/biz/userinformation-addedit';
-import {getQueryString, getUserId, isExpressConfirm} from 'common/js/util';
+import {getQueryString, getUserId, isExpressConfirm, getUserName} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 
 @DetailWrapper(
@@ -28,16 +28,18 @@ class UserinformationAddedit extends React.Component {
     }
 
     render() {
-        const fields = [{
-            title: '作者',
-            field: 'author',
+        const fields = [
+           {
+            title: '标题',
+            field: 'title',
             required: true
         },
             {
-                title: '标题',
-                field: 'title',
+                title: '作者',
+                field: 'author',
                 required: true
-            }, {
+            },
+            {
                 title: '标签',
                 field: 'tag',
                 required: true
@@ -65,9 +67,6 @@ class UserinformationAddedit extends React.Component {
                 field: 'context',
                 type: 'textarea',
                 required: true
-            }, {
-                title: '状态',
-                field: 'status'
             }];
         return this.props.buildDetail({
             fields,
