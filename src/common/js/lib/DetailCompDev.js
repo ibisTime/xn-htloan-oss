@@ -3,7 +3,7 @@ import { Form, Button, Spin, Tooltip, Icon, Collapse, Row, Col, Card } from 'ant
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
 import {
-  isUndefined, showSucMsg, getUserName, moneyParse, getRules, getRealValue,
+  isUndefined, showSucMsg, getUserId, moneyParse, getRules, getRealValue,
   dateFormat, dateTimeFormat
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
@@ -142,6 +142,12 @@ export default class DetailComp extends React.Component {
           } else {
             selectData[field.field] = data;
           }
+          if (field.type === 'o2m') {
+            pageData = {
+              ...pageData,
+              [field.field]: data
+            };
+          }
         }
       });
       this.setState({
@@ -160,10 +166,11 @@ export default class DetailComp extends React.Component {
               f.onChange(initVal);
             }
           });
+          this.options.afterDetail && this.options.afterDetail();
         }
-        if (this.options.afterDetail) {
-          this.options.afterDetail();
-        }
+        // if (this.options.afterDetail) {
+        //   this.options.afterDetail();
+        // }
       });
     }).catch(() => {});
   }
@@ -207,23 +214,23 @@ export default class DetailComp extends React.Component {
       let comp;
       if (field.items) {
         comp = (
-          <Card title={field.title} key={i} className={field.hidden ? 'hidden' : ''} style={{ marginBottom: 20 }}>{
-            field.items.map((fld, k) => (
-              <Row gutter={24} key={k}>{
-                fld.map((f, j) => {
-                  f.inline = true;
-                  f.hidden = !!field.hidden;
-                  this.fields.push(f);
-                  this.judgeFieldType(f);
-                  let props = this.getColProps(fld, j);
-                  return (
-                    <Col {...props} key={f.field}>
-                      {this.getItemByType(f.type, f)}
-                    </Col>);
-                })}
-              </Row>
-            ))
-          }</Card>
+            <Card title={field.title} key={i} className={field.hidden ? 'hidden' : ''} style={{ marginBottom: 20 }}>{
+              field.items.map((fld, k) => (
+                  <Row gutter={24} key={k}>{
+                    fld.map((f, j) => {
+                      f.inline = true;
+                      f.hidden = !!field.hidden;
+                      this.fields.push(f);
+                      this.judgeFieldType(f);
+                      let props = this.getColProps(fld, j);
+                      return (
+                          <Col {...props} key={f.field}>
+                            {this.getItemByType(f.type, f)}
+                          </Col>);
+                    })}
+                  </Row>
+              ))
+            }</Card>
         );
         children.push(comp);
       }
@@ -242,23 +249,23 @@ export default class DetailComp extends React.Component {
           lengthList.push(String(i));
         }
         comp = (
-          <Panel header={field.title} key={i} className={field.hidden ? 'hidden' : ''}>{
-            field.items.map((fld, k) => (
-              <Row gutter={24} key={k}>{
-                fld.map((f, j) => {
-                  f.inline = true;
-                  f.hidden = !!field.hidden;
-                  this.fields.push(f);
-                  this.judgeFieldType(f);
-                  let props = this.getColProps(fld, j);
-                  return (
-                    <Col {...props} key={f.field}>
-                      {this.getItemByType(f.type, f)}
-                    </Col>);
-                })}
-              </Row>
-            ))
-          }</Panel>
+            <Panel header={field.title} key={i} className={field.hidden ? 'hidden' : ''}>{
+              field.items.map((fld, k) => (
+                  <Row gutter={24} key={k}>{
+                    fld.map((f, j) => {
+                      f.inline = true;
+                      f.hidden = !!field.hidden;
+                      this.fields.push(f);
+                      this.judgeFieldType(f);
+                      let props = this.getColProps(fld, j);
+                      return (
+                          <Col {...props} key={f.field}>
+                            {this.getItemByType(f.type, f)}
+                          </Col>);
+                    })}
+                  </Row>
+              ))
+            }</Panel>
         );
         children.push(comp);
       }
@@ -268,15 +275,15 @@ export default class DetailComp extends React.Component {
   // 获取collapse的属性
   getColProps(arr, idx) {
     return arr.length === 1 ? col1Props
-      : arr.length === 2
-        ? col2Props
-        : arr.length === 3
-          ? idx < 2 ? col3Props : col33Props
-          : arr.length === 4
-            ? col4Props
-            : arr.length === 5
-              ? idx < 4 ? col5Props : col55Props
-              : col1Props;
+        : arr.length === 2
+            ? col2Props
+            : arr.length === 3
+                ? idx < 2 ? col3Props : col33Props
+                : arr.length === 4
+                    ? col4Props
+                    : arr.length === 5
+                        ? idx < 4 ? col5Props : col55Props
+                        : col1Props;
   }
   // 构建普通的详情页
   buildNormalDetail() {
@@ -321,29 +328,29 @@ export default class DetailComp extends React.Component {
   // 组装页面结构
   getPageComponent = (children) => {
     return (
-      <Spin spinning={this.state.fetching}>
-        <Form className="detail-form-wrapper" onSubmit={this.handleSubmit}>
-          {
-            this.options.type === 'collapse' ? (
-              <div>
-                <Collapse id="_content_wrapper_" defaultActiveKey={lengthList}>
-                  {children}
-                </Collapse>
-                <div style={{marginTop: 20}}>
-                  {this.getBtns(this.options.buttons)}
-                </div>
-              </div>
-            ) : this.options.type === 'card' ? (
-              <div>
-                <div id="_content_wrapper_">{children}</div>
-                <div style={{marginTop: 20}}>
-                  {this.getBtns(this.options.buttons)}
-                </div>
-              </div>
-            ) : <div>{children}</div>
-          }
-        </Form>
-      </Spin>
+        <Spin spinning={this.state.fetching}>
+          <Form className="detail-form-wrapper" onSubmit={this.handleSubmit}>
+            {
+              this.options.type === 'collapse' ? (
+                  <div>
+                    <Collapse id="_content_wrapper_" defaultActiveKey={lengthList}>
+                      {children}
+                    </Collapse>
+                    <div style={{marginTop: 20}}>
+                      {this.getBtns(this.options.buttons)}
+                    </div>
+                  </div>
+              ) : this.options.type === 'card' ? (
+                  <div>
+                    <div id="_content_wrapper_">{children}</div>
+                    <div style={{marginTop: 20}}>
+                      {this.getBtns(this.options.buttons)}
+                    </div>
+                  </div>
+              ) : <div>{children}</div>
+            }
+          </Form>
+        </Spin>
     );
   }
   // 根据类型获取控件
@@ -358,13 +365,13 @@ export default class DetailComp extends React.Component {
       case 'provSelect':
       case 'select':
         return item.pageCode
-          ? this.getSearchSelectItem(item, initVal, rules, getFieldDecorator)
-          : this.getSelectComp(item, initVal, rules, getFieldDecorator);
+            ? this.getSearchSelectItem(item, initVal, rules, getFieldDecorator)
+            : this.getSelectComp(item, initVal, rules, getFieldDecorator);
       case 'date':
       case 'datetime':
         return item.rangedate
-          ? this.getRangeDateItem(item, initVal, rules, getFieldDecorator, type === 'datetime')
-          : this.getDateItem(item, initVal, rules, getFieldDecorator, type === 'datetime');
+            ? this.getRangeDateItem(item, initVal, rules, getFieldDecorator, type === 'datetime')
+            : this.getDateItem(item, initVal, rules, getFieldDecorator, type === 'datetime');
       case 'month':
         return this.getMonthItem(item, initVal, rules, getFieldDecorator);
       case 'img':
@@ -373,8 +380,8 @@ export default class DetailComp extends React.Component {
         return this.getFileComp(item, initVal, rules, getFieldDecorator, false);
       case 'textarea':
         return item.normalArea
-          ? this.getNormalTextArea(item, initVal, rules, getFieldDecorator)
-          : this.getTextArea(item, initVal, rules, getFieldDecorator);
+            ? this.getNormalTextArea(item, initVal, rules, getFieldDecorator)
+            : this.getTextArea(item, initVal, rules, getFieldDecorator);
       case 'citySelect':
         return this.getCitySelect(item, initVal, rules, getFieldDecorator);
       case 'checkbox':
@@ -635,34 +642,34 @@ export default class DetailComp extends React.Component {
   // 获取页面按钮
   getBtns(buttons) {
     return (
-      <FormItem className="cform-item-btn" key='btns' {...formItemLayout} label="&nbsp;">
-        {buttons
-          ? buttons.map((b, i) => (
-            <Button
-              style={{marginRight: 20}}
-              key={i}
-              type={b.type || ''}
-              onClick={() => b.check ? this.customSubmit(b.handler) : this.customSubmitSave(b.handler)}>
-              {b.title}
-            </Button>
-          ))
-          : this.options.view
-            ? <Button onClick={this.onCancel}>返回</Button>
-            : (
-              <div>
-                <Button type="primary" htmlType="submit">{this.options.okText || '保存'}</Button>
-                <Button style={{marginLeft: 20}}
-                        onClick={this.onCancel}>{this.options.cancelText || '返回'}</Button>
-              </div>
-            )
-        }
-      </FormItem>
+        <FormItem className="cform-item-btn" key='btns' {...formItemLayout} label="&nbsp;">
+          {buttons
+              ? buttons.map((b, i) => (
+                  <Button
+                      style={{marginRight: 20}}
+                      key={i}
+                      type={b.type || ''}
+                      onClick={() => b.check ? this.customSubmit(b.handler) : this.customSubmitSave(b.handler)}>
+                    {b.title}
+                  </Button>
+              ))
+              : this.options.view
+                  ? <Button onClick={this.onCancel}>返回</Button>
+                  : (
+                      <div>
+                        <Button type="primary" htmlType="submit">{this.options.okText || '保存'}</Button>
+                        <Button style={{marginLeft: 20}}
+                                onClick={this.onCancel}>{this.options.cancelText || '返回'}</Button>
+                      </div>
+                  )
+          }
+        </FormItem>
     );
   }
   // 获取label
   getLabel(item) {
     return (
-      <span className={item.required && ((item.type === 'textarea' && !item.normalArea) || (item.type === 'o2m')) ? 'ant-form-item-required' : ''}>
+        <span className={item.required && ((item.type === 'textarea' && !item.normalArea) || (item.type === 'o2m')) ? 'ant-form-item-required' : ''}>
         {item.title + (item.single ? '(单)' : '')}
           {item.help ? <Tooltip title={item.help}><Icon type="question-circle-o"/></Tooltip> : null}
       </span>
@@ -702,7 +709,7 @@ export default class DetailComp extends React.Component {
         });
       } else if (v.type === 'date' || v.type === 'datetime' || v.type === 'month') {
         let format = v.type === 'date' ? DATE_FORMAT : v.type ===
-          'month' ? MONTH_FORMAT : DATETIME_FORMAT;
+        'month' ? MONTH_FORMAT : DATETIME_FORMAT;
         if (v.rangedate) {
           let bDate = values[v.field] ? [...values[v.field]] : [];
           if (bDate.length) {
@@ -741,7 +748,7 @@ export default class DetailComp extends React.Component {
         values[v.field] = values[v.field] ? values[v.field].join(',') : '';
       }
     });
-    values.updater = values.updater || getUserName();
+    values.updater = values.updater || getUserId();
     return values;
   }
   // 保存并校验错误

@@ -261,7 +261,7 @@ class CarShape extends React.Component {
         {this.props.buildList({
           fields,
           btnEvent,
-          rowKey: 'carCode',
+          // rowKey: 'carCode',
           pageCode: 630425
         })}
         <OnOrDownShelf

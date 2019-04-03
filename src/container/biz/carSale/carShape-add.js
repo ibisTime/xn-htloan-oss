@@ -1,21 +1,11 @@
 import React from 'react';
-import {
-  initStates,
-  doFetching,
-  cancelFetching,
-  setSelectData,
-  setPageData,
-  restore
-} from '@redux/biz/carShape-addedit';
-import { getQueryString, moneyFormat } from 'common/js/util';
+import { Form } from 'antd';
+import { getQueryString } from 'common/js/util';
 import fetch from 'common/js/fetch';
-import { DetailWrapper } from 'common/js/build-detail';
+import DetailUtil from 'common/js/build-detail-dev';
 
-@DetailWrapper(
-  state => state.bizCarShapeAddEdit,
-  { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
-)
-class CarShapeAddEdit extends React.Component {
+@Form.create()
+class CarShapeAddEdit extends DetailUtil {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
@@ -161,23 +151,27 @@ class CarShapeAddEdit extends React.Component {
       field: 'brandCode',
       type: 'select',
       listCode: 630406,
-      hidden: this.code,
       params: {
         status: '1'
       },
-      onChange: (v) => {
-        this.props.setSelectData({
-          data: [],
-          key: 'seriesCode'
+      hidden: this.code,
+      onChange: (brandCode) => {
+        this.setState({
+          selectData: {
+            ...this.state.selectData,
+            seriesCode: []
+          },
+          seriesCode: ''
         });
-        this.props.setSelectData.seriesCode = '';
         fetch(630416, {
-          brandCode: v,
+          brandCode,
           status: '1'
         }).then((data) => {
-          this.props.setSelectData({
-            data,
-            key: 'seriesCode'
+          this.setState({
+            selectData: {
+              ...this.state.selectData,
+              seriesCode: data
+            }
           });
         }).catch(() => {});
       },
@@ -189,10 +183,10 @@ class CarShapeAddEdit extends React.Component {
       field: 'seriesCode',
       type: 'select',
       required: true,
-      hidden: this.code,
       params: {
         status: 1
       },
+      hidden: this.code,
       keyName: 'code',
       listCode: '630416',
       valueName: 'name'
@@ -248,25 +242,17 @@ class CarShapeAddEdit extends React.Component {
       required: true
     }, {
       title: '车辆配置',
-      field: 'carconfigs',
+      field: 'carconfig',
       type: 'o2m',
-      onChange: (v) => {
-        console.log('1111');
-        console.log(v);
-      },
+      listCode: 630447,
       options: {
         fields: [{
           title: '名称',
-          field: 'code',
-          render: (v, d) => {
-            console.log(v);
-            console.log(d);
-            return d.name;
-          }
+          field: 'name'
         }]
       }
     }];
-    return this.props.buildDetail({
+    return this.buildDetail({
       fields,
       code: this.code,
       view: this.view,
@@ -274,30 +260,33 @@ class CarShapeAddEdit extends React.Component {
       editCode: 630422,
       detailCode: 630427,
       beforeSubmit: (params) => {
-        console.log(params.configList);
-        // 暂时判断广告图中有几张图片
-        var arr = params.advPic;
-        var map = [];
-        for(var i = 0; i < arr.length; i++) {
-          var ai = arr[i];
-          if(!map[ai]) {
-            map[ai] = 1;
-          }else if (arr[i] === '|') {
-            var ww = map[ai];
-            map[ai]++;
-          }
+        const { selectData, pageData, selectedRowKeys } = this.state;
+        // let configList = params.carconfig.map(v => v.code);
+        params.configList = selectedRowKeys.carconfig;
+        params.picNumber = params.advPic.split('||').length;
+        if (!this.code) {
+          let brand = selectData.brandCode.find(v => v.code === params.brandCode);
+          params.brandName = brand.name;
+          let series = selectData.seriesCode.find(v => v.code === params.seriesCode);
+          params.seriesName = series.name;
+        } else {
+          params.brandName = pageData.brandName;
+          params.seriesName = pageData.seriesName;
         }
-        let ee = (ww + 3) / 2;
-          if (ee) {
-              params.picNumber = ee;
-          } else {
-              params.picNumber = 1;
-          }
-        let brand = this.props.selectData.brandCode.find(v => v.code === params.brandCode);
-        params.brandName = brand.name;
-        let series = this.props.selectData.seriesCode.find(v => v.code === params.seriesCode);
-        params.seriesName = series.name;
         return params;
+      },
+      afterDetail: () => {
+        const { pageData } = this.state;
+        let checkedList = pageData.carconfigs
+            .filter(item => item.isConfig === '1')
+            .map(item => item.code);
+        this.setState({
+          pageData: {
+            ...this.state.pageData,
+            carconfig: pageData.carconfigs
+          }
+        });
+        this.setO2MSelect('carconfig', checkedList);
       }
     });
   }
