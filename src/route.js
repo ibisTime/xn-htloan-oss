@@ -1847,11 +1847,11 @@ const ROUTES = [
   },
     // 商城管理用户资讯
     {
-        path: '/container/biz/userinformation',
+        path: '/biz/userinformation',
         component: asyncComponent(() => import('container/biz/userinformation/userinformation'))},
     // 商城管理用户资讯--详情
     {
-        path: '/container/biz/userinformation/addedit',
+        path: '/biz/userinformation/addedit',
         component: asyncComponent(() => import('container/biz/userinformation/userinformation-addedit'))
   },
   // 商城管理车辆配置

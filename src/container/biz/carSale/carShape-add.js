@@ -23,6 +23,11 @@ class CarShapeAddEdit extends React.Component {
   }
   render() {
     const fields = [{
+      field: 'configList',
+      title: '名称',
+      hidden: true,
+      required: true
+    }, {
       field: 'name',
       title: '名称',
       required: true
@@ -241,6 +246,25 @@ class CarShapeAddEdit extends React.Component {
       field: 'description',
       type: 'textarea',
       required: true
+    }, {
+      title: '车辆配置',
+      field: 'carconfigs',
+      type: 'o2m',
+      onChange: (v) => {
+        console.log('1111');
+        console.log(v);
+      },
+      options: {
+        fields: [{
+          title: '名称',
+          field: 'code',
+          render: (v, d) => {
+            console.log(v);
+            console.log(d);
+            return d.name;
+          }
+        }]
+      }
     }];
     return this.props.buildDetail({
       fields,
@@ -250,6 +274,7 @@ class CarShapeAddEdit extends React.Component {
       editCode: 630422,
       detailCode: 630427,
       beforeSubmit: (params) => {
+        console.log(params.configList);
         // 暂时判断广告图中有几张图片
         var arr = params.advPic;
         var map = [];
@@ -263,7 +288,11 @@ class CarShapeAddEdit extends React.Component {
           }
         }
         let ee = (ww + 3) / 2;
-        params.picNumber = ee;
+          if (ee) {
+              params.picNumber = ee;
+          } else {
+              params.picNumber = 1;
+          }
         let brand = this.props.selectData.brandCode.find(v => v.code === params.brandCode);
         params.brandName = brand.name;
         let series = this.props.selectData.seriesCode.find(v => v.code === params.seriesCode);

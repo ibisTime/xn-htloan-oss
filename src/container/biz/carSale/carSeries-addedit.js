@@ -120,7 +120,11 @@ class CarSeriesAddEdit extends React.Component {
           }
         }
         let ee = (ww + 3) / 2;
-         param.picNumber = ee;
+        if (ee) {
+          param.picNumber = ee;
+        } else {
+          param.picNumber = 1;
+        }
           param.updater = getUserId();
           return param;
       }

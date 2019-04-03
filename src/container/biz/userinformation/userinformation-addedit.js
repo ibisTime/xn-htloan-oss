@@ -74,6 +74,8 @@ class UserinformationAddedit extends React.Component {
             code: this.code,
             view: this.view,
             addCode: 630450,
+            editCode: 630452,
+            detailCode: 630456,
             beforeSubmit: (params) => {
                 console.log(params);
                 // 暂时判断广告图中有几张图片
@@ -89,7 +91,12 @@ class UserinformationAddedit extends React.Component {
                     }
                 }
                 let ee = (ww + 3) / 2;
-                params.picNumber = ee;
+                if (ee) {
+                    params.picNumber = ee;
+                } else {
+                   params.picNumber = 1;
+                }
+
                 return params;
             }
         });
