@@ -1862,7 +1862,12 @@ const ROUTES = [
   {
     path: '/container/biz/vehicleconfiguration/addedit',
     component: asyncComponent(() => import('container/biz/vehicleconfiguration/vehicleconfiguration-addedit'))
-  }
+  },
+  // 足迹管理
+  {
+    path: '/container/footprint',
+    component: asyncComponent(() => import('container/biz/footprint/footprint'))}
+
 ];
 
 export default ROUTES;

@@ -22,6 +22,26 @@ class CarSeriesAddEdit extends React.Component {
   }
   render() {
     const fields = [{
+      field: 'isReferee',
+      value: 0,
+      hidden: true
+    }, {
+      field: 'name',
+      title: '名称',
+      required: true
+    }, {
+      field: 'lowest',
+      title: '最低价',
+      number: true,
+      hidden: ((!this.view && this.code) || !this.code),
+      required: true
+    }, {
+      field: 'highest',
+      title: '最高价',
+      number: true,
+      hidden: ((!this.view && this.code) || !this.code),
+      required: true
+    }, {
       field: 'brandCode',
       title: '品牌',
       type: 'select',
@@ -32,10 +52,6 @@ class CarSeriesAddEdit extends React.Component {
       },
       keyName: 'code',
       valueName: 'name',
-      required: true
-    }, {
-      field: 'name',
-      title: '名称',
       required: true
     }, {
       field: 'level',
@@ -78,27 +94,6 @@ class CarSeriesAddEdit extends React.Component {
       title: '广告标语',
       field: 'slogan',
       required: true
-    }, {
-      title: '是否推荐',
-      type: 'select',
-      field: 'isReferee',
-      required: true,
-      data: [{
-        key: '0',
-        value: '否'
-      }, {
-        key: '1',
-        value: '是'
-      }],
-      keyName: 'key',
-      valueName: 'value'
-    }, {
-      title: '最新修改人',
-      field: 'updaterName'
-    }, {
-      title: '最新修改时间',
-      field: 'updateDatetime',
-      type: 'datetime'
     }, {
       title: '备注',
       field: 'remark'

@@ -155,6 +155,7 @@ class CarShapeAddEdit extends React.Component {
       field: 'brandCode',
       type: 'select',
       listCode: 630406,
+      hidden: this.code,
       params: {
         status: '1'
       },
@@ -182,6 +183,7 @@ class CarShapeAddEdit extends React.Component {
       field: 'seriesCode',
       type: 'select',
       required: true,
+      hidden: this.code,
       params: {
         status: 1
       },
@@ -236,15 +238,13 @@ class CarShapeAddEdit extends React.Component {
       required: true,
       listCode: 632037,
       keyName: 'code',
+      hidden: this.code,
       valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
     }, {
       title: '车辆分期介绍',
       field: 'description',
       type: 'textarea',
       required: true
-    }, {
-      title: '备注',
-      field: 'remark'
     }];
     return this.props.buildDetail({
       fields,

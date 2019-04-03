@@ -576,6 +576,7 @@ import { bizVehicleconfigurationAddedit } from './redux/biz/vehicleconfiguration
 import { bizCarSeriesCxpz } from './redux/biz/carShape-cxpz';
 // 导航
 import { Navigation } from './redux/biz/navigation';
+import { footPrint } from './redux/biz/footprint';
 export default combineReducers({
   user,
   menu,
@@ -912,5 +913,6 @@ export default combineReducers({
   bizVehicleconfigurationAddedit,
   bizVehicleconfiguration,
   bizCarSeriesCxpz,
-  Navigation
+  Navigation,
+  footPrint
 });

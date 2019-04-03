@@ -48,8 +48,7 @@ class UserinformationAddedit extends React.Component {
                 field: 'pic',
                 required: true,
                 type: 'img',
-                help: '240*160',
-                single: true
+                help: '240*160'
             }, {
                 title: '广告图',
                 field: 'advPic',

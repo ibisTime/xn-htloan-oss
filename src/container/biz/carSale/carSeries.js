@@ -90,6 +90,12 @@ class CarSeries extends React.Component {
       type: 'select',
       key: 'status'
     }, {
+      field: 'lowest',
+      title: '价格区间(最低价-最高价)',
+      render: (v, d) => {
+        return d.lowest + '元-' + d.highest + '元';
+    }
+    }, {
       field: 'location',
       title: 'UI位置',
       render: (v, d) => {
@@ -100,20 +106,6 @@ class CarSeries extends React.Component {
       field: 'orderNo',
       search: true,
       key: 'order_no'
-    }, {
-      title: '是否推荐',
-      type: 'select',
-      field: 'isReferee',
-      required: true,
-      data: [{
-        key: '0',
-        value: '否'
-      }, {
-        key: '1',
-        value: '是'
-      }],
-      keyName: 'key',
-      valueName: 'value'
     }, {
       title: '最新修改人',
       field: 'updaterName'
