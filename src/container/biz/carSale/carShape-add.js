@@ -29,6 +29,7 @@ class CarShapeAddEdit extends React.Component {
     }, {
       field: 'displacement',
       title: '排量',
+      help: '单位L',
       number: true,
       required: true
     }, {
@@ -193,6 +194,7 @@ class CarShapeAddEdit extends React.Component {
     }, {
       title: '缩略图',
       field: 'pic',
+      single: true,
       required: true,
       type: 'img',
       help: '240*160'
@@ -201,29 +203,23 @@ class CarShapeAddEdit extends React.Component {
       field: 'advPic',
       required: true,
       help: '750*500',
-      type: 'img',
-      single: true
+      type: 'img'
     }, {
       title: '广告语',
       field: 'slogan',
       required: true
     }, {
       title: '厂商指导价',
-      field: 'originalPrice',
+      field: 'salePrice',
       amount: true,
       required: true
-    }, {
-      field: 'picNumber',
-      title: '图片数量 ',
-      required: true,
-      number: true
     }, {
       field: 'procedure',
       title: '手续 ',
       required: true
     }, {
       title: '经销商参考价',
-      field: 'salePrice',
+      field: 'originalPrice',
       amount: true,
       required: true
     }, {
@@ -254,6 +250,20 @@ class CarShapeAddEdit extends React.Component {
       editCode: 630422,
       detailCode: 630427,
       beforeSubmit: (params) => {
+        // 暂时判断广告图中有几张图片
+        var arr = params.advPic;
+        var map = [];
+        for(var i = 0; i < arr.length; i++) {
+          var ai = arr[i];
+          if(!map[ai]) {
+            map[ai] = 1;
+          }else if (arr[i] === '|') {
+            var ww = map[ai];
+            map[ai]++;
+          }
+        }
+        let ee = (ww + 3) / 2;
+        params.picNumber = ee;
         let brand = this.props.selectData.brandCode.find(v => v.code === params.brandCode);
         params.brandName = brand.name;
         let series = this.props.selectData.seriesCode.find(v => v.code === params.seriesCode);

@@ -7,7 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/biz/vehicleconfiguration-addedit';
-import {getQueryString, getUserId, isExpressConfirm} from 'common/js/util';
+import {getQueryString, getUserId, isExpressConfirm, getUserName} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 
 @DetailWrapper(
@@ -29,6 +29,11 @@ class VehicleconfigurationAddedit extends React.Component {
 
     render() {
         const fields = [
+            {
+                hidden: true,
+                field: 'updater',
+                title: '最新修改人'
+            },
             {
                 title: '名称',
                 field: 'name',

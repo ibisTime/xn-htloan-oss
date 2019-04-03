@@ -2,11 +2,11 @@ import { getUserName, getUserId, getTeamCode, getRoleCode } from 'common/js/util
 import fetch from 'common/js/fetch';
 
 export function lowerFrame(code) {
-  return fetch(630404, { code, updater: getUserName() });
+  return fetch(630404, { code, updater: getUserId() });
 }
 
 export function onShelf(code) {
-  return fetch(630403, { code, updater: getUserName() });
+  return fetch(630403, { code, updater: getUserId() });
 }
 
 export function lowerFrameSys(code, location, orderNo) {

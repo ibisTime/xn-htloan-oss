@@ -104,7 +104,6 @@ class CarSeries extends React.Component {
     }, {
       title: 'UI次序',
       field: 'orderNo',
-      search: true,
       key: 'order_no'
     }, {
       title: '最新修改人',

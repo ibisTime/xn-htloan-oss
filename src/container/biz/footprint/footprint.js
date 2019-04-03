@@ -48,10 +48,14 @@ class FootPrint extends React.Component {
             title: '针对类型',
             key: 'action_to_type',
             type: 'select',
-            field: 'toType'
+            field: 'toType',
+            search: true
         }, {
             title: '针对对象',
-            field: 'toCode'
+            field: 'toCode',
+            render: (v, d) => {
+                return d.car ? d.car.name : d.carNews ? d.carNews.title : '';
+            }
         }, {
             title: '操作人',
             field: 'creater'

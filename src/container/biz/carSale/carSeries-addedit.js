@@ -83,6 +83,7 @@ class CarSeriesAddEdit extends React.Component {
       field: 'picNumber',
       title: '照片张数',
       number: true,
+      hidden: true,
       required: true
     }, {
       title: '广告图',
@@ -106,6 +107,20 @@ class CarSeriesAddEdit extends React.Component {
       editCode: 630412,
       detailCode: 630417,
       beforeSubmit: (param) => {
+        // 暂时判断广告图中有几张图片
+        var arr = param.advPic;
+        var map = [];
+        for(var i = 0; i < arr.length; i++) {
+          var ai = arr[i];
+          if(!map[ai]) {
+            map[ai] = 1;
+          }else if (arr[i] === '|') {
+            var ww = map[ai];
+            map[ai]++;
+          }
+        }
+        let ee = (ww + 3) / 2;
+         param.picNumber = ee;
           param.updater = getUserId();
           return param;
       }
