@@ -107,24 +107,7 @@ class CarSeriesAddEdit extends React.Component {
       editCode: 630412,
       detailCode: 630417,
       beforeSubmit: (param) => {
-        // 暂时判断广告图中有几张图片
-        var arr = param.advPic;
-        var map = [];
-        for(var i = 0; i < arr.length; i++) {
-          var ai = arr[i];
-          if(!map[ai]) {
-            map[ai] = 1;
-          }else if (arr[i] === '|') {
-            var ww = map[ai];
-            map[ai]++;
-          }
-        }
-        let ee = (ww + 3) / 2;
-        if (ee) {
-          param.picNumber = ee;
-        } else {
-          param.picNumber = 1;
-        }
+        param.picNumber = param.advPic.split('||').length;
           param.updater = getUserId();
           return param;
       }

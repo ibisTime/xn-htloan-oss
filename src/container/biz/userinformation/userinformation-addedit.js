@@ -77,26 +77,26 @@ class UserinformationAddedit extends React.Component {
             editCode: 630452,
             detailCode: 630456,
             beforeSubmit: (params) => {
-                console.log(params);
-                // 暂时判断广告图中有几张图片
-                var arr = params.advPic;
-                var map = [];
-                for(var i = 0; i < arr.length; i++) {
-                    var ai = arr[i];
-                    if(!map[ai]) {
-                        map[ai] = 1;
-                    }else if (arr[i] === '|') {
-                        var ww = map[ai];
-                        map[ai]++;
-                    }
-                }
-                let ee = (ww + 3) / 2;
-                if (ee) {
-                    params.picNumber = ee;
-                } else {
-                   params.picNumber = 1;
-                }
-
+                // console.log(params);
+                // // 暂时判断广告图中有几张图片
+                // var arr = params.advPic;
+                // var map = [];
+                // for(var i = 0; i < arr.length; i++) {
+                //     var ai = arr[i];
+                //     if(!map[ai]) {
+                //         map[ai] = 1;
+                //     }else if (arr[i] === '|') {
+                //         var ww = map[ai];
+                //         map[ai]++;
+                //     }
+                // }
+                // let ee = (ww + 3) / 2;
+                // if (ee) {
+                //     params.picNumber = ee;
+                // } else {
+                //    params.picNumber = 1;
+                // }
+                params.picNumber = params.advPic.split('||').length;
                 return params;
             }
         });

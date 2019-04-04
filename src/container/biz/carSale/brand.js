@@ -10,7 +10,7 @@ import {
     setSearchData
 } from '@redux/biz/brand';
 import {listWrapper} from 'common/js/build-list';
-import {showWarnMsg, getUserName, formatFile} from 'common/js/util';
+import {showWarnMsg, getUserName, showSucMsg, formatFile} from 'common/js/util';
 import {Modal} from 'antd';
 import {lowerFrame, onShelf} from 'api/biz';
 import OnOrDownShelf from 'component/onordownshelf/onordownshelfs';
@@ -159,7 +159,10 @@ class Brand extends React.Component {
             key: 'order_no'
         }, {
             title: '最新修改人',
-            field: 'updater'
+            field: 'updater',
+            render: (v, d) => {
+                return d.sysUser.realName;
+            }
         }, {
             title: '最新修改时间',
             field: 'updateDatetime',
@@ -189,7 +192,7 @@ class Brand extends React.Component {
                                         this.props.doFetching();
                                         return lowerFrame(key[0]).then(() => {
                                             this.props.getPageData();
-                                            showWarnMsg('操作成功');
+                                            showSucMsg('操作成功');
                                             setTimeout(() => {
                                                 this.props.getPageData();
                                             }, 500);

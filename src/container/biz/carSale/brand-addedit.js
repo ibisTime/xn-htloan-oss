@@ -7,7 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/biz/brand-addedit';
-import {getQueryString, getUserName} from 'common/js/util';
+import {getQueryString, getUserName, getUserId} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 
 @DetailWrapper(
@@ -124,9 +124,27 @@ class BrandAddedit extends React.Component {
             keyName: 'key',
             valueName: 'value'
         }, {
-                title: '备注',
-                field: 'remark'
-            }];
+            title: '状态',
+            field: 'status',
+            search: true,
+            type: 'select',
+            key: 'status'
+        }, {
+            title: '最新修改人',
+            field: 'updater',
+            hidden: !this.view,
+            formatter: (v, d) => {
+                return d.sysUser.realName;
+            }
+        }, {
+            title: '最新修改时间',
+            field: 'updateDatetime',
+            type: 'datetime',
+            hidden: !this.view
+        }, {
+            title: '备注',
+            field: 'remark'
+        }];
         return this.props.buildDetail({
             fields,
             code: this.code,
@@ -135,7 +153,7 @@ class BrandAddedit extends React.Component {
             editCode: 630402,
             detailCode: 630407,
             beforeSubmit: (data) => {
-                data.updater = getUserName();
+                data.updater = getUserId();
                 return data;
             }
         });

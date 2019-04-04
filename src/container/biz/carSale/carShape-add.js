@@ -23,8 +23,7 @@ class CarShapeAddEdit extends DetailUtil {
       required: true
     }, {
       field: 'displacement',
-      title: '排量',
-      help: '单位L',
+      title: '排量(L)',
       number: true,
       required: true
     }, {
@@ -154,7 +153,7 @@ class CarShapeAddEdit extends DetailUtil {
       params: {
         status: '1'
       },
-      hidden: this.code,
+      hidden: this.code && !this.view,
       onChange: (brandCode) => {
         this.setState({
           selectData: {
@@ -186,7 +185,7 @@ class CarShapeAddEdit extends DetailUtil {
       params: {
         status: 1
       },
-      hidden: this.code,
+      hidden: this.code && !this.view,
       keyName: 'code',
       listCode: '630416',
       valueName: 'name'
@@ -246,6 +245,7 @@ class CarShapeAddEdit extends DetailUtil {
       type: 'o2m',
       listCode: 630447,
       options: {
+        noSelect: this.view,
         fields: [{
           title: '名称',
           field: 'name'
@@ -261,7 +261,6 @@ class CarShapeAddEdit extends DetailUtil {
       detailCode: 630427,
       beforeSubmit: (params) => {
         const { selectData, pageData, selectedRowKeys } = this.state;
-        // let configList = params.carconfig.map(v => v.code);
         params.configList = selectedRowKeys.carconfig;
         params.picNumber = params.advPic.split('||').length;
         if (!this.code) {
@@ -277,16 +276,27 @@ class CarShapeAddEdit extends DetailUtil {
       },
       afterDetail: () => {
         const { pageData } = this.state;
-        let checkedList = pageData.carconfigs
-            .filter(item => item.isConfig === '1')
-            .map(item => item.code);
-        this.setState({
-          pageData: {
-            ...this.state.pageData,
-            carconfig: pageData.carconfigs
-          }
-        });
-        this.setO2MSelect('carconfig', checkedList);
+        let checkedList = pageData.configs
+            .filter(item => item.isConfig === '1');
+        // 如果详情页则只显示isConfig为1的
+        if (this.view) {
+          this.setState({
+            pageData: {
+              ...this.state.pageData,
+              carconfig: checkedList
+            }
+          });
+          // 如果是新增或修改，则显示所有配置项，并给isConfig为1的打勾
+        } else {
+          checkedList = checkedList.map(item => item.code);
+          this.setState({
+            pageData: {
+              ...this.state.pageData,
+              carconfig: pageData.configs
+            }
+          });
+          this.setO2MSelect('carconfig', checkedList);
+        }
       }
     });
   }

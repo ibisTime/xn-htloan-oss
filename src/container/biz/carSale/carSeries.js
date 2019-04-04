@@ -11,7 +11,7 @@ import {
 } from '@redux/biz/carSeries';
 import { listWrapper } from 'common/js/build-list';
 import OnOrDownShelf from 'component/onordownshelf/onordownshelf';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, showSucMsg } from 'common/js/util';
 import { Modal } from 'antd';
 import { lowerFrameSys, onShelfSys } from 'api/biz';
 
@@ -131,7 +131,7 @@ class CarSeries extends React.Component {
               this.props.doFetching();
               return lowerFrameSys(key[0]).then(() => {
                 this.props.getPageData();
-                  showWarnMsg('操作成功');
+                  showSucMsg('操作成功');
                 setTimeout(() => {
                     this.props.getPageData();
                 }, 500);
