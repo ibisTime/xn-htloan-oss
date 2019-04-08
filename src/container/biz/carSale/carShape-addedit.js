@@ -214,20 +214,6 @@ class CarShapeAddEdit extends React.Component {
       amount: true,
       required: true
     }, {
-      title: '是否推荐',
-      type: 'select',
-      field: 'isReferee',
-      required: true,
-      data: [{
-        key: '0',
-        value: '否'
-      }, {
-        key: '1',
-        value: '是'
-      }],
-      keyName: 'key',
-      valueName: 'value'
-    }, {
       field: 'picNumber',
       title: '照片张数 ',
       required: true,

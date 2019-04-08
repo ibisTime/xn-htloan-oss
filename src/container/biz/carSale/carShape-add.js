@@ -12,7 +12,12 @@ class CarShapeAddEdit extends DetailUtil {
     this.view = !!getQueryString('v', this.props.location.search);
   }
   render() {
-    const fields = [{
+    const fields = [
+      {
+        field: 'isReferee',
+        value: 1,
+        hidden: true
+      }, {
       field: 'configList',
       title: '名称',
       hidden: true,
@@ -82,20 +87,6 @@ class CarShapeAddEdit extends DetailUtil {
       keyName: 'key',
       valueName: 'value'
     }, {
-      title: '是否推荐',
-      type: 'select',
-      field: 'isReferee',
-      required: true,
-      data: [{
-        key: '0',
-        value: '否'
-      }, {
-        key: '1',
-        value: '是'
-      }],
-      keyName: 'key',
-      valueName: 'value'
-    }, {
       field: 'level',
       title: '级别',
       required: true,
@@ -145,38 +136,6 @@ class CarShapeAddEdit extends DetailUtil {
       }],
       keyName: 'key',
       valueName: 'value'
-    }, {
-      title: '品牌',
-      field: 'brandCode',
-      type: 'select',
-      listCode: 630406,
-      params: {
-        status: '1'
-      },
-      hidden: this.code && !this.view,
-      onChange: (brandCode) => {
-        this.setState({
-          selectData: {
-            ...this.state.selectData,
-            seriesCode: []
-          },
-          seriesCode: ''
-        });
-        fetch(630416, {
-          brandCode,
-          status: '1'
-        }).then((data) => {
-          this.setState({
-            selectData: {
-              ...this.state.selectData,
-              seriesCode: data
-            }
-          });
-        }).catch(() => {});
-      },
-      keyName: 'code',
-      valueName: 'name',
-      required: true
     }, {
       title: '车系',
       field: 'seriesCode',
@@ -241,6 +200,7 @@ class CarShapeAddEdit extends DetailUtil {
       required: true
     }, {
       title: '车辆配置',
+      required: true,
       field: 'carconfig',
       type: 'o2m',
       listCode: 630447,
@@ -264,12 +224,9 @@ class CarShapeAddEdit extends DetailUtil {
         params.configList = selectedRowKeys.carconfig;
         params.picNumber = params.advPic.split('||').length;
         if (!this.code) {
-          let brand = selectData.brandCode.find(v => v.code === params.brandCode);
-          params.brandName = brand.name;
           let series = selectData.seriesCode.find(v => v.code === params.seriesCode);
           params.seriesName = series.name;
         } else {
-          params.brandName = pageData.brandName;
           params.seriesName = pageData.seriesName;
         }
         return params;
