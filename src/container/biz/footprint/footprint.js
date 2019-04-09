@@ -58,7 +58,10 @@ class FootPrint extends React.Component {
             }
         }, {
             title: '操作人',
-            field: 'creater'
+            field: 'creater',
+            render: (v, d) => {
+                return d.user ? d.user.loginName : d.user.realName;
+            }
         }, {
             title: '操作时间',
             field: 'createDatetime',

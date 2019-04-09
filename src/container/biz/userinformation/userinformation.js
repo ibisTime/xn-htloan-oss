@@ -63,8 +63,8 @@ class Userinformation extends React.Component {
         }, {
             title: '更新人',
             field: 'updater',
-            render: (v, d) => {
-                return d.sysUser.realName;
+            formatter: (v, d) => {
+                return d.sysUser.loginName;
                 }
         }, {
             title: '更新时间',

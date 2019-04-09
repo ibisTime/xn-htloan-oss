@@ -53,7 +53,10 @@ class Vehicleconfiguration extends React.Component {
             }
         }, {
             field: 'updater',
-            title: '最新修改人'
+            title: '最新修改人',
+            render: (v, data) => {
+                return data.sysUser.loginName;
+            }
         }, {
             field: 'updateDatetime',
             title: '最新修改时间',

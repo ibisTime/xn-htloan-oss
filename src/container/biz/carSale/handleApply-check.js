@@ -46,10 +46,6 @@ class handleApplyCheck extends React.Component {
             valueName: 'name',
             readonly: true
         }, {
-            title: '车型编号',
-            field: 'carCode',
-            readonly: true
-        }, {
             title: '车型名称',
             field: 'carName',
             readonly: true
@@ -61,10 +57,6 @@ class handleApplyCheck extends React.Component {
             //     readonly: true
             // },
             {
-            title: '车系编号',
-            field: 'seriesCode',
-            readonly: true
-        }, {
             title: '车系名称',
             field: 'seriesName',
             readonly: true
@@ -76,8 +68,10 @@ class handleApplyCheck extends React.Component {
             keyName: 'userId',
             valueName: 'realName',
             readonly: true,
-            formatter: (v, data) => {
-                return data.userMobile;
+                formatter: (v, data) => {
+                //     let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
+                //     return prefix + (data.user.mobile || '');
+                    return data.user ? data.user.loginName : data.user.mobile;
             }
         }, {
             title: '首付比例',
@@ -89,17 +83,9 @@ class handleApplyCheck extends React.Component {
             amount: true,
             readonly: true
         }, {
-            title: '分期期数',
-            field: 'periods',
-            readonly: true
-        }, {
             title: '申请时间',
             field: 'createDatetime',
             type: 'datetime',
-            readonly: true
-        }, {
-            title: '车贷计算器信息',
-            field: 'saleDesc',
             readonly: true
         }, {
             title: '备注',

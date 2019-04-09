@@ -41,7 +41,6 @@ class VehicleconfigurationAddedit extends React.Component {
             }, {
                 title: '缩略图',
                 field: 'pic',
-                required: true,
                 type: 'img',
                 help: '240*160',
                 single: true
@@ -55,7 +54,12 @@ class VehicleconfigurationAddedit extends React.Component {
             view: this.view,
             detailCode: 630446,
             addCode: 630440,
-            editCode: 630442
+            editCode: 630442,
+            beforeSubmit: (param) => {
+                console.log(this.props.selectData);
+               param.updater = getUserId();
+                return param;
+            }
         });
     }
 }

@@ -51,7 +51,10 @@ class Notice extends React.Component {
       search: true
     }, {
       field: 'updater',
-      title: '最近修改人'
+      title: '最近修改人',
+      render: (v, data) => {
+        return data.sysUser ? data.sysUser.loginName : '';
+      }
     }, {
       field: 'updateDatetime',
       title: '最近修改时间',

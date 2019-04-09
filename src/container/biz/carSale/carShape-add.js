@@ -197,6 +197,7 @@ class CarShapeAddEdit extends DetailUtil {
       title: '车辆分期介绍',
       field: 'description',
       type: 'textarea',
+        normalArea: true,
       required: true
     }, {
       title: '车辆配置',
@@ -222,6 +223,9 @@ class CarShapeAddEdit extends DetailUtil {
       beforeSubmit: (params) => {
         const { selectData, pageData, selectedRowKeys } = this.state;
         params.configList = selectedRowKeys.carconfig;
+       // let advpic = params.advPic.split('||');
+       // params.advPic = advpic.join(',');
+        console.log(params.advPic);
         params.picNumber = params.advPic.split('||').length;
         if (!this.code) {
           let series = selectData.seriesCode.find(v => v.code === params.seriesCode);

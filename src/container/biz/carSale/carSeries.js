@@ -32,7 +32,10 @@ class CarSeries extends React.Component {
       shelfVisible: false,
       selectKey: ''
     };
-    this.arr = ['首页推荐', '普通'];
+    this.arr = {
+      '0': '首页推荐',
+      '1': '普通'
+    };
   }
   setShelfVisible = (shelfVisible) => {
     this.setState({ shelfVisible });

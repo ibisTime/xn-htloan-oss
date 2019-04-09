@@ -161,7 +161,7 @@ class Brand extends React.Component {
             title: '最新修改人',
             field: 'updater',
             render: (v, d) => {
-                return d.sysUser.realName;
+                return d.sysUser.loginName;
             }
         }, {
             title: '最新修改时间',

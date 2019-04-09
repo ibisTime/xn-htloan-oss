@@ -134,7 +134,7 @@ class BrandAddedit extends React.Component {
             field: 'updater',
             hidden: !this.view,
             formatter: (v, d) => {
-                return d.sysUser.realName;
+                return d.sysUser.loginName;
             }
         }, {
             title: '最新修改时间',

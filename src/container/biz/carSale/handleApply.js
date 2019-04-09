@@ -36,8 +36,7 @@ class HandleApply extends React.Component {
       title: '申请人',
       field: 'userId',
       render: (v, data) => {
-        let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
-        return prefix + (data.user.mobile || '');
+        return data.user ? data.user.loginName : data.user.mobile;
       }
     }, {
       title: '车辆总价',
@@ -54,9 +53,6 @@ class HandleApply extends React.Component {
       rangedate: ['createDatetimeStart', 'createDatetimeEnd'],
       render: dateTimeFormat,
       search: true
-    }, {
-      title: '车贷计算器信息',
-      field: 'saleDesc'
     }];
     return this.props.buildList({
       fields,

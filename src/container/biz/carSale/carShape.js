@@ -167,10 +167,7 @@ class CarShape extends React.Component {
     }, {
       title: '售价',
       amount: true,
-      field: 'salePrice',
-      render: (v, d) => {
-          return moneyFormat(v, '', d.salePrice);
-      }
+      field: 'salePrice'
     }, {
       field: 'location',
       title: 'UI位置',

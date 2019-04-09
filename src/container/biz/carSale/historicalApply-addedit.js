@@ -52,7 +52,7 @@ class historicalApplyAddedit extends React.Component {
             field: 'handler',
             hidden: !this.view,
             formatter: (v, d) => {
-              return d.sysUser ? d.sysUser.realName : '';
+              return d.sysUser ? d.sysUser.loginName : '';
             },
             readonly: true
         }, {

@@ -36,7 +36,8 @@ class UserinformationAddedit extends React.Component {
         }, {
                 title: '标题',
                 field: 'picNumber',
-                required: true
+                required: true,
+                hidden: true
             },
             {
                 title: '作者',
@@ -63,6 +64,7 @@ class UserinformationAddedit extends React.Component {
             }, {
                 title: '资讯内容',
                 field: 'context',
+                normalArea: true,
                 type: 'textarea',
                 required: true
             }, {
