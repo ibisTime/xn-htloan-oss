@@ -1854,6 +1854,10 @@ const ROUTES = [
         path: '/biz/userinformation/addedit',
         component: asyncComponent(() => import('container/biz/userinformation/userinformation-addedit'))
   },
+  {
+    path: '/biz/userinformation/edit',
+    component: asyncComponent(() => import('container/biz/userinformation/userinformation-edit'))
+  },
   // 商城管理车辆配置
   {
     path: '/container/biz/vehicleconfiguration',

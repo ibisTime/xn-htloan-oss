@@ -46,6 +46,10 @@ class handleApplyCheck extends React.Component {
             valueName: 'name',
             readonly: true
         }, {
+            title: '车系名称',
+            field: 'seriesName',
+            readonly: true
+        }, {
             title: '车型名称',
             field: 'carName',
             readonly: true
@@ -56,11 +60,7 @@ class handleApplyCheck extends React.Component {
             //     hidden: !this.view,
             //     readonly: true
             // },
-            {
-            title: '车系名称',
-            field: 'seriesName',
-            readonly: true
-        }, {
+           {
             title: '申请人',
             field: 'userId',
             type: 'select',
@@ -69,10 +69,12 @@ class handleApplyCheck extends React.Component {
             valueName: 'realName',
             readonly: true,
                 formatter: (v, data) => {
-                //     let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
-                //     return prefix + (data.user.mobile || '');
-                    return data.user ? data.user.loginName : data.user.mobile;
-            }
+                    if (data.user.realName) {
+                        return data.user.mobile ? data.user.realName + '-' + data.user.mobile : data.user.realName;
+                    } else if(data.user.mobile) {
+                        return data.user.realName ? data.user.realName + '-' + data.user.mobile : data.user.mobile;
+                    }
+                       }
         }, {
             title: '首付比例',
             field: 'sfRate',

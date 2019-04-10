@@ -11,10 +11,9 @@ import {
 } from '@redux/biz/carSeries';
 import { listWrapper } from 'common/js/build-list';
 import OnOrDownShelf from 'component/onordownshelf/onordownshelf';
-import { showWarnMsg, showSucMsg } from 'common/js/util';
+import { showWarnMsg, showSucMsg, moneyFormat } from 'common/js/util';
 import { Modal } from 'antd';
 import { lowerFrameSys, onShelfSys } from 'api/biz';
-
 @listWrapper(
   state => ({
     ...state.bizCarSeries,
@@ -83,7 +82,7 @@ class CarSeries extends React.Component {
       valueName: 'value'
     }, {
       field: 'picNumber',
-      title: '照片张数 ',
+      title: '照片张数(广告图) ',
       required: true,
       number: true
     }, {
@@ -96,7 +95,7 @@ class CarSeries extends React.Component {
       field: 'lowest',
       title: '价格区间(最低价-最高价)',
       render: (v, d) => {
-        return d.lowest + '元-' + d.highest + '元';
+        return moneyFormat(d.lowest) + '元-' + moneyFormat(d.highest) + '元';
     }
     }, {
       field: 'location',

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Form } from 'antd';
-import { getQueryString } from 'common/js/util';
+import { Form, message } from 'antd';
+import { getQueryString, moneyFormat, moneyParse } from 'common/js/util';
 import fetch from 'common/js/fetch';
+
 import DetailUtil from 'common/js/build-detail-dev';
 
 @Form.create()
@@ -39,6 +40,9 @@ class CarShapeAddEdit extends DetailUtil {
       field: 'fwAmount',
       title: '服务费',
       amount: true,
+        // formatter: (v, d) => {
+        // return d.fwAmount / 1000;
+        // },
       required: true
     }, {
       field: 'jsqByhf',
@@ -48,6 +52,7 @@ class CarShapeAddEdit extends DetailUtil {
     }, {
       field: 'jsqSybx',
       title: '商业保险',
+        amount: true,
       required: true
     }, {
       field: 'outsideColor',
@@ -221,6 +226,8 @@ class CarShapeAddEdit extends DetailUtil {
       editCode: 630422,
       detailCode: 630427,
       beforeSubmit: (params) => {
+        params.jsqSybx = moneyParse(params.jsqSybx);
+        console.log(params.jsqSybx);
         const { selectData, pageData, selectedRowKeys } = this.state;
         params.configList = selectedRowKeys.carconfig;
        // let advpic = params.advPic.split('||');

@@ -21,7 +21,6 @@ export default class OnOrDownShelf extends React.Component {
         }],
         keyName: 'key',
         valueName: 'value',
-        value: 0,
         required: true
       }, {
         field: 'orderNo',

@@ -47,11 +47,6 @@ class Userinformation extends React.Component {
             field: 'author',
             required: true
         }, {
-            title: '照片张数',
-            field: 'picNumber',
-            number: true,
-            required: true
-        }, {
             title: '浏览次数',
             field: 'readCount'
         }, {
@@ -63,9 +58,9 @@ class Userinformation extends React.Component {
         }, {
             title: '更新人',
             field: 'updater',
-            formatter: (v, d) => {
+            render: (v, d) => {
                 return d.sysUser.loginName;
-                }
+            }
         }, {
             title: '更新时间',
             field: 'updateDatetime',
@@ -81,10 +76,10 @@ class Userinformation extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].status !== '2') {
+                    } else if (selectedRows[0].status === '1') {
                         showWarnMsg('已上架的资讯不可修改');
                     } else {
-                        this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`${this.props.location.pathname}/edit?code=${selectedRowKeys[0]}`);
                     }
                 },
                 up: (selectedRowKeys, selectedRows) => {

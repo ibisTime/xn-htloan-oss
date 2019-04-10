@@ -7,7 +7,7 @@ import {
   setPageData,
   restore
 } from '@redux/biz/carSeries-addedit';
-import { getQueryString, getUserId } from 'common/js/util';
+import { getQueryString, moneyFormat, getUserId } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
@@ -33,12 +33,18 @@ class CarSeriesAddEdit extends React.Component {
       field: 'lowest',
       title: '最低价',
       number: true,
+      formatter: (v, d) => {
+        return moneyFormat(v, ' ', d.lowest);
+      },
       hidden: ((!this.view && this.code) || !this.code),
       required: true
     }, {
       field: 'highest',
       title: '最高价',
       number: true,
+      formatter: (v, d) => {
+        return moneyFormat(v, ' ', d.highest);
+      },
       hidden: ((!this.view && this.code) || !this.code),
       required: true
     }, {
@@ -81,7 +87,7 @@ class CarSeriesAddEdit extends React.Component {
       valueName: 'value'
     }, {
       field: 'picNumber',
-      title: '照片张数',
+      title: '照片张数(广告图)',
       number: true,
       hidden: true,
       required: true

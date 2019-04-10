@@ -124,12 +124,6 @@ class BrandAddedit extends React.Component {
             keyName: 'key',
             valueName: 'value'
         }, {
-            title: '状态',
-            field: 'status',
-            search: true,
-            type: 'select',
-            key: 'status'
-        }, {
             title: '最新修改人',
             field: 'updater',
             hidden: !this.view,
