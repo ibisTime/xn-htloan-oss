@@ -226,7 +226,7 @@ class CarShapeAddEdit extends DetailUtil {
       editCode: 630422,
       detailCode: 630427,
       beforeSubmit: (params) => {
-        params.jsqSybx = moneyParse(params.jsqSybx);
+        // params.jsqSybx = moneyFormat(params.jsqSybx);
         console.log(params.jsqSybx);
         const { selectData, pageData, selectedRowKeys } = this.state;
         params.configList = selectedRowKeys.carconfig;
