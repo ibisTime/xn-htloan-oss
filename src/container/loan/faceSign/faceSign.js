@@ -13,7 +13,8 @@ import {
     showWarnMsg,
     getRoleCode,
     getUserId,
-    dateFormat
+    dateFormat,
+    dateTimeFormat
 } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
 
@@ -107,9 +108,9 @@ class FaceSign extends React.Component {
             title: '申请日期',
             field: 'applyDatetime',
             rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
-            render: dateFormat,
-            type: 'date',
-            search: true
+            render: dateTimeFormat,
+            search: true,
+            type: 'datetime'
         }, {
             title: '当前节点',
             field: 'intevCurNodeCode',

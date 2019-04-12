@@ -88,6 +88,11 @@ class Credit extends React.Component {
             field: 'loanAmount',
             amount: true
         }, {
+            title: '业务种类',
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer'
+        }, {
             title: '驻行内勤',
             field: 'operatorName'
         }, {
@@ -135,13 +140,13 @@ class Credit extends React.Component {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode(),
-                curNodeCodeList: ['001_01', '001_02', '001_03', '001_04', '001_05', '001_06', '001_07', '001_08']
+                curNodeCodeList: ['a1', 'a2', 'a3', 'ax1']
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {
                     let code = selectedRowKeys ? selectedRowKeys[0] : '';
                     if (code) {
-                        if (selectedRows[0].curNodeCode !== '001_01' && selectedRows[0].curNodeCode !== '001_05' && selectedRows[0].curNodeCode !== '001_07') {
+                        if (selectedRows[0].curNodeCode !== 'a1' && selectedRows[0].curNodeCode !== 'ax1') {
                             showWarnMsg('当前不是填写征信单的节点');
                             return;
                         }

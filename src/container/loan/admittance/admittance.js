@@ -60,6 +60,20 @@ class Admittance extends React.Component {
             field: 'applyUserName',
             search: true
         }, {
+            title: '是否垫资',
+            field: 'isAdvanceFund',
+            type: 'select',
+            search: true,
+            data: [{
+                dkey: '0',
+                dvalue: '否'
+            }, {
+                dkey: '1',
+                dvalue: '是'
+            }],
+            keyName: 'dkey',
+            valueName: 'dvalue'
+        }, {
             title: '手机号',
             field: 'mobile'
         }, {

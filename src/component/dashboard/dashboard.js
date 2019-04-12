@@ -38,21 +38,21 @@ class Dashboard extends React.Component {
   }
   componentDidMount() {
     this.props.getMenuList(this.props.location.pathname);
-    this.queryToDoCount();
+    // this.queryToDoCount();
   }
   // 获取待办数量
-  queryToDoCount() {
-    getToDoCount().then(data => {
-      this.props.setToDoCount(data.totalCount);
-      setTimeout(() => {
-        this.queryToDoCount();
-      }, 5000);
-    }).catch(() => {
-      setTimeout(() => {
-        this.queryToDoCount();
-      }, 5000);
-    });
-  }
+  // queryToDoCount() {
+  //   getToDoCount().then(data => {
+  //     this.props.setToDoCount(data.totalCount);
+  //     setTimeout(() => {
+  //       this.queryToDoCount();
+  //     }, 5000);
+  //   }).catch(() => {
+  //     setTimeout(() => {
+  //       this.queryToDoCount();
+  //     }, 5000);
+  //   });
+  // }
   // 头部菜单点击
   handleTopMenuClick(e) {
     if (e.key && e.key !== 'user') {
