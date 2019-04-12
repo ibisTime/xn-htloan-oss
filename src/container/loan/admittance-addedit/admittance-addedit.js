@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Row, Col, Spin, Button, Table, Card, Icon, Tooltip } from 'antd';
+import { Form, Tabs, Row, Col, Spin, Button, Table, Card, Icon, Tooltip } from 'antd';
 import moment from 'moment';
 import CUpload from 'component/cUpload/cUpload';
 import CInput from 'component/cInput/cInput';
@@ -723,10 +723,12 @@ class AdmittanceAddEdit extends React.Component {
       showDbrwxls, pageData, isMarried, showMarry
     } = this.state;
     let readonly = false;
+    const TabPane = Tabs.TabPane;
     return (
       <Spin spinning={this.state.fetching}>
         <Form>
-          <Card title="贷款车辆信息">
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="贷款车辆信息" key="1">  <Card title="贷款车辆信息">
             <Row gutter={54}>
               {this.getSelectCol({ field: 'bizType', title: '业务种类', keyName: 'dkey', valueName: 'dvalue', readonly: true }, bizTypeData, 2)}
               {this.getSelectCol({ field: 'loanPeriod', title: '贷款期限', keyName: 'dkey', valueName: 'dvalue', required: true }, loanPeriodData, 2)}
@@ -800,8 +802,8 @@ class AdmittanceAddEdit extends React.Component {
                 {this.getFileCol({ field: 'carPriceCheckReport', title: '车辆价格核实报告', type: 'img', required: true }, this.checkCommissionerTwo ? 2 : 1)}
               </Row>
             ) : null}
-          </Card>
-          <Card style={{ marginTop: 16 }} title="申请人基本信息">
+          </Card></TabPane>
+            <TabPane tab="申请人基本信息" key="2"> <Card style={{ marginTop: 16 }} title="申请人基本信息">
             <Row gutter={54}>
               {this.getInputCol({ field: 'applyUserName', title: '姓名', readonly: true })}
             </Row>
@@ -853,8 +855,8 @@ class AdmittanceAddEdit extends React.Component {
               {this.getInputCol({ field: 'pledgeAddress', title: '抵押地点', required: true })}
               {this.getFileCol({ field: 'pledgeUserIdCardCopy', title: '抵押代理人身份证复印件', type: 'img' }, 33)}
             </Row>
-          </Card>
-          <Card style={{ marginTop: 16 }} title="工作情况">
+          </Card></TabPane>
+            <TabPane tab="工作情况" key="3"> <Card style={{ marginTop: 16 }} title="工作情况">
             <Row gutter={54}>
               {this.getInputCol({ field: 'workCompanyName', title: '单位名称', required: true }, 1)}
             </Row>
@@ -885,17 +887,18 @@ class AdmittanceAddEdit extends React.Component {
               {this.getNormalTextAreaCol({ field: 'otherWorkNote', title: '工作描述及还款来源分析' }, 2)}
               {this.getFileCol({ field: 'workAssetPdf', title: '工作资料上传', type: 'img' }, 2)}
             </Row>
-          </Card>
-          <Card style={{ marginTop: 16 }} title="其他基本资料上传">
-            <Row gutter={54}>
-              {this.getFileCol({ field: 'hkBookPdf', title: '户口本', type: 'img' })}
-              {this.getFileCol({ field: 'idCardPdf', title: '身份证', type: 'img' })}
-              {this.getFileCol({ field: 'marryPdf', title: isMarried ? '结婚证' : '离婚证', type: 'img', hidden: !showMarry }, 33)}
-            </Row>
-            <Row gutter={54}>
-              {this.getFileCol({ field: 'otherPdf', title: '其他资料', type: 'img' }, 1)}
-            </Row>
-          </Card>
+          </Card></TabPane>
+            <TabPane tab="其他资料上传" key="4">  <Card style={{ marginTop: 16 }} title="其他基本资料上传">
+              <Row gutter={54}>
+                {this.getFileCol({ field: 'hkBookPdf', title: '户口本', type: 'img' })}
+                {this.getFileCol({ field: 'idCardPdf', title: '身份证', type: 'img' })}
+                {this.getFileCol({ field: 'marryPdf', title: isMarried ? '结婚证' : '离婚证', type: 'img', hidden: !showMarry }, 33)}
+              </Row>
+              <Row gutter={54}>
+                {this.getFileCol({ field: 'otherPdf', title: '其他资料', type: 'img' }, 1)}
+              </Row>
+            </Card> </TabPane>
+          </Tabs>
           {showMate ? (
             <Card style={{ marginTop: 16 }} title="配偶信息">
               <Row gutter={54}>

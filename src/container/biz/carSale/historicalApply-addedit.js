@@ -40,8 +40,13 @@ class historicalApplyAddedit extends React.Component {
             title: '申请人',
             field: 'userId',
             formatter: (v, data) => {
-                let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
-                return prefix + (data.user.mobile || '');
+                // let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
+                //                 // return prefix + (data.user.mobile || '');
+                if (data.name) {
+                    return data.name ? data.name + '-' + data.userMobile : data.name;
+                } else if(data.userMobile) {
+                    return data.userMobile ? data.userMobile + '-' + data.name : data.userMobile;
+                }
             }
         }, {
             title: '车型名称',
@@ -54,10 +59,6 @@ class historicalApplyAddedit extends React.Component {
             formatter: (v, d) => {
               return d.sysUser ? d.sysUser.loginName : '';
             },
-            readonly: true
-        }, {
-            title: '车系编号',
-            field: 'seriesCode',
             readonly: true
         }, {
             title: '车系名称',

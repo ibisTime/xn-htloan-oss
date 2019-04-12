@@ -36,8 +36,13 @@ class HistoricalApply extends React.Component {
       title: '申请人',
       field: 'userId',
       render: (v, data) => {
-        let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
-        return prefix + (data.user.mobile || '');
+        // let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
+        // return prefix + (data.user.mobile || '');
+        if (data.name) {
+          return data.name ? data.name + '-' + data.userMobile : data.name;
+        } else if(data.userMobile) {
+          return data.userMobile ? data.userMobile + '-' + data.name : data.userMobile;
+        }
       }
     }, {
       title: '车辆总价',

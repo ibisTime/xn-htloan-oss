@@ -36,10 +36,10 @@ class HandleApply extends React.Component {
       title: '申请人',
       field: 'userId',
       render: (v, data) => {
-        if (data.user.realName) {
-          return data.user.mobile ? data.user.realName + '-' + data.user.mobile : data.user.realName;
-        } else if(data.user.mobile) {
-          return data.user.realName ? data.user.realName + '-' + data.user.mobile : data.user.mobile;
+        if (data.name) {
+          return data.name ? data.name + '-' + data.userMobile : data.name;
+        } else if(data.userMobile) {
+          return data.userMobile ? data.userMobile + '-' + data.name : data.userMobile;
         }
       }
     }, {
