@@ -71,6 +71,7 @@ class CreditAddedit extends React.Component {
     };
 
     render() {
+        // 征信列表字段
         let o2mFields = [{
             title: '姓名',
             field: 'userName',
@@ -128,43 +129,71 @@ class CreditAddedit extends React.Component {
             field: 'idNoFront',
             type: 'img',
             single: true,
-            required: true
+            required: true,
+            hidden: this.isEntry
         }, {
             title: '身份证反面',
             field: 'idNoReverse',
             type: 'img',
             single: true,
-            required: true
+            required: true,
+            hidden: this.isEntry
         }, {
             title: '征信查询授权书',
             field: 'authPdf',
             type: 'img',
-            required: true
+            required: true,
+            hidden: this.isEntry
         }, {
             title: '面签照片',
             field: 'interviewPic',
             type: 'img',
-            required: true
+            required: true,
+            hidden: this.isEntry
         }];
-        if (!this.isAddedit) {
+        if (!this.isAddedit) { // 修改征信查询中征信列表中才显示的字段
             o2mFields = o2mFields.concat([{
                 title: '信用卡使用占比',
                 field: 'creditCardOccupation',
                 // required: true,
                 readonly: !this.isEntry,
-                hidden: !this.view,
+                hidden: !this.view || this.isEntry,
                 help: '请输入0-100之间的数字'
             }, {
-                title: '征信报告',
-                field: 'bankCreditResultPdf',
+                title: '银行征信结果(是否通过)',
+                field: 'bankResult',
+                type: 'select',
+                readonly: !this.isEntry,
+                data: [{
+                    key: '0',
+                    value: '不通过'
+                }, {
+                    key: '1',
+                    value: '通过'
+                }],
+                keyName: 'key',
+                valueName: 'value',
+                hidden: !this.view,
+                required: true
+            }, {
+                title: '银行征信报告',
+                field: 'bankCreditReport',
+                type: 'img',
+                single: true, // 单张
+                required: true,
+                readonly: !this.isEntry,
+                hidden: !this.view
+            }, {
+                title: '大数据征信报告(多张)',
+                field: 'dataCreditReport',
                 type: 'img',
                 required: true,
                 readonly: !this.isEntry,
                 hidden: !this.view
             }, {
                 title: '征信结果说明',
-                field: 'bankCreditResultRemark',
-                // required: true,
+                field: 'creditNote',
+                required: true,
                 readonly: !this.isEntry,
                 type: 'textarea',
                 normalArea: true,
@@ -172,12 +201,25 @@ class CreditAddedit extends React.Component {
             }]);
         }
 
+        // 详情回显列表字段
         let fields = [{
             title: '业务团队',
             field: 'teamName',
-            hidden: this.isAddedit
+            type: 'select',
+            hidden: this.isAddedit || this.isEntry // 征信查询或录入征信结果详情隐藏
         }, {
-            title: '银行',
+            title: '业务编号',
+            field: 'code',
+            formatter: (v, d) => {
+                return d ? d.cdbiz.code : '';
+            },
+            hidden: !this.isEntry // 录入征信结果才显示
+        }, {
+            title: '客户姓名',
+            field: 'userName',
+            hidden: !this.isEntry // 录入征信结果才显示
+        }, {
+            title: '贷款银行',
             field: 'loanBankCode',
             type: 'select',
             listCode: 632037,
@@ -204,20 +246,48 @@ class CreditAddedit extends React.Component {
             title: '二手车评估报告',
             field: 'secondCarReport',
             type: 'file',
-            hidden: this.props.pageData.bizType === '新车', // 新车隐藏
+            hidden: this.props.pageData.bizType === '新车' || this.isEntry, // 新车 录入征信结果时隐藏
             required: this.props.pageData.bizType === '二手车' // 二手车必填
         }, {
             title: '行驶证正面',
             field: 'xszFront',
             type: 'img',
-            hidden: this.props.pageData.bizType === '新车', // 新车隐藏
+            hidden: this.props.pageData.bizType === '新车' || this.isEntry, // 新车隐藏
             required: this.props.pageData.bizType === '二手车'
         }, {
             title: '行驶证反面',
             field: 'xszReverse',
             type: 'img',
-            hidden: this.props.pageData.bizType === '新车', // 新车隐藏
+            hidden: this.props.pageData.bizType === '新车' || this.isEntry, // 新车隐藏
             required: this.props.pageData.bizType === '二手车'
+        }, {
+            title: '审核说明',
+            field: 'approveNote',
+            readonly: !this.isCheck,
+            hidden: !this.isCheck
+        }, {
+            title: '业务归属',
+            field: 'ywyUser',
+            formatter: (v, d) => {
+                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+            },
+            hidden: !this.isEntry
+        }, {
+            title: '指派归属',
+            field: 'zfStatus',
+            formatter: (v, d) => {
+                return d ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+            },
+            hidden: !this.isEntry
+        }, {
+            title: '当前状态',
+            field: 'status',
+            key: 'cdbiz_status',
+            type: 'select',
+            formatter: (v, d) => {
+                return d ? d.cdbiz.status : '';
+            },
+            hidden: !this.isEntry
         },
             {
                 title: '征信列表',
@@ -272,11 +342,6 @@ class CreditAddedit extends React.Component {
                 field: 'note',
                 type: 'textarea',
                 normalArea: true
-            }, {
-                title: '审核说明',
-                field: 'approveNote',
-                readonly: !this.isCheck,
-                hidden: !this.isCheck
             }];
         if (this.code) {
             fields.push({
@@ -369,7 +434,11 @@ class CreditAddedit extends React.Component {
 
         // 录入征信结果
         if (this.isEntry) {
-            this.buttons = [{
+            this.buttons = [
+                // {
+                // title: '查看详情'
+                // },
+                {
                 title: '录入',
                 check: true,
                 handler: (params) => {
@@ -384,12 +453,12 @@ class CreditAddedit extends React.Component {
                         params.creditUserList[i].dataCreditReport = params.creditUserList[i].dataCreditReport;// 大数据征信报告，多张||隔开
                         creditList.push({
                             creditUserCode: params.creditUserList[i].creditUserCode,
-                            bankCreditReport: params.creditUserList[i].bankCreditReport,
+                            bankCreditReport: params.creditUserList[i].bankCreditReport, // 银行征信报告
                             creditNote: params.creditUserList[i].creditNote,
                             bankResult: params.creditUserList[i].bankResult,
                             dataCreditReport: params.creditUserList[i].dataCreditReport
                         });
-                        if (!params.creditUserList[i].bankCreditResultPdf) {
+                        if (!params.creditUserList[i].bankCreditReport) {
                             showWarnMsg('请录入' + params.creditUserList[i].userName + '的银行征信结果！');
                             return;
                         }
@@ -587,6 +656,11 @@ class CreditAddedit extends React.Component {
                                 return param;
                             }
                         }
+                        // btnEvent: {
+                        //     querydetail: (selectedRowKeys, selectedRows) => {
+                        //         alert('查看详情');
+                        //     }
+                        // }
                     })
                 }
             </div>

@@ -109,7 +109,8 @@ class Credit extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
-            search: true
+            search: true,
+            params: {type: 'a'}
         }, {
             title: '节点时间',
             field: 'updateDatetime',
@@ -160,7 +161,7 @@ class Credit extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '001_08') {
+                    } else if (selectedRows[0].curNodeCode !== 'a2') {
                         showWarnMsg('当前不是内勤主管派单的节点');
                     } else {
                         this.props.history.push(`/loan/credit/dispatch?code=${selectedRowKeys[0]}`);
@@ -171,7 +172,7 @@ class Credit extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '001_03') {
+                    } else if (selectedRows[0].curNodeCode !== 'a3') {
                         showWarnMsg('当前不是风控专员审核的节点');
                     } else {
                         this.props.history.push(`/loan/credit/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
@@ -182,7 +183,7 @@ class Credit extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '001_02' && selectedRows[0].curNodeCode !== '001_06') {
+                    } else if (selectedRows[0].curNodeCode !== 'a2') {
                         showWarnMsg('当前不是录入征信结果的节点');
                     } else {
                         this.props.history.push(`/loan/credit/addedit?v=1&isEntry=1&code=${selectedRowKeys[0]}`);

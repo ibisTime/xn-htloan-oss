@@ -122,6 +122,7 @@ class BankMoneyRecord extends React.Component {
   componentDidMount() {
     Promise.all([
       fetch(632177, { status: '2', type: this.bizType }),
+      getDictList({ parentKey: 'cdbiz_status' }),
       getDictList({ parentKey: 'budget_orde_biz_typer' }),
       getDictList({ parentKey: 'loan_period' }),
       getDictList({ parentKey: 'region' }),
