@@ -36,6 +36,27 @@ class historicalApplyAddedit extends React.Component {
                 return prefix + (data.user.mobile || '');
             }
         }, {
+
+            title: '车型名称',
+            field: 'carName',
+            readonly: true
+        }, {
+            title: '处理人',
+            field: 'handler',
+            hidden: !this.view,
+            formatter: (v, d) => {
+              return d.sysUser ? d.sysUser.loginName : '';
+            },
+            readonly: true
+        }, {
+            title: '车系编号',
+            field: 'seriesCode',
+            readonly: true
+        }, {
+            title: '车系名称',
+            field: 'seriesName',
+            readonly: true
+        }, {
             title: '车辆总价',
             amount: true,
             field: 'price'

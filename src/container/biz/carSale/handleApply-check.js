@@ -44,9 +44,18 @@ class handleApplyCheck extends React.Component {
             keyName: 'userId',
             valueName: 'realName',
             readonly: true,
+
             formatter: (v, data) => {
                 return data.userMobile;
             }
+
+                formatter: (v, data) => {
+                    if (data.user.realName) {
+                        return data.user.mobile ? data.user.realName + '-' + data.user.mobile : data.user.realName;
+                    } else if(data.user.mobile) {
+                        return data.user.realName ? data.user.realName + '-' + data.user.mobile : data.user.mobile;
+                    }
+                       }
         }, {
             title: '首付比例',
             field: 'sfRate',
@@ -70,6 +79,7 @@ class handleApplyCheck extends React.Component {
             field: 'saleDesc',
             readonly: true
         }, {
+
             title: '备注',
             field: 'remark',
             readonly: true
