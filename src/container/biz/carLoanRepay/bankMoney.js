@@ -102,7 +102,8 @@ class bankMoney extends React.Component {
       listCode: 630147,
       keyName: 'code',
       valueName: 'name',
-      search: true
+      search: true,
+      params: {type: 'a'}
     }, {
       title: '备注',
       field: 'remark'

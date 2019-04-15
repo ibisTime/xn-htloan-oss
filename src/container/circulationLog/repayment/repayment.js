@@ -106,7 +106,8 @@ class Repayment extends React.Component {
             type: 'select',
             listCode: 630147,
             keyName: 'code',
-            valueName: 'name'
+            valueName: 'name',
+            params: {type: 'a'}
         }];
         return this.props.buildList({
             fields,

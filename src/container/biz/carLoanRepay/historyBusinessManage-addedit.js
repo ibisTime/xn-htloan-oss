@@ -43,7 +43,8 @@ class historyBusinessManageAddedit extends React.Component {
       type: 'select',
       listCode: 630147,
       keyName: 'code',
-      valueName: 'name'
+      valueName: 'name',
+      params: {type: 'a'}
     }, {
       title: '身份证号',
       field: 'idNo',

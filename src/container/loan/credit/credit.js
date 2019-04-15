@@ -88,6 +88,11 @@ class Credit extends React.Component {
             field: 'loanAmount',
             amount: true
         }, {
+            title: '业务种类',
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer'
+        }, {
             title: '驻行内勤',
             field: 'operatorName'
         }, {
@@ -104,7 +109,8 @@ class Credit extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
-            search: true
+            search: true,
+            params: {type: 'a'}
         }, {
             title: '节点时间',
             field: 'updateDatetime',
@@ -135,13 +141,13 @@ class Credit extends React.Component {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode(),
-                curNodeCodeList: ['001_01', '001_02', '001_03', '001_04', '001_05', '001_06', '001_07', '001_08']
+                curNodeCodeList: ['a1', 'a2', 'a3', 'ax1']
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {
                     let code = selectedRowKeys ? selectedRowKeys[0] : '';
                     if (code) {
-                        if (selectedRows[0].curNodeCode !== '001_01' && selectedRows[0].curNodeCode !== '001_05' && selectedRows[0].curNodeCode !== '001_07') {
+                        if (selectedRows[0].curNodeCode !== 'a1' && selectedRows[0].curNodeCode !== 'ax1') {
                             showWarnMsg('当前不是填写征信单的节点');
                             return;
                         }
@@ -155,7 +161,7 @@ class Credit extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '001_08') {
+                    } else if (selectedRows[0].curNodeCode !== 'a2') {
                         showWarnMsg('当前不是内勤主管派单的节点');
                     } else {
                         this.props.history.push(`/loan/credit/dispatch?code=${selectedRowKeys[0]}`);
@@ -166,10 +172,11 @@ class Credit extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '001_03') {
+                    } else if (selectedRows[0].curNodeCode !== 'a3') {
                         showWarnMsg('当前不是风控专员审核的节点');
                     } else {
-                        this.props.history.push(`/loan/credit/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
+                        // this.props.history.push(`/loan/credit/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
+                         this.props.history.push(`/loan/credit/shenhe?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
                     }
                 },
                 entering: (selectedRowKeys, selectedRows) => {
@@ -177,7 +184,7 @@ class Credit extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '001_02' && selectedRows[0].curNodeCode !== '001_06') {
+                    } else if (selectedRows[0].curNodeCode !== 'a2') {
                         showWarnMsg('当前不是录入征信结果的节点');
                     } else {
                         this.props.history.push(`/loan/credit/addedit?v=1&isEntry=1&code=${selectedRowKeys[0]}`);
@@ -191,29 +198,29 @@ class Credit extends React.Component {
                     }
                 },
                 withdraw: (key, item) => {
-                  if (!key || !key.length || !item || !item.length) {
-                    showWarnMsg('请选择记录');
-                  } else if (item[0].curNodeCode !== '001_01' && item[0].curNodeCode !== '001_02' && item[0].curNodeCode !== '001_06') {
-                    showWarnMsg('该状态不可撤回');
-                  } else {
-                    Modal.confirm({
-                      okText: '确认',
-                      cancelText: '取消',
-                      content: '确定撤回？',
-                      onOk: () => {
-                        this.props.doFetching();
-                        return creditWithdraw(key[0]).then(() => {
-                          this.props.getPageData();
-                          showWarnMsg('操作成功');
-                          setTimeout(() => {
-                              this.props.getPageData();
-                          }, 500);
-                        }).catch(() => {
-                          this.props.cancelFetching();
+                    if (!key || !key.length || !item || !item.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (item[0].curNodeCode !== '001_01' && item[0].curNodeCode !== '001_02' && item[0].curNodeCode !== '001_06') {
+                        showWarnMsg('该状态不可撤回');
+                    } else {
+                        Modal.confirm({
+                            okText: '确认',
+                            cancelText: '取消',
+                            content: '确定撤回？',
+                            onOk: () => {
+                                this.props.doFetching();
+                                return creditWithdraw(key[0]).then(() => {
+                                    this.props.getPageData();
+                                    showWarnMsg('操作成功');
+                                    setTimeout(() => {
+                                        this.props.getPageData();
+                                    }, 500);
+                                }).catch(() => {
+                                    this.props.cancelFetching();
+                                });
+                            }
                         });
-                      }
-                    });
-                  }
+                    }
                 }
             }
         });

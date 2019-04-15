@@ -54,6 +54,7 @@ class CollectionCheck extends React.Component {
         listCode: 630147,
         keyName: 'code',
         valueName: 'name',
+        params: {type: 'a'},
         hidden: !this.props.pageData.fromNodeCode,
         readonly: true
     }, {

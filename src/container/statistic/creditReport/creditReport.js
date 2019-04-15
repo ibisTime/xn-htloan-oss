@@ -71,7 +71,8 @@ class CreditReport extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
-            nowrap: true
+            nowrap: true,
+            params: {type: 'a'}
         }, {
             title: '是否作废',
             field: 'isCancel',

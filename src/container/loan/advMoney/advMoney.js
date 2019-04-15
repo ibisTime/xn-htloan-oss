@@ -145,7 +145,8 @@ class AdvMoney extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
-            search: true
+            search: true,
+            params: {type: 'a'}
         }, {
             title: '垫资说明',
             field: 'advanceNote',

@@ -89,7 +89,8 @@ class CreditBill extends React.Component {
             type: 'select',
             listCode: 630147,
             keyName: 'code',
-            valueName: 'name'
+            valueName: 'name',
+            params: {type: 'a'}
         }, {
             title: '节点时间',
             field: 'updateDatetime',

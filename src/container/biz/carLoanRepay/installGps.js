@@ -90,7 +90,8 @@ class installGps extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
-            search: true
+            search: true,
+            params: {type: 'a'}
         }, {
             title: '是否安装',
             field: 'isGpsAz',

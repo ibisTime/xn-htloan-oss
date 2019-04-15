@@ -74,7 +74,8 @@ class userRedemption extends React.Component {
       listCode: 630147,
       keyName: 'code',
       valueName: 'name',
-      search: true
+      search: true,
+      params: {type: 'a'}
     }];
     return this.props.buildList({
       fields,
