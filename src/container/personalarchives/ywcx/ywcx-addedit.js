@@ -154,7 +154,7 @@ class ArchivesAddEdit extends React.Component {
             fetch(632217),
             fetch(632827),
             getQiniuToken(),
-            fetch(632146, {code: this.code})
+            fetch(632516, {code: this.code})
         ]).then(([
                      loanProductData, bizTypeData, loanPeriodData, regionData, carTypeData,
                      genderData, marryStateData, educationData, addressData, relationData,
@@ -958,37 +958,37 @@ class ArchivesAddEdit extends React.Component {
                             </TabPane>
                         ) : null}
                         {showGua ? (
-                        <TabPane tab="担保人信息" key="8">
-                            <Row gutter={54}>
-                                {this.getInputCol({field: 'guaName', title: '姓名'}, 2)}
-                                {this.getInputCol({field: 'guaMobile', title: '手机号', mobile: true}, 2)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getInputCol({field: 'guaIdNo', title: '身份证号', idCard: true}, 2)}
-                                {this.getInputCol({field: 'guaPhone', title: '固定电话'}, 2)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getInputCol({field: 'guaCompanyName', title: '工作单位名称'})}
-                                {this.getInputCol({field: 'guaCompanyAddress', title: '工作单位地址'})}
-                                {this.getInputCol({field: 'guaHouseAssetAddress', title: '担保人房产地址'}, 33)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getFileCol({field: 'mateAssetPdf', title: '其他辅助资产', type: 'img'}, 1)}
-                            </Row></TabPane>
+                            <TabPane tab="担保人信息" key="8">
+                                <Row gutter={54}>
+                                    {this.getInputCol({field: 'guaName', title: '姓名'}, 2)}
+                                    {this.getInputCol({field: 'guaMobile', title: '手机号', mobile: true}, 2)}
+                                </Row>
+                                <Row gutter={54}>
+                                    {this.getInputCol({field: 'guaIdNo', title: '身份证号', idCard: true}, 2)}
+                                    {this.getInputCol({field: 'guaPhone', title: '固定电话'}, 2)}
+                                </Row>
+                                <Row gutter={54}>
+                                    {this.getInputCol({field: 'guaCompanyName', title: '工作单位名称'})}
+                                    {this.getInputCol({field: 'guaCompanyAddress', title: '工作单位地址'})}
+                                    {this.getInputCol({field: 'guaHouseAssetAddress', title: '担保人房产地址'}, 33)}
+                                </Row>
+                                <Row gutter={54}>
+                                    {this.getFileCol({field: 'mateAssetPdf', title: '其他辅助资产', type: 'img'}, 1)}
+                                </Row></TabPane>
                         ) : null}
                         <TabPane tab="流水数据" key="16">
-                     {showSqryhls ? (
-                             <Row gutter={54}>{this.getJourComp('申请人银行流水', sqryhls) }
-                             </Row>
-                     ) : null}
-                        {showSqrzfbls ? this.getJourComp('申请人支付宝流水', sqrzfbls) : null}
-                        {showSqrwxls ? this.getJourComp('申请人微信流水', sqrwxls) : null}
-                        {showPoyhls ? this.getJourComp('配偶银行流水', poyhls) : null}
-                        {showPozfbls ? this.getJourComp('配偶支付宝流水', pozfbls) : null}
-                        {showPowxls ? this.getJourComp('配偶微信流水', powxls) : null}
-                        {showDbryhls ? this.getJourComp('担保人银行流水', dbryhls) : null}
-                        {showDbrzfbls ? this.getJourComp('担保人支付宝流水', dbrzfbls) : null}
-                        {showDbrwxls ? this.getJourComp('担保人微信流水', dbrwxls) : null}
+                            {showSqryhls ? (
+                                <Row gutter={54}>{this.getJourComp('申请人银行流水', sqryhls) }
+                                </Row>
+                            ) : null}
+                            {showSqrzfbls ? this.getJourComp('申请人支付宝流水', sqrzfbls) : null}
+                            {showSqrwxls ? this.getJourComp('申请人微信流水', sqrwxls) : null}
+                            {showPoyhls ? this.getJourComp('配偶银行流水', poyhls) : null}
+                            {showPozfbls ? this.getJourComp('配偶支付宝流水', pozfbls) : null}
+                            {showPowxls ? this.getJourComp('配偶微信流水', powxls) : null}
+                            {showDbryhls ? this.getJourComp('担保人银行流水', dbryhls) : null}
+                            {showDbrzfbls ? this.getJourComp('担保人支付宝流水', dbrzfbls) : null}
+                            {showDbrwxls ? this.getJourComp('担保人微信流水', dbrwxls) : null}
                         </TabPane>
                         <TabPane tab="面签" key="9">
                             <Row gutter={54}>

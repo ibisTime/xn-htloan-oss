@@ -13,7 +13,7 @@ import {
 import { showWarnMsg, showSucMsg, getUserId } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
 import fetch from 'common/js/fetch';
-
+import { complete, tovoid } from 'api/biz';
 @listWrapper(
     state => ({
       ...state.taskmanageMent,
@@ -72,7 +72,65 @@ class Notice extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 805305
+      pageCode: 623595,
+      btnEvent: {
+        // 完成
+        complete: (selectedRowKeys, selectedRows) => {
+          if (!selectedRowKeys.length) {
+            showWarnMsg('请选择记录');
+          } else if (selectedRowKeys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else if (selectedRows[0].status === '1') {
+            showWarnMsg('已完成的任务不可修改');
+          } else {
+            Modal.confirm({
+              okText: '确认',
+              cancelText: '取消',
+              content: '确定完成？',
+              onOk: () => {
+                this.props.doFetching();
+                return complete(selectedRowKeys[0]).then(() => {
+                  this.props.cancelFetching();
+                  showWarnMsg('操作成功');
+                  setTimeout(() => {
+                    this.props.getPageData();
+                  }, 500);
+                }).catch(() => {
+                  this.props.cancelFetching();
+                });
+              }
+            });
+           }
+        },
+        // 作废
+        tovoid: (selectedRowKeys, selectedRows) => {
+          if (!selectedRowKeys.length) {
+            showWarnMsg('请选择记录');
+          } else if (selectedRowKeys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else if (selectedRows[0].status === '1') {
+            showWarnMsg('已作废的任务不可修改');
+          } else {
+            Modal.confirm({
+              okText: '确认',
+              cancelText: '取消',
+              content: '确定作废？',
+              onOk: () => {
+                this.props.doFetching();
+                return tovoid(selectedRowKeys[0]).then(() => {
+                  this.props.cancelFetching();
+                  showWarnMsg('操作成功');
+                  setTimeout(() => {
+                    this.props.getPageData();
+                  }, 500);
+                }).catch(() => {
+                  this.props.cancelFetching();
+                });
+              }
+            });
+          }
+        }
+      }
     });
   }
 }

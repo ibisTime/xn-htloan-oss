@@ -39,6 +39,15 @@ export function putaway(code) {
 export function soldOut(code) {
   return fetch(808004, { code, updater: getUserId() });
 }
+//  任务管理完成
+export function complete(code) {
+  return fetch(623594, { code, updater: getUserId() });
+}
+
+//  任务管理作废
+export function tovoid(code) {
+  return fetch(623593, { code, updater: getUserId() });
+}
 
 //  商品上架
 export function goodsputaway(code) {

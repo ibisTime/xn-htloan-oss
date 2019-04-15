@@ -1188,6 +1188,16 @@ const ROUTES = [
     path: '/personalarchives/quitarchives/addedit',
     component: asyncComponent(() => import('container/personalarchives/quitarchives/quitarchives-addedit'))
   },
+  //  车贷档案  业务查询
+  {
+    path: '/ywcx/ywcx',
+    component: asyncComponent(() => import('container/personalarchives/ywcx/ywcx'))
+  },
+  //  车贷档案  业务查询  详情
+  {
+    path: '/ywcx/ywcx/addedit',
+    component: asyncComponent(() => import('container/personalarchives/ywcx/ywcx-addedit'))
+  },
   //  车贷档案  流转日志
   {
     path: '/circulationlog/circulationlog',
@@ -1891,7 +1901,7 @@ const ROUTES = [
   {
     path: '/container/footprint',
     component: asyncComponent(() => import('container/biz/footprint/footprint'))},
-  // 足迹管理
+  // 待办消息
   {
     path: '/todo/todo',
     component: asyncComponent(() => import('container/personalarchives/todo/todo'))}

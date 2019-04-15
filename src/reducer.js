@@ -582,6 +582,8 @@ import { taskmanageMent } from './redux/taskmanagement/taskmanagement';
 import { circulationLog } from './redux/circulationLog/circulationLog';
 import { toDo } from './redux/personalarchives/todo';
 import { AccEssOryPool } from './redux/personalarchives/accessorypool';
+import { ywCx } from './redux/personalarchives/ywcx';
+import { ywcxAddedit } from './redux/personalarchives/ywcx-addedit';
 export default combineReducers({
   user,
   menu,
@@ -923,5 +925,7 @@ export default combineReducers({
   taskmanageMent,
   toDo,
   circulationLog,
-  AccEssOryPool
+  AccEssOryPool,
+  ywCx,
+  ywcxAddedit
 });

@@ -27,6 +27,11 @@ export const sqryhls = ['jourDatetime3', 'jourDatetimeStart',
   'jourDatetimeEnd', 'jourInterest1', 'jourInterest2', 'interest1',
   'interest2', 'jourIncome', 'jourExpend', 'jourBalance',
   'jourMonthIncome', 'jourMonthExpend', 'jourRemark', 'jourPic'];
+// 消息
+export const dbxx = ['jourDatetime3', 'jourDatetimeStart',
+  'jourDatetimeEnd', 'jourInterest1', 'jourInterest2', 'interest1',
+  'interest2', 'jourIncome', 'jourExpend', 'jourBalance',
+  'jourMonthIncome', 'jourMonthExpend', 'jourRemark', 'jourPic'];
 // 申请人支付宝流水
 export const sqrzfbls = ['jourDatetime1', 'zfbJourDatetimeStart',
   'zfbJourDatetimeEnd', 'zfbJourInterest1', 'zfbJourInterest2', 'zfbInterest1',
