@@ -1163,6 +1163,11 @@ const ROUTES = [
       path: '/loanarchives/locationcode/addedit',
       component: asyncComponent(() => import('container/loanarchives/loanarchives/locationcode-addedit'))
   },
+  //  车贷档案 任务管理
+  {
+    path: '/taskmanagement/taskmanagement',
+    component: asyncComponent(() => import('container/statistic/taskmanagement/taskmanagement'))
+  },
   //  车贷档案查询
   {
       path: '/loanarchives/archivesquery',
@@ -1177,6 +1182,16 @@ const ROUTES = [
   {
     path: '/personalarchives/quitarchives/addedit',
     component: asyncComponent(() => import('container/personalarchives/quitarchives/quitarchives-addedit'))
+  },
+  //  车贷档案  流转日志
+  {
+    path: '/circulationlog/circulationlog',
+    component: asyncComponent(() => import('container/personalarchives/circulationlog/circulationlog'))
+  },
+  //  车贷档案  资源池
+  {
+    path: '/personalarchives/accessorypool',
+    component: asyncComponent(() => import('container/personalarchives/accessorypool/accessorypool'))
   },
   //  合同管理
   {
@@ -1870,7 +1885,11 @@ const ROUTES = [
   // 足迹管理
   {
     path: '/container/footprint',
-    component: asyncComponent(() => import('container/biz/footprint/footprint'))}
+    component: asyncComponent(() => import('container/biz/footprint/footprint'))},
+  // 足迹管理
+  {
+    path: '/todo/todo',
+    component: asyncComponent(() => import('container/personalarchives/todo/todo'))}
 
 ];
 

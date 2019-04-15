@@ -577,6 +577,11 @@ import { bizCarSeriesCxpz } from './redux/biz/carShape-cxpz';
 // 导航
 import { Navigation } from './redux/biz/navigation';
 import { footPrint } from './redux/biz/footprint';
+// 车贷档案 + 业务查询
+import { taskmanageMent } from './redux/taskmanagement/taskmanagement';
+import { circulationLog } from './redux/circulationLog/circulationLog';
+import { toDo } from './redux/personalarchives/todo';
+import { AccEssOryPool } from './redux/personalarchives/accessorypool';
 export default combineReducers({
   user,
   menu,
@@ -914,5 +919,9 @@ export default combineReducers({
   bizVehicleconfiguration,
   bizCarSeriesCxpz,
   Navigation,
-  footPrint
+  footPrint,
+  taskmanageMent,
+  toDo,
+  circulationLog,
+  AccEssOryPool
 });

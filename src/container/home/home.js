@@ -16,8 +16,8 @@ import { getRoleList } from 'api/company';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
 import { getUser, setUserPhoto } from 'api/user';
-import { getPageMyNotice, getPageMyCompanysystem, getPageMyToDoList, getCurNodeCode } from 'api/home';
-// import { getPageMyNotice, getPageMyCompanysystem, getCurNodeCode } from 'api/home';
+// import { getPageMyNotice, getPageMyCompanysystem, getPageMyToDoList, getCurNodeCode } from 'api/home';
+import { getPageMyNotice, getPageMyCompanysystem, getCurNodeCode } from 'api/home';
 import { PIC_PREFIX, PIC_BASEURL_L, UPLOAD_URL } from 'common/js/config';
 import './home.css';
 import userPhoto from '../../images/home-userPhoto.png';
@@ -53,7 +53,7 @@ class Home extends React.Component {
             getPageMyNotice(),
             getPageMyCompanysystem(),
             getUser(),
-            getPageMyToDoList(),
+            // getPageMyToDoList(),
             getCurNodeCode(),
             getDictList({parentKey: 'node_type'})
         ]).then(([qiniuToken, roleData, noticeData, companysystemData, userData, toDoListData, curNodeData, nodeType]) => {
