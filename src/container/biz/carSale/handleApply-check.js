@@ -70,13 +70,10 @@ class handleApplyCheck extends React.Component {
             type: 'datetime',
             readonly: true
         }, {
-
             title: '车贷计算器信息',
             field: 'saleDesc',
             readonly: true
         }, {
-
-
             title: '备注',
             field: 'remark',
             readonly: true
