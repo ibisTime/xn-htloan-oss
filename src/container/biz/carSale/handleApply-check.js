@@ -44,11 +44,6 @@ class handleApplyCheck extends React.Component {
             keyName: 'userId',
             valueName: 'realName',
             readonly: true,
-
-            formatter: (v, data) => {
-                return data.userMobile;
-            }
-
                 formatter: (v, data) => {
                     if (data.user.realName) {
                         return data.user.mobile ? data.user.realName + '-' + data.user.mobile : data.user.realName;
@@ -75,10 +70,12 @@ class handleApplyCheck extends React.Component {
             type: 'datetime',
             readonly: true
         }, {
+
             title: '车贷计算器信息',
             field: 'saleDesc',
             readonly: true
         }, {
+
 
             title: '备注',
             field: 'remark',

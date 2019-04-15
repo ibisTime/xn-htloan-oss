@@ -36,10 +36,6 @@ class HandleApply extends React.Component {
       title: '申请人',
       field: 'userId',
       render: (v, data) => {
-
-        let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
-        return prefix + (data.user.mobile || '');
-
         if (data.user.realName) {
           return data.user.mobile ? data.user.realName + '-' + data.user.mobile : data.user.realName;
         } else if(data.user.mobile) {
