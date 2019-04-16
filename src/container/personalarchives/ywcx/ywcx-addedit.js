@@ -69,6 +69,7 @@ class ArchivesAddEdit extends React.Component {
             propertyData: [],
             incomeData: [],
             positionData: [],
+            noticeData: [],
             professionData: [],
             loanRoleData: [],
             enterFileData: [],
@@ -153,18 +154,18 @@ class ArchivesAddEdit extends React.Component {
             getDictList({parentKey: 'credit_user_loan_role'}),
             fetch(632217),
             fetch(632827),
+            fetch(632527, {bizCode: this.code}),
             getQiniuToken(),
             fetch(632516, {code: this.code})
         ]).then(([
                      loanProductData, bizTypeData, loanPeriodData, regionData, carTypeData,
                      genderData, marryStateData, educationData, addressData, relationData,
-                     industryData, propertyData, incomeData, positionData, professionData,
+                     industryData, propertyData, incomeData, noticeData, positionData, professionData,
                      interestData, loanRoleData, enterFileData, enterLocationData,
                      uploadToken, pageData
                  ]) => {
-            console.log('111');
-            console.log(professionData);
-            console.log(pageData);
+            console.log('333');
+            console.log(noticeData);
             this.setState({
                 loanProductData,
                 bizTypeData,
@@ -180,6 +181,7 @@ class ArchivesAddEdit extends React.Component {
                 propertyData,
                 incomeData,
                 positionData,
+                noticeData,
                 professionData,
                 interestData,
                 loanRoleData,
@@ -208,6 +210,12 @@ class ArchivesAddEdit extends React.Component {
         }).catch(() => this.setState({fetching: false}));
         fetch(630176, {refOrder: this.code}).then((records) => {
             this.setState({records});
+        }).catch(() => {
+        });
+        fetch(632527, {bizCode: this.code}).then((noticeData) => {
+            console.log('11122');
+            console.log(noticeData);
+            this.setState({noticeData});
         }).catch(() => {
         });
         fetch(630147).then((dealNodeList) => {
@@ -525,7 +533,7 @@ class ArchivesAddEdit extends React.Component {
             return budgetOrderGpsList.map(b => (
                 <Card key={b.code}>
                     <Row gutter={54}>
-                        {this.getInputCol({field: 'gpsDevNo', title: 'GPS设备号'}, 3, b)}
+                        {this.getInputCol({field: 'content', title: 'GPS设备号'}, 3, b)}
                         {this.getSelectCol({field: 'gpsType', title: 'GPS类型'}, gpsTypeData, 3, b)}
                         {this.getInputCol({field: 'azLocation', title: '安装位置'}, 33, b)}
                     </Row>
@@ -583,11 +591,11 @@ class ArchivesAddEdit extends React.Component {
             bizTypeData, loanPeriodData, loanProductData, regionData, carTypeData,
             genderData, marryStateData, educationData, addressData, relationData,
             industryData, propertyData, incomeData, positionData, professionData,
-            enterFileData, enterLocationData, showMate, showGua, showSqryhls,
+            enterFileData, enterLocationData, noticeData, showMate, showGua, showSqryhls,
             showSqrzfbls, showSqrwxls, showPoyhls, showPozfbls, showPowxls,
             showDbryhls, showDbrzfbls, showDbrwxls, isMarried, showMarry, bizType
         } = this.state;
-        console.log(relationData);
+        console.log(noticeData);
         const TabPane = Tabs.TabPane;
         return (
             <Spin spinning={this.state.fetching}>
@@ -607,7 +615,7 @@ class ArchivesAddEdit extends React.Component {
                             <Row gutter={54}>
                                 {this.getInputCol({field: 'insideJobName', title: '业务内勤'})}
                                 {this.getInputCol({field: 'loanBankName', title: '贷款银行'})}
-                                {this.getInputCol({field: 'loanAmount', title: '贷款金额', amount: true}, 33)}
+                                {this.getInputCol({field: 'dkAmount', title: '贷款金额', amount: true}, 33)}
                             </Row>
                             <Row gutter={54}>
                                 {this.getSelectCol({
@@ -628,7 +636,7 @@ class ArchivesAddEdit extends React.Component {
                                 }, enterLocationData, 2)}
                             </Row>
                         </TabPane>
-                        <TabPane tab="征信列表" key="2">
+                        <TabPane tab="征信信息" key="2">
                             {this.getCreditList()}</TabPane>
                         <TabPane tab="贷款车辆信息" key="3">
                             <Row gutter={54}>
@@ -756,7 +764,7 @@ class ArchivesAddEdit extends React.Component {
                                 {this.getFileCol({field: 'carPriceCheckReport', title: '车辆价格核实报告', type: 'img'}, 1)}
                             </Row>
                         </TabPane>
-                        <TabPane tab="申请人基本信息" key="4">
+                        <TabPane tab="客户基本信息" key="4">
                             <Row gutter={54}>
                                 {this.getInputCol({field: 'applyUserName', title: '姓名', readonly: true})}
                             </Row>
@@ -843,6 +851,9 @@ class ArchivesAddEdit extends React.Component {
                                 }, 33)}
                             </Row>
                         </TabPane>
+                        <TabPane tab="GPS安装列表" key="14">
+                            {this.getGpsList()}
+                        </TabPane>
                         <TabPane tab="工作情况" key="5">
                             <Row gutter={54}>
                                 {this.getInputCol({field: 'workCompanyName', title: '单位名称'}, 1)}
@@ -920,77 +931,7 @@ class ArchivesAddEdit extends React.Component {
                                 {this.getFileCol({field: 'workAssetPdf', title: '工作资料上传', type: 'img'}, 2)}
                             </Row>
                         </TabPane>
-                        <TabPane tab="其他基本资料上传" key="6">
-                            <Row gutter={54}>
-                                {this.getFileCol({field: 'hkBookPdf', title: '户口本', type: 'img'})}
-                                {this.getFileCol({field: 'idCardPdf', title: '身份证', type: 'img'})}
-                                {this.getFileCol({
-                                    field: 'marryPdf',
-                                    title: isMarried ? '结婚证' : '离婚证',
-                                    type: 'img',
-                                    hidden: !showMarry
-                                }, 33)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getFileCol({field: 'otherPdf', title: '其他资料', type: 'img'}, 1)}
-                            </Row>
-                        </TabPane>
-                        {showMate ? (
-                            <TabPane tab="配偶信息" key="7">
-                                <Row gutter={54}>
-                                    {this.getInputCol({field: 'mateName', title: '姓名'}, 2)}
-                                    {this.getInputCol({field: 'mateMobile', title: '手机号', mobile: true}, 2)}
-                                </Row>
-                                <Row gutter={54}>
-                                    {this.getInputCol({field: 'mateIdNo', title: '身份证号', idCard: true}, 2)}
-                                    {this.getSelectCol({field: 'mateEducation', title: '学历'}, educationData, 2)}
-                                </Row>
-                                <Row gutter={54}>
-                                    {this.getInputCol({field: 'mateCompanyName', title: '工作单位名称'}, 2)}
-                                    {this.getInputCol({field: 'mateCompanyContactNo', title: '工作单位联系电话'}, 2)}
-                                </Row>
-                                <Row gutter={54}>
-                                    {this.getInputCol({field: 'mateCompanyAddress', title: '工作单位地址'}, 1)}
-                                </Row>
-                                <Row gutter={54}>
-                                    {this.getFileCol({field: 'mateAssetPdf', title: '其他辅助资产', type: 'img'}, 1)}
-                                </Row>
-                            </TabPane>
-                        ) : null}
-                        {showGua ? (
-                            <TabPane tab="担保人信息" key="8">
-                                <Row gutter={54}>
-                                    {this.getInputCol({field: 'guaName', title: '姓名'}, 2)}
-                                    {this.getInputCol({field: 'guaMobile', title: '手机号', mobile: true}, 2)}
-                                </Row>
-                                <Row gutter={54}>
-                                    {this.getInputCol({field: 'guaIdNo', title: '身份证号', idCard: true}, 2)}
-                                    {this.getInputCol({field: 'guaPhone', title: '固定电话'}, 2)}
-                                </Row>
-                                <Row gutter={54}>
-                                    {this.getInputCol({field: 'guaCompanyName', title: '工作单位名称'})}
-                                    {this.getInputCol({field: 'guaCompanyAddress', title: '工作单位地址'})}
-                                    {this.getInputCol({field: 'guaHouseAssetAddress', title: '担保人房产地址'}, 33)}
-                                </Row>
-                                <Row gutter={54}>
-                                    {this.getFileCol({field: 'mateAssetPdf', title: '其他辅助资产', type: 'img'}, 1)}
-                                </Row></TabPane>
-                        ) : null}
-                        <TabPane tab="流水数据" key="16">
-                            {showSqryhls ? (
-                                <Row gutter={54}>{this.getJourComp('申请人银行流水', sqryhls) }
-                                </Row>
-                            ) : null}
-                            {showSqrzfbls ? this.getJourComp('申请人支付宝流水', sqrzfbls) : null}
-                            {showSqrwxls ? this.getJourComp('申请人微信流水', sqrwxls) : null}
-                            {showPoyhls ? this.getJourComp('配偶银行流水', poyhls) : null}
-                            {showPozfbls ? this.getJourComp('配偶支付宝流水', pozfbls) : null}
-                            {showPowxls ? this.getJourComp('配偶微信流水', powxls) : null}
-                            {showDbryhls ? this.getJourComp('担保人银行流水', dbryhls) : null}
-                            {showDbrzfbls ? this.getJourComp('担保人支付宝流水', dbrzfbls) : null}
-                            {showDbrwxls ? this.getJourComp('担保人微信流水', dbrwxls) : null}
-                        </TabPane>
-                        <TabPane tab="面签" key="9">
+                        <TabPane tab="资源池" key="9">
                             <Row gutter={54}>
                                 {this.getFileCol({field: 'bankVideo', title: '银行视频'})}
                                 {this.getFileCol({field: 'companyVideo', title: '公司视频'})}
@@ -1006,10 +947,10 @@ class ArchivesAddEdit extends React.Component {
                                 {this.getFileCol({field: 'interviewOtherPdf', title: '其他资料'}, 2)}
                             </Row>
                         </TabPane>
-                        <TabPane tab="财务垫资" key="10">
+                        <TabPane tab="待办消息" key="10">
                             <Row gutter={54}>
                                 {this.getInputCol({field: 'gpsFee', title: 'GPS费用', amount: true})}
-                                {this.getInputCol({field: 'authFee', title: '公证费', amount: true})}
+                                {this.getInputCol({field: 'content', title: '消息内容'})}
                                 {this.getInputCol({field: 'monthDeposit', title: '月供保证金', amount: true}, 33)}
                             </Row>
                             <Row gutter={54}>
@@ -1026,75 +967,6 @@ class ArchivesAddEdit extends React.Component {
                                 {this.getFileCol({field: 'billPdf', title: '水单', type: 'img'}, 2)}
                                 {this.getInputCol({field: 'advanceNote', title: '垫资说明'}, 2)}
                             </Row>
-                        </TabPane>
-                        <TabPane tab="银行放款" key="11">
-                            <Row gutter={54}>
-                                {this.getInputCol({field: 'repayBankcardNumber', title: '卡号', bankCard: true}, 2)}
-                                {this.getDateItem({field: 'bankFkDatetime', title: '放款日期'}, 2)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getInputCol({field: 'repayBillDate', title: '银行账单日'})}
-                                {this.getInputCol({field: 'repayBankDate', title: '银行还款日'})}
-                                {this.getInputCol({field: 'repayCompanyDate', title: '公司还款日'}, 33)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getDateItem({field: 'repayFirstMonthDatetime', title: '首期还款日期'})}
-                                {this.getInputCol({field: 'repayFirstMonthAmount', title: '首期月供金额', amount: true})}
-                                {this.getInputCol({field: 'repayMonthAmount', title: '每期月供金额', amount: true}, 33)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getInputCol({field: 'receiptBankcardNumber', title: '收款账号'}, 2)}
-                                {this.getFileCol({field: 'receiptPdf', title: '收款凭证', type: 'img'}, 2)}
-                            </Row> </TabPane>
-                        <TabPane tab="车辆抵押" key="12">
-                            <Row gutter={54}>
-                                {this.getInputCol({field: 'pledgeUser', title: '抵押代理人'})}
-                                {this.getFileCol({field: 'pledgeUserIdCardCopy', title: '抵押代理人身份证复印件', type: 'img'})}
-                                {this.getInputCol({field: 'pledgeAddress', title: '抵押地点'}, 33)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getInputCol({field: 'repayBillDate', title: '银行账单日'})}
-                                {this.getInputCol({field: 'repayBankDate', title: '银行还款日'})}
-                                {this.getInputCol({field: 'repayCompanyDate', title: '公司还款日'}, 33)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getInputCol({field: 'supplementNote', title: '补充说明'})}
-                                {this.getInputCol({field: 'carNumber', title: '车牌号'})}
-                                {this.getFileCol({field: 'carRegcerti', title: '机动车登记证书', type: 'img'}, 33)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getFileCol({field: 'carPd', title: '批单', type: 'img'})}
-                                {this.getFileCol({field: 'carKey', title: '车钥匙', type: 'img'})}
-                                {this.getFileCol({field: 'carBigSmj', title: '大本扫描件', type: 'img'}, 33)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getFileCol({field: 'carXszSmj', title: '车辆行驶证扫描件', type: 'img'}, 2)}
-                                {this.getFileCol({field: 'dutyPaidProveSmj', title: '完税证明扫描件', type: 'img'}, 2)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getDateItem({field: 'pledgeBankCommitDatetime', title: '提交时间'})}
-                                {this.getInputCol({field: 'pledgeBankCommitNote', title: '提交说明'})}
-                            </Row>
-                        </TabPane>
-                        <TabPane tab="发保合" key="13">
-                            <Row gutter={54}>
-                                {this.getDateItem({field: 'policyDatetime', title: '保单日期'})}
-                                {this.getDateItem({field: 'policyDueDate', title: '保单到期日'})}
-                                {this.getDateItem({field: 'carSettleDatetime', title: '落户日期'}, 33)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getFileCol({field: 'carInvoice', title: '发票', type: 'img'})}
-                                {this.getFileCol({field: 'carJqx', title: '交强险', type: 'img'})}
-                                {this.getFileCol({field: 'carSyx', title: '商业险', type: 'img'}, 33)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getFileCol({field: 'carSettleOtherPdf', title: '其他资料'})}
-                                {this.getDateItem({field: 'pledgeDatetime', title: '抵押日期'})}
-                                {this.getFileCol({field: 'greenBigSmj', title: '绿大本扫描件', type: 'img'}, 33)}
-                            </Row>
-                        </TabPane>
-                        <TabPane tab="GPS安装列表" key="14">
-                            {this.getGpsList()}
                         </TabPane>
                         <TabPane tab="流转日志" key="15">
                             <Table {...this.getTableProps()} />

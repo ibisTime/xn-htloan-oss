@@ -629,7 +629,8 @@ class ArchivesAddEdit extends React.Component {
                             </Row>
                         </TabPane>
                         <TabPane tab="征信列表" key="2">
-                            {this.getCreditList()}</TabPane>
+                            {this.getCreditList()}
+                        </TabPane>
                         <TabPane tab="贷款车辆信息" key="3">
                             <Row gutter={54}>
                                 {this.getSelectCol({
