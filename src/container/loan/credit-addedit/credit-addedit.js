@@ -75,43 +75,8 @@ class CreditAddedit extends React.Component {
             creditResult
         });
     };
-    // 获取选择框类型的控件
-    // getSelectCol(item, list, split = 3) {
-    //     let colProps = this.getColProps(split);
-    //     item.readonly = this.isReadonly(item);
-    //     const props = {
-    //         list,
-    //         initVal: getRealValue({...item, pageData: this.state.pageData}),
-    //         rules: getRules(item),
-    //         multiple: item.multiple,
-    //         hidden: item.hidden,
-    //         inline: isUndefined(item.inline) ? true : item.inline,
-    //         field: item.field,
-    //         label: this.getLabel(item),
-    //         keyName: item.keyName,
-    //         valueName: item.valueName,
-    //         readonly: item.readonly,
-    //         onChange: item.onChange,
-    //         getFieldDecorator: this.props.form.getFieldDecorator,
-    //         getFieldValue: this.props.form.getFieldValue,
-    //         getFieldError: this.props.form.getFieldError
-    //     };
-    //     return (
-    //         <Col {...colProps}>
-    //             <CSelect key={item.field} {...props} />
-    //         </Col>
-    //     );
-    // }
 
     render() {
-        const {
-            bizTypeData, loanPeriodData, loanProductData, regionData, carTypeData,
-            genderData, marryStateData, educationData, addressData, relationData,
-            industryData, propertyData, incomeData, positionData, professionData,
-            carFrameData, showMate, showGua, showSqryhls, showSqrzfbls, showSqrwxls,
-            showPoyhls, showPozfbls, showPowxls, showDbryhls, showDbrzfbls,
-            showDbrwxls, pageData, isMarried, showMarry
-        } = this.state;
         // 征信列表字段
         let o2mFields = [{
             title: '姓名',
@@ -486,6 +451,7 @@ class CreditAddedit extends React.Component {
                     title: '录入',
                     check: true,
                     handler: (params) => {
+                        console.log(params);
                         let data = {};
                         let creditList = [];
                         data.creditCode = this.code;
@@ -535,6 +501,7 @@ class CreditAddedit extends React.Component {
                     title: '保存',
                     check: true,
                     handler: (params) => {
+                        console.log(params);
                         let data = {};
                         let item = [];
                         data.bizType = params.bizType; // 业务类型
@@ -591,6 +558,7 @@ class CreditAddedit extends React.Component {
                     title: '提交',
                     check: true,
                     handler: (params) => {
+                        console.log(params);
                         let data = {};
                         let item = [];
                         data.bizType = params.bizType; // 业务类型

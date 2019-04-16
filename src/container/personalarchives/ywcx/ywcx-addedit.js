@@ -187,7 +187,7 @@ class ArchivesAddEdit extends React.Component {
                 loanRoleData,
                 enterFileData,
                 enterLocationData,
-                pageData,
+                pageData: pageData.budgetOrder,
                 bizType: pageData.bizType,
                 showMate: (!!pageData.mateName || (pageData.marryState === '2' && this.view)),
                 showGua: !!pageData.guaName,
@@ -551,41 +551,6 @@ class ArchivesAddEdit extends React.Component {
         }
         return null;
     }
-
-    // 获取征信列表
-    getCreditList() {
-        const {pageData: {credit}, loanRoleData, relationData} = this.state;
-        if (credit && credit.creditUserList.length) {
-            return credit.creditUserList.map(c => (
-                <Card key={c.code}>
-                    <Row gutter={54}>
-                        {this.getInputCol({field: 'userName', title: '姓名'}, 3, c)}
-                        {this.getSelectCol({field: 'relation', title: '与借款人关系'}, relationData, 3, c)}
-                        {this.getSelectCol({field: 'loanRole', title: '贷款角色'}, loanRoleData, 33, c)}
-                    </Row>
-                    <Row gutter={54}>
-                        {this.getInputCol({field: 'mobile', title: '手机号'}, 2, c)}
-                        {this.getInputCol({field: 'idNo', title: '身份证号'}, 2, c)}
-                    </Row>
-                    <Row gutter={54}>
-                        {this.getFileCol({field: 'idNoFront', title: '身份证正面', type: 'img'}, 2, c)}
-                        {this.getFileCol({field: 'idNoReverse', title: '身份证反面', type: 'img'}, 2, c)}
-                    </Row>
-                    <Row gutter={54}>
-                        {this.getFileCol({field: 'authPdf', title: '征信查询授权书', type: 'img'}, 2, c)}
-                        {this.getFileCol({field: 'interviewPic', title: '面签照片', type: 'img'}, 2, c)}
-                    </Row>
-                    <Row gutter={54}>
-                        {this.getInputCol({field: 'creditCardOccupation', title: '信用卡使用占比'}, 3, c)}
-                        {this.getFileCol({field: 'bankCreditResultPdf', title: '征信报告', type: 'img'}, 3, c)}
-                        {this.getInputCol({field: 'bankCreditResultRemark', title: '征信结果说明'}, 3, c)}
-                    </Row>
-                </Card>
-            ));
-        }
-        return null;
-    }
-
     render() {
         const {
             bizTypeData, loanPeriodData, loanProductData, regionData, carTypeData,
@@ -636,8 +601,6 @@ class ArchivesAddEdit extends React.Component {
                                 }, enterLocationData, 2)}
                             </Row>
                         </TabPane>
-                        <TabPane tab="征信信息" key="2">
-                            {this.getCreditList()}</TabPane>
                         <TabPane tab="贷款车辆信息" key="3">
                             <Row gutter={54}>
                                 {this.getSelectCol({

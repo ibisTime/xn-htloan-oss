@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Row, Tabs, Col, Spin, Button, Table, Card, Icon, Tooltip } from 'antd';
+import {Form, Row, Tabs, Col, Spin, Input, Button, Table, Card, Icon, Tooltip} from 'antd';
 import moment from 'moment';
 import CUpload from 'component/cUpload/cUpload';
 import CInput from 'component/cInput/cInput';
@@ -8,34 +8,34 @@ import CNormalTextArea from 'component/cNormalTextArea/cNormalTextArea';
 import CMonth from 'component/cMonth/cMonth';
 import CRangeDate from 'component/cRangeDate/cRangeDate';
 import CDate from 'component/cDate/cDate';
-import { tailFormItemLayout, validateFieldsAndScrollOption } from 'common/js/config';
+import {tailFormItemLayout, validateFieldsAndScrollOption} from 'common/js/config';
 import {
     getQueryString, showSucMsg, isUndefined, getUserId, getRules,
-    getRealValue, dateTimeFormat
+    getRealValue, dateTimeFormat, formatImg
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
-import { getDictList } from 'api/dict';
-import { getQiniuToken } from 'api/general';
+import {getDictList} from 'api/dict';
+import {getQiniuToken} from 'api/general';
 import {
     sqryhls, sqrzfbls, sqrwxls, poyhls, pozfbls, powxls, dbryhls,
     dbrzfbls, dbrwxls
 } from '../../loan/admittance-addedit/config';
 
 const FormItem = Form.Item;
-const col2Props = { xs: 32, sm: 24, md: 12, lg: 12 };
-const col3Props = { xs: 32, sm: 24, md: 12, lg: 8 };
-const col33Props = { xs: 32, sm: 24, md: 24, lg: 8 };
-const col4Props = { xs: 32, sm: 24, md: 12, lg: 6 };
+const col2Props = {xs: 32, sm: 24, md: 12, lg: 12};
+const col3Props = {xs: 32, sm: 24, md: 12, lg: 8};
+const col33Props = {xs: 32, sm: 24, md: 24, lg: 8};
+const col4Props = {xs: 32, sm: 24, md: 12, lg: 6};
 
 // 是否垫资数据字典
 const isAdvFundData = [
-    { k: '0', v: '否' },
-    { k: '1', v: '是' }
+    {k: '0', v: '否'},
+    {k: '1', v: '是'}
 ];
 // gps设备类型
 const gpsTypeData = [
-    { dkey: '1', dvalue: '有线' },
-    { dkey: '0', dvalue: '无线' }
+    {dkey: '1', dvalue: '有线'},
+    {dkey: '0', dvalue: '无线'}
 ];
 
 @Form.create()
@@ -77,6 +77,7 @@ class ArchivesAddEdit extends React.Component {
             /* 页面所需数据字典end */
             // 页面详情数据
             pageData: {},
+            name: {},
             // 是否自营企业
             isSelfCompany: false,
             // 婚姻状况
@@ -132,26 +133,27 @@ class ArchivesAddEdit extends React.Component {
             render: this.formatDealNote
         }];
     }
+
     componentDidMount() {
         Promise.all([
-            fetch(632177, { status: '2' }),
-            getDictList({ parentKey: 'budget_orde_biz_typer' }),
-            getDictList({ parentKey: 'loan_period' }),
-            getDictList({ parentKey: 'region' }),
-            getDictList({ parentKey: 'car_type' }),
-            getDictList({ parentKey: 'gender' }),
-            getDictList({ parentKey: 'marry_state' }),
-            getDictList({ parentKey: 'education' }),
-            getDictList({ parentKey: 'is_card_mail_address' }),
-            getDictList({ parentKey: 'credit_user_relation' }),
-            getDictList({ parentKey: 'work_belong_industry' }),
-            getDictList({ parentKey: 'work_company_property' }),
-            getDictList({ parentKey: 'main_income' }),
-            getDictList({ parentKey: 'position' }),
-            getDictList({ parentKey: 'work_profession' }),
-            getDictList({ parentKey: 'interest' }),
-            getDictList({ parentKey: 'credit_user_loan_role' }),
-            getDictList({ parentKey: 'attachment_name' }),
+            fetch(632177, {status: '2'}),
+            getDictList({parentKey: 'budget_orde_biz_typer'}),
+            getDictList({parentKey: 'loan_period'}),
+            getDictList({parentKey: 'region'}),
+            getDictList({parentKey: 'car_type'}),
+            getDictList({parentKey: 'gender'}),
+            getDictList({parentKey: 'marry_state'}),
+            getDictList({parentKey: 'education'}),
+            getDictList({parentKey: 'is_card_mail_address'}),
+            getDictList({parentKey: 'credit_user_relation'}),
+            getDictList({parentKey: 'work_belong_industry'}),
+            getDictList({parentKey: 'work_company_property'}),
+            getDictList({parentKey: 'main_income'}),
+            getDictList({parentKey: 'position'}),
+            getDictList({parentKey: 'work_profession'}),
+            getDictList({parentKey: 'interest'}),
+            getDictList({parentKey: 'credit_user_loan_role'}),
+            getDictList({parentKey: 'attachment_name'}),
             fetch(632217),
             fetch(632827),
             getQiniuToken(),
@@ -163,7 +165,6 @@ class ArchivesAddEdit extends React.Component {
                      interestData, loanRoleData, attanhmentData, enterFileData, enterLocationData,
                      uploadToken, pageData
                  ]) => {
-            console.log('22222');
             console.log(attanhmentData);
             this.setState({
                 loanProductData,
@@ -182,11 +183,12 @@ class ArchivesAddEdit extends React.Component {
                 positionData,
                 professionData,
                 interestData,
+                attanhmentData,
                 loanRoleData,
                 enterFileData,
-                attanhmentData,
                 enterLocationData,
                 pageData,
+                name: pageData.name,
                 bizType: pageData.bizType,
                 showMate: (!!pageData.mateName || (pageData.marryState === '2' && this.view)),
                 showGua: !!pageData.guaName,
@@ -206,14 +208,13 @@ class ArchivesAddEdit extends React.Component {
                 fetching: false,
                 isLoaded: true
             });
-        }).catch(() => this.setState({ fetching: false }));
-        fetch(630176, { refOrder: this.code }).then((records) => {
-            this.setState({ records });
-        }).catch(() => {});
+        }).catch(() => this.setState({fetching: false}));
         fetch(630147).then((dealNodeList) => {
-            this.setState({ dealNodeList });
-        }).catch(() => {});
+            this.setState({dealNodeList});
+        }).catch(() => {
+        });
     }
+
     isShowCard(fields, pageData) {
         for (let i = 0; i < fields.length; i++) {
             if (!isUndefined(pageData[fields[i]])) {
@@ -222,9 +223,11 @@ class ArchivesAddEdit extends React.Component {
         }
         return false;
     }
+
     getColProps(split) {
         return split === 4 ? col4Props : split === 3 ? col3Props : split === 33 ? col33Props : split === 1 ? {} : col2Props;
     }
+
     // 获取输入框类型的控件
     getInputCol(item, split = 3, data = null) {
         let colProps = this.getColProps(split);
@@ -251,6 +254,7 @@ class ArchivesAddEdit extends React.Component {
             </Col>
         );
     }
+
     // 获取选择框类型的控件
     getSelectCol(item, list, split = 3, data = null) {
         let colProps = this.getColProps(split);
@@ -278,6 +282,7 @@ class ArchivesAddEdit extends React.Component {
             </Col>
         );
     }
+
     // 获取文件图片上传类型的控件
     getFileCol(item, split = 3, data = null) {
         let colProps = this.getColProps(split);
@@ -311,6 +316,7 @@ class ArchivesAddEdit extends React.Component {
             </Col>
         );
     }
+
     // 获取textarea的控件
     getNormalTextAreaCol(item, split = 3) {
         let colProps = this.getColProps(split);
@@ -334,6 +340,7 @@ class ArchivesAddEdit extends React.Component {
             </Col>
         );
     }
+
     // 获取月份选择控件
     getMonthCol(item, split = 3) {
         let colProps = this.getColProps(split);
@@ -358,6 +365,7 @@ class ArchivesAddEdit extends React.Component {
             </Col>
         );
     }
+
     // 获取范围日期选择类型的控件
     getRangeDateCol(item, split = 3) {
         let colProps = this.getColProps(split);
@@ -382,6 +390,7 @@ class ArchivesAddEdit extends React.Component {
             </Col>
         );
     }
+
     // 获取日期类型的控件
     getDateItem(item, split = 3, data = null) {
         let colProps = this.getColProps(split);
@@ -408,6 +417,7 @@ class ArchivesAddEdit extends React.Component {
             </Col>
         );
     }
+
     // 审核时提交表单
     checkForm = () => {
         this.props.form.validateFieldsAndScroll(validateFieldsAndScrollOption, (err, values) => {
@@ -419,66 +429,77 @@ class ArchivesAddEdit extends React.Component {
                 // param.approveUser = getUserId();
                 values.operator = getUserId();
                 values.code = this.code;
-                this.setState({ fetching: true });
+                this.setState({fetching: true});
                 fetch(632134, values).then((data) => {
-                    this.setState({ fetching: false });
+                    this.setState({fetching: false});
                     showSucMsg('操作成功');
                     setTimeout(() => {
                         this.props.history.go(-1);
                     }, 1000);
-                }).catch(() => this.setState({ fetching: false }));
+                }).catch(() => this.setState({fetching: false}));
             }
         });
     }
+
     // 获取label
     getLabel(item) {
         return (
-            <span className={item.required && ((item.type === 'textarea' && !item.normalArea) || (item.type === 'o2m')) ? 'ant-form-item-required' : ''}>
+            <span
+                className={item.required && ((item.type === 'textarea' && !item.normalArea) || (item.type === 'o2m')) ? 'ant-form-item-required' : ''}>
         {item.title + (item.single ? '(单)' : '')}
                 {item.help ? <Tooltip title={item.help}><Icon type="question-circle-o"/></Tooltip> : null}
       </span>
         );
     }
+
     // 获取银行、支付宝、微信流水控件
     getJourComp(title, fields) {
-        const { interestData } = this.state;
+        const {interestData} = this.state;
         return (
-            <Card style={{ marginTop: 16 }} title={title + '数据'}>
+            <Card style={{marginTop: 16}} title={title + '数据'}>
                 <Row gutter={54}>
-                    {this.getRangeDateCol({ field: fields[0], title: '流水时间', type: 'date', rangedate: [fields[1], fields[2]] }, 1)}
+                    {this.getRangeDateCol({
+                        field: fields[0],
+                        title: '流水时间',
+                        type: 'date',
+                        rangedate: [fields[1], fields[2]]
+                    }, 1)}
                 </Row>
                 <Row gutter={54}>
-                    {this.getSelectCol({ field: fields[3], title: '结息时间1' }, interestData, 2)}
-                    {this.getSelectCol({ field: fields[4], title: '结息时间2' }, interestData, 2)}
+                    {this.getSelectCol({field: fields[3], title: '结息时间1'}, interestData, 2)}
+                    {this.getSelectCol({field: fields[4], title: '结息时间2'}, interestData, 2)}
                 </Row>
                 <Row gutter={54}>
-                    {this.getInputCol({ field: fields[5], title: '结息1(元)', amount: true }, 2)}
-                    {this.getInputCol({ field: fields[6], title: '结息2(元)', amount: true }, 2)}
+                    {this.getInputCol({field: fields[5], title: '结息1(元)', amount: true}, 2)}
+                    {this.getInputCol({field: fields[6], title: '结息2(元)', amount: true}, 2)}
                 </Row>
                 <Row gutter={54}>
-                    {this.getInputCol({ field: fields[7], title: '总收入(元)', amount: true }, 2)}
-                    {this.getInputCol({ field: fields[8], title: '总支出(元)', amount: true }, 2)}
+                    {this.getInputCol({field: fields[7], title: '总收入(元)', amount: true}, 2)}
+                    {this.getInputCol({field: fields[8], title: '总支出(元)', amount: true}, 2)}
                 </Row>
                 <Row gutter={54}>
-                    {this.getInputCol({ field: fields[9], title: '账户余额(元)', amount: true })}
-                    {this.getInputCol({ field: fields[10], title: '月均收入(元)', amount: true })}
-                    {this.getInputCol({ field: fields[11], title: '月均支出(元)', amount: true }, 33)}
+                    {this.getInputCol({field: fields[9], title: '账户余额(元)', amount: true})}
+                    {this.getInputCol({field: fields[10], title: '月均收入(元)', amount: true})}
+                    {this.getInputCol({field: fields[11], title: '月均支出(元)', amount: true}, 33)}
                 </Row>
                 <Row gutter={54}>
-                    {this.getNormalTextAreaCol({ field: fields[12], title: '流水说明' }, 1)}
+                    {this.getNormalTextAreaCol({field: fields[12], title: '流水说明'}, 1)}
                 </Row>
                 <Row gutter={54}>
-                    {this.getFileCol({ field: fields[13], title: title, type: 'img' }, 1)}
+                    {this.getFileCol({field: fields[13], title: title, type: 'img'}, 1)}
                 </Row>
             </Card>
         );
     }
+
     // 返回
     onCancel = () => this.props.history.go(-1)
+
     // 获取控件readonly的值
     isReadonly(item) {
         return isUndefined(item.readonly) ? this.view : item.readonly;
     }
+
     // 获取table的props
     getTableProps() {
         return {
@@ -489,62 +510,94 @@ class ArchivesAddEdit extends React.Component {
             rowKey: record => record.id
         };
     }
+
+    // 获取搜索框
+    getSearchFields(fields) {
+        const {getFieldDecorator} = this.props.form;
+        const children = [];
+        fields.forEach(v => {
+            children.push(
+                <FormItem key={v.field} label={v.title}>
+                    {getFieldDecorator(`${v.field}`, {initialValue: this.props.searchParam[v.field]})(
+                        this.getItemByType(v.type, v)
+                    )}
+                </FormItem>
+            );
+        });
+        children.push(
+            <FormItem key='searchBtn'>
+                <Button type="primary" htmlType="submit">搜索</Button>
+                <Button style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>
+            </FormItem>
+        );
+        return children;
+    }
+
     // 解析流转日志的节点
     formatDealNote = (v) => {
         const obj = this.state.dealNodeList.find(d => d.code === v);
         return obj ? obj.name : '';
     }
+
     // 获取gps列表
     getGpsList() {
         console.log('111111');
-        const { data } = this.state.pageData;
-        console.log(data);
-        if (data) {
-            return data.map(b => (
+        const {pageData: {list}, attanhmentData} = this.state;
+        console.log(list);
+        if (list) {
+            return list.map(b => (
                 <Card key={b.code}>
                     <Row gutter={54}>
-                        {this.getInputCol({ field: 'name', title: 'GPS设备号' }, 3, b)}
-                        {this.getSelectCol({ field: 'bizCode', title: 'GPS类型' }, gpsTypeData, 3, b)}
-                        {this.getFileCol({ field: 'url', title: '安装位置', type: 'img' }, 33, b)}
+                        {this.getInputCol({field: 'name', title: 'GPS设备号'}, 3, b)}
+                        {this.getSelectCol({field: 'name', title: 'GPS类型'}, attanhmentData, 3, b)}
+                        {this.getFileCol({field: 'url', title: '安装位置', type: 'img'}, 33, b)}
                     </Row>
                 </Card>
             ));
         }
         return null;
     }
+
     // 获取征信列表
     getCreditList() {
-        const { pageData: { credit }, loanRoleData, relationData } = this.state;
+        const {pageData: {credit}, loanRoleData, relationData} = this.state;
         if (credit && credit.creditUserList.length) {
             return credit.creditUserList.map(c => (
                 <Card key={c.code}>
                     <Row gutter={54}>
-                        {this.getInputCol({ field: 'userName', title: '姓名' }, 3, c)}
-                        {this.getSelectCol({ field: 'relation', title: '与借款人关系' }, relationData, 3, c)}
-                        {this.getSelectCol({ field: 'loanRole', title: '贷款角色' }, loanRoleData, 33, c)}
+                        {this.getInputCol({field: 'userName', title: '姓名'}, 3, c)}
+                        {this.getSelectCol({field: 'relation', title: '与借款人关系'}, relationData, 3, c)}
+                        {this.getSelectCol({field: 'loanRole', title: '贷款角色'}, loanRoleData, 33, c)}
                     </Row>
                     <Row gutter={54}>
-                        {this.getInputCol({ field: 'mobile', title: '手机号' }, 2, c)}
-                        {this.getInputCol({ field: 'idNo', title: '身份证号' }, 2, c)}
+                        {this.getInputCol({field: 'mobile', title: '手机号'}, 2, c)}
+                        {this.getInputCol({field: 'idNo', title: '身份证号'}, 2, c)}
                     </Row>
                     <Row gutter={54}>
-                        {this.getFileCol({ field: 'idNoFront', title: '身份证正面', type: 'img' }, 2, c)}
-                        {this.getFileCol({ field: 'idNoReverse', title: '身份证反面', type: 'img' }, 2, c)}
+                        {this.getFileCol({field: 'idNoFront', title: '身份证正面', type: 'img'}, 2, c)}
+                        {this.getFileCol({field: 'idNoReverse', title: '身份证反面', type: 'img'}, 2, c)}
                     </Row>
                     <Row gutter={54}>
-                        {this.getFileCol({ field: 'authPdf', title: '征信查询授权书', type: 'img' }, 2, c)}
-                        {this.getFileCol({ field: 'interviewPic', title: '面签照片', type: 'img' }, 2, c)}
+                        {this.getFileCol({field: 'authPdf', title: '征信查询授权书', type: 'img'}, 2, c)}
+                        {this.getFileCol({field: 'interviewPic', title: '面签照片', type: 'img'}, 2, c)}
                     </Row>
                     <Row gutter={54}>
-                        {this.getInputCol({ field: 'creditCardOccupation', title: '信用卡使用占比' }, 3, c)}
-                        {this.getFileCol({ field: 'bankCreditResultPdf', title: '征信报告', type: 'img' }, 3, c)}
-                        {this.getInputCol({ field: 'bankCreditResultRemark', title: '征信结果说明' }, 3, c)}
+                        {this.getInputCol({field: 'creditCardOccupation', title: '信用卡使用占比'}, 3, c)}
+                        {this.getFileCol({field: 'bankCreditResultPdf', title: '征信报告', type: 'img'}, 3, c)}
+                        {this.getInputCol({field: 'bankCreditResultRemark', title: '征信结果说明'}, 3, c)}
                     </Row>
                 </Card>
             ));
         }
         return null;
     }
+
+    // 搜索
+    query(key) {
+        let url = '';
+        this.props.history.push(url);
+    }
+
     render() {
         const {
             bizTypeData, loanPeriodData, loanProductData, regionData, carTypeData,
@@ -552,20 +605,31 @@ class ArchivesAddEdit extends React.Component {
             industryData, propertyData, incomeData, positionData, professionData,
             enterFileData, attanhmentData, enterLocationData, showMate, showGua, showSqryhls,
             showSqrzfbls, showSqrwxls, showPoyhls, showPozfbls, showPowxls,
-            showDbryhls, showDbrzfbls, showDbrwxls, isMarried, showMarry, bizType
+            showDbryhls, showDbrzfbls, showDbrwxls, isMarried, showMarry, bizType,
+            pageData
         } = this.state;
+        const that = this;
+        console.log('2222');
+        console.log(pageData);
         const TabPane = Tabs.TabPane;
         return (
             <Spin spinning={this.state.fetching}>
                 <Form>
-                    <Tabs defaultActiveKey="1">
-                    <TabPane tab="GPS安装列表" key="14">
+                    <Row>
+                        <Input id='query' style ={{'width': '50%'}}/>
+                        <Button onClick={() => this.query('code')} type="primary">搜索</Button>
+                    </Row>
+                    <Card style={{marginTop: 16}} title="身份证正面">
                         <Row gutter={54}>
-                            {this.getFileCol({field: 'idNoFront', title: '身份证正面', type: 'img'}, 2, c)}
-                            {this.getFileCol({field: 'idNoReverse', title: '身份证反面', type: 'img'}, 2, c)}
+                            {
+                                Array.isArray(pageData) && pageData.map((item, index) => (
+                                <span>
+                                <img src={formatImg(item.url)} alt="" style={{'width': '100px'}}/>
+                                </span>
+                                ))
+                            }
                         </Row>
-                    </TabPane>
-                    </Tabs>
+                    </Card>
                     <FormItem {...tailFormItemLayout} style={{marginTop: 20}}>
                         {this.enter
                             ? <div>
