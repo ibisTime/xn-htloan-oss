@@ -728,7 +728,7 @@ class AdmittanceAddEdit extends React.Component {
     let readonly = false;
     return (
         <Spin spinning={this.state.fetching}>
-          <Form>
+          <Form className= 'query-form'>
             <Tabs defaultActiveKey="1">
               <TabPane tab="贷款车辆信息" key="1">
             <Card title="贷款车辆信息">

@@ -645,7 +645,7 @@ class ArchivesAddEdit extends React.Component {
 
                                     </Row>
                                     <Row>
-                                        {this.getInputCol({
+                                        {this.getNormalTextAreaCol({
                                             field: 'approveNote',
                                             title: '审核意见',
                                             type: 'textarea',
@@ -718,7 +718,7 @@ class ArchivesAddEdit extends React.Component {
                                         }, 3, creditUserList[i])}
                                     </Row>
                                     <Row>
-                                        {this.getInputCol({
+                                        {this.getNormalTextAreaCol({
                                             field: 'approveNote',
                                             title: '审核意见',
                                             type: 'textarea',
@@ -791,7 +791,7 @@ class ArchivesAddEdit extends React.Component {
                                         }, 3, creditUserList[i])}
                                     </Row>
                                     <Row>
-                                        {this.getInputCol({
+                                        {this.getNormalTextAreaCol({
                                             field: 'approveNote',
                                             title: '审核意见',
                                             type: 'textarea',
@@ -818,7 +818,7 @@ class ArchivesAddEdit extends React.Component {
         const TabPane = Tabs.TabPane;
         return (
             <Spin spinning={this.state.fetching}>
-                <Form>
+                <Form className= 'query-form'>
                     <Card style={{ marginTop: 16 }}>
                         <Row gutter={54}>
                             {this.getInputCol({ field: 'code', title: '业务编号', required: true })}
@@ -865,7 +865,7 @@ class ArchivesAddEdit extends React.Component {
                             }, cdBizCode)}
                         </Row>
                     </Card>
-                    <Tabs defaultActiveKey="1">
+                    <Tabs defaultActiveKey="1" className= 'query-form'>
                         <TabPane tab="主贷人征信" key="1">
                             {this.getCreditList(0)}
                         </TabPane>

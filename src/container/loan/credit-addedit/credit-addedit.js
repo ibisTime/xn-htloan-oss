@@ -215,14 +215,16 @@ class CreditAddedit extends React.Component {
         }
 
         // 详情回显列表字段
-        let fields = [{
+        let fields = [
+            {
             title: '',
             field: 'button',
             hidden: this.isAddedit,
             formatter: (v, d) => {
                 return <Button type="primary" onClick={this.detail.bind(this, d)} style={{marginLeft: '200px'}}>查看详情</Button>;
             }
-        }, {
+        },
+            {
             title: '业务团队',
             field: 'teamName',
             type: 'select',

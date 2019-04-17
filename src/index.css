@@ -103,7 +103,6 @@ li {
 }
 .ant-form-item-control{
   z-index: 99;
-  /*width: 150px!important;*/
 }
 .restDay-div{
   width: 100%;
@@ -137,6 +136,12 @@ li {
 .ant-menu-horizontal {
   white-space: normal !important;
 }
-.ant-col{
+.detail-query{
+  margin-left: 100px!important;
+}
+/*.ant-col{*/
+  /*float: left!important;*/
+/*}*/
+.query-form .ant-col{
   float:left!important;
 }
