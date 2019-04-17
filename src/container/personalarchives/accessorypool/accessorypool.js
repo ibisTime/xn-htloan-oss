@@ -1,55 +1,58 @@
 import React from 'react';
 import {
-    setTableData,
-    setPagination,
-    setBtnList,
-    setSearchParam,
-    clearSearchParam,
+    initStates,
     doFetching,
     cancelFetching,
-    setSearchData
-} from '@redux/personalarchives/accessorypool';
-import {listWrapper} from 'common/js/build-list';
-import {showWarnMsg, showSucMsg} from 'common/js/util';
-import {getNodeList} from 'api/menu';
+    setSelectData,
+    setPageData,
+    restore
+} from '@redux/credit/idcheck-query';
+import { getQueryString, showWarnMsg } from 'common/js/util';
+import { DetailWrapper } from 'common/js/build-detail';
+import fetch from 'common/js/fetch';
 
-@listWrapper(
-    state => ({
-        ...state.AccEssOryPool,
-        parentCode: state.menu.subMenuCode
-    }),
-    {
-        setTableData, clearSearchParam, doFetching, setBtnList,
-        cancelFetching, setPagination, setSearchParam, setSearchData
-    }
+@DetailWrapper(
+    state => state.creditIdCheckQuery,
+    { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
 )
-class AccEssOryPool extends React.Component {
+class IdCheckQuery extends React.Component {
+    constructor(props) {
+        super(props);
+        this.name = getQueryString('n', this.props.location.search);
+        this.identityNo = getQueryString('no', this.props.location.search);
+    }
     render() {
         const fields = [{
-            title: '二手车评估报告',
-            field: 'secondCarReport'
-        }, {
-            title: '行驶证正面',
-            field: 'driveLicenseFront'
-        }, {
-            title: '行驶证反面',
-            field: 'driveLicenseReverse'
-        }, {
-            title: '主贷人银行报告',
-            field: 'startDatetime',
-            type: 'datetime'
-        }, {
-            title: '主贷人同盾报告',
-            field: 'remark'
-        }, {
-            title: '主贷人其他报告',
-            field: 'remark'
+            field: 'name',
+            title: '业务编号',
+            value: this.name,
+            required: true
         }];
-        return this.props.buildList({
+        return this.props.buildDetail({
             fields,
-            pageCode: 623545
+            buttons: [{
+                title: '查询',
+                check: true,
+                type: 'primary',
+                handler: (params) => {
+                    this.props.doFetching();
+                    params.customerName = params.name;
+                    fetch(632517, params).then((data) => {
+                        this.props.cancelFetching();
+                        if (data.id !== '-1') {
+                            this.props.history.push(`/personalarchives/accessorypool/query?id=${data.id}`);
+                        } else {
+                            let result = JSON.parse(data.result);
+                            showWarnMsg(result.msg || '查询失败');
+                        }
+                    }).catch(() => this.props.cancelFetching());
+                }
+            }, {
+                title: '返回',
+                handler: () => this.props.history.go(-1)
+            }]
         });
     }
 }
 
-export default AccEssOryPool;
+export default IdCheckQuery;

@@ -94,6 +94,10 @@ export function creditWithdraw(code) {
 export function getCreditReport(id) {
   return fetch(632948, { id });
 }
+// 详情查图片
+export function getCreditReports(bizCode) {
+    return fetch(623546, { bizCode });
+}
 // // 获取待办数量
 // export function getToDoCount() {
 //   return fetch(632911, {

@@ -115,6 +115,7 @@ class ArchivesAddEdit extends React.Component {
             // 所有节点（用于解析节点）
             dealNodeList: []
         };
+
         this.loanRole = ''; // 角色
         this.creditUserList = '';
         this.columns = [{
@@ -172,9 +173,6 @@ class ArchivesAddEdit extends React.Component {
                      interestData, loanRoleData, enterFileData, enterLocationData,
                      uploadToken, pageData
                  ]) => {
-            // console.log('111');
-            // console.log(professionData);
-            // console.log(cdBizCode);
             this.setState({
                 loanProductData,
                 cdBizCode,
@@ -435,7 +433,11 @@ class ArchivesAddEdit extends React.Component {
         this.props.form.validateFieldsAndScroll(validateFieldsAndScrollOption, (err, values) => {
             if (!err) {
                 values.creditUserList = this.creditUserList;
-                values.approveResult = '1';
+                // let bizCode = this.getBizCode();
+                // values.budgetOrderCode = this.code;
+                 values.approveResult = '1';
+                // param.approveNote = this.projectCode;
+                // param.approveUser = getUserId();
                 values.operator = getUserId();
                 values.code = this.code;
                 this.setState({fetching: true});
@@ -467,7 +469,6 @@ class ArchivesAddEdit extends React.Component {
             }
         });
     }
-
     // 获取label
     getLabel(item) {
         return (
@@ -574,235 +575,237 @@ class ArchivesAddEdit extends React.Component {
         const {pageData: {creditUserList}, loanRoleData, relationData} = this.state;
         this.creditUserList = creditUserList;
         // console.log(loanRoleData);
-                if (creditUserList && creditUserList.length) {
-                   // 判断creditUserList中征信人个数是否小于3个
-                    if (creditUserList.length <= i) { // i=2时,若creditUserList中只有2条数据就会报错
-                         return null;
-                    }else {
-                        if (creditUserList[i].loanRole === '1') { // 主贷人
-                            return (
-                                <Card key={creditUserList[i].code}>
-                                    <Row gutter={54}>
-                                        {this.getInputCol({field: 'userName', title: '姓名'}, 3, creditUserList[i])}
-                                        {this.getSelectCol({
-                                            field: 'relation',
-                                            title: '与借款人关系'
-                                        }, relationData, 3, creditUserList[i])}
-                                        {this.getSelectCol({
-                                            field: 'loanRole',
-                                            title: '贷款角色'
-                                        }, loanRoleData, 3, creditUserList[i])}
-                                    </Row>
-                                    <Row gutter={54}>
-                                        {this.getInputCol({field: 'mobile', title: '手机号'}, 3, creditUserList[i])}
-                                        {this.getInputCol({field: 'idNo', title: '身份证号'}, 3, creditUserList[i])}
-                                        {this.getInputCol({
-                                            field: 'bankCreditResultRemark',
-                                            title: '征信结果说明'
-                                        }, 3, creditUserList[i])}
-                                    </Row>
-                                    <Row gutter={54}>
-                                        {this.getFileCol({
-                                            field: 'idNoFront',
-                                            title: '身份证正面',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                        {this.getFileCol({
-                                            field: 'idNoReverse',
-                                            title: '身份证反面',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                        {this.getFileCol({
-                                            field: 'interviewPic',
-                                            title: '面签照片',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                    </Row>
-                                    <Row gutter={54}>
-                                        {this.getFileCol({
-                                            field: 'bankReport',
-                                            title: '征信报告',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                        {this.getSelectCol({
-                                            title: '银行征信结果是否通过',
-                                            field: 'bankCreditResultPdf'
-                                        }, isbankCreditResultPdf, 3, creditUserList[i])}
-                                    </Row>
-                                    <Row gutter={54}>
-                                        {this.getFileCol({
-                                            field: 'authPdf',
-                                            title: '征信查询授权书',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                        {this.getFileCol({
-                                            title: '大数据征信报告(多张)',
-                                            field: 'dataReport',
-                                            type: 'img',
-                                            // required: true,
-                                            readonly: true
-                                        }, 3, creditUserList[i])}
+        if (creditUserList && creditUserList.length) {
+            // 判断creditUserList中征信人个数是否小于3个
+            if (creditUserList.length <= i) { // i=2时,若creditUserList中只有2条数据就会报错
+                return null;
+            } else {
+                if (creditUserList[i].loanRole === '1') { // 主贷人
+                    return (
+                        <Card key={creditUserList[i].code}>
+                            <Row gutter={54}>
+                                {this.getInputCol({field: 'userName', title: '姓名'}, 3, creditUserList[i])}
+                                {this.getSelectCol({
+                                    field: 'relation',
+                                    title: '与借款人关系'
+                                }, relationData, 3, creditUserList[i])}
+                                {this.getSelectCol({
+                                    field: 'loanRole',
+                                    title: '贷款角色'
+                                }, loanRoleData, 3, creditUserList[i])}
+                            </Row>
+                            <Row gutter={54}>
+                                {this.getInputCol({field: 'mobile', title: '手机号'}, 3, creditUserList[i])}
+                                {this.getInputCol({field: 'idNo', title: '身份证号'}, 3, creditUserList[i])}
+                                {this.getInputCol({
+                                    field: 'bankCreditResultRemark',
+                                    title: '征信结果说明'
+                                }, 3, creditUserList[i])}
+                            </Row>
+                            <Row gutter={54}>
+                                {this.getFileCol({
+                                    field: 'idNoFront',
+                                    title: '身份证正面',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                                {this.getFileCol({
+                                    field: 'idNoReverse',
+                                    title: '身份证反面',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                                {this.getFileCol({
+                                    field: 'interviewPic',
+                                    title: '面签照片',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                            </Row>
+                            <Row gutter={54}>
+                                {this.getFileCol({
+                                    field: 'bankReport',
+                                    title: '征信报告',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                                {this.getSelectCol({
+                                    title: '银行征信结果是否通过',
+                                    field: 'bankCreditResultPdf'
+                                }, isbankCreditResultPdf, 3, creditUserList[i])}
+                            </Row>
+                            <Row gutter={54}>
+                                {this.getFileCol({
+                                    field: 'authPdf',
+                                    title: '征信查询授权书',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                                {this.getFileCol({
+                                    title: '大数据征信报告(多张)',
+                                    field: 'dataReport',
+                                    type: 'img',
+                                    // required: true,
+                                    readonly: true
+                                }, 3, creditUserList[i])}
 
-                                    </Row>
-                                    <Row>
-                                        {this.getNormalTextAreaCol({
-                                            field: 'approveNote',
-                                            title: '审核意见',
-                                            type: 'textarea',
-                                            readonly: false}, 33)}
-                                    </Row>
-                                </Card>
-                            );
-                        } else if (creditUserList[i].loanRole === '2') { // 共同还款人
-                            return (
-                                <Card key={creditUserList[i].code}>
-                                    <Row gutter={54}>
-                                        {this.getInputCol({field: 'userName', title: '姓名'}, 3, creditUserList[i])}
-                                        {this.getSelectCol({
-                                            field: 'relation',
-                                            title: '与借款人关系'
-                                        }, relationData, 3, creditUserList[i])}
-                                        {this.getSelectCol({
-                                            field: 'loanRole',
-                                            title: '贷款角色'
-                                        }, loanRoleData, 3, creditUserList[i])}
-                                    </Row>
-                                    <Row gutter={54}>
-                                        {this.getInputCol({field: 'mobile', title: '手机号'}, 3, creditUserList[i])}
-                                        {this.getInputCol({field: 'idNo', title: '身份证号'}, 3, creditUserList[i])}
-                                        {this.getInputCol({
-                                            field: 'bankCreditResultRemark',
-                                            title: '征信结果说明'
-                                        }, 3, creditUserList[i])}
-                                    </Row>
-                                    <Row gutter={54}>
-                                        {this.getFileCol({
-                                            field: 'idNoFront',
-                                            title: '身份证正面',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                        {this.getFileCol({
-                                            field: 'idNoReverse',
-                                            title: '身份证反面',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                        {this.getFileCol({
-                                            field: 'interviewPic',
-                                            title: '面签照片',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                    </Row>
-                                    <Row gutter={54}>
-                                        {this.getFileCol({
-                                            field: 'bankReport',
-                                            title: '征信报告',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                        {this.getSelectCol({
-                                            title: '银行征信结果是否通过',
-                                            field: 'bankCreditResultPdf'
-                                        }, isbankCreditResultPdf, 3, creditUserList[i])}
-                                    </Row>
-                                    <Row gutter={54}>
-                                        {this.getFileCol({
-                                            field: 'authPdf',
-                                            title: '征信查询授权书',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                        {this.getFileCol({
-                                            title: '大数据征信报告(多张)',
-                                            field: 'dataReport',
-                                            type: 'img',
-                                            // required: true,
-                                            readonly: true
-                                        }, 3, creditUserList[i])}
-                                    </Row>
-                                    <Row>
-                                        {this.getNormalTextAreaCol({
-                                            field: 'approveNote',
-                                            title: '审核意见',
-                                            type: 'textarea',
-                                            readonly: false}, 33)}
-                                    </Row>
-                                </Card>
-                            );
-                        } else if (creditUserList[i].loanRole === '3') { // 担保人
-                            return (
-                                <Card key={creditUserList[i].code}>
-                                    <Row gutter={54}>
-                                        {this.getInputCol({field: 'userName', title: '姓名'}, 3, creditUserList[i])}
-                                        {this.getSelectCol({
-                                            field: 'relation',
-                                            title: '与借款人关系'
-                                        }, relationData, 3, creditUserList[i])}
-                                        {this.getSelectCol({
-                                            field: 'loanRole',
-                                            title: '贷款角色'
-                                        }, loanRoleData, 3, creditUserList[i])}
-                                    </Row>
-                                    <Row gutter={54}>
-                                        {this.getInputCol({field: 'mobile', title: '手机号'}, 3, creditUserList[i])}
-                                        {this.getInputCol({field: 'idNo', title: '身份证号'}, 3, creditUserList[i])}
-                                        {this.getInputCol({
-                                            field: 'bankCreditResultRemark',
-                                            title: '征信结果说明'
-                                        }, 3, creditUserList[i])}
-                                    </Row>
-                                    <Row gutter={54}>
-                                        {this.getFileCol({
-                                            field: 'idNoFront',
-                                            title: '身份证正面',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                        {this.getFileCol({
-                                            field: 'idNoReverse',
-                                            title: '身份证反面',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                        {this.getFileCol({
-                                            field: 'interviewPic',
-                                            title: '面签照片',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                    </Row>
-                                    <Row gutter={54}>
-                                        {this.getFileCol({
-                                            field: 'bankReport',
-                                            title: '征信报告',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                        {this.getSelectCol({
-                                            field: 'bankCreditResultPdf',
-                                            title: '银行征信结果是否通过'
-                                        }, isbankCreditResultPdf, 3, creditUserList[i])}
-                                    </Row>
-                                    <Row gutter={54}>
-                                        {this.getFileCol({
-                                            field: 'authPdf',
-                                            title: '征信查询授权书',
-                                            type: 'img'
-                                        }, 3, creditUserList[i])}
-                                        {this.getFileCol({
-                                            title: '大数据征信报告(多张)',
-                                            field: 'dataReport',
-                                            type: 'img',
-                                            // required: true,
-                                            readonly: true
-                                        }, 3, creditUserList[i])}
-                                    </Row>
-                                    <Row>
-                                        {this.getNormalTextAreaCol({
-                                            field: 'approveNote',
-                                            title: '审核意见',
-                                            type: 'textarea',
-                                            readonly: false}, 33)}
-                                    </Row>
-                                </Card>
-                            );
-                        }
-                    }
+                            </Row>
+                            <Row>
+                                {this.getNormalTextAreaCol({
+                                    field: 'approveNote',
+                                    title: '审核意见',
+                                    type: 'textarea',
+                                    readonly: false
+                                }, 33)}
+                            </Row>
+                        </Card>
+                    );
+                } else if (creditUserList[i].loanRole === '2') { // 共同还款人
+                    return (
+                        <Card key={creditUserList[i].code}>
+                            <Row gutter={54}>
+                                {this.getInputCol({field: 'userName', title: '姓名'}, 3, creditUserList[i])}
+                                {this.getSelectCol({
+                                    field: 'relation',
+                                    title: '与借款人关系'
+                                }, relationData, 3, creditUserList[i])}
+                                {this.getSelectCol({
+                                    field: 'loanRole',
+                                    title: '贷款角色'
+                                }, loanRoleData, 3, creditUserList[i])}
+                            </Row>
+                            <Row gutter={54}>
+                                {this.getInputCol({field: 'mobile', title: '手机号'}, 3, creditUserList[i])}
+                                {this.getInputCol({field: 'idNo', title: '身份证号'}, 3, creditUserList[i])}
+                                {this.getInputCol({
+                                    field: 'bankCreditResultRemark',
+                                    title: '征信结果说明'
+                                }, 3, creditUserList[i])}
+                            </Row>
+                            <Row gutter={54}>
+                                {this.getFileCol({
+                                    field: 'idNoFront',
+                                    title: '身份证正面',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                                {this.getFileCol({
+                                    field: 'idNoReverse',
+                                    title: '身份证反面',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                                {this.getFileCol({
+                                    field: 'interviewPic',
+                                    title: '面签照片',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                            </Row>
+                            <Row gutter={54}>
+                                {this.getFileCol({
+                                    field: 'bankReport',
+                                    title: '征信报告',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                                {this.getSelectCol({
+                                    title: '银行征信结果是否通过',
+                                    field: 'bankCreditResultPdf'
+                                }, isbankCreditResultPdf, 3, creditUserList[i])}
+                            </Row>
+                            <Row gutter={54}>
+                                {this.getFileCol({
+                                    field: 'authPdf',
+                                    title: '征信查询授权书',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                                {this.getFileCol({
+                                    title: '大数据征信报告(多张)',
+                                    field: 'dataReport',
+                                    type: 'img',
+                                    // required: true,
+                                    readonly: true
+                                }, 3, creditUserList[i])}
+                            </Row>
+                            <Row>
+                                {this.getNormalTextAreaCol({
+                                    field: 'approveNote',
+                                    title: '审核意见',
+                                    type: 'textarea',
+                                    readonly: false
+                                }, 33)}
+                            </Row>
+                        </Card>
+                    );
+                } else if (creditUserList[i].loanRole === '3') { // 担保人
+                    return (
+                        <Card key={creditUserList[i].code}>
+                            <Row gutter={54}>
+                                {this.getInputCol({field: 'userName', title: '姓名'}, 3, creditUserList[i])}
+                                {this.getSelectCol({
+                                    field: 'relation',
+                                    title: '与借款人关系'
+                                }, relationData, 3, creditUserList[i])}
+                                {this.getSelectCol({
+                                    field: 'loanRole',
+                                    title: '贷款角色'
+                                }, loanRoleData, 3, creditUserList[i])}
+                            </Row>
+                            <Row gutter={54}>
+                                {this.getInputCol({field: 'mobile', title: '手机号'}, 3, creditUserList[i])}
+                                {this.getInputCol({field: 'idNo', title: '身份证号'}, 3, creditUserList[i])}
+                                {this.getInputCol({
+                                    field: 'bankCreditResultRemark',
+                                    title: '征信结果说明'
+                                }, 3, creditUserList[i])}
+                            </Row>
+                            <Row gutter={54}>
+                                {this.getFileCol({
+                                    field: 'idNoFront',
+                                    title: '身份证正面',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                                {this.getFileCol({
+                                    field: 'idNoReverse',
+                                    title: '身份证反面',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                                {this.getFileCol({
+                                    field: 'interviewPic',
+                                    title: '面签照片',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                            </Row>
+                            <Row gutter={54}>
+                                {this.getFileCol({
+                                    field: 'bankReport',
+                                    title: '征信报告',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                                {this.getSelectCol({
+                                    field: 'bankCreditResultPdf',
+                                    title: '银行征信结果是否通过'
+                                }, isbankCreditResultPdf, 3, creditUserList[i])}
+                            </Row>
+                            <Row gutter={54}>
+                                {this.getFileCol({
+                                    field: 'authPdf',
+                                    title: '征信查询授权书',
+                                    type: 'img'
+                                }, 3, creditUserList[i])}
+                                {this.getFileCol({
+                                    title: '大数据征信报告(多张)',
+                                    field: 'dataReport',
+                                    type: 'img',
+                                    // required: true,
+                                    readonly: true
+                                }, 3, creditUserList[i])}
+                            </Row>
+                            <Row>
+                                {this.getNormalTextAreaCol({
+                                    field: 'approveNote',
+                                    title: '审核意见',
+                                    type: 'textarea',
+                                    readonly: false
+                                }, 33)}
+                            </Row>
+                        </Card>
+                    );
                 }
-        return null;
+            }
+        }
     }
 
     render() {
@@ -818,11 +821,11 @@ class ArchivesAddEdit extends React.Component {
         const TabPane = Tabs.TabPane;
         return (
             <Spin spinning={this.state.fetching}>
-                <Form className= 'query-form'>
+                <Form>
                     <Card style={{ marginTop: 16 }}>
                         <Row gutter={54}>
-                            {this.getInputCol({ field: 'code', title: '业务编号', required: true })}
                             {this.getInputCol({ field: 'userName', title: '客户姓名', required: true })}
+                            {this.getInputCol({ field: 'code', title: '业务编号', required: true })}
                             {this.getInputCol({field: 'companyName', title: '业务公司'})}
                         </Row>
                         <Row gutter={54}>

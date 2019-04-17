@@ -1208,6 +1208,11 @@ const ROUTES = [
     path: '/personalarchives/accessorypool',
     component: asyncComponent(() => import('container/personalarchives/accessorypool/accessorypool'))
   },
+    //  车贷档案  资源池
+    {
+        path: '/personalarchives/accessorypool/query',
+        component: asyncComponent(() => import('container/personalarchives/accessorypool/accessorypool-query'))
+    },
   //  合同管理
   {
     path: '/contract/manage',
