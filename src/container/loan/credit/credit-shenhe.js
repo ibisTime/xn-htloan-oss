@@ -821,7 +821,7 @@ class ArchivesAddEdit extends React.Component {
         const TabPane = Tabs.TabPane;
         return (
             <Spin spinning={this.state.fetching}>
-                <Form>
+                <Form className='query-form'>
                     <Card style={{ marginTop: 16 }}>
                         <Row gutter={54}>
                             {this.getInputCol({ field: 'userName', title: '客户姓名', required: true })}
