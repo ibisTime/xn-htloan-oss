@@ -150,14 +150,14 @@ class Admittance extends React.Component {
                         this.props.history.push(`/loan/admittance/addedit?v=1&isCheckRegionalManager=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
                     }
                 },
-                // 内勤主管审核
+                // 内勤主管审核（财务总监审核）
                 checkNq: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else if (selectedRows[0].curNodeCode !== 'b7') {
-                        showWarnMsg('当前不是内勤主管审核节点');
+                        showWarnMsg('当前不是财务总监审核节点');
                     } else {
                         this.props.history.push(`/loan/admittance/addedit?v=1&isCheckNq=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
                     }

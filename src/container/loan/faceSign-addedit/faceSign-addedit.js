@@ -205,6 +205,7 @@ class FaceSignAddedit extends DetailUtil {
                     params.isSend = '1';
                     this.doFetching();
                     fetch(632123, params).then(() => {
+                        console.log('面签成功');
                         showSucMsg('操作成功');
                         this.cancelFetching();
                         setTimeout(() => {

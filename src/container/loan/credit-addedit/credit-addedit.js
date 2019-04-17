@@ -75,7 +75,12 @@ class CreditAddedit extends React.Component {
             creditResult
         });
     };
-
+    // 点击跳转查看详情页面
+    detail (d) {
+        // console.log(d.code); // 业务编号
+        // this.props.history.push(`/loan/credit/addedit?v=1&isEntry=1&code=d.code`);
+        this.props.history.push(`/loan/credit`);
+    }
     render() {
         // 征信列表字段
         let o2mFields = [{
@@ -158,14 +163,16 @@ class CreditAddedit extends React.Component {
             hidden: this.isEntry
         }];
         if (!this.isAddedit) { // 修改征信查询中征信列表中才显示的字段
-            o2mFields = o2mFields.concat([{
-                title: '信用卡使用占比',
-                field: 'creditCardOccupation',
-                // required: true,
-                readonly: !this.isEntry,
-                hidden: !this.view || this.isEntry,
-                help: '请输入0-100之间的数字'
-            }, {
+            o2mFields = o2mFields.concat([
+            //     {
+            //     title: '信用卡使用占比',
+            //     field: 'creditCardOccupation',
+            //     // required: true,
+            //     readonly: !this.isEntry,
+            //     hidden: !this.view || this.isEntry,
+            //     help: '请输入0-100之间的数字'
+            // },
+                {
                 title: '银行征信结果(是否通过)',
                 field: 'bankResult',
                 type: 'select',
@@ -209,6 +216,13 @@ class CreditAddedit extends React.Component {
 
         // 详情回显列表字段
         let fields = [{
+            title: '',
+            field: 'button',
+            hidden: this.isAddedit,
+            formatter: (v, d) => {
+                return <Button type="primary" onClick={this.detail.bind(this, d)} style={{marginLeft: '200px'}}>查看详情</Button>;
+            }
+        }, {
             title: '业务团队',
             field: 'teamName',
             type: 'select',
@@ -344,13 +358,15 @@ class CreditAddedit extends React.Component {
                     scroll: {x: 1300},
                     fields: o2mFields
                 }
-            }, {
-                title: '说明',
-                field: 'note',
-                type: 'textarea',
-                normalArea: true,
-                hidden: this.isCheck
-            }];
+            }
+        // {
+        //         title: '说明',
+        //         field: 'note',
+        //         type: 'textarea',
+        //         normalArea: true,
+        //         hidden: this.isCheck
+        //     }
+        ];
         if (this.code) {
             fields.push({
                 title: '流转日志',
@@ -444,9 +460,6 @@ class CreditAddedit extends React.Component {
         // 录入征信结果
         if (this.isEntry) {
             this.buttons = [
-                // {
-                // title: '查看详情'
-                // },
                 {
                     title: '录入',
                     check: true,
@@ -638,13 +651,8 @@ class CreditAddedit extends React.Component {
                                 return param;
                             }
                         }
-                        // btnEvent: {
-                        //     querydetail: (selectedRowKeys, selectedRows) => {
-                        //         alert('查看详情');
-                        //     }
-                        // }
                     })
-                }
+                 }
             </div>
         );
     }
