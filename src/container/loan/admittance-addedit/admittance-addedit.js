@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Row, Col, Spin, Button, Table, Card, Icon, Tooltip } from 'antd';
+import { Form, Tabs, Row, Col, Spin, Button, Table, Card, Icon, Tooltip } from 'antd';
 import moment from 'moment';
 import CUpload from 'component/cUpload/cUpload';
 import CInput from 'component/cInput/cInput';
@@ -20,6 +20,7 @@ import {
   poyhls, pozfbls, powxls, dbryhls, dbrzfbls, dbrwxls
 } from './config';
 
+const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
 const col2Props = { xs: 32, sm: 24, md: 12, lg: 12 };
 const col3Props = { xs: 32, sm: 24, md: 12, lg: 8 };
@@ -727,6 +728,8 @@ class AdmittanceAddEdit extends React.Component {
     return (
         <Spin spinning={this.state.fetching}>
           <Form>
+            <Tabs defaultActiveKey="1">
+              <TabPane tab="贷款车辆信息" key="1">
             <Card title="贷款车辆信息">
               <Row gutter={54}>
                 {this.getSelectCol({ field: 'bizType', title: '业务种类', keyName: 'dkey', valueName: 'dvalue', readonly: true }, bizTypeData, 2)}
@@ -802,6 +805,8 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
               ) : null}
             </Card>
+              </TabPane>
+              <TabPane tab="申请人基本信息" key="2">
             <Card style={{ marginTop: 16 }} title="申请人基本信息">
               <Row gutter={54}>
                 {this.getInputCol({ field: 'applyUserName', title: '姓名', readonly: true })}
@@ -855,6 +860,8 @@ class AdmittanceAddEdit extends React.Component {
                 {this.getFileCol({ field: 'pledgeUserIdCardCopy', title: '抵押代理人身份证复印件', type: 'img' }, 33)}
               </Row>
             </Card>
+              </TabPane>
+              <TabPane tab="工作情况" key="3">
             <Card style={{ marginTop: 16 }} title="工作情况">
               <Row gutter={54}>
                 {this.getInputCol({ field: 'workCompanyName', title: '单位名称', required: true }, 1)}
@@ -887,6 +894,8 @@ class AdmittanceAddEdit extends React.Component {
                 {this.getFileCol({ field: 'workAssetPdf', title: '工作资料上传', type: 'img' }, 2)}
               </Row>
             </Card>
+              </TabPane>
+              <TabPane tab="其他基本资料上传" key="4">
             <Card style={{ marginTop: 16 }} title="其他基本资料上传">
               <Row gutter={54}>
                 {this.getFileCol({ field: 'hkBookPdf', title: '户口本', type: 'img' })}
@@ -897,6 +906,8 @@ class AdmittanceAddEdit extends React.Component {
                 {this.getFileCol({ field: 'otherPdf', title: '其他资料', type: 'img' }, 1)}
               </Row>
             </Card>
+              </TabPane>
+            </Tabs>
             {showMate ? (
                 <Card style={{ marginTop: 16 }} title="配偶信息">
                   <Row gutter={54}>
