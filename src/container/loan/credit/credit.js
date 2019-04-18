@@ -151,7 +151,7 @@ class Credit extends React.Component {
                             showWarnMsg('当前不是填写征信单的节点');
                             return;
                         }
-                        this.props.history.push(`/loan/credit/addedit?isAddedit=1&code=${code}`);
+                        this.props.history.push(`/loan/credit/addedit?isAddedit=1&code=${code}&bizType=${selectedRows[0].bizType}`);
                     } else {
                         this.props.history.push(`/loan/credit/addedit?isAddedit=1`);
                     }

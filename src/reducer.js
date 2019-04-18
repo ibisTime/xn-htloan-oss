@@ -252,6 +252,10 @@ import { loanAdmittanceAddedit } from './redux/loan/admittance-addedit';
 import { loanFaceSign } from './redux/loan/faceSign';
 import { loanFaceSignAddedit } from './redux/loan/faceSign-addedit';
 
+// 制卡
+import { loanMadeCard } from './redux/loan/madecard';
+import { loanMadeCardAddedit } from './redux/loan/madecard-addedit';
+
 // 财务垫资
 import { loanAdvMoney } from './redux/loan/advMoney';
 
@@ -713,6 +717,8 @@ export default combineReducers({
   loanAdmittanceAddedit,
   loanFaceSign,
   loanFaceSignAddedit,
+  loanMadeCard,
+  loanMadeCardAddedit,
   loanAdvMoney,
   loanstoolsInvestigateReport,
   loanstoolstakeFree,

@@ -256,7 +256,7 @@ class CreditAddedit extends React.Component {
             required: true,
             onChange: (v, data, props) => {
                 props.setPageData({
-                    bizType: data.dvalue
+                    bizType: data.dkey
                 });
             }
         }, {
@@ -268,20 +268,20 @@ class CreditAddedit extends React.Component {
             title: '二手车评估报告',
             field: 'secondCarReport',
             type: 'file',
-            hidden: this.props.pageData.bizType === '新车' || this.isEntry || this.isCheck, // 新车 录入征信结果 审核时隐藏
-            required: this.props.pageData.bizType === '二手车' // 二手车必填
+            hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车 录入征信结果 审核时隐藏
+            required: this.props.pageData.bizType === '1' // 二手车必填
         }, {
             title: '行驶证正面',
             field: 'xszFront',
             type: 'img',
-            hidden: this.props.pageData.bizType === '新车' || this.isEntry || this.isCheck, // 新车隐藏
-            required: this.props.pageData.bizType === '二手车'
+            hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车隐藏
+            required: this.props.pageData.bizType === '1'
         }, {
             title: '行驶证反面',
             field: 'xszReverse',
             type: 'img',
-            hidden: this.props.pageData.bizType === '新车' || this.isEntry || this.isCheck, // 新车隐藏
-            required: this.props.pageData.bizType === '二手车'
+            hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车隐藏
+            required: this.props.pageData.bizType === '1'
         }, {
             title: '业务归属',
             field: 'ywyUser',

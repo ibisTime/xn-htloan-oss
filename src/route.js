@@ -337,6 +337,16 @@ const ROUTES = [
     path: '/biz/carLoanBusiness/check',
     component: asyncComponent(() => import('container/biz/carLoanRepay/carLoanBusiness-check'))
   },
+  //  制卡
+  {
+    path: '/loan/madeCard',
+    component: asyncComponent(() => import('container/loan/madeCard/madeCard'))
+  },
+  //  制卡 详情
+  {
+    path: '/loan/madeCard',
+    component: asyncComponent(() => import('container/loan/madeCard/madeCard-addedit'))
+  },
   //  录入发保合
   {
     path: '/biz/insurance',
