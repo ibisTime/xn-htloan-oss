@@ -46,36 +46,10 @@ class Credit extends React.Component {
             field: 'code',
             search: true
         }, {
-            title: '业务公司',
-            field: 'companyName'
-        }, {
-            title: '业务团队',
-            field: 'teamName'
-        }, {
-            title: '信贷专员',
-            field: 'saleUserId',
-            type: 'select',
-            pageCode: 630065,
-            params: {
-                type: 'P',
-                roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
-            },
-            keyName: 'userId',
-            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
-            searchName: 'realName',
-            search: true,
-            render: (v, d) => {
-                return d.saleUserName;
-            }
-        }, {
             title: '客户姓名',
             field: 'userName',
             render: (v, t) => t.creditUser ? t.creditUser.userName : '-',
             search: true
-        }, {
-            title: '手机号',
-            field: 'mobile',
-            render: (v, t) => t.creditUser ? t.creditUser.mobile : '-'
         }, {
             title: '贷款银行',
             field: 'loanBankCode',
@@ -93,17 +67,33 @@ class Credit extends React.Component {
             type: 'select',
             key: 'budget_orde_biz_typer'
         }, {
-            title: '驻行内勤',
-            field: 'operatorName'
+            title: '业务公司',
+            field: 'companyName'
         }, {
-            title: '申请日期',
-            field: 'applyDatetime',
-            type: 'date',
-            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
-            render: dateTimeFormat,
-            search: true
+            title: '业务团队',
+            field: 'teamName'
         }, {
-            title: '当前节点',
+            title: '业务员', // 信贷专员
+            field: 'saleUserId',
+            type: 'select',
+            pageCode: 630065,
+            params: {
+                type: 'P',
+                roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
+            },
+            keyName: 'userId',
+            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
+            searchName: 'realName',
+            render: (v, d) => {
+                return d.saleUserName;
+            }
+        },
+        //     {
+        //     title: '驻行内勤',
+        //     field: 'operatorName'
+        // },
+            {
+            title: '状态',
             field: 'curNodeCode',
             type: 'select',
             listCode: 630147,
@@ -111,28 +101,6 @@ class Credit extends React.Component {
             valueName: 'name',
             search: true,
             params: {type: 'a'}
-        }, {
-            title: '节点时间',
-            field: 'updateDatetime',
-            type: 'datetime'
-        }, {
-            title: '节点操作人',
-            field: 'updaterName'
-        }, {
-            title: '是否通过',
-            field: 'isPass',
-            type: 'select',
-            data: [{
-                key: '0',
-                value: '不通过'
-            }, {
-                key: '1',
-                value: '通过'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            hidden: true,
-            search: true
         }];
         return this.props.buildList({
             fields,
@@ -151,7 +119,7 @@ class Credit extends React.Component {
                             showWarnMsg('当前不是填写征信单的节点');
                             return;
                         }
-                        this.props.history.push(`/loan/credit/addedit?isAddedit=1&code=${code}`);
+                        this.props.history.push(`/loan/credit/addedit?isAddedit=1&code=${code}&bizType=${selectedRows[0].bizType}`);
                     } else {
                         this.props.history.push(`/loan/credit/addedit?isAddedit=1`);
                     }

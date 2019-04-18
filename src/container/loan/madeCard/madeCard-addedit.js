@@ -11,7 +11,7 @@ import DetailUtil from 'common/js/build-detail-dev';
 import fetch from 'common/js/fetch';
 
 @Form.create()
-class FaceSignAddedit extends DetailUtil {
+class MadeCardAddedit extends DetailUtil {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -238,4 +238,4 @@ class FaceSignAddedit extends DetailUtil {
     }
 }
 
-export default FaceSignAddedit;
+export default MadeCardAddedit;

@@ -118,7 +118,7 @@ class FaceSign extends React.Component {
             keyName: 'code',
             valueName: 'name',
             search: true,
-            params: {type: 'a'}
+            params: {type: 'b0'}
         }];
         return this.props.buildList({
             fields,
@@ -126,7 +126,7 @@ class FaceSign extends React.Component {
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
-                intevCurNodeCodeList: ['002_05', '002_06', '002_08', '002_26']
+                intevCurNodeCodeList: ['b01', 'b02', 'b03', 'b01x']
             },
             btnEvent: {
                 edit: (selectedRowKeys, selectedRows) => {
@@ -134,7 +134,7 @@ class FaceSign extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].intevCurNodeCode !== '002_05' && selectedRows[0].intevCurNodeCode !== '002_08') {
+                    } else if (selectedRows[0].intevCurNodeCode !== 'b01' && selectedRows[0].intevCurNodeCode !== 'b01x') {
                         showWarnMsg('当前不是录入面签信息节点');
                     } else {
                         this.props.history.push(`/loan/faceSign/addedit?code=${selectedRowKeys[0]}`);
@@ -146,7 +146,7 @@ class FaceSign extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].intevCurNodeCode !== '002_26') {
+                    } else if (selectedRows[0].intevCurNodeCode !== 'b02') {
                         showWarnMsg('当前不是内勤主管审核节点');
                     } else {
                         this.props.history.push(`/loan/faceSign/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);

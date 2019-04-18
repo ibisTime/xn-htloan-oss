@@ -43,7 +43,7 @@ class AdmittanceAddEdit extends React.Component {
     this.loanBank = getQueryString('loanBank', this.props.location.search);
     // 区域经理审核
     this.isCheckRegionalManager = !!getQueryString('isCheckRegionalManager', this.props.location.search);
-    // 内勤主管审核
+    // 内勤主管审核（财务总监审核）
     this.isCheckNq = !!getQueryString('isCheckNq', this.props.location.search);
     // 风控一审
     this.isCheckCommissioner = !!getQueryString('isCheckCommissioner', this.props.location.search);
@@ -445,9 +445,10 @@ class AdmittanceAddEdit extends React.Component {
     // 区域经理审核
     if (this.isCheckRegionalManager) {
       bizCode = 632140;
-      // 内勤主管审核
+      // 内勤主管审核（财务总监审核）
     } else if (this.isCheckNq) {
-      bizCode = 632142;
+      // bizCode = 632142;
+       bizCode = 632143;
       // 风控一审
     } else if (this.isCheckCommissioner) {
       bizCode = 632121;

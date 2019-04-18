@@ -37,6 +37,11 @@ const gpsTypeData = [
     {dkey: '1', dvalue: '有线'},
     {dkey: '0', dvalue: '无线'}
 ];
+// 是否通过
+const isbankCreditResultPdf = [
+    {dkey: '1', dvalue: '是'},
+    {dkey: '0', dvalue: '否'}
+];
 
 @Form.create()
 class ArchivesAddEdit extends React.Component {
@@ -110,6 +115,9 @@ class ArchivesAddEdit extends React.Component {
             // 所有节点（用于解析节点）
             dealNodeList: []
         };
+
+        this.loanRole = ''; // 角色
+        this.creditUserList = '';
         this.columns = [{
             title: '操作人',
             dataIndex: 'operatorName'
@@ -165,9 +173,6 @@ class ArchivesAddEdit extends React.Component {
                      interestData, loanRoleData, enterFileData, enterLocationData,
                      uploadToken, pageData
                  ]) => {
-            console.log('111');
-            console.log(professionData);
-            console.log(cdBizCode);
             this.setState({
                 loanProductData,
                 cdBizCode,
@@ -208,6 +213,11 @@ class ArchivesAddEdit extends React.Component {
                 token: uploadToken.uploadToken,
                 fetching: false,
                 isLoaded: true
+            }, () => {
+                const eleList = document.querySelectorAll('.ant-form-item-label');
+                eleList.forEach(item => {
+                    item.style.width = '90px';
+                });
             });
         }).catch(() => this.setState({fetching: false}));
         fetch(630176, {refOrder: this.code}).then((records) => {
@@ -426,9 +436,8 @@ class ArchivesAddEdit extends React.Component {
     // 审核时提交表单
     checkForm = () => {
         this.props.form.validateFieldsAndScroll(validateFieldsAndScrollOption, (err, values) => {
-           console.log('22222222');
-            console.log(values);
             if (!err) {
+                values.creditUserList = this.creditUserList;
                 // let bizCode = this.getBizCode();
                 // values.budgetOrderCode = this.code;
                  values.approveResult = '1';
@@ -449,14 +458,9 @@ class ArchivesAddEdit extends React.Component {
     }
     checkForms= () => {
         this.props.form.validateFieldsAndScroll(validateFieldsAndScrollOption, (err, values) => {
-            console.log('22222222');
-            console.log(values);
             if (!err) {
-                // let bizCode = this.getBizCode();
-                // values.budgetOrderCode = this.code;
+                values.creditUserList = this.creditUserList;
                 values.approveResult = '0';
-                // param.approveNote = this.projectCode;
-                // param.approveUser = getUserId();
                 values.operator = getUserId();
                 values.code = this.code;
                 this.setState({fetching: true});
@@ -470,7 +474,6 @@ class ArchivesAddEdit extends React.Component {
             }
         });
     }
-
     // 获取label
     getLabel(item) {
         return (
@@ -573,38 +576,83 @@ class ArchivesAddEdit extends React.Component {
         return null;
     }
 
-    // 获取征信列表
-    getCreditList() {
+    // 获取1主贷人 2共同担保人 3担保人征信
+    getCreditList(role) {
         const {pageData: {creditUserList}, loanRoleData, relationData} = this.state;
+        console.log(creditUserList);
+        this.creditUserList = creditUserList;
         if (creditUserList && creditUserList.length) {
-            return creditUserList.map(c => (
-                <Card key={c.code}>
-                    <Row gutter={54}>
-                        {this.getInputCol({field: 'userName', title: '姓名'}, 3, c)}
-                        {this.getSelectCol({field: 'relation', title: '与借款人关系'}, relationData, 3, c)}
-                        {this.getSelectCol({field: 'loanRole', title: '贷款角色'}, loanRoleData, 33, c)}
-                    </Row>
-                    <Row gutter={54}>
-                        {this.getInputCol({field: 'mobile', title: '手机号'}, 2, c)}
-                        {this.getInputCol({field: 'idNo', title: '身份证号'}, 2, c)}
-                    </Row>
-                    <Row gutter={54}>
-                        {this.getFileCol({field: 'idNoFront', title: '身份证正面', type: 'img'}, 2, c)}
-                        {this.getFileCol({field: 'idNoReverse', title: '身份证反面', type: 'img'}, 2, c)}
-                    </Row>
-                    <Row gutter={54}>
-                        {this.getFileCol({field: 'authPdf', title: '征信查询授权书', type: 'img'}, 2, c)}
-                        {this.getFileCol({field: 'interviewPic', title: '面签照片', type: 'img'}, 2, c)}
-                    </Row>
-                    <Row gutter={54}>
-                        {this.getInputCol({field: 'creditCardOccupation', title: '信用卡使用占比'}, 3, c)}
-                        {this.getFileCol({field: 'bankCreditResultPdf', title: '征信报告', type: 'img'}, 3, c)}
-                        {this.getInputCol({field: 'bankCreditResultRemark', title: '征信结果说明'}, 3, c)}
-                    </Row>
-                </Card>
-            ));
+                for (let i = 0; i < creditUserList.length; i++) {
+                    if (creditUserList[i].loanRole == role) { // 主贷人 共同担保人  担保人
+                        return (
+                            <Card key={creditUserList[i].code}>
+                                <Row gutter={54}>
+                                    {this.getInputCol({field: 'userName', title: '姓名'}, 3, creditUserList[i])}
+                                    {this.getSelectCol({
+                                        field: 'relation',
+                                        title: '与借款人关系'
+                                    }, relationData, 3, creditUserList[i])}
+                                    {this.getSelectCol({
+                                        field: 'loanRole',
+                                        title: '贷款角色'
+                                    }, loanRoleData, 3, creditUserList[i])}
+                                </Row>
+                                <Row gutter={54}>
+                                    {this.getInputCol({field: 'mobile', title: '手机号'}, 3, creditUserList[i])}
+                                    {this.getInputCol({field: 'idNo', title: '身份证号'}, 3, creditUserList[i])}
+                                    {this.getInputCol({
+                                        field: 'bankCreditResultRemark',
+                                        title: '征信结果说明'
+                                    }, 3, creditUserList[i])}
+                                </Row>
+                                <Row gutter={54}>
+                                    {this.getFileCol({
+                                        field: 'idNoFront',
+                                        title: '身份证正面',
+                                        type: 'img'
+                                    }, 3, creditUserList[i])}
+                                    {this.getFileCol({
+                                        field: 'idNoReverse',
+                                        title: '身份证反面',
+                                        type: 'img'
+                                    }, 3, creditUserList[i])}
+                                    {this.getFileCol({
+                                        field: 'interviewPic',
+                                        title: '面签照片',
+                                        type: 'img'
+                                    }, 3, creditUserList[i])}
+                                </Row>
+                                <Row gutter={54}>
+                                    {this.getFileCol({
+                                        field: 'bankReport',
+                                        title: '征信报告',
+                                        type: 'img'
+                                    }, 3, creditUserList[i])}
+                                    {this.getSelectCol({
+                                        title: '银行征信结果是否通过',
+                                        field: 'bankCreditResultPdf'
+                                    }, isbankCreditResultPdf, 3, creditUserList[i])}
+                                </Row>
+                                <Row gutter={54}>
+                                    {this.getFileCol({
+                                        field: 'authPdf',
+                                        title: '征信查询授权书',
+                                        type: 'img'
+                                    }, 3, creditUserList[i])}
+                                    {this.getFileCol({
+                                        title: '大数据征信报告(多张)',
+                                        field: 'dataReport',
+                                        type: 'img',
+                                        // required: true,
+                                        readonly: true
+                                    }, 3, creditUserList[i])}
+
+                                </Row>
+                            </Card>
+                        );
+                    }
+                }
         }
-        return null;
     }
 
     render() {
@@ -617,15 +665,24 @@ class ArchivesAddEdit extends React.Component {
             showSqrzfbls, showSqrwxls, showPoyhls, showPozfbls, showPowxls,
             showDbryhls, showDbrzfbls, showDbrwxls, isMarried, showMarry, bizType
         } = this.state;
-        console.log(relationData);
         const TabPane = Tabs.TabPane;
         return (
             <Spin spinning={this.state.fetching}>
-                <Form>
+                <Form className='query-form'>
                     <Card style={{ marginTop: 16 }}>
                         <Row gutter={54}>
                             {this.getInputCol({ field: 'userName', title: '客户姓名', required: true })}
-                            {this.getInputCol({ field: 'code', title: '业务编号', required: true })}
+                            {this.getInputCol({ field: 'code',
+                                title: '业务编号',
+                                formatter: (v, d) => {
+                                    return <div>
+                                            {d.code}<a href="javascript:void(0);" onClick={() => {
+                                        window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                                    }}>查看详情</a>
+                                    </div>;
+                                },
+                                required: true })
+                            }
                             {this.getInputCol({field: 'companyName', title: '业务公司'})}
                         </Row>
                         <Row gutter={54}>
@@ -637,6 +694,25 @@ class ArchivesAddEdit extends React.Component {
                                 valueName: 'dvalue',
                                 readonly: true
                             }, bizTypeData)}
+                            {this.getInputCol({field: 'loanAmount', title: '贷款金额', amount: true}, 33)}
+                        </Row>
+                        <Row gutter={54}>
+                        {this.getInputCol({
+                            field: 'ywyUser',
+                            title: '业务归属',
+                            formatter: (v, d) => {
+                                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                            },
+                            readonly: true
+                        }, 33)}
+                        {this.getInputCol({
+                            field: 'zfStatus',
+                            title: '指派归属',
+                            formatter: (v, d) => {
+                                return d ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+                            },
+                            readonly: true
+                        }, 33)}
                             {this.getSelectCol({
                                 field: 'status',
                                 title: '当前状态',
@@ -647,46 +723,29 @@ class ArchivesAddEdit extends React.Component {
                                 },
                                 readonly: true
                             }, cdBizCode)}
-                            {this.getInputCol({field: 'loanAmount', title: '贷款金额', amount: true}, 33)}
-                            {this.getInputCol({field: 'approveNote', title: '审核意见', type: 'textarea', normalArea: true, readonly: false}, 33)}
                         </Row>
                     </Card>
-                    <Tabs defaultActiveKey="1">
-                        <TabPane tab="基本信息" key="1">
-                            <Row gutter={54}>
-                                {this.getInputCol({field: 'code', title: '业务编号'})}
-                                {this.getInputCol({field: 'applyUserName', title: '客户姓名'})}</Row>
-                            <Row gutter={54}>
-                                {this.getInputCol({field: 'areaName', title: '区域经理'})}
-                                {this.getInputCol({field: 'teamName', title: '业务团队'})}
-                                {this.getInputCol({field: 'saleUserName', title: '信贷专员'}, 33)}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getInputCol({field: 'insideJobName', title: '业务内勤'})}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getSelectCol({
-                                    field: 'enterFileList',
-                                    title: '档案目录',
-                                    multiple: true,
-                                    keyName: 'id',
-                                    valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份',
-                                    required: true
-                                }, enterFileData, 2)}
-                                {this.getSelectCol({
-                                    field: 'enterLocation',
-                                    title: '档案存放位置',
-                                    keyName: 'code',
-                                    valueName: 'name',
-                                    readonly: !this.enter,
-                                    required: true
-                                }, enterLocationData, 2)}
-                            </Row>
+                    <Tabs defaultActiveKey="1" className= 'query-form'>
+                        <TabPane tab="主贷人征信" key="1">
+                            {this.getCreditList(1)}
                         </TabPane>
-                        <TabPane tab="征信列表" key="2">
-                            {this.getCreditList()}
+                        <TabPane tab="共同还款人征信" key="2">
+                            {this.getCreditList(2)}
+                        </TabPane>
+                        <TabPane tab="担保人征信" key="3">
+                            {this.getCreditList(3)}
                         </TabPane>
                     </Tabs>
+                    <Card style={{ marginTop: 16 }}>
+                        <Row>
+                            {this.getNormalTextAreaCol({
+                                field: 'approveNote',
+                                title: '审核意见',
+                                type: 'textarea',
+                                readonly: false
+                            }, 33)}
+                        </Row>
+                    </Card>
                     <FormItem {...tailFormItemLayout} style={{marginTop: 20}}>
                         {this.isCheck
                             ? <div>

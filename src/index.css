@@ -136,3 +136,12 @@ li {
 .ant-menu-horizontal {
   white-space: normal !important;
 }
+.detail-query{
+  margin-left: 100px!important;
+}
+/*.ant-col{*/
+  /*float: left!important;*/
+/*}*/
+.query-form .ant-col{
+  float:left!important;
+}
