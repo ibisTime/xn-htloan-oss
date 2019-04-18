@@ -43,7 +43,11 @@ class Post extends React.Component {
             })
         ]).then(([roleData, postData, archiveData]) => {
             this.getTree(postData);
-            this.setState({ roleData: roleData, archiveData: this.getArchiveData(archiveData.list), fetching: false });
+            this.setState({
+                roleData: roleData, archiveData: this.getArchiveData(archiveData.list), fetching: false
+            }, () => {
+                console.log(this.state.roleData);
+            });
         }).catch(() => this.setState({ fetching: false }));
     }
 

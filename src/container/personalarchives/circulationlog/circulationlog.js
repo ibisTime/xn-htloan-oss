@@ -40,14 +40,14 @@ class Circulationlog extends React.Component {
     const {nodeDict} = this.state;
     const fields = [{
       title: '经办人',
-      field: 'approveUser',
+      field: 'operatorName',
       search: true
     }, {
       title: '手机号',
       field: 'mobile'
     }, {
       title: '节点名称',
-      field: 'currentNode',
+      field: 'dealNote',
       type: 'select',
       data: nodeDict,
       keyName: 'code',
@@ -55,7 +55,7 @@ class Circulationlog extends React.Component {
       search: true
     }, {
       title: '办理意见',
-      field: 'remark'
+      field: 'dealNote'
     }, {
       title: '开始时间',
       field: 'startDatetime',
