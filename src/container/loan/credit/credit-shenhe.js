@@ -684,7 +684,8 @@ class ArchivesAddEdit extends React.Component {
                             </Row>
                         </TabPane>
                         <TabPane tab="征信列表" key="2">
-                            {this.getCreditList()}</TabPane>
+                            {this.getCreditList()}
+                        </TabPane>
                     </Tabs>
                     <FormItem {...tailFormItemLayout} style={{marginTop: 20}}>
                         {this.isCheck

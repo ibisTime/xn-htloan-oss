@@ -51,7 +51,7 @@ export default class CNormalTextArea extends React.Component {
       onChange, initVal, inline } = this.props;
     let layoutProps = inline ? {} : formItemLayout;
     return (
-      <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''}>
+      <FormItem key={field} label={null} {...layoutProps} className={hidden ? 'hidden' : ''}>
         {
           readonly ? <div className="readonly-text">{initVal}</div>
             : getFieldDecorator(field, {

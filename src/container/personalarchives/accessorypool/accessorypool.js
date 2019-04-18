@@ -36,11 +36,12 @@ class IdCheckQuery extends React.Component {
                 type: 'primary',
                 handler: (params) => {
                     this.props.doFetching();
-                    params.customerName = params.name;
-                    fetch(632517, params).then((data) => {
+                    params.code = params.name;
+                    fetch(632516, params).then((data) => {
+                        console.log(params);
                         this.props.cancelFetching();
                         if (data.id !== '-1') {
-                            this.props.history.push(`/personalarchives/accessorypool/query?id=${data.id}`);
+                            this.props.history.push(`/personalarchives/accessorypool/query?code=${params.code}`);
                         } else {
                             let result = JSON.parse(data.result);
                             showWarnMsg(result.msg || '查询失败');
