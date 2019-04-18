@@ -41,8 +41,10 @@ class Notice extends React.Component {
   }
   render() {
     const fields = [{
-      field: 'title',
-      title: '业务编号'
+        title: '业务编号',
+        field: 'bizCode',
+        hidden: true,
+        search: true
     }, {
       field: 'title',
       title: '任务名称'

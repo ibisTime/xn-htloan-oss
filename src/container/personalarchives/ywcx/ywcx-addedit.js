@@ -719,13 +719,13 @@ class ArchivesAddEdit extends React.Component {
             return bizTasks.map(c => (
                 <Card key={c.code}>
                     <Row gutter={54}>
-                        {this.getInputCol({field: 'code', title: '业务编号'}, 2, c)}
-                        {this.getInputCol({field: 'content', title: '消息内容'}, 2, c)}
+                        {this.getInputCol({field: 'code', title: '业务编号'}, 3, c)}
+                        {this.getInputCol({field: 'content', title: '消息内容'}, 3, c)}
                         {this.getInputCol({
                             field: 'refNode',
                             title: '推送节点',
                             formatter: this.formatDealNote
-                        }, 2, c)}
+                        }, 3, c)}
                     </Row>
                     <Row gutter={54}>
                         {this.getFileCol({field: 'refOrder', title: '银行征信报告', type: 'img'}, 3, c)}
@@ -743,7 +743,7 @@ class ArchivesAddEdit extends React.Component {
         if (credit && credit.attachments.length) {
             return credit.attachments.map(c => (
                 <Card key={c.code}>
-                    <Row gutter={54}>
+                    <Row style={{marginTop: '20px', marginLeft: '20px'}} gutter={54}>
                         {this.getSelectCols({field: 'name'}, attAchment, 3, c)}
                         {this.getFileCols({field: 'url', type: 'img'}, 3, c)}
                     </Row>
@@ -775,6 +775,7 @@ class ArchivesAddEdit extends React.Component {
                 <Form>
                     <Tabs defaultActiveKey="1">
                         <TabPane tab="基本信息" key="1">
+                            <Card>
                             <Row gutter={54}>
                                 {this.getInputCol({field: 'code', title: '业务编号', required: true})}
                                 {this.getInputCol({
@@ -792,7 +793,6 @@ class ArchivesAddEdit extends React.Component {
                                         let aa = d.credit;
                                         return aa.companyName;
                                     }
-                                })}
                                 })}
                             </Row>
                             <Row gutter={54}>
@@ -825,19 +825,11 @@ class ArchivesAddEdit extends React.Component {
                                         return moneyFormat(d.credit.loanAmount);
                                     }
                                 }, 33)}
-                                {this.getInputCol({
-                                    field: 'approveNote',
-                                    title: '审核意见',
-                                    type: 'textarea',
-                                    normalArea: true,
-                                    readonly: true,
-                                    formatter: (v, d) => {
-                                        return d.credit.approveNote;
-                                    }
-                                }, 33)}
                             </Row>
+                            </Card>
                         </TabPane>
                         <TabPane tab="征信列表" key="2">
+                            <Card>
                             <Tabs defaultActiveKey="2">
                                 {
                                     this.state.isShowTabPane01 ? (<TabPane tab="主贷人征信" key="2">
@@ -848,14 +840,14 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUser.userName;
                                                 }
-                                            }, 3)}
+                                            })}
                                             {this.getSelectCol({
                                                 field: 'relation',
                                                 title: '与借款人关系',
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUser.relation;
                                                 }
-                                            }, relationData, 3)}
+                                            }, relationData)}
                                             {this.getSelectCol({
                                                 field: 'loanRole',
                                                 title: '贷款角色',
@@ -871,16 +863,14 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUser.mobile;
                                                 }
-                                            }, 2)}
+                                            })}
                                             {this.getInputCol({
                                                 field: 'idNo',
                                                 title: '身份证号',
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUser.idNo;
                                                 }
-                                            }, 2)}
-                                        </Row>
-                                        <Row gutter={54}>
+                                            })}
                                             {this.getFileCol({
                                                 field: 'idNoFront',
                                                 title: '身份证正面',
@@ -888,7 +878,9 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUser.idNoFront;
                                                 }
-                                            }, 2)}
+                                            }, 33)}
+                                        </Row>
+                                        <Row gutter={54}>
                                             {this.getFileCol({
                                                 field: 'idNoReverse',
                                                 title: '身份证反面',
@@ -896,9 +888,7 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUser.idNoReverse;
                                                 }
-                                            }, 2)}
-                                        </Row>
-                                        <Row gutter={54}>
+                                            })}
                                             {this.getFileCol({
                                                 field: 'authPdf',
                                                 title: '征信查询授权书',
@@ -906,7 +896,7 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUser.authPdf;
                                                 }
-                                            }, 2)}
+                                            })}
                                             {this.getFileCol({
                                                 field: 'interviewPic',
                                                 title: '面签照片',
@@ -914,7 +904,7 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUser.interviewPic;
                                                 }
-                                            }, 2)}
+                                            }, 33)}
                                         </Row>
                                         <Row gutter={54}>
                                             {this.getFileCol({
@@ -924,7 +914,7 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUser.bankCreditResultPdf;
                                                 }
-                                            }, 2)}
+                                            })}
                                             {this.getFileCol({
                                                 field: 'bankCreditResultPdf',
                                                 title: '大数据征信报告',
@@ -932,14 +922,14 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUser.bankCreditResultPdf;
                                                 }
-                                            }, 3)}
+                                            })}
                                             {this.getInputCol({
                                                 field: 'bankCreditResultRemark',
                                                 title: '征信结果说明',
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUser.bankCreditResultRemark;
                                                 }
-                                            }, 3)}
+                                            }, 33)}
                                         </Row>
                                     </TabPane>) : null
                                 }
@@ -952,14 +942,14 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[1].userName;
                                                 }
-                                            }, 3)}
+                                            })}
                                             {this.getSelectCol({
                                                 field: 'relation',
                                                 title: '与借款人关系',
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[1].relation;
                                                 }
-                                            }, relationData, 3)}
+                                            }, relationData)}
                                             {this.getSelectCol({
                                                 field: 'loanRole',
                                                 title: '贷款角色',
@@ -975,24 +965,24 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[1].mobile;
                                                 }
-                                            }, 2)}
+                                            })}
                                             {this.getInputCol({
                                                 field: 'idNo',
                                                 title: '身份证号',
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[1].idNo;
                                                 }
-                                            }, 2)}
+                                            })}
+                                            <Row gutter={54}>
+                                                {this.getFileCol({
+                                                    field: 'idNoFront',
+                                                    title: '身份证正面',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        return d.credit.creditUserList[1].idNoFront;
+                                                    }
+                                                }, 33)}
                                         </Row>
-                                        <Row gutter={54}>
-                                            {this.getFileCol({
-                                                field: 'idNoFront',
-                                                title: '身份证正面',
-                                                type: 'img',
-                                                formatter: (v, d) => {
-                                                    return d.credit.creditUserList[1].idNoFront;
-                                                }
-                                            }, 2)}
                                             {this.getFileCol({
                                                 field: 'idNoReverse',
                                                 title: '身份证反面',
@@ -1000,9 +990,7 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[1].idNoReverse;
                                                 }
-                                            }, 2)}
-                                        </Row>
-                                        <Row gutter={54}>
+                                            })}
                                             {this.getFileCol({
                                                 field: 'authPdf',
                                                 title: '征信查询授权书',
@@ -1010,7 +998,7 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[1].authPdf;
                                                 }
-                                            }, 2)}
+                                            })}
                                             {this.getFileCol({
                                                 field: 'interviewPic',
                                                 title: '面签照片',
@@ -1018,7 +1006,7 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[1].interviewPic;
                                                 }
-                                            }, 2)}
+                                            }, 33)}
                                         </Row>
                                         <Row gutter={54}>
                                             {this.getFileCol({
@@ -1028,7 +1016,7 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[1].bankCreditResultPdf;
                                                 }
-                                            }, 2)}
+                                            })}
                                             {this.getFileCol({
                                                 field: 'bankCreditResultPdf',
                                                 title: '大数据征信报告',
@@ -1036,14 +1024,14 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[1].bankCreditResultPdf;
                                                 }
-                                            }, 3)}
+                                            })}
                                             {this.getInputCol({
                                                 field: 'bankCreditResultRemark',
                                                 title: '征信结果说明',
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[1].bankCreditResultRemark;
                                                 }
-                                            }, 3)}
+                                            }, 33)}
                                         </Row>
                                     </TabPane>) : null
                                 }
@@ -1057,14 +1045,14 @@ class ArchivesAddEdit extends React.Component {
                                                     console.log('222333', d.credit.creditUserList);
                                                     return d.credit.creditUserList[2].userName;
                                                 }
-                                            }, 3)}
+                                            })}
                                             {this.getSelectCol({
                                                 field: 'relation',
                                                 title: '与借款人关系',
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[2].relation;
                                                 }
-                                            }, relationData, 3)}
+                                            }, relationData)}
                                             {this.getSelectCol({
                                                 field: 'loanRole',
                                                 title: '贷款角色',
@@ -1080,14 +1068,14 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[2].mobile;
                                                 }
-                                            }, 2)}
+                                            })}
                                             {this.getInputCol({
                                                 field: 'idNo',
                                                 title: '身份证号',
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[2].idNo;
                                                 }
-                                            }, 2)}
+                                            })}
                                         </Row>
                                         <Row gutter={54}>
                                             {this.getFileCol({
@@ -1097,7 +1085,7 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[2].idNoFront;
                                                 }
-                                            }, 2)}
+                                            })}
                                             {this.getFileCol({
                                                 field: 'idNoReverse',
                                                 title: '身份证反面',
@@ -1105,7 +1093,7 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[2].idNoReverse;
                                                 }
-                                            }, 2)}
+                                            }, 33)}
                                         </Row>
                                         <Row gutter={54}>
                                             {this.getFileCol({
@@ -1115,7 +1103,7 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[2].authPdf;
                                                 }
-                                            }, 2)}
+                                            })}
                                             {this.getFileCol({
                                                 field: 'interviewPic',
                                                 title: '面签照片',
@@ -1123,9 +1111,7 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[2].interviewPic;
                                                 }
-                                            }, 2)}
-                                        </Row>
-                                        <Row gutter={54}>
+                                            })}
                                             {this.getFileCol({
                                                 field: 'bankCreditResultPdf',
                                                 title: '银行征信报告',
@@ -1133,7 +1119,9 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[2].bankCreditResultPdf;
                                                 }
-                                            }, 2)}
+                                            }, 33)}
+                                        </Row>
+                                        <Row gutter={54}>
                                             {this.getFileCol({
                                                 field: 'bankCreditResultPdf',
                                                 title: '大数据征信报告',
@@ -1141,21 +1129,22 @@ class ArchivesAddEdit extends React.Component {
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[2].bankCreditResultPdf;
                                                 }
-                                            }, 3)}
+                                            })}
                                             {this.getInputCol({
                                                 field: 'bankCreditResultRemark',
                                                 title: '征信结果说明',
                                                 formatter: (v, d) => {
                                                     return d.credit.creditUserList[2].bankCreditResultRemark;
                                                 }
-                                            }, 3)}
+                                            })}
                                         </Row>
                                     </TabPane>) : null
                                 }
                             </Tabs>
+                            </Card>
                         </TabPane>
                         <TabPane tab="车辆信息" key="3">
-                            <Row gutter={54}>
+                            <Card>  <Row gutter={54}>
                                 {this.getSelectCol({
                                     field: 'bizType',
                                     title: '业务种类',
@@ -1278,9 +1267,10 @@ class ArchivesAddEdit extends React.Component {
                             </Row>
                             <Row gutter={54}>
                                 {this.getFileCol({field: 'carPriceCheckReport', title: '车辆价格核实报告', type: 'img'}, 1)}
-                            </Row>
+                            </Row></Card>
                         </TabPane>
                         <TabPane tab="客户基本信息" key="4">
+                            <Card>
                             <Row gutter={54}>
                                 {this.getInputCol({field: 'applyUserName', title: '姓名', readonly: true})}
                             </Row>
@@ -1366,6 +1356,7 @@ class ArchivesAddEdit extends React.Component {
                                     type: 'img'
                                 }, 33)}
                             </Row>
+                            </Card>
                         </TabPane>
                         <TabPane tab="工作情况" key="5">
                             <Row gutter={54}>
