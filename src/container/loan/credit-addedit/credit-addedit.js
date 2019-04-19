@@ -22,7 +22,8 @@ class CreditAddedit extends React.Component {
             entryVisible: false,
             creditResult: [],
             selectData: {},
-            selectKey: ''
+            selectKey: '',
+            bizType: ''
         };
         this.code = getQueryString('code', this.props.location.search);
         // 发起征信
@@ -254,8 +255,8 @@ class CreditAddedit extends React.Component {
             required: true,
             onChange: (v, data, props) => {
                 props.setPageData({
-                    bizType: data.dkey
-                });
+                    ...this.props.pageData,
+                    bizType: data.dkey});
             }
         }, {
             title: '二手车评估报告',
