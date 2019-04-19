@@ -41,8 +41,10 @@ class Notice extends React.Component {
   }
   render() {
     const fields = [{
-      field: 'title',
-      title: '业务编号'
+        title: '业务编号',
+        field: 'bizCode',
+        hidden: true,
+        search: true
     }, {
       field: 'title',
       title: '任务名称'
@@ -89,12 +91,11 @@ class Notice extends React.Component {
               content: '确定完成？',
               onOk: () => {
                 this.props.doFetching();
-                return complete(selectedRowKeys[0]).then(() => {
-                  this.props.cancelFetching();
-                  showWarnMsg('操作成功');
-                  setTimeout(() => {
-                    this.props.getPageData();
-                  }, 500);
+                return fetch(623594, {
+                  code: selectedRows[0].code
+                }).then(() => {
+                  this.props.getPageData();
+                  showSucMsg('操作成功');
                 }).catch(() => {
                   this.props.cancelFetching();
                 });
@@ -108,7 +109,7 @@ class Notice extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].status === '1') {
+          } else if (selectedRows[0].status === '0') {
             showWarnMsg('已作废的任务不可修改');
           } else {
             Modal.confirm({
@@ -117,12 +118,11 @@ class Notice extends React.Component {
               content: '确定作废？',
               onOk: () => {
                 this.props.doFetching();
-                return tovoid(selectedRowKeys[0]).then(() => {
-                  this.props.cancelFetching();
-                  showWarnMsg('操作成功');
-                  setTimeout(() => {
-                    this.props.getPageData();
-                  }, 500);
+                return fetch(623593, {
+                  code: selectedRows[0].code
+                }).then(() => {
+                  this.props.getPageData();
+                  showSucMsg('操作成功');
                 }).catch(() => {
                   this.props.cancelFetching();
                 });

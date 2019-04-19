@@ -213,6 +213,11 @@ class ArchivesAddEdit extends React.Component {
                 token: uploadToken.uploadToken,
                 fetching: false,
                 isLoaded: true
+            }, () => {
+                const eleList = document.querySelectorAll('.ant-form-item-label');
+                eleList.forEach(item => {
+                    item.style.width = '90px';
+                });
             });
         }).catch(() => this.setState({fetching: false}));
         fetch(630176, {refOrder: this.code}).then((records) => {
@@ -675,7 +680,17 @@ class ArchivesAddEdit extends React.Component {
                     <Card style={{ marginTop: 16 }}>
                         <Row gutter={54}>
                             {this.getInputCol({ field: 'userName', title: '客户姓名', required: true })}
-                            {this.getInputCol({ field: 'code', title: '业务编号', required: true })}
+                            {this.getInputCol({ field: 'code',
+                                title: '业务编号',
+                                formatter: (v, d) => {
+                                    return <div>
+                                            {d.code}<a href="javascript:void(0);" onClick={() => {
+                                        window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                                    }}>查看详情</a>
+                                    </div>;
+                                },
+                                required: true })
+                            }
                             {this.getInputCol({field: 'companyName', title: '业务公司'})}
                         </Row>
                         <Row gutter={54}>

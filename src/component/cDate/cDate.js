@@ -71,7 +71,7 @@ export default class CDate extends React.Component {
       isTime, initVal, inline, onChange, disabledDate } = this.props;
     let layoutProps = inline ? {} : formItemLayout;
     return (
-      <FormItem key={field} {...layoutProps} className={hidden ? 'hidden' : ''} label={label}>
+      <FormItem key={field} {...layoutProps} className={hidden ? 'hidden' : ''} style={{'display': 'flex'}} label={label}>
         {
           readonly ? <div className="readonly-text">{initVal}</div>
             : getFieldDecorator(field, {

@@ -39,23 +39,19 @@ class Circulationlog extends React.Component {
   render() {
     const {nodeDict} = this.state;
     const fields = [{
-      title: '经办人',
-      field: 'approveUser',
+      title: '业务编号',
+      field: 'bizCode',
+      hidden: true,
       search: true
+    }, {
+      title: '经办人',
+      field: 'operatorName'
     }, {
       title: '手机号',
       field: 'mobile'
     }, {
       title: '节点名称',
-      field: 'currentNode',
-      type: 'select',
-      data: nodeDict,
-      keyName: 'code',
-      valueName: 'name',
-      search: true
-    }, {
-      title: '办理意见',
-      field: 'remark'
+      field: 'dealNote'
     }, {
       title: '开始时间',
       field: 'startDatetime',
@@ -68,12 +64,6 @@ class Circulationlog extends React.Component {
       title: '花费时间',
       field: 'speedTime',
       type: 'datetime'
-    }, {
-      field: 'status',
-      title: '状态',
-      type: 'select',
-      key: 'notice_status',
-      search: true
     }];
     return this.props.buildList({
       fields,

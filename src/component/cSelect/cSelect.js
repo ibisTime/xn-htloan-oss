@@ -91,7 +91,7 @@ export default class CSelect extends React.Component {
     let layoutProps = inline ? {} : formItemLayout;
     let value = this.getReadonlyValue(initVal, readonly, list, keyName, valueName, multiple);
     return (
-      <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''}>
+      <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''} style={{'display': 'flex'}} >
         {
           readonly ? <div className="readonly-text">{value}</div>
             : getFieldDecorator(field, {
