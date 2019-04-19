@@ -31,7 +31,7 @@ class Admittance extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'code',
+            field: 'bizCode',
             search: true,
             render: (v, d) => {
                 return d ? d.cdbiz.code : '';
@@ -41,7 +41,7 @@ class Admittance extends React.Component {
             field: 'applyUserName',
             search: true,
             render: (v, d) => {
-                return d.credit.creditUser.userName;
+                return d ? d.credit.creditUser.userName : '';
             }
         }, {
             title: '贷款银行',

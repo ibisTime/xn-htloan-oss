@@ -43,16 +43,16 @@ class Credit extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'code',
+            field: 'bizCode',
             search: true,
-            render: (v, d) => {
+            formatter: (v, d) => {
                 return d ? d.cdbiz.code : '';
             }
         }, {
             title: '客户姓名',
             field: 'userName',
-            render: (v, t) => t.creditUser ? t.creditUser.userName : '-',
-            search: true
+            search: true,
+            render: (v, t) => t.creditUser ? t.creditUser.userName : '-'
         }, {
             title: '贷款银行',
             field: 'loanBankCode',

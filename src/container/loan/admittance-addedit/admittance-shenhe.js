@@ -64,7 +64,7 @@ class AdmittanceShenhe extends DetailUtil {
             title: '业务编号',
             field: 'code',
             search: true,
-            render: (v, d) => {
+            formatter: (v, d) => {
                 return d ? d.cdbiz.code : '';
             }
         }, {
@@ -114,19 +114,7 @@ class AdmittanceShenhe extends DetailUtil {
             field: 'teamName'
         }, {
             title: '业务员',
-            field: 'saleUserId',
-            type: 'select',
-            pageCode: 630065,
-            params: {
-                type: 'P',
-                roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
-            },
-            keyName: 'userId',
-            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
-            searchName: 'realName',
-            render: (v, d) => {
-                return d.saleUserName;
-            }
+            field: 'saleUserName'
         }, {
             title: '当前状态',
             field: 'curNodeCode',

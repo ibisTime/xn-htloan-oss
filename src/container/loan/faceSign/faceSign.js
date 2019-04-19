@@ -36,7 +36,7 @@ class FaceSign extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'code',
+            field: 'bizCode',
             search: true,
             render: (v, d) => {
                 return d ? d.cdbiz.code : '';
