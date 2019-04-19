@@ -75,12 +75,6 @@ class CreditAddedit extends React.Component {
             creditResult
         });
     };
-    // 点击跳转查看详情页面
-    detail (d) {
-        // console.log(d.code); // 业务编号
-        // this.props.history.push(`/loan/credit/addedit?v=1&isEntry=1&code=d.code`);
-        this.props.history.push(`/loan/credit`);
-    }
     render() {
         // 征信列表字段
         let o2mFields = [{
@@ -214,25 +208,25 @@ class CreditAddedit extends React.Component {
 
         // 详情回显列表字段
         let fields = [
+        //     {
+        //     title: '业务团队',
+        //     field: 'teamName',
+        //     type: 'select',
+        //     hidden: this.isAddedit || this.isEntry || this.isCheck// 征信查询或录入征信结果 审核详情隐藏
+        // },
             {
-            title: '',
-            field: 'button',
-            hidden: this.isAddedit,
-            formatter: (v, d) => {
-                return <Button type="primary" onClick={this.detail.bind(this, d)} style={{marginLeft: '200px'}}>查看详情</Button>;
-            }
-        },
-            {
-            title: '业务团队',
-            field: 'teamName',
-            type: 'select',
-            hidden: this.isAddedit || this.isEntry || this.isCheck// 征信查询或录入征信结果 审核详情隐藏
-        }, {
             title: '业务编号',
             field: 'code',
-            formatter: (v, d) => {
-                return d ? d.cdbiz.code : '';
-            },
+            // formatter: (v, d) => {
+            //     return d ? d.cdbiz.code : '';
+            // },
+                formatter: (v, d) => {
+                    return <div>
+                        {d.cdbiz.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                        window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.cdbiz.code;
+                    }}>查看详情</a>
+                    </div>;
+                },
             hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
         }, {
             title: '客户姓名',

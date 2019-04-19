@@ -701,7 +701,7 @@ class AdmittanceAddEdit extends React.Component {
     }
     return isUndefined(item.readonly) ? this.view || this.isCheck() : item.readonly;
   }
-  // 获取table的props
+  // 获取table的props（流转日志数据）
   getTableProps() {
     return {
       columns: this.columns,
@@ -1015,9 +1015,6 @@ class AdmittanceAddEdit extends React.Component {
                   <Icon type="plus" />新增 担保人微信流水
                 </Button>
             ) : null}
-            <Card style={{ marginTop: 16 }} title="流转日志">
-              <Table {...this.getTableProps()} />
-            </Card>
             {
               this.isCheck() ? (
                   <Card style={{ marginTop: 16 }} title="审核意见">

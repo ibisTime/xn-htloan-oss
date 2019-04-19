@@ -16,6 +16,7 @@ import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
+import {Form, Tabs, Row, Col, Spin, Button, Table, Card, Icon, Tooltip} from 'antd';
 
 @DetailWrapper(
     state => state.bizArchivesAddEdit, {
@@ -38,7 +39,14 @@ class archivesAddedit extends React.Component {
         const fields = [{
             title: '业务编号',
             field: 'code',
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+                return <div>
+                    {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                }}>查看详情</a>
+                </div>;
+            }
         }, {
             title: '客户姓名',
             field: 'userName',
