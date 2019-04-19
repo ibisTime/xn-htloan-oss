@@ -32,8 +32,8 @@ class FaceSignAddedit extends DetailUtil {
             readonly: true,
             formatter: (v, d) => {
                 return <div>
-                    {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
-                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                    {d.cdbiz.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.cdbiz.code;
                 }}>查看详情</a>
                 </div>;
             }

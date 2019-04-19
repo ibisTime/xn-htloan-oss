@@ -32,7 +32,10 @@ class Admittance extends React.Component {
         const fields = [{
             title: '业务编号',
             field: 'code',
-            search: true
+            search: true,
+            render: (v, d) => {
+                return d ? d.cdbiz.code : '';
+            }
         }, {
             title: '客户姓名',
             field: 'applyUserName',
