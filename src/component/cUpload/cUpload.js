@@ -187,7 +187,7 @@ export default class CUpload extends React.Component {
     let layoutProps = inline ? {} : formItemLayout;
     return (
       hidden ? null : (
-        <FormItem key={field} {...layoutProps} label={label} style={{'display': 'flex'}}>
+        <FormItem key={field} {...layoutProps} label={label}>
           {
             isLoaded ? (
               getFieldDecorator(field, {

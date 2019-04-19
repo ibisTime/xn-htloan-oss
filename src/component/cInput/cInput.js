@@ -81,7 +81,7 @@ export default class CInput extends React.Component {
         return (
             <FormItem key={field} {...layoutProps} className={hidden ? 'hidden' : ''}
                       label={title ? label : ''}
-                      style={{'display': 'flex'}}
+                      // style={{'display': 'flex'}}
             >
                 {title ? '' : <samp>&nbsp;</samp>}
                 {

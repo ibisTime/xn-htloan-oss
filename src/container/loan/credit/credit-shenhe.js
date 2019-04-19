@@ -216,7 +216,7 @@ class ArchivesAddEdit extends React.Component {
             }, () => {
                 const eleList = document.querySelectorAll('.ant-form-item-label');
                 eleList.forEach(item => {
-                    item.style.width = '90px';
+                    // item.style.width = '90px';
                 });
             });
         }).catch(() => this.setState({fetching: false}));
@@ -645,7 +645,7 @@ class ArchivesAddEdit extends React.Component {
                                         type: 'img',
                                         // required: true,
                                         readonly: true
-                                    }, 3, creditUserList[i])}
+                                    }, 33, creditUserList[i])}
 
                                 </Row>
                                 <Row>
