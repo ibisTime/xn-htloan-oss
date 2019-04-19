@@ -49,13 +49,40 @@ class AdvMoney extends React.Component {
             },
             type: 'select',
             keyName: 'code',
-            valueName: 'name',
+            valueName: 'name'
+        }, {
+            title: '客户姓名',
+            field: 'applyUserName',
             search: true
+        }, {
+            title: '汽车经销商',
+            field: 'applyUserName2'
+        }, {
+            title: '贷款银行',
+            field: 'loanBank',
+            type: 'select',
+            listCode: 632037,
+            keyName: 'code',
+            valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
+        }, {
+            title: '贷款金额',
+            field: 'loanAmount',
+            amount: true
+        }, {
+            title: '贷款期数',
+            field: 'loanPeriod',
+            type: 'select',
+            key: 'loan_period'
+        }, {
+            title: '购车途径',
+            field: 'loanPeriod2',
+            type: 'select',
+            key: 'loan_period'
         }, {
             title: '业务团队',
             field: 'teamName'
         }, {
-            title: '信贷专员',
+            title: '业务员',
             field: 'saleUserId',
             type: 'select',
             pageCode: 630065,
@@ -66,80 +93,17 @@ class AdvMoney extends React.Component {
             keyName: 'userId',
             valueName: '{{companyName.DATA}}-{{realName.DATA}}',
             searchName: 'realName',
-            search: true,
             render: (v, d) => {
                 return d.saleUserName;
             }
-        }, {
-            title: '客户姓名',
-            field: 'applyUserName',
-            search: true
-        }, {
-            title: '业务内勤',
-            field: 'insideJobName'
-        }, {
-            title: '手机号',
-            field: 'mobile'
-        }, {
-            title: '贷款金额',
-            field: 'loanAmount',
-            amount: true
-        }, {
-            title: 'GPS费用',
-            field: 'gpsFee',
-            amount: true
-        }, {
-            title: '公证费',
-            field: 'authFee',
-            amount: true
-        }, {
-            title: '月供保证金',
-            field: 'monthDeposit',
-            amount: true
-        }, {
-            title: '其他费用',
-            field: 'otherFee',
-            amount: true
-        }, {
-            title: '公司服务费',
-            field: 'companyFee',
-            amount: true
-        }, {
-            title: '团队服务费',
-            field: 'teamFee',
-            amount: true
-        }, {
-            title: '贷款期限',
-            field: 'loanPeriod',
-            type: 'select',
-            key: 'loan_period'
-        }, {
-            title: '业务种类',
-            field: 'bizType',
-            type: 'select',
-            key: 'budget_orde_biz_typer'
-        }, {
-            title: '是否垫资',
-            field: 'isAdvanceFund',
-            type: 'select',
-            data: [{
-                dkey: '0',
-                dvalue: '否'
-            }, {
-                dkey: '1',
-                dvalue: '是'
-            }],
-            keyName: 'dkey',
-            valueName: 'dvalue'
         }, {
             title: '申请日期',
             field: 'applyDatetime',
             rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
             type: 'date',
-            render: dateTimeFormat,
-            search: true
+            render: dateTimeFormat
         }, {
-            title: '当前节点',
+            title: '状态',
             field: 'curNodeCode',
             type: 'select',
             listCode: 630147,
@@ -147,11 +111,6 @@ class AdvMoney extends React.Component {
             valueName: 'name',
             search: true,
             params: {type: 'a'}
-        }, {
-            title: '垫资说明',
-            field: 'advanceNote',
-            type: 'textarea',
-            normalArea: true
         }];
         return this.props.buildList({
             fields,
@@ -163,17 +122,17 @@ class AdvMoney extends React.Component {
             },
             btnEvent: {
                 // 财务审核
-                check: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '002_29') {
-                        showWarnMsg('当前不是财务审核节点');
-                    } else {
-                        this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRowKeys[0]}&check=1&v=1`);
-                    }
-                },
+                // check: (selectedRowKeys, selectedRows) => {
+                //     if (!selectedRowKeys.length) {
+                //         showWarnMsg('请选择记录');
+                //     } else if (selectedRowKeys.length > 1) {
+                //         showWarnMsg('请选择一条记录');
+                //     } else if (selectedRows[0].curNodeCode !== '002_29') {
+                //         showWarnMsg('当前不是财务审核节点');
+                //     } else {
+                //         this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRowKeys[0]}&check=1&v=1`);
+                //     }
+                // },
                 // 财务确认垫资
                 edit: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {

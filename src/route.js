@@ -937,10 +937,15 @@ const ROUTES = [
       path: '/loan/admittance',
       component: asyncComponent(() => import('container/loan/admittance/admittance'))
   },
-  // 准入审查 发起
+  // 准入审查 发起录入准入资料
   {
       path: '/loan/admittance/addedit',
       component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-addedit'))
+  },
+  // 准入审查 区域经理审核 风控一审  二审
+  {
+    path: '/loan/admittance/shenhe',
+    component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-shenhe'))
   },
   // 面签审核
   {

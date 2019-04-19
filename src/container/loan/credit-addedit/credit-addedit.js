@@ -198,14 +198,12 @@ class CreditAddedit extends React.Component {
                 title: '大数据征信报告(多张)',
                 field: 'dataCreditReport',
                 type: 'img',
-                required: true,
                 readonly: !this.isEntry,
                 hidden: !this.view,
                 noVisible: true
             }, {
-                title: '征信结果说明',
+                title: '征信报告说明',
                 field: 'creditNote',
-                required: true,
                 readonly: !this.isEntry,
                 type: 'textarea',
                 normalArea: true,
@@ -270,19 +268,22 @@ class CreditAddedit extends React.Component {
             field: 'secondCarReport',
             type: 'img',
             hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车 录入征信结果 审核时隐藏
-            required: this.props.pageData.bizType === '1' // 二手车必填
+            required: this.props.pageData.bizType === '1', // 二手车必填
+            readonly: this.code // 修改征信时 只读
         }, {
             title: '行驶证正面',
             field: 'xszFront',
             type: 'img',
             hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车隐藏
-            required: this.props.pageData.bizType === '1'
+            required: this.props.pageData.bizType === '1',
+            readonly: this.code // 修改征信时 只读
         }, {
             title: '行驶证反面',
             field: 'xszReverse',
             type: 'img',
             hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车隐藏
-            required: this.props.pageData.bizType === '1'
+            required: this.props.pageData.bizType === '1',
+            readonly: this.code // 修改征信时 只读
         }, {
             title: '业务归属',
             field: 'ywyUser',
@@ -363,45 +364,45 @@ class CreditAddedit extends React.Component {
                 }
             }
         ];
-        if (this.code) {
-            fields.push({
-                title: '流转日志',
-                field: 'list',
-                type: 'o2m',
-                hidden: this.isCheck,
-                listCode: 630176,
-                params: { refOrder: this.code },
-                options: {
-                    rowKey: 'id',
-                    noSelect: true,
-                    fields: [{
-                        title: '操作人',
-                        field: 'operatorName'
-                    }, {
-                        title: '开始时间',
-                        field: 'startDatetime',
-                        type: 'datetime'
-                    }, {
-                        title: '结束时间',
-                        field: 'endDatetime',
-                        type: 'datetime'
-                    }, {
-                        title: '花费时长',
-                        field: 'speedTime'
-                    }, {
-                        title: '审核意见',
-                        field: 'dealNote'
-                    }, {
-                        title: '当前节点',
-                        field: 'dealNode',
-                        type: 'select',
-                        listCode: 630147,
-                        keyName: 'code',
-                        valueName: 'name'
-                    }]
-                }
-            });
-        }
+        // 流转日志 if (this.code) {
+        //     fields.push({
+        //         title: '流转日志',
+        //         field: 'list',
+        //         type: 'o2m',
+        //         hidden: this.isCheck,
+        //         listCode: 630176,
+        //         params: { refOrder: this.code },
+        //         options: {
+        //             rowKey: 'id',
+        //             noSelect: true,
+        //             fields: [{
+        //                 title: '操作人',
+        //                 field: 'operatorName'
+        //             }, {
+        //                 title: '开始时间',
+        //                 field: 'startDatetime',
+        //                 type: 'datetime'
+        //             }, {
+        //                 title: '结束时间',
+        //                 field: 'endDatetime',
+        //                 type: 'datetime'
+        //             }, {
+        //                 title: '花费时长',
+        //                 field: 'speedTime'
+        //             }, {
+        //                 title: '审核意见',
+        //                 field: 'dealNote'
+        //             }, {
+        //                 title: '当前节点',
+        //                 field: 'dealNode',
+        //                 type: 'select',
+        //                 listCode: 630147,
+        //                 keyName: 'code',
+        //                 valueName: 'name'
+        //             }]
+        //         }
+        //     });
+        // }
         // 风控专员审核
         if (this.isCheck) {
             this.buttons = [{

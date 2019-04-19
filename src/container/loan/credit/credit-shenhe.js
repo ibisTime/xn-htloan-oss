@@ -649,7 +649,7 @@ class ArchivesAddEdit extends React.Component {
                                         title: '审核意见',
                                         type: 'textarea',
                                         readonly: false
-                                    }, 33)}
+                                    }, 3)}
                                 </Row>
                             </Card>
                         );

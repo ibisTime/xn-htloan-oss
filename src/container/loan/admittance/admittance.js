@@ -34,39 +34,11 @@ class Admittance extends React.Component {
             field: 'code',
             search: true
         }, {
-            title: '业务公司',
-            field: 'companyName'
-        }, {
-            title: '业务团队',
-            field: 'teamName'
-        }, {
-            title: '信贷专员',
-            field: 'saleUserId',
-            type: 'select',
-            pageCode: 630065,
-            params: {
-                type: 'P',
-                roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
-            },
-            keyName: 'userId',
-            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
-            searchName: 'realName',
-            search: true,
-            render: (v, d) => {
-                return d.saleUserName;
-            }
-        }, {
             title: '客户姓名',
             field: 'applyUserName',
             search: true,
             render: (v, d) => {
                 return d.credit.creditUser.userName;
-            }
-        }, {
-            title: '手机号',
-            field: 'mobile',
-            render: (v, d) => {
-                return d.credit.creditUser.mobile;
             }
         }, {
             title: '贷款银行',
@@ -101,14 +73,28 @@ class Admittance extends React.Component {
             keyName: 'dkey',
             valueName: 'dvalue'
         }, {
-            title: '申请日期',
-            field: 'applyDatetime',
-            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
-            type: 'date',
-            render: dateTimeFormat,
-            search: true
+            title: '业务公司',
+            field: 'companyName'
         }, {
-            title: '当前节点',
+            title: '业务团队',
+            field: 'teamName'
+        }, {
+            title: '业务员',
+            field: 'saleUserId',
+            type: 'select',
+            pageCode: 630065,
+            params: {
+                type: 'P',
+                roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
+            },
+            keyName: 'userId',
+            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
+            searchName: 'realName',
+            render: (v, d) => {
+                return d.saleUserName;
+            }
+        }, {
+            title: '状态',
             field: 'curNodeCode',
             type: 'select',
             listCode: 630147,
@@ -139,6 +125,17 @@ class Admittance extends React.Component {
                     }
                 },
                 // 区域经理审核
+                // regionalManager: (selectedRowKeys, selectedRows) => {
+                //     if (!selectedRowKeys.length) {
+                //         showWarnMsg('请选择记录');
+                //     } else if (selectedRowKeys.length > 1) {
+                //         showWarnMsg('请选择一条记录');
+                //     } else if (selectedRows[0].curNodeCode !== 'b2') {
+                //         showWarnMsg('当前不是区域经理审核节点');
+                //     } else {
+                //         this.props.history.push(`/loan/admittance/addedit?v=1&isCheckRegionalManager=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
+                //     }
+                // },
                 regionalManager: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -147,7 +144,7 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'b2') {
                         showWarnMsg('当前不是区域经理审核节点');
                     } else {
-                        this.props.history.push(`/loan/admittance/addedit?v=1&isCheckRegionalManager=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/admittance/shenhe?v=1&isCheckRegionalManager=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
                     }
                 },
                 // 内勤主管审核（财务总监审核）
@@ -159,7 +156,7 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'b7') {
                         showWarnMsg('当前不是财务总监审核节点');
                     } else {
-                        this.props.history.push(`/loan/admittance/addedit?v=1&isCheckNq=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/admittance/shenhe?v=1&isCheckNq=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
                     }
                 },
                 // 风控一审
@@ -171,7 +168,7 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'b3') {
                         showWarnMsg('当前不是风控一审节点');
                     } else {
-                        this.props.history.push(`/loan/admittance/addedit?v=1&isCheckCommissioner=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/admittance/shenhe?v=1&isCheckCommissioner=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
                     }
                 },
                 // 风控二审
@@ -183,7 +180,7 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'b4') {
                         showWarnMsg('当前不是风控二审节点');
                     } else {
-                        this.props.history.push(`/loan/admittance/addedit?v=1&checkCommissionerTwo=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/admittance/shenhe?v=1&checkCommissionerTwo=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
                     }
                 },
                 // 风控终审
@@ -195,7 +192,7 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'b5') {
                         showWarnMsg('当前不是风控终审节点');
                     } else {
-                        this.props.history.push(`/loan/admittance/addedit?v=1&isCheckDirector=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/admittance/shenhe?v=1&isCheckDirector=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
                     }
                 },
                 // 业务总监审核
@@ -207,7 +204,7 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'b6') {
                         showWarnMsg('当前不是业务总监审核节点');
                     } else {
-                        this.props.history.push(`/loan/admittance/addedit?v=1&isbusinessCheck=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/admittance/shenhe?v=1&isbusinessCheck=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
                     }
                 },
                 // 详情

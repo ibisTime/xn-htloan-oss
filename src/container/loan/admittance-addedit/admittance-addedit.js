@@ -780,7 +780,7 @@ class AdmittanceAddEdit extends React.Component {
               <Row gutter={54}>
                 {this.getFileCol({ field: 'carPic', title: '车辆照片', type: 'img', required: true }, 3)}
                 {this.getFileCol({ field: 'carHgzPic', title: this.bizType === '1' ? '绿大本' : '合格证照片', type: 'img', required: true }, 3)}
-                {this.getFileCol({ field: 'secondCarReport', _keys: ['credit', 'secondCarReport'], title: '二手车评估报告', type: 'file', required: this.bizType === '1' && !this.view, hidden: this.bizType !== '1' }, 33)}
+                {this.getFileCol({ field: 'secondCarReport', _keys: ['credit', 'secondCarReport'], title: '二手车评估报告', type: 'img', required: this.bizType === '1' && !this.view, hidden: this.bizType !== '1' }, 33)}
               </Row>
               <Row gutter={54}>
                 {this.getFileCol({ field: 'driveLicenseFront', title: '行驶证正面', hidden: this.bizType !== '1', required: this.bizType === '1', type: 'img' }, 2)}

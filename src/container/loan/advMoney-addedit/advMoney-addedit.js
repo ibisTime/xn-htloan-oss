@@ -49,6 +49,15 @@ class AdvMoneyAddedit extends DetailUtil {
             required: true,
             readonly: true
         }, {
+            title: '贷款银行',
+            field: 'loanBankName',
+            readonly: true
+        }, {
+            title: '贷款金额',
+            field: 'loanAmount',
+            amount: true,
+            readonly: true
+        }, {
             title: '业务公司',
             field: 'companyName',
             readonly: true
@@ -72,10 +81,6 @@ class AdvMoneyAddedit extends DetailUtil {
             field: 'insideJobName',
             readonly: true
         }, {
-            title: '贷款银行',
-            field: 'loanBankName',
-            readonly: true
-        }, {
             title: '资金划转授权书 ',
             field: 'advanceFundAmountPdf',
             type: 'img',
@@ -84,11 +89,6 @@ class AdvMoneyAddedit extends DetailUtil {
             title: '其他资料',
             field: 'interviewOtherPdf',
             type: 'file',
-            readonly: true
-        }, {
-            title: '贷款金额',
-            field: 'loanAmount',
-            amount: true,
             readonly: true
         }, {
             title: 'GPS费用',

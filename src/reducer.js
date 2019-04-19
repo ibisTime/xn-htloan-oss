@@ -247,14 +247,15 @@ import { loanBigdata } from './redux/loan/bigdata';
 // 准入审查
 import { loanAdmittance } from './redux/loan/admittance';
 import { loanAdmittanceAddedit } from './redux/loan/admittance-addedit';
+import { loanAdmittanceShenhe } from './redux/loan/admittance-shenhe';
 
 // 面签审核
 import { loanFaceSign } from './redux/loan/faceSign';
 import { loanFaceSignAddedit } from './redux/loan/faceSign-addedit';
 
 // 制卡
-import { loanMadeCard } from './redux/loan/madecard';
-import { loanMadeCardAddedit } from './redux/loan/madecard-addedit';
+import { loanMadeCard } from './redux/loan/madeCard';
+import { loanMadeCardAddedit } from './redux/loan/madeCard-addedit';
 
 // 财务垫资
 import { loanAdvMoney } from './redux/loan/advMoney';

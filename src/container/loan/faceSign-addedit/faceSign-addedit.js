@@ -26,11 +26,6 @@ class FaceSignAddedit extends DetailUtil {
         let buttons = [];
 
         let fields = [{
-            title: '客户姓名',
-            field: 'applyUserName',
-            required: true,
-            readonly: true
-        }, {
             title: '业务编号',
             field: 'code1',
             required: true,
@@ -38,6 +33,11 @@ class FaceSignAddedit extends DetailUtil {
             formatter: (v, d) => {
                 return d.code;
             }
+        }, {
+            title: '客户姓名',
+            field: 'applyUserName',
+            required: true,
+            readonly: true
         }, {
             title: '贷款银行',
             field: 'loanBankName',
@@ -50,90 +50,134 @@ class FaceSignAddedit extends DetailUtil {
             required: true,
             readonly: true
         }, {
+            title: '业务种类',
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer',
+            required: true,
+            readonly: true
+        }, {
+            title: '业务归属',
+            field: 'ywyUser',
+            formatter: (v, d) => {
+                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+            },
+            readonly: true
+            // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+        }, {
+            title: '指派归属',
+            field: 'zfStatus',
+            formatter: (v, d) => {
+                return d ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+            },
+            readonly: true
+            // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+        }, {
+            title: '当前状态',
+            field: 'status',
+            key: 'cdbiz_status',
+            type: 'select',
+            readonly: true,
+            formatter: (v, d) => {
+                return d ? d.cdbiz.status : '';
+            }
+        }, {
             title: '银行视频',
             field: 'bankVideo',
             type: 'file',
             required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false
+            readonly: (this.isCheck || this.view) ? 'true' : false,
+            hidden: this.isCheckNq // 内勤主管审核隐藏
         }, {
             title: '公司视频',
             field: 'companyVideo',
             type: 'file',
             required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false
+            readonly: (this.isCheck || this.view) ? 'true' : false,
+            hidden: this.isCheckNq // 内勤主管审核隐藏
         }, {
             title: '其他视频',
             field: 'otherVideo',
             type: 'file',
-            readonly: (this.isCheck || this.view) ? 'true' : false
+            readonly: (this.isCheck || this.view) ? 'true' : false,
+            hidden: this.isCheckNq // 内勤主管审核隐藏
         }, {
             title: '银行面签图片',
             field: 'bankPhoto',
             type: 'img',
             required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false
+            readonly: (this.isCheck || this.view) ? 'true' : false,
+            hidden: this.isCheckNq // 内勤主管审核隐藏
         }, {
             title: '银行合同',
             field: 'bankContract',
             type: 'img',
-            readonly: (this.isCheck || this.view) ? 'true' : false
+            readonly: (this.isCheck || this.view) ? 'true' : false,
+            hidden: this.isCheckNq // 内勤主管审核隐藏
         }, {
             title: '公司合同',
             field: 'companyContract',
             type: 'img',
-            readonly: (this.isCheck || this.view) ? 'true' : false
+            readonly: (this.isCheck || this.view) ? 'true' : false,
+            hidden: this.isCheckNq // 内勤主管审核隐藏
         }, {
             title: '资金划转授权书',
             field: 'advanceFundAmountPdf',
             type: 'img',
             required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false
+            readonly: (this.isCheck || this.view) ? 'true' : false,
+            hidden: this.isCheckNq // 内勤主管审核隐藏
         }, {
             title: '其他资料',
             field: 'interviewOtherPdf',
             type: 'file',
-            readonly: (this.isCheck || this.view) ? 'true' : false
+            readonly: (this.isCheck || this.view) ? 'true' : false,
+            hidden: this.isCheckNq // 内勤主管审核隐藏
         }, {
-            title: '审核说明',
+            title: '审核意见',
             field: 'approveNote',
+            type: 'textarea',
+            normalArea: true,
             readonly: !(this.isCheck || this.isCheckNq),
             hidden: !this.view
-        }, {
-            title: '流转日志',
-            field: 'list',
-            type: 'o2m',
-            listCode: 630176,
-            params: { refOrder: this.code },
-            options: {
-                rowKey: 'id',
-                noSelect: true,
-                fields: [{
-                    title: '操作人',
-                    field: 'operatorName'
-                }, {
-                    title: '开始时间',
-                    field: 'startDatetime',
-                    type: 'datetime'
-                }, {
-                    title: '结束时间',
-                    field: 'endDatetime',
-                    type: 'datetime'
-                }, {
-                    title: '花费时长',
-                    field: 'speedTime'
-                }, {
-                    title: '审核意见',
-                    field: 'dealNote'
-                }, {
-                    title: '当前节点',
-                    field: 'dealNode',
-                    type: 'select',
-                    listCode: 630147,
-                    keyName: 'code',
-                    valueName: 'name'
-                }]
-            }
-        }];
+        }
+        //     {
+        //     title: '流转日志',
+        //     field: 'list',
+        //     type: 'o2m',
+        //     listCode: 630176,
+        //     params: { refOrder: this.code },
+        //     options: {
+        //         rowKey: 'id',
+        //         noSelect: true,
+        //         fields: [{
+        //             title: '操作人',
+        //             field: 'operatorName'
+        //         }, {
+        //             title: '开始时间',
+        //             field: 'startDatetime',
+        //             type: 'datetime'
+        //         }, {
+        //             title: '结束时间',
+        //             field: 'endDatetime',
+        //             type: 'datetime'
+        //         }, {
+        //             title: '花费时长',
+        //             field: 'speedTime'
+        //         }, {
+        //             title: '审核意见',
+        //             field: 'dealNote'
+        //         }, {
+        //             title: '当前节点',
+        //             field: 'dealNode',
+        //             type: 'select',
+        //             listCode: 630147,
+        //             keyName: 'code',
+        //             valueName: 'name'
+        //         }]
+        //     }
+        // }
+        ];
         let bizCode = this.isCheckNq ? 632137 : 632124;
         // 准入审查
         if (this.isCheck || this.isCheckNq) {
