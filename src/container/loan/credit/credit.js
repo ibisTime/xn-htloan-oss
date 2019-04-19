@@ -174,8 +174,9 @@ class Credit extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        // this.props.history.push(`/loan/credit/bigdata?&code=${selectedRowKeys[0]}`);
-                        this.props.history.push(`/ywcx/ywcx/addedit?&v=1&code=${selectedRowKeys[0]}`);
+                        console.log('详情code');
+                        // console.log(selectedRows);
+                        this.props.history.push(`/ywcx/ywcx/addedit?&v=1&code=${selectedRows[0].bizCode}`);
                     }
                 },
                 withdraw: (key, item) => {
