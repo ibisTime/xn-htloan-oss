@@ -216,7 +216,7 @@ class ArchivesAddEdit extends React.Component {
             }, () => {
                 const eleList = document.querySelectorAll('.ant-form-item-label');
                 eleList.forEach(item => {
-                    // item.style.width = '90px';
+                    item.style.float = 'left';
                 });
             });
         }).catch(() => this.setState({fetching: false}));
@@ -684,8 +684,8 @@ class ArchivesAddEdit extends React.Component {
                                 title: '业务编号',
                                 formatter: (v, d) => {
                                     return <div>
-                                            {d.code}<a href="javascript:void(0);" onClick={() => {
-                                        window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                                            {d.bizCode}<a href="javascript:void(0);" onClick={() => {
+                                        window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.bizCode;
                                     }}>查看详情</a>
                                     </div>;
                                 },
@@ -717,7 +717,11 @@ class ArchivesAddEdit extends React.Component {
                             field: 'zfStatus',
                             title: '指派归属',
                             formatter: (v, d) => {
-                                return d ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+                                if (d.insideJobName) {
+                                    return d.teamName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+                                } else {
+                                    return d ? d.companyName + '-' + d.teamName : '';
+                                }
                             },
                             readonly: true
                         }, 33)}

@@ -39,10 +39,14 @@ class Circulationlog extends React.Component {
   render() {
     const {nodeDict} = this.state;
     const fields = [{
-      title: '业务编号',
       field: 'bizCode',
-      hidden: true,
-      search: true
+      type: 'select',
+      search: true,
+      listCode: 632517,
+      valueName: '{{code.DATA}}',
+      keyName: 'code',
+      title: '业务编号',
+      hidden: true
     }, {
       title: '经办人',
       field: 'operatorName'

@@ -712,13 +712,7 @@ class ArchivesAddEdit extends React.Component {
                             {this.getAccessorypool()}
                     </Card>
                     <FormItem {...tailFormItemLayout} style={{marginTop: 20}}>
-                        {this.enter
-                            ? <div>
-                                <Button type="primary" onClick={() => this.checkForm()}>确认入档</Button>
-                                <Button style={{marginLeft: 20}} onClick={this.onCancel}>返回</Button>
-                            </div>
-                            : <Button style={{marginLeft: 20}} onClick={this.onCancel}>返回</Button>
-                        }
+                            <Button style={{marginLeft: 20}} onClick={this.onCancel}>返回</Button>
                     </FormItem>
                 </Form>
             </Spin>

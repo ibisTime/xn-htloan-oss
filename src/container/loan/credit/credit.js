@@ -42,9 +42,14 @@ import { Modal } from 'antd';
 class Credit extends React.Component {
     render() {
         const fields = [{
+            field: 'bizCode',
+            type: 'select',
+            search: true,
+            listCode: 632517,
+            valueName: '{{code.DATA}}',
+            keyName: 'code',
             title: '业务编号',
-            field: 'code',
-            search: true
+            required: true
         }, {
             title: '客户姓名',
             field: 'userName',

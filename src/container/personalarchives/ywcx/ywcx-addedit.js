@@ -1,13 +1,13 @@
 import React from 'react';
 import {Form, Row, Tabs, Col, Spin, Button, Table, Card, Icon, Tooltip} from 'antd';
 import moment from 'moment';
-import CUpload from 'component/cUpload/cUpload';
-import CInput from 'component/cInput/cInput';
-import CSelect from 'component/cSelect/cSelect';
-import CNormalTextArea from 'component/cNormalTextArea/cNormalTextArea';
+import CUpload from 'component/cUpload/cUploads';
+import CInput from 'component/cInput/cInputs';
+import CSelect from 'component/cSelect/cSelects';
+import CNormalTextArea from 'component/cNormalTextArea/cNormalTextAreas';
 import CMonth from 'component/cMonth/cMonth';
 import CRangeDate from 'component/cRangeDate/cRangeDate';
-import CDate from 'component/cDate/cDate';
+import CDate from 'component/cDate/cDates';
 import {tailFormItemLayout, validateFieldsAndScrollOption} from 'common/js/config';
 import {
     getQueryString, showSucMsg, isUndefined, getUserId, getRules,
@@ -266,6 +266,11 @@ class ArchivesAddEdit extends React.Component {
                     token: uploadToken.uploadToken,
                     fetching: false,
                     isLoaded: true
+                }, () => {
+                    const eleList = document.querySelectorAll('.ant-form-item-label');
+                    eleList.forEach(item => {
+                        item.style.float = 'left';
+                    });
                 });
             }
         ).catch(() => this.setState({fetching: false}));
@@ -704,8 +709,13 @@ class ArchivesAddEdit extends React.Component {
                     </Row>
                     <Row gutter={54}>
                         {this.getFileCol({field: 'bankCreditResultPdf', title: '银行征信报告', type: 'img'}, 3, c)}
-                        {this.getFileCol({field: 'bankCreditResultPdf', title: '大数据征信报告', type: 'img'}, 3, c)}
-                        {this.getInputCol({field: 'bankCreditResultRemark', title: '征信结果说明'}, 3, c)}
+                        {this.getFileCol({
+                            title: '大数据征信报告(多张)',
+                            field: 'dataReport',
+                            type: 'img',
+                            // required: true,
+                            readonly: true
+                        }, 3)}        {this.getInputCol({field: 'bankCreditResultRemark', title: '征信结果说明'}, 3, c)}
                     </Row>
                 </Card>
             ));
@@ -772,7 +782,7 @@ class ArchivesAddEdit extends React.Component {
         const TabPane = Tabs.TabPane;
         return (
             <Spin spinning={this.state.fetching}>
-                <Form>
+                <Form className='query-form'>
                     <Tabs defaultActiveKey="1">
                         <TabPane tab="基本信息" key="1">
                             <Card>

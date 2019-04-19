@@ -23,9 +23,12 @@ class IdCheckQuery extends React.Component {
     }
     render() {
         const fields = [{
-            field: 'name',
+            field: 'code',
+            type: 'select',
+            listCode: 632517,
+            valueName: '{{code.DATA}}',
+            keyName: 'code',
             title: '业务编号',
-            value: this.name,
             required: true
         }];
         return this.props.buildDetail({
@@ -36,9 +39,7 @@ class IdCheckQuery extends React.Component {
                 type: 'primary',
                 handler: (params) => {
                     this.props.doFetching();
-                    params.code = params.name;
                     fetch(632516, params).then((data) => {
-                        console.log(params);
                         this.props.cancelFetching();
                         if (data.id !== '-1') {
                             this.props.history.push(`/personalarchives/accessorypool/query?code=${params.code}`);
@@ -48,9 +49,6 @@ class IdCheckQuery extends React.Component {
                         }
                     }).catch(() => this.props.cancelFetching());
                 }
-            }, {
-                title: '返回',
-                handler: () => this.props.history.go(-1)
             }]
         });
     }

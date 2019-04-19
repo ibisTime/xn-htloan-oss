@@ -30,12 +30,18 @@ import { listWrapper } from 'common/js/build-list';
 class ywCx extends React.Component {
     render() {
         const fields = [{
-            title: '业务编号',
             field: 'code',
-            search: true
+            type: 'select',
+            search: true,
+            listCode: 632517,
+            valueName: '{{code.DATA}}',
+            keyName: 'code',
+            title: '业务编号',
+            required: true
         }, {
             title: '客户姓名',
             field: 'ywyUser',
+            type: 'select',
             search: true,
             render: (v, d) => {
                 return d.credit.userName;
