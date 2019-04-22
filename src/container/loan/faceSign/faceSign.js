@@ -37,7 +37,10 @@ class FaceSign extends React.Component {
         const fields = [{
             title: '业务编号',
             field: 'code',
-            search: true
+            search: true,
+            render: (v, d) => {
+                return d ? d.cdbiz.code : '';
+            }
         }, {
             title: '客户姓名',
             field: 'applyUserName',
@@ -124,6 +127,16 @@ class FaceSign extends React.Component {
                         showWarnMsg('当前不是内勤主管审核节点');
                     } else {
                         this.props.history.push(`/loan/faceSign/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
+                    }
+                },
+                detail: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/ywcx/ywcx/addedit?&v=1&code=${selectedRows[0].bizCode}`);
+                        // this.props.history.push(`/loan/faceSign/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
                     }
                 }
             }

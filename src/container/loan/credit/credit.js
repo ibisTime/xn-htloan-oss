@@ -36,7 +36,7 @@ import { Modal } from 'antd';
         cancelFetching,
         setPagination,
         setSearchParam,
-        setSearchData
+        setSearchData,
     }
 )
 class Credit extends React.Component {
@@ -49,7 +49,9 @@ class Credit extends React.Component {
             valueName: '{{code.DATA}}',
             keyName: 'code',
             title: '业务编号',
-            required: true
+            render: (v, d) => {
+                return d ? d.cdbiz.code : '';
+            }
         }, {
             title: '客户姓名',
             field: 'userName',
@@ -168,6 +170,17 @@ class Credit extends React.Component {
                         showWarnMsg('请选择记录');
                     } else {
                         this.props.history.push(`/loan/credit/bigdata?&code=${selectedRowKeys[0]}`);
+                    }
+                },
+                detail: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        console.log('详情code');
+                        // console.log(selectedRows);
+                        this.props.history.push(`/ywcx/ywcx/addedit?&v=1&code=${selectedRows[0].bizCode}`);
                     }
                 },
                 withdraw: (key, item) => {

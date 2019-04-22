@@ -684,8 +684,8 @@ class ArchivesAddEdit extends React.Component {
                                 title: '业务编号',
                                 formatter: (v, d) => {
                                     return <div>
-                                            {d.bizCode}<a href="javascript:void(0);" onClick={() => {
-                                        window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.bizCode;
+                                            {d.cdbiz.code}<a href="javascript:void(0);" type="primary" onClick={() => {
+                                        window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.cdbiz.code;
                                     }}>查看详情</a>
                                     </div>;
                                 },
