@@ -824,14 +824,9 @@ class AdmittanceAddEdit extends React.Component {
                     {this.getInputCol({ field: 'emergencyMobile1', title: '手机号码', mobile: true, required: true }, 33)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'emergencyName2', title: '联系人2姓名', required: true })}
-                    {this.getSelectCol({ field: 'emergencyRelation2', title: '与申请人关系', keyName: 'dkey', valueName: 'dvalue', required: true }, relationData)}
-                    {this.getInputCol({ field: 'emergencyMobile2', title: '手机号码', mobile: true, required: true }, 33)}
-                  </Row>
-                  <Row gutter={54}>
-                    {this.getInputCol({ field: 'pledgeUser', title: '抵押代理人', required: true })}
-                    {this.getInputCol({ field: 'pledgeAddress', title: '抵押地点', required: true })}
-                    {this.getFileCol({ field: 'pledgeUserIdCardCopy', title: '抵押代理人身份证复印件', type: 'img' }, 33)}
+                    {this.getInputCol({ field: 'emergencyName2', title: '联系人2姓名' })}
+                    {this.getSelectCol({ field: 'emergencyRelation2', title: '与申请人关系', keyName: 'dkey', valueName: 'dvalue' }, relationData)}
+                    {this.getInputCol({ field: 'emergencyMobile2', title: '手机号码', mobile: true }, 33)}
                   </Row>
                 </Card>
                 <Card style={{ marginTop: 16 }} title="配偶信息">
