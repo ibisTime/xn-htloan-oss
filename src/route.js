@@ -791,6 +791,11 @@ const ROUTES = [
     path: '/basedata/beforeloan',
     component: asyncComponent(() => import('container/basedata/beforeloan/beforeloan'))
   },
+    //  提前还款
+    {
+        path: '/beforedot/beforedot',
+        component: asyncComponent(() => import('container/basedata/beforedot/beforedot'))
+    },
   //  银行管理
   {
     path: '/basedata/bank',
@@ -894,7 +899,7 @@ const ROUTES = [
   },
   //  垫资超1天未放款
   {
-    path: '/statistic/one-report',
+    path: '/statistic/one-/system/nodereport',
     component: asyncComponent(() => import('container/statistic/oneReport/oneReport'))
   },
   {

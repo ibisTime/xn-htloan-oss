@@ -6,7 +6,7 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/basedata/beforeloan';
+} from '@redux/basedata/beforedot';
 import {
     getQueryString,
     getUserId,
@@ -18,7 +18,7 @@ import {
 } from 'common/js/build-detail';
 
 @DetailWrapper(
-    state => state.bizBeforeloan, {
+    state => state.bizBeforedot, {
         initStates,
         doFetching,
         cancelFetching,
@@ -27,10 +27,10 @@ import {
         restore
     }
 )
-class Beforeloan extends React.Component {
+class Beforedot extends React.Component {
     constructor(props) {
         super(props);
-        this.code = 'tq_service';
+        this.code = 'budget_back_rate';
     }
 
     render() {
@@ -39,11 +39,11 @@ class Beforeloan extends React.Component {
             field: 'id',
             hidden: true
         }, {
-            title: '提前还款服务费',
+            title: '返点比例',
             field: 'cvalue',
             amount: true,
             help: '请输入0～1之间的数值',
-            requied: true
+            required: true
         }];
         return this.props.buildDetail({
             fields,
@@ -66,4 +66,4 @@ class Beforeloan extends React.Component {
     }
 }
 
-export default Beforeloan;
+export default Beforedot;

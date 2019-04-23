@@ -30,13 +30,20 @@ class BankTypeAddedit extends React.Component {
     }
     render() {
         const fields = [{
-            title: '名称',
-            field: 'bankName',
+            title: '银行简称',
+            field: 'abbrName',
             required: true
         }, {
-            title: '银行代号',
+            title: '银行全称',
             field: 'bankCode',
-            required: true
+            // field: 'loanBank',
+            type: 'select',
+            listCode: 802116,
+            keyName: 'bankCode',
+            valueName: '{{bankCode.DATA}}-{{bankName.DATA}}'
+        }, {
+            title: '开户行',
+            field: 'openBank'
         }, {
             title: '每日限额',
             field: 'dayAmount',
@@ -76,8 +83,13 @@ class BankTypeAddedit extends React.Component {
             key: 'id',
             code: this.code,
             view: this.view,
-            addCode: 802110,
-            detailCode: 802117
+            addCode: 632050,
+            editCode: 632052,
+            detailCode: 632056,
+            beforeSubmit: (params) => {
+                params.fullName = params.bankCode;
+                return params;
+            }
         });
     }
 }

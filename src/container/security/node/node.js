@@ -85,6 +85,15 @@ class node extends React.Component {
                     } else {
                         this.props.history.push(`/system/node/setMateriallist?code=${selectedRowKeys[0]}`);
                     }
+                },
+                clqd: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/basedata/materiallist?code=${selectedRowKeys[0]}`);
+                    }
                 }
             }
         }) : null;
