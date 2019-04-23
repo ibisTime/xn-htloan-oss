@@ -33,52 +33,8 @@ class manageGps extends React.Component {
     render() {
         const fields = [{
             title: 'GPS编号',
-            field: 'gpsDevNo'
-        }, {
-            title: 'GPS类型',
-            field: 'gpsType',
-            type: 'select',
-            data: [{
-              key: '1',
-              value: '有线'
-            }, {
-              key: '0',
-              value: '无线'
-            }],
-            keyName: 'key',
-            valueName: 'value',
+            field: 'gpsDevNo',
             search: true
-        }, {
-            title: '客户姓名',
-            field: 'customerName',
-            render: (v, d) => {
-                return d.budgetOrder ? d.budgetOrder.applyUserName : '';
-            },
-            search: true
-        }, {
-            title: '客户手机号',
-            field: 'mobile',
-            render: (v, d) => {
-                return d.budgetOrder ? d.budgetOrder.mobile : '';
-            }
-        }, {
-            title: '业务团队',
-            field: 'teamName',
-            render: (v, d) => {
-                return d.budgetOrder ? d.budgetOrder.teamName : '';
-            }
-        }, {
-            title: '信贷专员',
-            field: 'saleUserName',
-            render: (v, d) => {
-                return d.budgetOrder ? d.budgetOrder.saleUserName : '';
-            }
-        }, {
-            title: '内勤专员',
-            field: 'insideJobName',
-            render: (v, d) => {
-                return d.budgetOrder ? d.budgetOrder.insideJobName : '';
-            }
         }, {
             title: '归属公司',
             field: 'companyCode',
@@ -88,8 +44,7 @@ class manageGps extends React.Component {
             },
             type: 'select',
             keyName: 'code',
-            valueName: 'name',
-            search: true
+            valueName: 'name'
         }, {
             title: 'GPS领用人',
             field: 'applyUserName'
@@ -98,11 +53,11 @@ class manageGps extends React.Component {
             field: 'applyStatus',
             type: 'select',
             data: [{
-              key: '1',
-              value: '已领用'
+                key: '1',
+                value: '已领用'
             }, {
-              key: '0',
-              value: '未领用'
+                key: '0',
+                value: '未领用'
             }],
             keyName: 'key',
             valueName: 'value',
@@ -116,11 +71,11 @@ class manageGps extends React.Component {
             field: 'useStatus',
             type: 'select',
             data: [{
-              key: '1',
-              value: '已使用'
+                key: '1',
+                value: '已使用'
             }, {
-              key: '0',
-              value: '未使用'
+                key: '0',
+                value: '未使用'
             }],
             keyName: 'key',
             valueName: 'value',
@@ -131,15 +86,63 @@ class manageGps extends React.Component {
             type: 'datetime'
         }, {
             title: '业务编号',
-            field: 'bizCode'
-        }];
+            field: 'bizCode',
+            search: true
+        },
+        {
+            title: 'GPS类型',
+            field: 'gpsType',
+            type: 'select',
+            data: [{
+              key: '1',
+              value: '有线'
+            }, {
+              key: '0',
+              value: '无线'
+            }],
+            keyName: 'key',
+            valueName: 'value'
+        }
+        //, {
+        //     title: '客户姓名',
+        //     field: 'customerName',
+        //     render: (v, d) => {
+        //         return d.budgetOrder ? d.budgetOrder.applyUserName : '';
+        //     },
+        //     search: true
+        // }, {
+        //     title: '客户手机号',
+        //     field: 'mobile',
+        //     render: (v, d) => {
+        //         return d.budgetOrder ? d.budgetOrder.mobile : '';
+        //     }
+        // }, {
+        //     title: '业务团队',
+        //     field: 'teamName',
+        //     render: (v, d) => {
+        //         return d.budgetOrder ? d.budgetOrder.teamName : '';
+        //     }
+        // }, {
+        //     title: '信贷专员',
+        //     field: 'saleUserName',
+        //     render: (v, d) => {
+        //         return d.budgetOrder ? d.budgetOrder.saleUserName : '';
+        //     }
+        // }, {
+        //     title: '内勤专员',
+        //     field: 'insideJobName',
+        //     render: (v, d) => {
+        //         return d.budgetOrder ? d.budgetOrder.insideJobName : '';
+        //     }
+        // }
+        ];
         return this.props.buildList({
             fields,
             pageCode: 632705,
             btnEvent: {
-              import: () => {
-                  this.props.history.push(`/postloantools/manageGps/import`);
-              }
+              // import: () => {
+              //     this.props.history.push(`/postloantools/manageGps/import`);
+              // }
             }
         });
     }
