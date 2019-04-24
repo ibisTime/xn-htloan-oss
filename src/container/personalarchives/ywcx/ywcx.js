@@ -42,22 +42,16 @@ class ywCx extends React.Component {
             title: '客户姓名',
             field: 'ywyUser',
             type: 'select',
-            search: true,
             render: (v, d) => {
-                return d.credit.userName;
-            }
+              return d.creditUser ? d.creditUser.userName : '';
+            },
+            search: true
         }, {
             title: '贷款银行',
-            field: 'bankCode',
-            type: 'select',
-            required: true,
-            listCode: 632037,
-            keyName: 'code',
-            hidden: this.code,
-            valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
+            field: 'loanBankName'
         }, {
             title: '贷款金额',
-            field: 'dkAmount',
+            field: 'loanAmount',
             amount: true
         }, {
             title: '业务种类',
@@ -66,22 +60,13 @@ class ywCx extends React.Component {
             key: 'budget_orde_biz_typer'
         }, {
             title: '业务公司',
-            field: 'teamName',
-            render: (v, d) => {
-                return d.credit.companyName;
-            }
+            field: 'companyName'
         }, {
             title: '业务团队',
-            field: 'teamName',
-            render: (v, d) => {
-                return d.credit.teamName;
-            }
+            field: 'teamName'
         }, {
             title: '业务员',
-            field: 'saleUserName',
-            render: (v, d) => {
-                return d.credit.saleUserName;
-            }
+            field: 'saleUserName'
         }, {
             title: '状态',
             field: 'status',

@@ -38,26 +38,20 @@ class BankType extends React.Component {
             title: '名称',
             field: 'bankName'
         }, {
-            title: '银行代号',
+            title: '银行支行',
             field: 'bankCode'
         }, {
-            title: '状态',
-            field: 'status',
-            type: 'select',
-            data: [{
-                key: '0',
-                value: '不可用'
-            }, {
-                key: '1',
-                value: '可用'
-            }],
-            keyName: 'key',
-            valueName: 'value'
+            title: '最新修改人',
+            field: 'updaterName'
+        }, {
+            title: '最新修改时间',
+            field: 'updateDatetime',
+            type: 'datetime'
         }];
         return this.props.buildList({
             fields,
             rowKey: 'id',
-            pageCode: 802115
+            pageCode: 632055
         });
     }
 }

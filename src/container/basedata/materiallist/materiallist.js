@@ -32,11 +32,11 @@ class materiallist extends React.Component {
     render() {
         const fields = [{
             title: '序号',
-            field: 'no',
+            field: 'id',
             search: true
         }, {
             title: '名称',
-            field: 'name'
+            field: 'vname'
         }, {
             title: '份数',
             field: 'number'

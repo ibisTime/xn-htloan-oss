@@ -25,11 +25,11 @@ import {listWrapper} from 'common/js/build-list';
 class BusinessTeam extends React.Component {
     render() {
         const fields = [{
-            field: 'captainName',
-            title: '团队长'
-        }, {
             title: '团队名称',
             field: 'name'
+        }, {
+            field: 'captainName',
+            title: '团队长'
         }, {
             field: 'companyCode',
             title: '所属公司',
@@ -43,10 +43,14 @@ class BusinessTeam extends React.Component {
             search: true
         }, {
             title: '区域',
-            field: 'place'
+            field: 'place',
+            value: '1',
+            hidden: true
         }, {
             title: '地名',
-            field: 'region'
+            field: 'region',
+            value: '2',
+            hidden: true
         }, {
             field: 'updaterName',
             title: '最新修改人'
@@ -61,12 +65,13 @@ class BusinessTeam extends React.Component {
             deleteCode: 630191,
             btnEvent: {
                 memberList: (selectedRowKeys, selectedRows) => {
+                    console.log(selectedRows[0].name);
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(`/system/businessTeam/memberList?code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/system/businessTeam/memberList?name=${selectedRows[0].name}&code=${selectedRowKeys[0]}`);
                     }
                 }
             }
