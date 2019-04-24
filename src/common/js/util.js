@@ -491,12 +491,12 @@ export const getRules = (item) => {
       message: '请输入正数'
     });
   }
-  if (item.positive1) {
+  if (item.positives) {
     rules.push({
-      pattern: /^0\.((?=0)(0[1-9])|([1-9]\d))$/,
-      message: '请输入0～1之间的数值'
-    });
-  }
+    pattern: /^-?(0\.\d*[1-9]+\d*)$/,
+    message: '请输入0～1之间的数值'
+  });
+}
   if (item.integer) {
     rules.push({
       pattern: /^-?\d+$/,

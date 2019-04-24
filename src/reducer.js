@@ -219,6 +219,10 @@ import {bizGoodsloanAddEdit} from './redux/basedata/goodsloan-addedit';
 
 //  提前还款管理
 import {bizBeforeloan} from './redux/basedata/beforeloan';
+//  经销商管理 + 详情 + 删除
+import { basisDealer } from './redux/basedata/dealer';
+import { basisDealerAddedit } from './redux/basedata/dealer-addedit';
+
 //  返点
 import {bizBeforedot} from './redux/basedata/beforedot';
 
@@ -625,6 +629,8 @@ export default combineReducers({
     bizMemberInquiries,
     bizBrand,
     bizBrandAddEdit,
+    basisDealer,
+    basisDealerAddedit,
     bizCarSeries,
     bizCarSeriesAddEdit,
     bizCarShape,

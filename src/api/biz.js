@@ -4,6 +4,28 @@ import fetch from 'common/js/fetch';
 export function lowerFrame(code) {
   return fetch(630404, { code, updater: getUserId() });
 }
+// 经销商 上架
+export function dealerOnShelf(code) {
+  return fetch(632064, {
+    code,
+    operator: getUserId()
+  });
+}
+// 详情查经销商管理
+export function getJxsDetail(code) {
+  return fetch(632066, { code });
+}
+// 列表查询银行
+export function getBankList() {
+  return fetch(802116);
+}
+// 经销商 下架
+export function dealerLower(code) {
+  return fetch(632061, {
+    code,
+    operator: getUserId()
+  });
+}
 
 export function onShelf(code) {
   return fetch(630403, { code, updater: getUserId() });

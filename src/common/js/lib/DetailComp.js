@@ -1559,6 +1559,12 @@ export default class DetailComponent extends React.Component {
                 message: '请输入正数'
             });
         }
+        if (item.positives) {
+            rules.push({
+                pattern: /^(0(.\d+)?|1(\.0+)?)$/,
+                message: '请输入0～1之间的数值'
+            });
+        }
         if (item.integer) {
             rules.push({
                 pattern: /^-?\d+$/,

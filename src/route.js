@@ -821,6 +821,14 @@ const ROUTES = [
     path: '/basedata/materiallist',
     component: asyncComponent(() => import('container/basedata/materiallist/materiallist'))
   },
+  {
+    path: '/system/clqd',
+    component: asyncComponent(() => import('container/basedata/materiallist/materiallists'))
+  },
+  {
+    path: '/system/clqd/addedit',
+    component: asyncComponent(() => import('container/basedata/materiallist/materiallist-addedit'))
+  },
   //  节点材料清单详情 + 修改
   {
     path: '/basedata/materiallist/addedit',
@@ -1940,7 +1948,14 @@ const ROUTES = [
   // 待办消息
   {
     path: '/todo/todo',
-    component: asyncComponent(() => import('container/personalarchives/todo/todo'))}
+    component: asyncComponent(() => import('container/personalarchives/todo/todo'))},
+    // 经销商管理
+  {
+    path: '/jxsmassage/jxsmassage',
+    component: asyncComponent(() => import('container/biz/jxsmassage/dealer'))},
+  {
+    path: '/jxsmassage/jxsmassage/addedit',
+    component: asyncComponent(() => import('container/biz/jxsmassage/dealer-addedit'))}
 
 ];
 

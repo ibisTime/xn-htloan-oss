@@ -192,9 +192,11 @@ class ArchivesAddEdit extends React.Component {
                      uploadToken, pageData
                  ]) => {
                 console.log('22222', interestData);
-                if (pageData.creditUserList.length === 0) {
+                if (pageData.creditUserList.length === 0 || pageData.creditUserList.length === 1) {
                     this.setState({
-                        isShowTabPane01: false
+                        isShowTabPane01: true,
+                        isShowTabPane02: false,
+                        isShowTabPane03: false
                     });
                 } else if (pageData.creditUserList.length === 2) {
                     this.setState({

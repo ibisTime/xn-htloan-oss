@@ -49,9 +49,6 @@ class Credit extends React.Component {
             valueName: '{{code.DATA}}',
             keyName: 'code',
             title: '业务编号'
-            // render: (v, d) => {
-            //     return d ? d.cdbiz.code : '';
-            // }
         }, {
             title: '客户姓名',
             field: 'userName',
