@@ -32,13 +32,35 @@ class materiallistAddedit extends React.Component {
     }
     render() {
         const fields = [{
-            title: '序号',
-            field: 'id'
+            title: '类型',
+            field: 'attachType',
+            required: true,
+            type: 'select',
+            data: [{
+                key: '图片',
+                value: '图片'
+            }, {
+                key: '视频',
+                value: '视频'
+            }, {
+                key: '文件',
+                value: '文件'
+            }],
+            keyName: 'key',
+            valueName: 'value'
+        }, {
+            title: '分类',
+            field: 'category',
+            hidden: true,
+            value: 'node_file_list',
+            required: true
         }, {
             title: '名称',
-            field: 'vname'
+            field: 'vname',
+            required: true
         }, {
             title: '份数',
+            required: true,
             field: 'number'
         }];
         return this.props.buildDetail({

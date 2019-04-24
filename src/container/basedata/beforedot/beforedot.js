@@ -41,14 +41,15 @@ class Beforedot extends React.Component {
         }, {
             title: '返点比例',
             field: 'cvalue',
-            amount: true,
-            help: '请输入0～1之间的数值',
-            required: true
+            positives: true,
+            required: true,
+            help: '请输入0～1之间的数值'
         }];
         return this.props.buildDetail({
             fields,
             key: 'key',
             code: this.code,
+            view: this.view,
             detailCode: 630047,
             buttons: [{
                 title: '确认',

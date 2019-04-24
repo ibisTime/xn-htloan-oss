@@ -31,12 +31,9 @@ import {
 class materiallist extends React.Component {
     render() {
         const fields = [{
-            title: '序号',
-            field: 'id',
-            search: true
-        }, {
             title: '名称',
-            field: 'vname'
+            field: 'vname',
+            search: true
         }, {
             title: '份数',
             field: 'number'

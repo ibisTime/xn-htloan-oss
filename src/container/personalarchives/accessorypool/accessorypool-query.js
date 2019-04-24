@@ -673,12 +673,12 @@ class ArchivesAddEdit extends React.Component {
     }
 
     getAccessorypool() {
-        const {pageData: {credit}, attAchment} = this.state;
-        if (credit && credit.attachments.length) {
-            return credit.attachments.map(c => (
+        const {pageData, attAchment} = this.state;
+        if (pageData.attachments) {
+            return pageData.attachments.map(c => (
                 <Card key={c.code}>
                     <Row gutter={54}>
-                        {this.getSelectCols({field: 'name'}, attAchment, 3, c)}
+                        {this.getSelectCols({field: 'kname'}, attAchment, 3, c)}
                         {this.getFileCols({field: 'url', type: 'img'}, 3, c)}
                     </Row>
                 </Card>
