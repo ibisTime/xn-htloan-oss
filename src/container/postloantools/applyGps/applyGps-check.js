@@ -90,7 +90,7 @@ class applyGpsCheck extends DetailUtil {
       }
     }, {
       title: '审核说明',
-      field: 'approveNote',
+      field: 'remark',
       textarea: true,
       normalArea: true
     }];
@@ -102,21 +102,13 @@ class applyGpsCheck extends DetailUtil {
       buttons: [{
         title: '通过',
         handler: (param) => {
-          param.approveResult = '0';
-          param.code = this.code;
-          param.approveUser = getUserId();
-          let bizCode = this.type ? 632713 : 632712;
-          // if (this.type) { // 个人审核
-          //
-          // } else{
-          //
-          // }
+          param.operator = getUserId();
           if (!param.gpsList || param.gpsList.length < 1) {
             showWarnMsg('请添加GPS列表');
             return;
           }
           this.doFetching();
-          fetch(bizCode, param).then((data) => {
+          fetch(632711, param).then((data) => {
             showSucMsg('操作成功');
             isExpressConfirm(data);
             this.cancelFetching();
@@ -130,16 +122,9 @@ class applyGpsCheck extends DetailUtil {
       }, {
         title: '不通过',
         handler: (param) => {
-          param.approveResult = '1';
           param.operator = getUserId();
-          let bizCode = this.type ? 632713 : 632712;
-          // if (this.type) { // 个人审核
-          //
-          // } else{
-          //
-          // }
           this.doFetching();
-          fetch(bizCode, param).then(() => {
+          fetch(632712, param).then(() => {
             showSucMsg('操作成功');
             this.cancelFetching();
             setTimeout(() => {

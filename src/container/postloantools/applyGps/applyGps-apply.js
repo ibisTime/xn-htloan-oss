@@ -39,17 +39,23 @@ class applyGpsApply extends DetailUtil {
     //     this.companyCode = d.companyCode;
     //   }
     // },
+    //   {
+    //   title: '申领个数',
+    //   field: 'applyCount',
+    //   required: true
+    //  },
       {
-      title: '申领个数',
-      field: 'applyCount',
-      required: true
-      // render: (v, d) => {
-      //   console.log(d);
-      //   this.applyCount = d.applyCount;
-      // }
-     }, {
+        title: '申领有线个数',
+        field: 'applyWiredCount',
+        required: true
+      }, {
+        title: '申领无线个数',
+        field: 'applyWirelessCount',
+        required: true
+      },
+      {
       title: '备注',
-      field: 'applyReason',
+      field: 'remark',
       required: true
     }];
     return this.buildDetail({
@@ -61,20 +67,16 @@ class applyGpsApply extends DetailUtil {
         title: '确认',
         check: true,
         handler: (params) => {
-          console.log(params);
-          this.doFetching();
-          let gpsList = [];
-          let bizCode = this.type ? 632711 : 632710;
-          params.applyReason = params.applyReason;
           params.applyUser = getUserId();
-          if (this.type) { // true 个人
-            gpsList.push({
-              // code: params.creditUserList[i].code
-            });
-            params.gpsList = gpsList;
-          } else{ // false 公司
-            params.applyCount = params.applyCount;
-            params.companyCode = getCompanyCode();
+          this.doFetching();
+          let bizCode = this.code ? 632713 : 632710;
+          if (params.applyType == '1') {
+            params.teamCode = '';
+            // params.carFrameNo = this.state.pageData.carFrameNo;
+            params.mobile = this.state.pageData.mobile;
+            params.customerName = this.state.pageData.customerName;
+          } else if (params.applyType == '2') {
+            params.budgetOrderCode = '';
           }
           fetch(bizCode, params).then(() => {
             showSucMsg('操作成功');

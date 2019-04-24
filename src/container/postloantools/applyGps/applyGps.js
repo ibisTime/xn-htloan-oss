@@ -31,10 +31,12 @@ class applyGps extends React.Component {
     render() {
         const fields = [{
             title: '所属公司',
-            field: 'companyName'
+            field: 'companyName',
+            search: true
         }, {
             title: '申领人',
-            field: 'applyUserName'
+            field: 'applyUserName',
+            search: true
         }, {
             title: '所属团队',
             field: 'teamName'
@@ -43,17 +45,11 @@ class applyGps extends React.Component {
             field: 'applyDatetime',
             type: 'date',
             rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
-            render: dateTimeFormat,
-            search: true
+            render: dateTimeFormat
         }, {
             title: '申领个数',
-            field: 'applyCount',
-            search: true
+            field: 'applyCount'
         },
-        //     {
-        //     title: '申领原因',
-        //     field: 'applyReason'
-        // },
             {
             title: '发货时间',
             field: 'sendDatetime',
@@ -76,32 +72,6 @@ class applyGps extends React.Component {
             fields,
             pageCode: 632715,
             btnEvent: {
-                // 公司申领
-                companyapply: (keys, items) => {
-                    let code = keys ? keys[0] : '';
-                    if (code) {
-                        if (items[0].status !== '2') {
-                            showWarnMsg('该状态不可申领');
-                        } else {
-                            this.props.history.push(`/postloantools/applyGps/apply?type=0&code=${code}`);
-                        }
-                    } else {
-                        this.props.history.push('/postloantools/applyGps/apply?type=0');
-                    }
-                },
-                // 个人申领
-                personapply: (keys, items) => {
-                    let code = keys ? keys[0] : '';
-                    if (code) {
-                        if (items[0].status !== '2') {
-                            showWarnMsg('该状态不可申领');
-                        } else {
-                            this.props.history.push(`/postloantools/applyGps/apply?type=1&code=${code}`);
-                        }
-                    } else {
-                        this.props.history.push('/postloantools/applyGps/apply?type=1');
-                    }
-                },
               // 0 待审核、1 审核通过,待发货、2 审核不通过、3 已发货、4 已收货
               apply: (keys, items) => {
                 let code = keys ? keys[0] : '';
@@ -115,39 +85,17 @@ class applyGps extends React.Component {
                   this.props.history.push('/postloantools/applyGps/apply');
                 }
               },
-                companyshenhe: (keys, items) => {
-                    if (!keys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (keys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else if (items[0].status !== '0') {
-                        showWarnMsg('该状态不可审核');
-                    } else {
-                        this.props.history.push(`/postloantools/applyGps/check?type=0&code=${keys[0]}`);
-                    }
-                },
-                personshenhe: (keys, items) => {
-                    if (!keys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (keys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else if (items[0].status !== '0') {
-                        showWarnMsg('该状态不可审核');
-                    } else {
-                        this.props.history.push(`/postloantools/applyGps/check?type=1&code=${keys[0]}`);
-                    }
+              check: (keys, items) => {
+                if (!keys.length) {
+                  showWarnMsg('请选择记录');
+                } else if (keys.length > 1) {
+                  showWarnMsg('请选择一条记录');
+                } else if (items[0].status !== '0') {
+                  showWarnMsg('该状态不可审核');
+                } else {
+                  this.props.history.push(`/postloantools/applyGps/check?code=${keys[0]}`);
                 }
-              // check: (keys, items) => {
-              //   if (!keys.length) {
-              //     showWarnMsg('请选择记录');
-              //   } else if (keys.length > 1) {
-              //     showWarnMsg('请选择一条记录');
-              //   } else if (items[0].status !== '0') {
-              //     showWarnMsg('该状态不可审核');
-              //   } else {
-              //     this.props.history.push(`/postloantools/applyGps/check?code=${keys[0]}`);
-              //   }
-              // }
+              }
             }
         });
     }

@@ -147,6 +147,17 @@ class CollectionGPSCheck extends React.Component {
             title: '收件并审核通过',
             handler: (param) => {
                 param.operator = getUserId();
+                param.approveResult = '1';
+                fetch(632151, param).then((data) => {
+                    this.doSuccess(data);
+                }).catch(this.props.cancelFetching);
+            },
+            check: true
+        }, {
+            title: '收件审核不通过',
+            handler: (param) => {
+                param.operator = getUserId();
+                param.approveResult = '0';
                 fetch(632151, param).then((data) => {
                     this.doSuccess(data);
                 }).catch(this.props.cancelFetching);

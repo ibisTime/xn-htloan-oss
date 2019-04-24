@@ -88,62 +88,10 @@ class manageGps extends React.Component {
             title: '业务编号',
             field: 'bizCode',
             search: true
-        },
-        {
-            title: 'GPS类型',
-            field: 'gpsType',
-            type: 'select',
-            data: [{
-              key: '1',
-              value: '有线'
-            }, {
-              key: '0',
-              value: '无线'
-            }],
-            keyName: 'key',
-            valueName: 'value'
-        }
-        //, {
-        //     title: '客户姓名',
-        //     field: 'customerName',
-        //     render: (v, d) => {
-        //         return d.budgetOrder ? d.budgetOrder.applyUserName : '';
-        //     },
-        //     search: true
-        // }, {
-        //     title: '客户手机号',
-        //     field: 'mobile',
-        //     render: (v, d) => {
-        //         return d.budgetOrder ? d.budgetOrder.mobile : '';
-        //     }
-        // }, {
-        //     title: '业务团队',
-        //     field: 'teamName',
-        //     render: (v, d) => {
-        //         return d.budgetOrder ? d.budgetOrder.teamName : '';
-        //     }
-        // }, {
-        //     title: '信贷专员',
-        //     field: 'saleUserName',
-        //     render: (v, d) => {
-        //         return d.budgetOrder ? d.budgetOrder.saleUserName : '';
-        //     }
-        // }, {
-        //     title: '内勤专员',
-        //     field: 'insideJobName',
-        //     render: (v, d) => {
-        //         return d.budgetOrder ? d.budgetOrder.insideJobName : '';
-        //     }
-        // }
-        ];
+        }];
         return this.props.buildList({
             fields,
-            pageCode: 632705,
-            btnEvent: {
-              // import: () => {
-              //     this.props.history.push(`/postloantools/manageGps/import`);
-              // }
-            }
+            pageCode: 632705
         });
     }
 }
