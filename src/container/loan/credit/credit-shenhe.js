@@ -579,7 +579,7 @@ class ArchivesAddEdit extends React.Component {
     // 获取1主贷人 2共同担保人 3担保人征信
     getCreditList(role) {
         const {pageData: {creditUserList}, loanRoleData, relationData} = this.state;
-        console.log(creditUserList);
+        // console.log(creditUserList);
         this.creditUserList = creditUserList;
         if (creditUserList && creditUserList.length) {
                 for (let i = 0; i < creditUserList.length; i++) {
@@ -624,7 +624,7 @@ class ArchivesAddEdit extends React.Component {
                                 </Row>
                                 <Row gutter={54}>
                                     {this.getFileCol({
-                                        field: 'bankReport',
+                                        field: 'BankCreditReport',
                                         title: '征信报告',
                                         type: 'img'
                                     }, 3, creditUserList[i])}
@@ -641,7 +641,7 @@ class ArchivesAddEdit extends React.Component {
                                     }, 3, creditUserList[i])}
                                     {this.getFileCol({
                                         title: '大数据征信报告(多张)',
-                                        field: 'dataReport',
+                                        field: 'dataCreditReport',
                                         type: 'img',
                                         // required: true,
                                         readonly: true
