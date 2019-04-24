@@ -1114,11 +1114,21 @@ const ROUTES = [
     component: asyncComponent(() => import('container/postloantools/applyGps/applyGps-addedit'))
   },
   //  gps申领 申领
+  // {
+  //   path: '/postloantools/applyGps/apply',
+  //   component: asyncComponent(() => import('container/postloantools/applyGps/applyGps-apply'))
+  // },
+  //  gps公司、个人申领
   {
     path: '/postloantools/applyGps/apply',
     component: asyncComponent(() => import('container/postloantools/applyGps/applyGps-apply'))
   },
   //  gps申领 GPS管理员审核
+  // {
+  //   path: '/postloantools/applyGps/check',
+  //   component: asyncComponent(() => import('container/postloantools/applyGps/applyGps-check'))
+  // },
+  //  gps申领 公司GPS审核  个人审核
   {
     path: '/postloantools/applyGps/check',
     component: asyncComponent(() => import('container/postloantools/applyGps/applyGps-check'))

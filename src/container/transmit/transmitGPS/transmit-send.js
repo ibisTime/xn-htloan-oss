@@ -75,6 +75,13 @@ class TransmitSend extends DetailUtil {
       hidden: (!this.state.pageData || !this.state.pageData.gpsApply || !this.state.pageData.gpsApply.mobile),
       readonly: true
     }, {
+        title: '材料清单',
+        field: 'sendFileList',
+        type: 'checkbox',
+        listCode: 632217,
+        keyName: 'id',
+        valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份'
+    }, {
         title: '寄送方式',
         field: 'sendType',
         type: 'select',

@@ -11,47 +11,37 @@ class applyGpsCheck extends DetailUtil {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
+    this.type = !!getQueryString('type', this.props.location.search);// 公司0  个人1
   }
   render() {
-    const fields = [{
-      title: '申请人姓名',
-      field: 'applyUserName',
-      formatter: (v, d) => `${d.applyUserName}-${d.roleName}`,
-      readonly: true
-    }, {
-      title: '业务团队',
+    const fields = [
+    //     {
+    //   title: '申请人姓名',
+    //   field: 'applyUserName',
+    //   formatter: (v, d) => `${d.applyUserName}-${d.roleName}`,
+    //   readonly: true
+    // },
+      {
+      title: '申领团队',
       field: 'teamName',
       hidden: !this.state.pageData || !this.state.pageData.teamName,
-      readonly: true
-    }, {
+      readonly: true,
+      required: true
+    },
+      {
       title: '申领个数',
       field: 'applyCount',
-      readonly: true
-    }, {
-      title: '申领有线个数',
-      field: 'applyWiredCount',
-      readonly: true
-    }, {
-      title: '申领无线个数',
-      field: 'applyWirelessCount',
-      readonly: true
-    }, {
-      title: '客户姓名',
-      field: 'customerName',
-      formatter: (v, d) => `${v}-${d.budgetOrderCode}`,
       readonly: true,
-      hidden: !this.state.pageData || !this.state.pageData.customerName
-    }, {
-      title: '车架号',
-      field: 'carFrameNo',
-      hidden: !this.state.pageData || !this.state.pageData.carFrameNo,
-      readonly: true
-    }, {
-      title: '手机号',
-      field: 'mobile',
-      hidden: !this.state.pageData || !this.state.pageData.mobile,
-      readonly: true
-    }, {
+      required: true
+    },
+      {
+          title: '申领人',
+          field: 'applyUserName',
+          formatter: (v, d) => `${d.applyUserName}-${d.roleName}`,
+          readonly: true,
+        required: true
+      },
+      {
       title: '申领原因',
       field: 'applyReason',
       readonly: true
@@ -99,7 +89,7 @@ class applyGpsCheck extends DetailUtil {
         }]
       }
     }, {
-      title: '备注',
+      title: '审核说明',
       field: 'remark',
       textarea: true,
       normalArea: true
