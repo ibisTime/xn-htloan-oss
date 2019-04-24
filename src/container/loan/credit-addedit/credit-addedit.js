@@ -23,7 +23,8 @@ class CreditAddedit extends React.Component {
             creditResult: [],
             selectData: {},
             selectKey: '',
-            bizType: ''
+            bizType: '',
+            loanBankCode: ''
         };
         this.code = getQueryString('code', this.props.location.search);
         // 发起征信
@@ -232,16 +233,27 @@ class CreditAddedit extends React.Component {
         }, {
             title: '客户姓名',
             field: 'userName',
+                formatter: (v, d) => {
+                    return d ? d.creditUser.userName : '';
+                },
             hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
-        }, {
+        },
+            {
             title: '贷款银行',
-            field: 'loanBankCode',
+            field: 'loanBankName',
             type: 'select',
             listCode: 632037,
             keyName: 'code',
             valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
-            required: true
-        }, {
+            required: true,
+                onChange: (v, data, props) => {
+                console.log(data);
+                    props.setPageData({
+                        ...this.props.pageData,
+                        loanBankCode: data.code});
+                }
+            },
+            {
                 title: '贷款金额',
                 field: 'loanAmount',
                 amount: true,
@@ -459,7 +471,7 @@ class CreditAddedit extends React.Component {
                         console.log(params);
                         let data = {};
                         let creditList = [];
-                        data.creditCode = this.code;
+                        data.bizCode = this.code;
                         for (let i = 0; i < params.creditUserList.length; i++) {
                             params.creditUserList[i].creditUserCode = params.creditUserList[i].code;// 征信用户编号
                             params.creditUserList[i].bankCreditReport = params.creditUserList[i].bankCreditReport; // 银行征信报告
@@ -506,7 +518,6 @@ class CreditAddedit extends React.Component {
                     title: '保存',
                     check: true,
                     handler: (params) => {
-                        console.log(params);
                         let data = {};
                         let item = [];
                         data.bizType = params.bizType; // 业务类型
@@ -514,7 +525,7 @@ class CreditAddedit extends React.Component {
                         data.buttonCode = '0';
                         data.operator = getUserId(); // 操作员
                         data.loanAmount = params.loanAmount; // 贷款金额
-                        data.loanBankCode = params.loanBankCode; // 贷款银行
+                        data.loanBankCode = this.props.pageData.loanBankCode; // 贷款银行
                         data.secondCarReport = params.secondCarReport; // 二手车评估报告
                         data.xszFront = params.xszFront; // 身份证正面
                         data.xszReverse = params.xszReverse;// 身份证反面
@@ -542,6 +553,7 @@ class CreditAddedit extends React.Component {
                             }
                         }
                         data.creditUserList = item;
+                        console.log('入参：');
                         console.log(data);
                         if (!flag) {
                             showWarnMsg('请录入申请人的征信信息！');
@@ -571,7 +583,7 @@ class CreditAddedit extends React.Component {
                         data.buttonCode = '1';
                         data.operator = getUserId(); // 操作员
                         data.loanAmount = params.loanAmount; // 贷款金额
-                        data.loanBankCode = params.loanBankCode; // 贷款银行
+                        data.loanBankCode = this.props.pageData.loanBankCode; // 贷款银行
                         data.secondCarReport = params.secondCarReport; // 二手车评估报告
                         data.xszFront = params.xszFront; // 身份证正面
                         data.xszReverse = params.xszReverse;// 身份证反面

@@ -42,26 +42,39 @@ import { Modal } from 'antd';
 class Credit extends React.Component {
     render() {
         const fields = [{
-            field: 'bizCode',
+            field: 'code',
             type: 'select',
             search: true,
             listCode: 632517,
             valueName: '{{code.DATA}}',
             keyName: 'code',
             title: '业务编号'
+<<<<<<< HEAD
+            // render: (v, d) => {
+            //     return d ? d.cdbiz.code : '';
+            // }
+=======
+>>>>>>> 42026a219859356e45d2bff7f6707a7f2fafb2bb
         }, {
             title: '客户姓名',
             field: 'userName',
             search: true,
             render: (v, t) => t.creditUser ? t.creditUser.userName : '-'
-        }, {
-            title: '贷款银行',
-            field: 'loanBankCode',
-            type: 'select',
-            listCode: 632037,
-            keyName: 'code',
-            valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
-        }, {
+        },
+        // {
+        //     title: '贷款银行',
+        //     field: 'loanBankCode',
+        //     type: 'select',
+        //     listCode: 632037,
+        //     keyName: 'code',
+        //     valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
+        //     hidden: true
+        // },
+            {
+                title: '贷款银行',
+                field: 'loanBankName'
+            },
+            {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
@@ -176,8 +189,8 @@ class Credit extends React.Component {
                         showWarnMsg('请选择一条记录');
                     } else {
                         console.log('详情code');
-                        // console.log(selectedRows);
-                        this.props.history.push(`/ywcx/ywcx/addedit?&v=1&code=${selectedRows[0].bizCode}`);
+                         console.log(selectedRows);
+                        this.props.history.push(`/ywcx/ywcx/addedit?&v=1&code=${selectedRows[0].code}`);
                     }
                 },
                 withdraw: (key, item) => {

@@ -607,12 +607,12 @@ class ArchivesAddEdit extends React.Component {
                                 </Row>
                                 <Row gutter={54}>
                                     {this.getFileCol({
-                                        field: 'idNoFront',
+                                        field: 'idFront',
                                         title: '身份证正面',
                                         type: 'img'
                                     }, 3, creditUserList[i])}
                                     {this.getFileCol({
-                                        field: 'idNoReverse',
+                                        field: 'idReverse',
                                         title: '身份证反面',
                                         type: 'img'
                                     }, 3, creditUserList[i])}
@@ -630,7 +630,7 @@ class ArchivesAddEdit extends React.Component {
                                     }, 3, creditUserList[i])}
                                     {this.getSelectCol({
                                         title: '银行征信结果是否通过',
-                                        field: 'bankCreditResultPdf'
+                                        field: 'bankCreditResult' // bankCreditResultPdf
                                     }, isbankCreditResultPdf, 3, creditUserList[i])}
                                 </Row>
                                 <Row gutter={54}>
@@ -679,7 +679,12 @@ class ArchivesAddEdit extends React.Component {
                 <Form className='query-form'>
                     <Card style={{ marginTop: 16 }}>
                         <Row gutter={54}>
-                            {this.getInputCol({ field: 'userName', title: '客户姓名', required: true })}
+                            {this.getInputCol({ field: 'userName',
+                                title: '客户姓名',
+                                formatter: (v, d) => {
+                                    return d ? d.creditUser.userName : '';
+                                },
+                                required: true })}
                             {this.getInputCol({ field: 'code',
                                 title: '业务编号',
                                 formatter: (v, d) => {

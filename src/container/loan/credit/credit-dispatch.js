@@ -50,10 +50,13 @@ class archivesAddedit extends React.Component {
         }, {
             title: '客户姓名',
             field: 'userName',
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+                return d ? d.creditUser.userName : '';
+            }
         }, {
             title: '贷款银行',
-            field: 'loanBankCode',
+            field: 'loanBankName',
             type: 'select',
             listCode: 632037,
             keyName: 'code',
@@ -117,7 +120,7 @@ class archivesAddedit extends React.Component {
                     console.log(param);// param 为选中返回的一条数据
                     param.operator = getUserId();
                     param.insideJob = param.saleUserName;
-                    param.creditCode = this.code;
+                    param.bizCode = this.code;
                     fetch(632119, param).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
