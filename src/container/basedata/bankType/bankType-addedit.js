@@ -38,12 +38,14 @@ class BankTypeAddedit extends React.Component {
             field: 'bankCode',
             // field: 'loanBank',
             type: 'select',
-            listCode: 802116,
-            keyName: 'bankCode',
+            listCode: 632037,
+            keyName: 'code',
+            required: true,
             valueName: '{{bankCode.DATA}}-{{bankName.DATA}}'
         }, {
             title: '开户行',
-            field: 'openBank'
+            field: 'openBank',
+            required: true
         }, {
             title: '每日限额',
             field: 'dayAmount',
