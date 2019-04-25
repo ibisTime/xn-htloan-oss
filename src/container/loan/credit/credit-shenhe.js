@@ -609,24 +609,60 @@ class ArchivesAddEdit extends React.Component {
                                     {this.getFileCol({
                                         field: 'idFront',
                                         title: '身份证正面',
-                                        type: 'img'
+                                        type: 'img',
+                                        formatter(v, d) {
+                                            let url = '';
+                                            d.attachments.forEach(item => {
+                                                if(item.vname === '申请人身份证正面' || item.vname === '共还人身份证正面') {
+                                                    url = item.url;
+                                                }
+                                            });
+                                            return url;
+                                        }
                                     }, 3, creditUserList[i])}
                                     {this.getFileCol({
                                         field: 'idReverse',
                                         title: '身份证反面',
-                                        type: 'img'
+                                        type: 'img',
+                                        formatter(v, d) {
+                                            let url = '';
+                                            d.attachments.forEach(item => {
+                                                if(item.vname === '申请人身份证反面' || item.vname === '共还人身份证反面') {
+                                                    url = item.url;
+                                                }
+                                            });
+                                            return url;
+                                        }
                                     }, 3, creditUserList[i])}
                                     {this.getFileCol({
                                         field: 'interviewPic',
                                         title: '面签照片',
-                                        type: 'img'
+                                        type: 'img',
+                                        formatter(v, d) {
+                                            let url = '';
+                                            d.attachments.forEach(item => {
+                                                if(item.vname === '申请人面签照片' || item.vname === '共还人面签照片') {
+                                                    url = item.url;
+                                                }
+                                            });
+                                            return url;
+                                        }
                                     }, 3, creditUserList[i])}
                                 </Row>
                                 <Row gutter={54}>
                                     {this.getFileCol({
                                         field: 'BankCreditReport',
                                         title: '征信报告',
-                                        type: 'img'
+                                        type: 'img',
+                                        formatter(v, d) {
+                                            let url = '';
+                                            d.attachments.forEach(item => {
+                                                if(item.vname === '申请人银行征信报告' || item.vname === '共还人银行征信报告') {
+                                                    url = item.url;
+                                                }
+                                            });
+                                            return url;
+                                        }
                                     }, 3, creditUserList[i])}
                                     {this.getSelectCol({
                                         title: '银行征信结果是否通过',
@@ -637,14 +673,32 @@ class ArchivesAddEdit extends React.Component {
                                     {this.getFileCol({
                                         field: 'authPdf',
                                         title: '征信查询授权书',
-                                        type: 'img'
+                                        type: 'img',
+                                        formatter(v, d) {
+                                        let url = '';
+                                        d.attachments.forEach(item => {
+                                        if(item.vname === '申请人征信查询授权书' || item.vname === '共还人征信查询授权书') {
+                                        url = item.url;
+                                    }
+                                    });
+                                        return url;
+                                    }
                                     }, 3, creditUserList[i])}
                                     {this.getFileCol({
                                         title: '大数据征信报告(多张)',
                                         field: 'dataCreditReport',
                                         type: 'img',
                                         // required: true,
-                                        readonly: true
+                                        readonly: true,
+                                        formatter(v, d) {
+                                            let url = '';
+                                            d.attachments.forEach(item => {
+                                                if(item.vname === '申请人大数据报告' || item.vname === '共还人大数据报告') {
+                                                    url = item.url;
+                                                }
+                                            });
+                                            return url;
+                                        }
                                     }, 33, creditUserList[i])}
 
                                 </Row>
