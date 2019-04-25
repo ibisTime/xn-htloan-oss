@@ -59,6 +59,12 @@ class AdmittanceAddEdit extends React.Component {
     this.authRate = 0;
     // gps费用
     this.gpsFee = 0;
+    // 申请人
+    // this.guaName = '';
+    // 共还人
+    this.mateName = '';
+    // 担保人
+    this.guaName = '';
 
     this.state = {
       fetching: true,
@@ -176,6 +182,17 @@ class AdmittanceAddEdit extends React.Component {
           this.gpsFee = product.gpsFee || 0;
         }
       }
+      // console.log(pageData);
+      pageData.creditUserList.forEach(item => {
+        // console.log(item);
+          if (item.loanRole == '2') { // 共还人
+            this.mateName = item.userName;
+            console.log('1', this.mateName);
+          }else if (item.loanRole == '3') { // 担保人
+            this.guaName = item.userName;
+            console.log('2', this.guaName);
+          }
+      });
       this.setState({
         loanProductData,
         bizTypeData,
@@ -195,8 +212,10 @@ class AdmittanceAddEdit extends React.Component {
         interestData,
         carFrameData,
         pageData,
-        showMate: (!!pageData.mateName || (pageData.marryState === '2' && this.view)),
-        showGua: !!pageData.guaName,
+        // showMate: (!!pageData.mateName || (pageData.marryState === '2' && this.view)),
+        showMate: !!this.mateName,
+        // showGua: !!pageData.guaName,
+        showGua: !!this.guaName,
         showSqryhls: this.isShowCard(sqryhls, pageData),
         showSqrzfbls: this.isShowCard(sqrzfbls, pageData),
         showSqrwxls: this.isShowCard(sqrwxls, pageData),
@@ -726,6 +745,7 @@ class AdmittanceAddEdit extends React.Component {
       showPoyhls, showPozfbls, showPowxls, showDbryhls, showDbrzfbls,
       showDbrwxls, pageData, isMarried, showMarry
     } = this.state;
+    // console.log(showGua);
     let readonly = false;
     return (
         <Spin spinning={this.state.fetching}>
@@ -762,7 +782,7 @@ class AdmittanceAddEdit extends React.Component {
                     {this.getInputCol({ field: 'carBrand', title: '车辆品牌', required: true }, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'xxpz', title: '详细配置', required: true }, 4)}
+                    {this.getInputCol({ field: 'xxpz', title: '详细配置' }, 4)}
                     {this.getSelectCol({ field: 'carType', title: '车辆类型', keyName: 'dkey', valueName: 'dvalue', required: true }, carTypeData, 4)}
                     {this.getInputCol({ field: 'carColor', title: '车辆颜色', required: true }, 4)}
                   </Row>
@@ -783,12 +803,36 @@ class AdmittanceAddEdit extends React.Component {
               <TabPane tab="申请人基本信息" key="3">
                 <Card style={{ marginTop: 16 }} title="申请人基本信息">
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'applyUserName', title: '姓名', readonly: true })}
+                    {this.getInputCol({ field: 'applyUserName',
+                      title: '姓名',
+                      readonly: true,
+                      formatter(v, d) {
+                        let userName = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '1') {
+                            userName = item.userName;
+                          }
+                        });
+                        return userName;
+                      }
+                    })}
                     {this.getSelectCol({ field: 'gender', title: '性别', keyName: 'dkey', valueName: 'dvalue', required: true }, genderData)}
                     {this.getInputCol({ field: 'age', title: '年龄', number: true, positive: true, required: true })}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'idNo', title: '身份证号', readonly: true }, 33)}
+                    {this.getInputCol({ field: 'idNo',
+                      title: '身份证号',
+                      readonly: true,
+                      formatter(v, d) {
+                        let idNo = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '1') {
+                            idNo = item.idNo;
+                          }
+                        });
+                        return idNo;
+                      }
+                      }, 33)}
                     {this.getSelectCol({ field: 'marryState', title: '婚姻状况', keyName: 'dkey', valueName: 'dvalue', required: true, onChange: this.marryChange }, marryStateData)}
                     {this.getInputCol({ field: 'nation', title: '民族', required: true })}
                   </Row>
@@ -798,7 +842,20 @@ class AdmittanceAddEdit extends React.Component {
                     {this.getInputCol({ field: 'familyNumber', title: '家庭人口', required: true, 'Z+': true })}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'mobile', title: '联系电话', mobile: true, required: true }, 33)}
+                    {this.getInputCol({ field: 'mobile',
+                      title: '联系电话',
+                      mobile: true,
+                      required: true,
+                      formatter(v, d) {
+                        let mobile = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '1') {
+                            mobile = item.mobile;
+                          }
+                        });
+                        return mobile;
+                      }
+                      }, 33)}
                     {this.getInputCol({ field: 'nowAddress', title: '现居住地址', required: true })}
                     {this.getInputCol({ field: 'postCode1', title: '现居住地址邮编', required: true })}
                   </Row>
@@ -851,12 +908,46 @@ class AdmittanceAddEdit extends React.Component {
                 </Card>
                 <Card style={{ marginTop: 16 }} title="担保人信息">
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'guaName', title: '姓名' }, 2)}
+                    {this.getInputCol({ field: 'userName',
+                      title: '姓名',
+                      formatter(v, d) {
+                        let userName = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '3') {
+                            userName = item.userName;
+                          }
+                        });
+                        return userName;
+                      }
+                    }, 2)}
                     {this.getInputCol({ field: 'guaMobile', title: '手机号', mobile: true }, 2)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'guaIdNo', title: '身份证号', idCard: true }, 2)}
-                    {this.getInputCol({ field: 'guaPhone', title: '固定电话' }, 2)}
+                    {this.getInputCol({ field: 'guaIdNo',
+                      title: '身份证号',
+                      idCard: true,
+                      formatter(v, d) {
+                        let idNo = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '3') {
+                            idNo = item.idNo;
+                          }
+                        });
+                        return idNo;
+                      }
+                    }, 2)}
+                    {this.getInputCol({ field: 'guaPhone',
+                      title: '固定电话',
+                      formatter(v, d) {
+                        let mobile = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '3') {
+                            mobile = item.mobile;
+                          }
+                        });
+                        return mobile;
+                      }
+                      }, 2)}
                   </Row>
                   <Row gutter={54}>
                     {this.getInputCol({ field: 'guaCompanyName', title: '工作单位名称' })}
@@ -867,13 +958,47 @@ class AdmittanceAddEdit extends React.Component {
                     {this.getFileCol({ field: 'mateAssetPdf', title: '其他辅助资产', type: 'img' }, 1)}
                   </Row>
                 </Card>
-                <Card style={{ marginTop: 16 }} title="共还人信息">
+                    <Card style={{ marginTop: 16 }} title="共还人信息">
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'mateName', title: '姓名' }, 2)}
-                    {this.getInputCol({ field: 'mateMobile', title: '手机号', mobile: true }, 2)}
+                    {this.getInputCol({ field: 'mateName',
+                      title: '姓名',
+                      formatter(v, d) {
+                        let userName = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            userName = item.userName;
+                          }
+                        });
+                        return userName;
+                      }}, 2)}
+                    {this.getInputCol({ field: 'mateMobile',
+                      title: '手机号',
+                      mobile: true,
+                      formatter(v, d) {
+                        let mobile = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            mobile = item.mobile;
+                          }
+                        });
+                        return mobile;
+                      }
+                      }, 2)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'mateIdNo', title: '身份证号', idCard: true }, 2)}
+                    {this.getInputCol({ field: 'mateIdNo',
+                      title: '身份证号',
+                      idCard: true,
+                      formatter(v, d) {
+                        let idNo = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            idNo = item.idNo;
+                          }
+                        });
+                        return idNo;
+                      }
+                    }, 2)}
                     {this.getSelectCol({ field: 'mateEducation', title: '学历' }, educationData, 2)}
                   </Row>
                   <Row gutter={54}>
@@ -942,21 +1067,6 @@ class AdmittanceAddEdit extends React.Component {
             {showDbryhls ? this.getJourComp('担保人银行流水', dbryhls) : null}
             {showDbrzfbls ? this.getJourComp('担保人支付宝流水', dbrzfbls) : null}
             {showDbrwxls ? this.getJourComp('担保人微信流水', dbrwxls) : null}
-            {!this.view && !showMate ? (
-                <Button onClick={() => this.setState({ showMate: true })} style={{width: '100%', marginTop: 10}} type="dashed">
-                  <Icon type="plus" />新增 配偶信息
-                </Button>
-            ) : null}
-            {!this.view && !showGua ? (
-                <Button onClick={() => this.setState({ showGua: true })} style={{width: '100%', marginTop: 10}} type="dashed">
-                  <Icon type="plus" />新增 担保人信息
-                </Button>
-            ) : null}
-            {!this.view && !showMate ? (
-                <Button onClick={() => this.setState({ showMate: true })} style={{width: '100%', marginTop: 10}} type="dashed">
-                  <Icon type="plus" />新增 共还人信息
-                </Button>
-            ) : null}
             {!this.view && !showSqryhls ? (
                 <Button onClick={() => this.setState({ showSqryhls: true })} style={{width: '100%', marginTop: 10}} type="dashed">
                   <Icon type="plus" />新增 申请人银行流水

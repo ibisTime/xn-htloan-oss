@@ -84,11 +84,13 @@ class manageGps extends React.Component {
             title: '使用日期',
             field: 'useDatetime',
             type: 'datetime'
-        }, {
-            title: '业务编号',
-            field: 'bizCode',
-            search: true
-        }];
+        }
+        //     {
+        //     title: '业务编号',
+        //     field: 'bizCode',
+        //     search: true
+        // }
+        ];
         return this.props.buildList({
             fields,
             pageCode: 632705

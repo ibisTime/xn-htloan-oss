@@ -28,12 +28,24 @@ class applyGpsCheck extends DetailUtil {
       readonly: true,
       required: true
     },
+    //   {
+    //   title: '申领个数',
+    //   field: 'applyCount',
+    //   readonly: true,
+    //   required: true
+    // },
       {
-      title: '申领个数',
-      field: 'applyCount',
-      readonly: true,
-      required: true
-    },
+        title: '有线个数',
+        field: 'applyWiredCount',
+        readonly: true,
+        required: true
+      },
+      {
+        title: '无线个数',
+        field: 'applyWirelessCount',
+        readonly: true,
+        required: true
+      },
       {
           title: '申领人',
           field: 'applyUserName',
@@ -89,7 +101,7 @@ class applyGpsCheck extends DetailUtil {
         }]
       }
     }, {
-      title: '审核说明',
+      title: '审核意见',
       field: 'remark',
       textarea: true,
       normalArea: true
