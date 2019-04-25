@@ -137,6 +137,29 @@ class CollectionGPSCheck extends React.Component {
     }, {
         title: '备注',
         field: 'remark'
+    }, {
+        title: 'GPS列表',
+        field: 'gpsList',
+        type: 'o2m',
+        options: {
+            fields: [{
+                field: 'gpsType',
+                title: 'GPS类型',
+                type: 'select',
+                data: [{
+                    dkey: '0',
+                    dvalue: '无线'
+                }, {
+                    dkey: '1',
+                    dvalue: '有线'
+                }],
+                keyName: 'dkey',
+                valueName: 'dvalue'
+            }, {
+                title: 'GPS设备号',
+                field: 'gpsDevNo'
+            }]
+        }
     }];
     return this.props.buildDetail({
         fields,
@@ -153,21 +176,24 @@ class CollectionGPSCheck extends React.Component {
                 }).catch(this.props.cancelFetching);
             },
             check: true
-        }, {
-            title: '收件审核不通过',
+        },
+        //     {
+        //     title: '收件审核不通过',
+        //     handler: (param) => {
+        //         param.operator = getUserId();
+        //         param.approveResult = '0';
+        //         fetch(632151, param).then((data) => {
+        //             this.doSuccess(data);
+        //         }).catch(this.props.cancelFetching);
+        //     },
+        //     check: true
+        // },
+            {
+            title: '收件待补件',
             handler: (param) => {
                 param.operator = getUserId();
                 param.approveResult = '0';
                 fetch(632151, param).then((data) => {
-                    this.doSuccess(data);
-                }).catch(this.props.cancelFetching);
-            },
-            check: true
-        }, {
-            title: '收件待补件',
-            handler: (param) => {
-                param.operator = getUserId();
-                fetch(632152, param).then((data) => {
                     this.doSuccess(data);
                 }).catch(this.props.cancelFetching);
             },

@@ -80,7 +80,8 @@ class TransmitSend extends DetailUtil {
         type: 'checkbox',
         listCode: 632217,
         keyName: 'id',
-        valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份'
+        // valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份'
+        valueName: '{{vname.DATA}}-{{number.DATA}}份'
     }, {
         title: '寄送方式',
         field: 'sendType',
@@ -127,7 +128,30 @@ class TransmitSend extends DetailUtil {
         field: 'remark',
         hidden: !this.state.pageData || !this.state.pageData.remark,
         readonly: true
-    }];
+    }, {
+          title: 'GPS列表',
+              field: 'gpsList',
+              type: 'o2m',
+              options: {
+              fields: [{
+                  field: 'gpsType',
+                  title: 'GPS类型',
+                  type: 'select',
+                  data: [{
+                      dkey: '0',
+                      dvalue: '无线'
+                  }, {
+                      dkey: '1',
+                      dvalue: '有线'
+                  }],
+                  keyName: 'dkey',
+                  valueName: 'dvalue'
+              }, {
+                  title: 'GPS设备号',
+                  field: 'gpsDevNo'
+              }]
+          }
+      }];
     return this.buildDetail({
         fields,
         code: this.code,

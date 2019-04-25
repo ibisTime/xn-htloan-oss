@@ -35,7 +35,10 @@ class transmit extends React.Component {
             search: true
         }, {
             title: '发件人',
-            field: 'senderName'
+            field: 'senderName',
+            render: (v, d) => {
+                return d.senderName ? d.senderName : '-';
+            }
         }, {
             title: '收件人',
             field: 'receiverName'
@@ -77,10 +80,16 @@ class transmit extends React.Component {
             title: '快递公司',
             field: 'logisticsCompany',
             type: 'select',
-            key: 'kd_company'
+            key: 'kd_company',
+            render: (v, d) => {
+                return d.logisticsCompany ? d.logisticsCompany : '-';
+            }
         }, {
             title: '单号',
-            field: 'logisticsCode'
+            field: 'logisticsCode',
+            render: (v, d) => {
+                return d.logisticsCode ? d.logisticsCode : '-';
+            }
         }, {
             title: '状态',
             field: 'status',
@@ -89,7 +98,10 @@ class transmit extends React.Component {
             search: true
         }, {
             title: '备注',
-            field: 'remark'
+            field: 'sendNote',
+            render: (v, d) => {
+                return d.sendNote ? d.sendNote : '无';
+            }
         }];
         return this.props.buildList({
             fields,

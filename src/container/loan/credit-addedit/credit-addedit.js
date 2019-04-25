@@ -272,25 +272,52 @@ class CreditAddedit extends React.Component {
             }
         }, {
             title: '二手车评估报告',
-            field: 'secondCarReport',
+            field: 'secondCarReport', // secondCarReport
             type: 'img',
             hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车 录入征信结果 审核时隐藏
             required: this.props.pageData.bizType === '1', // 二手车必填
-            readonly: this.code // 修改征信时 只读
+            readonly: this.code, // 修改征信时 只读
+                formatter(v, d) {
+                    let url = '';
+                    d.attachments.forEach(item => {
+                        if(item.vname === '二手车评估报告') {
+                            url = item.url;
+                        }
+                    });
+                    return url;
+                }
         }, {
             title: '行驶证正面',
             field: 'xszFront',
             type: 'img',
             hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车隐藏
             required: this.props.pageData.bizType === '1',
-            readonly: this.code // 修改征信时 只读
+            readonly: this.code, // 修改征信时 只读
+            formatter(v, d) {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if(item.vname === '行驶证正面') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            }
         }, {
             title: '行驶证反面',
             field: 'xszReverse',
             type: 'img',
             hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车隐藏
             required: this.props.pageData.bizType === '1',
-            readonly: this.code // 修改征信时 只读
+            readonly: this.code, // 修改征信时 只读
+                formatter(v, d) {
+                    let url = '';
+                    d.attachments.forEach(item => {
+                        if(item.vname === '行驶证反面') {
+                            url = item.url;
+                        }
+                    });
+                    return url;
+                }
         }, {
             title: '业务归属',
             field: 'ywyUser',
@@ -521,7 +548,7 @@ class CreditAddedit extends React.Component {
                         let data = {};
                         let item = [];
                         data.bizType = params.bizType; // 业务类型
-                        data.creditCode = this.code;// 征信单编号
+                        data.bizCode = this.code;// 征信单编号
                         data.buttonCode = '0';
                         data.operator = getUserId(); // 操作员
                         data.loanAmount = params.loanAmount; // 贷款金额
@@ -579,7 +606,7 @@ class CreditAddedit extends React.Component {
                         let data = {};
                         let item = [];
                         data.bizType = params.bizType; // 业务类型
-                        data.creditCode = this.code;// 征信单编号
+                        data.bizCode = this.code;// 征信单编号
                         data.buttonCode = '1';
                         data.operator = getUserId(); // 操作员
                         data.loanAmount = params.loanAmount; // 贷款金额

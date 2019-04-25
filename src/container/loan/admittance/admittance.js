@@ -31,17 +31,14 @@ class Admittance extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'bizCode',
-            search: true,
-            render: (v, d) => {
-                return d ? d.cdbiz.code : '';
-            }
+            field: 'code',
+            search: true
         }, {
             title: '客户姓名',
-            field: 'applyUserName',
+            field: 'userName',
             search: true,
             render: (v, d) => {
-                return d ? d.credit.creditUser.userName : '';
+                return d ? d.creditUser.userName : '';
             }
         }, {
             title: '贷款银行',

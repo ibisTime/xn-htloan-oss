@@ -55,7 +55,7 @@ class applyGpsApply extends DetailUtil {
       },
       {
       title: '备注',
-      field: 'remark',
+      field: 'applyReason',
       required: true
     }];
     return this.buildDetail({

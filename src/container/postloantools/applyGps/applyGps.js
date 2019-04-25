@@ -66,7 +66,10 @@ class applyGps extends React.Component {
             search: true
         }, {
                 title: '备注',
-                field: 'remark'
+                field: 'remark',
+                render: (v, d) => {
+                    return d.remark ? d.remark : '无';
+                }
             }];
         return this.props.buildList({
             fields,
