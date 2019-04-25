@@ -43,7 +43,7 @@ class BankTypeAddedit extends React.Component {
             required: true,
             valueName: '{{bankCode.DATA}}-{{bankName.DATA}}'
         }, {
-            title: '开户行',
+            title: '银行支行',
             field: 'openBank',
             required: true
         }, {
@@ -82,7 +82,7 @@ class BankTypeAddedit extends React.Component {
         }];
         return this.props.buildDetail({
             fields,
-            key: 'id',
+            key: 'code',
             code: this.code,
             view: this.view,
             addCode: 632050,

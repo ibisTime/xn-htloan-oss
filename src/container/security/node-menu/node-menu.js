@@ -31,10 +31,19 @@ class CodeMenu extends React.Component {
     ]).then(([tree, nodeDict, checkData]) => {
       let dict = {};
       nodeDict.forEach(d => dict[d.dkey] = d.dvalue);
-      let treeData = tree.map(v => ({
-        title: v.name + ' -- ' + dict[v.type],
-        key: v.code
-      }));
+      let treeData = tree.map(v => {
+          if(dict[v.type]) {
+              return ({
+                  title: v.name + ' -- ' + dict[v.type],
+                  key: v.code
+              });
+          }else {
+              return ({
+                  title: v.name,
+                  key: v.code
+              });
+          }
+      });
       this.setState({ treeData });
       let checkedKeys = checkData.map(v => v.code);
       this.setState({

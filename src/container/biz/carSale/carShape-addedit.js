@@ -27,6 +27,18 @@ class CarShapeAddEdit extends DetailUtil {
         title: '名称',
         required: true
       }, {
+        title: '车系',
+        field: 'seriesCode',
+        type: 'select',
+        required: true,
+        params: {
+          status: 1
+        },
+        hidden: this.code && !this.view,
+        keyName: 'code',
+        listCode: '630416',
+        valueName: 'name'
+      }, {
         field: 'displacement',
         title: '排量(L)',
         number: true,
@@ -139,18 +151,6 @@ class CarShapeAddEdit extends DetailUtil {
         }],
         keyName: 'key',
         valueName: 'value'
-      }, {
-        title: '车系',
-        field: 'seriesCode',
-        type: 'select',
-        required: true,
-        params: {
-          status: 1
-        },
-        hidden: this.code && !this.view,
-        keyName: 'code',
-        listCode: '630416',
-        valueName: 'name'
       }, {
         title: '缩略图',
         field: 'pic',

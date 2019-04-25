@@ -35,6 +35,7 @@ class HistoricalApply extends React.Component {
     }, {
       title: '申请人',
       field: 'userId',
+      search: true,
       render: (v, data) => {
         // let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
         // return prefix + (data.user.mobile || '');

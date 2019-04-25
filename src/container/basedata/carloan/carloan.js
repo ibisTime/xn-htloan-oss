@@ -31,7 +31,11 @@ class Carloan extends React.Component {
       field: 'ckey'
     }, {
       title: '利率（%）',
-      field: 'cvalue'
+      field: 'cvalue',
+      amount: true
+    }, {
+      title: '备注',
+      field: 'remark'
     }];
     return this.props.buildList({
       fields,

@@ -39,7 +39,7 @@ class BankType extends React.Component {
             field: 'bankName'
         }, {
             title: '银行支行',
-            field: 'bankCode'
+            field: 'openBank'
         }, {
             title: '最新修改人',
             field: 'updaterName'
@@ -50,8 +50,19 @@ class BankType extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            rowKey: 'id',
-            pageCode: 632055
+            rowKey: 'code',
+            pageCode: 632055,
+            btnEvent: {
+                edit: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/basedata/bankType/addedit?code=${selectedRows[0].code}`);
+                    }
+                }
+            }
         });
     }
 }

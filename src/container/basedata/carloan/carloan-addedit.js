@@ -32,16 +32,23 @@ class carloanAddedit extends React.Component {
     }
     render() {
       const fields = [{
-        field: 'remark',
+        field: 'aa',
         title: '参数名',
         value: '车贷期数管理的期数和利率',
         readonly: true
       }, {
         title: '期数',
-        field: 'ckey'
+        field: 'ckey',
+          required: true,
+          number: true
       }, {
         title: '利率（%）',
+          amount: true,
+          required: true,
         field: 'cvalue'
+      }, {
+          title: '备注',
+          field: 'remark'
       }];
       return this.props.buildDetail({
         fields,
