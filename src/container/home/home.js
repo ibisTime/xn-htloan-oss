@@ -16,8 +16,8 @@ import { getRoleList } from 'api/company';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
 import { getUser, setUserPhoto } from 'api/user';
-// import { getPageMyNotice, getPageMyCompanysystem, getPageMyToDoList, getCurNodeCode } from 'api/home';
-import { getPageMyNotice, getPageMyCompanysystem, getCurNodeCode } from 'api/home';
+import { getPageMyNotice, getPageMyCompanysystem, getPageMyToDoList, getCurNodeCode } from 'api/home';
+// import { getPageMyNotice, getPageMyCompanysystem, getCurNodeCode } from 'api/home';
 import { PIC_PREFIX, PIC_BASEURL_L, UPLOAD_URL } from 'common/js/config';
 import './home.css';
 import userPhoto from '../../images/home-userPhoto.png';
@@ -62,15 +62,15 @@ class Home extends React.Component {
             curNodeData.map(v => {
                 curNodeD[v.code] = v.name;
             });
-            nodeType.map(v => {
+            nodeType && nodeType.map(v => {
                 nodeTypeD[v.dkey] = v.dvalue;
             });
-            if (!userData.photo) {
+            if (userData && !userData.photo) {
                 userData.photo = userPhoto;
             } else {
                 userData.photo = formatImg(userData.photo, '?imageMogr2/auto-orient/thumbnail/!400x400r');
             }
-            this.getUserRole(roleData);
+            roleData && this.getUserRole(roleData);
             this.setState({
                 qiniuToken: qiniuToken.uploadToken,
                 roleData: roleData,

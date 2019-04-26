@@ -35,6 +35,7 @@ class HandleApply extends React.Component {
     }, {
       title: '申请人',
       field: 'userId',
+      search: true,
       render: (v, data) => {
         if (data.name) {
           return data.name ? data.name + '-' + data.userMobile : data.name;
