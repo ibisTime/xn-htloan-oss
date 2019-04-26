@@ -42,8 +42,8 @@ class archivesAddedit extends React.Component {
             readonly: true,
             formatter: (v, d) => {
                 return <div>
-                    {d.cdbiz.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
-                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.cdbiz.code;
+                    {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
                 }}>查看详情</a>
                 </div>;
             }

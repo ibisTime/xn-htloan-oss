@@ -745,7 +745,7 @@ class AdmittanceAddEdit extends React.Component {
       showPoyhls, showPozfbls, showPowxls, showDbryhls, showDbrzfbls,
       showDbrwxls, pageData, isMarried, showMarry
     } = this.state;
-    // console.log(showGua);
+     console.log(regionData);
     let readonly = false;
     return (
         <Spin spinning={this.state.fetching}>
@@ -754,7 +754,11 @@ class AdmittanceAddEdit extends React.Component {
               <TabPane tab="贷款信息" key="1">
                 <Card title="贷款信息">
                   <Row gutter={54}>
-                    {this.getSelectCol({ field: 'bizType', title: '业务种类', keyName: 'dkey', valueName: 'dvalue', readonly: true }, bizTypeData, 4)}
+                    {this.getSelectCol({ field: 'bizType',
+                      title: '业务种类',
+                      keyName: 'dkey',
+                      valueName: 'dvalue',
+                      readonly: true }, bizTypeData, 4)}
                     {this.getSelectCol({ field: 'loanPeriod',
                       title: '贷款期限',
                       keyName: 'dkey',
@@ -777,7 +781,14 @@ class AdmittanceAddEdit extends React.Component {
                       // }
                       }, loanProductData, 3)}
                     {this.getSelectCol({ field: 'isAdvanceFund', title: '是否垫资', keyName: 'k', valueName: 'v', required: true }, isAdvFundData, 3)}
-                    {this.getSelectCol({ field: 'region', title: '所属区域', keyName: 'dkey', valueName: 'dvalue', required: true }, regionData, 3)}
+                    {this.getSelectCol({ field: 'region',
+                      title: '所属区域',
+                      keyName: 'dkey',
+                      valueName: 'dvalue',
+                      required: true,
+                      formatter: (v, d) => {
+                        return d.carInfo ? d.carInfo.region : '';
+                      }}, regionData, 3)}
                   </Row>
                 </Card>
               </TabPane>
@@ -808,8 +819,17 @@ class AdmittanceAddEdit extends React.Component {
                       }}, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'firstAmount', title: '首付金额(元)', onChange: this.firstAmountChange, amount: true, required: true }, 4)}
-                    {this.getInputCol({ field: 'firstRate', title: '首付比例(%)', required: true }, 4)}
+                    {this.getInputCol({ field: 'firstAmount',
+                      title: '首付金额(元)',
+                      onChange: this.firstAmountChange,
+                      amount: true,
+                      required: true,
+                      formatter: (v, d) => {
+                        return d.repayBiz ? d.repayBiz.sfAmount : '';
+                      }}, 4)}
+                    {this.getInputCol({ field: 'firstRate',
+                      title: '首付比例(%)',
+                      required: true }, 4)}
                     {this.getInputCol({ field: 'loanAmount', title: '贷款额(元)', onChange: this.loanAmountChange, amount: true, required: true }, 4)}
                   </Row>
                   <Row gutter={54}>
@@ -867,9 +887,38 @@ class AdmittanceAddEdit extends React.Component {
                       formatter: (v, d) => {
                         return d ? d.carInfo.settleAddress : '';
                       }}, 1)}
-                    {this.getFileCol({ field: 'carPic', title: '车辆照片', type: 'img', required: true }, 3)}
-                    {this.getFileCol({ field: 'carHgzPic', title: this.bizType === '1' ? '绿大本' : '合格证照片', type: 'img', required: true }, 3)}
-                    {this.getFileCol({ field: 'secondCarReport', _keys: ['credit', 'secondCarReport'], title: '二手车评估报告', type: 'img', required: this.bizType === '1' && !this.view, hidden: this.bizType !== '1' }, 33)}
+                    {this.getFileCol({ field: 'carPic',
+                      title: '车辆照片',
+                      type: 'img',
+                      required: true }, 3)}
+                    {this.getFileCol({ field: 'carHgzPic',
+                      title: this.bizType === '1' ? '绿大本' : '合格证照片',
+                      type: 'img',
+                      required: true,
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '合格证') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }}, 3)}
+                    {this.getFileCol({ field: 'secondCarReport',
+                      _keys: ['credit', 'secondCarReport'],
+                      title: '二手车评估报告',
+                      type: 'img',
+                      required: this.bizType === '1' && !this.view,
+                      hidden: this.bizType !== '1',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '二手车评估报告') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }}, 33)}
 
                   </Row>
                 </Card>
@@ -947,9 +996,43 @@ class AdmittanceAddEdit extends React.Component {
                     {this.getInputCol({ field: 'mainAssetInclude', title: '主要财产说明', required: true }, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getFileCol({ field: 'houseContract', title: '购房合同及房产本', type: 'img' })}
-                    {this.getFileCol({ field: 'assetPdf', title: '其他辅助资产', type: 'img' })}
-                    {this.getFileCol({ field: 'housePicture', title: '家访照片', type: 'img' })}
+                    {this.getFileCol({ field: 'houseContract',
+                      title: '购房合同及房产本',
+                      type: 'img',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '购房合同') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }
+                    })}
+                    {this.getFileCol({ field: 'assetPdf',
+                      title: '其他辅助资产',
+                      type: 'img',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '申请人资产资料') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }})}
+                    {this.getFileCol({ field: 'housePicture',
+                      title: '家访照片',
+                      type: 'img',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '申请人家访照片') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }})}
                   </Row>
                 </Card>
                 <Card style={{ marginTop: 16 }} title="紧急联系人">
@@ -966,11 +1049,45 @@ class AdmittanceAddEdit extends React.Component {
                 </Card>
                 <Card style={{ marginTop: 16 }} title="配偶信息">
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'mateName', title: '姓名' }, 2)}
-                    {this.getInputCol({ field: 'mateMobile', title: '手机号', mobile: true }, 2)}
+                    {this.getInputCol({ field: 'mateName',
+                      title: '姓名',
+                      formatter(v, d) {
+                        let userName = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            userName = item.userName;
+                          }
+                        });
+                        return userName;
+                      }}, 2)}
+                    {this.getInputCol({ field: 'mateMobile',
+                      title: '手机号',
+                      mobile: true,
+                      formatter(v, d) {
+                        let mobile = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            mobile = item.mobile;
+                          }
+                        });
+                        return mobile;
+                      }
+                    }, 2)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'mateIdNo', title: '身份证号', idCard: true }, 2)}
+                    {this.getInputCol({ field: 'mateIdNo',
+                      title: '身份证号',
+                      idCard: true,
+                      formatter(v, d) {
+                        let idNo = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            idNo = item.idNo;
+                          }
+                        });
+                        return idNo;
+                      }
+                    }, 2)}
                     {this.getSelectCol({ field: 'mateEducation', title: '学历' }, educationData, 2)}
                   </Row>
                   <Row gutter={54}>
@@ -1036,60 +1153,6 @@ class AdmittanceAddEdit extends React.Component {
                     {this.getFileCol({ field: 'mateAssetPdf', title: '其他辅助资产', type: 'img' }, 1)}
                   </Row>
                 </Card>
-                    <Card style={{ marginTop: 16 }} title="共还人信息">
-                  <Row gutter={54}>
-                    {this.getInputCol({ field: 'mateName',
-                      title: '姓名',
-                      formatter(v, d) {
-                        let userName = '';
-                        d.creditUserList.forEach(item => {
-                          if(item.loanRole == '2') {
-                            userName = item.userName;
-                          }
-                        });
-                        return userName;
-                      }}, 2)}
-                    {this.getInputCol({ field: 'mateMobile',
-                      title: '手机号',
-                      mobile: true,
-                      formatter(v, d) {
-                        let mobile = '';
-                        d.creditUserList.forEach(item => {
-                          if(item.loanRole == '2') {
-                            mobile = item.mobile;
-                          }
-                        });
-                        return mobile;
-                      }
-                      }, 2)}
-                  </Row>
-                  <Row gutter={54}>
-                    {this.getInputCol({ field: 'mateIdNo',
-                      title: '身份证号',
-                      idCard: true,
-                      formatter(v, d) {
-                        let idNo = '';
-                        d.creditUserList.forEach(item => {
-                          if(item.loanRole == '2') {
-                            idNo = item.idNo;
-                          }
-                        });
-                        return idNo;
-                      }
-                    }, 2)}
-                    {this.getSelectCol({ field: 'mateEducation', title: '学历' }, educationData, 2)}
-                  </Row>
-                  <Row gutter={54}>
-                    {this.getInputCol({ field: 'mateCompanyName', title: '工作单位名称' }, 2)}
-                    {this.getInputCol({ field: 'mateCompanyContactNo', title: '工作单位联系电话' }, 2)}
-                  </Row>
-                  <Row gutter={54}>
-                    {this.getInputCol({ field: 'mateCompanyAddress', title: '工作单位地址' }, 1)}
-                  </Row>
-                  <Row gutter={54}>
-                    {this.getFileCol({ field: 'mateAssetPdf', title: '其他辅助资产', type: 'img' }, 1)}
-                  </Row>
-                </Card>
               </TabPane>
               <TabPane tab="工作情况" key="4">
                 <Card style={{ marginTop: 16 }} title="工作情况">
@@ -1119,7 +1182,18 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                   <Row gutter={54}>
                     {this.getNormalTextAreaCol({ field: 'otherWorkNote', title: '其他工作描述' }, 2)}
-                    {this.getFileCol({ field: 'workAssetPdf', title: '工作资料上传', type: 'img' }, 2)}
+                    {this.getFileCol({ field: 'workAssetPdf',
+                      title: '工作资料上传',
+                      type: 'img',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '工作资料上传') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }}, 2)}
                   </Row>
                 </Card>
               </TabPane>
@@ -1188,21 +1262,6 @@ class AdmittanceAddEdit extends React.Component {
             {!this.view && !showDbrwxls ? (
                 <Button onClick={() => this.setState({ showDbrwxls: true })} style={{width: '100%', marginTop: 10}} type="dashed">
                   <Icon type="plus" />新增 担保人微信流水
-                </Button>
-            ) : null}
-            {!this.view && !showPoyhls ? (
-                <Button onClick={() => this.setState({ showPoyhls: true })} style={{width: '100%', marginTop: 10}} type="dashed">
-                  <Icon type="plus" />新增 共还人银行流水
-                </Button>
-            ) : null}
-            {!this.view && !showPozfbls ? (
-                <Button onClick={() => this.setState({ showPozfbls: true })} style={{width: '100%', marginTop: 10}} type="dashed">
-                  <Icon type="plus" />新增 共还人支付宝流水
-                </Button>
-            ) : null}
-            {!this.view && !showPowxls ? (
-                <Button onClick={() => this.setState({ showPowxls: true })} style={{width: '100%', marginTop: 10}} type="dashed">
-                  <Icon type="plus" />新增 共还人微信流水
                 </Button>
             ) : null}
             {

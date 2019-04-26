@@ -733,23 +733,23 @@ class ArchivesAddEdit extends React.Component {
                 <Form className='query-form'>
                     <Card style={{ marginTop: 16 }}>
                         <Row gutter={54}>
+                            {this.getInputCol({ field: 'code',
+                                title: '业务编号',
+                                formatter: (v, d) => {
+                                    return <div>
+                                            {d.code}<a href="javascript:void(0);" type="primary" onClick={() => {
+                                        window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                                    }}>查看详情</a>
+                                    </div>;
+                                },
+                                required: true })
+                            }
                             {this.getInputCol({ field: 'userName',
                                 title: '客户姓名',
                                 formatter: (v, d) => {
                                     return d ? d.creditUser.userName : '';
                                 },
                                 required: true })}
-                            {this.getInputCol({ field: 'code',
-                                title: '业务编号',
-                                formatter: (v, d) => {
-                                    return <div>
-                                            {d.cdbiz.code}<a href="javascript:void(0);" type="primary" onClick={() => {
-                                        window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.cdbiz.code;
-                                    }}>查看详情</a>
-                                    </div>;
-                                },
-                                required: true })
-                            }
                             {this.getInputCol({field: 'companyName', title: '业务公司'})}
                         </Row>
                         <Row gutter={54}>

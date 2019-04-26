@@ -63,7 +63,11 @@ class AdmittanceShenhe extends DetailUtil {
             field: 'code',
             search: true,
             formatter: (v, d) => {
-                return d ? d.cdbiz.code : '';
+                return <div>
+                    {d.code}<a href="javascript:void(0);" type="primary" onClick={() => {
+                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                }}>查看详情</a>
+                </div>;
             }
         }, {
             title: '客户姓名',
