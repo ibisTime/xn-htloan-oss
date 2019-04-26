@@ -69,7 +69,7 @@ class HistoricalApply extends React.Component {
       valueName: 'realName'
     }, {
       title: '状态',
-      field: 'status',
+      field: 'statusForQuery',
       type: 'select',
       data: [{
         k: '1',
@@ -80,6 +80,9 @@ class HistoricalApply extends React.Component {
       }],
       keyName: 'k',
       valueName: 'v',
+      render: (v, d) => {
+        return d.status === '1' ? '已处理' : '已作废';
+      },
       search: true
     }];
     return this.props.buildList({

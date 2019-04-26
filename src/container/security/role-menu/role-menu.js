@@ -7,7 +7,14 @@ import { formItemLayout, tailFormItemLayout } from 'common/js/config';
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
-
+// 菜单排序
+function compare(property) {
+    return function(a, b) {
+        var value1 = a[property];
+        var value2 = b[property];
+        return value1 - value2;
+    };
+}
 class RoleMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -39,7 +46,9 @@ class RoleMenu extends React.Component {
     }).catch(() => this.setState({ fetching: false }));
   }
   getTree(data) {
+     data.sort(compare('orderNo'));
     let result = {};
+    let aa = {};
     let parentKeyMap = {};
     data.forEach(v => {
       v.parentCode = v.parentCode || 'ROOT';
