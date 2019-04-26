@@ -53,7 +53,10 @@ class Admittance extends React.Component {
             amount: true
         }, {
             title: '贷款期数',
-            field: 'loanPeriod'
+            field: 'periods',
+            render: (v, d) => {
+                return d.repayBiz ? d.repayBiz.periods : '-';
+            }
         }, {
             title: '业务种类',
             field: 'bizType',
@@ -118,7 +121,7 @@ class Admittance extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== 'b1') {
+                    } else if (selectedRows[0].curNodeCode !== 'b1' && selectedRows[0].curNodeCode !== 'b1x') {
                         showWarnMsg('当前不是填写准入申请单节点');
                     } else {
                         this.props.history.push(`/loan/admittance/addedit?code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}&loanBank=${selectedRows[0].loanBank}`);
@@ -214,7 +217,9 @@ class Admittance extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(`/ywcx/ywcx/addedit?&v=1&code=${selectedRows[0].bizCode}`);
+                        console.log('selectedRows');
+                        console.log(selectedRows);
+                        this.props.history.push(`/ywcx/ywcx/addedit?&v=1&code=${selectedRows[0].code}`);
                         // this.props.history.push(`/loan/admittance/addedit?v=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
                     }
                 }

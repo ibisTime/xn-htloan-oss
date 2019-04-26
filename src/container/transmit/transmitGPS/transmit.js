@@ -31,8 +31,12 @@ class transmit extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'bizCode',
-            search: true
+            // field: 'bizCode',
+            field: 'bizCodeForQuery', // 模糊查询
+            search: true,
+            render: (v, d) => {
+                return d.bizCode ? d.bizCode : '-';
+            }
         }, {
             title: '发件人',
             field: 'senderName',
@@ -45,13 +49,15 @@ class transmit extends React.Component {
         }, {
             title: '业务团队',
             field: 'teamName'
-        }, {
-            title: '信贷专员',
-            field: 'saleUserName'
-        }, {
-            title: '内勤专员',
-            field: 'insideJobName'
-        }, {
+        },
+        //     {
+        //     title: '信贷专员',
+        //     field: 'saleUserName'
+        // }, {
+        //     title: '内勤专员',
+        //     field: 'insideJobName'
+        // },
+            {
             title: 'gps无线个数',
             field: 'applyWirelessCount',
             render: (v, d) => {

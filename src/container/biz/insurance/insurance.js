@@ -49,13 +49,33 @@ class Insurance extends React.Component {
             },
             type: 'select',
             keyName: 'code',
-            valueName: 'name',
+            valueName: 'name'
+        }, {
+            title: '客户姓名',
+            field: 'applyUserName',
             search: true
         }, {
-            title: '业务团队',
-            field: 'teamName'
+            title: '汽车经销商',
+            field: 'applyUserName2'
         }, {
-            title: '信贷专员',
+            title: '贷款银行',
+            field: 'loanBank'
+        }, {
+            title: '贷款金额',
+            field: 'loanAmount',
+            amount: true
+        }, {
+            title: '贷款期数',
+            field: 'loanPeriod',
+            type: 'select',
+            key: 'loan_period'
+        }, {
+            title: '购车途径',
+            field: 'loanPeriod2',
+            type: 'select'
+        },
+           {
+            title: '业务员',
             field: 'saleUserId',
             type: 'select',
             pageCode: 630065,
@@ -66,56 +86,22 @@ class Insurance extends React.Component {
             keyName: 'userId',
             valueName: '{{companyName.DATA}}-{{realName.DATA}}',
             searchName: 'realName',
-            search: true,
             render: (v, d) => {
                 return d.saleUserName;
             }
-        }, {
-            title: '客户姓名',
-            field: 'applyUserName',
-            search: true
-        }, {
-            title: '业务内勤',
-            field: 'insideJobName'
-        }, {
-            title: '手机号',
-            field: 'mobile'
-        }, {
-            title: '贷款金额',
-            field: 'loanAmount',
-            amount: true
-        }, {
-            title: '贷款期限',
-            field: 'loanPeriod',
-            type: 'select',
-            key: 'loan_period'
-        }, {
-            title: '业务种类',
-            field: 'bizType',
-            type: 'select',
-            key: 'budget_orde_biz_typer'
-        }, {
-            title: '是否垫资',
-            field: 'isAdvanceFund',
-            type: 'select',
-            data: [{
-                dkey: '0',
-                dvalue: '否'
-            }, {
-                dkey: '1',
-                dvalue: '是'
-            }],
-            keyName: 'dkey',
-            valueName: 'dvalue'
-        }, {
+        },
+        //     {
+        //     title: '业务内勤',
+        //     field: 'insideJobName'
+        // },
+           {
             title: '申请日期',
             field: 'applyDatetime',
             rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
             type: 'date',
-            render: dateTimeFormat,
-            search: true
+            render: dateTimeFormat
         }, {
-            title: '当前节点',
+            title: '状态',
             field: 'advanfCurNodeCode',
             type: 'select',
             listCode: 630147,
@@ -123,7 +109,10 @@ class Insurance extends React.Component {
             valueName: 'name',
             search: true,
             params: {type: 'a'}
-        }];
+        }, {
+                title: '备注',
+                field: 'remark'
+            }];
         return this.props.buildList({
             fields,
             pageCode: 632148,

@@ -36,15 +36,15 @@ class FaceSign extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'bizCode',
-            search: true,
-            render: (v, d) => {
-                return d ? d.cdbiz.code : '';
-            }
+            field: 'code',
+            search: true
         }, {
             title: '客户姓名',
-            field: 'applyUserName',
-            search: true
+            field: 'userName',
+            search: true,
+            render: (v, d) => {
+                return d ? d.creditUser.userName : '';
+            }
         }, {
             title: '贷款银行',
             field: 'loanBankName',
@@ -135,7 +135,7 @@ class FaceSign extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(`/ywcx/ywcx/addedit?&v=1&code=${selectedRows[0].bizCode}`);
+                        this.props.history.push(`/ywcx/ywcx/addedit?&v=1&code=${selectedRows[0].code}`);
                         // this.props.history.push(`/loan/faceSign/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
                     }
                 }

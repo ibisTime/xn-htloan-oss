@@ -1,11 +1,9 @@
 import React from 'react';
-import { Form } from 'antd';
+// import { Form, Tooltip } from 'antd';
+import {Form, Tabs, Row, Col, Spin, Button, Table, Card, Icon, Tooltip} from 'antd';
 import {
-    getQueryString,
-    showWarnMsg,
-    showSucMsg,
-    getUserId,
-    isExpressConfirm
+    getQueryString, showWarnMsg, showSucMsg, getUserId, isUndefined, isExpressConfirm, getRules,
+    getRealValue, moneyFormat, moneyParse, getUserName, dateTimeFormat
 } from 'common/js/util';
 import DetailUtil from 'common/js/build-detail-dev';
 import fetch from 'common/js/fetch';
@@ -69,10 +67,10 @@ class AdmittanceShenhe extends DetailUtil {
             }
         }, {
             title: '客户姓名',
-            field: 'applyUserName',
+            field: 'userName',
             search: true,
-            render: (v, d) => {
-                return d.credit.creditUser.userName;
+            formatter: (v, d) => {
+                return d ? d.creditUser.userName : '-';
             }
         }, {
             title: '贷款银行',
@@ -87,7 +85,10 @@ class AdmittanceShenhe extends DetailUtil {
             amount: true
         }, {
             title: '贷款期数',
-            field: 'loanPeriod'
+            field: 'periods',
+            formatter: (v, d) => {
+                return d ? d.repayBiz.periods : '-';
+            }
         }, {
             title: '业务种类',
             field: 'bizType',
@@ -129,8 +130,8 @@ class AdmittanceShenhe extends DetailUtil {
             field: 'approveNote',
             type: 'textarea',
             normalArea: true,
-            requird: true,
-            readonly: false
+            readonly: false,
+            required: this.isCheckNq
         }];
         let bizCode = this.getBizCode();
         // 准入审查

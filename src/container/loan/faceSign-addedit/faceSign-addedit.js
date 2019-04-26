@@ -27,21 +27,24 @@ class FaceSignAddedit extends DetailUtil {
 
         let fields = [{
             title: '业务编号',
-            field: 'code1',
+            field: 'code',
             required: true,
             readonly: true,
             formatter: (v, d) => {
                 return <div>
-                    {d.cdbiz.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
-                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.cdbiz.code;
+                    {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + this.code;
                 }}>查看详情</a>
                 </div>;
             }
         }, {
             title: '客户姓名',
-            field: 'applyUserName',
+            field: 'userName',
             required: true,
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+                return d ? d.creditUser.userName : '';
+            }
         }, {
             title: '贷款银行',
             field: 'loanBankName',
@@ -243,6 +246,9 @@ class FaceSignAddedit extends DetailUtil {
                     fetch(632123, params).then(() => {
                         showSucMsg('操作成功');
                         this.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
                     }).catch(this.cancelFetching);
                 }
             }, {

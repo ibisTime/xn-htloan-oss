@@ -513,11 +513,11 @@ class AdmittanceAddEdit extends React.Component {
       showSucMsg('操作成功');
       this.setState({ fetching: false });
       // 如果是提交，则返回上一页；否则停留在当前页
-      if (dealType === 1) {
+      // if (dealType === 1) {
         setTimeout(() => {
           this.props.history.go(-1);
         }, 1000);
-      }
+      // }
     }).catch(() => this.setState({ fetching: false }));
   }
   // 贷款产品改变
@@ -755,10 +755,27 @@ class AdmittanceAddEdit extends React.Component {
                 <Card title="贷款信息">
                   <Row gutter={54}>
                     {this.getSelectCol({ field: 'bizType', title: '业务种类', keyName: 'dkey', valueName: 'dvalue', readonly: true }, bizTypeData, 4)}
-                    {this.getSelectCol({ field: 'loanPeriod', title: '贷款期限', keyName: 'dkey', valueName: 'dvalue', required: true }, loanPeriodData, 2)}
+                    {this.getSelectCol({ field: 'loanPeriod',
+                      title: '贷款期限',
+                      keyName: 'dkey',
+                      valueName: 'dvalue',
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.repayBiz.periods : '';
+                      }
+                    }, loanPeriodData, 2)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getSelectCol({ field: 'loanProductCode', title: '贷款产品', keyName: 'code', valueName: 'name', onChange: this.loanProductChange, required: true }, loanProductData, 3)}
+                    {this.getSelectCol({ field: 'loanProductCode',
+                      title: '贷款产品',
+                      keyName: 'code',
+                      valueName: 'name',
+                      onChange: this.loanProductChange,
+                      required: true
+                      // formatter: (v, d) => {
+                      //   return d ? d.repayBiz.loanProductName : '';
+                      // }
+                      }, loanProductData, 3)}
                     {this.getSelectCol({ field: 'isAdvanceFund', title: '是否垫资', keyName: 'k', valueName: 'v', required: true }, isAdvFundData, 3)}
                     {this.getSelectCol({ field: 'region', title: '所属区域', keyName: 'dkey', valueName: 'dvalue', required: true }, regionData, 3)}
                   </Row>
@@ -767,9 +784,28 @@ class AdmittanceAddEdit extends React.Component {
               <TabPane tab="拟购车辆信息" key="2">
                 <Card title="拟购车辆信息">
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'invoiceCompany', title: '开票单位', required: true }, 4)}
-                    {this.getInputCol({ field: 'invoicePrice', title: '开票价(元)', onChange: this.invoicePriceChange, amount: true, required: true }, 4)}
-                    {this.getInputCol({ field: 'originalPrice', title: '市场指导价(元)', amount: true, required: true }, 4)}
+                    {this.getInputCol({ field: 'invoiceCompany',
+                      title: '开票单位',
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.carInfo.invoiceCompany : '';
+                      }
+                      }, 4)}
+                    {this.getInputCol({ field: 'invoicePrice',
+                      title: '开票价(元)',
+                      onChange: this.invoicePriceChange,
+                      amount: true,
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.carInfo.invoicePrice : '';
+                      }}, 4)}
+                    {this.getInputCol({ field: 'originalPrice',
+                      title: '市场指导价(元)',
+                      amount: true,
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.carInfo.originalPrice : '';
+                      }}, 4)}
                   </Row>
                   <Row gutter={54}>
                     {this.getInputCol({ field: 'firstAmount', title: '首付金额(元)', onChange: this.firstAmountChange, amount: true, required: true }, 4)}
@@ -778,21 +814,59 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                   <Row gutter={54}>
                     {this.getInputCol({ field: 'monthDeposit', title: '月供(元)', amount: true, required: true }, 4)}
-                    {this.getInputCol({ field: 'teamFee', title: '团队服务费(元)', amount: true, required: true }, 4)}
-                    {this.getInputCol({ field: 'carBrand', title: '车辆品牌', required: true }, 4)}
+                    {this.getInputCol({ field: 'teamFee',
+                      title: '团队服务费(元)',
+                      amount: true,
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.carInfo.teamFee : '';
+                      }
+                    }, 4)}
+                    {this.getInputCol({ field: 'carBrand',
+                      title: '车辆品牌',
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.carInfo.carBrand : '';
+                      }
+                    }, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'xxpz', title: '详细配置' }, 4)}
+                    {this.getInputCol({ field: 'xxpz', title: '详细配置', required: true }, 4)}
                     {this.getSelectCol({ field: 'carType', title: '车辆类型', keyName: 'dkey', valueName: 'dvalue', required: true }, carTypeData, 4)}
-                    {this.getInputCol({ field: 'carColor', title: '车辆颜色', required: true }, 4)}
+                    {this.getInputCol({ field: 'carColor',
+                      title: '车辆颜色',
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.carInfo.carColor : '';
+                      }}, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'carModel', title: '车辆型号', required: true }, 4)}
-                    {this.getInputCol({ field: 'carFrameNo', title: '车架号', required: true }, 4)}
-                    {this.getInputCol({ field: 'carEngineNo', title: '发动机号', required: true }, 4)}
+                    {this.getInputCol({ field: 'carModel',
+                      title: '车辆型号',
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.carInfo.carModel : '';
+                      }}, 4)}
+                    {this.getInputCol({ field: 'carFrameNo',
+                      title: '车架号',
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.carInfo.carFrameNo : '';
+                      }}, 4)}
+                    {this.getInputCol({ field: 'carEngineNo',
+                      title: '发动机号',
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.carInfo.carEngineNo : '';
+                      }}, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'settleAddress', title: '落户地点', required: true }, 1)}
+                    {this.getInputCol({ field: 'settleAddress',
+                      title: '落户地点',
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.carInfo.settleAddress : '';
+                      }}, 1)}
                     {this.getFileCol({ field: 'carPic', title: '车辆照片', type: 'img', required: true }, 3)}
                     {this.getFileCol({ field: 'carHgzPic', title: this.bizType === '1' ? '绿大本' : '合格证照片', type: 'img', required: true }, 3)}
                     {this.getFileCol({ field: 'secondCarReport', _keys: ['credit', 'secondCarReport'], title: '二手车评估报告', type: 'img', required: this.bizType === '1' && !this.view, hidden: this.bizType !== '1' }, 33)}
@@ -817,7 +891,11 @@ class AdmittanceAddEdit extends React.Component {
                       }
                     })}
                     {this.getSelectCol({ field: 'gender', title: '性别', keyName: 'dkey', valueName: 'dvalue', required: true }, genderData)}
-                    {this.getInputCol({ field: 'age', title: '年龄', number: true, positive: true, required: true })}
+                    {this.getInputCol({ field: 'age',
+                      title: '年龄',
+                      number: true,
+                      positive: true,
+                      required: true })}
                   </Row>
                   <Row gutter={54}>
                     {this.getInputCol({ field: 'idNo',
