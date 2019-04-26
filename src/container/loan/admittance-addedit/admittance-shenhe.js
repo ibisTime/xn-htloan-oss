@@ -5,7 +5,8 @@ import {
     showWarnMsg,
     showSucMsg,
     getUserId,
-    isExpressConfirm
+    isExpressConfirm,
+    getRules
 } from 'common/js/util';
 import DetailUtil from 'common/js/build-detail-dev';
 import fetch from 'common/js/fetch';

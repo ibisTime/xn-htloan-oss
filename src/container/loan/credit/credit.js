@@ -126,7 +126,7 @@ class Credit extends React.Component {
                 apply: (selectedRowKeys, selectedRows) => {
                     let code = selectedRowKeys ? selectedRowKeys[0] : '';
                     if (code) {
-                        if (selectedRows[0].curNodeCode !== 'a1' && selectedRows[0].curNodeCode !== 'a1x') {
+                        if (selectedRows[0].curNodeCode !== 'a1') {
                             showWarnMsg('当前不是填写征信单的节点');
                             return;
                         }
@@ -163,7 +163,7 @@ class Credit extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== 'a2') {
+                    } else if (selectedRows[0].curNodeCode !== 'a2' && selectedRows[0].curNodeCode !== 'a1x') {
                         showWarnMsg('当前不是录入征信结果的节点');
                     } else {
                         this.props.history.push(`/loan/credit/addedit?v=1&isEntry=1&code=${selectedRowKeys[0]}`);
