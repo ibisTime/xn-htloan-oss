@@ -1,12 +1,9 @@
 import React from 'react';
-import { Form } from 'antd';
+// import { Form, Tooltip } from 'antd';
+import {Form, Tabs, Row, Col, Spin, Button, Table, Card, Icon, Tooltip} from 'antd';
 import {
-    getQueryString,
-    showWarnMsg,
-    showSucMsg,
-    getUserId,
-    isExpressConfirm,
-    getRules
+    getQueryString, showWarnMsg, showSucMsg, getUserId, isUndefined, isExpressConfirm, getRules,
+    getRealValue, moneyFormat, moneyParse, getUserName, dateTimeFormat
 } from 'common/js/util';
 import DetailUtil from 'common/js/build-detail-dev';
 import fetch from 'common/js/fetch';
@@ -134,7 +131,7 @@ class AdmittanceShenhe extends DetailUtil {
             type: 'textarea',
             normalArea: true,
             readonly: false,
-            required: true
+            required: this.isCheckNq
         }];
         let bizCode = this.getBizCode();
         // 准入审查

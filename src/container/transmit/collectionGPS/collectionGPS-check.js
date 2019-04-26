@@ -53,17 +53,19 @@ class CollectionGPSCheck extends React.Component {
         field: 'teamName',
         hidden: !this.props.pageData.teamName,
         readonly: true
-    }, {
-        title: '信贷专员',
-        field: 'saleUserName',
-        hidden: !this.props.pageData.saleUserName,
-        readonly: true
-    }, {
-        title: '内勤专员',
-        field: 'insideJobName',
-        hidden: !this.props.pageData.insideJobName,
-        readonly: true
-    }, {
+    },
+    //     {
+    //     title: '信贷专员',
+    //     field: 'saleUserName',
+    //     hidden: !this.props.pageData.saleUserName,
+    //     readonly: true
+    // }, {
+    //     title: '内勤专员',
+    //     field: 'insideJobName',
+    //     hidden: !this.props.pageData.insideJobName,
+    //     readonly: true
+    // },
+        {
       title: '申领有线个数',
       field: 'applyWiredCount',
       formatter: (v, d) => {
@@ -97,6 +99,8 @@ class CollectionGPSCheck extends React.Component {
       title: '手机号',
       field: 'mobile',
       formatter: (v, d) => {
+          console.log('手机号：');
+          console.log(d);
           return d.gpsApply.mobile;
       },
       hidden: (!this.props.pageData.gpsApply || !this.props.pageData.gpsApply.mobile),
@@ -137,31 +141,45 @@ class CollectionGPSCheck extends React.Component {
     }, {
         title: '备注',
         field: 'remark'
+    },
+        {
+        title: 'GPS列表',
+        field: 'gpsList',
+        type: 'o2m',
+            formatter: (v, d) => {
+                console.log('GPS列表');
+                console.log(d);
+                return d.gpsApply.gpsList ? d.gpsApply.gpsList : '';
+            },
+        options: {
+            fields: [{
+                field: 'gpsType',
+                title: 'GPS类型',
+                type: 'select',
+                data: [{
+                    dkey: '0',
+                    dvalue: '无线'
+                }, {
+                    dkey: '1',
+                    dvalue: '有线'
+                }],
+                keyName: 'dkey',
+                valueName: 'dvalue',
+                formatter: (v, d) => {
+                    return d.gpsApply.gpsList.gpsType;
+                }
+            }, {
+                title: 'GPS设备号',
+                field: 'gpsDevNo',
+                formatter: (v, d) => {
+                    console.log('GPS设备号');
+                    console.log(d);
+                    // d.gpsApply.gpsList
+                    return d.gpsApply.gpsList.gpsDevNo;
+                }
+            }]
+        }
     }
-    //     {
-    //     title: 'GPS列表',
-    //     field: 'gpsList',
-    //     type: 'o2m',
-    //     options: {
-    //         fields: [{
-    //             field: 'gpsType',
-    //             title: 'GPS类型',
-    //             type: 'select',
-    //             data: [{
-    //                 dkey: '0',
-    //                 dvalue: '无线'
-    //             }, {
-    //                 dkey: '1',
-    //                 dvalue: '有线'
-    //             }],
-    //             keyName: 'dkey',
-    //             valueName: 'dvalue'
-    //         }, {
-    //             title: 'GPS设备号',
-    //             field: 'gpsDevNo'
-    //         }]
-    //     }
-    // }
     ];
     return this.props.buildDetail({
         fields,

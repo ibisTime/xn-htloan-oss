@@ -33,8 +33,11 @@ class manageGps extends React.Component {
     render() {
         const fields = [{
             title: 'GPS编号',
-            field: 'gpsDevNo',
-            search: true
+            field: 'gpsDevNoForQuery',
+            search: true,
+            render: (v, d) => {
+            return d.gpsDevNo ? d.gpsDevNo : '-';
+        }
         }, {
             title: '归属公司',
             field: 'companyCode',

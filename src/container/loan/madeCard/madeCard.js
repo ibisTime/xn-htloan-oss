@@ -53,7 +53,7 @@ class MadeCard extends React.Component {
             minlength: 15,
             readonly: true
         }, {
-            title: '当前节点',
+            title: '状态',
             field: 'intevCurNodeCode',
             type: 'select',
             listCode: 630147,
@@ -113,8 +113,6 @@ class MadeCard extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].intevCurNodeCode !== 'b02') {
-                        showWarnMsg('当前不是手工制卡节点');
                     } else {
                         this.props.history.push(`/loan/madeCard/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
                     }

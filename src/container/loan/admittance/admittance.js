@@ -217,7 +217,9 @@ class Admittance extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(`/ywcx/ywcx/addedit?&v=1&code=${selectedRows[0].bizCode}`);
+                        console.log('selectedRows');
+                        console.log(selectedRows);
+                        this.props.history.push(`/ywcx/ywcx/addedit?&v=1&code=${selectedRows[0].code}`);
                         // this.props.history.push(`/loan/admittance/addedit?v=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
                     }
                 }
