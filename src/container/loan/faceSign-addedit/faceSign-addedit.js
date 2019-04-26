@@ -94,52 +94,124 @@ class FaceSignAddedit extends DetailUtil {
             type: 'file',
             required: true,
             readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq // 内勤主管审核隐藏
+            hidden: this.isCheckNq, // 内勤主管审核隐藏
+            formatter: (v, d) => {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if (item.vname == '银行视频') {
+                        url = item.url;
+                    }
+                });
+                  return url;
+            }
         }, {
             title: '公司视频',
             field: 'companyVideo',
             type: 'file',
             required: true,
             readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq // 内勤主管审核隐藏
+            hidden: this.isCheckNq, // 内勤主管审核隐藏
+            formatter: (v, d) => {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if (item.vname == '公司视频') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            }
         }, {
             title: '其他视频',
             field: 'otherVideo',
             type: 'file',
             readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq // 内勤主管审核隐藏
+            hidden: this.isCheckNq, // 内勤主管审核隐藏
+            formatter: (v, d) => {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if (item.vname == '其他视频') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            }
         }, {
             title: '银行面签图片',
             field: 'bankPhoto',
             type: 'img',
             required: true,
             readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq // 内勤主管审核隐藏
+            hidden: this.isCheckNq, // 内勤主管审核隐藏
+            formatter: (v, d) => {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if (item.vname == '银行面签照片') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            }
         }, {
             title: '银行合同',
             field: 'bankContract',
             type: 'img',
             readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq // 内勤主管审核隐藏
+            hidden: this.isCheckNq, // 内勤主管审核隐藏
+            formatter: (v, d) => {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if (item.vname == '银行合同') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            }
         }, {
             title: '公司合同',
             field: 'companyContract',
             type: 'img',
             readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq // 内勤主管审核隐藏
+            hidden: this.isCheckNq, // 内勤主管审核隐藏
+            formatter: (v, d) => {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if (item.vname == '公司合同') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            }
         }, {
             title: '资金划转授权书',
             field: 'advanceFundAmountPdf',
             type: 'img',
             required: true,
             readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq // 内勤主管审核隐藏
+            hidden: this.isCheckNq, // 内勤主管审核隐藏
+            formatter: (v, d) => {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if (item.vname == '资金划转授权书') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            }
         }, {
             title: '其他资料',
             field: 'interviewOtherPdf',
-            type: 'file',
+            type: 'img',
             readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq // 内勤主管审核隐藏
+            hidden: this.isCheckNq, // 内勤主管审核隐藏
+            formatter: (v, d) => {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if (item.vname == '面签其他资料') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            }
         }, {
             title: '审核意见',
             field: 'approveNote',
