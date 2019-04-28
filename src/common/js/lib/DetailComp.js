@@ -1503,9 +1503,9 @@ export default class DetailComponent extends React.Component {
                         ? <Button style={{marginLeft: 20}} onClick={this.onCancel}>返回</Button>
                         : (
                             <div>
-                                <Button type="primary" htmlType="submit">{this.options.okText || '保存'}</Button>
+                                <Button type="primary" htmlType="submit" id='save'>{this.options.okText || '保存'}</Button>
                                 <Button style={{marginLeft: 20}}
-                                        onClick={this.onCancel}>{this.options.cancelText || '返回'}</Button>
+                                        onClick={this.onCancel} id='cancel'>{this.options.cancelText || '返回'}</Button>
                             </div>
                         )
                 }
