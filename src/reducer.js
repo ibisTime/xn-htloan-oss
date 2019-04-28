@@ -94,6 +94,7 @@ import {bizInsuranceAddEdit} from './redux/biz/insurance-addedit';
 //  银行放款 + 详情 + 录入抵押信息 + 确认提交银行 + 低压完成
 import {bizBankMoney} from './redux/biz/bankMoney';
 import {bizBankMoneyAddEdit} from './redux/biz/bankMoney-addedit';
+import {bizBankMoneySettled} from './redux/biz/bankMoney-settled';
 import {bizBankMoneySub} from './redux/biz/bankMoney-sub';
 import {bizBankMoneyCertain} from './redux/biz/bankMoney-certain';
 import {bizBankMoneyEnter} from './redux/biz/bankMoney-enter';
@@ -705,6 +706,7 @@ export default combineReducers({
     bizInsuranceAddEdit,
     bizBankMoney,
     bizBankMoneyAddEdit,
+    bizBankMoneySettled,
     bizBankMoneySub,
     bizBankMoneyCertain,
     bizBankMoneyEnter,

@@ -42,22 +42,34 @@ class bankMoneyEnter extends React.Component {
     }
     render() {
         const fields = [{
-            title: '客户姓名',
-            field: 'applyUserName',
-            readonly: true
-        }, {
             title: '业务编号',
             field: 'code',
-            readonly: true
+            search: true,
+            formatter: (v, d) => {
+                return <div>
+                    {d.code}<a href="javascript:void(0);" type="primary" onClick={() => {
+                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                }}>查看详情</a>
+                </div>;
+            }
+        }, {
+            title: '客户姓名',
+            field: 'userName',
+            search: true,
+            formatter: (v, d) => {
+                return d ? d.creditUser.userName : '-';
+            }
         }, {
             title: '贷款银行',
-            field: 'loanBankName',
-            readonly: true
+            field: 'loanBank',
+            type: 'select',
+            listCode: 632037,
+            keyName: 'code',
+            valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            amount: true,
-            readonly: true
+            amount: true
         }, {
             title: '卡号',
             field: 'repayBankcardNumber',
@@ -107,12 +119,17 @@ class bankMoneyEnter extends React.Component {
             field: 'repayMonthAmount',
             amount: true,
             required: true
+        }, {
+            title: '放款日期',
+            field: 'bankFkDate',
+            type: 'date',
+            required: true
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
+                detailCode: 632146,
             buttons: [{
               title: '确认',
               handler: (param) => {

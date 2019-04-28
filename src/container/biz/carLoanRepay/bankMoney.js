@@ -80,7 +80,7 @@ class bankMoney extends React.Component {
       title: '贷款期数',
       field: 'loanPeriod'
     }, {
-      title: '业务种类',
+      title: '购车途径',
       field: 'bizType',
       type: 'select',
       key: 'budget_orde_biz_typer'

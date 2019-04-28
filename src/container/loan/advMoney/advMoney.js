@@ -71,13 +71,14 @@ class AdvMoney extends React.Component {
         }, {
             title: '贷款期数',
             field: 'loanPeriod',
-            type: 'select',
-            key: 'loan_period'
+            render: (v, d) => {
+                return d.repayBiz ? d.repayBiz.restPeriods : '';
+            }
         }, {
             title: '购车途径',
-            field: 'loanPeriod2',
+            field: 'bizType',
             type: 'select',
-            key: 'loan_period'
+            key: 'budget_orde_biz_typer'
         }, {
             title: '业务团队',
             field: 'teamName'
