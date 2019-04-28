@@ -53,13 +53,16 @@ class Insurance extends React.Component {
         }, {
             title: '客户姓名',
             field: 'applyUserName',
+            render: (v, d) => {
+                return d ? d.creditUser.userName : '-';
+            },
             search: true
         }, {
             title: '汽车经销商',
             field: 'applyUserName2'
         }, {
             title: '贷款银行',
-            field: 'loanBank'
+            field: 'loanBankName'
         }, {
             title: '贷款金额',
             field: 'loanAmount',
@@ -67,12 +70,14 @@ class Insurance extends React.Component {
         }, {
             title: '贷款期数',
             field: 'loanPeriod',
-            type: 'select',
-            key: 'loan_period'
+            render: (v, d) => {
+              return d.repayBiz ? d.repayBiz.restPeriods : '';
+            }
         }, {
             title: '购车途径',
-            field: 'loanPeriod2',
-            type: 'select'
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer'
         },
            {
             title: '业务员',

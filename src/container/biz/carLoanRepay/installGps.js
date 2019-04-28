@@ -60,7 +60,10 @@ class installGps extends React.Component {
         }, {
             title: '客户姓名',
             field: 'applyUserName',
-            search: true
+            readonly: true,
+            render: (v, d) => {
+                return d.creditUser ? d.creditUser.userName : '';
+            }
         }, {
             title: '贷款银行',
             field: 'loanBankName'
@@ -70,7 +73,10 @@ class installGps extends React.Component {
             amount: true
         }, {
             title: '贷款期数',
-            field: 'loanPeriod'
+            field: 'loanPeriod',
+            render: (v, d) => {
+                return d.repayBiz ? d.repayBiz.restPeriods : '';
+            }
         }, {
             title: '业务种类',
             field: 'bizType',

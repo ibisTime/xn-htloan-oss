@@ -34,11 +34,21 @@ class bankMoneyCertain extends React.Component {
         }, {
             title: '客户姓名',
             field: 'applyUserName',
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+                return d ? d.creditUser.userName : '-';
+            }
         }, {
             title: '业务编号',
             field: 'code',
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+                return <div>
+                    {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                }}>查看详情</a>
+                </div>;
+            }
         }, {
             title: '贷款银行',
             field: 'loanBankName',

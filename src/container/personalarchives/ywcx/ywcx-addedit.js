@@ -1386,7 +1386,7 @@ class ArchivesAddEdit extends React.Component {
                                             return d.carInfo.firstAmount;
                                         },
                                         amount: true,
-                                        title: '首付金额(元)',
+                                        title: '首付金额(元)'
                                         })}
                                     {this.getInputCol({field: 'firstRate',
                                         formatter: (v, d) => {
@@ -1397,7 +1397,8 @@ class ArchivesAddEdit extends React.Component {
                                         formatter: (v, d) => {
                                             return d.carInfo.loanAmount;
                                         },
-                                        title: '贷款额(元)', amount: true}, 33)}
+                                        title: '贷款额(元)',
+                                        amount: true}, 33)}
                                 </Row>
                                 <Row gutter={54}>
                                     {this.getInputCol({field: 'monthDeposit',
@@ -1562,7 +1563,8 @@ class ArchivesAddEdit extends React.Component {
                                         formatter: (v, d) => {
                                             return d.repayBiz.carPriceCheckReport;
                                         },
-                                        title: '车辆价格核实报告', type: 'img'}, 1)}
+                                        title: '车辆价格核实报告',
+                                        type: 'img'}, 1)}
                                 </Row></Card>
                             <Card>
                                 <Table {...this.getTableProp()}/>
