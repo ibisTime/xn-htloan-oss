@@ -91,7 +91,7 @@ class installGps extends React.Component {
             type: 'datetime'
         }, {
             title: '当前节点',
-            field: 'advanfCurNodeCode',
+            field: 'curNodeCode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
@@ -122,7 +122,8 @@ class installGps extends React.Component {
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
-                advanfCurNodeCodeList: ['002_09', '002_10', '002_12', '002_32']
+            //     advanfCurNodeCodeList: ['002_09', '002_10', '002_12', '002_32']
+                curNodeCodeList: ['e1']
             },
             btnEvent: {
                 check: (selectedRowKeys, selectedRows) => {
