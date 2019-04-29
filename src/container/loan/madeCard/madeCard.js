@@ -34,89 +34,112 @@ import { listWrapper } from 'common/js/build-list';
 )
 class MadeCard extends React.Component {
     render() {
-        const fields = [{
-            title: '业务编号',
-            field: 'code',
-            search: true
-        }, {
+        const fields = [
+        //     {
+        //     field: 'code',
+        //     type: 'select',
+        //     search: true,
+        //     listCode: 632517,
+        //     valueName: '{{code.DATA}}',
+        //     keyName: 'code',
+        //     title: '业务编号',
+        //     required: true
+        // },
+            {
+                field: 'code',
+                search: true,
+                title: '业务编号',
+                required: true
+            }, {
             title: '客户姓名',
-            field: 'applyUserName',
+            field: 'ywyUser',
+            type: 'select',
+            render: (v, d) => {
+                return d.creditUser ? d.creditUser.userName : '';
+            },
             search: true
         }, {
             title: '制卡银行',
-            field: 'loanBankName',
-            readonly: true
+            field: 'loanBankName'
         }, {
-            field: 'payCardNo',
             title: '银行卡号',
-            bankCard: true,
-            minlength: 15,
-            readonly: true
+            field: 'repayCardNumber'
         }, {
             title: '状态',
-            field: 'intevCurNodeCode',
-            type: 'select',
+            field: 'makeCardNode',
+            search: true,
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
-            search: true,
-            params: {type: 'b0'}
-        }];
+            type: 'select',
+            params: {type: 'h'}
+        }
+        ];
         return this.props.buildList({
             fields,
-            pageCode: 632148, // 角色权限分页查询
+            pageCode: 632515,
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
-                intevCurNodeCodeList: ['b01', 'b02', 'b03', 'b01x']
+                makeCardNodeList: ['h1', 'h2']
             },
             btnEvent: {
-                // 填写制卡单
-                addCard: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].intevCurNodeCode !== 'b01' && selectedRows[0].intevCurNodeCode !== 'b01x') {
-                        showWarnMsg('当前不是填写制卡单节点');
-                    } else {
-                        this.props.history.push(`/loan/madeCard/addedit?code=${selectedRowKeys[0]}`);
+                // detail: (selectedRowKeys, selectedRows) => {
+                //     if (!selectedRowKeys.length) {
+                //         showWarnMsg('请选择记录');
+                //     } else if (selectedRowKeys.length > 1) {
+                //         showWarnMsg('请选择一条记录');
+                //     } else {
+                //         this.props.history.push(`/ywcx/ywcx/addedit?v=1&code=${selectedRowKeys[0]}`);
+                //     }
+                // },
+                    // 填写制卡单
+                    addCard: (selectedRowKeys, selectedRows) => {
+                        console.log(selectedRows[0]);
+                        if (!selectedRowKeys.length) {
+                            showWarnMsg('请选择记录');
+                        } else if (selectedRowKeys.length > 1) {
+                            showWarnMsg('请选择一条记录');
+                        } else if (selectedRows[0].makeCardNode !== 'h1') {
+                            showWarnMsg('当前不是填写制卡单节点');
+                        } else {
+                            this.props.history.push(`/loan/madeCard/addedit?code=${selectedRowKeys[0]}`);
+                        }
+                    },
+                    // 手工制卡
+                    handCard: (selectedRowKeys, selectedRows) => {
+                        if (!selectedRowKeys.length) {
+                            showWarnMsg('请选择记录');
+                        } else if (selectedRowKeys.length > 1) {
+                            showWarnMsg('请选择一条记录');
+                        } else if (selectedRows[0].makeCardNode !== 'h2') {
+                            showWarnMsg('当前不是手工制卡节点');
+                        } else {
+                            this.props.history.push(`/loan/madeCard/addedit?v=1&hande=1&code=${selectedRowKeys[0]}`);
+                        }
+                    },
+                    // 工行制卡
+                    icbcCard: (selectedRowKeys, selectedRows) => {
+                        if (!selectedRowKeys.length) {
+                            showWarnMsg('请选择记录');
+                        } else if (selectedRowKeys.length > 1) {
+                            showWarnMsg('请选择一条记录');
+                        } else if (selectedRows[0].makeCardNode !== 'h2') {
+                            showWarnMsg('当前不是工行制卡节点');
+                        } else {
+                            this.props.history.push(`/loan/madeCard/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
+                        }
+                    },
+                    // 详情
+                    detail: (selectedRowKeys, selectedRows) => {
+                        if (!selectedRowKeys.length) {
+                            showWarnMsg('请选择记录');
+                        } else if (selectedRowKeys.length > 1) {
+                            showWarnMsg('请选择一条记录');
+                        } else {
+                            this.props.history.push(`/loan/madeCard/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
+                        }
                     }
-                },
-                // 手工制卡
-                handCard: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].intevCurNodeCode !== 'b02') {
-                        showWarnMsg('当前不是手工制卡节点');
-                    } else {
-                        this.props.history.push(`/loan/madeCard/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
-                    }
-                },
-                // 工行制卡
-                icbcCard: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].intevCurNodeCode !== 'b02') {
-                        showWarnMsg('当前不是手工制卡节点');
-                    } else {
-                        this.props.history.push(`/loan/madeCard/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
-                    }
-                },
-                // 详情
-                detail: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else {
-                        this.props.history.push(`/loan/madeCard/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
-                    }
-                }
             }
         });
     }

@@ -24,6 +24,7 @@ import {
   poyhls, pozfbls, powxls, dbryhls, dbrzfbls, dbrwxls
 } from './config';
 import { DetailWrapper } from 'common/js/build-detail';
+import { listWrapper } from 'common/js/build-list';
 
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
@@ -75,6 +76,7 @@ const isDriverData = [
 class AdmittanceAddEdit extends React.Component {
   constructor(props) {
     super(props);
+    this.creditUserCode = '';// 征信人编号
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
     this.b = !!getQueryString('b', this.props.location.search);
@@ -88,11 +90,19 @@ class AdmittanceAddEdit extends React.Component {
     this.gpsFee = 0;
     // 年利率
     this.yearRate = 0;
+    // 前置利率
+    this.preRate = 0;
+    // 返点利率
+    this.backRate = 0;
     this.state = {
       fetching: true,
       token: '',
       // 用于upload控件判断页面是否初始化完成
       isLoaded: false,
+      // 贷款银行数据
+      loanBankData: [],
+      // 机动车销售公司
+      carSaleData: [],
       // 贷款产品数据
       loanProductData: [],
       /* 页面所需数据字典start */
@@ -131,32 +141,12 @@ class AdmittanceAddEdit extends React.Component {
       // 所有节点（用于解析节点）
       dealNodeList: []
     };
-    // this.columns = [{
-    //   title: '操作人',
-    //   dataIndex: 'operatorName'
-    // }, {
-    //   title: '开始时间',
-    //   dataIndex: 'startDatetime',
-    //   render: dateTimeFormat
-    // }, {
-    //   title: '结束时间',
-    //   dataIndex: 'endDatetime',
-    //   render: dateTimeFormat
-    // }, {
-    //   title: '花费时长',
-    //   dataIndex: 'speedTime'
-    // }, {
-    //   title: '审核意见',
-    //   dataIndex: 'dealNote'
-    // }, {
-    //   title: '当前节点',
-    //   dataIndex: 'dealNode',
-    //   render: this.formatDealNote
-    // }];
   }
   componentDidMount() {
     Promise.all([
-      fetch(632177, { status: '2', type: this.bizType, loanBank: this.loanBank }),
+      fetch(632036, { code: this.loanBank }), // 查贷款银行 计算银行利率
+      fetch(632067, { curNodeCode: '006_03' }), // 查机动车销售公司
+      fetch(632177, { status: '2', type: this.bizType, loanBank: this.loanBank }), // 查贷款产品
       getDictList({ parentKey: 'budget_orde_biz_typer' }),
       getDictList({ parentKey: 'loan_period' }),
       getDictList({ parentKey: 'region' }),
@@ -175,10 +165,12 @@ class AdmittanceAddEdit extends React.Component {
       getDictList({ parentKey: 'car_frame_price_count' }),
       getQiniuToken(),
       fetch(632146, { code: this.code })
-    ]).then(([loanProductData, bizTypeData, loanPeriodData, regionData,
+    ]).then(([loanBankData, carSaleData, loanProductData, bizTypeData, loanPeriodData, regionData,
                carTypeData, genderData, marryStateData, educationData, addressData,
                relationData, industryData, propertyData, incomeData, positionData,
                professionData, interestData, carFrameData, uploadToken, pageData]) => {
+      // console.log('机动车销售公司：');
+      // console.log(carSaleData);
       // 初始化万元系数、公证费比例、gps费用
       if (pageData.loanProductCode) { // 选择贷款产品后初始化
         let product = loanProductData.find(v => v.code === pageData.loanProductCode);
@@ -187,10 +179,11 @@ class AdmittanceAddEdit extends React.Component {
           this.wanFactor = product.wanFactor || 0;
           this.authRate = product.authRate || 0;
           this.gpsFee = product.gpsFee || 0;
-          this.yearRate = (product.yearRate) * 100 || 0;
         }
       }
       this.setState({
+        loanBankData,
+        carSaleData,
         loanProductData,
         bizTypeData,
         loanPeriodData,
@@ -232,8 +225,8 @@ class AdmittanceAddEdit extends React.Component {
     }).catch(() => this.setState({ fetching: false }));
     fetch(630176, { refOrder: this.code }).then((records) => { // 流转日志接口
       this.setState({ records });
-      console.log('流转日志返回数据：');
-      console.log(records);
+      // console.log('流转日志返回数据：');
+      // console.log(records);
     }).catch(() => {});
     fetch(630147).then((dealNodeList) => {
       this.setState({ dealNodeList });
@@ -484,6 +477,10 @@ class AdmittanceAddEdit extends React.Component {
     }
     values.updater = values.updater || getUserName();
   }
+  // 下一步
+ next (e) {
+  alert('下一步');
+ }
   // 保存或提交表单前的校验
   checkForm = (dealType) => {
     // 保存无需校验表单
@@ -498,6 +495,14 @@ class AdmittanceAddEdit extends React.Component {
       });
     }
   }
+  // checkForm = (dealType) => {
+  //   // 保存无需校验表单
+  //     this.props.form.validateFieldsAndScroll(validateFieldsAndScrollOption, (err, values) => {
+  //       if (!err) {
+  //         this.sendForm(values, dealType);
+  //       }
+  //     });
+  //   }
   // 保存或提交表单
   sendForm(values, dealType) {
     this.beforeSubmit(values);
@@ -509,7 +514,7 @@ class AdmittanceAddEdit extends React.Component {
     values.bizType = this.state.pageData.bizType;
     values.idNo = this.state.pageData.idNo;
     this.setState({ fetching: true });
-    fetch(632120, values).then(() => {
+    fetch(632500, values).then(() => {
       showSucMsg('操作成功');
       this.setState({ fetching: false });
       // 如果是提交，则返回上一页；否则停留在当前页
@@ -518,9 +523,25 @@ class AdmittanceAddEdit extends React.Component {
         this.props.history.go(-1);
       }, 1000);
       // }
-    }).catch(() => this.setState({ fetching: false }));
+    }).catch(() => {
+      this.setState({ fetching: false });
+    });
   }
-
+  // 贷款期限改变 计算银行利率
+  loanPeriodChange = (code) => {
+          let bankRates = '';
+          if (code === '12') {
+             bankRates = this.state.loanBankData.rate12 / 1000;
+          }else if (code === '24') {
+             bankRates = this.state.loanBankData.rate24 / 1000;
+          }else if (code === '36') {
+             bankRates = this.state.loanBankData.rate36 / 1000;
+          }
+          this.props.form.setFieldsValue({
+            bankRate: bankRates
+          });
+          // console.log(code, this.state.loanBankData);
+  }
   // 贷款产品改变
   loanProductChange = (code) => {
     // 万元系数：wanFactor；公证费比例：authRate；GPS费用：gpsFee
@@ -536,20 +557,26 @@ class AdmittanceAddEdit extends React.Component {
         return item.code === code;
       });
       console.log(product);
-      this.wanFactor = product.wanFactor || 0;
-      this.authRate = product.authRate || 0;
-      this.gpsFee = product.gpsFee || 0;
-      // this.yearRate = (product.yearRate) * 100 || 0;
-      this.yearRate = product.yearRate || 0;
-      let loanAmount = this.props.form.getFieldValue('loanAmount');
+      this.wanFactor = product.wanFactor || 0; // 万元系数
+      this.authRate = product.authRate || 0; // 公证费比例
+      this.gpsFee = product.gpsFee || 0; // GPS费用
+      this.yearRate = product.yearRate || 0; // 年化费率
+      let loanAmount = this.props.form.getFieldValue('loanAmount'); // 获取贷款金额的值
       if (loanAmount) {
-        this.props.form.setFieldsValue({
+        console.log('moneyFormat格式化：除以1000，保留两位小数');
+        // console.log(moneyFormat(1000));
+        console.log('moneyParse格式化：乘以1000');
+        // console.log(moneyParse(1000));
+        console.log(this.preRate);
+        this.props.form.setFieldsValue({ // 设置表单值
           monthDeposit: moneyFormat((this.wanFactor * moneyParse(loanAmount)) / 10000000),
           authFee: moneyFormat(this.authRate * moneyParse(loanAmount)),
           gpsFee: moneyFormat(this.gpsFee),
           teamFee: '',
           otherFee: '',
-          yearRate: this.yearRate
+          yearRate: this.yearRate,
+          preRate: this.preRate,
+          backRate: this.backRate
         });
       }
     } else {
@@ -563,15 +590,20 @@ class AdmittanceAddEdit extends React.Component {
         gpsFee: '',
         teamFee: '',
         otherFee: '',
-        yearRate: ''
+        yearRate: '',
+        preRate: '',
+        backRate: ''
       });
     }
   }
   // 开票价格改变
+  // 首付比例=首付金额/开票价格
   invoicePriceChange = (v, data) => {
+     console.log(v);
     let firstAmount = this.props.form.getFieldValue('firstAmount');
     let loanAmount = this.props.form.getFieldValue('loanAmount');
     v = +moneyParse(v);
+    console.log(v);
     // 如果已有首付金额，则改变贷款金额
     if (firstAmount) {
       firstAmount = +moneyParse(firstAmount);
@@ -586,10 +618,8 @@ class AdmittanceAddEdit extends React.Component {
   }
   // 首付金额改变
   firstAmountChange = (v) => {
-          console.log(v);
-    console.log(moneyParse(v));
-    let invoicePrice = this.props.form.getFieldValue('invoicePrice');
-    let loanAmount = this.props.form.getFieldValue('loanAmount');
+    let invoicePrice = this.props.form.getFieldValue('invoicePrice');// 开票价格
+    let loanAmount = this.props.form.getFieldValue('loanAmount');// 贷款金额
     v = +moneyParse(v);
     if (invoicePrice) {
       invoicePrice = +moneyParse(invoicePrice);
@@ -749,7 +779,7 @@ class AdmittanceAddEdit extends React.Component {
 
   render() {
     const {
-      loanBankData, bizTypeData, loanPeriodData, loanProductData, regionData, carTypeData,
+      carSaleData, loanBankData, bizTypeData, loanPeriodData, loanProductData, regionData, carTypeData,
       genderData, marryStateData, educationData, addressData, relationData,
       industryData, propertyData, incomeData, positionData, professionData,
       carFrameData, showMate, showGua, showSqryhls, showSqrzfbls, showSqrwxls,
@@ -759,7 +789,7 @@ class AdmittanceAddEdit extends React.Component {
     let readonly = false;
     let fields = [{
       title: '流水信息',
-      field: 'socialRelationList',
+      // field: 'list',
       type: 'o2m',
       readonly: false,
       options: {
@@ -767,26 +797,80 @@ class AdmittanceAddEdit extends React.Component {
         edit: true,
         delete: true,
         fields: [{
-          title: '操作人',
-          field: 'operatorName'
-        }, {
-          title: '开始时间',
-          field: 'startDatetime',
-          render: dateTimeFormat
-        }, {
-          title: '结束时间',
+          title: '征信人',
+          field: 'creditUserCode'
+        },
+          {
+          title: '分类',
+          field: 'type'
+        },
+        // {
+        //   title: '分类',
+        //   field: 'type',
+        //   type: 'select',
+        //   data: [{
+        //     key: '0',
+        //     value: '不通过'
+        //   }, {
+        //     key: '1',
+        //     value: '通过'
+        //   }],
+        //   keyName: 'key',
+        //   valueName: 'value'
+        // },
+          {
+          title: '流水日期区间',
           field: 'endDatetime',
-          render: dateTimeFormat
+          rangedate: ['datetimeStart', 'datetimeEnd'],
+          type: 'date',
+          render: dateTimeFormat,
+          hidden: true
         }, {
-          title: '花费时常',
-          field: 'speedTime'
+          title: '流水时间起',
+          field: 'datetimeStart',
+          type: 'date',
+          render: dateTimeFormat,
+          noVisible: true
         }, {
-          title: '审核意见',
-          field: 'dealNote'
+          title: '流水时间止',
+          field: 'datetimeEnd',
+          type: 'date',
+          render: dateTimeFormat,
+          noVisible: true
         }, {
-          title: '当前节点',
-          field: 'dealNode',
-          render: this.formatDealNote
+          title: '结息时间1',
+          field: 'datetimeStart',
+          type: 'date',
+          render: dateTimeFormat,
+          noVisible: true
+        }, {
+          title: '结息时间2',
+          field: 'datetimeEnd',
+          type: 'date',
+          render: dateTimeFormat,
+          noVisible: true
+        }, {
+          title: '总收入',
+          field: 'income'
+        }, {
+          title: '总支出',
+          field: 'expend'
+        }, {
+          title: '余额',
+          field: 'balance'
+        }, {
+          title: '月均收入',
+          field: 'monthIncome'
+        }, {
+          title: '月均支出',
+          field: 'monthExpend'
+        }, {
+          title: '流水说明',
+          field: 'monthExpend'
+        }, {
+            title: '流水图片',
+            field: 'bankPhoto',
+            type: 'img'
         }]
       }
     }];
@@ -797,37 +881,21 @@ class AdmittanceAddEdit extends React.Component {
               <TabPane tab="贷款信息" key="1">
                 <Card style={{ marginTop: 16 }} title="贷款信息">
                   <Row gutter={54}>
-                    {this.getCitySelectCol({ field: 'a1',
-                      title: '居住地(省)',
-                      keyName: 'dkey',
-                      valueName: 'dvalue',
-                      required: true }, 4)}
-                    {this.getCitySelectCol({ field: 'a2',
-                      title: '(市)',
-                      keyName: 'dkey',
-                      valueName: 'dvalue',
-                      required: true }, 4)}
-                   {this.getCitySelectCol({ field: 'a3',
-                    title: '(区)',
-                    keyName: 'dkey',
-                    valueName: 'dvalue',
-                    required: true }, loanBankData, 4)}
-                  </Row>
-                  <Row gutter={54}>
-                    {this.getSelectCol({ field: 'loanBank',
+                    {this.getInputCol({ field: 'loanBankName',
                       title: '贷款银行',
                       keyName: 'dkey',
                       valueName: 'dvalue',
                       readonly: true,
-                      required: true }, loanBankData, 4)}
+                      required: true }, 4)}
                     {this.getSelectCol({ field: 'loanPeriod',
                       title: '贷款期限',
                       keyName: 'dkey',
                       valueName: 'dvalue',
                       required: true,
-                      formatter: (v, d) => {
-                        return d ? d.repayBiz.periods : '';
-                      }
+                      onChange: this.loanPeriodChange
+                      // formatter(v, d) {
+                      //   return d.repayBiz ? d.repayBiz.periods : '';
+                      // }
                     }, loanPeriodData, 4)}
                     {this.getInputCol({ field: 'bankRate',
                       title: '银行利率',
@@ -841,44 +909,130 @@ class AdmittanceAddEdit extends React.Component {
                       keyName: 'code',
                       valueName: 'name',
                       onChange: this.loanProductChange,
-                      required: true
-                      // formatter: (v, d) => {
-                      //   return d ? d.repayBiz.loanProductName : '';
-                      // }
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.repayBiz.loanProductName : '';
+                      }
                     }, loanProductData, 4)}
-                    {this.getInputCol({ field: 'yearRate', title: '年化费率', required: true }, 4)}
-                    {this.getInputCol({ field: 'gpsFee', title: 'GPS费用', amount: true, required: true }, 4)}
-                    {this.getInputCol({ field: 'authFee', title: '公证费用', amount: true, required: true }, 4)}
+                    {this.getInputCol({ field: 'yearRate',
+                      title: '年化费率',
+                      required: true
+                    //   formatter: (v, d) => {
+                    //   return d ? d.repayBiz.loanProductName : '';
+                    // }
+                      }, 4)}
+                    {this.getInputCol({ field: 'gpsFee',
+                      title: 'GPS费用',
+                      amount: true,
+                      required: true,
+                      formatter: (v, d) => {
+                        return d.carInfo ? d.carInfo.gpsFee : '';
+                      }
+                      }, 4)}
+                    {this.getInputCol({ field: 'authFee',
+                      title: '公证费用',
+                      amount: true,
+                      required: true,
+                      formatter: (v, d) => {
+                        return d.carInfo ? d.carInfo.authFee : '';
+                      }}, 4)}
                    </Row>
                 <Row gutter={54}>
-                  {this.getInputCol({ field: 'fdll', title: '返点利率', required: true }, 4)}
+                  {this.getInputCol({ field: 'backRate', title: '返点利率', required: true }, 4)}
                   {this.getInputCol({ field: 'preRate', title: '前置利率', required: true }, 4)}
+                  {this.getInputCol({ field: 'invoicePrice',
+                    title: '开票价格',
+                    required: true,
+                    formatter: (v, d) => {
+                    let invoicePrice = d.carInfo.invoicePrice / 1000;
+                    // console.log(d.carInfo.invoicePric);
+                      return d ? invoicePrice : '';
+                    },
+                    onChange: this.invoicePriceChange
+                  }, 4)}
                   {this.getInputCol({ field: 'firstAmount',
                     title: '首付金额(元)',
                     onChange: this.firstAmountChange,
                     amount: true,
                     required: true,
                     formatter: (v, d) => {
-                      return d.repayBiz ? d.repayBiz.sfAmount : '';
+                    let sfAmount = d.repayBiz.sfAmount / 1000;
+                      return d.repayBiz ? sfAmount : '';
                     }}, 4)}
-                  {this.getInputCol({ field: 'firstRate',
-                    title: '首付比例(%)',
-                    required: true }, 4)}
                 </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'firstRepayAmount', title: '首月月供', amount: true, required: true }, 4)}
-                    {this.getInputCol({ field: 'monthAmount', title: '月供金额', amount: true, required: true }, 4)}
+                    {this.getInputCol({ field: 'firstRate',
+                      title: '首付比例(%)',
+                      required: true,
+                      formatter: (v, d) => {
+                        let sfRate = d.repayBiz.sfRate;
+                        return d.repayBiz ? sfRate : '';
+                      }}, 4)}
+                    {this.getInputCol({ field: 'firstRepayAmount',
+                      title: '首月月供',
+                      amount: true,
+                      required: true,
+                      formatter: (v, d) => {
+                        let firstRepayAmount = d.repayBiz.firstRepayAmount;
+                        return d.repayBiz ? firstRepayAmount : '';
+                      }}, 4)}
+                    {this.getInputCol({ field: 'monthAmount',
+                      title: '月供金额',
+                      amount: true,
+                      required: true,
+                      formatter: (v, d) => {
+                        let monthAmount = d.repayBiz.monthAmount;
+                        return d.repayBiz ? monthAmount : '';
+                      }}, 4)}
                     {this.getSelectCol({ field: 'isAdvanceFund', title: '是否垫资', keyName: 'k', valueName: 'v', required: true }, isAdvFundData, 4)}
-                    {this.getSelectCol({ field: 'isFinancing', title: '是否融资', keyName: 'k', valueName: 'v', required: true }, isFinancingData, 4)}
-                  </Row>
+                     </Row>
                   <Row gutter={54}>
-                    {this.getSelectCol({ field: 'isAzGps', title: '是否安装GPS', keyName: 'k', valueName: 'v', required: true }, isGPSData, 4)}
-                    {this.getSelectCol({ field: 'isDY', title: '是否抵押', keyName: 'k', valueName: 'v', required: true }, isDYData, 4)}
-                    {this.getSelectCol({ field: 'isMyCompany', title: '是否我司保', keyName: 'k', valueName: 'v', required: true }, isMyCompanyData, 4)}
-                    {this.getInputCol({ field: 'monthDeposit', title: '月供保证金', amount: true, required: true }, 4)}
-                  </Row>
+                    {this.getSelectCol({ field: 'isFinancing',
+                      title: '是否融资',
+                      keyName: 'k',
+                      valueName: 'v',
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.isFinacing : '';
+                      }}, isFinancingData, 4)}
+                    {this.getSelectCol({ field: 'isAzGps',
+                      title: '是否安装GPS',
+                      keyName: 'k',
+                      valueName: 'v',
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.isGpsAz : '';
+                      }}, isGPSData, 4)}
+                    {this.getSelectCol({ field: 'isDY',
+                      title: '是否抵押',
+                      keyName: 'k',
+                      valueName: 'v',
+                      required: true
+                      }, isDYData, 4)}
+                    {this.getSelectCol({ field: 'isMyCompany',
+                      title: '是否我司保',
+                      keyName: 'k',
+                      valueName: 'v',
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.isGpsAz : '';
+                      }}, isMyCompanyData, 4)}
+                     </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'lvyueBzj', title: '履约保证金(元)', amount: true, required: true }, 4)}
+                    {this.getInputCol({ field: 'monthDeposit',
+                      title: '月供保证金',
+                      amount: true,
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.carInfo.monthDeposit : '';
+                      }}, 4)}
+                    {this.getInputCol({ field: 'lyDeposit',
+                      title: '履约保证金(元)',
+                      amount: true,
+                      required: true,
+                      formatter: (v, d) => {
+                        return d ? d.repayBiz.lyDeposit : '';
+                      }}, 4)}
                     {this.getInputCol({ field: 'teamFee',
                       title: '团队服务费(元)',
                       amount: true,
@@ -898,7 +1052,15 @@ class AdmittanceAddEdit extends React.Component {
                       keyName: 'dkey',
                       valueName: 'dvalue',
                       readonly: true }, bizTypeData, 4)}
-                    {this.getInputCol({ field: 'vehicleCompanyName', title: '机动车销售公司', required: true }, 4)}
+                    {this.getSelectCol({ field: 'vehicleCompanyName',
+                      title: '机动车销售公司',
+                      required: true,
+                      keyName: 'code',
+                      valueName: 'abbrName',
+                      type: 'select',
+                      formatter: (v, d) => {
+                        return d ? d.carInfo.vehicleCompanyName : '';
+                      }}, carSaleData, 4)}
                     {this.getInputCol({ field: 'invoiceCompany',
                       title: '开票单位',
                       required: true,
@@ -906,16 +1068,17 @@ class AdmittanceAddEdit extends React.Component {
                         return d ? d.carInfo.invoiceCompany : '';
                       }
                     }, 4)}
-                    {this.getInputCol({ field: 'invoicePrice',
-                      title: '开票价格',
-                      required: true,
-                      formatter: (v, d) => {
-                      return d ? d.carInfo.invoicePrice : '';
-                    }
-                    }, 4)}
                   </Row>
                     <Row gutter={54}>
-                      {this.getSelectCol({ field: 'carType', title: '车辆类型', keyName: 'dkey', valueName: 'dvalue', required: true }, carTypeData, 4)}
+                      {this.getSelectCol({ field: 'carType',
+                        title: '车辆类型',
+                        keyName: 'dkey',
+                        valueName: 'dvalue',
+                        required: true,
+                        formatter: (v, d) => {
+                          return d ? d.carInfo.carType : '';
+                        }
+                      }, carTypeData, 4)}
                       {this.getInputCol({ field: 'carBrand',
                         title: '车辆品牌',
                         required: true,
@@ -923,7 +1086,12 @@ class AdmittanceAddEdit extends React.Component {
                           return d ? d.carInfo.carBrand : '';
                         }
                       }, 4)}
-                      {this.getInputCol({ field: 'carSeries', title: '车辆车系', required: true }, 4)}
+                      {this.getInputCol({ field: 'carSeries',
+                        title: '车辆车系',
+                        required: true,
+                        formatter: (v, d) => {
+                          return d ? d.carInfo.carSeries : '';
+                        }}, 4)}
                       {this.getInputCol({ field: 'carModel',
                         title: '车辆型号',
                         required: true,
@@ -932,6 +1100,13 @@ class AdmittanceAddEdit extends React.Component {
                         }}, 4)}
                     </Row>
                     <Row gutter={54}>
+                      {this.getInputCol({ field: 'carModelName',
+                        title: '车型名称',
+                        required: true,
+                        formatter: (v, d) => {
+                          return d ? d.carInfo.carModelName : '';
+                        }
+                      }, 4)}
                       {this.getInputCol({ field: 'carColor',
                         title: '车辆颜色',
                         required: true,
@@ -950,15 +1125,16 @@ class AdmittanceAddEdit extends React.Component {
                         formatter: (v, d) => {
                           return d ? d.carInfo.carEngineNo : '';
                         }}, 4)}
+                    </Row>
+                    <Row gutter={54}>
                       {this.getInputCol({ field: 'originalPrice',
                         title: '市场指导价(元)',
                         amount: true,
                         required: true,
                         formatter: (v, d) => {
-                          return d ? d.carInfo.originalPrice : '';
+                        let originalPrice = d.carInfo.originalPrice / 1000;
+                          return d ? originalPrice : '';
                         }}, 4)}
-                    </Row>
-                    <Row gutter={54}>
                       {this.getSelectCol({ field: 'region',
                         title: '所属区域',
                         keyName: 'dkey',
@@ -967,13 +1143,36 @@ class AdmittanceAddEdit extends React.Component {
                         formatter: (v, d) => {
                           return d.carInfo ? d.carInfo.region : '';
                         }}, regionData, 4)}
-                      {this.getInputCol({ field: 'carDealerSubsidy', title: '厂家贴息', required: true }, 4)}
-                      {this.getInputCol({ field: 'oilSubsidyKil', title: '油补公里数', required: true }, 4)}
-                      {this.getInputCol({ field: 'oilSubsidy', title: '油补(元)', required: true }, 4)}
-                  </Row>
+                      {this.getInputCol({ field: 'carDealerSubsidy',
+                        title: '厂家贴息',
+                        required: true,
+                        formatter: (v, d) => {
+                          return d.carInfo ? d.carInfo.carDealerSubsidy : '';
+                        }}, 4)}
+                      {this.getInputCol({ field: 'oilSubsidyKil',
+                        title: '油补公里数',
+                        required: true,
+                        formatter: (v, d) => {
+                          return d.carInfo ? d.carInfo.oilSubsidyKil : '';
+                        }}, 4)}
+                       </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'pledgeUser', title: '抵押代理人', required: true }, 4)}
-                    {this.getInputCol({ field: 'pledgeAddress', title: '抵押地点', required: true }, 4)}
+                    {this.getInputCol({ field: 'oilSubsidy',
+                      title: '油补(元)',
+                      required: true,
+                      formatter: (v, d) => {
+                        return d.carInfo ? d.carInfo.oilSubsidy : '';
+                      }}, 4)}
+                    {this.getInputCol({ field: 'pledgeUser',
+                      title: '抵押代理人',
+                      required: true,
+                      formatter: (v, d) => {
+                        return d.carInfo ? d.carPledge.pledgeUser : '';
+                      }
+                      }, 4)}
+                    {this.getInputCol({ field: 'pledgeAddress',
+                      title: '抵押地点',
+                      required: true }, 4)}
                     {this.getInputCol({ field: 'settleAddress',
                       title: '落户地点',
                       required: true,
@@ -983,7 +1182,16 @@ class AdmittanceAddEdit extends React.Component {
                     {this.getFileCol({ field: 'carPic',
                       title: '车辆照片',
                       type: 'img',
-                      required: true }, 3)}
+                      required: true,
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '车照片') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }}, 3)}
                     {this.getFileCol({ field: 'carHgzPic',
                       title: this.bizType === '1' ? '绿大本' : '合格证照片',
                       type: 'img',
@@ -1011,6 +1219,7 @@ class AdmittanceAddEdit extends React.Component {
                         d.creditUserList.forEach(item => {
                           if(item.loanRole == '1') {
                             userName = item.userName;
+                            // this.creditUserCode = item.code;
                           }
                         });
                         return userName;
@@ -1043,59 +1252,239 @@ class AdmittanceAddEdit extends React.Component {
                         return idNo;
                       }
                     }, 4)}
-                    {this.getSelectCol({ field: 'gender', title: '性别', keyName: 'dkey', valueName: 'dvalue', required: true }, genderData, 4)}
+                    {this.getSelectCol({ field: 'gender',
+                      title: '性别',
+                      keyName: 'dkey',
+                      valueName: 'dvalue',
+                      required: true,
+                      formatter(v, d) {
+                      return d ? d.creditUserExt.gender : '';
+                       }
+                    }, genderData, 4)}
                   </Row>
                   <Row gutter={54}>
                     {this.getInputCol({ field: 'age',
                       title: '年龄',
                       number: true,
                       positive: true,
-                      required: true }, 4)}
-                    {this.getInputCol({ field: 'nation', title: '民族', required: true }, 4)}
-                    {this.getInputCol({ field: 'political', title: '政治面貌', required: true }, 4)}
-                    {this.getSelectCol({ field: 'education', title: '学历', keyName: 'dkey', valueName: 'dvalue', required: true }, educationData, 4)}
+                      required: true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.age : '';
+                      }}, 4)}
+                    {this.getInputCol({ field: 'nation',
+                      title: '民族',
+                      required: true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.nation : '';
+                      }}, 4)}
+                    {this.getInputCol({ field: 'political',
+                      title: '政治面貌',
+                      required: true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.political : '';
+                      }}, 4)}
+                    {this.getSelectCol({ field: 'education',
+                      title: '学历',
+                      keyName: 'dkey',
+                      valueName: 'dvalue',
+                      required: true,
+                      formatter(v, d) {
+                        let eduction = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '1') {
+                            eduction = item.eduction;
+                          }
+                        });
+                        return eduction;
+                      }
+                    }, educationData, 4)}
                  </Row>
                   <Row gutter={54}>
-                  {this.getSelectCol({ field: 'workProfession', title: '职业', keyName: 'dkey', valueName: 'dvalue' }, professionData, 4)}
-                  {this.getInputCol({ field: 'postTitle', title: '职称' }, 4)}
-                  {this.getSelectCol({ field: 'isDriceLicense', title: '有无驾照', keyName: 'k', valueName: 'v', required: true }, isDriverData, 4)}
-                  {this.getInputCol({ field: 'carTypeNow', title: '现有车辆' }, 4)}
+                  {this.getSelectCol({ field: 'workProfession',
+                    title: '职业',
+                    keyName: 'dkey',
+                    valueName: 'dvalue',
+                    formatter(v, d) {
+                      return d ? d.creditUserExt.workProfession : '';
+                    }
+                  }, professionData, 4)}
+                  {this.getInputCol({ field: 'postTitle',
+                    title: '职称',
+                    formatter(v, d) {
+                      return d ? d.creditUserExt.postTitle : '';
+                    }
+                  }, 4)}
+                  {this.getSelectCol({ field: 'isDriceLicense',
+                    title: '有无驾照',
+                    keyName: 'k',
+                    valueName: 'v',
+                    required: true,
+                    formatter(v, d) {
+                      return d ? d.creditUserExt.isDriceLicense : '';
+                    }}, isDriverData, 4)}
+                  {this.getInputCol({ field: 'carTypeNow',
+                    title: '现有车辆',
+                    formatter(v, d) {
+                      return d.creditUserExt ? d.creditUserExt.carType : '';
+                    }
+                  }, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getSelectCol({ field: 'mainIncome', title: '主要收入来源', onChange: this.mainChange, keyName: 'dkey', valueName: 'dvalue', multiple: true, required: true }, incomeData, 4)}
+                    {this.getSelectCol({ field: 'mainIncome',
+                      title: '主要收入来源',
+                      onChange: this.mainChange,
+                      keyName: 'dkey',
+                      valueName: 'dvalue',
+                      multiple: true,
+                      required: true,
+                      formatter(v, d) {
+                          return d ? d.creditUserExt.mainIncome : '';
+                        }}, incomeData, 4)}
                    </Row>
                 </Card>
                 <Card style={{ marginTop: 16 }} title="紧急联系人">
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'emergencyName1', title: '联系人1姓名', required: true }, 4)}
-                    {this.getSelectCol({ field: 'emergencyRelation1', title: '与申请人关系', keyName: 'dkey', valueName: 'dvalue', required: true }, relationData, 4)}
-                    {this.getInputCol({ field: 'emergencyMobile1', title: '手机号码', mobile: true, required: true }, 4)}
+                    {this.getInputCol({ field: 'emergencyName1',
+                      title: '联系人1姓名',
+                      required: true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.emergencyName1 : '';
+                      }}, 4)}
+                    {this.getSelectCol({ field: 'emergencyRelation1',
+                      title: '与申请人关系',
+                      keyName: 'dkey',
+                      valueName: 'dvalue',
+                      required: true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.emergencyRelation1 : '';
+                      }}, relationData, 4)}
+                    {this.getInputCol({ field: 'emergencyMobile1',
+                      title: '手机号码',
+                      mobile: true,
+                      required: true,
+                          formatter(v, d) {
+                      return d ? d.creditUserExt.emergencyMobile1 : '';
+                    }}, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'emergencyName2', title: '联系人2姓名' }, 4)}
-                    {this.getSelectCol({ field: 'emergencyRelation2', title: '与申请人关系', keyName: 'dkey', valueName: 'dvalue' }, relationData, 4)}
-                    {this.getInputCol({ field: 'emergencyMobile2', title: '手机号码', mobile: true }, 4)}
+                    {this.getInputCol({ field: 'emergencyName2',
+                      title: '联系人2姓名',
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.emergencyName1 : '';
+                      }}, 4)}
+                    {this.getSelectCol({ field: 'emergencyRelation2',
+                      title: '与申请人关系',
+                      keyName: 'dkey',
+                      valueName: 'dvalue',
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.emergencyRelation2 : '';
+                      }}, relationData, 4)}
+                    {this.getInputCol({ field: 'emergencyMobile2',
+                      title: '手机号码',
+                      mobile: true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.emergencyMobile2 : '';
+                      }}, 4)}
                   </Row>
                 </Card>
               </TabPane>
               <TabPane tab="家庭情况" key="4">
                 <Card title="家庭情况">
                   <Row gutter={54}>
-                    {this.getSelectCol({ field: 'marryState', title: '婚姻状况', keyName: 'dkey', valueName: 'dvalue', required: true, onChange: this.marryChange }, marryStateData, 4)}
-                    {this.getInputCol({ field: 'familyNumber', title: '家庭人口', required: true, 'Z+': true }, 4)}
-                    {this.getInputCol({ field: 'familyPhone', title: '家庭电话', required: true }, 4)}
-                    {this.getInputCol({ field: 'familyMainAsset', title: '家庭主要财产(元)', required: true }, 4)}
+                    {this.getSelectCol({ field: 'marryState',
+                      title: '婚姻状况',
+                      keyName: 'dkey',
+                      valueName: 'dvalue',
+                      required: true,
+                      onChange: this.marryChange,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.marryState : '';
+                      }}, marryStateData, 4)}
+                    {this.getInputCol({ field: 'familyNumber',
+                      title: '家庭人口',
+                      required: true,
+                      'Z+': true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.familyNumber : '';
+                      }}, 4)}
+                    {this.getInputCol({ field: 'familyPhone',
+                      title: '家庭电话',
+                      required: true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.familyPhone : '';
+                      }}, 4)}
+                    {this.getInputCol({ field: 'familyMainAsset',
+                      title: '家庭主要财产(元)',
+                      required: true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.familyMainAsset : '';
+                      }}, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'mainAssetInclude', title: '家庭主要财产说明', required: true }, 4)}
-                    {this.getInputCol({ field: 'residenceAddress', title: '户籍地', required: true }, 4)}
-                    {this.getInputCol({ field: 'postCode2', title: '户籍地邮编', required: true }, 4)}
-                    {this.getInputCol({ field: 'nowAddress', title: '居住地', required: true }, 4)}
+                    {this.getInputCol({ field: 'mainAssetInclude',
+                      title: '家庭主要财产说明',
+                      required: true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.mainAssetInclude : '';
+                      }}, 4)}
+                    {this.getInputCol({ field: 'residenceAddress',
+                      title: '户籍地',
+                      required: true,
+                      formatter(v, d) {
+                        let birthAddress = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '1') {
+                            birthAddress = item.birthAddress;
+                          }
+                        });
+                        return birthAddress;
+                      }
+                      }, 4)}
+                    {this.getInputCol({ field: 'postCode2',
+                      title: '户籍地邮编',
+                      required: true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.postCode : '';
+                      }}, 4)}
+                    {this.getInputCol({ field: 'nowAddress',
+                      title: '现居住地址 ',
+                      required: true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.nowAddress : '';
+                      }}, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'postCode1', title: '居住地邮编', required: true }, 4)}
-                    {this.getFileCol({ field: 'hkBookPdf', title: '户口本', type: 'img' }, 4)}
-                    {this.getFileCol({ field: 'marryPdf', title: isMarried ? '结婚证' : '离婚证', type: 'img', hidden: !showMarry }, 4)}
+                    {this.getInputCol({ field: 'postCode',
+                      title: '现居住地邮编',
+                      required: true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.postCode : '';
+                      }}, 4)}
+                    {this.getFileCol({ field: 'hkBookPdf',
+                      title: '户口本',
+                      type: 'img',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '申请人户口本') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }}, 4)}
+                    {this.getFileCol({ field: 'marryPdf',
+                      title: isMarried ? '结婚证' : '离婚证',
+                      type: 'img',
+                      hidden: !showMarry,
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '结婚证资料') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }}, 4)}
                     {this.getFileCol({ field: 'houseContract',
                       title: '购房合同及房产本',
                       type: 'img',
@@ -1113,15 +1502,42 @@ class AdmittanceAddEdit extends React.Component {
                   <Row gutter={54}>
                     {this.getFileCol({ field: 'houseInvoice',
                       title: '购房发票',
-                      type: 'img'
+                      type: 'img',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '购房发票') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }
                     }, 4)}
                     {this.getFileCol({ field: 'liveProvePdf',
                       title: '居住证明',
-                      type: 'img'
+                      type: 'img',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '居住证明') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }
                     }, 4)}
                     {this.getFileCol({ field: 'buildProvePdf',
                       title: '自建房证明',
-                      type: 'img'
+                      type: 'img',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '自建房证明') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }
                     }, 4)}
                     {this.getFileCol({ field: 'housePictureApply',
                       title: '家访照片',
@@ -1141,37 +1557,155 @@ class AdmittanceAddEdit extends React.Component {
               <TabPane tab="工作情况" key="5">
                 <Card style={{ marginTop: 16 }} title="工作情况">
                   <Row gutter={54}>
-                    {this.getSelectCol({ field: 'isSelfCompany', title: '是否自己工作单位', keyName: 'k', valueName: 'v', required: true }, isCompanyData, 4)}
-                    {this.getSelectCol({ field: 'workBelongIndustry', title: '所属行业', keyName: 'dkey', valueName: 'dvalue', required: true }, industryData, 4)}
-                    {this.getSelectCol({ field: 'workCompanyProperty', title: '单位经济性质', keyName: 'dkey', valueName: 'dvalue', required: true }, propertyData, 4)}
-                    {this.getInputCol({ field: 'workCompanyName', title: '工作单位名称', required: true }, 4)}
+                    {this.getSelectCol({ field: 'isSelfCompany',
+                      title: '是否自己工作单位',
+                      keyName: 'k',
+                      valueName: 'v',
+                      required: true,
+                      formatter(v, d) {
+                      return d ? d.creditUserExt.isSiteProve : '';
+                    }
+                    }, isCompanyData, 4)}
+                    {this.getSelectCol({ field: 'workBelongIndustry',
+                      title: '所属行业',
+                      keyName: 'dkey',
+                      valueName: 'dvalue',
+                      required: true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.workBelongIndustry : '';
+                      }}, industryData, 4)}
+                    {this.getSelectCol({ field: 'workCompanyProperty',
+                      title: '单位经济性质',
+                      keyName: 'dkey',
+                      valueName: 'dvalue',
+                      required: true,
+                      formatter(v, d) {
+                        return d ? d.creditUserExt.workCompanyProperty : '';
+                      }}, propertyData, 4)}
+                    {this.getInputCol({ field: 'workCompanyName',
+                      title: '工作单位名称',
+                      required: true,
+                      formatter(v, d) {
+                        let companyName = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '1') {
+                            companyName = item.companyName;
+                          }
+                        });
+                        return companyName;
+                      }}, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'workPhone', title: '工作单位电话', required: true }, 4)}
-                    {this.getInputCol({ field: 'workCompanyAddress', title: '工作单位地址', required: true }, 4)}
-                    {this.getMonthCol({ field: 'workDatetime', title: '何时进入该单位', type: 'date', required: true }, 4)}
-                    {this.getSelectCol({ field: 'position', title: '职务', keyName: 'dkey', valueName: 'dvalue', required: true }, positionData, 4)}
+                    {this.getInputCol({ field: 'workPhone',
+                      title: '工作单位电话',
+                      required: true,
+                      formatter(v, d) {
+                        let companyContactNo = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '1') {
+                            companyContactNo = item.companyContactNo;
+                          }
+                        });
+                        return companyContactNo;
+                      }}, 4)}
+                    {this.getInputCol({ field: 'workCompanyAddress',
+                      title: '工作单位地址',
+                      required: true,
+                      formatter(v, d) {
+                        let companyAddress = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '1') {
+                            companyAddress = item.companyAddress;
+                          }
+                        });
+                        return companyAddress;
+                      }}, 4)}
+                    {this.getMonthCol({ field: 'workDatetime',
+                      title: '何时进入该单位',
+                      type: 'date',
+                      required: true
+                      // formatter(v, d) {
+                      //   return d.creditUserExt ? d.creditUserExt.workDatetime : '';
+                      // }
+                      }, 4)}
+                    {this.getSelectCol({ field: 'position',
+                      title: '职务',
+                      keyName: 'dkey',
+                      valueName: 'dvalue',
+                      required: true,
+                      formatter(v, d) {
+                        return d.creditUserExt ? d.creditUserExt.position : '';
+                      }}, positionData, 4)}
                      </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'monthIncome', title: '月收入(元)', amount: true, required: true }, 4)}
-                    {this.getNormalTextAreaCol({ field: 'otherWorkNote', title: '工作描述及还款来源分析' }, 2)}
+                    {this.getInputCol({ field: 'monthIncome',
+                      title: '月收入(元)',
+                      amount: true,
+                      required: true,
+                      formatter(v, d) {
+                      let monthIncome = d.creditUserExt.monthIncome / 1000;
+                        return d.creditUserExt ? monthIncome : '';
+                      }
+                    }, 4)}
+                    {this.getNormalTextAreaCol({ field: 'otherWorkNote',
+                      title: '工作描述及还款来源分析',
+                      formatter(v, d) {
+                        return d.creditUserExt ? d.creditUserExt.otherWorkNote : '';
+                      }
+                    }, 2)}
                   </Row>
                   <Row gutter={54}>
                     {this.getFileCol({ field: 'improvePdf',
                       title: '收入证明',
-                      type: 'img'
+                      type: 'img',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '收入证明') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }
                     }, 4)}
                     {this.getFileCol({ field: 'frontTablePic',
                       title: '单位前台照片',
-                      type: 'img'
+                      type: 'img',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '单位前台照片') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }
                     }, 4)}
                     {this.getFileCol({ field: 'workPlacePic',
                       title: '办公场地照片',
-                      type: 'img'
+                      type: 'img',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '单位场地照片') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }
                     }, 4)}
                     {this.getFileCol({ field: 'salerAndcustomer',
                       title: '签约员与客户合影',
-                      type: 'img'
+                      type: 'img',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '业务员与客户合影') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }
                     }, 4)}
                   </Row>
                 </Card>
@@ -1191,10 +1725,21 @@ class AdmittanceAddEdit extends React.Component {
                         });
                         return userName;
                       }}, 4)}
-                    {this.getInputCol({ field: 'relation',
+                    {this.getSelectCol({ field: 'relation',
                       title: '与主贷人关系',
-                      required: true
-                      }, 4)}
+                      required: true,
+                      keyName: 'dkey',
+                      valueName: 'dvalue',
+                      formatter(v, d) {
+                        let relation = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            relation = item.relation;
+                          }
+                        });
+                        return relation;
+                      }
+                      }, relationData, 4)}
                     {this.getInputCol({ field: 'mateMobile',
                       title: '手机号',
                       mobile: true,
@@ -1225,19 +1770,120 @@ class AdmittanceAddEdit extends React.Component {
                     }, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getSelectCol({ field: 'mateEducation', title: '学历', required: true }, educationData, 4)}
-                    {this.getInputCol({ field: 'mateBirthAddressProvince', title: '户籍地(省)', required: true }, 4)}
-                    {this.getInputCol({ field: 'mateBirthAddressCity', title: '(市)', required: true }, 4)}
-                    {this.getInputCol({ field: 'mateBirthAddressArea', title: '(区)', required: true }, 4)}
+                    {this.getSelectCol({ field: 'mateEducation',
+                      title: '学历',
+                      required: true,
+                      formatter(v, d) {
+                        let mateEducation = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            mateEducation = item.Education;
+                          }
+                        });
+                        return mateEducation;
+                      }
+                    }, educationData, 4)}
+                    {this.getInputCol({ field: 'mateBirthAddressProvince',
+                      title: '户籍地(省)',
+                      required: true,
+                      formatter(v, d) {
+                        let birthAddressProvince = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            birthAddressProvince = item.birthAddressProvince;
+                          }
+                        });
+                        return birthAddressProvince;
+                      }
+                    }, 4)}
+                    {this.getInputCol({ field: 'mateBirthAddressCity',
+                      title: '(市)',
+                      required: true,
+                      formatter(v, d) {
+                        let birthAddressCity = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            birthAddressCity = item.birthAddressCity;
+                          }
+                        });
+                        return birthAddressCity;
+                      }}, 4)}
+                    {this.getInputCol({ field: 'mateBirthAddressArea',
+                      title: '(区)',
+                      required: true,
+                      formatter(v, d) {
+                        let birthAddressArea = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            birthAddressArea = item.birthAddressArea;
+                          }
+                        });
+                        return birthAddressArea;
+                      }}, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'matePostCode', title: '户籍地邮编', required: true }, 4)}
-                    {this.getInputCol({ field: 'mateCompanyName', title: '工作单位名称', required: true }, 4)}
-                    {this.getInputCol({ field: 'mateCompanyAddress', title: '工作单位地址', required: true }, 4)}
-                    {this.getInputCol({ field: 'mateCompanyContactNo', title: '工作单位电话', required: true }, 4)}
+                    {this.getInputCol({ field: 'matePostCode',
+                      title: '户籍地邮编',
+                      required: true,
+                      formatter(v, d) {
+                        let postCode = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            postCode = item.postCode;
+                          }
+                        });
+                        return postCode;
+                      }}, 4)}
+                    {this.getInputCol({ field: 'mateCompanyName',
+                      title: '工作单位名称',
+                      required: true,
+                      formatter(v, d) {
+                        let companyName = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            companyName = item.companyName;
+                          }
+                        });
+                        return companyName;
+                      }}, 4)}
+                    {this.getInputCol({ field: 'mateCompanyAddress',
+                      title: '工作单位地址',
+                      required: true,
+                      formatter(v, d) {
+                        let companyAddress = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            companyAddress = item.companyAddress;
+                          }
+                        });
+                        return companyAddress;
+                      }}, 4)}
+                    {this.getInputCol({ field: 'mateCompanyContactNo',
+                      title: '工作单位电话',
+                      required: true,
+                      formatter(v, d) {
+                        let companyContactNo = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '2') {
+                            companyContactNo = item.companyContactNo;
+                          }
+                        });
+                        return companyContactNo;
+                      }}, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getFileCol({ field: 'mateAssetPdf', title: '其他资料', type: 'img' }, 4)}
+                    {this.getFileCol({ field: 'mateAssetPdf',
+                      title: '其他资料',
+                      type: 'img',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '共还人资产资料') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }}, 4)}
                   </Row>
                 </Card>
               </TabPane>
@@ -1257,27 +1903,161 @@ class AdmittanceAddEdit extends React.Component {
                         return userName;
                       }
                     }, 4)}
-                    {this.getInputCol({ field: 'relation',
+                    {this.getSelectCol({ field: 'relation',
                       title: '与主贷人关系',
-                      required: true
-                    }, 4)}
-                    {this.getInputCol({ field: 'guaMobile', title: '手机号', mobile: true, required: true }, 4)}
-                    {this.getInputCol({ field: 'guaIdNo', title: '身份证号', idCard: true, required: true }, 4)}
+                      required: true,
+                      keyName: 'dkey',
+                      valueName: 'dvalue',
+                      formatter(v, d) {
+                        let relation = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '3') {
+                            relation = item.relation;
+                          }
+                        });
+                        return relation;
+                      }
+                    }, relationData, 4)}
+                    {this.getInputCol({ field: 'guaMobile',
+                      title: '手机号',
+                      mobile: true,
+                      required: true,
+                      formatter(v, d) {
+                        let mobile = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '3') {
+                            mobile = item.mobile;
+                          }
+                        });
+                        return mobile;
+                      }}, 4)}
+                    {this.getInputCol({ field: 'guaIdNo',
+                      title: '身份证号',
+                      idCard: true,
+                      required: true,
+                      formatter(v, d) {
+                        let idNo = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '3') {
+                            idNo = item.idNo;
+                          }
+                        });
+                        return idNo;
+                      }}, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getSelectCol({ field: 'guaEducation', title: '学历', required: true }, educationData, 4)}
-                    {this.getInputCol({ field: 'guaBirthAddressProvince', title: '户籍地(省)', required: true }, 4)}
-                    {this.getInputCol({ field: 'guaBirthAddressCity', title: '(市)', required: true }, 4)}
-                    {this.getInputCol({ field: 'guaBirthAddressArea', title: '(区)', required: true }, 4)}
+                    {this.getSelectCol({ field: 'guaEducation',
+                      title: '学历',
+                      required: true,
+                      formatter(v, d) {
+                        let education = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '3') {
+                            education = item.education;
+                          }
+                        });
+                        return education;
+                      }}, educationData, 4)}
+                    {this.getInputCol({ field: 'guaBirthAddressProvince',
+                      title: '户籍地(省)',
+                      formatter(v, d) {
+                        let birthAddressProvince = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '3') {
+                            birthAddressProvince = item.birthAddressProvince;
+                          }
+                        });
+                        return birthAddressProvince;
+                      },
+                      required: true }, 4)}
+                    {this.getInputCol({ field: 'guaBirthAddressCity',
+                      title: '(市)',
+                      formatter(v, d) {
+                        let birthAddressCity = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '3') {
+                            birthAddressCity = item.birthAddressCity;
+                          }
+                        });
+                        return birthAddressCity;
+                      },
+                      required: true }, 4)}
+                    {this.getInputCol({ field: 'guaBirthAddressArea',
+                      title: '(区)',
+                      formatter(v, d) {
+                        let birthAddressArea = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '3') {
+                            birthAddressArea = item.birthAddressArea;
+                          }
+                        });
+                        return birthAddressArea;
+                      },
+                      required: true }, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getInputCol({ field: 'guaPostCode', title: '户籍地邮编', required: true }, 4)}
-                    {this.getInputCol({ field: 'guaCompanyName', title: '工作单位名称', required: true }, 4)}
-                    {this.getInputCol({ field: 'guaCompanyAddress', title: '工作单位地址', required: true }, 4)}
-                    {this.getInputCol({ field: 'guaCompanyContactNo', title: '工作单位电话', required: true }, 4)}
+                    {this.getInputCol({ field: 'guaPostCode',
+                      title: '户籍地邮编',
+                      required: true,
+                      formatter(v, d) {
+                        let postCode = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '3') {
+                            postCode = item.postCode;
+                          }
+                        });
+                        return postCode;
+                      }}, 4)}
+                    {this.getInputCol({ field: 'guaCompanyName',
+                      title: '工作单位名称',
+                      formatter(v, d) {
+                        let companyName = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '3') {
+                            companyName = item.companyName;
+                          }
+                        });
+                        return companyName;
+                      },
+                      required: true }, 4)}
+                    {this.getInputCol({ field: 'guaCompanyAddress',
+                      title: '工作单位地址',
+                      formatter(v, d) {
+                        let companyAddress = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '3') {
+                            companyAddress = item.companyAddress;
+                          }
+                        });
+                        return companyAddress;
+                      },
+                      required: true }, 4)}
+                    {this.getInputCol({ field: 'guaCompanyContactNo',
+                      title: '工作单位电话',
+                      formatter(v, d) {
+                        let companyContactNo = '';
+                        d.creditUserList.forEach(item => {
+                          if(item.loanRole == '3') {
+                            companyContactNo = item.companyContactNo;
+                          }
+                        });
+                        return companyContactNo;
+                      },
+                      required: true }, 4)}
                   </Row>
                   <Row gutter={54}>
-                    {this.getFileCol({ field: 'guaAssetPdf', title: '其他资料', type: 'img' }, 4)}
+                    {this.getFileCol({ field: 'mateAssetPdf',
+                      title: '其他资料',
+                      type: 'img',
+                      formatter(v, d) {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                          if(item.vname == '担保人其他资料') {
+                            url = item.url;
+                          }
+                        });
+                        return url;
+                      }}, 4)}
                   </Row>
                 </Card>
               </TabPane>
@@ -1287,25 +2067,14 @@ class AdmittanceAddEdit extends React.Component {
                       fields,
                       code: this.code,
                       view: this.view,
-                      detailCode: 630176, // 流水详情查询接口
-                      beforeSubmit: (param) => { // 提交前传参
-                        if (this.b) {
-                          document.getElementById('save').style.visibility = 'none';
-                          document.getElementById('cancel').style.visibility = 'none';
-                        }
-                        console.log('beforeSubmit中的参数param：');
-                        console.log(param);
-                        param.operator = getUserId();
-                        param.refOrder = this.code;
-                        return param;
-                      }
+                      detailCode: 632497
                     })
                   }
               </TabPane>
             </Tabs>
             <FormItem {...tailFormItemLayout} style={{marginTop: 20}}>
                  <div>
-                    <Button type="primary" onClick={() => this.checkForm(0)}>保存</Button>
+                    <Button style={{marginLeft: 20}} type="primary" onClick={() => this.checkForm(0)}>保存</Button>
                     <Button style={{marginLeft: 20}} type="primary" onClick={() => this.checkForm(1)}>提交</Button>
                     <Button style={{marginLeft: 20}} onClick={this.onCancel}>返回</Button>
                   </div>

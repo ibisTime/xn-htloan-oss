@@ -344,7 +344,7 @@ const ROUTES = [
     },
     //  制卡 详情
     {
-        path: '/loan/madeCard',
+        path: '/loan/madeCard/addedit',
         component: asyncComponent(() => import('container/loan/madeCard/madeCard-addedit'))
     },
 

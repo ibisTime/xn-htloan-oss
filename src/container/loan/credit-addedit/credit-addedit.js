@@ -133,7 +133,7 @@ class CreditAddedit extends React.Component {
             }
         }, {
             title: '身份证正面',
-            field: 'idNoFront',
+            field: 'idFront',
             type: 'img',
             single: true,
             required: true,
@@ -141,7 +141,7 @@ class CreditAddedit extends React.Component {
             noVisible: true // 隐藏列表字段 不隐藏弹出框字段
         }, {
             title: '身份证反面',
-            field: 'idNoReverse',
+            field: 'idReverse',
             type: 'img',
             single: true,
             required: true,
@@ -567,8 +567,8 @@ class CreditAddedit extends React.Component {
                                 authPdf: params.creditUserList[i].authPdf,
                                 creditUserCode: params.creditUserList[i].creditUserCode,
                                 idNo: params.creditUserList[i].idNo,
-                                idNoFront: params.creditUserList[i].idNoFront,
-                                idNoReverse: params.creditUserList[i].idNoReverse,
+                                idFront: params.creditUserList[i].idFront,
+                                idReverse: params.creditUserList[i].idReverse,
                                 interviewPic: params.creditUserList[i].interviewPic,
                                 loanRole: params.creditUserList[i].loanRole,
                                 mobile: params.creditUserList[i].mobile,
@@ -625,8 +625,8 @@ class CreditAddedit extends React.Component {
                                 authPdf: params.creditUserList[i].authPdf,
                                 creditUserCode: params.creditUserList[i].creditUserCode,
                                 idNo: params.creditUserList[i].idNo,
-                                idNoFront: params.creditUserList[i].idNoFront,
-                                idNoReverse: params.creditUserList[i].idNoReverse,
+                                idFront: params.creditUserList[i].idFront,
+                                idReverse: params.creditUserList[i].idReverse,
                                 interviewPic: params.creditUserList[i].interviewPic,
                                 loanRole: params.creditUserList[i].loanRole,
                                 mobile: params.creditUserList[i].mobile,

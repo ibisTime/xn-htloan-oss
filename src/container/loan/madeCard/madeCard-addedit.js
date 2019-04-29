@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'antd';
+import {Button, Form} from 'antd';
 import {
     getQueryString,
     showWarnMsg,
@@ -11,13 +11,12 @@ import DetailUtil from 'common/js/build-detail-dev';
 import fetch from 'common/js/fetch';
 
 @Form.create()
-class MadeCardAddedit extends DetailUtil {
+class FaceSignAddedit extends DetailUtil {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
-        // 审核
-        this.isCheck = !!getQueryString('isCheck', this.props.location.search);
-        this.isCheckNq = !!getQueryString('isCheckNq', this.props.location.search);
+        this.hande = !!getQueryString('hande', this.props.location.search);
+        console.log(this.hande);
         this.view = !!getQueryString('v', this.props.location.search);
     }
 
@@ -26,17 +25,24 @@ class MadeCardAddedit extends DetailUtil {
         let buttons = [];
 
         let fields = [{
-            title: '客户姓名',
-            field: 'applyUserName',
-            required: true,
-            readonly: true
-        }, {
             title: '业务编号',
-            field: 'code1',
+            field: 'code',
             required: true,
             readonly: true,
             formatter: (v, d) => {
-                return d.code;
+                return <div>
+                    {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + this.code;
+                }}>查看详情</a>
+                </div>;
+            }
+        }, {
+            title: '客户姓名',
+            field: 'userName',
+            required: true,
+            readonly: true,
+            formatter: (v, d) => {
+                return d ? d.creditUser.userName : '';
             }
         }, {
             title: '贷款银行',
@@ -50,103 +56,55 @@ class MadeCardAddedit extends DetailUtil {
             required: true,
             readonly: true
         }, {
-            title: '银行视频',
-            field: 'bankVideo',
-            type: 'file',
+            title: '业务种类',
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer',
             required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false
+            readonly: true
         }, {
-            title: '公司视频',
-            field: 'companyVideo',
-            type: 'file',
-            required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false
+            title: '业务归属',
+            field: 'ywyUser',
+            formatter: (v, d) => {
+                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+            },
+            readonly: true
         }, {
-            title: '其他视频',
-            field: 'otherVideo',
-            type: 'file',
-            readonly: (this.isCheck || this.view) ? 'true' : false
+            title: '指派归属',
+            field: 'zfStatus',
+            formatter: (v, d) => {
+                return d ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+            },
+            readonly: true
         }, {
-            title: '银行面签图片',
-            field: 'bankPhoto',
-            type: 'img',
-            required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false
+            title: '当前状态',
+            field: 'makeCardStatus',
+            key: 'make_card_status',
+            type: 'select',
+            readonly: true,
+            keyName: 'dkey',
+            valueName: 'dvalue'
         }, {
-            title: '银行合同',
-            field: 'bankContract',
-            type: 'img',
-            readonly: (this.isCheck || this.view) ? 'true' : false
+            title: '卡邮寄地址',
+            field: 'cardPostAddress',
+            hidden: this.hande
         }, {
-            title: '公司合同',
-            field: 'companyContract',
-            type: 'img',
-            readonly: (this.isCheck || this.view) ? 'true' : false
-        }, {
-            title: '资金划转授权书',
-            field: 'advanceFundAmountPdf',
-            type: 'img',
-            required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false
-        }, {
-            title: '其他资料',
-            field: 'interviewOtherPdf',
-            type: 'file',
-            readonly: (this.isCheck || this.view) ? 'true' : false
-        }, {
-            title: '审核说明',
-            field: 'approveNote',
-            readonly: !(this.isCheck || this.isCheckNq),
-            hidden: !this.view
-        }
-        //     {
-        //     title: '流转日志',
-        //     field: 'list',
-        //     type: 'o2m',
-        //     listCode: 630176,
-        //     params: { refOrder: this.code },
-        //     options: {
-        //         rowKey: 'id',
-        //         noSelect: true,
-        //         fields: [{
-        //             title: '操作人',
-        //             field: 'operatorName'
-        //         }, {
-        //             title: '开始时间',
-        //             field: 'startDatetime',
-        //             type: 'datetime'
-        //         }, {
-        //             title: '结束时间',
-        //             field: 'endDatetime',
-        //             type: 'datetime'
-        //         }, {
-        //             title: '花费时长',
-        //             field: 'speedTime'
-        //         }, {
-        //             title: '审核意见',
-        //             field: 'dealNote'
-        //         }, {
-        //             title: '当前节点',
-        //             field: 'dealNode',
-        //             type: 'select',
-        //             listCode: 630147,
-        //             keyName: 'code',
-        //             valueName: 'name'
-        //         }]
-        //     }
-        // }
-        ];
-        let bizCode = this.isCheckNq ? 632137 : 632124;
-        // 准入审查
-        if (this.isCheck || this.isCheckNq) {
+            title: '卡号',
+            field: 'repayCardNumber',
+            hidden: !this.hande,
+            readonly: false
+        }];
+
+        let bizCode = this.hande ? 632511 : 632510;
             buttons = [{
-                title: '通过',
+                title: '确认',
                 handler: (params) => {
+                    // console.log(params);
                     let data = {};
                     data.code = this.code;
-                    data.approveResult = '1';
-                    data.approveNote = params.approveNote;
                     data.operator = getUserId();
+                    data.cardPostAddress = params.cardPostAddress;
+                    data.repayCardNumber = params.repayCardNumber; // 卡号
                     this.doFetching();
                     fetch(bizCode, data).then((res) => {
                         showSucMsg('操作成功');
@@ -158,78 +116,17 @@ class MadeCardAddedit extends DetailUtil {
                     }).catch(this.cancelFetching);
                 }
             }, {
-                title: '不通过',
-                handler: (params) => {
-                    let data = {};
-                    data.code = this.code;
-                    data.approveResult = '0';
-                    data.approveNote = params.approveNote;
-                    data.operator = getUserId();
-                    this.doFetching();
-                    fetch(bizCode, data).then(() => {
-                        showSucMsg('操作成功');
-                        this.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.cancelFetching);
-                }
-            }, {
                 title: '返回',
                 handler: (param) => {
                     this.props.history.go(-1);
                 }
             }];
-        } else if(this.view) {
-            buttons = [{
-                title: '返回',
-                handler: (param) => {
-                    this.props.history.go(-1);
-                }
-            }];
-        } else {
-            buttons = [{
-                title: '保存',
-                handler: (params) => {
-                    params.operator = getUserId();
-                    params.isSend = '0';
-                    this.doFetching();
-                    fetch(632123, params).then(() => {
-                        showSucMsg('操作成功');
-                        this.cancelFetching();
-                    }).catch(this.cancelFetching);
-                }
-            }, {
-                title: '提交',
-                check: true,
-                handler: (params) => {
-                    params.operator = getUserId();
-                    params.isSend = '1';
-                    this.doFetching();
-                    fetch(632123, params).then(() => {
-                        console.log('面签成功');
-                        showSucMsg('操作成功');
-                        this.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.cancelFetching);
-                }
-            }, {
-                title: '返回',
-                handler: (param) => {
-                    this.props.history.go(-1);
-                }
-            }];
-        }
 
         return this.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
-            addCode: 632123,
-            editCode: 632123,
+            detailCode: 632516,
             buttons: buttons,
             beforeSubmit: (params) => {
                 delete params.loanAmount;
@@ -240,4 +137,4 @@ class MadeCardAddedit extends DetailUtil {
     }
 }
 
-export default MadeCardAddedit;
+export default FaceSignAddedit;
