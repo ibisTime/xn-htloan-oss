@@ -28,24 +28,42 @@ class bankMoneyAddedit extends React.Component {
     }
     render() {
         const fields = [{
+            title: '业务编号',
+            field: 'code',
+            formatter: (v, d) => {
+                return <div>
+                    {d.code}<a href="javascript:void(0);" style={{marginLeft: 20}} onClick={() => {
+                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                }}>查看详情</a>
+                </div>;
+            },
+            readonly: true
+        }, {
             title: '客户姓名',
             field: 'applyUserName',
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+                return d.creditUser ? d.creditUser.userName : '';
+            }
         }, {
             title: '业务团队',
             field: 'teamName'
         }, {
-            title: '业务编号',
-            field: 'code',
+            title: '贷款银行',
+            field: 'loanBankName',
+            formatter: (v, d) => {
+                if (d.loanBankName) {
+                    return d.repaySubbranch ? d.loanBankName + d.repaySubbranch : d.loanBankName;
+                } else if (d.repaySubbranch) {
+                    return d.loanBankName ? d.loanBankName + d.repaySubbranch : d.repaySubbranch;
+                }
+            },
             readonly: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true,
             readonly: true
-        }, {
-            title: '贷款银行',
-            field: 'loanBankName'
         }, {
             title: '卡号',
             field: 'repayBankcardNumber',

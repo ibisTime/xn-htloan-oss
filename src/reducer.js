@@ -87,9 +87,10 @@ import {bizinstallGpsAddEdit} from './redux/biz/installGps-addedit';
 import {bizinstallGpsCheck} from './redux/biz/installGps-check';
 import {bizinstallGpsEnter} from './redux/biz/installGps-enter';
 
-// 录入发保合
+// 录入发保合 +审核发保合
 import {bizInsurance} from './redux/biz/insurance';
 import {bizInsuranceAddEdit} from './redux/biz/insurance-addedit';
+import {bizInsuranceEnter} from './redux/biz/insurance-enter';
 
 //  银行放款 + 详情 + 录入抵押信息 + 确认提交银行 + 低压完成
 import {bizBankMoney} from './redux/biz/bankMoney';
@@ -704,6 +705,7 @@ export default combineReducers({
     bizinstallGpsEnter,
     bizInsurance,
     bizInsuranceAddEdit,
+    bizInsuranceEnter,
     bizBankMoney,
     bizBankMoneyAddEdit,
     bizBankMoneySettled,

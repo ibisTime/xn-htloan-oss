@@ -358,6 +358,11 @@ const ROUTES = [
     path: '/biz/insurance/addedit',
     component: asyncComponent(() => import('container/biz/insurance/insurance-addedit'))
   },
+  //  录入发保合 审核
+  {
+    path: '/biz/insurance/enter',
+    component: asyncComponent(() => import('container/biz/insurance/insurance-enter'))
+  },
   //  GPS安装
   {
     path: '/biz/installGps',

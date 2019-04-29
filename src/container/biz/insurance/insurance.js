@@ -41,7 +41,7 @@ class Insurance extends React.Component {
             search: true
         }, {
             title: '业务公司',
-            field: 'companyCode',
+            field: 'companyName',
             listCode: 630106,
             params: {
                 typeList: [1],
@@ -49,38 +49,16 @@ class Insurance extends React.Component {
             },
             type: 'select',
             keyName: 'code',
-            valueName: 'name'
-        }, {
-            title: '客户姓名',
-            field: 'applyUserName',
+            valueName: 'name',
             render: (v, d) => {
-                return d ? d.creditUser.userName : '-';
+              return d.companyName ? d.companyName : '';
             },
             search: true
         }, {
-            title: '汽车经销商',
-            field: 'applyUserName2'
+            title: '业务团队',
+            field: 'teamName'
         }, {
-            title: '贷款银行',
-            field: 'loanBankName'
-        }, {
-            title: '贷款金额',
-            field: 'loanAmount',
-            amount: true
-        }, {
-            title: '贷款期数',
-            field: 'loanPeriod',
-            render: (v, d) => {
-              return d.repayBiz ? d.repayBiz.restPeriods : '';
-            }
-        }, {
-            title: '购车途径',
-            field: 'bizType',
-            type: 'select',
-            key: 'budget_orde_biz_typer'
-        },
-           {
-            title: '业务员',
+            title: '信贷专员',
             field: 'saleUserId',
             type: 'select',
             pageCode: 630065,
@@ -91,23 +69,56 @@ class Insurance extends React.Component {
             keyName: 'userId',
             valueName: '{{companyName.DATA}}-{{realName.DATA}}',
             searchName: 'realName',
+            search: true,
             render: (v, d) => {
                 return d.saleUserName;
             }
-        },
-        //     {
-        //     title: '业务内勤',
-        //     field: 'insideJobName'
-        // },
-           {
-            title: '申请日期',
+        }, {
+            title: '客户姓名',
+            field: 'applyUserName',
+            search: true,
+            render: (v, d) => {
+                return d.creditUser ? d.creditUser.userName : '';
+            }
+        }, {
+            title: '贷款银行',
+            field: 'loanBankName',
+            render: (v, d) => {
+                if (d.loanBankName) {
+                    return d.repaySubbranch ? d.loanBankName + d.repaySubbranch : d.loanBankName;
+                } else if (d.repaySubbranch) {
+                    return d.loanBankName ? d.loanBankName + d.repaySubbranch : d.repaySubbranch;
+                }
+            }
+        }, {
+            title: '贷款金额',
+            field: 'loanAmount',
+            amount: true
+        }, {
+            title: '贷款期数',
+            field: 'loanPeriod',
+            render: (v, d) => {
+                return d.repayBiz ? d.repayBiz.restPeriods : '';
+            }
+        }, {
+            title: '业务种类',
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer'
+        }, {
+            title: '申请时间',
             field: 'applyDatetime',
             rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
             type: 'date',
-            render: dateTimeFormat
+            render: dateTimeFormat,
+            search: true
         }, {
-            title: '状态',
-            field: 'advanfCurNodeCode',
+            title: '放款日期',
+            field: 'bankFkDatetime',
+            type: 'date'
+        }, {
+            title: '当前节点',
+            field: 'fbhgpsNodeList',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
@@ -115,16 +126,16 @@ class Insurance extends React.Component {
             search: true,
             params: {type: 'a'}
         }, {
-                title: '备注',
-                field: 'remark'
-            }];
+            title: '备注',
+            field: 'remark'
+        }];
         return this.props.buildList({
             fields,
             pageCode: 632148,
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
-                advanfCurNodeCodeList: ['002_18']
+                fbhgpsNodeList: ['c1']
             },
             btnEvent: {
                 // 录入
@@ -133,10 +144,22 @@ class Insurance extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].advanfCurNodeCode !== '002_18') {
+                    } else if (selectedRows[0].fbhgpsNode !== 'c1') {
                         showWarnMsg('当前不是录入发保合节点');
                     } else {
                         this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                // 审核
+                check: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                     } else if (selectedRows[0].fbhgpsNode !== 'c1') {
+                      showWarnMsg('当前不是录入发保合节点');
+                    } else {
+                        this.props.history.push(`${this.props.location.pathname}/enter?code=${selectedRowKeys[0]}`);
                     }
                 }
             }

@@ -6,12 +6,12 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/biz/insurance-addedit';
-import { getQueryString, getUserId, isExpressConfirm } from 'common/js/util';
+} from '@redux/biz/insurance-enter';
+import { getQueryString, getUserId, isExpressConfirm, showSucMsg } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
-
+import fetch from 'common/js/fetch';
 @DetailWrapper(
-    state => state.bizInsuranceAddEdit, {
+    state => state.bizInsuranceEnter, {
         initStates,
         doFetching,
         cancelFetching,
@@ -20,7 +20,7 @@ import { DetailWrapper } from 'common/js/build-detail';
         restore
     }
 )
-class InsuranceAddEdit extends React.Component {
+class bizInsuranceEnter extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -69,53 +69,93 @@ class InsuranceAddEdit extends React.Component {
             title: '保单日期',
             field: 'policyDatetime',
             type: 'date',
-            required: true
+            readonly: true
         }, {
             title: '保单到期日',
             field: 'policyDueDate',
             type: 'date',
-            required: true
+            readonly: true
         }, {
             title: '落户日期',
             field: 'carSettleDatetime',
             type: 'date',
-            required: true
+            readonly: true
         }, {
             title: '发票',
             field: 'carInvoice',
             type: 'img',
-            required: true
+            readonly: true
         }, {
             title: '交强险',
             field: 'carJqx',
             type: 'img',
-            required: true
+            readonly: true
         }, {
             title: '商业险',
             field: 'carSyx',
             type: 'img',
-            required: true
+            readonly: true
         }, {
             title: '其他资料',
             field: 'carSettleOtherPdf',
-            type: 'file'
+            type: 'file',
+            readonly: true
         }, {
             title: '抵押日期',
             field: 'pledgeDatetime',
-            type: 'date'
+            type: 'date',
+            readonly: true
         }, {
             title: '绿大本扫描件',
             field: 'greenBigSmj',
-            type: 'img'
+            type: 'img',
+            readonly: true
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
             detailCode: 632146,
-            editCode: 632131
+            buttons: [{
+                title: '通过',
+                handler: (param) => {
+                    param.operator = getUserId();
+                    param.approveResult = '1';
+                    this.props.doFetching();
+                    fetch(632501, param).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                },
+                check: true,
+                type: 'primary'
+            }, {
+                title: '不通过',
+                handler: (param) => {
+                    param.operator = getUserId();
+                    param.approveResult = '0';
+                    this.props.doFetching();
+                    fetch(632501, param).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                },
+                check: true,
+                type: 'primary'
+            }, {
+                title: '返回',
+                handler: (param) => {
+                    this.props.history.go(-1);
+                }
+            }]
         });
     }
 }
 
-export default InsuranceAddEdit;
+export default bizInsuranceEnter;

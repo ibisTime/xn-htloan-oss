@@ -29,18 +29,35 @@ class installGpsEnter extends React.Component {
         this.edit = getQueryString('edit', this.props.location.search);
     }
     render() {
-        const fields = [{
+        const fields = [
+            {
+                title: '业务编号',
+                field: 'code',
+                readonly: true,
+                formatter: (v, d) => {
+                    return <div>
+                        {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                        window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                    }}>查看详情</a>
+                    </div>;
+                }
+            }, {
             title: '客户姓名',
             field: 'applyUserName',
-            readonly: true
-        }, {
-            title: '业务编号',
-            field: 'code',
-            readonly: true
+            readonly: true,
+                formatter: (v, d) => {
+                    return d.creditUser ? d.creditUser.userName : '';
+                }
         }, {
             title: '贷款银行',
             field: 'loanBankName',
-            formatter: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : '',
+            formatter: (v, d) => {
+                if (d.loanBankName) {
+                    return d.repaySubbranch ? d.loanBankName + d.repaySubbranch : d.loanBankName;
+                } else if (d.repaySubbranch) {
+                    return d.loanBankName ? d.loanBankName + d.repaySubbranch : d.repaySubbranch;
+                }
+            },
             readonly: true
         }, {
             title: '贷款金额',
@@ -48,12 +65,45 @@ class installGpsEnter extends React.Component {
             amount: true,
             readonly: true
         }, {
-            field: 'carFrameNo',
-            title: '车架号',
-            readonly: true
-        }, {
+                title: '业务类型',
+                field: 'bizType',
+                type: 'select',
+                key: 'budget_orde_biz_typer',
+                required: true,
+                readonly: true
+            }, {
+                title: '业务归属',
+                field: 'ywyUser',
+                formatter: (v, d) => {
+                    return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                },
+                readonly: true
+                // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+            }, {
+                title: '指派归属',
+                field: 'zfStatus',
+                readonly: true,
+                formatter: (v, d) => {
+                    if (d.teamName) {
+                        return d.insideJobName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : d.companyName + d.teamName;
+                    } else if (d.insideJobName) {
+                        return d.teamName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : d.companyName + d.insideJobName;
+                    }
+                    }
+                // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+            }, {
+                title: '当前状态',
+                field: 'status',
+                key: 'cdbiz_status',
+                type: 'select',
+                readonly: true,
+                formatter: (v, d) => {
+                    return d ? d.cdbiz.status : '';
+                }
+            }, {
             title: 'GPS安装列表',
             field: 'budgetOrderGpsList',
+                required: true,
             type: 'o2m',
             options: {
                 add: true,
@@ -74,6 +124,20 @@ class installGpsEnter extends React.Component {
                     nowrap: true,
                     required: true
                 }, {
+                    title: 'GPS类型',
+                    field: 'gpsType',
+                    type: 'select',
+                    data: [{
+                        key: '1',
+                        value: '有线'
+                    }, {
+                        key: '0',
+                        value: '无线'
+                    }],
+                    keyName: 'key',
+                    valueName: 'value',
+                    required: true
+                }, {
                     title: '安装位置',
                     field: 'azLocation',
                     nowrap: true,
@@ -88,16 +152,6 @@ class installGpsEnter extends React.Component {
                     title: '安装人员',
                     field: 'azUser',
                     nowrap: true,
-                    required: true
-                }, {
-                    title: '设备图片',
-                    field: 'devPhotos',
-                    type: 'img',
-                    required: true
-                }, {
-                    title: '安装图片',
-                    field: 'azPhotos',
-                    type: 'img',
                     required: true
                 }, {
                     title: '备注',

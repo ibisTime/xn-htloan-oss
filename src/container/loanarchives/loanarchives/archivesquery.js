@@ -105,7 +105,7 @@ class Archivesquery extends React.Component {
             fields,
             pageCode: 632145,
             searchParams: {
-                curNodeCode: '002_23'
+                curNodeCodeList: ['f14', 'e10']
             },
             btnEvent: {
                 detail: (selectedRowKeys, selectedRows) => {

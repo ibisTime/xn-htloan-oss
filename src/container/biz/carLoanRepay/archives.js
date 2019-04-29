@@ -67,12 +67,21 @@ class archives extends React.Component {
         }, {
             title: '客户姓名',
             field: 'applyUserName',
-            search: true
+            search: true,
+            render: (v, d) => {
+                return d.creditUser ? d.creditUser.userName : '';
+            }
         }, {
             title: '贷款银行',
             field: 'loanBankName',
-            render: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : ''
-        }, {
+            render: (v, d) => {
+                if (d.loanBankName) {
+                    return d.repaySubbranch ? d.loanBankName + d.repaySubbranch : d.loanBankName;
+                } else if (d.repaySubbranch) {
+                    return d.loanBankName ? d.loanBankName + d.repaySubbranch : d.repaySubbranch;
+                }
+            }
+            }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
@@ -98,8 +107,7 @@ class archives extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
-            search: true,
-            params: {type: 'a'}
+            search: true
         }];
         return this.props.buildList({
             fields,
@@ -107,7 +115,7 @@ class archives extends React.Component {
             searchParams: {
               userId: getUserId(),
               roleCode: getRoleCode(),
-              curNodeCodeList: ['002_22', '002_23']
+                cundangStatusList: ['002', '003']
             },
             btnEvent: {
               certain: (selectedRowKeys, selectedRows) => {
@@ -115,7 +123,7 @@ class archives extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].curNodeCode !== '002_22') {
+                } else if (selectedRows[0].fircundangStatus !== '002') {
                   showWarnMsg('当前不是确认入档节点');
                 } else {
                   this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}&e=1`);

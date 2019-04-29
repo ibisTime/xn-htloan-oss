@@ -53,17 +53,20 @@ class AdvMoney extends React.Component {
         }, {
             title: '客户姓名',
             field: 'applyUserName',
-            search: true
-        }, {
-            title: '汽车经销商',
-            field: 'applyUserName2'
+            search: true,
+            render: (v, d) => {
+                return d.creditUser ? d.creditUser.userName : '';
+            }
         }, {
             title: '贷款银行',
-            field: 'loanBank',
-            type: 'select',
-            listCode: 632037,
-            keyName: 'code',
-            valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
+            field: 'loanBankName',
+            render: (v, d) => {
+                if (d.loanBankName) {
+                    return d.repaySubbranch ? d.loanBankName + d.repaySubbranch : d.loanBankName;
+                } else if (d.repaySubbranch) {
+                    return d.loanBankName ? d.loanBankName + d.repaySubbranch : d.repaySubbranch;
+                }
+            }
         }, {
             title: '贷款金额',
             field: 'loanAmount',
@@ -104,7 +107,7 @@ class AdvMoney extends React.Component {
             type: 'date',
             render: dateTimeFormat
         }, {
-            title: '状态',
+            title: '当前节点',
             field: 'curNodeCode',
             type: 'select',
             listCode: 630147,
