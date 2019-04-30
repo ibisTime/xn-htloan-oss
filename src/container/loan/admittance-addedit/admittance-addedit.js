@@ -870,8 +870,6 @@ class AdmittanceAddEdit extends React.Component {
               <TabPane tab="贷款信息" key="1">
                 <Card style={{ marginTop: 16 }} title="贷款信息">
                   <Row gutter={54}>
-                    {this.getCitySelectCol({ field: 'city',
-                      title: '市'}, 4)}
                     {this.getInputCol({ field: 'loanBankName',
                       title: '贷款银行',
                       keyName: 'dkey',
