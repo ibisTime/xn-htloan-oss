@@ -84,15 +84,6 @@ class MadeCard extends React.Component {
                 makeCardNodeList: ['h1', 'h2']
             },
             btnEvent: {
-                // detail: (selectedRowKeys, selectedRows) => {
-                //     if (!selectedRowKeys.length) {
-                //         showWarnMsg('请选择记录');
-                //     } else if (selectedRowKeys.length > 1) {
-                //         showWarnMsg('请选择一条记录');
-                //     } else {
-                //         this.props.history.push(`/ywcx/ywcx/addedit?v=1&code=${selectedRowKeys[0]}`);
-                //     }
-                // },
                     // 填写制卡单
                     addCard: (selectedRowKeys, selectedRows) => {
                         console.log(selectedRows[0]);
@@ -131,15 +122,24 @@ class MadeCard extends React.Component {
                         }
                     },
                     // 详情
-                    detail: (selectedRowKeys, selectedRows) => {
-                        if (!selectedRowKeys.length) {
-                            showWarnMsg('请选择记录');
-                        } else if (selectedRowKeys.length > 1) {
-                            showWarnMsg('请选择一条记录');
-                        } else {
-                            this.props.history.push(`/loan/madeCard/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
-                        }
+                    // detail: (selectedRowKeys, selectedRows) => {
+                    //     if (!selectedRowKeys.length) {
+                    //         showWarnMsg('请选择记录');
+                    //     } else if (selectedRowKeys.length > 1) {
+                    //         showWarnMsg('请选择一条记录');
+                    //     } else {
+                    //         this.props.history.push(`/loan/madeCard/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
+                    //     }
+                    // }
+                detail: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/ywcx/ywcx/addedit?v=1&code=${selectedRowKeys[0]}`);
                     }
+                }
             }
         });
     }
