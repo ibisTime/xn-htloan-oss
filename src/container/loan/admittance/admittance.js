@@ -74,7 +74,10 @@ class Admittance extends React.Component {
                 dvalue: '是'
             }],
             keyName: 'dkey',
-            valueName: 'dvalue'
+            valueName: 'dvalue',
+            render: (v, d) => {
+                return d.isAdvanceFund ? d.isAdvanceFund : '-';
+            }
         }, {
             title: '业务公司',
             field: 'companyName'

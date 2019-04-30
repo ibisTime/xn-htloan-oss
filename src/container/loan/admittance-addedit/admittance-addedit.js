@@ -7,7 +7,7 @@ import CUpload from 'component/cUpload/cUpload';
 import CO2M from 'component/cO2M/cO2M';
 import CInput from 'component/cInput/cInput';
 import CSelect from 'component/cSelect/cSelect';
-import cCitySelect from 'component/cCitySelect/cCitySelect';
+import CCitySelect from 'component/cCitySelect/cCitySelect';
 import CNormalTextArea from 'component/cNormalTextArea/cNormalTextArea';
 import CMonth from 'component/cMonth/cMonth';
 import CRangeDate from 'component/cRangeDate/cRangeDate';
@@ -302,11 +302,12 @@ class AdmittanceAddEdit extends React.Component {
         </Col>
     );
   }
-  // 获取城市下拉框
-  getCitySelectCol(item, split = 3) {
+  // 获取城市选择框控件
+  getCitySelectCol(item, list, split = 3) {
     let colProps = this.getColProps(split);
     item.readonly = this.isReadonly(item);
     const props = {
+      list,
       initVal: getRealValue({...item, pageData: this.state.pageData}),
       rules: getRules(item),
       multiple: item.multiple,
@@ -324,7 +325,7 @@ class AdmittanceAddEdit extends React.Component {
     };
     return (
         <Col {...colProps}>
-          <CSelect key={item.field} {...props} />
+          <CCitySelect key={item.field} {...props} />
         </Col>
     );
   }
@@ -755,21 +756,6 @@ class AdmittanceAddEdit extends React.Component {
     }
     return isUndefined(item.readonly) ? this.view || this.isCheck() : item.readonly;
   }
-  // 获取table的props（流转日志数据）
-  // getTableProps() {
-  //   return {
-  //     columns: this.columns,
-  //     dataSource: this.state.records,
-  //     rowSelection: null,
-  //     bordered: true,
-  //     rowKey: record => record.id
-  //   };
-  // }
-  // 解析流转日志的节点
-  formatDealNote = (v) => {
-    const obj = this.state.dealNodeList.find(d => d.code === v);
-    return obj ? obj.name : '';
-  }
 
   render() {
     const {
@@ -783,7 +769,7 @@ class AdmittanceAddEdit extends React.Component {
     let readonly = false;
     let fields = [{
       title: '流水信息',
-      // field: 'list',
+      field: 'list',
       type: 'o2m',
       readonly: false,
       options: {
@@ -884,6 +870,8 @@ class AdmittanceAddEdit extends React.Component {
               <TabPane tab="贷款信息" key="1">
                 <Card style={{ marginTop: 16 }} title="贷款信息">
                   <Row gutter={54}>
+                    {this.getCitySelectCol({ field: 'city',
+                      title: '市'}, 4)}
                     {this.getInputCol({ field: 'loanBankName',
                       title: '贷款银行',
                       keyName: 'dkey',
@@ -1131,11 +1119,12 @@ class AdmittanceAddEdit extends React.Component {
                       {this.getInputCol({ field: 'originalPrice',
                         title: '市场指导价(元)',
                         amount: true,
-                        required: true,
-                        formatter: (v, d) => {
-                          let originalPrice = d.carInfo.originalPrice / 1000;
-                          return d ? originalPrice : '';
-                        }}, 4)}
+                        required: true
+                        // formatter: (v, d) => {
+                        //   let originalPrice = d.carInfo.originalPrice / 1000;
+                        //   return d ? originalPrice : '';
+                        // }
+                        }, 4)}
                     </Row>
                     <Row gutter={54}>
                       {this.getSelectCol({ field: 'region',
@@ -1326,7 +1315,6 @@ class AdmittanceAddEdit extends React.Component {
                     title: '有无驾照',
                     keyName: 'k',
                     valueName: 'v',
-                    required: true,
                     formatter(v, d) {
                       return d ? d.creditUserExt.isDriceLicense : '';
                     }}, isDriverData, 4)}

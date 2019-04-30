@@ -35,16 +35,6 @@ import { listWrapper } from 'common/js/build-list';
 class MadeCard extends React.Component {
     render() {
         const fields = [
-        //     {
-        //     field: 'code',
-        //     type: 'select',
-        //     search: true,
-        //     listCode: 632517,
-        //     valueName: '{{code.DATA}}',
-        //     keyName: 'code',
-        //     title: '业务编号',
-        //     required: true
-        // },
             {
                 field: 'code',
                 search: true,
@@ -52,8 +42,7 @@ class MadeCard extends React.Component {
                 required: true
             }, {
             title: '客户姓名',
-            field: 'ywyUser',
-            type: 'select',
+            field: 'userName',
             render: (v, d) => {
                 return d.creditUser ? d.creditUser.userName : '';
             },
@@ -63,18 +52,20 @@ class MadeCard extends React.Component {
             field: 'loanBankName'
         }, {
             title: '银行卡号',
-            field: 'repayCardNumber'
+            field: 'repayCardNumber',
+                render: (v, d) => {
+                    return d.repayCardNumber ? d.repayCardNumber : '-';
+                }
         }, {
-            title: '状态',
-            field: 'makeCardNode',
-            search: true,
-            listCode: 630147,
-            keyName: 'code',
-            valueName: 'name',
-            type: 'select',
-            params: {type: 'h'}
-        }
-        ];
+                title: '状态',
+                field: 'makeCardNode',
+                search: true,
+                listCode: 630147,
+                keyName: 'code',
+                valueName: 'name',
+                type: 'select',
+                params: {type: 'h'}
+            }];
         return this.props.buildList({
             fields,
             pageCode: 632515,
@@ -121,17 +112,8 @@ class MadeCard extends React.Component {
                             this.props.history.push(`/loan/madeCard/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
                         }
                     },
-                    // 详情
-                    // detail: (selectedRowKeys, selectedRows) => {
-                    //     if (!selectedRowKeys.length) {
-                    //         showWarnMsg('请选择记录');
-                    //     } else if (selectedRowKeys.length > 1) {
-                    //         showWarnMsg('请选择一条记录');
-                    //     } else {
-                    //         this.props.history.push(`/loan/madeCard/addedit?v=1&isCheckNq=1&code=${selectedRowKeys[0]}`);
-                    //     }
-                    // }
-                detail: (selectedRowKeys, selectedRows) => {
+                // 详情
+                  detail: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
