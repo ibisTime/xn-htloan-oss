@@ -41,6 +41,18 @@ class bankAddedit extends React.Component {
             title: '支行',
             field: 'subbranch',
             required: true
+        }, {
+            title: '12期利率(%)',
+            field: 'rate12'
+        }, {
+            title: '18期利率(%)',
+            field: 'rate18'
+        }, {
+            title: '24期利率(%)',
+            field: 'rate24'
+        }, {
+            title: '36期利率(%)',
+            field: 'rate36'
         }];
         return this.props.buildDetail({
             fields,
@@ -48,6 +60,7 @@ class bankAddedit extends React.Component {
             view: this.view,
             addCode: 632030,
             editCode: 632032,
+            deleteCode: 632031,
             detailCode: 632036,
             beforeSubmit: (param) => {
                 let bank = this.props.selectData.bankCode.find(v => v.bankCode === param.bankCode);

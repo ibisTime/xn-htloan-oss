@@ -36,10 +36,23 @@ class Bank extends React.Component {
     render() {
         const fields = [{
             title: '名称',
-            field: 'bankName'
+            field: 'bankName',
+            search: true
         }, {
             title: '支行',
             field: 'subbranch'
+        }, {
+            title: '12期利率(%)',
+            field: 'rate12'
+        }, {
+            title: '18期利率(%)',
+            field: 'rate18'
+        }, {
+            title: '24期利率(%)',
+            field: 'rate24'
+        }, {
+            title: '36期利率(%)',
+            field: 'rate36'
         }, {
             title: '最新修改人',
             field: 'updaterName'
