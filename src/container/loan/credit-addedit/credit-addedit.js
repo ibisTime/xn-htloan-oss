@@ -229,7 +229,7 @@ class CreditAddedit extends React.Component {
             title: '客户姓名',
             field: 'userName',
             formatter: (v, d) => {
-                return d ? d.creditUserList.userName : '';
+                return d ? d.creditUser.userName : '';
             },
             hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
         }, {

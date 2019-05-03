@@ -737,21 +737,21 @@ class DealerAddedit extends React.Component {
     params.carDealerProtocolList = carDealerProtocolList;
     // 基本信息
     this.getNormalInfo(values, params);
-    // 收款账号
-    this.getAccountInfo(values, params);
+    // // 收款账号
+    // this.getAccountInfo(values, params);
     // 返点账号
-    const { gsData, zhData, jhData } = this.state;
-    if (!gsData.length || !zhData.length || !jhData.length) {
-      showWarnMsg('三家银行的返点账号未填写全');
-      return;
-    }
-    this.getFdInfo(values, params);
-    // 车商合作协议
-    if (params.agreementPic.push) {
-      let str = '';
-      params.agreementPic.forEach(v => str += v.key);
-      params.agreementPic = str;
-    }
+    // const { gsData, zhData, jhData } = this.state;
+    // if (!gsData.length || !zhData.length || !jhData.length) {
+    //   showWarnMsg('三家银行的返点账号未填写全');
+    //   return;
+    // }
+    // this.getFdInfo(values, params);
+    // // 车商合作协议
+    // if (params.agreementPic.push) {
+    //   let str = '';
+    //   params.agreementPic.forEach(v => str += v.key);
+    //   params.agreementPic = str;
+    // }
     return params;
   }
   // 返点账号
@@ -1054,7 +1054,7 @@ class DealerAddedit extends React.Component {
                 </FormItem>
               </Col>
               <Col {...col33Props}>
-                <FormItem label="是否自主开发">
+                <FormItem label="是否自主研发">
                   {
                     this.view ? <div className="readonly-text">{tfDict[pageData.isSelfDevelop] || ''}</div>
                       : getFieldDecorator('isSelfDevelop', {

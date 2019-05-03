@@ -37,26 +37,26 @@ class materiallist extends React.Component {
             key: 'node_file_list',
             search: true
         }, {
-                title: '文件形式',
-                field: 'attachType',
-                required: true,
-                type: 'select',
-                data: [{
-                    key: '图片',
-                    value: '图片'
-                }, {
-                    key: '视频',
-                    value: '视频'
-                }, {
-                    key: '文件',
-                    value: '文件'
-                }],
-                keyName: 'key',
-                valueName: 'value'
-    }, {
+            title: '文件形式',
+            field: 'attachType',
+            required: true,
+            type: 'select',
+            search: true,
+            data: [{
+                key: '图片',
+                value: '图片'
+            }, {
+                key: '视频',
+                value: '视频'
+            }, {
+                key: '文件',
+                value: '文件'
+            }],
+            keyName: 'key',
+            valueName: 'value'
+        }, {
             title: '名称',
-            field: 'vname',
-            search: true
+            field: 'vname'
         }, {
             title: '份数',
             field: 'number'

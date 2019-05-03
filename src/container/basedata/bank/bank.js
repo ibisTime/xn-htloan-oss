@@ -67,7 +67,8 @@ class Bank extends React.Component {
                 value: '停用'
             }],
             keyName: 'key',
-            valueName: 'value'
+            valueName: 'value',
+            search: true
         }, {
             title: '最新修改人',
             field: 'updaterName'

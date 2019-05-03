@@ -44,7 +44,8 @@ class Dealer extends React.Component {
     render() {
         const fields = [{
             title: '经销商编号',
-            field: 'code'
+            field: 'code',
+            hidden: true
         }, {
             title: '经销商简称',
             field: 'abbrName',
@@ -89,37 +90,20 @@ class Dealer extends React.Component {
             keyName: 'code',
             valueName: 'name'
         }, {
-            title: '当前节点',
-            field: 'curNodeCode',
-            type: 'select',
-            listCode: 630147,
-            keyName: 'code',
-            valueName: 'name'
-        }, {
-            title: '当前状态',
-            field: 'agreementStatus',
-            type: 'select',
-            data: [{
-                key: '0',
-                value: '下架'
-            }, {
-                key: '1',
-                value: '上架'
-            }],
-            keyName: 'key',
-            valueName: 'value'
+            title: '更新时间',
+            field: 'updateDatetime',
+            type: 'datetime'
         }];
         return this.props.buildList({
             fields,
             pageCode: 632065,
+            deleteCode: 632061,
             btnEvent: {
                 edit: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '006_02' && selectedRows[0].curNodeCode !== '006_03' && selectedRows[0].agreementStatus !== '0') {
-                        showWarnMsg('当前节点不可修改');
                     } else {
                         this.props.history.push(`/jxsmassage/jxsmassage/addedit?code=${selectedRowKeys[0]}`);
                     }
