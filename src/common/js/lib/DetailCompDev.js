@@ -320,7 +320,6 @@ export default class DetailComp extends React.Component {
   }
   // 设置详情页数据
   setPageData(data) {
-    console.log(this.options.useData);
     this.setState({ pageData: this.options.useData }, () => {
       this.setState({ isLoaded: true });
     });

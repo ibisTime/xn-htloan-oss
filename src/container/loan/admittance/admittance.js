@@ -38,7 +38,7 @@ class Admittance extends React.Component {
             field: 'userName',
             search: true,
             render: (v, d) => {
-                return d ? d.creditUser.userName : '';
+                return d && d.creditUser ? d.creditUser.userName : '';
             }
         }, {
             title: '贷款银行',
