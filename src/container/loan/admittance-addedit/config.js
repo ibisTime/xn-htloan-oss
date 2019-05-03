@@ -123,15 +123,20 @@ export const checkFieldsMap = {
   ],
   '6': [
     [
-      'mateName', 'relation', 'mateMobile', 'mateIdNo', 'mateEducation', 'mateBirthAddressProvince',
-      'mateDetailAddress', 'matePostCode', 'mateCompanyName', 'mateCompanyAddress', 'mateCompanyContactNo',
+      'mateName', 'relation', 'mateMobile', 'mateIdNo', 'mateEducation',
+      'mateBirthAddressProvince', 'mateBirthAddress', 'matePostCode',
+      'mateCompanyName', 'mateCompanyAddress', 'mateCompanyContactNo',
       'mateAssetPdf'
     ],
     []
   ],
   '7': [
-    'userName', 'relation', 'guaMobile', 'guaIdNo', 'guaEducation', 'guaBirthAddressProvince',
-    'guaDetailAddress', 'guaPostCode', 'guaCompanyName', 'guaCompanyAddress',
-    'guaCompanyContactNo', 'mateAssetPdf'
+    [
+      'userName', 'relation', 'guaMobile', 'guaIdNo', 'guaEducation',
+      'guaBirthAddressProvince', 'guaBirthAddress', 'guaPostCode',
+      'guaCompanyName', 'guaCompanyAddress', 'guaCompanyContactNo',
+      'guaAssetPdf'
+    ],
+    []
   ]
 };
