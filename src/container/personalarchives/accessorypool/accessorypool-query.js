@@ -678,7 +678,7 @@ class ArchivesAddEdit extends React.Component {
             return pageData.attachments.map(c => (
                 <Card key={c.code}>
                     <Row gutter={54}>
-                        {this.getSelectCols({field: 'kname'}, attAchment, 3, c)}
+                        {this.getInputCol({field: 'vname'}, 2, c)}
                         {this.getFileCols({field: 'url', type: 'img'}, 3, c)}
                     </Row>
                 </Card>

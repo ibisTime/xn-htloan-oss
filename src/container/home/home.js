@@ -57,7 +57,6 @@ class Home extends React.Component {
             getCurNodeCode(),
             getDictList({parentKey: 'node_type'})
         ]).then(([qiniuToken, roleData, noticeData, companysystemData, userData, toDoListData, curNodeData, nodeType]) => {
-            console.log(toDoListData);
             let curNodeD = {};
             let nodeTypeD = {};
             curNodeData.map(v => {

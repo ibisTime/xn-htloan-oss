@@ -347,7 +347,11 @@ const ROUTES = [
         path: '/loan/madeCard/addedit',
         component: asyncComponent(() => import('container/loan/madeCard/madeCard-addedit'))
     },
-
+  //  制卡 添加
+  {
+    path: '/loan/madeCard/addedits',
+    component: asyncComponent(() => import('container/loan/madeCard/madeCard-addedits'))
+  },
     //  录入发保合
   {
     path: '/biz/insurance',

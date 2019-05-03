@@ -1,8 +1,10 @@
 import React from 'react';
-import { initStates, doFetching, cancelFetching, setSelectData, setPageData,
-    restore } from '@redux/loan/credit-addedit';
+import {
+    initStates, doFetching, cancelFetching, setSelectData, setPageData,
+    restore
+} from '@redux/loan/credit-addedit';
 // import { getQueryString, showWarnMsg, showSucMsg, getUserId, moneyFormat } from 'common/js/util';
-import { DetailWrapper } from 'common/js/build-detail';
+import {DetailWrapper} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 // import {Card, Form, Row, Spin, Tabs} from "antd";
 import {Form, Tabs, Row, Col, Spin, Button, Table, Card, Icon, Tooltip} from 'antd';
@@ -77,6 +79,7 @@ class CreditAddedit extends React.Component {
             creditResult
         });
     };
+
     render() {
         // 征信列表字段
         let o2mFields = [{
@@ -155,7 +158,7 @@ class CreditAddedit extends React.Component {
             hidden: this.isEntry,
             noVisible: true
         }, {
-            title: '面签照片',
+            title: '手持授权书照片',
             field: 'interviewPic',
             type: 'img',
             required: true,
@@ -165,92 +168,95 @@ class CreditAddedit extends React.Component {
         if (!this.isAddedit) { // 修改征信查询中征信列表中才显示的字段
             o2mFields = o2mFields.concat([
                 {
-                title: '银行征信结果(是否通过)',
-                field: 'bankResult',
-                type: 'select',
-                readonly: !this.isEntry,
-                data: [{
-                    key: '0',
-                    value: '不通过'
+                    title: '银行征信结果(是否通过)',
+                    field: 'bankResult',
+                    type: 'select',
+                    readonly: !this.isEntry,
+                    data: [{
+                        key: '0',
+                        value: '不通过'
+                    }, {
+                        key: '1',
+                        value: '通过'
+                    }],
+                    keyName: 'key',
+                    valueName: 'value',
+                    hidden: !this.view,
+                    required: true,
+                    noVisible: true
                 }, {
-                    key: '1',
-                    value: '通过'
-                }],
-                keyName: 'key',
-                valueName: 'value',
-                hidden: !this.view,
-                required: true,
-                noVisible: true
-            }, {
-                title: '银行征信报告',
-                field: 'bankCreditReport',
-                type: 'img',
-                single: true, // 单张
-                required: true,
-                readonly: !this.isEntry,
-                hidden: !this.view,
-                noVisible: true
-            }, {
-                title: '大数据征信报告(多张)',
-                field: 'dataCreditReport',
-                type: 'img',
-                readonly: !this.isEntry,
-                hidden: !this.view,
-                noVisible: true
-            }, {
-                title: '征信报告说明',
-                field: 'creditNote',
-                readonly: !this.isEntry,
-                type: 'textarea',
-                normalArea: true,
-                hidden: !this.view,
-                noVisible: true
-            }]);
+                    title: '银行卡使用占比',
+                    field: 'bankCreditReport',
+                    required: true,
+                    number: true,
+                    readonly: !this.isEntry,
+                    hidden: !this.view,
+                    noVisible: true
+                }, {
+                    title: '银行征信报告',
+                    field: 'bankCreditReport',
+                    type: 'img',
+                    single: true, // 单张
+                    required: true,
+                    readonly: !this.isEntry,
+                    hidden: !this.view,
+                    noVisible: true
+                }, {
+                    title: '大数据征信报告(多张)',
+                    field: 'dataCreditReport',
+                    type: 'img',
+                    readonly: !this.isEntry,
+                    hidden: !this.view,
+                    noVisible: true
+                }, {
+                    title: '征信报告说明',
+                    field: 'creditNote',
+                    readonly: !this.isEntry,
+                    type: 'textarea',
+                    normalArea: true,
+                    hidden: !this.view,
+                    noVisible: true
+                }]);
         }
 
         // 详情回显列表字段
         let fields = [
-        //     {
-        //     title: '业务团队',
-        //     field: 'teamName',
-        //     type: 'select',
-        //     hidden: this.isAddedit || this.isEntry || this.isCheck// 征信查询或录入征信结果 审核详情隐藏
-        // },
             {
-            title: '业务编号',
-            field: 'code',
-            // formatter: (v, d) => {
-            //     return d ? d.cdbiz.code : '';
-            // },
+                title: '业务编号',
+                field: 'code',
+                // formatter: (v, d) => {
+                //     return d ? d.cdbiz.code : '';
+                // },
                 formatter: (v, d) => {
                     return <div>
-                        {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                        {d.code}<a href="javascript:void(0);" style={{marginLeft: 20}} onClick={() => {
                         window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
                     }}>查看详情</a>
                     </div>;
                 },
-            hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
-        }, {
-            title: '客户姓名',
-            field: 'userName',
+                hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+            }, {
+                title: '客户姓名',
+                field: 'userName',
                 formatter: (v, d) => {
                     return d ? d.creditUser.userName : '';
                 },
-            hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
-        },
+                hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+            },
             {
-            title: '贷款银行',
-            field: 'loanBankName',
-            type: 'select',
-            listCode: 632037,
-            keyName: 'code',
-            valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
-            required: true,
+                title: '贷款银行',
+                field: 'loanBankName',
+                type: 'select',
+                listCode: 632037,
+                keyName: 'code',
+                valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
+                required: true,
                 onChange: (v, data, props) => {
-                console.log(data);
+                    console.log(data);
                     props.setPageData({
                         ...this.props.pageData,
-                        loanBankCode: data.code});
+                        loanBankCode: data.code
+                    });
                 }
             },
             {
@@ -260,93 +266,94 @@ class CreditAddedit extends React.Component {
                 min: '1',
                 required: true
             }, {
-            title: '业务种类',
-            field: 'bizType',
-            type: 'select',
-            key: 'budget_orde_biz_typer',
-            required: true,
-            onChange: (v, data, props) => {
-                props.setPageData({
-                    ...this.props.pageData,
-                    bizType: data.dkey});
-            }
-        }, {
-            title: '二手车评估报告',
-            field: 'secondCarReport', // secondCarReport
-            type: 'img',
-            hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车 录入征信结果 审核时隐藏
-            required: this.props.pageData.bizType === '1', // 二手车必填
-            readonly: this.code, // 修改征信时 只读
+                title: '业务种类',
+                field: 'bizType',
+                type: 'select',
+                key: 'budget_orde_biz_typer',
+                required: true,
+                onChange: (v, data, props) => {
+                    props.setPageData({
+                        ...this.props.pageData,
+                        bizType: data.dkey
+                    });
+                }
+            }, {
+                title: '二手车评估报告',
+                field: 'secondCarReport', // secondCarReport
+                type: 'img',
+                hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车 录入征信结果 审核时隐藏
+                required: this.props.pageData.bizType === '1', // 二手车必填
+                readonly: this.code, // 修改征信时 只读
                 formatter(v, d) {
                     let url = '';
                     d.attachments.forEach(item => {
-                        if(item.vname === '二手车评估报告') {
+                        if (item.vname === '二手车评估报告') {
                             url = item.url;
                         }
                     });
                     return url;
                 }
-        }, {
-            title: '行驶证正面',
-            field: 'xszFront',
-            type: 'img',
-            hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车隐藏
-            required: this.props.pageData.bizType === '1',
-            readonly: this.code, // 修改征信时 只读
-            formatter(v, d) {
-                let url = '';
-                d.attachments.forEach(item => {
-                    if(item.vname === '行驶证正面') {
-                        url = item.url;
-                    }
-                });
-                return url;
-            }
-        }, {
-            title: '行驶证反面',
-            field: 'xszReverse',
-            type: 'img',
-            hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车隐藏
-            required: this.props.pageData.bizType === '1',
-            readonly: this.code, // 修改征信时 只读
+            }, {
+                title: '行驶证正面',
+                field: 'xszFront',
+                type: 'img',
+                hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车隐藏
+                required: this.props.pageData.bizType === '1',
+                readonly: this.code, // 修改征信时 只读
                 formatter(v, d) {
                     let url = '';
                     d.attachments.forEach(item => {
-                        if(item.vname === '行驶证反面') {
+                        if (item.vname === '行驶证正面') {
                             url = item.url;
                         }
                     });
                     return url;
                 }
-        }, {
-            title: '业务归属',
-            field: 'ywyUser',
-            formatter: (v, d) => {
-                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+            }, {
+                title: '行驶证反面',
+                field: 'xszReverse',
+                type: 'img',
+                hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车隐藏
+                required: this.props.pageData.bizType === '1',
+                readonly: this.code, // 修改征信时 只读
+                formatter(v, d) {
+                    let url = '';
+                    d.attachments.forEach(item => {
+                        if (item.vname === '行驶证反面') {
+                            url = item.url;
+                        }
+                    });
+                    return url;
+                }
+            }, {
+                title: '业务归属',
+                field: 'ywyUser',
+                formatter: (v, d) => {
+                    return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                },
+                hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+            }, {
+                title: '指派归属',
+                field: 'zfStatus',
+                formatter: (v, d) => {
+                    return d ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+                },
+                hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+            }, {
+                title: '当前状态',
+                field: 'status',
+                key: 'cdbiz_status',
+                type: 'select',
+                formatter: (v, d) => {
+                    return d ? d.cdbiz.status : '';
+                },
+                hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+            }, {
+                title: '审核说明',
+                field: 'approveNote',
+                readonly: !this.isCheck,
+                hidden: !this.isCheck
             },
-            hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
-        }, {
-            title: '指派归属',
-            field: 'zfStatus',
-            formatter: (v, d) => {
-                return d ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
-            },
-            hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
-        }, {
-            title: '当前状态',
-            field: 'status',
-            key: 'cdbiz_status',
-            type: 'select',
-            formatter: (v, d) => {
-                return d ? d.cdbiz.status : '';
-            },
-            hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
-        }, {
-            title: '审核说明',
-            field: 'approveNote',
-            readonly: !this.isCheck,
-            hidden: !this.isCheck
-        },
             {
                 title: '征信列表',
                 field: 'creditUserList',
@@ -393,7 +400,6 @@ class CreditAddedit extends React.Component {
                         }
                     },
                     checkName: '录入',
-                    // scroll: {x: 1300},
                     fields: o2mFields
                 }
             }
@@ -539,12 +545,13 @@ class CreditAddedit extends React.Component {
         }
 
         // 新增/修改征信信息
-        if(this.isAddedit) {
+        if (this.isAddedit) {
             this.buttons = [
                 {
                     title: '保存',
                     check: true,
                     handler: (params) => {
+                        console.log(222, params);
                         let data = {};
                         let item = [];
                         data.bizType = params.bizType; // 业务类型
@@ -681,9 +688,54 @@ class CreditAddedit extends React.Component {
                                 param.operator = getUserId();
                                 return param;
                             }
+                        },
+                        afterDetail: () => {
+                            let data = this.props.pageData;
+                            data.creditUserList.forEach(user => {
+                                // user 担保人、申请人、共还人
+                                if (user.loanRole === '1') {
+                                    data.attachments.forEach(item => {
+                                        if (item.vname === '申请人身份证正面') {
+                                            user.idFront = item.url;
+                                        } else if (item.vname === '申请人身份证反面') {
+                                            user.idReverse = item.url;
+                                        } else if (item.vname === '申请人征信查询授权书') {
+                                            user.authPdf = item.url;
+                                        } else if (item.vname === '申请人面签照片') {
+                                            user.interviewPic = item.url;
+                                        }
+                                    });
+                                } else if (user.loanRole === '2') {
+                                    data.attachments.forEach(item => {
+                                        if (item.vname === '担保人身份证正面') {
+                                            user.idFront = item.url;
+                                        } else if (item.vname === '担保人身份证反面') {
+                                            user.idReverse = item.url;
+                                        } else if (item.vname === '担保人征信查询授权书') {
+                                            user.authPdf = item.url;
+                                        } else if (item.vname === '担保人面签照片') {
+                                            user.interviewPic = item.url;
+                                        }
+                                    });
+                                } else if (user.loanRole === '3') {
+                                    data.attachments.forEach(item => {
+                                        if (item.vname === '共还人身份证正面') {
+                                            user.idFront = item.url;
+                                        } else if (item.vname === '共还人身份证反面') {
+                                            user.idReverse = item.url;
+                                        } else if (item.vname === '共还人征信查询授权书') {
+                                            user.authPdf = item.url;
+                                        } else if (item.vname === '共还人面签照片') {
+                                            user.interviewPic = item.url;
+                                        }
+                                    });
+                                }
+                            });
+                            this.props.setPageData(data);
+                            console.log(this.props.pageData);
                         }
                     })
-                 }
+                }
             </div>
         );
     }

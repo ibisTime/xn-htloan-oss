@@ -52,6 +52,7 @@ class receivables extends React.Component {
             },
             type: 'select',
             keyName: 'code',
+            search: true,
             valueName: 'name',
             required: true
         }, {

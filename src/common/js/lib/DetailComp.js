@@ -379,6 +379,7 @@ export default class DetailComponent extends React.Component {
         ...data,
         ...pageData
       });
+      this.options.afterDetail && this.options.afterDetail();
       this.o2mDataTmpls = null;
     }
 

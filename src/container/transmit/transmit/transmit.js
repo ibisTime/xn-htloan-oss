@@ -37,21 +37,6 @@ class Transmit extends React.Component {
             title: '客户姓名',
             field: 'customerName'
         }, {
-            title: '业务团队',
-            field: 'teamName'
-        }, {
-            title: '信贷专员',
-            field: 'saleUserName'
-        }, {
-            title: '内勤专员',
-            field: 'insideJobName'
-        }, {
-            title: '发件人',
-            field: 'senderName'
-        }, {
-            title: '收件人',
-            field: 'receiverName'
-        }, {
             title: '传递方式',
             field: 'sendType',
             type: 'select',

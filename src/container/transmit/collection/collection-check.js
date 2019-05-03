@@ -93,7 +93,14 @@ class CollectionCheck extends React.Component {
     }, {
         title: '业务编号',
         field: 'bizCode',
-        readonly: true
+        readonly: true,
+        formatter: (v, d) => {
+            return <div>
+                {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + this.code;
+            }}>查看详情</a>
+            </div>;
+        }
     }, {
         title: '发件节点',
         field: 'fromNodeCode',
@@ -140,7 +147,7 @@ class CollectionCheck extends React.Component {
         type: 'checkbox',
         listCode: 632217,
         keyName: 'id',
-        valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份',
+        valueName: '{{no.DATA}}-{{vname.DATA}}-{{number.DATA}}份',
         render: (v, d) => {
             if (d.filelist) {
                 return d.filelist.split(',');

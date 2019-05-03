@@ -1,6 +1,6 @@
 import React from 'react';
 // import { Form, Tooltip } from 'antd';
-import {Form, Tabs, Row, Col, Spin, Button, Table, Card, Icon, Tooltip} from 'antd';
+import {Form, Tabs, Row, Col, Spin, message, Button, Table, Card, Icon, Tooltip} from 'antd';
 import {
     getQueryString, showWarnMsg, showSucMsg, getUserId, isUndefined, isExpressConfirm, getRules,
     getRealValue, moneyFormat, moneyParse, getUserName, dateTimeFormat
@@ -142,20 +142,24 @@ class AdmittanceShenhe extends DetailUtil {
             buttons = [{
                 title: '通过',
                 handler: (params) => {
-                    let data = {};
-                    data.code = this.code;
-                    data.approveResult = '1'; // 审核结果 通过
-                    data.approveNote = params.approveNote; // 审核意见
-                    data.operator = getUserId();
-                    this.doFetching();
-                    fetch(bizCode, data).then((res) => {
-                        showSucMsg('操作成功');
-                        isExpressConfirm(res);
-                        this.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.cancelFetching);
+                    if (params.approveNote) {
+                        let data = {};
+                        data.code = this.code;
+                        data.approveResult = '1'; // 审核结果 通过
+                        data.approveNote = params.approveNote; // 审核意见
+                        data.operator = getUserId();
+                        this.doFetching();
+                        fetch(bizCode, data).then((res) => {
+                            showSucMsg('操作成功');
+                            isExpressConfirm(res);
+                            this.cancelFetching();
+                            setTimeout(() => {
+                                this.props.history.go(-1);
+                            }, 1000);
+                        }).catch(this.cancelFetching);
+                    } else {
+                        message.warning('请填写审核意见');
+                    }
                 }
             }, {
                 title: '不通过',

@@ -28,13 +28,13 @@ import {setTimeout} from 'core-js';
 class Goodsloan extends React.Component {
     render() {
         const fields = [{
-            title: '产品名称',
-            field: 'name'
-        }, {
             title: '针对类型',
             field: 'type',
             type: 'select',
             key: 'budget_orde_biz_typer'
+        }, {
+            title: '产品名称',
+            field: 'name'
         }, {
             title: '贷款银行',
             field: 'loanBankName'
@@ -43,7 +43,7 @@ class Goodsloan extends React.Component {
             field: 'wanFactor',
             amount: true
         }, {
-            title: '年化利率',
+            title: '年化利率(%)',
             field: 'yearRate'
         }, {
             title: 'GPS费用(元)',

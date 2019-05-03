@@ -108,7 +108,7 @@ class FaceSignAddedit extends DetailUtil {
             buttons = [{
                 title: '确认',
                 handler: (params) => {
-                    if (params.repayCardNumber) {
+                    if (params.cardPostAddress) {
                         // console.log(params);
                         let data = {};
                         data.code = this.code;
@@ -125,7 +125,7 @@ class FaceSignAddedit extends DetailUtil {
                             }, 1000);
                         }).catch(this.cancelFetching);
                     } else {
-                        message.warning('请填写卡号');
+                        message.warning('请填写卡邮寄地址');
                     }
                 }
             }, {

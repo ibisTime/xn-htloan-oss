@@ -85,7 +85,7 @@ class MadeCard extends React.Component {
                         } else if (selectedRows[0].makeCardNode !== 'h1') {
                             showWarnMsg('当前不是填写制卡单节点');
                         } else {
-                            this.props.history.push(`/loan/madeCard/addedit?code=${selectedRowKeys[0]}`);
+                            this.props.history.push(`/loan/madeCard/addedits?code=${selectedRowKeys[0]}`);
                         }
                     },
                     // 手工制卡

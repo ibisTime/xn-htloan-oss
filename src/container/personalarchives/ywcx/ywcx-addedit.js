@@ -462,7 +462,7 @@ class ArchivesAddEdit extends React.Component {
             hidden: item.hidden,
             inline: isUndefined(item.inline) ? true : item.inline,
             field: item.field,
-            label: null,
+            label: this.getLabel(item),
             single: item.single,
             readonly: item.readonly,
             onChange: item.onChange,
@@ -704,51 +704,6 @@ class ArchivesAddEdit extends React.Component {
             rowKey: record => record.id
         };
     }
-
-// 获取征信列表
-    getCreditList() {
-        const {pageData: {creditUserList}, interestData, loanRoleData, relationData} = this.state;
-        if (creditUserList && creditUserList.length) {
-            return creditUserList.map(c => (
-                <Card key={c.code}>
-                    <Row gutter={54}>
-                        {this.getInputCol({field: 'userName', title: '姓名'}, 3, c)}
-                        {this.getSelectCol({field: 'relation', title: '与借款人关系'}, relationData, 3, c)}
-                        {this.getSelectCol({
-                            field: 'loanRole',
-                            title: '贷款角色',
-                            keyName: 'dkey',
-                            valueName: 'dvalue'
-                        }, interestData, 33, c)}
-                    </Row>
-                    <Row gutter={54}>
-                        {this.getInputCol({field: 'mobile', title: '手机号'}, 2, c)}
-                        {this.getInputCol({field: 'idNo', title: '身份证号'}, 2, c)}
-                    </Row>
-                    <Row gutter={54}>
-                        {this.getFileCol({field: 'idNoFront', title: '身份证正面', type: 'img'}, 2, c)}
-                        {this.getFileCol({field: 'idNoReverse', title: '身份证反面', type: 'img'}, 2, c)}
-                    </Row>
-                    <Row gutter={54}>
-                        {this.getFileCol({field: 'authPdf', title: '征信查询授权书', type: 'img'}, 2, c)}
-                        {this.getFileCol({field: 'interviewPic', title: '面签照片', type: 'img'}, 2, c)}
-                    </Row>
-                    <Row gutter={54}>
-                        {this.getFileCol({field: 'bankCreditResultPdf', title: '银行征信报告', type: 'img'}, 3, c)}
-                        {this.getFileCol({
-                            title: '大数据征信报告(多张)',
-                            field: 'dataReport',
-                            type: 'img',
-                            // required: true,
-                            readonly: true
-                        }, 3)}        {this.getInputCol({field: 'bankCreditResultRemark', title: '征信结果说明'}, 3, c)}
-                    </Row>
-                </Card>
-            ));
-        }
-        return null;
-    }
-
     getNotice() {
         const {pageData: {bizTasks}, interestData} = this.state;
         if (bizTasks && bizTasks.length) {
@@ -774,8 +729,8 @@ class ArchivesAddEdit extends React.Component {
         return null;
     }
     // 获取1主贷人 2共同担保人 3担保人征信
-    getCreditLists(role) {
-        const {pageData: {creditUserList}, loanRoleData, relationData} = this.state;
+    getCreditList(role) {
+        const {pageData: {creditUserList}, interestData, relationData} = this.state;
         // console.log(creditUserList);
         this.creditUserList = creditUserList;
         if (creditUserList && creditUserList.length) {
@@ -792,7 +747,7 @@ class ArchivesAddEdit extends React.Component {
                                 {this.getSelectCol({
                                     field: 'loanRole',
                                     title: '贷款角色'
-                                }, loanRoleData, 3, creditUserList[i])}
+                                }, interestData, 3, creditUserList[i])}
                             </Row>
                             <Row gutter={54}>
                                 {this.getInputCol({field: 'mobile', title: '手机号'}, 3, creditUserList[i])}
@@ -881,7 +836,7 @@ class ArchivesAddEdit extends React.Component {
                                         return url;
                                     }
                                 }, 3, creditUserList[i])}
-                                {this.getFileCol({
+                                {this.getFileCols({
                                     title: '大数据征信报告(多张)',
                                     field: 'dataCreditReport',
                                     type: 'img',
@@ -1000,309 +955,18 @@ class ArchivesAddEdit extends React.Component {
                             <Card>
                                 <Tabs defaultActiveKey="2">
                                     {
-                                        this.state.isShowTabPane01 ? (<TabPane tab="主贷人征信" key="2">
-                                            <Row gutter={54}>
-                                                {this.getInputCol({
-                                                    field: 'userName',
-                                                    title: '姓名',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.userName;
-                                                    }
-                                                })}
-                                                {this.getSelectCol({
-                                                    field: 'relation',
-                                                    title: '与借款人关系',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.relation;
-                                                    }
-                                                }, relationData)}
-                                                {this.getSelectCol({
-                                                    field: 'loanRole',
-                                                    title: '贷款角色',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.loanRole;
-                                                    }
-                                                }, interestData, 33)}
-                                            </Row>
-                                            <Row gutter={54}>
-                                                {this.getInputCol({
-                                                    field: 'mobile',
-                                                    title: '手机号',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.mobile;
-                                                    }
-                                                })}
-                                                {this.getInputCol({
-                                                    field: 'idNo',
-                                                    title: '身份证号',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.idNo;
-                                                    }
-                                                })}
-                                                {this.getFileCol({
-                                                    field: 'idFront',
-                                                    title: '身份证正面',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.idFront;
-                                                    }
-                                                }, 33)}
-                                            </Row>
-                                            <Row gutter={54}>
-                                                {this.getFileCol({
-                                                    field: 'idReverse',
-                                                    title: '身份证反面',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.idReverse;
-                                                    }
-                                                })}
-                                                {this.getFileCol({
-                                                    field: 'authPdf',
-                                                    title: '征信查询授权书',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.authPdf;
-                                                    }
-                                                })}
-                                                {this.getFileCol({
-                                                    field: 'interviewPic',
-                                                    title: '面签照片',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.interviewPic;
-                                                    }
-                                                }, 33)}
-                                            </Row>
-                                            <Row gutter={54}>
-                                                {this.getFileCol({
-                                                    field: 'BankCreditReport',
-                                                    title: '银行征信报告',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.BankCreditReport;
-                                                    }
-                                                })}
-                                                {this.getFileCol({
-                                                    field: 'dataCreditReport',
-                                                    title: '大数据征信报告',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.dataCreditReport;
-                                                    }
-                                                })}
-                                                {this.getInputCol({
-                                                    field: 'bankCreditResultRemark',
-                                                    title: '征信结果说明',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.bankCreditResultRemark;
-                                                    }
-                                                }, 33)}
-                                            </Row>
+                                        this.state.isShowTabPane01 ? (<TabPane tab="主贷人征信" key="1">
+                                            {this.getCreditList(1)}
                                         </TabPane>) : null
                                     }
                                     {
-                                        this.state.isShowTabPane02 ? (<TabPane tab="主贷人征信" key="2">
-                                            <Row gutter={54}>
-                                                {this.getInputCol({
-                                                    field: 'userName',
-                                                    title: '姓名',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.userName;
-                                                    }
-                                                })}
-                                                {this.getSelectCol({
-                                                    field: 'relation',
-                                                    title: '与借款人关系',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.relation;
-                                                    }
-                                                }, relationData)}
-                                                {this.getSelectCol({
-                                                    field: 'loanRole',
-                                                    title: '贷款角色',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.loanRole;
-                                                    }
-                                                }, interestData, 33)}
-                                            </Row>
-                                            <Row gutter={54}>
-                                                {this.getInputCol({
-                                                    field: 'mobile',
-                                                    title: '手机号',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.mobile;
-                                                    }
-                                                })}
-                                                {this.getInputCol({
-                                                    field: 'idNo',
-                                                    title: '身份证号',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.idNo;
-                                                    }
-                                                })}
-                                                {this.getFileCol({
-                                                    field: 'idFront',
-                                                    title: '身份证正面',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.idFront;
-                                                    }
-                                                }, 33)}
-                                            </Row>
-                                            <Row gutter={54}>
-                                                {this.getFileCol({
-                                                    field: 'idReverse',
-                                                    title: '身份证反面',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.idReverse;
-                                                    }
-                                                })}
-                                                {this.getFileCol({
-                                                    field: 'authPdf',
-                                                    title: '征信查询授权书',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.authPdf;
-                                                    }
-                                                })}
-                                                {this.getFileCol({
-                                                    field: 'interviewPic',
-                                                    title: '面签照片',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.interviewPic;
-                                                    }
-                                                }, 33)}
-                                            </Row>
-                                            <Row gutter={54}>
-                                                {this.getFileCol({
-                                                    field: 'BankCreditReport',
-                                                    title: '银行征信报告',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.BankCreditReport;
-                                                    }
-                                                })}
-                                                {this.getFileCol({
-                                                    field: 'dataCreditReport',
-                                                    title: '大数据征信报告',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.dataCreditReport;
-                                                    }
-                                                })}
-                                                {this.getInputCol({
-                                                    field: 'bankCreditResultRemark',
-                                                    title: '征信结果说明',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.bankCreditResultRemark;
-                                                    }
-                                                }, 33)}
-                                            </Row>
+                                        this.state.isShowTabPane02 ? (<TabPane tab="共同还款人征信" key="2">
+                                            {this.getCreditList(2)}
                                         </TabPane>) : null
                                     }
                                     {
-                                        this.state.isShowTabPane03 ? (<TabPane tab="主贷人征信" key="2">
-                                            <Row gutter={54}>
-                                                {this.getInputCol({
-                                                    field: 'userName',
-                                                    title: '姓名',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.userName;
-                                                    }
-                                                })}
-                                                {this.getSelectCol({
-                                                    field: 'relation',
-                                                    title: '与借款人关系',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.relation;
-                                                    }
-                                                }, relationData)}
-                                                {this.getSelectCol({
-                                                    field: 'loanRole',
-                                                    title: '贷款角色',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.loanRole;
-                                                    }
-                                                }, interestData, 33)}
-                                            </Row>
-                                            <Row gutter={54}>
-                                                {this.getInputCol({
-                                                    field: 'mobile',
-                                                    title: '手机号',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.mobile;
-                                                    }
-                                                })}
-                                                {this.getInputCol({
-                                                    field: 'idNo',
-                                                    title: '身份证号',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.idNo;
-                                                    }
-                                                })}
-                                                {this.getFileCol({
-                                                    field: 'idFront',
-                                                    title: '身份证正面',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.idFront;
-                                                    }
-                                                }, 33)}
-                                            </Row>
-                                            <Row gutter={54}>
-                                                {this.getFileCol({
-                                                    field: 'idReverse',
-                                                    title: '身份证反面',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.idReverse;
-                                                    }
-                                                })}
-                                                {this.getFileCol({
-                                                    field: 'authPdf',
-                                                    title: '征信查询授权书',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.authPdf;
-                                                    }
-                                                })}
-                                                {this.getFileCol({
-                                                    field: 'interviewPic',
-                                                    title: '面签照片',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.interviewPic;
-                                                    }
-                                                }, 33)}
-                                            </Row>
-                                            <Row gutter={54}>
-                                                {this.getFileCol({
-                                                    field: 'BankCreditReport',
-                                                    title: '银行征信报告',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.BankCreditReport;
-                                                    }
-                                                })}
-                                                {this.getFileCol({
-                                                    field: 'dataCreditReport',
-                                                    title: '大数据征信报告',
-                                                    type: 'img',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.dataCreditReport;
-                                                    }
-                                                })}
-                                                {this.getInputCol({
-                                                    field: 'bankCreditResultRemark',
-                                                    title: '征信结果说明',
-                                                    formatter: (v, d) => {
-                                                        return d.creditUser.bankCreditResultRemark;
-                                                    }
-                                                }, 33)}
-                                            </Row>
+                                        this.state.isShowTabPane03 ? (<TabPane tab="担保人征信" key="3">
+                                            {this.getCreditList(3)}
                                         </TabPane>) : null
                                     }
                                 </Tabs>
@@ -1656,6 +1320,11 @@ class ArchivesAddEdit extends React.Component {
                                         title: '抵押代理人身份证复印件',
                                         type: 'img'
                                     }, 33)}
+                                </Row>
+                            </Card>
+                            <Card>
+                                <Row gutter={54}>
+                                    <Table {...this.getTableProp()}/>
                                 </Row>
                             </Card>
                         </TabPane>
