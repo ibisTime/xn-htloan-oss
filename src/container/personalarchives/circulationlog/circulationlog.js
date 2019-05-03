@@ -65,9 +65,8 @@ class Circulationlog extends React.Component {
       field: 'endDatetime',
       type: 'datetime'
     }, {
-      title: '花费时间',
-      field: 'speedTime',
-      type: 'datetime'
+      title: '花费时间(小时)',
+      field: 'speedTime'
     }];
     return this.props.buildList({
       fields,

@@ -117,7 +117,6 @@ class archivesAddedit extends React.Component {
             buttons: [{
                 title: '确认',
                 handler: (param) => {
-                    console.log(param);// param 为选中返回的一条数据
                     param.operator = getUserId();
                     param.insideJob = param.saleUserName;
                     param.bizCode = this.code;

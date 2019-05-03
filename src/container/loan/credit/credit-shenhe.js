@@ -167,12 +167,12 @@ class ArchivesAddEdit extends React.Component {
             getQiniuToken(),
             fetch(632117, {code: this.code})
         ]).then(([
-                     loanProductData, cdBizCode, bizTypeData, loanPeriodData, regionData, carTypeData,
-                     genderData, marryStateData, educationData, addressData, relationData,
-                     industryData, propertyData, incomeData, positionData, professionData,
-                     interestData, loanRoleData, enterFileData, enterLocationData,
-                     uploadToken, pageData
-                 ]) => {
+             loanProductData, cdBizCode, bizTypeData, loanPeriodData, regionData, carTypeData,
+             genderData, marryStateData, educationData, addressData, relationData,
+             industryData, propertyData, incomeData, positionData, professionData,
+             interestData, loanRoleData, enterFileData, enterLocationData,
+             uploadToken, pageData
+         ]) => {
             this.setState({
                 loanProductData,
                 cdBizCode,
@@ -214,6 +214,8 @@ class ArchivesAddEdit extends React.Component {
                 fetching: false,
                 isLoaded: true
             }, () => {
+                const {pageData: {creditUserList}} = this.state;
+                this.creditUserList = creditUserList;
                 const eleList = document.querySelectorAll('.ant-form-item-label');
                 eleList.forEach(item => {
                     item.style.float = 'left';
@@ -438,11 +440,7 @@ class ArchivesAddEdit extends React.Component {
         this.props.form.validateFieldsAndScroll(validateFieldsAndScrollOption, (err, values) => {
             if (!err) {
                 values.creditUserList = this.creditUserList;
-                // let bizCode = this.getBizCode();
-                // values.budgetOrderCode = this.code;
                  values.approveResult = '1';
-                // param.approveNote = this.projectCode;
-                // param.approveUser = getUserId();
                 values.operator = getUserId();
                 values.code = this.code;
                 this.setState({fetching: true});
@@ -576,147 +574,6 @@ class ArchivesAddEdit extends React.Component {
         return null;
     }
 
-    // 获取1主贷人 2共同担保人 3担保人征信
-    getCreditList(role) {
-        const {pageData: {creditUserList}, loanRoleData, relationData} = this.state;
-        // console.log(creditUserList);
-        this.creditUserList = creditUserList;
-        if (creditUserList && creditUserList.length) {
-                for (let i = 0; i < creditUserList.length; i++) {
-                    if (creditUserList[i].loanRole == role) { // 主贷人 共同担保人  担保人
-                        return (
-                            <Card key={creditUserList[i].code}>
-                                <Row gutter={54}>
-                                    {this.getInputCol({field: 'userName', title: '姓名'}, 3, creditUserList[i])}
-                                    {this.getSelectCol({
-                                        field: 'relation',
-                                        title: '与借款人关系'
-                                    }, relationData, 3, creditUserList[i])}
-                                    {this.getSelectCol({
-                                        field: 'loanRole',
-                                        title: '贷款角色'
-                                    }, loanRoleData, 3, creditUserList[i])}
-                                </Row>
-                                <Row gutter={54}>
-                                    {this.getInputCol({field: 'mobile', title: '手机号'}, 3, creditUserList[i])}
-                                    {this.getInputCol({field: 'idNo', title: '身份证号'}, 3, creditUserList[i])}
-                                    {this.getInputCol({
-                                        field: 'bankCreditResultRemark',
-                                        title: '征信结果说明'
-                                    }, 3, creditUserList[i])}
-                                </Row>
-                                <Row gutter={54}>
-                                    {this.getFileCol({
-                                        field: 'idFront',
-                                        title: '身份证正面',
-                                        type: 'img',
-                                        formatter(v, d) {
-                                            let url = '';
-                                            d.attachments.forEach(item => {
-                                                if(item.vname === '申请人身份证正面' || item.vname === '共还人身份证正面') {
-                                                    url = item.url;
-                                                }
-                                            });
-                                            return url;
-                                        }
-                                    }, 3, creditUserList[i])}
-                                    {this.getFileCol({
-                                        field: 'idReverse',
-                                        title: '身份证反面',
-                                        type: 'img',
-                                        formatter(v, d) {
-                                            let url = '';
-                                            d.attachments.forEach(item => {
-                                                if(item.vname === '申请人身份证反面' || item.vname === '共还人身份证反面') {
-                                                    url = item.url;
-                                                }
-                                            });
-                                            return url;
-                                        }
-                                    }, 3, creditUserList[i])}
-                                    {this.getFileCol({
-                                        field: 'interviewPic',
-                                        title: '面签照片',
-                                        type: 'img',
-                                        formatter(v, d) {
-                                            let url = '';
-                                            d.attachments.forEach(item => {
-                                                if(item.vname === '申请人面签照片' || item.vname === '共还人面签照片') {
-                                                    url = item.url;
-                                                }
-                                            });
-                                            return url;
-                                        }
-                                    }, 3, creditUserList[i])}
-                                </Row>
-                                <Row gutter={54}>
-                                    {this.getFileCol({
-                                        field: 'BankCreditReport',
-                                        title: '征信报告',
-                                        type: 'img',
-                                        formatter(v, d) {
-                                            let url = '';
-                                            d.attachments.forEach(item => {
-                                                if(item.vname === '申请人银行征信报告' || item.vname === '共还人银行征信报告') {
-                                                    url = item.url;
-                                                }
-                                            });
-                                            return url;
-                                        }
-                                    }, 3, creditUserList[i])}
-                                    {this.getSelectCol({
-                                        title: '银行征信结果是否通过',
-                                        field: 'bankCreditResult' // bankCreditResultPdf
-                                    }, isbankCreditResultPdf, 3, creditUserList[i])}
-                                </Row>
-                                <Row gutter={54}>
-                                    {this.getFileCol({
-                                        field: 'authPdf',
-                                        title: '征信查询授权书',
-                                        type: 'img',
-                                        formatter(v, d) {
-                                        let url = '';
-                                        d.attachments.forEach(item => {
-                                        if(item.vname === '申请人征信查询授权书' || item.vname === '共还人征信查询授权书') {
-                                        url = item.url;
-                                    }
-                                    });
-                                        return url;
-                                    }
-                                    }, 3, creditUserList[i])}
-                                    {this.getFileCol({
-                                        title: '大数据征信报告(多张)',
-                                        field: 'dataCreditReport',
-                                        type: 'img',
-                                        // required: true,
-                                        readonly: true,
-                                        formatter(v, d) {
-                                            let url = '';
-                                            d.attachments.forEach(item => {
-                                                if(item.vname === '申请人大数据报告' || item.vname === '共还人大数据报告') {
-                                                    url = item.url;
-                                                }
-                                            });
-                                            return url;
-                                        }
-                                    }, 33, creditUserList[i])}
-
-                                </Row>
-                                <Row>
-                                    {this.getNormalTextAreaCol({
-                                        field: 'approveNote',
-                                        title: '审核意见',
-                                        type: 'textarea',
-                                        readonly: false
-                                    }, 3)}
-                                </Row>
-                            </Card>
-                        );
-                    }
-                }
-        }
-    }
-
     render() {
         const {
             cdBizCode,
@@ -768,7 +625,7 @@ class ArchivesAddEdit extends React.Component {
                             field: 'ywyUser',
                             title: '业务归属',
                             formatter: (v, d) => {
-                                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
                             },
                             readonly: true
                         }, 33)}
@@ -796,17 +653,6 @@ class ArchivesAddEdit extends React.Component {
                             }, cdBizCode)}
                         </Row>
                     </Card>
-                    <Tabs defaultActiveKey="1" className= 'query-form'>
-                        <TabPane tab="主贷人征信" key="1">
-                            {this.getCreditList(1)}
-                        </TabPane>
-                        <TabPane tab="共同还款人征信" key="2">
-                            {this.getCreditList(2)}
-                        </TabPane>
-                        <TabPane tab="担保人征信" key="3">
-                            {this.getCreditList(3)}
-                        </TabPane>
-                    </Tabs>
                     <FormItem {...tailFormItemLayout} style={{marginTop: 20}}>
                         {this.isCheck
                             ? <div>

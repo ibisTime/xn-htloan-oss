@@ -41,10 +41,10 @@ class FaceSign extends React.Component {
         }, {
             title: '客户姓名',
             field: 'userName',
-            search: true
-            // render: (v, d) => {
-            //     return d ? d.creditUser.userName : '';
-            // }
+            search: true,
+            render: (v, d) => {
+                return d ? d.creditUser.userName : '';
+            }
         }, {
             title: '贷款银行',
             field: 'loanBankName',

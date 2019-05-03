@@ -43,32 +43,17 @@ class Credit extends React.Component {
     render() {
         const fields = [{
             field: 'code',
-            // type: 'select',
             search: true,
-            // listCode: 632517,
-            // valueName: '{{code.DATA}}',
-            // keyName: 'code',
             title: '业务编号'
         }, {
             title: '客户姓名',
             field: 'userName',
             search: true,
             render: (v, t) => t.creditUser ? t.creditUser.userName : '-'
-        },
-        // {
-        //     title: '贷款银行',
-        //     field: 'loanBankCode',
-        //     type: 'select',
-        //     listCode: 632037,
-        //     keyName: 'code',
-        //     valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
-        //     hidden: true
-        // },
-            {
-                title: '贷款银行',
-                field: 'loanBankName'
-            },
-            {
+        }, {
+            title: '贷款银行',
+            field: 'loanBankName'
+        }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
@@ -98,12 +83,7 @@ class Credit extends React.Component {
             render: (v, d) => {
                 return d.saleUserName;
             }
-        },
-        //     {
-        //     title: '驻行内勤',
-        //     field: 'operatorName'
-        // },
-            {
+        }, {
             title: '状态',
             field: 'curNodeCode',
             type: 'select',
@@ -154,7 +134,6 @@ class Credit extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'a3') {
                         showWarnMsg('当前不是风控专员审核的节点');
                     } else {
-                        // this.props.history.push(`/loan/credit/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
                          this.props.history.push(`/loan/credit/shenhe?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
                     }
                 },

@@ -72,3 +72,66 @@ export const dbrwxls = ['jourDatetime8', 'guaWxJourDatetimeStart',
   'guaWxJourDatetimeEnd', 'guaWxJourInterest1', 'guaWxJourInterest2', 'guaWxInterest1',
   'guaWxInterest2', 'guaWxJourIncome', 'guaWxJourExpend', 'guaWxJourBalance',
   'guaWxJourMonthIncome', 'guaWxJourMonthExpend', 'guaWxJourRemark', 'guaWxJourPic'];
+// 每一步的校验
+export const checkFieldsMap = {
+  '1': [
+    [
+      'loanBankName', 'periods', 'bankRate', 'loanAmount', 'loanProductCode',
+      'monthDeposit', 'gpsFee', 'authFee', 'teamFee', 'otherFee', 'invoicePrice',
+      'sfAmount', 'sfRate', 'isAdvanceFund', 'isFinacing', 'isAzGps',
+      'isPlatInsure'
+    ],
+    ['loanAmount', 'monthDeposit', 'gpsFee', 'authFee', 'teamFee', 'otherFee',
+    'invoicePrice', 'sfAmount']
+  ],
+  '2': [
+    [
+      'bizType', 'vehicleCompanyName', 'invoiceCompany', 'carType', 'carBrand',
+      'carSeries', 'carModel', 'carColor', 'carFrameNo', 'carEngineNo',
+      'originalPrice', 'region', 'carDealerSubsidy', 'oilSubsidyKil', 'oilSubsidy',
+      'settleAddress', 'carPic', 'carHgzPic'
+    ],
+    ['originalPrice', 'carDealerSubsidy', 'oilSubsidy']
+  ],
+  '3': [
+    [
+      'applyUserName', 'mobile', 'idNo', 'gender', 'age', 'nation', 'political',
+      'education', 'workProfession', 'postTitle', 'isDriceLicense', 'carTypeNow',
+      'mainIncome', 'otherIncomeNote', 'isHouseProperty', 'emergencyName1',
+      'emergencyRelation1', 'emergencyMobile1', 'emergencyName2',
+      'emergencyRelation2', 'emergencyMobile2'
+    ],
+    []
+  ],
+  '4': [
+    [
+      'marryState', 'familyNumber', 'familyPhone', 'familyMainAsset', 'mainAssetInclude',
+      'residenceAddress', 'postCode2', 'nowHouseType', 'nowAddress', 'postCode', 'hkBookPdf',
+      'houseContract', 'houseInvoice', 'liveProvePdf', 'buildProvePdf', 'housePictureApply',
+      'marryPdf'
+    ],
+    ['familyMainAsset']
+  ],
+  '5': [
+    [
+      'workBelongIndustry', 'workCompanyProperty', 'workCompanyName', 'workPhone',
+      'workCompanyAddress', 'employeeQuantity', 'enterpriseMonthOutput',
+      'workDatetime', 'position', 'monthIncome', 'otherWorkNote', 'improvePdf',
+      'frontTablePic', 'workPlacePic', 'salerAndcustomer'
+    ],
+    ['monthIncome']
+  ],
+  '6': [
+    [
+      'mateName', 'relation', 'mateMobile', 'mateIdNo', 'mateEducation', 'mateBirthAddressProvince',
+      'mateDetailAddress', 'matePostCode', 'mateCompanyName', 'mateCompanyAddress', 'mateCompanyContactNo',
+      'mateAssetPdf'
+    ],
+    []
+  ],
+  '7': [
+    'userName', 'relation', 'guaMobile', 'guaIdNo', 'guaEducation', 'guaBirthAddressProvince',
+    'guaDetailAddress', 'guaPostCode', 'guaCompanyName', 'guaCompanyAddress',
+    'guaCompanyContactNo', 'mateAssetPdf'
+  ]
+};
