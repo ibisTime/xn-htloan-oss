@@ -1964,7 +1964,7 @@ const ROUTES = [
     component: asyncComponent(() => import('container/biz/jxsmassage/dealer'))},
   {
     path: '/jxsmassage/jxsmassage/addedit',
-    component: asyncComponent(() => import('container/biz/jxsmassage/dealer-addedit'))}
+    component: asyncComponent(() => import('container/biz/jxsmassage/dealers-addedit'))}
 
 ];
 

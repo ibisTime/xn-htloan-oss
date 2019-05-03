@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use('/api', function (req, res) {
   // var url = 'http://120.26.6.213:2401/forward-service/api';
-   var url = 'http://192.168.1.118:8080/forward-service/api';
+  var url = 'http://192.168.1.118:8080/forward-service/api';
   // var url = 'http://47.96.161.183:2401/forward-service/api';
   // var url = 'http://47.99.163.139:2401/forward-service/api';
   var _body = req.body;

@@ -51,6 +51,12 @@ class goodsloanAddedit extends React.Component {
             valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
             required: true
         }, {
+            title: '贷款期限',
+            field: 'loanPeriod',
+            type: 'select',
+            key: 'loan_period',
+            required: true
+        }, {
             title: '万元系数',
             field: 'wanFactor',
             amount: true,

@@ -44,6 +44,23 @@ import {
 class receivables extends React.Component {
     render() {
         const fields = [{
+            title: '账号类型',
+            field: 'type',
+            required: true,
+            type: 'select',
+            data: [{
+                dkey: '1',
+                dvalue: '分公司收款账号'
+            }, {
+                dkey: '2',
+                dvalue: '经销商收款账号'
+            }, {
+                dkey: '3',
+                dvalue: '经销商返点账号'
+            }],
+            keyName: 'dkey',
+            valueName: 'dvalue'
+        }, {
             title: '公司名称',
             field: 'companyCode',
             listCode: 630106,
@@ -57,12 +74,15 @@ class receivables extends React.Component {
             required: true
         }, {
             title: '户名',
-            field: 'realName'
+            field: 'bankcardNumber'
+        }, {
+            title: '开户行',
+            field: 'bankName'
         }, {
             title: '账号',
             field: 'bankcardNumber'
         }, {
-            title: '开户行',
+            title: '收款比例(%)',
             field: 'bankName'
         }, {
             title: '备注',
