@@ -106,24 +106,25 @@ export const checkFieldsMap = {
   '4': [
     [
       'marryState', 'familyNumber', 'familyPhone', 'familyMainAsset', 'mainAssetInclude',
-      'residenceAddress', 'postCode2', 'nowHouseType', 'nowAddress', 'postCode', 'hkBookPdf',
-      'houseContract', 'houseInvoice', 'liveProvePdf', 'buildProvePdf', 'housePictureApply',
+      'birthAddressProvince', 'birthAddress', 'birthPostCode', 'nowHouseType',
+      'nowAddressProvince', 'nowAddress', 'nowPostCode', 'hkBookPdf', 'houseContract',
+      'houseInvoice', 'liveProvePdf', 'buildProvePdf', 'housePictureApply',
       'marryPdf'
     ],
     ['familyMainAsset']
   ],
   '5': [
     [
-      'workBelongIndustry', 'workCompanyProperty', 'workCompanyName', 'workPhone',
-      'workCompanyAddress', 'employeeQuantity', 'enterpriseMonthOutput',
-      'workDatetime', 'position', 'monthIncome', 'otherWorkNote', 'improvePdf',
-      'frontTablePic', 'workPlacePic', 'salerAndcustomer'
+      'workBelongIndustry', 'workCompanyProperty', 'companyName', 'companyContactNo',
+      'companyAddress', 'employeeQuantity', 'enterpriseMonthOutput', 'workDatetime',
+      'position', 'monthIncome', 'otherWorkNote', 'improvePdf', 'frontTablePic',
+      'workPlacePic', 'salerAndcustomer'
     ],
     ['monthIncome']
   ],
   '6': [
     [
-      'mateName', 'relation', 'mateMobile', 'mateIdNo', 'mateEducation',
+      'mateName', 'mateRelation', 'mateMobile', 'mateIdNo', 'mateEducation',
       'mateBirthAddressProvince', 'mateBirthAddress', 'matePostCode',
       'mateCompanyName', 'mateCompanyAddress', 'mateCompanyContactNo',
       'mateAssetPdf'
@@ -132,7 +133,7 @@ export const checkFieldsMap = {
   ],
   '7': [
     [
-      'userName', 'relation', 'guaMobile', 'guaIdNo', 'guaEducation',
+      'userName', 'guaRelation', 'guaMobile', 'guaIdNo', 'guaEducation',
       'guaBirthAddressProvince', 'guaBirthAddress', 'guaPostCode',
       'guaCompanyName', 'guaCompanyAddress', 'guaCompanyContactNo',
       'guaAssetPdf'

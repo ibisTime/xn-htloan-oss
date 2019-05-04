@@ -187,7 +187,7 @@ class ArchivesAddEdit extends React.Component {
             fetch(632827),
             fetch(632527, {bizCode: this.code}),
             getQiniuToken(),
-            fetch(632516, {code: this.code})
+            fetch(632117, {code: this.code})
         ]).then(([
                      loanProductData, attAchment, cdBizCode, bizTypeData, loanPeriodData, regionData, carTypeData,
                      genderData, marryStateData, educationData, addressData, relationData,
@@ -953,7 +953,7 @@ class ArchivesAddEdit extends React.Component {
                         </TabPane>
                         <TabPane tab="征信信息" key="2">
                             <Card>
-                                <Tabs defaultActiveKey="2">
+                                <Tabs defaultActiveKey="1">
                                     {
                                         this.state.isShowTabPane01 ? (<TabPane tab="主贷人征信" key="1">
                                             {this.getCreditList(1)}

@@ -316,7 +316,7 @@ class CreditAddedit extends React.Component {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
             },
             hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
         }, {
@@ -326,7 +326,7 @@ class CreditAddedit extends React.Component {
                 if (d.insideJobName) {
                     return d.teamName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
                 } else {
-                    return d ? d.companyName + '-' + d.teamName : '';
+                    return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
                 }
             },
             hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
