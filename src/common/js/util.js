@@ -592,6 +592,9 @@ export const getRealValue = ({ pageData, field, type, _keys, value, rangedate,
       } else if (amount) {
         result = isUndefined(result) ? '' : moneyFormat(result, amountRate);
       }
+      if (type === 'select' && !isUndefined(result)) {
+        result += '';
+      }
     } catch (e) {}
   }
   return isUndefined(result) ? '' : result;
