@@ -85,13 +85,15 @@ export default class CCitySelect extends React.Component {
     let layoutProps = inline ? {} : formItemLayout;
     return (
       <FormItem key={field} {...layoutProps} className={hidden ? 'hidden' : ''} label={label}>
-        {
-          readonly ? <div className="readonly-text">{initVal}</div>
-            : getFieldDecorator(field, {
-                rules,
-                initialValue: initVal
-              })(<Cascader {...this.getCasProps(onChange)}/>)
-        }
+        <div style={{marginLeft: '20px'}}>
+          {
+            readonly ? <div className="readonly-text">{initVal}</div>
+              : getFieldDecorator(field, {
+                  rules,
+                  initialValue: initVal
+                })(<Cascader {...this.getCasProps(onChange)}/>)
+          }
+        </div>
       </FormItem>
     );
   }

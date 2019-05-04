@@ -67,7 +67,7 @@ class FaceSignAddedit extends DetailUtil {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
             },
             readonly: true
             // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
@@ -75,7 +75,7 @@ class FaceSignAddedit extends DetailUtil {
             title: '指派归属',
             field: 'zfStatus',
             formatter: (v, d) => {
-                return d ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
             },
             readonly: true
             // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
@@ -219,44 +219,7 @@ class FaceSignAddedit extends DetailUtil {
             normalArea: true,
             readonly: !(this.isCheck || this.isCheckNq),
             hidden: !this.view
-        }
-        //     {
-        //     title: '流转日志',
-        //     field: 'list',
-        //     type: 'o2m',
-        //     listCode: 630176,
-        //     params: { refOrder: this.code },
-        //     options: {
-        //         rowKey: 'id',
-        //         noSelect: true,
-        //         fields: [{
-        //             title: '操作人',
-        //             field: 'operatorName'
-        //         }, {
-        //             title: '开始时间',
-        //             field: 'startDatetime',
-        //             type: 'datetime'
-        //         }, {
-        //             title: '结束时间',
-        //             field: 'endDatetime',
-        //             type: 'datetime'
-        //         }, {
-        //             title: '花费时长',
-        //             field: 'speedTime'
-        //         }, {
-        //             title: '审核意见',
-        //             field: 'dealNote'
-        //         }, {
-        //             title: '当前节点',
-        //             field: 'dealNode',
-        //             type: 'select',
-        //             listCode: 630147,
-        //             keyName: 'code',
-        //             valueName: 'name'
-        //         }]
-        //     }
-        // }
-        ];
+        }];
         let bizCode = this.isCheckNq ? 632137 : 632124;
         // 准入审查
         if (this.isCheck || this.isCheckNq) {
@@ -351,7 +314,7 @@ class FaceSignAddedit extends DetailUtil {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
+            detailCode: 632117,
             addCode: 632123,
             editCode: 632123,
             buttons: buttons,

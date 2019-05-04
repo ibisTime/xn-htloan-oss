@@ -189,7 +189,7 @@ class AdmittanceShenhe extends DetailUtil {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
+            detailCode: 632117,
             // addCode: 632123,
             // editCode: 632123,
             buttons: buttons,

@@ -73,13 +73,15 @@ export default class CRangeDate extends React.Component {
     let layoutProps = inline ? {} : formItemLayout;
     return (
       <FormItem key={field} {...layoutProps} className={hidden ? 'hidden' : ''} label={label}>
-        {
-          readonly ? <div className="readonly-text">{initVal}</div>
-            : getFieldDecorator(field, {
-                rules,
-                initialValue: initVal || null
-              })(<RangePicker {...this.getDateProps(onChange, isTime)} />)
-        }
+        <div style={{marginLeft: '20px'}}>
+          {
+            readonly ? <div style={{marginLeft: '20px'}} className="readonly-text">{initVal}</div>
+              : getFieldDecorator(field, {
+                  rules,
+                  initialValue: initVal || null
+                })(<RangePicker {...this.getDateProps(onChange, isTime)} />)
+          }
+        </div>
       </FormItem>
     );
   }

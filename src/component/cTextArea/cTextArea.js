@@ -86,10 +86,12 @@ export default class CTextArea extends React.Component {
     const { areaState } = this.state;
     return (
       <FormItem {...this.getItemProps(field, label, areaState)} {...layoutProps} className={hidden ? 'hidden' : ''}>
-        {
-          readonly ? <div className="readonly-text" dangerouslySetInnerHTML={{__html: initVal}}></div>
-            : <div ref={area => this.area = area}></div>
-        }
+        <div style={{marginLeft: '20px'}}>
+          {
+            readonly ? <div className="readonly-text" dangerouslySetInnerHTML={{__html: initVal}}></div>
+              : <div ref={area => this.area = area}></div>
+          }
+        </div>
       </FormItem>
     );
   }

@@ -52,13 +52,15 @@ export default class CNormalTextArea extends React.Component {
     let layoutProps = inline ? {} : formItemLayout;
     return (
       <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''}>
-        {
-          readonly ? <div className="readonly-text">{initVal}</div>
-            : getFieldDecorator(field, {
-                rules,
-                initialValue: initVal
-              })(<TextArea className="textarea-normalArea" style={{maxWidth: 400}} autosize/>)
-        }
+        <div style={{marginLeft: '20px'}}>
+          {
+            readonly ? <div className="readonly-text">{initVal}</div>
+              : getFieldDecorator(field, {
+                  rules,
+                  initialValue: initVal
+                })(<TextArea className="textarea-normalArea" style={{maxWidth: 400}} autosize/>)
+          }
+        </div>
       </FormItem>
     );
   }
