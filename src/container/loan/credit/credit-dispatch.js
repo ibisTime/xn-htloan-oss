@@ -16,7 +16,6 @@ import fetch from 'common/js/fetch';
 import {
     DetailWrapper
 } from 'common/js/build-detail';
-import {Form, Tabs, Row, Col, Spin, Button, Table, Card, Icon, Tooltip} from 'antd';
 
 @DetailWrapper(
     state => state.bizArchivesAddEdit, {
@@ -79,14 +78,14 @@ class archivesAddedit extends React.Component {
             field: 'ywyUser',
             readonly: true,
             formatter: (v, d) => {
-                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
             }
         }, {
             title: '指派归属',
             field: 'zfStatus',
             readonly: true,
             formatter: (v, d) => {
-                return d ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
             }
         }, {
             title: '当前状态',

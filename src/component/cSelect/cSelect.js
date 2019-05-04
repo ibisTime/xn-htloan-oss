@@ -90,7 +90,10 @@ export default class CSelect extends React.Component {
       onChange, initVal, inline, list, multiple, keyName, valueName } = this.props;
     let layoutProps = inline ? {} : formItemLayout;
     let value = this.getReadonlyValue(initVal, readonly, list, keyName, valueName, multiple);
-    let _initVal = isUndefined(initVal) ? '' : (initVal + '');
+    let _initVal = initVal;
+    if (!multiple) {
+      _initVal = isUndefined(initVal) ? '' : (initVal + '');
+    }
     return (
       <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''} >
         {
