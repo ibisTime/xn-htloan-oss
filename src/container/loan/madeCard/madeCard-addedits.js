@@ -43,7 +43,7 @@ class FaceSignAddedit extends DetailUtil {
             required: true,
             readonly: true,
             formatter: (v, d) => {
-                return d ? d.creditUser.userName : '';
+                return d ? d.creditUserList.userName : '';
             }
         }, {
             title: '贷款银行',
@@ -67,7 +67,7 @@ class FaceSignAddedit extends DetailUtil {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
             },
             readonly: true
         }, {
@@ -77,7 +77,7 @@ class FaceSignAddedit extends DetailUtil {
                 if (d.insideJobName) {
                     return d.teamName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
                 } else {
-                    return d ? d.companyName + '-' + d.teamName : '';
+                    return d && d.companyName ? d.companyName + '-' + d.teamName : '';
                 }
             },
             readonly: true
@@ -92,9 +92,13 @@ class FaceSignAddedit extends DetailUtil {
         }, {
             title: '卡邮寄地址',
             field: 'cardPostAddress',
-            // type: 'citySelect',
-            // cFields: ['cardPostAddressProvince', 'cardPostAddressCity', 'cardPostAddressArea'],
+             type: 'citySelect',
+             cFields: ['cardPostAddressProvince', 'cardPostAddressCity', 'cardPostAddressArea'],
             hidden: this.hande
+        }, {
+            title: '详细地址',
+            field: 'details',
+           hidden: this.hande
         }, {
             title: '卡号',
             field: 'repayCardNumber',
@@ -109,6 +113,10 @@ class FaceSignAddedit extends DetailUtil {
                 title: '确认',
                 handler: (params) => {
                     if (params.cardPostAddress) {
+                        console.log(222, params);
+                        let aa = this.state.pageData;
+                      params.cardPostAddress = params.cardPostAddressArea + params.cardPostAddressCity + params.cardPostAddressProvince + params.details;
+                        console.log(222, params.cardPostAddress);
                         // console.log(params);
                         let data = {};
                         data.code = this.code;
@@ -142,6 +150,8 @@ class FaceSignAddedit extends DetailUtil {
             detailCode: 632516,
             buttons: buttons,
             beforeSubmit: (params) => {
+                let aa = this.state.pageData;
+                params.cardPostAddress = params.cardPostAddressArea + params.cardPostAddressCity + params.cardPostAddressProvince + params.details;
                 delete params.loanAmount;
                 params.operator = getUserId();
                 return params;

@@ -952,7 +952,7 @@ const ROUTES = [
   // 发起征信查询  审核
   {
     path: '/loan/credit/shenhe',
-    component: asyncComponent(() => import('container/loan/credit/credit-examine'))
+    component: asyncComponent(() => import('container/loan/credit/credit-shenhe'))
   },
   // 发起征信查询 大数据
   {
