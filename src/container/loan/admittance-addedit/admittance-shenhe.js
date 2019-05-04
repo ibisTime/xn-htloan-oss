@@ -112,12 +112,6 @@ class AdmittanceShenhe extends DetailUtil {
             keyName: 'dkey',
             valueName: 'dvalue'
         }, {
-            title: '业务公司',
-            field: 'companyName'
-        }, {
-            title: '业务团队',
-            field: 'teamName'
-        }, {
             title: '业务员',
             field: 'saleUserName'
         }, {

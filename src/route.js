@@ -819,16 +819,6 @@ const ROUTES = [
     path: '/basedata/bank/addedit',
     component: asyncComponent(() => import('container/basedata/bank/bank-addedit'))
   },
-  //  银行管理类别
-  {
-    path: '/basedata/bankType',
-    component: asyncComponent(() => import('container/basedata/bankType/bankType'))
-  },
-  //  银行管理类别详情 + 新增
-  {
-    path: '/basedata/bankType/addedit',
-    component: asyncComponent(() => import('container/basedata/bankType/bankType-addedit'))
-  },
   //  节点材料清单
   {
     path: '/basedata/materiallist',

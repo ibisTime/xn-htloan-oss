@@ -42,6 +42,7 @@ class ToDo extends React.Component {
         field: 'bizCode',
         type: 'select',
         search: true,
+      noVisible: true,
         listCode: 632517,
         valueName: '{{code.DATA}}',
         keyName: 'code',

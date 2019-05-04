@@ -13,6 +13,7 @@ import {
 import {
     DetailWrapper
 } from 'common/js/build-detail';
+import fetch from 'common/js/fetch';
 
 @DetailWrapper(
     state => state.basedataReceivablesAddEdit, {
@@ -47,13 +48,46 @@ class receivablesAddedit extends React.Component {
                 dvalue: '经销商返点账号'
             }],
             keyName: 'dkey',
-            valueName: 'dvalue'
+            valueName: 'dvalue',
+            onChange: (v) => {
+                if (!v) {
+                    this.props.setSelectData({
+                        key: 'companyCode',
+                        data: []
+                    });
+                    // return;
+                } else if (v === '1') {
+                    fetch(630106, {
+                        type: '1',
+                        status: '1'
+                    }).then(data => {
+                        this.props.setSelectData({
+                            key: 'companyCode',
+                            data: data
+                        });
+                    });
+                } else if (v === '2') {
+                    fetch(632067, {}).then(data => {
+                        this.props.setSelectData({
+                            key: 'companyCode',
+                            data: data
+                        });
+                    });
+                } else if (v === '3') {
+                    fetch(632067, {}).then(data => {
+                        this.props.setSelectData({
+                            key: 'companyCode',
+                            data: data
+                        });
+                    });
+                }
+            }
         }, {
             title: '公司名称',
             field: 'companyCode',
             listCode: 630106,
             params: {
-                typeList: [1],
+                type: '1',
                 status: '1'
             },
             type: 'select',

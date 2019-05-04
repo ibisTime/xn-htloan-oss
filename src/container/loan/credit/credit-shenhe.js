@@ -636,7 +636,7 @@ class ArchivesAddEdit extends React.Component {
                                 if (d.insideJobName) {
                                     return d.teamName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
                                 } else {
-                                    return d ? d.companyName + '-' + d.teamName : '';
+                                    return d && d.companyName ? d.companyName + '-' + d.teamName : '';
                                 }
                             },
                             readonly: true

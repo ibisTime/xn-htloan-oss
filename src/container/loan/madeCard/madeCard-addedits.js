@@ -67,7 +67,7 @@ class FaceSignAddedit extends DetailUtil {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName : '';
             },
             readonly: true
         }, {
@@ -88,8 +88,12 @@ class FaceSignAddedit extends DetailUtil {
         }, {
             title: '卡邮寄地址',
             field: 'cardPostAddress',
-            // type: 'citySelect',
-            // cFields: ['cardPostAddressProvince', 'cardPostAddressCity', 'cardPostAddressArea'],
+            type: 'citySelect',
+            cFields: ['cardPostAddressProvince', 'cardPostAddressCity', 'cardPostAddressArea'],
+            hidden: this.hande
+        }, {
+            title: '详细地址',
+            field: 'details',
             hidden: this.hande
         }, {
             title: '卡号',
@@ -105,7 +109,10 @@ class FaceSignAddedit extends DetailUtil {
                 title: '确认',
                 handler: (params) => {
                     if (params.cardPostAddress) {
-                        // console.log(params);
+                        console.log(222, params);
+                        let aa = this.state.pageData;
+                        params.cardPostAddress = params.cardPostAddressArea + params.cardPostAddressCity + params.cardPostAddressProvince + params.details;
+                        console.log(222, params.cardPostAddress);
                         let data = {};
                         data.code = this.code;
                         data.operator = getUserId();
