@@ -67,7 +67,7 @@ class FaceSignAddedit extends DetailUtil {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
             },
             readonly: true
         }, {
@@ -77,7 +77,7 @@ class FaceSignAddedit extends DetailUtil {
                 if (d.insideJobName) {
                     return d.teamName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
                 } else {
-                    return d ? d.companyName + '-' + d.teamName : '';
+                    return d && d.companyName ? d.companyName + '-' + d.teamName : '';
                 }
             },
             readonly: true
