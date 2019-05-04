@@ -35,7 +35,8 @@ class BrandAddedit extends React.Component {
             single: true
         }, {
             field: 'description',
-            title: '品牌介绍'
+            title: '品牌介绍',
+            required: true
         }, {
             title: '字母顺序',
             field: 'letter',

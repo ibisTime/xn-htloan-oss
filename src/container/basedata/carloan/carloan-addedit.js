@@ -42,8 +42,8 @@ class carloanAddedit extends React.Component {
           required: true,
           number: true
       }, {
-        title: '利率（%）',
-          amount: true,
+        title: '利率',
+          number3: true,
           required: true,
         field: 'cvalue'
       }, {

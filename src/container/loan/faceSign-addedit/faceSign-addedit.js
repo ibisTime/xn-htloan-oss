@@ -43,7 +43,7 @@ class FaceSignAddedit extends DetailUtil {
             required: true,
             readonly: true,
             formatter: (v, d) => {
-                return d ? d.creditUser.userName : '';
+                return d ? d.creditUserList.userName : '';
             }
         }, {
             title: '贷款银行',
@@ -63,22 +63,6 @@ class FaceSignAddedit extends DetailUtil {
             key: 'budget_orde_biz_typer',
             required: true,
             readonly: true
-        }, {
-            title: '业务归属',
-            field: 'ywyUser',
-            formatter: (v, d) => {
-                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
-            },
-            readonly: true
-            // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
-        }, {
-            title: '指派归属',
-            field: 'zfStatus',
-            formatter: (v, d) => {
-                return d ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
-            },
-            readonly: true
-            // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
         }, {
             title: '当前状态',
             field: 'status',

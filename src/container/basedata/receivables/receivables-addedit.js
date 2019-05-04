@@ -54,7 +54,7 @@ class receivablesAddedit extends React.Component {
             listCode: 630106,
             params: {
                 typeList: [1],
-                status: 1
+                status: '1'
             },
             type: 'select',
             keyName: 'code',
@@ -66,7 +66,8 @@ class receivablesAddedit extends React.Component {
             required: true
         }, {
             title: '开户行',
-            field: 'bankName'
+            field: 'bankName',
+            required: true
         }, {
             title: '账号',
             field: 'bankcardNumber',
@@ -74,6 +75,7 @@ class receivablesAddedit extends React.Component {
             bankCard: true
         }, {
             title: '收款比例(%)',
+            required: true,
             field: 'bankName'
         }, {
             title: '备注',

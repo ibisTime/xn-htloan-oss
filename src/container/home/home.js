@@ -81,6 +81,8 @@ class Home extends React.Component {
                 toDoListData: toDoListData.list,
                 curNodeData: curNodeD,
                 nodeTypeData: nodeTypeD
+            }, () => {
+                console.log(2222, toDoListData);
             });
         }).catch(() => this.setState({ fetching: false }));
     }
@@ -131,6 +133,9 @@ class Home extends React.Component {
             });
         }).catch(() => this.setState({ fetching: false }));
     }
+    tourl = () => {
+        this.props.history.push(`/home/toDoList`);
+    }
 
     render() {
         const imgProps = {
@@ -178,10 +183,10 @@ class Home extends React.Component {
                         <div className="card-content">
                             { this.state.toDoListData && this.state.toDoListData.length >= 1 ? this.state.toDoListData.map(d => (
                                 <div className="content-item" key={d.id}>
-                                    <Link to={getNowCurNodePageUrl(d)}>
+                                    <Link to={`/home/toDoList`}>
                                         <img className="icon" src={iconLi}/>
-                                        <p className="txt">{d.companyName} 客户{d.userName} {this.state.nodeTypeData[d.flowTypeCode]} {this.state.curNodeData[d.curNodeCode]}</p>
-                                        <samp className="date">{dateFormat(d.startDatetime)}</samp>
+                                        <p className="txt">{d.content}</p>
+                                        <samp className="date">{dateFormat(d.createDatetime)}</samp>
                                     </Link>
                                 </div>
                             )) : <div className="noData"><img src={noData}/><p>暂无待办事项</p></div>}

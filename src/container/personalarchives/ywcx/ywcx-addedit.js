@@ -955,12 +955,12 @@ class ArchivesAddEdit extends React.Component {
                             <Card>
                                 <Tabs defaultActiveKey="2">
                                     {
-                                        this.state.isShowTabPane01 ? (<TabPane tab="主贷人征信" key="1">
+                                        this.state.isShowTabPane01 ? (<TabPane tab="主贷人征信" key="2">
                                             {this.getCreditList(1)}
                                         </TabPane>) : null
                                     }
                                     {
-                                        this.state.isShowTabPane02 ? (<TabPane tab="共同还款人征信" key="2">
+                                        this.state.isShowTabPane02 ? (<TabPane tab="共同还款人征信" key="1">
                                             {this.getCreditList(2)}
                                         </TabPane>) : null
                                     }

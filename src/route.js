@@ -141,6 +141,10 @@ const ROUTES = [
     path: '/biz/carSeries/addedit',
     component: asyncComponent(() => import('container/biz/carSale/carSeries-addedit'))
   },
+  {
+    path: '/biz/carSeries/addedits',
+    component: asyncComponent(() => import('container/biz/carSale/carSeries-adedit'))
+  },
   //  车型管理
   {
     path: '/biz/carShape',
@@ -948,7 +952,7 @@ const ROUTES = [
   // 发起征信查询  审核
   {
     path: '/loan/credit/shenhe',
-    component: asyncComponent(() => import('container/loan/credit/credit-shenhe'))
+    component: asyncComponent(() => import('container/loan/credit/credit-examine'))
   },
   // 发起征信查询 大数据
   {

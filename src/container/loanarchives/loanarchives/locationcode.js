@@ -45,8 +45,12 @@ class Locationcode extends React.Component {
             field: 'name',
             search: true
         }, {
-            title: '最后更新人',
+            title: '更新人',
             field: 'updaterName'
+        }, {
+            title: '更新时间',
+            field: 'updateDatetime',
+            type: 'datetime'
         }];
         return this.props.buildList({
             fields,
