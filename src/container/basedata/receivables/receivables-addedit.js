@@ -58,7 +58,7 @@ class receivablesAddedit extends React.Component {
                     // return;
                 } else if (v === '1') {
                     fetch(630106, {
-                        type: '1',
+                        typeList: [1],
                         status: '1'
                     }).then(data => {
                         this.props.setSelectData({
@@ -66,15 +66,9 @@ class receivablesAddedit extends React.Component {
                             data: data
                         });
                     });
-                } else if (v === '2') {
+                } else {
                     fetch(632067, {}).then(data => {
-                        this.props.setSelectData({
-                            key: 'companyCode',
-                            data: data
-                        });
-                    });
-                } else if (v === '3') {
-                    fetch(632067, {}).then(data => {
+                        data.forEach(d => d.name = d.fullName);
                         this.props.setSelectData({
                             key: 'companyCode',
                             data: data
@@ -87,7 +81,7 @@ class receivablesAddedit extends React.Component {
             field: 'companyCode',
             listCode: 630106,
             params: {
-                type: '1',
+                typeList: [1],
                 status: '1'
             },
             type: 'select',
@@ -100,7 +94,15 @@ class receivablesAddedit extends React.Component {
             required: true
         }, {
             title: '开户行',
-            field: 'bankName',
+            field: 'bankCode',
+            type: 'select',
+            listCode: 802116,
+            keyName: 'bankCode',
+            valueName: 'bankName',
+            required: true
+        }, {
+            title: '支行',
+            field: 'subbranch',
             required: true
         }, {
             title: '账号',
@@ -108,9 +110,11 @@ class receivablesAddedit extends React.Component {
             required: true,
             bankCard: true
         }, {
-            title: '收款比例(%)',
+            title: '收款比例',
             required: true,
-            field: 'bankName'
+            number3: true,
+            help: '请输入0~1之间的小数',
+            field: 'pointRate'
         }, {
             title: '备注',
             field: 'remark'
@@ -121,12 +125,7 @@ class receivablesAddedit extends React.Component {
             view: this.view,
             addCode: 632000,
             editCode: 632002,
-            detailCode: 632006,
-            beforeSubmit: (params) => {
-              let bank = this.props.selectData.bankCode.find(v => v.bankCode === params.bankCode);
-              params.bankName = bank.bankName;
-              return params;
-            }
+            detailCode: 632006
         });
     }
 }
