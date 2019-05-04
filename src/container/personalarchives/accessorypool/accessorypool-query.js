@@ -168,8 +168,6 @@ class ArchivesAddEdit extends React.Component {
                      interestData, loanRoleData, enterFileData, enterLocationData,
                      uploadToken, pageData
                  ]) => {
-            console.log('333');
-            console.log(loanRoleData);
             this.setState({
                 loanProductData,
                 attAchment,
@@ -224,8 +222,6 @@ class ArchivesAddEdit extends React.Component {
         }).catch(() => {
         });
         fetch(630147).then((dealNodeList) => {
-            console.log('222222');
-            console.log(dealNodeList);
             this.setState({dealNodeList});
         }).catch(() => {
         });
@@ -678,7 +674,7 @@ class ArchivesAddEdit extends React.Component {
             return pageData.attachments.map(c => (
                 <Card key={c.code}>
                     <Row gutter={54}>
-                        {this.getInputCol({field: 'vname'}, 2, c)}
+                        {this.getSelectCols({field: 'vname'}, attAchment, 3, c)}
                         {this.getFileCols({field: 'url', type: 'img'}, 3, c)}
                     </Row>
                 </Card>

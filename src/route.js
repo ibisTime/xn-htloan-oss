@@ -141,6 +141,10 @@ const ROUTES = [
     path: '/biz/carSeries/addedit',
     component: asyncComponent(() => import('container/biz/carSale/carSeries-addedit'))
   },
+  {
+    path: '/biz/carSeries/addedits',
+    component: asyncComponent(() => import('container/biz/carSale/carSeries-adedit'))
+  },
   //  车型管理
   {
     path: '/biz/carShape',

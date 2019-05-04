@@ -124,6 +124,7 @@ class BankTypeAddedit extends React.Component {
         }, {
             title: '合作协议',
             field: 'agreementPic',
+            required: true,
             type: 'file'
         }, {
             title: '合作协议开始时间',

@@ -1554,6 +1554,12 @@ export default class DetailComponent extends React.Component {
                 message: '请输入合法的数字'
             });
         }
+        if (item.number3) {
+            rules.push({
+                pattern: /^([01](\.0+)?|0\.([1-9]|[0-9][1-9]))$/,
+                message: '请输入大于0小于等于1的数字，且小数点后最多2位'
+            });
+        }
         if (item.positive) {
             rules.push({
                 pattern: /^\d+(\.\d+)?$/,

@@ -42,31 +42,85 @@ class bankAddedit extends React.Component {
             field: 'subbranch',
             required: true
         }, {
-            title: '12期利率(%)',
-            field: 'rate12'
+            title: '12期利率',
+            field: 'rate12',
+            number3: true,
+            help: '请输入0～1之间的数值',
+            required: true
         }, {
-            title: '18期利率(%)',
-            field: 'rate18'
+            title: '18期利率',
+            field: 'rate18',
+            number3: true,
+            help: '请输入0～1之间的数值',
+            required: true
         }, {
-            title: '24期利率(%)',
-            field: 'rate24'
+            title: '24期利率',
+            field: 'rate24',
+            number3: true,
+            help: '请输入0～1之间的数值',
+            required: true
         }, {
-            title: '36期利率(%)',
-            field: 'rate36'
+            title: '36期利率',
+            field: 'rate36',
+            number3: true,
+            help: '请输入0～1之间的小数',
+            required: true
         }, {
-            title: '状态',
-            field: 'status',
+            title: '12期直客利率',
+            field: 'zkRate12',
+            number3: true,
+            help: '请输入0～1之间的数值',
+            required: true
+        }, {
+            title: '18期直客利率',
+            field: 'zkRate18',
+            number3: true,
+            help: '请输入0～1之间的数值',
+            required: true
+        }, {
+            title: '24期直客利率',
+            field: 'zkRate24',
+            number3: true,
+            help: '请输入0～1之间的数值',
+            required: true
+        }, {
+            title: '36期直客利率',
+            field: 'zkRate36',
+            number3: true,
+            help: '请输入0～1之间的小数',
+            required: true
+        }, {
+            title: '银行委托人',
+            field: 'bankClient'
+        }, {
+            title: '委托有效期',
+            field: 'clientValidDate',
+            type: 'date'
+        }, {
+            title: '授权人姓名',
+            field: 'autherName'
+        }, {
+            title: '授权人电话',
+            field: 'autherPhoneNumber',
+            mobile: true
+        }, {
+            title: '授权人身份证',
+            field: 'autherIdNo',
+            idCard: true
+        }, {
+            title: '授权人地址',
+            field: 'autherAddress'
+        }, {
+            title: '信用卡类型',
+            field: 'creditCardType',
             type: 'select',
-            data: [{
-                key: '0',
-                value: '正常'
-            }, {
-                key: '1',
-                value: '停用'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            hidden: !this.view
+            key: 'credit_card_type'
+        }, {
+            title: '信用卡名称',
+            field: 'creditCardName'
+        }, {
+            title: '所属地区',
+            field: 'belongArea'
         }];
         return this.props.buildDetail({
             fields,

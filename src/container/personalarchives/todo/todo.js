@@ -35,7 +35,7 @@ class ToDo extends React.Component {
     getNodeList().then(nodeDict => {
       this.setState({nodeDict});
     });
-  }
+}
   render() {
     const {nodeDict} = this.state;
     const fields = [{
@@ -51,7 +51,10 @@ class ToDo extends React.Component {
       field: 'content'
     }, {
       title: '推送对象',
-      field: 'operateRole'
+      field: 'operateRole',
+      render: (v, d) => {
+        return d.operateRoleName ? d.operateRoleName : '';
+      }
     }, {
       title: '推送节点',
       field: 'refNode',
@@ -71,7 +74,7 @@ class ToDo extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 632528
+      pageCode: 632525
     });
   }
 }

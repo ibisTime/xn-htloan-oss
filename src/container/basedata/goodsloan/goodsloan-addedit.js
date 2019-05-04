@@ -64,7 +64,7 @@ class goodsloanAddedit extends React.Component {
         }, {
             title: '年化利率',
             field: 'yearRate',
-            number: true,
+            number3: true,
             help: '请输入0～1之间的数值',
             required: true
         }, {
@@ -75,19 +75,19 @@ class goodsloanAddedit extends React.Component {
         }, {
             title: '公证费利率',
             field: 'authRate',
-            number: true,
+            number3: true,
             help: '请输入0～1之间的数值',
             required: true
         }, {
             title: '返点利率',
             field: 'backRate',
-            number: true,
+            number3: true,
             help: '请输入0～1之间的数值',
             required: true
         }, {
             title: '前置利率',
             field: 'preRate',
-            number: true,
+            number3: true,
             help: '请输入0～1之间的数值',
             required: true
         }, {

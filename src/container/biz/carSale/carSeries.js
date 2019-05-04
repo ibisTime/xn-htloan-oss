@@ -163,7 +163,7 @@ class CarSeries extends React.Component {
           } else if (item[0].status === '1') {
               showWarnMsg('下架后才能修改');
           } else {
-              this.props.history.push(`/biz/carSeries/addedit?code=${item[0].code}`);
+              this.props.history.push(`/biz/carSeries/addedits?code=${item[0].code}`);
           }
       }
     };
