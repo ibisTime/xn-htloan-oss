@@ -96,20 +96,22 @@ export default class CSelect extends React.Component {
     }
     return (
       <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''} >
-        {
-          readonly ? <div className="readonly-text">{value}</div>
-            : getFieldDecorator(field, {
-                rules,
-                initialValue: _initVal
-              })(
-              <Select {...this.getSelectProps(multiple, onChange)}>
-                {list && list.length ? list.map(d => (
-                  <Option key={d[keyName] + ''} value={d[keyName] + ''}>
-                    {this.getValueName(d, valueName)}
-                  </Option>
-                )) : null}
-              </Select>)
-        }
+        <div style={{marginLeft: '20px'}}>
+          {
+            readonly ? <div className="readonly-text">{value}</div>
+              : getFieldDecorator(field, {
+                  rules,
+                  initialValue: _initVal
+                })(
+                <Select {...this.getSelectProps(multiple, onChange)}>
+                  {list && list.length ? list.map(d => (
+                    <Option key={d[keyName] + ''} value={d[keyName] + ''}>
+                      {this.getValueName(d, valueName)}
+                    </Option>
+                  )) : null}
+                </Select>)
+          }
+        </div>
       </FormItem>
     );
   }

@@ -140,7 +140,7 @@ class AdmittanceAddEdit extends React.Component {
       fetch(632177, { status: '2', type: this.bizType, loanBank: this.loanBank }), // 查贷款产品
       fetch(630406, { status: '1' }),
       fetch(630416, { status: '1' }),
-      fetch(630426, { status: '1' }),
+      fetch(630429, { status: '1' }),
       getDictList({ parentKey: 'budget_orde_biz_typer' }),
       getDictList({ parentKey: 'loan_period' }),
       getDictList({ parentKey: 'region' }),
@@ -164,7 +164,6 @@ class AdmittanceAddEdit extends React.Component {
        marryStateData, educationData, addressData, relationData, industryData,
        propertyData, incomeData, positionData, professionData, interestData,
        carFrameData, uploadToken, pageData]) => {
-      console.log(pageData, carShapeData);
       // 初始化万元系数、公证费比例、gps费用
       if (pageData.loanProductCode) { // 选择贷款产品后初始化
         let product = loanProductData.find(v => v.code === pageData.loanProductCode);
@@ -559,7 +558,9 @@ class AdmittanceAddEdit extends React.Component {
       operator: getUserId()
     }).then(() => {
       showSucMsg('提交成功');
-      this.setState({ fetching: false });
+      setTimeout(() => {
+          this.props.history.go(-1);
+      }, 1000);
     });
   }
   sendNormalForm(values, activeKey, callback) {
@@ -674,8 +675,8 @@ class AdmittanceAddEdit extends React.Component {
   }
   sendForm(bizCode, params, nextActiveKey, callback) {
     return fetch(bizCode, params).then(() => {
-      showSucMsg('保存成功');
       if (!callback) {
+        showSucMsg('保存成功');
         setTimeout(() => {
           this.setState({
             activeKey: nextActiveKey

@@ -74,11 +74,7 @@ class FaceSignAddedit extends DetailUtil {
             title: '指派归属',
             field: 'zfStatus',
             formatter: (v, d) => {
-                if (d.insideJobName) {
-                    return d.teamName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
-                } else {
-                    return d && d.companyName ? d.companyName + '-' + d.teamName : '';
-                }
+                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
             },
             readonly: true
         }, {
@@ -139,7 +135,7 @@ class FaceSignAddedit extends DetailUtil {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632516,
+            detailCode: 632117,
             buttons: buttons,
             beforeSubmit: (params) => {
                 delete params.loanAmount;

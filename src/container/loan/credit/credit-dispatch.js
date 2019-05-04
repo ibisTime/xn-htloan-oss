@@ -98,7 +98,7 @@ class archivesAddedit extends React.Component {
             }
         }, {
             title: '派单给', // 派单给：默认为当前业务员
-            field: 'saleUserName',
+            field: 'insideJob',
             type: 'select',
             listCode: 630066,
             params: {
@@ -106,6 +106,9 @@ class archivesAddedit extends React.Component {
             },
             keyName: 'userId',
             valueName: 'realName',
+            formatter: (v, d) => {
+              return d ? d.insideJobName : '';
+            },
             required: true
         }];
         return this.props.buildDetail({
@@ -117,7 +120,9 @@ class archivesAddedit extends React.Component {
                 title: '确认',
                 handler: (param) => {
                     param.operator = getUserId();
-                    param.insideJob = param.saleUserName;
+                    if (param.insideJob === this.props.pageData.insideJobName) {
+                      param.insideJob = this.props.pageData.insideJob;
+                    }
                     param.bizCode = this.code;
                     fetch(632119, param).then(() => {
                         showSucMsg('操作成功');

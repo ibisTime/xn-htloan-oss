@@ -112,12 +112,6 @@ class AdmittanceShenhe extends DetailUtil {
             keyName: 'dkey',
             valueName: 'dvalue'
         }, {
-            title: '业务公司',
-            field: 'companyName'
-        }, {
-            title: '业务团队',
-            field: 'teamName'
-        }, {
             title: '业务员',
             field: 'saleUserName'
         }, {
@@ -189,7 +183,7 @@ class AdmittanceShenhe extends DetailUtil {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
+            detailCode: 632117,
             // addCode: 632123,
             // editCode: 632123,
             buttons: buttons,

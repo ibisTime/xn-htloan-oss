@@ -188,28 +188,30 @@ export default class CUpload extends React.Component {
     return (
       hidden ? null : (
         <FormItem key={field} {...layoutProps} label={label}>
-          {
-            isLoaded ? (
-              getFieldDecorator(field, {
-                rules,
-                initialValue: initVal,
-                getValueFromEvent: this.normFile
-              })(
-                <Upload {...this.getUploadProps({
-                  field,
-                  token,
-                  isImg,
-                  accept,
-                  readonly,
-                  single,
-                  onChange,
-                  initValue
-                })}>
-                  {this.getUploadBtn(field, getFieldValue, readonly, single, isImg)}
-                </Upload>
-              )
-            ) : null
-          }
+          <div style={{marginLeft: '20px'}}>
+            {
+              isLoaded ? (
+                getFieldDecorator(field, {
+                  rules,
+                  initialValue: initVal,
+                  getValueFromEvent: this.normFile
+                })(
+                  <Upload {...this.getUploadProps({
+                    field,
+                    token,
+                    isImg,
+                    accept,
+                    readonly,
+                    single,
+                    onChange,
+                    initValue
+                  })}>
+                    {this.getUploadBtn(field, getFieldValue, readonly, single, isImg)}
+                  </Upload>
+                )
+              ) : null
+            }
+          </div>
           <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
             <div className="previewImg-wrap">
               <Carousel dots={true} ref={(carousel => this.carousel = carousel)} afterChange={(a) => {

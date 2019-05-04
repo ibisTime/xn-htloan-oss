@@ -79,18 +79,17 @@ export default class CInput extends React.Component {
         } = this.props;
         let layoutProps = inline ? {} : formItemLayout;
         return (
-            <FormItem key={field} {...layoutProps} className={hidden ? 'hidden' : ''}
-                      label={title ? label : ''}
-                      // style={{'display': 'flex'}}
-            >
+            <FormItem key={field} {...layoutProps} className={hidden ? 'hidden' : ''} label={title ? label : ''}>
+              <div style={{marginLeft: '20px'}}>
                 {title ? '' : <samp>&nbsp;</samp>}
                 {
-                    readonly ? <div style={{marginLeft: '20px'}} className="readonly-text">{initVal}</div>
+                    readonly ? <div className="readonly-text">{initVal}</div>
                         : getFieldDecorator(field, {
                             rules,
                             initialValue: initVal
                         })(<Input {...this.getInputProps(onChange, type, hidden, placeholder)} />)
                 }
+              </div>
             </FormItem>
         );
     }
