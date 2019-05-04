@@ -80,7 +80,7 @@ class goodsloanAddedit extends React.Component {
             required: true
         }, {
             title: '返点利率',
-            field: 'backRate',
+            field: 'returnPointRate',
             number3: true,
             help: '请输入0～1之间的数值',
             required: true

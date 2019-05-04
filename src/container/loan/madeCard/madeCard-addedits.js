@@ -43,7 +43,7 @@ class FaceSignAddedit extends DetailUtil {
             required: true,
             readonly: true,
             formatter: (v, d) => {
-                return d ? d.creditUserList.userName : '';
+                return d ? d.creditUserList[0].userName : '';
             }
         }, {
             title: '贷款银行',
@@ -67,18 +67,14 @@ class FaceSignAddedit extends DetailUtil {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName : '';
             },
             readonly: true
         }, {
             title: '指派归属',
             field: 'zfStatus',
             formatter: (v, d) => {
-                if (d.insideJobName) {
-                    return d.teamName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
-                } else {
-                    return d && d.companyName ? d.companyName + '-' + d.teamName : '';
-                }
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
             },
             readonly: true
         }, {
