@@ -9,7 +9,7 @@ import {
 } from '@redux/loan/advMoneyb';
 import { getQueryString, getUserId, showSucMsg } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
-
+import fetch from 'common/js/fetch';
 @DetailWrapper(
     state => state.examineMoneyb, {
         initStates,
@@ -33,11 +33,10 @@ class examineMoneyb extends React.Component {
                 handler: (params) => {
                     let data = {};
                     data.code = this.code;
-                    data.remark = params.remark;
                     data.approveResult = '1';
-                    data.updater = getUserId();
+                    data.operator = getUserId();
                     this.props.doFetching();
-                    fetch(632641, data).then(() => {
+                    fetch(632461, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
@@ -51,11 +50,10 @@ class examineMoneyb extends React.Component {
                 handler: (params) => {
                     let data = {};
                     data.code = this.code;
-                    data.remark = params.remark;
-                    data.approveResult = '2';
-                    data.updater = getUserId();
+                    data.approveResult = '0';
+                    data.operator = getUserId();
                     this.props.doFetching();
-                    fetch(632641, data).then(() => {
+                    fetch(632461, data).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
                         setTimeout(() => {
