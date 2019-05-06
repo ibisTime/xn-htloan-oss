@@ -13,6 +13,7 @@ import {
     showWarnMsg,
     getRoleCode,
     getTeamCode,
+    getUserId,
     getNowCurNodePageUrl
 } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
@@ -78,6 +79,7 @@ class ToDoList extends React.Component {
             pageCode: 632528,
             rowKey: 'id',
             searchParams: {
+                operator: getUserId(),
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode()
             },

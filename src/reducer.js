@@ -269,10 +269,7 @@ import {loanMadeCardAddedit} from './redux/loan/madeCard-addedit';
 
 // 财务垫资
 import {loanAdvMoney} from './redux/loan/advMoney';
-// 用款一审
-import {examineMoneya} from './redux/loan/advMoneya';
-// 用款二审
-import {examineMoneyb} from './redux/loan/advMoneyb';
+
 /**
  * 贷前工具
  */
@@ -741,8 +738,6 @@ export default combineReducers({
     loanMadeCard,
     loanMadeCardAddedit,
     loanAdvMoney,
-    examineMoneya,
-    examineMoneyb,
     loanstoolsInvestigateReport,
     loanstoolstakeFree,
     loanstoolsTakeFreeAddedit,

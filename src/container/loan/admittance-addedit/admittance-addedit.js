@@ -1863,7 +1863,7 @@ class AdmittanceAddEdit extends React.Component {
                 </Card>
               </TabPane>
               <TabPane tab="流水信息" key="8" className='liushui'>
-                <Card style={{ marginTop: 16 }} title="流水信息">
+                <Card style={{ marginTop: 16 }} title="担保人信息">
                   <Row gutter={54}>
                     {
                       this.getTableItem({

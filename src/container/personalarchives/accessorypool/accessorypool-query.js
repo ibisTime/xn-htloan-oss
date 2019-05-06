@@ -544,6 +544,47 @@ class ArchivesAddEdit extends React.Component {
       </span>
         );
     }
+
+    // 获取银行、支付宝、微信流水控件
+    getJourComp(title, fields) {
+        const {interestData} = this.state;
+        return (
+            <Card style={{marginTop: 16}} title={title + '数据'}>
+                <Row gutter={54}>
+                    {this.getRangeDateCol({
+                        field: fields[0],
+                        title: '流水时间',
+                        type: 'date',
+                        rangedate: [fields[1], fields[2]]
+                    }, 1)}
+                </Row>
+                <Row gutter={54}>
+                    {this.getSelectCol({field: fields[3], title: '结息时间1'}, interestData, 2)}
+                    {this.getSelectCol({field: fields[4], title: '结息时间2'}, interestData, 2)}
+                </Row>
+                <Row gutter={54}>
+                    {this.getInputCol({field: fields[5], title: '结息1(元)', amount: true}, 2)}
+                    {this.getInputCol({field: fields[6], title: '结息2(元)', amount: true}, 2)}
+                </Row>
+                <Row gutter={54}>
+                    {this.getInputCol({field: fields[7], title: '总收入(元)', amount: true}, 2)}
+                    {this.getInputCol({field: fields[8], title: '总支出(元)', amount: true}, 2)}
+                </Row>
+                <Row gutter={54}>
+                    {this.getInputCol({field: fields[9], title: '账户余额(元)', amount: true})}
+                    {this.getInputCol({field: fields[10], title: '月均收入(元)', amount: true})}
+                    {this.getInputCol({field: fields[11], title: '月均支出(元)', amount: true}, 33)}
+                </Row>
+                <Row gutter={54}>
+                    {this.getNormalTextAreaCol({field: fields[12], title: '流水说明'}, 1)}
+                </Row>
+                <Row gutter={54}>
+                    {this.getFileCol({field: fields[13], title: title, type: 'img'}, 1)}
+                </Row>
+            </Card>
+        );
+    }
+
     // 返回
     onCancel = () => this.props.history.go(-1)
 
@@ -561,6 +602,70 @@ class ArchivesAddEdit extends React.Component {
             bordered: true,
             rowKey: record => record.id
         };
+    }
+
+// 获取征信列表
+    getCreditList() {
+        const {pageData: {credit}, loanRoleData, relationData} = this.state;
+        if (credit && credit.creditUserList.length) {
+            return credit.creditUserList.map(c => (
+                <Card key={c.code}>
+                    <Row gutter={54}>
+                        {this.getInputCol({field: 'userName', title: '姓名'}, 3, c)}
+                        {this.getSelectCol({field: 'relation', title: '与借款人关系'}, relationData, 3, c)}
+                        {this.getSelectCol({
+                            field: 'loanRole',
+                            title: '贷款角色',
+                            keyName: 'dkey',
+                            valueName: 'dvalue'
+                        }, loanRoleData, 33, c)}
+                    </Row>
+                    <Row gutter={54}>
+                        {this.getInputCol({field: 'mobile', title: '手机号'}, 2, c)}
+                        {this.getInputCol({field: 'idNo', title: '身份证号'}, 2, c)}
+                    </Row>
+                    <Row gutter={54}>
+                        {this.getFileCol({field: 'idNoFront', title: '身份证正面', type: 'img'}, 2, c)}
+                        {this.getFileCol({field: 'idNoReverse', title: '身份证反面', type: 'img'}, 2, c)}
+                    </Row>
+                    <Row gutter={54}>
+                        {this.getFileCol({field: 'authPdf', title: '征信查询授权书', type: 'img'}, 2, c)}
+                        {this.getFileCol({field: 'interviewPic', title: '面签照片', type: 'img'}, 2, c)}
+                    </Row>
+                    <Row gutter={54}>
+                        {this.getFileCol({field: 'bankCreditResultPdf', title: '银行征信报告', type: 'img'}, 3, c)}
+                        {this.getFileCol({field: 'bankCreditResultPdf', title: '大数据征信报告', type: 'img'}, 3, c)}
+                        {this.getInputCol({field: 'bankCreditResultRemark', title: '征信结果说明'}, 3, c)}
+                    </Row>
+                </Card>
+            ));
+        }
+        return null;
+    }
+
+    getNotice() {
+        const {pageData: {bizTasks}, interestData} = this.state;
+        if (bizTasks && bizTasks.length) {
+            return bizTasks.map(c => (
+                <Card key={c.code}>
+                    <Row gutter={54}>
+                        {this.getInputCol({field: 'code', title: '业务编号'}, 2, c)}
+                        {this.getInputCol({field: 'content', title: '消息内容'}, 2, c)}
+                        {this.getInputCol({
+                            field: 'refNode',
+                            title: '推送节点',
+                            formatter: this.formatDealNote
+                        }, 2, c)}
+                    </Row>
+                    <Row gutter={54}>
+                        {this.getFileCol({field: 'refOrder', title: '银行征信报告', type: 'img'}, 3, c)}
+                        {this.getDateItem({field: 'createDatetime', title: '创建时间'}, 3, c)}
+                        {this.getDateItem({field: 'finishDatetime', title: '处理时间'}, 3, c)}
+                    </Row>
+                </Card>
+            ));
+        }
+        return null;
     }
 
     getAccessorypool() {
