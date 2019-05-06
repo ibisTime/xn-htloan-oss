@@ -7,11 +7,11 @@ import {
     setPageData,
     restore
 } from '@redux/loan/advMoneyb';
-import { getQueryString, getUserId } from 'common/js/util';
+import { getQueryString, getUserId, showSucMsg } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
-
+import fetch from 'common/js/fetch';
 @DetailWrapper(
-    state => state.examineMoneya, {
+    state => state.examineMoneyb, {
         initStates,
         doFetching,
         cancelFetching,
@@ -20,11 +20,54 @@ import { DetailWrapper } from 'common/js/build-detail';
         restore
     }
 )
-class examineMoneya extends React.Component {
+class examineMoneyb extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
+        this.buttons = [];
+        if (this.isCheck) {
+            this.buttons = [{
+                title: '通过',
+                check: true,
+                handler: (params) => {
+                    let data = {};
+                    data.code = this.code;
+                    data.approveResult = '1';
+                    data.operator = getUserId();
+                    this.props.doFetching();
+                    fetch(632461, data).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                }
+            }, {
+                title: '不通过',
+                check: true,
+                handler: (params) => {
+                    let data = {};
+                    data.code = this.code;
+                    data.approveResult = '0';
+                    data.operator = getUserId();
+                    this.props.doFetching();
+                    fetch(632461, data).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                }
+            }, {
+                title: '返回',
+                handler: (param) => {
+                    this.props.history.go(-1);
+                }
+            }];
+        }
     }
     render() {
         const fields = [{
@@ -34,36 +77,39 @@ class examineMoneya extends React.Component {
         }, {
             title: '业务编号',
             field: 'code',
-            required: true,
             readonly: true,
             formatter: (v, d) => {
                 return <div>
                     {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
-                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + this.code;
+                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
                 }}>查看详情</a>
                 </div>;
             }
         }, {
             title: '客户姓名',
-            field: 'userName',
-            required: true,
+            field: 'applyUserName',
             readonly: true,
             formatter: (v, d) => {
-                return d ? d.creditUser.userName : '';
+                return d.creditUser ? d.creditUser.userName : '';
             }
         }, {
             title: '贷款银行',
             field: 'loanBankName',
-            required: true,
+            formatter: (v, d) => {
+                if (d.loanBankName) {
+                    return d.repaySubbranch ? d.loanBankName + d.repaySubbranch : d.loanBankName;
+                } else if (d.repaySubbranch) {
+                    return d.loanBankName ? d.loanBankName + d.repaySubbranch : d.repaySubbranch;
+                }
+            },
             readonly: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true,
-            required: true,
             readonly: true
         }, {
-            title: '业务种类',
+            title: '业务类型',
             field: 'bizType',
             type: 'select',
             key: 'budget_orde_biz_typer',
@@ -85,12 +131,13 @@ class examineMoneya extends React.Component {
             readonly: true
         }, {
             title: '当前状态',
-            field: 'makeCardStatus',
-            key: 'make_card_status',
+            field: 'status',
+            key: 'cdbiz_status',
             type: 'select',
             readonly: true,
-            keyName: 'dkey',
-            valueName: 'dvalue'
+            formatter: (v, d) => {
+                return d ? d.cdbiz.status : '';
+            }
         }, {
             title: '是否垫资',
             field: 'isAdvanceFund',
@@ -110,14 +157,11 @@ class examineMoneya extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632516,
-            editCode: 632129,
-            beforeSubmit: (params) => {
-                params.operator = getUserId();
-                return params;
-            }
+            detailCode: 632117,
+            editCode: 632460,
+            buttons: this.buttons
         });
     }
 }
 
-export default examineMoneya;
+export default examineMoneyb;

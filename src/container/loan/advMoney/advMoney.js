@@ -105,17 +105,17 @@ class AdvMoney extends React.Component {
             render: dateTimeFormat
         }, {
             title: '状态',
-            field: 'curNodeCode',
+            field: 'fbhgpsNode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
             search: true,
-            params: {type: 'a'}
+            params: {type: 'g'}
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632148,
+            pageCode: 632515,
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
@@ -134,14 +134,26 @@ class AdvMoney extends React.Component {
                         this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRowKeys[0]}&check=1&v=1`);
                     // }
                 },
-                // 财务确认垫资
+                // 制单回录
+                zdhl: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].fbhgpsNode !== 'g4') {
+                        showWarnMsg('当前不是财务垫资回录节点');
+                    } else {
+                        this.props.history.push(`${this.props.location.pathname}/addedit?&check=1&code=${selectedRows[0].bizCode}`);
+                    }
+                },
+                // 垫资回录
                 edit: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].fbhgpsNode !== 'g1') {
-                        showWarnMsg('当前不是财务确认垫资节点');
+                    } else if (selectedRows[0].fbhgpsNode !== 'g5') {
+                        showWarnMsg('当前不是财务垫资回录节点');
                     } else {
                         this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRows[0].bizCode}`);
                     }
@@ -152,7 +164,7 @@ class AdvMoney extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].fbhgpsNode !== 'g1') {
+                     } else if (selectedRows[0].fbhgpsNode !== 'g1') {
                         showWarnMsg('当前不是确认用款单节点');
                     } else {
                         this.props.history.push(`/loan/advMoney/examine?isAddedit=1&code=${selectedRows[0].bizCode}`);
@@ -179,7 +191,7 @@ class AdvMoney extends React.Component {
                     } else if (selectedRows[0].fbhgpsNode !== 'g3') {
                         showWarnMsg('当前不是用款二审节点');
                     } else {
-                        this.props.history.push(`/loan/advMoney/examiness?isAddedit=&code=${selectedRows[0].bizCode}`);
+                        this.props.history.push(`/loan/advMoney/examiness?isCheck=1&code=${selectedRows[0].bizCode}`);
                     }
                 }
 

@@ -16,6 +16,7 @@ import {
     showWarnMsg,
     showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
     Button,
     Upload,
@@ -71,6 +72,14 @@ class receivables extends React.Component {
             keyName: 'code',
             search: true,
             valueName: 'name',
+            // render: (v, d, props) => {
+            //     if (d.type === '2') {
+            //         fetch(632067, {}).then(data => {
+            //             data.forEach(d => d.name = d.fullName);
+            //         });
+            //         return
+            //     }
+            // },
             required: true
         }, {
             title: '户名',

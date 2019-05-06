@@ -51,7 +51,7 @@ class InsuranceAddEdit extends React.Component {
             }
         }, {
             title: '贷款银行',
-            field: 'loanBank',
+            field: 'loanBankName',
             formatter: (v, d) => {
                 if (d.loanBankName) {
                     return d.repaySubbranch ? d.loanBankName + d.repaySubbranch : d.loanBankName;
@@ -65,6 +65,36 @@ class InsuranceAddEdit extends React.Component {
             field: 'loanAmount',
             amount: true,
             readonly: true
+        }, {
+            title: '业务类型',
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer',
+            required: true,
+            readonly: true
+        }, {
+            title: '业务归属',
+            field: 'ywyUser',
+            formatter: (v, d) => {
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName : '';
+            },
+            readonly: true
+        }, {
+            title: '指派归属',
+            field: 'zfStatus',
+            formatter: (v, d) => {
+                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+            },
+            readonly: true
+        }, {
+            title: '当前状态',
+            field: 'status',
+            key: 'cdbiz_status',
+            type: 'select',
+            readonly: true,
+            formatter: (v, d) => {
+                return d ? d.cdbiz.status : '';
+            }
         }, {
             title: '保单日期',
             field: 'policyDatetime',
@@ -112,7 +142,7 @@ class InsuranceAddEdit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
+            detailCode: 632117,
             editCode: 632131
         });
     }

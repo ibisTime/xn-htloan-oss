@@ -7,7 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/loan/advMoneyb';
-import { getQueryString, getUserId, showSucMsg } from 'common/js/util';
+import { getQueryString, showWarnMsg, getUserId, showSucMsg } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 @DetailWrapper(
@@ -24,6 +24,7 @@ class examineMoneyb extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
+        this.isCheck = getQueryString('isCheck', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
         this.buttons = [];
         if (this.isCheck) {
@@ -31,18 +32,25 @@ class examineMoneyb extends React.Component {
                 title: '通过',
                 check: true,
                 handler: (params) => {
-                    let data = {};
-                    data.code = this.code;
-                    data.approveResult = '1';
-                    data.updater = getUserId();
-                    this.props.doFetching();
-                    fetch(632462, data).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.props.cancelFetching);
+                    console.log(params);
+                    if (!params.missionList) {
+                        showWarnMsg('至少新增一条任务列表');
+                        return false;
+                    } else {
+                        let data = {};
+                        data.code = this.code;
+                        data.approveResult = '1';
+                        data.operator = getUserId();
+                        data.missionList = params.missionList;
+                        this.props.doFetching();
+                        fetch(632462, data).then(() => {
+                            showSucMsg('操作成功');
+                            this.props.cancelFetching();
+                            setTimeout(() => {
+                                this.props.history.go(-1);
+                            }, 1000);
+                        }).catch(this.props.cancelFetching);
+                    }
                 }
             }, {
                 title: '不通过',
@@ -80,7 +88,7 @@ class examineMoneyb extends React.Component {
             readonly: true,
             formatter: (v, d) => {
                 return <div>
-                    {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                    {d.code}<a href="javascript:void(0);" style={{marginLeft: 20}} onClick={() => {
                     window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
                 }}>查看详情</a>
                 </div>;
@@ -119,22 +127,16 @@ class examineMoneyb extends React.Component {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName : '';
             },
             readonly: true
-            // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
         }, {
             title: '指派归属',
             field: 'zfStatus',
-            readonly: true,
             formatter: (v, d) => {
-                if (d.teamName) {
-                    return d.insideJobName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : d.companyName + d.teamName;
-                } else if (d.insideJobName) {
-                    return d.teamName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : d.companyName + d.insideJobName;
-                }
-            }
-            // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+            },
+            readonly: true
         }, {
             title: '当前状态',
             field: 'status',
@@ -146,7 +148,7 @@ class examineMoneyb extends React.Component {
             }
         }, {
             title: '任务清单',
-            field: 'xx',
+            field: 'missionList',
             type: 'o2m',
             options: {
                 add: true,
@@ -155,17 +157,22 @@ class examineMoneyb extends React.Component {
                 scroll: {x: 300},
                 fields: [{
                     title: '任务名称',
-                    field: 'content'
+                    field: 'getUser',
+                    required: true
                 }, {
                     title: '执行人',
-                    field: 'content'
+                    field: 'name',
+                    required: true
                 }, {
                     title: '创建时间',
                     field: 'createDatetime',
-                    type: 'datetime'
+                    type: 'datetime',
+                    required: true
                 }, {
-                    title: '任务时效',
-                    field: 'speedTime'
+                    title: '任务时效(h)',
+                    number: true,
+                    field: 'time',
+                    required: true
                 }]
             }
         }, {
@@ -180,8 +187,8 @@ class examineMoneyb extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
-            editCode: 632129,
+            detailCode: 632117,
+            editCode: 632462,
             buttons: this.buttons
         });
     }

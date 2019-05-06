@@ -98,7 +98,7 @@ class Insurance extends React.Component {
             title: '贷款期数',
             field: 'loanPeriod',
             render: (v, d) => {
-                return d.repayBiz ? d.repayBiz.restPeriods : '';
+                return d.repayBiz ? d.repayBiz.periods : '';
             }
         }, {
             title: '业务种类',
@@ -118,24 +118,24 @@ class Insurance extends React.Component {
             type: 'date'
         }, {
             title: '当前节点',
-            field: 'fbhgpsNodeList',
+            field: 'fbhgpsNode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
             search: true,
-            params: {type: 'a'}
+            params: {type: 'c'}
         }, {
             title: '备注',
             field: 'remark'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632148,
+            pageCode: 632515,
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
-                fbhgpsNodeList: ['c1']
+                fbhgpsNodeList: ['c1', 'c1x', 'c2']
             },
             btnEvent: {
                 // 录入
@@ -144,7 +144,7 @@ class Insurance extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].fbhgpsNode !== 'c1') {
+                    } else if (selectedRows[0].fbhgpsNode !== 'c1' && selectedRows[0].fbhgpsNode !== 'c1x') {
                         showWarnMsg('当前不是录入发保合节点');
                     } else {
                         this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRowKeys[0]}`);
@@ -156,7 +156,7 @@ class Insurance extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                     } else if (selectedRows[0].fbhgpsNode !== 'c1') {
+                     } else if (selectedRows[0].fbhgpsNode !== 'c2') {
                       showWarnMsg('当前不是录入发保合节点');
                     } else {
                         this.props.history.push(`${this.props.location.pathname}/enter?code=${selectedRowKeys[0]}`);

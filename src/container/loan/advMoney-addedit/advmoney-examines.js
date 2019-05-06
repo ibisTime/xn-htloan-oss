@@ -24,9 +24,10 @@ class examineMoneyb extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
+        this.isAddedit = getQueryString('isAddedit', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
         this.buttons = [];
-        if (this.isCheck) {
+        if (this.isAddedit) {
             this.buttons = [{
                 title: '通过',
                 check: true,
@@ -119,22 +120,16 @@ class examineMoneyb extends React.Component {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName : '';
             },
             readonly: true
-            // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
         }, {
             title: '指派归属',
             field: 'zfStatus',
-            readonly: true,
             formatter: (v, d) => {
-                if (d.teamName) {
-                    return d.insideJobName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : d.companyName + d.teamName;
-                } else if (d.insideJobName) {
-                    return d.teamName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : d.companyName + d.insideJobName;
-                }
-            }
-            // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+            },
+            readonly: true
         }, {
             title: '当前状态',
             field: 'status',
@@ -156,8 +151,8 @@ class examineMoneyb extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
-            editCode: 632129,
+            detailCode: 632117,
+            editCode: 632461,
             buttons: this.buttons
         });
     }
