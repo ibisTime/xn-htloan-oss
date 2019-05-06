@@ -167,20 +167,20 @@ class AdvMoney extends React.Component {
                     } else if (selectedRows[0].fbhgpsNode !== 'g2') {
                         showWarnMsg('当前不是用款一审节点');
                     } else {
-                        this.props.history.push(`/loan/advMoney/examines?isAddedit=1&bizType=${selectedRows[0].bizCode}`);
+                        this.props.history.push(`/loan/advMoney/examines?isAddedit=1&code=${selectedRows[0].bizCode}`);
                      }
                 },
                 // 用款二审
                 toexamines: (selectedRowKeys, selectedRows) => {
-                    // if (!selectedRowKeys.length) {
-                    //     showWarnMsg('请选择记录');
-                    // } else if (selectedRowKeys.length > 1) {
-                    //     showWarnMsg('请选择一条记录');
-                    // } else if (selectedRows[0].fbhgpsNode !== 'g3') {
-                    //     showWarnMsg('当前不是用款二审节点');
-                    // } else {
-                        this.props.history.push(`/loan/advMoney/examiness?isAddedit=&bizType=${selectedRows[0].bizType}`);
-                    // }
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].fbhgpsNode !== 'g3') {
+                        showWarnMsg('当前不是用款二审节点');
+                    } else {
+                        this.props.history.push(`/loan/advMoney/examiness?isAddedit=&code=${selectedRows[0].bizCode}`);
+                    }
                 }
 
             }
