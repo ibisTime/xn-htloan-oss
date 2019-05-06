@@ -77,13 +77,22 @@ class receivables extends React.Component {
             field: 'bankcardNumber'
         }, {
             title: '开户行',
-            field: 'bankName'
+            field: 'bankCode',
+            type: 'select',
+            listCode: 802116,
+            keyName: 'bankCode',
+            valueName: 'bankName',
+            required: true
+        }, {
+            title: '支行',
+            field: 'subbranch',
+            required: true
         }, {
             title: '账号',
             field: 'bankcardNumber'
         }, {
             title: '收款比例(%)',
-            field: 'bankName'
+            field: 'pointRate'
         }, {
             title: '备注',
             field: 'remark'

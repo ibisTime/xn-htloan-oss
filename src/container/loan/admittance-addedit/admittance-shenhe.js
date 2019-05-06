@@ -129,7 +129,7 @@ class AdmittanceShenhe extends DetailUtil {
             type: 'textarea',
             normalArea: true,
             readonly: false,
-            required: this.isCheckNq
+            required: this.isCheckNq && this.isCheck
         }];
         let bizCode = this.getBizCode();
         // 准入审查

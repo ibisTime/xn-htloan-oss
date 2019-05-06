@@ -984,6 +984,21 @@ const ROUTES = [
       path: '/loan/advMoney/addedit',
       component: asyncComponent(() => import('container/loan/advMoney-addedit/advMoney-addedit'))
   },
+  // 财务垫资 确认用款单
+  {
+    path: '/loan/advMoney/examine',
+    component: asyncComponent(() => import('container/loan/advMoney-addedit/advmoney-examine'))
+  },
+  // 财务垫资 用款一审
+  {
+    path: '/loan/advMoney/examines',
+    component: asyncComponent(() => import('container/loan/advMoney-addedit/advmoney-examines'))
+  },
+  // 财务垫资 用款二审
+  {
+    path: '/loan/advMoney/examiness',
+    component: asyncComponent(() => import('container/loan/advMoney-addedit/advmoney-examiness'))
+  },
   //  贷前工具
   //  调查报告
   {

@@ -72,7 +72,7 @@ class MadeCard extends React.Component {
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
-                makeCardNodeList: ['h1', 'h2']
+                makeCardNodeList: ['h1', 'h2', 'h3']
             },
             btnEvent: {
                     // 填写制卡单
