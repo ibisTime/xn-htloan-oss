@@ -52,10 +52,14 @@ class Circulationlog extends React.Component {
       field: 'operatorName'
     }, {
       title: '手机号',
-      field: 'mobile'
+      field: 'operatorMobile'
     }, {
       title: '节点名称',
-      field: 'dealNote'
+      field: 'dealNode',
+      type: 'select',
+      listCode: 630147,
+      keyName: 'code',
+      valueName: 'name'
     }, {
       title: '开始时间',
       field: 'startDatetime',

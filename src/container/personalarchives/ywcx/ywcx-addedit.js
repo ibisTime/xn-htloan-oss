@@ -985,9 +985,10 @@ class ArchivesAddEdit extends React.Component {
                                     {this.getSelectCol({
                                         field: 'loanPeriod',
                                         title: '贷款期限',
-                                        keyName: 'dkey',
-                                        valueName: 'dvalue'
-                                    }, loanPeriodData, 2)}
+                                        formatter: (v, d) => {
+                                            return d.repayBiz.periods;
+                                        }
+                                    }, 2)}
                                 </Row>
                                 <Row gutter={54}>
                                     {this.getSelectCol({
