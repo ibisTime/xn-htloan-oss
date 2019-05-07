@@ -26,6 +26,24 @@ import fetch from 'common/js/fetch';
     }
 )
 class receivablesAddedit extends React.Component {
+    state = {
+        companyData: [],
+        o_companyData: []
+    };
+    componentDidMount() {
+        fetch(632067).then(data => {
+            console.log(22, data);
+            this.setState({
+                companyData: data
+            });
+        });
+        fetch(630106, {typeList: [1]}).then(data => {
+            console.log(33, data);
+            this.setState({
+                o_companyData: data
+            });
+        });
+    }
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);

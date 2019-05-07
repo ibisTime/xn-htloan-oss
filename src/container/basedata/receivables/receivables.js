@@ -43,6 +43,22 @@ import {
     }
 )
 class receivables extends React.Component {
+    state = {
+        companyData: [],
+        o_companyData: []
+    };
+    componentDidMount() {
+        fetch(632067).then(data => {
+            this.setState({
+                companyData: data
+            });
+        });
+        fetch(630106, {typeList: [1]}).then(data => {
+            this.setState({
+                o_companyData: data
+            });
+        });
+    }
     render() {
         const fields = [{
             title: '账号类型',
@@ -63,7 +79,7 @@ class receivables extends React.Component {
             valueName: 'dvalue'
         }, {
             title: '公司名称',
-            field: 'companyCode',
+            field: 'companyCode1',
             listCode: 630106,
             params: {
                 typeList: [1]
@@ -72,18 +88,22 @@ class receivables extends React.Component {
             keyName: 'code',
             search: true,
             valueName: 'name',
-            // render: (v, d, props) => {
-            //     if (d.type === '2') {
-            //         fetch(632067, {}).then(data => {
-            //             data.forEach(d => d.name = d.fullName);
-            //         });
-            //         return
-            //     }
-            // },
-            required: true
+            required: true,
+            hidden: true
         }, {
-            title: '户名',
-            field: 'bankcardNumber'
+            title: '公司名称',
+            field: 'companyCode',
+            render: (v, d, props) => {
+                if (d.type === '2') {
+                    let company = this.state.companyData.filter(item => {
+                        return item.code === v;
+                    });
+                    return company.length === 1 ? company[0].fullName : v;
+                }
+                let oCompanyData = this.state.o_companyData.filter(item =>
+                    item.code === v);
+                return oCompanyData[0] && oCompanyData[0].name;
+            }
         }, {
             title: '开户行',
             field: 'bankCode',
