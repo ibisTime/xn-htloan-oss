@@ -1194,6 +1194,21 @@ const ROUTES = [
     path: '/postloantools/import/dispose',
     component: asyncComponent(() => import('container/postloantools/import/import-dispose'))
   },
+    //  工行征信
+    {
+        path: '/postloantools/banks',
+        component: asyncComponent(() => import('container/postloantools/banks/banks'))
+    },
+    //  工行征信-- 查询
+    {
+        path: '/postloantools/banks/query',
+        component: asyncComponent(() => import('container/postloantools/banks/banks-query'))
+    },
+  //  工行征信-- 详情
+  {
+    path: '/postloantools/banks/query/addedit',
+    component: asyncComponent(() => import('container/postloantools/banks/banks-querya'))
+  },
   //  人事
   //  人事档案
   {

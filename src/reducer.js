@@ -233,7 +233,7 @@ import {bizBeforedot} from './redux/basedata/beforedot';
 //  银行管理 + 详情 + 修改 + 删除
 import {bizBank} from './redux/basedata/bank';
 import {bizBankAddEdit} from './redux/basedata/bank-addedit';
-
+import {bizBanks} from './redux/basedata/banks';
 //  银行类别管理 + 详情 + 修改 + 删除
 import {bizBankType} from './redux/basedata/bankType';
 import {bizBankTypeAddEdit} from './redux/basedata/bankType-addedit';
@@ -694,6 +694,7 @@ export default combineReducers({
     bizBeforeloan,
     bizBeforedot,
     bizBank,
+    bizBanks,
     bizBankAddEdit,
     bizRefundCard,
     bizRefundCardAddedit,
