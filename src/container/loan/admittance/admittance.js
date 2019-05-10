@@ -108,7 +108,7 @@ class Admittance extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632148,
+            pageCode: 632515,
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
@@ -124,7 +124,7 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'b1' && selectedRows[0].curNodeCode !== 'b1x') {
                         showWarnMsg('当前不是填写准入申请单节点');
                     } else {
-                        this.props.history.push(`/loan/admittance/addedit?&code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}&loanBank=${selectedRows[0].loanBank}`);
+                        this.props.history.push(`/loan/admittance/addedit?&code=${selectedRowKeys[0]}`);
                     }
                 },
                 // 区域经理审核
@@ -147,7 +147,7 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'b2') {
                         showWarnMsg('当前不是区域经理审核节点');
                     } else {
-                        this.props.history.push(`/loan/admittance/shenhe?v=1&isCheckRegionalManager=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/admittance/shenhe?v=1&isCheckRegionalManager=1&code=${selectedRowKeys[0]}`);
                     }
                 },
                 // 内勤主管审核（财务总监审核）
@@ -171,7 +171,7 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'b3') {
                         showWarnMsg('当前不是风控一审节点');
                     } else {
-                        this.props.history.push(`/loan/admittance/shenhe?v=1&isCheckCommissioner=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/admittance/shenhe?v=1&isCheckCommissioner=1&code=${selectedRowKeys[0]}`);
                     }
                 },
                 // 风控二审
@@ -183,7 +183,7 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'b4') {
                         showWarnMsg('当前不是风控二审节点');
                     } else {
-                        this.props.history.push(`/loan/admittance/shenhe?v=1&checkCommissionerTwo=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/admittance/shenhe?v=1&checkCommissionerTwo=1&code=${selectedRowKeys[0]}`);
                     }
                 },
                 // 风控终审
@@ -195,7 +195,7 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'b5') {
                         showWarnMsg('当前不是风控终审节点');
                     } else {
-                        this.props.history.push(`/loan/admittance/shenhe?v=1&isCheckDirector=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/admittance/shenhe?v=1&isCheckDirector=1&code=${selectedRowKeys[0]}`);
                     }
                 },
                 // 业务总监审核

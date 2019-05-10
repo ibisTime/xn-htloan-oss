@@ -677,27 +677,17 @@ export function getRealName() {
 
 // 返回当前节点应跳转的页面
 export function getNowCurNodePageUrl(data) {
-  let url;
-  // "0", "待发件"，"1", "已发件待收件"，"3", "已收件待补件"
-  // 物流单
-  if (data.refType === '012') {
-    if (data.logisticsStatus === '0' || data.logisticsStatus === '3') {
-      url = '/transmit/transmit/send?code=';
-    } else {
-      url = '/transmit/collection/check?code=';
-    }
-  } else {
+    let url;
     url = curNodePageUrl[data.dealNode];
-  }
-  if (!url) {
-    return '';
-  }
-  url += data.refOrder;
-  // 准入申请单
-  if (data.dealNode === '002_01' || data.dealNode === '002_02' || data.dealNode === '002_03' ||
-    data.dealNode === '002_04' || data.dealNode === '002_24' || data.dealNode === '002_25' ||
-    data.dealNode === '002_27' || data.dealNode === '002_28') {
-    url = `${url}&bizType=${data.bizType}&loanBank=${data.loanBank}`;
-  }
+    if (!url) {
+      return '';
+    }
+    url += data.refOrder;
+    // 准入申请单
+    if (data.dealNode === '002_01' || data.dealNode === '002_02' || data.dealNode === '002_03' ||
+        data.dealNode === '002_04' || data.dealNode === '002_24' || data.dealNode === '002_25' ||
+        data.dealNode === '002_27' || data.dealNode === '002_28') {
+      url = `${url}&bizType=${data.bizType}&loanBank=${data.loanBank}`;
+    }
   return url;
 }

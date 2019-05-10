@@ -75,7 +75,7 @@ class installGps extends React.Component {
             title: '贷款期数',
             field: 'loanPeriod',
             render: (v, d) => {
-                return d.repayBiz ? d.repayBiz.restPeriods : '';
+                return d.repayBiz ? d.repayBiz.periods : '';
             }
         }, {
             title: '业务种类',
@@ -83,21 +83,18 @@ class installGps extends React.Component {
             type: 'select',
             key: 'budget_orde_biz_typer'
         }, {
-            field: 'carFrameNo',
-            title: '车架号'
-        }, {
             title: '申请时间',
             field: 'applyDatetime',
             type: 'datetime'
         }, {
             title: '当前节点',
-            field: 'curNodeCode',
+            field: 'fbhgpsNode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
             search: true,
-            params: {type: 'a'}
+            params: {type: 'd'}
         }, {
             title: '是否安装',
             field: 'isGpsAz',
@@ -118,12 +115,12 @@ class installGps extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632148,
+            pageCode: 632515,
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
             //     advanfCurNodeCodeList: ['002_09', '002_10', '002_12', '002_32']
-                curNodeCodeList: ['e1']
+                fbhgpsNodeList: ['d1', 'd2', 'd3', 'd4']
             },
             btnEvent: {
                 check: (selectedRowKeys, selectedRows) => {
@@ -131,7 +128,7 @@ class installGps extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].advanfCurNodeCode !== '002_10') {
+                    } else if (selectedRows[0].fbhgpsNode !== 'd2') {
                         showWarnMsg('当前不是GPS管理员审核的节点');
                     } else {
                         this.props.history.push(`/biz/installGps/check?code=${selectedRowKeys[0]}`);
@@ -142,10 +139,10 @@ class installGps extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].advanfCurNodeCode !== '002_09' &&
-                        selectedRows[0].advanfCurNodeCode !== '002_12') {
+                    } else if (selectedRows[0].fbhgpsNode !== 'd1' &&
+                        selectedRows[0].fbhgpsNode !== 'd3') {
                         showWarnMsg('当前不是业务团队安装或重装GPS的节点');
-                    } else if (selectedRows[0].advanfCurNodeCode === '002_09') {
+                    } else if (selectedRows[0].fbhgpsNode === 'd1') {
                         this.props.history.push(`/biz/installGps/enter?code=${selectedRowKeys[0]}`);
                     } else {
                         this.props.history.push(`/biz/installGps/enter?code=${selectedRowKeys[0]}&edit=1`);

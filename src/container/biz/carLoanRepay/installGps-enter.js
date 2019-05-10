@@ -75,7 +75,7 @@ class installGpsEnter extends React.Component {
                 title: '业务归属',
                 field: 'ywyUser',
                 formatter: (v, d) => {
-                    return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                    return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
                 },
                 readonly: true
                 // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
@@ -84,25 +84,17 @@ class installGpsEnter extends React.Component {
                 field: 'zfStatus',
                 readonly: true,
                 formatter: (v, d) => {
-                    if (d.teamName) {
-                        return d.insideJobName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : d.companyName + d.teamName;
-                    } else if (d.insideJobName) {
-                        return d.teamName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : d.companyName + d.insideJobName;
-                    }
-                    }
-                // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+                    return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+                }
             }, {
                 title: '当前状态',
                 field: 'status',
                 key: 'cdbiz_status',
                 type: 'select',
-                readonly: true,
-                formatter: (v, d) => {
-                    return d ? d.cdbiz.status : '';
-                }
+                readonly: true
             }, {
             title: 'GPS安装列表',
-            field: 'budgetOrderGpsList',
+            field: 'gpsAzList',
                 required: true,
             type: 'o2m',
             options: {
@@ -173,7 +165,7 @@ class installGpsEnter extends React.Component {
               handler: (param) => {
                 param.operator = getUserId();
                 this.props.doFetching();
-                param.gpsAzList = param.budgetOrderGpsList;
+                param.gpsAzList = param.gpsAzList;
                 fetch(632126, param).then(() => {
                   showSucMsg('操作成功');
                   this.props.cancelFetching();

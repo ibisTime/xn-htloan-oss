@@ -111,7 +111,7 @@ class archives extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632148,
+            pageCode: 632515,
             searchParams: {
               userId: getUserId(),
               roleCode: getRoleCode(),
@@ -123,7 +123,7 @@ class archives extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].fircundangStatus !== '002') {
+                } else if (selectedRows[0].enterStatus !== '002') {
                   showWarnMsg('当前不是确认入档节点');
                 } else {
                   this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}&e=1`);

@@ -18,6 +18,8 @@ import {
 } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
 import {getNodeList} from 'api/menu';
+import {curNodePageUrl} from './../../../src/common/js/config';
+
 @listWrapper(
     state => ({
         ...state.homeToDoList,
@@ -49,11 +51,11 @@ class ToDoList extends React.Component {
         const {nodeDict} = this.state;
         const fields = [{
             field: 'bizCode',
-            type: 'select',
+            // type: 'select',
             search: true,
-            listCode: 632517,
-            valueName: '{{code.DATA}}',
-            keyName: 'code',
+            // // listCode: 632517,
+            // valueName: '{{code.DATA}}',
+            // keyName: 'code',
             title: '业务编号'
         }, {
             title: '消息内容',
@@ -80,8 +82,7 @@ class ToDoList extends React.Component {
             rowKey: 'id',
             searchParams: {
                 operator: getUserId(),
-                roleCode: getRoleCode(),
-                teamCode: getTeamCode()
+                roleCode: getRoleCode()
             },
             buttons: [{
                 code: 'handle',
@@ -91,20 +92,9 @@ class ToDoList extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if(selectedRows[0].refNode === 'b1x') {
-                        this.props.history.push(`/loan/credit/addedit?v=1&isEntry=1&code=${selectedRows[0].bizCode}`);
-                    } else if(selectedRows[0].refNode === 'a3') {
-                        this.props.history.push(`/loan/credit/shenhe?v=1&isEntry=1&code=${selectedRows[0].bizCode}`);
-                    } else if(selectedRows[0].refNode === 'b7') {
-                        this.props.history.push(`/loan/admittance/shenhe?v=1&isCheckNq=1&code=${selectedRows[0].bizCode}`);
-                    } else if(selectedRows[0].refNode === 'h2') {
-                        this.props.history.push(`/loan/madeCard/addedit?v=1&hande=1&code=${selectedRows[0].bizCode}`);
-                    } else if(selectedRows[0].refNode === 'b5') {
-                        this.props.history.push(`/loan/admittance/shenhe?v=1&isCheckDirector=1&code=${selectedRows[0].bizCode}`);
-                    } else if(selectedRows[0].refNode === 'b6') {
-                        this.props.history.push(`/loan/admittance/shenhe?v=1&isbusinessCheck=1&code=${selectedRows[0].bizCode}}`);
                     } else {
-                        showWarnMsg('您需要先处理完该笔业务的物流');
+                        console.log(curNodePageUrl);
+                        this.props.history.push(`${curNodePageUrl[selectedRows[0].refNode]}${selectedRows[0].bizCode}`);
                     }
                 }
             }, {

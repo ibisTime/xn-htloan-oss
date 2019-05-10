@@ -66,32 +66,38 @@ export const DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const curNodePageUrl = {
     // ************贷前管理************
     // 征信
-    '001_01': '/loan/credit/addedit?isAddedit=1&code=',
-    '001_02': '/loan/credit/addedit?v=1&isEntry=1&code=',
-    '001_03': '/loan/credit/addedit?v=1&isCheck=1&code=',
-    '001_05': '/loan/credit/addedit?isAddedit=1&code=',
-    '001_06': '/loan/credit/addedit?v=1&isEntry=1&code=',
-    '001_07': '/loan/credit/addedit?isAddedit=1&code=',
-    '001_08': '/loan/credit/dispatch?code=',
+    'a2': '/loan/credit/addedit?v=1&isEntry=1&code=',
+    'a3': '/loan/credit/shenhe?v=1&isCheck=1&code=',
+    'a1x': '/loan/credit/addedit?isAddedit=1&code=',
+    // 'a5': '/loan/credit/addedit?v=1&isEntry=1&code=',
+    // 'a6': '/loan/credit/addedit?isAddedit=1&code=',
+    // 'a7': '/loan/credit/dispatch?code=',
 
     // 准入单
-    '002_01': '/loan/admittance/addedit?code=',
-    '002_02': '/loan/admittance/addedit?v=1&isCheckCommissioner=1&code=',
-    '002_03': '/loan/admittance/addedit?v=1&isCheckDirector=1&code=',
+    'b1': '/loan/admittance/addedit?&code=',
+    'b1x': '/loan/admittance/addedit?&code=',
+    'b2': '/loan/admittance/shenhe?v=1&isCheckRegionalManager=1&code=',
+    'b3': '/loan/admittance/shenhe?v=1&isCheckCommissioner=1&code=',
+    'b4': '/loan/admittance/shenhe?v=1&checkCommissionerTwo=1&code=',
+    'b5': '/loan/admittance/shenhe?v=1&isCheckDirector=1&code=',
+    'b6': '/loan/admittance/shenhe?v=1&isbusinessCheck=1&code=',
+    'b7': '/loan/admittance/shenhe?v=1&isCheckNq=1&code=',
     '002_04': '/loan/admittance/addedit?code=',
-    '002_24': '/loan/admittance/addedit?v=1&isCheckRegionalManager=1&code=',
-    '002_25': '/loan/admittance/addedit?v=1&isCheckNq=1&code=',
-    '002_27': '/loan/admittance/addedit?v=1&checkCommissionerTwo=1&code=',
-    '002_28': '/loan/admittance/addedit?v=1&isbusinessCheck=1&code=',
 
+    // 制卡
+    'h1': '/loan/madeCard/addedits?&code=',
+    'h2': '/loan/madeCard/addedit?v=1&hande=1&code=',
     // 面签
-    '002_05': '/loan/faceSign/addedit?code=',
-    '002_08': '/loan/faceSign/addedit?code=',
-    '002_26': '/loan/faceSign/addedit?v=1&isCheckNq=1&code=',
+    'b01': '/loan/faceSign/addedit?code=',
+    'xx': '/loan/faceSign/addedit?code=',
+    'b02': '/loan/faceSign/addedit?v=1&isCheckNq=1&code=',
 
     // 财务垫资
-    '002_07': '/loan/advMoney/addedit?code=',
-    '002_29': '/loan/advMoney/addedit?check=1&v=1&code=',
+    'g1': '/loan/advMoney/examine?isAddedit=1&code=',
+    'g2': '/loan/advMoney/examines?isAddedit=1&code=',
+    'g3': '/loan/advMoney/examiness?isAddedit=1&code=',
+    'g4': '/loan/advMoney/examiness?&check=1&code=',
+    'g5': '/loan/advMoney/addedit?&code=',
 
     // ************贷前工具************
     // 调查报告
@@ -105,19 +111,21 @@ export const curNodePageUrl = {
 
     // ************贷后还款************
     // GPS安装
-    '002_09': '/biz/installGps/enter?code=',
-    '002_10': '/biz/installGps/check?code=',
-    '002_12': '/biz/installGps/enter?edit=1&code=',
+    'd2': '/biz/installGps/enter?code=',
+    'd1': '/biz/installGps/check?code=',
+    'd3': '/biz/installGps/enter?edit=1&code=',
 
     // 银行放款
     '002_11': '/biz/bankMoney/settle?code=',
-    '002_15': '/biz/bankMoney/sub?code=',
-    '002_16': '/biz/bankMoney/enter?code=',
-    '002_17': '/biz/bankMoney/certain?code=',
+    'e3': '/biz/bankMoney/sub?code=',
+    'e4': '/biz/bankMoney/enter?code=',
+    'e5': '/biz/bankMoney/certain?code=',
+    'e6': '/biz/bankMoney/record?code=',
 
     // 录入发保合
-    '002_18': '/biz/insurance/addedit?code=',
-
+    'c1': '/biz/insurance/addedit?code=',
+    'c1x': '/biz/insurance/addedit?code=',
+    'c2': '/biz/insurance/enter?code=',
     // 车辆抵押
     '002_20': '/biz/mortgage/sub?code=',
     '002_21': '/biz/mortgage/enter?code=',

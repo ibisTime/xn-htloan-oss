@@ -12,6 +12,7 @@ import {
 import { listWrapper } from 'common/js/build-list';
 import { showWarnMsg, showSucMsg } from 'common/js/util';
 import {getNodeList} from 'api/menu';
+import {curNodePageUrl} from './../../../../src/common/js/config';
 
 @listWrapper(
   state => ({
@@ -40,12 +41,7 @@ class ToDo extends React.Component {
     const {nodeDict} = this.state;
     const fields = [{
         field: 'bizCode',
-        type: 'select',
         search: true,
-      noVisible: true,
-        listCode: 632517,
-        valueName: '{{code.DATA}}',
-        keyName: 'code',
         title: '业务编号'
     }, {
       title: '消息内容',
@@ -65,6 +61,20 @@ class ToDo extends React.Component {
       valueName: 'name',
       search: true
     }, {
+      title: '状态',
+      field: 'status',
+      type: 'select',
+      data: [{
+        key: '0',
+        value: '待处理'
+      }, {
+        key: '1',
+        value: '已处理'
+      }],
+      keyName: 'key',
+      valueName: 'value',
+      search: true
+    }, {
       title: '创建时间',
       field: 'createDatetime',
       type: 'datetime'
@@ -75,7 +85,21 @@ class ToDo extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 632525
+      pageCode: 632525,
+      buttons: [{
+        code: 'handle',
+        name: '处理',
+        handler: (selectedRowKeys, selectedRows) => {
+          if (!selectedRowKeys.length) {
+            showWarnMsg('请选择记录');
+          } else if (selectedRowKeys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else {
+            console.log(curNodePageUrl);
+            this.props.history.push(`${curNodePageUrl[selectedRows[0].refNode]}${selectedRows[0].bizCode}`);
+          }
+        }
+        }]
     });
   }
 }

@@ -134,122 +134,126 @@ class AdmittanceAddEdit extends React.Component {
     };
   }
   componentDidMount() {
-    Promise.all([
-      fetch(632036, { code: this.loanBank }), // 查贷款银行 计算银行利率
-      fetch(632067, { curNodeCode: '006_03' }), // 查机动车销售公司
-      fetch(632177, { status: '2', type: this.bizType, loanBank: this.loanBank }), // 查贷款产品
-      fetch(630406, { status: '1' }),
-      fetch(630416, { status: '1' }),
-      fetch(630429, { status: '1' }),
-      getDictList({ parentKey: 'budget_orde_biz_typer' }),
-      getDictList({ parentKey: 'loan_period' }),
-      getDictList({ parentKey: 'region' }),
-      getDictList({ parentKey: 'car_type' }),
-      getDictList({ parentKey: 'gender' }),
-      getDictList({ parentKey: 'marry_state' }),
-      getDictList({ parentKey: 'education' }),
-      getDictList({ parentKey: 'is_card_mail_address' }),
-      getDictList({ parentKey: 'credit_user_relation' }),
-      getDictList({ parentKey: 'work_belong_industry' }),
-      getDictList({ parentKey: 'work_company_property' }),
-      getDictList({ parentKey: 'main_income' }),
-      getDictList({ parentKey: 'position' }),
-      getDictList({ parentKey: 'work_profession' }),
-      getDictList({ parentKey: 'interest' }),
-      getDictList({ parentKey: 'car_frame_price_count' }),
-      getQiniuToken(),
-      fetch(632516, { code: this.code })
-    ]).then(([loanBankData, carSaleData, loanProductData, brandData, carSeriesData,
-       carShapeData, bizTypeData, loanPeriodData, regionData, carTypeData, genderData,
-       marryStateData, educationData, addressData, relationData, industryData,
-       propertyData, incomeData, positionData, professionData, interestData,
-       carFrameData, uploadToken, pageData]) => {
-      // 初始化万元系数、公证费比例、gps费用
-      if (pageData.loanProductCode) { // 选择贷款产品后初始化
-        let product = loanProductData.find(v => v.code === pageData.loanProductCode);
-        if (product) {
-          this.wanFactor = product.wanFactor || 0;
-          this.authRate = product.authRate || 0;
-          this.gpsFee = product.gpsFee || 0;
+    fetch(632516, {code: this.code}).then((data) => {
+      this.setState({ pageData: data,
+        fetching: false });
+      Promise.all([
+        fetch(632516, { code: data.code }),
+        fetch(632036, { code: data.loanBank }), // 查贷款银行 计算银行利率
+        fetch(632067, { curNodeCode: '006_03' }), // 查机动车销售公司
+        fetch(632177, { status: '2', type: data.bizType, loanBank: data.loanBank }), // 查贷款产品
+        fetch(630406, { status: '1' }),
+        fetch(630416, { status: '1' }),
+        fetch(630429, { status: '1' }),
+        getDictList({ parentKey: 'budget_orde_biz_typer' }),
+        getDictList({ parentKey: 'loan_period' }),
+        getDictList({ parentKey: 'region' }),
+        getDictList({ parentKey: 'car_type' }),
+        getDictList({ parentKey: 'gender' }),
+        getDictList({ parentKey: 'marry_state' }),
+        getDictList({ parentKey: 'education' }),
+        getDictList({ parentKey: 'is_card_mail_address' }),
+        getDictList({ parentKey: 'credit_user_relation' }),
+        getDictList({ parentKey: 'work_belong_industry' }),
+        getDictList({ parentKey: 'work_company_property' }),
+        getDictList({ parentKey: 'main_income' }),
+        getDictList({ parentKey: 'position' }),
+        getDictList({ parentKey: 'work_profession' }),
+        getDictList({ parentKey: 'interest' }),
+        getDictList({ parentKey: 'car_frame_price_count' }),
+        getQiniuToken()
+      ]).then(([pageData, loanBankData, carSaleData, loanProductData, brandData, carSeriesData,
+                 carShapeData, bizTypeData, loanPeriodData, regionData, carTypeData, genderData,
+                 marryStateData, educationData, addressData, relationData, industryData,
+                 propertyData, incomeData, positionData, professionData, interestData,
+                 carFrameData, uploadToken]) => {
+        // 初始化万元系数、公证费比例、gps费用
+        if (pageData.loanProductCode) { // 选择贷款产品后初始化
+          let product = loanProductData.find(v => v.code === pageData.loanProductCode);
+          if (product) {
+            this.wanFactor = product.wanFactor || 0;
+            this.authRate = product.authRate || 0;
+            this.gpsFee = product.gpsFee || 0;
+          }
         }
-      }
-      pageData.creditUserList.forEach(item => {
-        // 申请人
-        if (item.loanRole === '1') {
-          pageData.creditUser1 = item;
-        // 共同还款人
-        } else if (item.loanRole === '2') {
-          pageData.creditUser2 = item;
-        // 担保人
-        } else {
-          pageData.creditUser3 = item;
-        }
-      });
-      pageData.carInfoRes = pageData.carInfoRes || {};
-      pageData.attachments.forEach(item => {
-        if (item.kname === 'car_pic') {
-          pageData.carInfoRes.carPic = item.url;
-        } else if (item.kname === 'car_hgz_pic') {
-          pageData.carInfoRes.carHgzPic = item.url;
-        } else if (item.kname === 'hkb_apply') {
-          pageData.creditUser1.hkBookPdf = item.url;
-        } else if (item.kname === 'house_contract') {
-          pageData.creditUser1.houseContract = item.url;
-        } else if (item.kname === 'house_invoice') {
-          pageData.creditUser1.houseInvoice = item.url;
-        } else if (item.kname === 'live_prove_pdf') {
-          pageData.creditUser1.liveProvePdf = item.url;
-        } else if (item.kname === 'build_prove_pdf') {
-          pageData.creditUser1.buildProvePdf = item.url;
-        } else if (item.kname === 'house_picture_apply') {
-          pageData.creditUser1.housePictureApply = item.url;
-        } else if (item.kname === 'marry_pdf') {
-          pageData.creditUser1.marryPdf = item.url;
-        } else if (item.kname === 'improve_pdf') {
-          pageData.creditUser1.improvePdf = item.url;
-        } else if (item.kname === 'front_table_pic') {
-          pageData.creditUser1.frontTablePic = item.url;
-        } else if (item.kname === 'work_place_pic') {
-          pageData.creditUser1.workPlacePic = item.url;
-        } else if (item.kname === 'saler_and_customer') {
-          pageData.creditUser1.salerAndcustomer = item.url;
-        } else if (item.kname === 'asset_pdf_gh') {
-          pageData.creditUser2.mateAssetPdf = item.url;
-        } else if (item.kname === 'asset_pdf_gua') {
-          pageData.creditUser3.guaAssetPdf = item.url;
-        }
-      });
-      this.setState({
-        loanBankData,
-        carSaleData,
-        loanProductData,
-        brandData,
-        carSeriesData,
-        carShapeData,
-        bizTypeData,
-        loanPeriodData,
-        regionData,
-        carTypeData,
-        genderData,
-        marryStateData,
-        educationData,
-        addressData,
-        relationData,
-        industryData,
-        propertyData,
-        incomeData,
-        positionData,
-        professionData,
-        interestData,
-        carFrameData,
-        pageData,
-        isSelfCompany: pageData.mainIncome && pageData.mainIncome.includes('4'),
-        isMarried: pageData.creditUser1.marryState === '2',
-        showMarry: pageData.creditUser1.marryState === '2' || pageData.creditUser1.marryState === '3',
-        token: uploadToken.uploadToken,
-        fetching: false,
-        isLoaded: true
-      });
+        pageData.creditUserList.forEach(item => {
+          // 申请人
+          if (item.loanRole === '1') {
+            pageData.creditUser1 = item;
+            // 共同还款人
+          } else if (item.loanRole === '2') {
+            pageData.creditUser2 = item;
+            // 担保人
+          } else {
+            pageData.creditUser3 = item;
+          }
+        });
+        pageData.carInfoRes = pageData.carInfoRes || {};
+        pageData.attachments.forEach(item => {
+          if (item.kname === 'car_pic') {
+            pageData.carInfoRes.carPic = item.url;
+          } else if (item.kname === 'car_hgz_pic') {
+            pageData.carInfoRes.carHgzPic = item.url;
+          } else if (item.kname === 'hkb_apply') {
+            pageData.creditUser1.hkBookPdf = item.url;
+          } else if (item.kname === 'house_contract') {
+            pageData.creditUser1.houseContract = item.url;
+          } else if (item.kname === 'house_invoice') {
+            pageData.creditUser1.houseInvoice = item.url;
+          } else if (item.kname === 'live_prove_pdf') {
+            pageData.creditUser1.liveProvePdf = item.url;
+          } else if (item.kname === 'build_prove_pdf') {
+            pageData.creditUser1.buildProvePdf = item.url;
+          } else if (item.kname === 'house_picture_apply') {
+            pageData.creditUser1.housePictureApply = item.url;
+          } else if (item.kname === 'marry_pdf') {
+            pageData.creditUser1.marryPdf = item.url;
+          } else if (item.kname === 'improve_pdf') {
+            pageData.creditUser1.improvePdf = item.url;
+          } else if (item.kname === 'front_table_pic') {
+            pageData.creditUser1.frontTablePic = item.url;
+          } else if (item.kname === 'work_place_pic') {
+            pageData.creditUser1.workPlacePic = item.url;
+          } else if (item.kname === 'saler_and_customer') {
+            pageData.creditUser1.salerAndcustomer = item.url;
+          } else if (item.kname === 'asset_pdf_gh') {
+            pageData.creditUser2.mateAssetPdf = item.url;
+          } else if (item.kname === 'asset_pdf_gua') {
+            pageData.creditUser3.guaAssetPdf = item.url;
+          }
+        });
+        this.setState({
+          loanBankData,
+          carSaleData,
+          loanProductData,
+          brandData,
+          carSeriesData,
+          carShapeData,
+          bizTypeData,
+          loanPeriodData,
+          regionData,
+          carTypeData,
+          genderData,
+          marryStateData,
+          educationData,
+          addressData,
+          relationData,
+          industryData,
+          propertyData,
+          incomeData,
+          positionData,
+          professionData,
+          interestData,
+          carFrameData,
+          pageData,
+          isSelfCompany: pageData.mainIncome && pageData.mainIncome.includes('4'),
+          isMarried: pageData.creditUser1.marryState === '2',
+          showMarry: pageData.creditUser1.marryState === '2' || pageData.creditUser1.marryState === '3',
+          token: uploadToken.uploadToken,
+          fetching: false,
+          isLoaded: true
+        });
+      }).catch(() => this.setState({ fetching: false }));
     }).catch(() => this.setState({ fetching: false }));
   }
   tabChange = (activeKey) => {
