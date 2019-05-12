@@ -193,15 +193,15 @@ class ArchivesAddEdit extends React.Component {
             fetch(632827),
             fetch(632527, {bizCode: this.code}),
             getQiniuToken(),
-            fetch(632117, {code: this.code})
-        ]).then(([politics,
-                     loanProductData, attAchment, cdBizCode, bizTypeData, loanPeriodData, regionData, carTypeData,
+            fetch(632116, {code: this.code})
+        ]).then(([
+                     loanProductData, politics, attAchment, cdBizCode, bizTypeData, loanPeriodData, regionData, carTypeData,
                      genderData, marryStateData, educationData, addressData, relationData,
                      industryData, propertyData, incomeData, noticeData, positionData, professionData,
                      interestData, loanRoleData, enterFileData, enterLocationData,
                      uploadToken, pageData
                  ]) => {
-            console.log(222, politics);
+            console.log(2222, politics);
                 if (pageData.creditUserList.length === 0 || pageData.creditUserList.length === 1) {
                     this.setState({
                         isShowTabPane01: true,
@@ -1062,20 +1062,20 @@ class ArchivesAddEdit extends React.Component {
                                         title: '市场指导价(元)',
                                         amount: true,
                                         formatter: (v, d) => {
-                                            return d.carInfo.originalPrice;
+                                            return moneyFormat(d.carInfo.originalPrice);
                                         }
                                     }, 4)}
                                 </Row>
                                 <Row gutter={54}>
                                     {this.getInputCol({field: 'firstAmount',
                                         formatter: (v, d) => {
-                                            return d.carInfo.firstAmount;
+                                            return moneyFormat(d.carInfo.firstAmount);
                                         },
                                         title: '首付金额(元)'
                                         })}
                                     {this.getInputCol({field: 'firstRate',
                                         formatter: (v, d) => {
-                                            return d.carInfo.firstRate;
+                                            return moneyFormat(d.carInfo.firstRate);
                                         },
                                         title: '首付比例(%)'})}
                                     {this.getInputCol({field: 'loanAmount',
@@ -1090,14 +1090,14 @@ class ArchivesAddEdit extends React.Component {
                                         title: '月供保证金(元)',
                                         amount: true,
                                         formatter: (v, d) => {
-                                            return d.carInfo.monthDeposit;
+                                            return (d.carInfo.monthDeposit);
                                         }
                                     }, 2)}
                                     {this.getInputCol({field: 'teamFee',
                                         title: '服务费(元)',
                                         amount: true,
                                         formatter: (v, d) => {
-                                            return d.carInfo.teamFee;
+                                            return moneyFormat(d.carInfo.teamFee);
                                         }
                                     }, 2)}
                                 </Row>
@@ -1106,7 +1106,7 @@ class ArchivesAddEdit extends React.Component {
                                         title: 'GPS费用(元)',
                                         amount: true,
                                         formatter: (v, d) => {
-                                            return d.carInfo.gpsFee;
+                                            return moneyFormat(d.carInfo.gpsFee);
                                         }
                                     }, 3)}
                                     {this.getInputCol({field: 'authFee',
@@ -1119,7 +1119,7 @@ class ArchivesAddEdit extends React.Component {
                                     {this.getInputCol({field: 'otherFee',
                                         title: '其他费用(元)',
                                         formatter: (v, d) => {
-                                            return d.carInfo.otherFee;
+                                            return moneyFormat(d.carInfo.otherFee);
                                         }
                                     }, 33)}
                                 </Row>
