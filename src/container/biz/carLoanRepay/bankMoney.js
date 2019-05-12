@@ -108,13 +108,16 @@ class bankMoney extends React.Component {
       field: 'bankFkDatetime',
       type: 'date'
     }, {
-      title: '当前节点',
+      title: '状态',
       field: 'curNodeCode',
       type: 'select',
       listCode: 630147,
       keyName: 'code',
       valueName: 'name',
       params: {type: 'e'},
+      afterDetail: (list) => {
+          return list && list.length ? list.filter(l => l.code !== 'e6') : [];
+      },
       search: true
     }, {
       title: '备注',
@@ -126,9 +129,7 @@ class bankMoney extends React.Component {
       searchParams: {
         userId: getUserId(),
         roleCode: getRoleCode(),
-        //   intevCurNodeCodeList: ['002_11', '002_13', '002_14', '002_15', '002_16', '002_17', '002_31', '002_37', '002_38']
-        // },
-        curNodeCodeList: ['e1', 'e2', 'e1x', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8', 'e9', 'e10']
+        curNodeCodeList: ['e1', 'e2', 'e1x', 'e3', 'e4', 'e5', 'e7', 'e8', 'e9', 'e10']
       },
       btnEvent: {
         // 确认提交银行

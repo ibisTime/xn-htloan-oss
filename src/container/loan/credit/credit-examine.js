@@ -109,7 +109,7 @@ class archivesAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632117,
+            detailCode: 632516,
             buttons: [{
                 title: '通过',
                 handler: (param) => {

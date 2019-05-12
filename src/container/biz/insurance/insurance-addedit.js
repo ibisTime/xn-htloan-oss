@@ -1,26 +1,10 @@
 import React from 'react';
-import {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-} from '@redux/biz/insurance-addedit';
+import { Form } from 'antd';
 import { getQueryString, getUserId, isExpressConfirm } from 'common/js/util';
-import { DetailWrapper } from 'common/js/build-detail';
+import DetailUtil from 'common/js/build-detail-dev';
 
-@DetailWrapper(
-    state => state.bizInsuranceAddEdit, {
-        initStates,
-        doFetching,
-        cancelFetching,
-        setSelectData,
-        setPageData,
-        restore
-    }
-)
-class InsuranceAddEdit extends React.Component {
+@Form.create()
+class InsuranceAddEdit extends DetailUtil {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -88,62 +72,74 @@ class InsuranceAddEdit extends React.Component {
             readonly: true
         }, {
             title: '当前状态',
-            field: 'status',
-            key: 'cdbiz_status',
+            field: 'fbhgpsNode',
             type: 'select',
-            readonly: true,
-            formatter: (v, d) => {
-                return d ? d.cdbiz.status : '';
-            }
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name',
+            params: { type: 'c' },
+            readonly: true
         }, {
             title: '保单日期',
             field: 'policyDatetime',
+            _keys: ['carInfo', 'policyDatetime'],
             type: 'date',
             required: true
         }, {
             title: '保单到期日',
             field: 'policyDueDate',
-            type: 'date',
-            required: true
-        }, {
-            title: '落户日期',
-            field: 'carSettleDatetime',
+            _keys: ['carInfo', 'policyDueDate'],
             type: 'date',
             required: true
         }, {
             title: '发票',
             field: 'carInvoice',
+            _keys: ['carInfo', 'carInvoice'],
             type: 'img',
             required: true
         }, {
             title: '交强险',
             field: 'carJqx',
+            _keys: ['carInfo', 'carJqx'],
             type: 'img',
             required: true
         }, {
             title: '商业险',
             field: 'carSyx',
+            _keys: ['carInfo', 'carSyx'],
             type: 'img',
             required: true
         }, {
             title: '其他资料',
             field: 'carSettleOtherPdf',
+            _keys: ['carInfo', 'carSettleOtherPdf'],
             type: 'file'
-        }, {
-            title: '抵押日期',
-            field: 'pledgeDatetime',
-            type: 'date'
         }, {
             title: '绿大本扫描件',
             field: 'greenBigSmj',
+            _keys: ['carInfo', 'greenBigSmj'],
             type: 'img'
         }];
-        return this.props.buildDetail({
+        return this.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632117,
-            editCode: 632131
+            detailCode: 632516,
+            editCode: 632131,
+            afterFetch: (data) => {
+                data.attachments.forEach(pic => {
+                    if (pic.kname === 'green_big_smj') {
+                        data.carInfo.greenBigSmj = pic.url;
+                    } else if (pic.kname === 'car_invoice') {
+                        data.carInfo.carInvoice = pic.url;
+                    } else if (pic.kname === 'car_jqx') {
+                        data.carInfo.carJqx = pic.url;
+                    } else if (pic.kname === 'car_syx') {
+                        data.carInfo.carSyx = pic.url;
+                    }
+                });
+                return data;
+            }
         });
     }
 }

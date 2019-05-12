@@ -102,10 +102,12 @@ class CollectionGPSAddedit extends React.Component {
         field: 'logisticsCompany',
         type: 'select',
         key: 'kd_company',
+        hidden: !this.props.pageData || !this.props.pageData.logisticsCompany,
         readonly: true
     }, {
         title: '快递单号',
         field: 'logisticsCode',
+        hidden: !this.props.pageData || !this.props.pageData.logisticsCode,
         readonly: true
     }, {
         title: '发货时间',

@@ -33,9 +33,7 @@ class CollectionAddedit extends React.Component {
         field: 'bizCode',
         formatter: (v, d) => {
             return <div>
-                {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
-                window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + this.code;
-            }}>查看详情</a>
+                {d.bizCode}<a href={`/ywcx/ywcx/addedit?v=1&code=${d.bizCode}`} style={{ marginLeft: 20 }}>查看详情</a>
             </div>;
         }
     }, {
@@ -99,10 +97,12 @@ class CollectionAddedit extends React.Component {
         title: '快递公司',
         field: 'logisticsCompany',
         type: 'select',
-        key: 'kd_company'
+        key: 'kd_company',
+        hidden: !this.props.pageData || !this.props.pageData.logisticsCompany
     }, {
         title: '快递单号',
-        field: 'logisticsCode'
+        field: 'logisticsCode',
+        hidden: !this.props.pageData || !this.props.pageData.logisticsCode
     }, {
         title: '发货时间',
         field: 'sendDatetime',

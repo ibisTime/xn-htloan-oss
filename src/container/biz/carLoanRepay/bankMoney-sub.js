@@ -79,24 +79,21 @@ class bankMoneySub extends React.Component {
                 return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
             },
             readonly: true
-            // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
         }, {
             title: '指派归属',
             field: 'zfStatus',
             readonly: true,
             formatter: (v, d) => {
                 return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
-                // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
             }
         }, {
             title: '当前状态',
-            field: 'status',
-            key: 'cdbiz_status',
+            field: 'curNodeCode',
             type: 'select',
-            readonly: true,
-            formatter: (v, d) => {
-                return d ? d.cdbiz.status : '';
-            }
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name',
+            params: {type: 'e'}
         }, {
             title: '提交时间',
             field: 'bankCommitDatetime',
@@ -110,7 +107,7 @@ class bankMoneySub extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
+            detailCode: 632516,
             editCode: 632129,
             beforeSubmit: (params) => {
                 params.operator = getUserId();

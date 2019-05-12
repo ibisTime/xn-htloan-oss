@@ -14,49 +14,32 @@ class applyGpsCheck extends DetailUtil {
     this.type = !!getQueryString('type', this.props.location.search);// 公司0  个人1
   }
   render() {
-    const fields = [
-    //     {
-    //   title: '申请人姓名',
-    //   field: 'applyUserName',
-    //   formatter: (v, d) => `${d.applyUserName}-${d.roleName}`,
-    //   readonly: true
-    // },
-      {
-      title: '申领团队',
-      field: 'teamName',
-      hidden: !this.state.pageData || !this.state.pageData.teamName,
-      readonly: true,
-      required: true
-    },
-    //   {
-    //   title: '申领个数',
-    //   field: 'applyCount',
-    //   readonly: true,
-    //   required: true
-    // },
-      {
+    const fields = [{
+        title: '申领团队',
+        field: 'teamName',
+        hidden: !this.state.pageData || !this.state.pageData.teamName,
+        readonly: true,
+        required: true
+    }, {
         title: '有线个数',
         field: 'applyWiredCount',
         readonly: true,
         required: true
-      },
-      {
+    }, {
         title: '无线个数',
         field: 'applyWirelessCount',
         readonly: true,
         required: true
-      },
-      {
-          title: '申领人',
-          field: 'applyUserName',
-          formatter: (v, d) => `${d.applyUserName}-${d.roleName}`,
-          readonly: true,
+    }, {
+        title: '申领人',
+        field: 'applyUserName',
+        formatter: (v, d) => d && d.applyUserName ? `${d.applyUserName}-${d.roleName}` : '',
+        readonly: true,
         required: true
-      },
-      {
-      title: '申领原因',
-      field: 'applyReason',
-      readonly: true
+    }, {
+        title: '申领原因',
+        field: 'applyReason',
+        readonly: true
     }, {
       title: 'GPS列表',
       field: 'gpsList',

@@ -117,7 +117,7 @@ class Insurance extends React.Component {
             field: 'bankFkDatetime',
             type: 'date'
         }, {
-            title: '当前节点',
+            title: '状态',
             field: 'fbhgpsNode',
             type: 'select',
             listCode: 630147,

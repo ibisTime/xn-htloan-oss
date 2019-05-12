@@ -1,32 +1,10 @@
 import React from 'react';
-import {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-} from '@redux/biz/mortgage-apply';
-import {
-    getQueryString,
-    showSucMsg,
-    getUserId,
-    isExpressConfirm
-} from 'common/js/util';
-import {DetailWrapper} from 'common/js/build-detail';
-import fetch from 'common/js/fetch';
+import { Form } from 'antd';
+import { getQueryString, getUserId } from 'common/js/util';
+import DetailUtil from 'common/js/build-detail-dev';
 
-@DetailWrapper(
-    state => state.bizMortgageApply, {
-        initStates,
-        doFetching,
-        cancelFetching,
-        setSelectData,
-        setPageData,
-        restore
-    }
-)
-class mortgageApply extends React.Component {
+@Form.create()
+class mortgageApply extends DetailUtil {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -44,9 +22,7 @@ class mortgageApply extends React.Component {
             field: 'code',
             formatter: (v, d) => {
                 return <div>
-                    {d.code}<a href="javascript:void(0);" style={{marginLeft: 20}} onClick={() => {
-                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
-                }}>查看详情</a>
+                    {d.code}<a href={`/ywcx/ywcx/addedit?v=1&code=${d.code}`} style={{marginLeft: 20}}>查看详情</a>
                 </div>;
             },
             readonly: true
@@ -59,7 +35,8 @@ class mortgageApply extends React.Component {
             }
         }, {
             title: '业务团队',
-            field: 'teamName'
+            field: 'teamName',
+            readonly: true
         }, {
             title: '贷款银行',
             field: 'loanBankName',
@@ -77,10 +54,6 @@ class mortgageApply extends React.Component {
             amount: true,
             readonly: true
         }, {
-            title: '业务团队',
-            field: 'teamName',
-            readonly: true
-        }, {
             title: '信贷专员',
             field: 'saleUserName',
             readonly: true
@@ -91,16 +64,33 @@ class mortgageApply extends React.Component {
         }, {
             title: '抵押代理人',
             field: 'pledgeUser',
+            _keys: ['carPledge', 'pledgeUser'],
             readonly: !this.check,
             required: this.check
         }, {
-            title: '抵押代理人身份证复印件',
-            field: 'pledgeUserIdCardCopy',
-            type: 'img',
+            title: '抵押代理人身份证号',
+            field: 'pledgeUserIdCard',
+            _keys: ['carPledge', 'pledgeUser'],
+            idCard: true,
             readonly: !this.check
+        }, {
+            title: '抵押代理人身份证正面',
+            field: 'pledgeUserIdCardFront',
+            _keys: ['carPledge', 'pledgeUserIdCardFront'],
+            type: 'img',
+            readonly: !this.check,
+            required: this.check
+        }, {
+            title: '抵押代理人身份证反面',
+            field: 'pledgeUserIdCardReverse',
+            _keys: ['carPledge', 'pledgeUserIdCardReverse'],
+            type: 'img',
+            readonly: !this.check,
+            required: this.check
         }, {
             title: '抵押地点',
             field: 'pledgeAddress',
+            _keys: ['carPledge', 'pledgeAddress'],
             readonly: true
         }, {
             title: '补充说明',
@@ -115,12 +105,22 @@ class mortgageApply extends React.Component {
             field: 'approveNote',
             required: true
         });
-        return this.props.buildDetail({
+        return this.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
-            editCode: this.check ? 632124 : 632144
+            detailCode: 632516,
+            editCode: this.check ? 632124 : 632144,
+            afterFetch: (data) => {
+                data.attachments.forEach(pic => {
+                    if (pic.kname === 'pledge_user_id_card_front') {
+                        data.carPledge.pledgeUserIdCardFront = pic.url;
+                    } else if (pic.kname === 'pledge_user_id_card_reverse') {
+                        data.carPledge.pledgeUserIdCardReverse = pic.url;
+                    }
+                });
+                return data;
+            }
         });
     }
 }

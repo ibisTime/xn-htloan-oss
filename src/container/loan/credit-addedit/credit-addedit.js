@@ -619,7 +619,7 @@ class CreditAddedit extends React.Component {
                         fields,
                         code: this.code,
                         view: this.view, //  v=1代表详情 为true时: 内容全部显示不可修改,并且页面没有[保存]按钮
-                        detailCode: 632117, // 征信详情查询接口
+                        detailCode: 632516, // 征信详情查询接口
                         buttons: this.buttons, // 根据判断将所有按钮添加到页面
                         beforeSubmit: (param) => { // 提交前传参
                             if (!param.creditUserList) {

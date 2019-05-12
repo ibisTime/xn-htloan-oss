@@ -114,7 +114,7 @@ class AdvMoneyAddedit extends DetailUtil {
         let config = {
             code: this.code,
             view: this.view,
-            detailCode: 632117,
+            detailCode: 632516,
             editCode: 632464
         };
         if (this.check) {

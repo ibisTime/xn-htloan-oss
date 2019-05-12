@@ -18,7 +18,7 @@ export default class BigData extends React.Component {
     this.dbUser = {};
   }
   componentDidMount() {
-    fetch(632117, { code: this.code }).then((data) => {
+    fetch(632516, { code: this.code }).then((data) => {
       if (!data.creditUserList || !data.creditUserList.length) {
         showWarnMsg('征信名单还没有录入，无法查询大数据');
         return;

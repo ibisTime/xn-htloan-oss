@@ -1,27 +1,10 @@
 import React from 'react';
-import {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-} from '@redux/biz/mortgage-sub';
+import { Form } from 'antd';
 import { getQueryString, showSucMsg, getUserId } from 'common/js/util';
-import { DetailWrapper } from 'common/js/build-detail';
-import fetch from 'common/js/fetch';
+import DetailUtil from 'common/js/build-detail-dev';
 
-@DetailWrapper(
-    state => state.bizMortgageSub, {
-        initStates,
-        doFetching,
-        cancelFetching,
-        setSelectData,
-        setPageData,
-        restore
-    }
-)
-class mortgageSub extends React.Component {
+@Form.create()
+class mortgageSub extends DetailUtil {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -37,9 +20,7 @@ class mortgageSub extends React.Component {
             field: 'code',
             formatter: (v, d) => {
                 return <div>
-                    {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
-                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
-                }}>查看详情</a>
+                    {d.code}<a href={`/ywcx/ywcx/addedit?v=1&code=${d.code}`} style={{ marginLeft: 20 }}>查看详情</a>
                 </div>;
             },
             readonly: true
@@ -52,7 +33,8 @@ class mortgageSub extends React.Component {
             }
         }, {
             title: '业务团队',
-            field: 'teamName'
+            field: 'teamName',
+            readonly: true
         }, {
             title: '贷款银行',
             field: 'loanBankName',
@@ -67,7 +49,8 @@ class mortgageSub extends React.Component {
         }, {
             title: '贷款金额',
             field: 'loanAmount',
-            amount: true
+            amount: true,
+            readonly: true
         }, {
             title: '区域经理',
             field: 'areaName',
@@ -83,58 +66,81 @@ class mortgageSub extends React.Component {
         }, {
             title: '抵押代理人',
             field: 'pledgeUser',
+            _keys: ['carPledge', 'pledgeUser'],
             readonly: true
         }, {
-            title: '抵押代理人身份证复印件',
-            field: 'pledgeUserIdCardCopy',
+            title: '抵押代理人身份证号',
+            field: 'pledgeUserIdCard',
+            _keys: ['carPledge', 'pledgeUser'],
+            idCard: true,
+            readonly: true
+        }, {
+            title: '抵押代理人身份证正面',
+            field: 'pledgeUserIdCardFront',
+            _keys: ['carPledge', 'pledgeUserIdCardFront'],
+            type: 'img',
+            readonly: true
+        }, {
+            title: '抵押代理人身份证反面',
+            field: 'pledgeUserIdCardReverse',
+            _keys: ['carPledge', 'pledgeUserIdCardReverse'],
             type: 'img',
             readonly: true
         }, {
             title: '抵押地点',
             field: 'pledgeAddress',
+            _keys: ['carPledge', 'pledgeAddress'],
             readonly: true
         }, {
-            title: '补充说明',
-            field: 'supplementNote',
-            type: 'textarea',
-            normalArea: true,
+            title: '落户日期',
+            field: 'carSettleDatetime',
+            _keys: ['carPledge', 'carSettleDatetime'],
+            type: 'date',
             readonly: true
         }, {
-            title: '审核说明',
-            field: 'approveNote',
+            title: '落户地点',
+            field: 'settleAddress',
+            _keys: ['carPledge', 'settleAddress'],
             readonly: true
         }, {
             title: '车牌号',
             field: 'carNumber',
+            _keys: ['carPledge', 'carNumber'],
             readonly: true
         }, {
             title: '机动车登记证书',
             field: 'carRegcerti',
+            _keys: ['carPledge', 'carRegcerti'],
             type: 'img',
             readonly: true
         }, {
             title: '批单',
             field: 'carPd',
+            _keys: ['carPledge', 'carPd'],
             type: 'img',
             readonly: true
         }, {
             title: '车钥匙',
             field: 'carKey',
+            _keys: ['carPledge', 'carKey'],
             type: 'img',
             readonly: true
         }, {
             title: '大本扫描件',
             field: 'carBigSmj',
+            _keys: ['carPledge', 'carBigSmj'],
             type: 'img',
             readonly: true
         }, {
             title: '车辆行驶证扫描件',
             field: 'carXszSmj',
+            _keys: ['carPledge', 'carXszSmj'],
             type: 'img',
             readonly: true
         }, {
             title: '完税证明扫描件',
             field: 'dutyPaidProveSmj',
+            _keys: ['carPledge', 'dutyPaidProveSmj'],
             type: 'img',
             readonly: true
         }, {
@@ -146,49 +152,32 @@ class mortgageSub extends React.Component {
             title: '提交说明',
             field: 'pledgeBankCommitNot'
         }];
-        return this.props.buildDetail({
+        return this.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
-            buttons: [{
-              title: '提交',
-              handler: (param) => {
-                param.approveResult = '1';
-                param.approveNote = this.projectCode;
-                param.approveUser = getUserId();
-                this.props.doFetching();
-                fetch(632132, param).then(() => {
-                  showSucMsg('操作成功');
-                  this.props.cancelFetching();
-                  setTimeout(() => {
-                    this.props.history.go(-1);
-                  }, 1000);
-                }).catch(this.props.cancelFetching);
-              },
-              check: true,
-              type: 'primary'
-            }, {
-                title: '确认',
-                handler: (param) => {
-                    param.operator = getUserId();
-                    this.props.doFetching();
-                    fetch(632503, param).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.props.cancelFetching);
-                },
-                check: true,
-                type: 'primary'
-            }, {
-              title: '返回',
-              handler: (param) => {
-                this.props.history.go(-1);
-              }
-            }]
+            detailCode: 632516,
+            editCode: 632132,
+            afterFetch: (data) => {
+                data.attachments.forEach(pic => {
+                    if (pic.kname === 'pledge_user_id_card_front') {
+                        data.carPledge.pledgeUserIdCardFront = pic.url;
+                    } else if (pic.kname === 'pledge_user_id_card_reverse') {
+                        data.carPledge.pledgeUserIdCardReverse = pic.url;
+                    } else if (pic.kname === 'car_regcerti') {
+                        data.carPledge.carRegcerti = pic.url;
+                    } else if (pic.kname === 'car_pd') {
+                        data.carPledge.carPd = pic.url;
+                    } else if (pic.kname === 'car_key') {
+                        data.carPledge.carKey = pic.url;
+                    } else if (pic.kname === 'car_xsz_smj') {
+                        data.carPledge.carXszSmj = pic.url;
+                    } else if (pic.kname === 'duty_paid_prove_smj') {
+                        data.carPledge.dutyPaidProveSmj = pic.url;
+                    }
+                });
+                return data;
+            }
         });
     }
 }
