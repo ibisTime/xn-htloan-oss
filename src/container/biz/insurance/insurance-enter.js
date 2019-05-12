@@ -1,30 +1,27 @@
 import React from 'react';
-import {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-} from '@redux/biz/insurance-enter';
-import { getQueryString, getUserId, isExpressConfirm, showSucMsg } from 'common/js/util';
-import { DetailWrapper } from 'common/js/build-detail';
+import { Form } from 'antd';
+import { getQueryString, getUserId, showSucMsg } from 'common/js/util';
 import fetch from 'common/js/fetch';
-@DetailWrapper(
-    state => state.bizInsuranceEnter, {
-        initStates,
-        doFetching,
-        cancelFetching,
-        setSelectData,
-        setPageData,
-        restore
-    }
-)
-class bizInsuranceEnter extends React.Component {
+import DetailUtil from 'common/js/build-detail-dev';
+
+@Form.create()
+class bizInsuranceEnter extends DetailUtil {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
+    }
+    checkForm(param, approveResult) {
+        param.operator = getUserId();
+        param.approveResult = approveResult;
+        this.doFetching();
+        fetch(632501, param).then(() => {
+            showSucMsg('操作成功');
+            this.cancelFetching();
+            setTimeout(() => {
+                this.props.history.go(-1);
+            }, 1000);
+        }).catch(this.cancelFetching);
     }
     render() {
         const fields = [{
@@ -88,90 +85,72 @@ class bizInsuranceEnter extends React.Component {
             readonly: true
         }, {
             title: '当前状态',
-            field: 'status',
-            key: 'cdbiz_status',
+            field: 'fbhgpsNode',
             type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name',
+            params: { type: 'c' },
             readonly: true
         }, {
             title: '保单日期',
             field: 'policyDatetime',
+            _keys: ['carInfo', 'policyDatetime'],
             type: 'date',
             readonly: true
         }, {
             title: '保单到期日',
             field: 'policyDueDate',
-            type: 'date',
-            readonly: true
-        }, {
-            title: '落户日期',
-            field: 'carSettleDatetime',
+            _keys: ['carInfo', 'policyDueDate'],
             type: 'date',
             readonly: true
         }, {
             title: '发票',
             field: 'carInvoice',
+            _keys: ['carInfo', 'carInvoice'],
             type: 'img',
             readonly: true
         }, {
             title: '交强险',
             field: 'carJqx',
+            _keys: ['carInfo', 'carJqx'],
             type: 'img',
             readonly: true
         }, {
             title: '商业险',
             field: 'carSyx',
+            _keys: ['carInfo', 'carSyx'],
             type: 'img',
             readonly: true
         }, {
             title: '其他资料',
             field: 'carSettleOtherPdf',
+            _keys: ['carInfo', 'carSettleOtherPdf'],
             type: 'file',
-            readonly: true
-        }, {
-            title: '抵押日期',
-            field: 'pledgeDatetime',
-            type: 'date',
             readonly: true
         }, {
             title: '绿大本扫描件',
             field: 'greenBigSmj',
+            _keys: ['carInfo', 'greenBigSmj'],
             type: 'img',
             readonly: true
         }];
-        return this.props.buildDetail({
+        return this.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632117,
+            detailCode: 632516,
             buttons: [{
                 title: '通过',
                 handler: (param) => {
-                    param.operator = getUserId();
-                    param.approveResult = '1';
-                    this.props.doFetching();
-                    fetch(632501, param).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.props.cancelFetching);
+                    this.checkForm(param, 1);
                 },
                 check: true,
                 type: 'primary'
             }, {
                 title: '不通过',
                 handler: (param) => {
-                    param.operator = getUserId();
-                    param.approveResult = '0';
-                    this.props.doFetching();
-                    fetch(632501, param).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.props.cancelFetching);
+                    this.checkForm(param, 0);
                 },
                 check: true,
                 type: 'primary'
@@ -180,7 +159,21 @@ class bizInsuranceEnter extends React.Component {
                 handler: (param) => {
                     this.props.history.go(-1);
                 }
-            }]
+            }],
+            afterFetch: (data) => {
+                data.attachments.forEach(pic => {
+                    if (pic.kname === 'green_big_smj') {
+                        data.carInfo.greenBigSmj = pic.url;
+                    } else if (pic.kname === 'car_invoice') {
+                        data.carInfo.carInvoice = pic.url;
+                    } else if (pic.kname === 'car_jqx') {
+                        data.carInfo.carJqx = pic.url;
+                    } else if (pic.kname === 'car_syx') {
+                        data.carInfo.carSyx = pic.url;
+                    }
+                });
+                return data;
+            }
         });
     }
 }

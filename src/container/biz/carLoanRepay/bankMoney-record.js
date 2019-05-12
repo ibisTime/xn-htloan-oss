@@ -138,7 +138,7 @@ class BankMoneyRecord extends React.Component {
       getDictList({ parentKey: 'work_profession' }),
       getDictList({ parentKey: 'interest' }),
       getQiniuToken(),
-      fetch(632146, { code: this.code })
+      fetch(632516, { code: this.code })
     ]).then(([loanProductData, bizTypeData, loanPeriodData, regionData,
       carTypeData, genderData, marryStateData, educationData, addressData,
       relationData, industryData, propertyData, incomeData, positionData,

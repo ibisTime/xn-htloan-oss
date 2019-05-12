@@ -158,7 +158,7 @@ class examineMoneyb extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632117,
+            detailCode: 632516,
             editCode: 632460,
             buttons: this.buttons
         });

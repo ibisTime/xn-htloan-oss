@@ -79,7 +79,7 @@ class bankMoneyCertain extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
+            detailCode: 632516,
             editCode: 632130,
             beforeSubmit: (param) => {
                 let bank = this.props.selectData.receiptBankCode.find(v => v.code === param.receiptBankCode);

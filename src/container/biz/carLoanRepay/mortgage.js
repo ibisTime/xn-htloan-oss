@@ -88,7 +88,7 @@ class mortgage extends React.Component {
             title: '贷款期数',
             field: 'loanPeriod',
             render: (v, d) => {
-                return d.repayBiz ? d.repayBiz.restPeriods : '';
+                return d.repayBiz ? d.repayBiz.periods : '';
             }
         }, {
             title: '业务种类',
@@ -103,12 +103,20 @@ class mortgage extends React.Component {
             render: dateTimeFormat,
             search: true
         }, {
-            title: '当前节点',
+            title: '状态',
             field: 'curNodeCode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
+            params: { type: 'f' },
+            afterDetail: (list) => {
+                if (list && list.length) {
+                    list.unshift({ code: 'e6', name: '待抵押申请', type: 'e' });
+                    return list;
+                }
+                return [];
+            },
             search: true
         }];
         return this.props.buildList({
@@ -117,10 +125,7 @@ class mortgage extends React.Component {
             searchParams: {
               userId: getUserId(),
               roleCode: getRoleCode(),
-            //   curNodeCodeList: ['002_18', '002_19', '002_20', '002_21', '002_33',
-            //     '002_34', '002_35', '002_36', '002_37', '002_38']
-            // },
-                curNodeCodeList: ['f1', 'f2', 'f3', 'f4', 'f2x', 'f4', 'f5', 'f5x', 'f6', 'f7', 'f8', 'f9', 'f10', 'f11', 'f12', 'f13', 'f14']
+              curNodeCodeList: ['e6', 'f1', 'f2', 'f3', 'f4', 'f2x', 'f4', 'f5', 'f5x', 'f6', 'f7', 'f8', 'f9', 'f10', 'f11', 'f12', 'f13', 'f14']
             },
             btnEvent: {
               // 抵押申请
@@ -129,7 +134,7 @@ class mortgage extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].curNodeCode !== 'f1') {
+              } else if (selectedRows[0].curNodeCode !== 'e6') {
                   showWarnMsg('当前不是抵押申请节点');
                 } else {
                   this.props.history.push(`/biz/mortgage/apply?code=${selectedRowKeys[0]}`);
@@ -141,7 +146,7 @@ class mortgage extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].curNodeCode !== 'f10') {
+                } else if (selectedRows[0].curNodeCode !== 'f1') {
                   showWarnMsg('当前不是内勤确认节点');
                 } else {
                   this.props.history.push(`/biz/mortgage/confirm?code=${selectedRowKeys[0]}&check=1`);

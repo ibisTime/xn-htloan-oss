@@ -51,7 +51,12 @@ class bankMoneyEnter extends React.Component {
         }, {
             title: '业务编号',
             field: 'code',
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+                return <div>
+                    {d.code}<a href={`/ywcx/ywcx/addedit?v=1&code=${d.code}`} style={{ marginLeft: 20 }}>查看详情</a>
+                </div>;
+            }
         }, {
             title: '贷款银行',
             field: 'loanBankName',
@@ -115,7 +120,7 @@ class bankMoneyEnter extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
+            detailCode: 632516,
             buttons: [{
               title: '确认',
               handler: (param) => {

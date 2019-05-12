@@ -77,7 +77,6 @@ class installGpsCheck extends React.Component {
                   return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
               },
               readonly: true
-              // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
           }, {
               title: '指派归属',
               field: 'zfStatus',
@@ -85,42 +84,26 @@ class installGpsCheck extends React.Component {
               formatter: (v, d) => {
                   return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
               }
-              // hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
           }, {
               title: '当前状态',
-              field: 'status',
-              key: 'cdbiz_status',
+              field: 'fbhgpsNode',
               type: 'select',
-              readonly: true,
-              formatter: (v, d) => {
-                  return d ? d.cdbiz.status : '';
-              }
+              listCode: 630147,
+              keyName: 'code',
+              valueName: 'name',
+              params: {type: 'd'},
+              readonly: true
           }, {
               title: 'GPS安装列表',
               field: 'budgetOrderGps',
               required: true,
               type: 'o2m',
               options: {
-                  add: true,
-                  edit: true,
-                  delete: true,
+                  detail: true,
                   fields: [{
                       title: 'GPS设备号',
                       field: 'gpsDevNo',
-                      type: 'select',
-                      listCode: 632707,
-                      params: {
-                          applyStatus: '1',
-                          applyUser: getUserId(),
-                          useStatus: '0'
-                      },
-                      keyName: 'code',
-                      valueName: 'gpsDevNo',
-                      required: true,
-                      render: (v, d) => {
-                          console.log(d);
-                          return d.budgetOrderGps.gpsDevNo;
-                      }
+                      required: true
                   }, {
                       title: 'GPS类型',
                       field: 'gpsType',
@@ -152,6 +135,16 @@ class installGpsCheck extends React.Component {
                       nowrap: true,
                       required: true
                   }, {
+                      title: '设备图片',
+                      field: 'devPhotos',
+                      type: 'img',
+                      required: true
+                  }, {
+                      title: '安装图片',
+                      field: 'azPhotos',
+                      type: 'img',
+                      required: true
+                  }, {
                       title: '备注',
                       field: 'remark',
                       nowrap: true
@@ -165,7 +158,7 @@ class installGpsCheck extends React.Component {
       fields,
       code: this.code,
       view: this.view,
-      detailCode: 632146,
+      detailCode: 632516,
       buttons: [{
         title: '通过',
         handler: (param) => {

@@ -1,26 +1,10 @@
 import React from 'react';
-import {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-} from '@redux/biz/mortgage-addedit';
-import {getQueryString} from 'common/js/util';
-import {DetailWrapper} from 'common/js/build-detail';
+import { Form } from 'antd';
+import { getQueryString } from 'common/js/util';
+import DetailUtil from 'common/js/build-detail-dev';
 
-@DetailWrapper(
-    state => state.bizMortgageAddEdit, {
-        initStates,
-        doFetching,
-        cancelFetching,
-        setSelectData,
-        setPageData,
-        restore
-    }
-)
-class mortgageAddedit extends React.Component {
+@Form.create()
+class mortgageAddedit extends DetailUtil {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
@@ -75,15 +59,29 @@ class mortgageAddedit extends React.Component {
         }, {
             title: '抵押代理人',
             field: 'pledgeUser',
+            _keys: ['carPledge', 'pledgeUser'],
+            required: true,
             readonly: true
         }, {
-            title: '抵押代理人身份证复印件',
-            field: 'pledgeUserIdCardCopy',
+            title: '抵押代理人身份证号',
+            field: 'pledgeUserIdCard',
+            _keys: ['carPledge', 'pledgeUser'],
+            idCard: true,
+            required: true,
+            readonly: true
+        }, {
+            title: '抵押代理人身份证正面',
+            field: 'pledgeUserIdCardFront',
+            _keys: ['carPledge', 'pledgeUserIdCardFront'],
             type: 'img',
+            required: true,
             readonly: true
         }, {
-            title: '抵押地点',
-            field: 'pledgeAddress',
+            title: '抵押代理人身份证反面',
+            field: 'pledgeUserIdCardReverse',
+            _keys: ['carPledge', 'pledgeUserIdCardReverse'],
+            type: 'img',
+            required: true,
             readonly: true
         }, {
             title: '补充说明',
@@ -96,53 +94,88 @@ class mortgageAddedit extends React.Component {
             field: 'approveNote',
             readonly: true
         }, {
+            title: '抵押地点',
+            field: 'pledgeAddress',
+            _keys: ['carPledge', 'pledgeAddress'],
+            required: true,
+            readonly: true
+        }, {
+            title: '落户日期',
+            field: 'carSettleDatetime',
+            _keys: ['carPledge', 'carSettleDatetime'],
+            type: 'date',
+            required: true,
+            readonly: true
+        }, {
+            title: '落户地点',
+            field: 'settleAddress',
+            _keys: ['carPledge', 'settleAddress'],
+            required: true,
+            readonly: true
+        }, {
             title: '车牌号',
             field: 'carNumber',
+            _keys: ['carPledge', 'carNumber'],
+            required: true,
             readonly: true
         }, {
             title: '机动车登记证书',
             field: 'carRegcerti',
+            _keys: ['carPledge', 'carRegcerti'],
             type: 'img',
+            required: true,
             readonly: true
         }, {
             title: '批单',
             field: 'carPd',
+            _keys: ['carPledge', 'carPd'],
             type: 'img',
+            required: true,
             readonly: true
         }, {
             title: '车钥匙',
             field: 'carKey',
+            _keys: ['carPledge', 'carKey'],
             type: 'img',
+            required: true,
             readonly: true
         }, {
             title: '大本扫描件',
             field: 'carBigSmj',
+            _keys: ['carPledge', 'carBigSmj'],
             type: 'img',
+            required: true,
             readonly: true
         }, {
             title: '车辆行驶证扫描件',
             field: 'carXszSmj',
+            _keys: ['carPledge', 'carXszSmj'],
             type: 'img',
+            required: true,
             readonly: true
         }, {
             title: '完税证明扫描件',
             field: 'dutyPaidProveSmj',
+            _keys: ['carPledge', 'dutyPaidProveSmj'],
             type: 'img',
+            required: true,
             readonly: true
         }, {
             title: '提交时间',
             field: 'pledgeBankCommitDatetime',
+            _keys: ['carPledge', 'pledgeBankCommitDatetime'],
             type: 'date',
             required: true
         }, {
             title: '提交说明',
-            field: 'pledgeBankCommitNot'
+            field: 'pledgeBankCommitNot',
+            _keys: ['carPledge', 'pledgeBankCommitNot']
         }];
-        return this.props.buildDetail({
+        return this.buildDetail({
             fields,
             code: this.code,
-            view: this.view,
-            detailCode: 632146
+            view: true,
+            detailCode: 632516
         });
     }
 }

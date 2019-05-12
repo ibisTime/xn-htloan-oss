@@ -142,7 +142,7 @@ class FaceSignAddedit extends DetailUtil {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632117,
+            detailCode: 632516,
             buttons: buttons,
             beforeSubmit: (params) => {
                 delete params.loanAmount;

@@ -87,7 +87,7 @@ class installGps extends React.Component {
             field: 'applyDatetime',
             type: 'datetime'
         }, {
-            title: '当前节点',
+            title: '状态',
             field: 'fbhgpsNode',
             type: 'select',
             listCode: 630147,

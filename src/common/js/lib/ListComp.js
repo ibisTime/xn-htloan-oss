@@ -345,11 +345,17 @@ export default class ListComponent extends React.Component {
   getSelectData(item) {
     if (item.key) {
       getDictList({ parentKey: item.key, bizType: item.keyCode }).then(data => {
+        if (item.afterDetail) {
+          data = item.afterDetail(data);
+        }
         this.props.setSearchData({ data, key: item.field });
       }).catch(() => {});
     } else if (item.listCode) {
       let param = item.params || {};
       fetch(item.listCode, param).then(data => {
+        if (item.afterDetail) {
+          data = item.afterDetail(data);
+        }
         this.props.setSearchData({ data, key: item.field });
       }).catch(() => {});
     }

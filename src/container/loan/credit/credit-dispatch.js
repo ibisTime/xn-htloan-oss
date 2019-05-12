@@ -115,7 +115,7 @@ class archivesAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632117, // 征信详情查询接口
+            detailCode: 632516, // 征信详情查询接口
             buttons: [{
                 title: '确认',
                 handler: (param) => {

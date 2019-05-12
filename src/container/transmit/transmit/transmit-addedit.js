@@ -33,9 +33,7 @@ class TransmitAddedit extends React.Component {
         field: 'bizCode',
         formatter: (v, d) => {
             return <div>
-                {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
-                window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + this.code;
-            }}>查看详情</a>
+                {d.bizCode}<a href={`/ywcx/ywcx/addedit?v=1&code=${d.bizCode}`} style={{ marginLeft: 20 }}>查看详情</a>
             </div>;
         }
     }, {

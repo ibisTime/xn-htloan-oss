@@ -115,18 +115,29 @@ class archives extends React.Component {
             searchParams: {
               userId: getUserId(),
               roleCode: getRoleCode(),
-                cundangStatusList: ['002', '003']
+              cundangStatusList: ['001', '002', '003']
             },
             btnEvent: {
+              enter: (selectedRowKeys, selectedRows) => {
+                if (!selectedRowKeys.length) {
+                  showWarnMsg('请选择记录');
+                } else if (selectedRowKeys.length > 1) {
+                  showWarnMsg('请选择一条记录');
+              } else if (selectedRows[0].enterStatus !== '001' && selectedRows[0].enterStatus !== '002') {
+                  showWarnMsg('当前不是入档节点');
+                } else {
+                  this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}`);
+                }
+              },
               certain: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].enterStatus !== '002') {
+              } else if (selectedRows[0].enterStatus === '003') {
                   showWarnMsg('当前不是确认入档节点');
                 } else {
-                  this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}&e=1`);
+                  this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}&certain=1`);
                 }
               },
               detail: (selectedRowKeys, selectedRows) => {

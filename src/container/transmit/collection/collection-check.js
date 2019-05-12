@@ -96,9 +96,7 @@ class CollectionCheck extends React.Component {
         readonly: true,
         formatter: (v, d) => {
             return <div>
-                {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
-                window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + this.code;
-            }}>查看详情</a>
+                {d.bizCode}<a href={`/ywcx/ywcx/addedit?v=1&code=${d.bizCode}`} style={{ marginLeft: 20 }}>查看详情</a>
             </div>;
         }
     }, {
@@ -175,10 +173,12 @@ class CollectionCheck extends React.Component {
         field: 'logisticsCompany',
         type: 'select',
         key: 'kd_company',
+        hidden: !this.props.pageData || !this.props.pageData.logisticsCompany,
         readonly: true
     }, {
         title: '快递单号',
         field: 'logisticsCode',
+        hidden: !this.props.pageData || !this.props.pageData.logisticsCode,
         readonly: true
     }, {
         title: '发货时间',

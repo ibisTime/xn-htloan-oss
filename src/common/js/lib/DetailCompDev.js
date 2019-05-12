@@ -150,6 +150,9 @@ export default class DetailComp extends React.Component {
           }
         }
       });
+      if (this.options.afterFetch) {
+          pageData = this.options.afterFetch(pageData);
+      }
       this.setState({
         pageData,
         token,

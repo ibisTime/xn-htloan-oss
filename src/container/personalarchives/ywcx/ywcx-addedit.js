@@ -193,7 +193,7 @@ class ArchivesAddEdit extends React.Component {
             fetch(632827),
             fetch(632527, {bizCode: this.code}),
             getQiniuToken(),
-            fetch(632116, {code: this.code})
+            fetch(632516, {code: this.code})
         ]).then(([
                      loanProductData, politics, attAchment, cdBizCode, bizTypeData, loanPeriodData, regionData, carTypeData,
                      genderData, marryStateData, educationData, addressData, relationData,
