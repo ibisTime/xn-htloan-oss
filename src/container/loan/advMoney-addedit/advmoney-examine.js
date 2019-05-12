@@ -26,49 +26,6 @@ class examineMoneyb extends React.Component {
         this.code = getQueryString('code', this.props.location.search);
         this.isAddedit = getQueryString('isAddedit', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
-        this.buttons = [];
-        if (this.isAddedit) {
-            this.buttons = [{
-                title: '通过',
-                check: true,
-                handler: (params) => {
-                    let data = {};
-                    data.code = this.code;
-                    data.approveResult = '1';
-                    data.operator = getUserId();
-                    this.props.doFetching();
-                    fetch(632461, data).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.props.cancelFetching);
-                }
-            }, {
-                title: '不通过',
-                check: true,
-                handler: (params) => {
-                    let data = {};
-                    data.code = this.code;
-                    data.approveResult = '0';
-                    data.operator = getUserId();
-                    this.props.doFetching();
-                    fetch(632461, data).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.props.cancelFetching);
-                }
-            }, {
-                title: '返回',
-                handler: (param) => {
-                    this.props.history.go(-1);
-                }
-            }];
-        }
     }
     render() {
         const fields = [{
@@ -120,25 +77,25 @@ class examineMoneyb extends React.Component {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName : '';
+                return d && d.saleUserName ? d.saleUserCompanyName + '-' + d.teamName + '-' + d.saleUserName : '';
             },
             readonly: true
         }, {
             title: '指派归属',
             field: 'zfStatus',
             formatter: (v, d) => {
-                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+                return d && d.insideJobName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobName : '';
             },
             readonly: true
         }, {
-            title: '当前状态',
-            field: 'status',
-            key: 'cdbiz_status',
+            title: '状态',
+            field: 'fbhgpsNode',
             type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name',
             readonly: true,
-            formatter: (v, d) => {
-                return d ? d.cdbiz.status : '';
-            }
+            params: {type: 'g'}
         }, {
             title: '是否垫资',
             field: 'isAdvanceFund',
@@ -159,8 +116,7 @@ class examineMoneyb extends React.Component {
             code: this.code,
             view: this.view,
             detailCode: 632516,
-            editCode: 632460,
-            buttons: this.buttons
+            editCode: 632460
         });
     }
 }

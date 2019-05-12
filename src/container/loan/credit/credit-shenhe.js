@@ -625,7 +625,7 @@ class ArchivesAddEdit extends React.Component {
                             field: 'ywyUser',
                             title: '业务归属',
                             formatter: (v, d) => {
-                                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                                return d && d.saleUserName ? d.saleUserCompanyName + '-' + d.teamName + '-' + d.saleUserName : '';
                             },
                             readonly: true
                         }, 33)}
@@ -633,11 +633,7 @@ class ArchivesAddEdit extends React.Component {
                             field: 'zfStatus',
                             title: '指派归属',
                             formatter: (v, d) => {
-                                if (d.insideJobName) {
-                                    return d.teamName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
-                                } else {
-                                    return d && d.companyName ? d.companyName + '-' + d.teamName : '';
-                                }
+                                return d && d.insideJobName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobName : '';
                             },
                             readonly: true
                         }, 33)}

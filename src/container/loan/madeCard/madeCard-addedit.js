@@ -67,14 +67,14 @@ class FaceSignAddedit extends DetailUtil {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                return d && d.saleUserName ? d.saleUserCompanyName + '-' + d.teamName + '-' + d.saleUserName : '';
             },
             readonly: true
         }, {
             title: '指派归属',
             field: 'zfStatus',
             formatter: (v, d) => {
-                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+                return d && d.insideJobName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobName : '';
             },
             readonly: true
         }, {
@@ -88,13 +88,11 @@ class FaceSignAddedit extends DetailUtil {
         }, {
             title: '卡邮寄地址',
             field: 'cardPostAddress',
-            // type: 'citySelect',
-            // cFields: ['cardPostAddressProvince', 'cardPostAddressCity', 'cardPostAddressArea'],
             hidden: this.hande
         }, {
             title: '卡号',
             field: 'repayCardNumber',
-            // type: 'citySelect',
+            bankCard: true,
             hidden: !this.hande,
             required: true,
             readonly: false
