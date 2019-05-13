@@ -109,7 +109,8 @@ class ArchivesAddEdit extends React.Component {
             // 流转日志
             records: [],
             // 所有节点（用于解析节点）
-            dealNodeList: []
+            dealNodeList: [],
+            isFiles: true
         };
         this.columns = [{
             title: '操作人',
@@ -211,6 +212,11 @@ class ArchivesAddEdit extends React.Component {
                 token: uploadToken.uploadToken,
                 fetching: false,
                 isLoaded: true
+            }, () => {
+                const eleList = document.querySelectorAll('.ant-upload-list-picture-card');
+                eleList.forEach(item => {
+                    item.style.width = '600px';
+                });
             });
         }).catch(() => this.setState({fetching: false}));
         fetch(623537, {bizCode: this.code}).then((records) => {
@@ -363,6 +369,7 @@ class ArchivesAddEdit extends React.Component {
             initVal: getRealValue({...item, pageData: data || this.state.pageData}),
             rules: getRules(item),
             isImg: item.type === 'img',
+            isFile: item.type === 'file',
             getFieldValue: this.props.form.getFieldValue,
             isFieldValidating: this.props.form.isFieldValidating,
             accept: item.accept,
@@ -566,25 +573,59 @@ class ArchivesAddEdit extends React.Component {
     getAccessorypool() {
         const {pageData, attAchment} = this.state;
         if (pageData.attachments) {
-            return pageData.attachments.map(c => (
-                <Card key={c.code}>
-                    <Row gutter={54}>
-                        {this.getSelectCols({field: 'vname',
-                            formatter(v, d) {
-                                let url = '';
-                                d.attachments.forEach(item => {
-                                    if (item.url) {
-                                        url = item.url;
-                                    } else {
+            for (let i = 0; i < pageData.attachments.length; i++) {
+                if (pageData.attachments[i].attachType === '视频') {
+                    return pageData.attachments.map(c => (
+                        <Card key={c.code}>
+                            <Row gutter={54}>
+                                {this.getSelectCols({
+                                    field: 'vname',
+                                    formatter(v, d) {
+                                        let url = '';
+                                        d.attachments.forEach(item => {
+                                            if (item.url) {
+                                                url = item.url;
+                                            } else {
+                                            }
+                                        });
+                                        return url;
                                     }
-                                });
-                                return url;
-                            }
-                        }, attAchment, 3, c)}
-                        {this.getFileCols({field: 'url', type: 'img'}, 3, c)}
-                    </Row>
-                </Card>
-            ));
+                                }, attAchment, 3, c)}
+                                {this.getFileCols({
+                                    field: 'url',
+                                    type: 'file'
+                                }, 3, c)}
+                            </Row>
+                        </Card>
+                    ));
+                } else {
+                    if (pageData.attachments[i].attachType === '图片') {
+                        return pageData.attachments.map(c => (
+                            <Card key={c.code}>
+                                <Row gutter={54}>
+                                    {this.getSelectCols({
+                                        field: 'vname',
+                                        formatter(v, d) {
+                                            let url = '';
+                                            d.attachments.forEach(item => {
+                                                if (item.url) {
+                                                    url = item.url;
+                                                } else {
+                                                }
+                                            });
+                                            return url;
+                                        }
+                                    }, attAchment, 3, c)}
+                                    {this.getFileCols({
+                                        field: 'url',
+                                        type: 'img'
+                                    }, 3, c)}
+                                </Row>
+                            </Card>
+                        ));
+                    }
+                }
+            }
         }
         return null;
     }

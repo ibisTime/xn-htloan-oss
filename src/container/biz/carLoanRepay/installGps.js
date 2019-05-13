@@ -37,7 +37,15 @@ class installGps extends React.Component {
             search: true
         }, {
             title: '业务公司',
-            field: 'companyName'
+            field: 'companyCode',
+            listCode: 630106,
+            params: {
+                typeList: [1],
+                status: '1'
+            },
+            type: 'select',
+            keyName: 'code',
+            valueName: 'name'
         }, {
             title: '业务团队',
             field: 'teamName'

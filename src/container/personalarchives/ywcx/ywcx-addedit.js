@@ -461,7 +461,7 @@ class ArchivesAddEdit extends React.Component {
         const props = {
             initVal: getRealValue({...item, pageData: data || this.state.pageData}),
             rules: getRules(item),
-            isImg: item.type === 'img',
+            isImg: item.type === 'img' || item.type === 'file',
             getFieldValue: this.props.form.getFieldValue,
             isFieldValidating: this.props.form.isFieldValidating,
             accept: item.accept,
@@ -742,7 +742,7 @@ class ArchivesAddEdit extends React.Component {
         this.creditUserList = creditUserList;
         if (creditUserList && creditUserList.length) {
             for (let i = 0; i < creditUserList.length; i++) {
-                if (creditUserList[i].loanRole == role) { // 主贷人 共同担保人  担保人
+                if (creditUserList[i].loanRole === role) { // 主贷人 共同担保人  担保人
                     return (
                         <Card key={creditUserList[i].code}>
                             <Row gutter={54}>
@@ -978,7 +978,6 @@ class ArchivesAddEdit extends React.Component {
                                         </TabPane>) : null
                                     }
                                 </Tabs>
-                                qqq
                             </Card>
                         </TabPane>
                         <TabPane tab="车辆信息" key="3">

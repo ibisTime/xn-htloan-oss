@@ -127,7 +127,7 @@ class examineMoneyb extends React.Component {
             title: '指派归属',
             field: 'zfStatus',
             formatter: (v, d) => {
-                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+                return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
             },
             readonly: true
         }, {

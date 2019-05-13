@@ -1296,7 +1296,8 @@ class AdmittanceAddEdit extends React.Component {
                     }, 3)}
                     {this.getFileCol({
                       field: 'carHgzPic',
-                      title: this.bizType === '1' ? '绿大本' : '合格证照片',
+//                      title: data.bizType === '1' ? '绿大本' : '合格证照片',
+                      title: '绿大本',
                       type: 'img',
                       _keys: ['carInfoRes', 'carHgzPic'],
                       required: true

@@ -64,7 +64,15 @@ class Credit extends React.Component {
             key: 'budget_orde_biz_typer'
         }, {
             title: '业务公司',
-            field: 'companyName'
+            field: 'companyCode',
+            listCode: 630106,
+            params: {
+                typeList: [1],
+                status: '1'
+            },
+            type: 'select',
+            keyName: 'code',
+            valueName: 'name'
         }, {
             title: '业务团队',
             field: 'teamName'
