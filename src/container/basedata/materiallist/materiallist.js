@@ -31,17 +31,10 @@ import {
 class materiallist extends React.Component {
     render() {
         const fields = [{
-            title: '分类',
-            field: 'category',
-            type: 'select',
-            key: 'node_file_list',
-            search: true
-        }, {
             title: '文件形式',
             field: 'attachType',
             required: true,
             type: 'select',
-            search: true,
             data: [{
                 key: '图片',
                 value: '图片'
@@ -65,7 +58,10 @@ class materiallist extends React.Component {
             fields,
             rowKey: 'id',
             pageCode: 632215,
-            deleteCode: 632211
+            deleteCode: 632211,
+            searchParams: {
+                category: 'node_file_list'
+            }
         });
     }
 }

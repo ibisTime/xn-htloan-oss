@@ -602,6 +602,9 @@ import {toDo} from './redux/personalarchives/todo';
 import {accessorypool} from './redux/circulationLog/accessorypool';
 import {ywCx} from './redux/personalarchives/ywcx';
 import {ywcxAddedit} from './redux/personalarchives/ywcx-addedit';
+//  贷后工具 面前视频
+import {Tool} from './redux/tool/tool';
+import {ShAddedit} from './redux/tool/shaddess';
 
 export default combineReducers({
     accessorypool,
@@ -957,5 +960,7 @@ export default combineReducers({
     toDo,
     circulationLog,
     ywCx,
-    ywcxAddedit
+    ywcxAddedit,
+    Tool,
+    ShAddedit
 });

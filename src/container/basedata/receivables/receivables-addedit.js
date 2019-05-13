@@ -66,50 +66,34 @@ class receivablesAddedit extends React.Component {
                 dvalue: '经销商返点账号'
             }],
             keyName: 'dkey',
-            valueName: 'dvalue',
-            onChange: (v) => {
-                if (!v) {
-                    this.props.setSelectData({
-                        key: 'companyCode',
-                        data: []
-                    });
-                    // return;
-                } else if (v === '1') {
-                    fetch(630106, {
-                        typeList: [1],
-                        status: '1'
-                    }).then(data => {
-                        this.props.setSelectData({
-                            key: 'companyCode',
-                            data: data
-                        });
-                    });
-                } else {
-                    fetch(632067, {}).then(data => {
-                        data.forEach(d => d.name = d.fullName);
-                        this.props.setSelectData({
-                            key: 'companyCode',
-                            data: data
-                        });
-                    });
-                }
-            }
+            valueName: 'dvalue'
         }, {
             title: '公司名称',
-            field: 'companyCode',
+            field: 'companyCode1',
             listCode: 630106,
             params: {
-                typeList: [1],
-                status: '1'
+                typeList: [1]
             },
             type: 'select',
             keyName: 'code',
+            search: true,
             valueName: 'name',
-            required: true
+            required: true,
+            hidden: true
         }, {
-            title: '户名',
-            field: 'realName',
-            required: true
+            title: '公司名称',
+            field: 'companyCode',
+            formatter: (v, d, props) => {
+                if (d.type === '2') {
+                    let company = this.state.companyData.filter(item => {
+                        return item.code === v;
+                    });
+                    return company.length === 1 ? company[0].fullName : v;
+                }
+                let oCompanyData = this.state.o_companyData.filter(item =>
+                    item.code === v);
+                return oCompanyData[0] && oCompanyData[0].name;
+            }
         }, {
             title: '开户行',
             field: 'bankCode',
@@ -124,14 +108,9 @@ class receivablesAddedit extends React.Component {
             required: true
         }, {
             title: '账号',
-            field: 'bankcardNumber',
-            required: true,
-            bankCard: true
+            field: 'bankcardNumber'
         }, {
-            title: '收款比例',
-            required: true,
-            number3: true,
-            help: '请输入0~1之间的小数',
+            title: '收款比例(%)',
             field: 'pointRate'
         }, {
             title: '备注',

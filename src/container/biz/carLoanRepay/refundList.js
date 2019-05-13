@@ -38,7 +38,6 @@ class RefundList extends React.Component {
     }, {
       title: '贷款人',
       field: 'userId',
-      search: true,
       render: (v, d) => {
         return d.user.realName;
       },

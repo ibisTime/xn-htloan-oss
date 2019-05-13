@@ -164,20 +164,6 @@ class AdvMoneyAddedit extends DetailUtil {
                         return url;
                     }
                 }, {
-                    title: '其他资料',
-                    field: 'interviewOtherPdf',
-                    type: 'file',
-                    readonly: true,
-                    formatter: (v, d) => {
-                        let url = '';
-                        d.attachments.forEach(item => {
-                            if (item.vname === '其他资料') {
-                                url = item.url;
-                            }
-                        });
-                        return url;
-                    }
-                }, {
                     title: '垫资日期',
                     field: 'advanceFundDatetime',
                     type: 'date',

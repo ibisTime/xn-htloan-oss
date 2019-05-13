@@ -1988,7 +1988,15 @@ const ROUTES = [
     component: asyncComponent(() => import('container/biz/jxsmassage/dealer'))},
   {
     path: '/jxsmassage/jxsmassage/addedit',
-    component: asyncComponent(() => import('container/biz/jxsmassage/dealers-addedit'))}
+    component: asyncComponent(() => import('container/biz/jxsmassage/dealers-addedit'))},
+// 查看视频
+  {
+    path: '/ckavi/ckavi',
+    component: asyncComponent(() => import('container/tool/tool'))},
+// 收货地址查询
+  {
+    path: '/shaddess/shaddess',
+    component: asyncComponent(() => import('container/tool/shaddess'))}
 
 ];
 

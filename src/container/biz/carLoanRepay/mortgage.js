@@ -88,7 +88,7 @@ class mortgage extends React.Component {
             title: '贷款期数',
             field: 'loanPeriod',
             render: (v, d) => {
-                return d.repayBiz ? d.repayBiz.periods : '';
+                return d.loanInfo ? d.loanInfo.periods : '-';
             }
         }, {
             title: '业务种类',

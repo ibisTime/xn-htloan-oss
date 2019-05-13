@@ -703,7 +703,7 @@ class ArchivesAddEdit extends React.Component {
     getTableProp() {
         return {
             columns: this.column,
-            dataSource: this.state.cgps,
+            dataSource: this.state.budgetOrderGps,
             rowSelection: null,
             bordered: true,
             rowKey: record => record.id
@@ -739,147 +739,132 @@ class ArchivesAddEdit extends React.Component {
         // console.log(creditUserList);
         this.creditUserList = creditUserList;
         if (creditUserList && creditUserList.length) {
-            for (let i = 0; i < creditUserList.length; i++) {
-                if (creditUserList[i].loanRole === role) { // 主贷人 共同担保人  担保人
-                    return (
-                        <Card key={creditUserList[i].code}>
-                            <Row gutter={54}>
-                                {this.getInputCol({field: 'userName', title: '姓名'}, 3, creditUserList[i])}
-                                {this.getSelectCol({
-                                    field: 'relation',
-                                    title: '与借款人关系'
-                                }, relationData, 3, creditUserList[i])}
-                                {this.getSelectCol({
-                                    field: 'loanRole',
-                                    title: '贷款角色'
-                                }, interestData, 3, creditUserList[i])}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getInputCol({field: 'mobile', title: '手机号'}, 3, creditUserList[i])}
-                                {this.getInputCol({field: 'idNo',
-                                    title: '身份证号'}, 3, creditUserList[i])}
-                                {this.getInputCol({
-                                    field: 'bankCreditResultRemark',
-                                    title: '征信结果说明'
-                                }, 3, creditUserList[i])}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getFileCol({
-                                    field: 'idFront',
-                                    title: '身份证正面',
-                                    type: 'img',
-                                    formatter(v, d) {
-                                        let url = '';
-                                        d.attachments.forEach(item => {
-                                            if(item.vname === '申请人身份证正面' || item.vname === '共还人身份证正面') {
-                                                url = item.url;
-                                            }
-                                        });
-                                        return url;
-                                    }
-                                }, 3, creditUserList[i])}
-                                {this.getFileCol({
-                                    field: 'idReverse',
-                                    title: '身份证反面',
-                                    type: 'img',
-                                    formatter(v, d) {
-                                        let url = '';
-                                        d.attachments.forEach(item => {
-                                            if(item.vname === '申请人身份证反面' || item.vname === '共还人身份证反面') {
-                                                url = item.url;
-                                            }
-                                        });
-                                        return url;
-                                    }
-                                }, 3, creditUserList[i])}
-                                {this.getFileCol({
-                                    field: 'interviewPic',
-                                    title: '面签照片',
-                                    type: 'img',
-                                    formatter(v, d) {
-                                        let url = '';
-                                        d.attachments.forEach(item => {
-                                            if(item.vname === '申请人面签照片' || item.vname === '共还人面签照片') {
-                                                url = item.url;
-                                            }
-                                        });
-                                        return url;
-                                    }
-                                }, 3, creditUserList[i])}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getFileCol({
-                                    field: 'BankCreditReport',
-                                    title: '征信报告',
-                                    type: 'img',
-                                    formatter(v, d) {
-                                        let url = '';
-                                        d.attachments.forEach(item => {
-                                            if(item.vname === '申请人银行征信报告' || item.vname === '共还人银行征信报告') {
-                                                url = item.url;
-                                            }
-                                        });
-                                        return url;
-                                    }
-                                }, 3, creditUserList[i])}
-                                {this.getSelectCol({
-                                    title: '银行征信结果是否通过',
-                                    field: 'bankCreditResult' // bankCreditResultPdf
-                                }, isbankCreditResultPdf, 3, creditUserList[i])}
-                            </Row>
-                            <Row gutter={54}>
-                                {this.getFileCol({
-                                    field: 'authPdf',
-                                    title: '征信查询授权书',
-                                    type: 'img',
-                                    formatter(v, d) {
-                                        let url = '';
-                                        d.attachments.forEach(item => {
-                                            if(item.vname === '申请人征信查询授权书' || item.vname === '共还人征信查询授权书') {
-                                                url = item.url;
-                                            }
-                                        });
-                                        return url;
-                                    }
-                                }, 3, creditUserList[i])}
-                                {this.getFileCols({
-                                    title: '大数据征信报告(多张)',
-                                    field: 'dataCreditReport',
-                                    type: 'img',
-                                    // required: true,
-                                    readonly: true,
-                                    formatter(v, d) {
-                                        let url = '';
-                                        d.attachments.forEach(item => {
-                                            if(item.vname === '申请人大数据报告' || item.vname === '共还人大数据报告') {
-                                                url = item.url;
-                                            }
-                                        });
-                                        return url;
-                                    }
-                                }, 33, creditUserList[i])}
+                for (let i = 0; i < creditUserList.length; i++) {
+                    if (creditUserList[i].loanRole == role) { // 主贷人 共同担保人  担保人
+                        return (
+                            <Card key={creditUserList[i].code}>
+                                <Row gutter={54}>
+                                    {this.getInputCol({field: 'userName', title: '姓名'}, 3, creditUserList[i])}
+                                    {this.getSelectCol({
+                                        field: 'relation',
+                                        title: '与借款人关系'
+                                    }, relationData, 3, creditUserList[i])}
+                                    {this.getSelectCol({
+                                        field: 'loanRole',
+                                        title: '贷款角色'
+                                    }, interestData, 3, creditUserList[i])}
+                                </Row>
+                                <Row gutter={54}>
+                                    {this.getInputCol({field: 'mobile', title: '手机号'}, 3, creditUserList[i])}
+                                    {this.getInputCol({field: 'idNo',
+                                        title: '身份证号'}, 3, creditUserList[i])}
+                                    {this.getInputCol({
+                                        field: 'bankCreditResultRemark',
+                                        title: '征信结果说明'
+                                    }, 3, creditUserList[i])}
+                                </Row>
+                                <Row gutter={54}>
+                                    {this.getFileCol({
+                                        field: 'idFront',
+                                        title: '身份证正面',
+                                        type: 'img',
+                                        formatter(v, d) {
+                                            let url = '';
+                                            d.attachments.forEach(item => {
+                                                if(item.vname === '申请人身份证正面' || item.vname === '共还人身份证正面') {
+                                                    url = item.url;
+                                                }
+                                            });
+                                            return url;
+                                        }
+                                    }, 3)}
+                                    {this.getFileCol({
+                                        field: 'idReverse',
+                                        title: '身份证反面',
+                                        type: 'img',
+                                        formatter(v, d) {
+                                            let url = '';
+                                            d.attachments.forEach(item => {
+                                                if(item.vname === '申请人身份证反面' || item.vname === '共还人身份证反面') {
+                                                    url = item.url;
+                                                }
+                                            });
+                                            return url;
+                                        }
+                                    }, 3)}
+                                    {this.getFileCol({
+                                        field: 'interviewPic',
+                                        title: '面签照片',
+                                        type: 'img',
+                                        formatter(v, d) {
+                                            let url = '';
+                                            d.attachments.forEach(item => {
+                                                if(item.vname === '申请人面签照片' || item.vname === '共还人面签照片') {
+                                                    url = item.url;
+                                                }
+                                            });
+                                            return url;
+                                        }
+                                    }, 3)}
+                                </Row>
+                                <Row gutter={54}>
+                                    {this.getFileCol({
+                                        field: 'BankCreditReport',
+                                        title: '征信报告',
+                                        type: 'img',
+                                        formatter(v, d) {
+                                            let url = '';
+                                            d.attachments.forEach(item => {
+                                                if(item.vname === '申请人银行征信报告' || item.vname === '共还人银行征信报告') {
+                                                    url = item.url;
+                                                }
+                                            });
+                                            return url;
+                                        }
+                                    }, 3, creditUserList[i])}
+                                    {this.getSelectCol({
+                                        title: '银行征信结果是否通过',
+                                        field: 'bankCreditResult' // bankCreditResultPdf
+                                    }, isbankCreditResultPdf, 3, creditUserList[i])}
+                                </Row>
+                                <Row gutter={54}>
+                                    {this.getFileCol({
+                                        field: 'authPdf',
+                                        title: '征信查询授权书',
+                                        type: 'img',
+                                        formatter(v, d) {
+                                            let url = '';
+                                            d.attachments.forEach(item => {
+                                                if(item.vname === '申请人征信查询授权书' || item.vname === '共还人征信查询授权书') {
+                                                    url = item.url;
+                                                }
+                                            });
+                                            return url;
+                                        }
+                                    }, 3, creditUserList[i])}
+                                    {this.getFileCols({
+                                        title: '大数据征信报告(多张)',
+                                        field: 'dataCreditReport',
+                                        type: 'img',
+                                        // required: true,
+                                        readonly: true,
+                                        formatter(v, d) {
+                                            let url = '';
+                                            d.attachments.forEach(item => {
+                                                if(item.vname === '申请人大数据报告' || item.vname === '共还人大数据报告') {
+                                                    url = item.url;
+                                                }
+                                            });
+                                            return url;
+                                        }
+                                    }, 33, creditUserList[i])}
 
-                            </Row>
-                        </Card>
-                    );
+                                </Row>
+                            </Card>
+                        );
+                    }
                 }
-            }
         }
-    }
-
-    getAccessorypool() {
-        const {pageData: {credit}, attAchment} = this.state;
-        if (credit && credit.attachments.length) {
-            return credit.attachments.map(c => (
-                <Card key={c.code}>
-                    <Row style={{marginTop: '20px', marginLeft: '20px'}} gutter={54}>
-                        {this.getSelectCols({field: 'name'}, attAchment, 3, c)}
-                        {this.getFileCols({field: 'url', type: 'img'}, 3, c)}
-                    </Row>
-                </Card>
-            ));
-        }
-        return null;
     }
 
     // 解析流转日志的节点
@@ -1073,7 +1058,7 @@ class ArchivesAddEdit extends React.Component {
                                         title: '首付比例(%)'})}
                                     {this.getInputCol({field: 'loanAmount',
                                         formatter: (v, d) => {
-                                            return d.loanInfo.loanAmount;
+                                            return moneyFormat(d.loanInfo.loanAmount);
                                         },
                                         title: '贷款额(元)',
                                         amount: true}, 33)}
@@ -1106,7 +1091,7 @@ class ArchivesAddEdit extends React.Component {
                                         title: '公证费(元)',
                                         amount: true,
                                         formatter: (v, d) => {
-                                            return d.loanInfo.authFee;
+                                            return moneyFormat(d.loanInfo.authFee);
                                         }
                                     }, 3)}
                                     {this.getInputCol({field: 'otherFee',
@@ -1228,7 +1213,6 @@ class ArchivesAddEdit extends React.Component {
                                         field: 'driveLicenseFront',
                                         title: '行驶证正面',
                                         hidden: bizType !== '1',
-                                        required: bizType === '1',
                                         type: 'img',
                                         formatter: (v, d) => {
                                             let url = '';
@@ -1244,7 +1228,6 @@ class ArchivesAddEdit extends React.Component {
                                         field: 'driveLicenseReverse',
                                         title: '行驶证反面',
                                         hidden: bizType !== '1',
-                                        required: bizType === '1',
                                         type: 'img',
                                         formatter: (v, d) => {
                                             let url = '';
@@ -1323,7 +1306,10 @@ class ArchivesAddEdit extends React.Component {
                                         field: 'marryState',
                                         title: '婚姻状况',
                                         keyName: 'dkey',
-                                        valueName: 'dvalue'
+                                        valueName: 'dvalue',
+                                        formatter: (v, d) => {
+                                            return d.creditUser ? d.creditUser.marryState : '';
+                                        }
                                     }, marryStateData)}
                                     {this.getInputCol({field: 'nation',
                                         title: '民族',
@@ -1372,17 +1358,26 @@ class ArchivesAddEdit extends React.Component {
                                             return d.creditUser ? d.creditUser.nowAddress : '';
                                         }
                                     })}
-                                    {this.getInputCol({field: 'postCode1', title: '现居住地址邮编'})}
-                                    {this.getSelectCol({
-                                        field: 'isCardMailAddress',
-                                        title: '是否卡邮寄地址',
-                                        keyName: 'dkey',
-                                        valueName: 'dvalue'
-                                    }, addressData, 33)}
+                                    {this.getInputCol({field: 'nowPostCode',
+                                        title: '现居住地址邮编',
+                                        formatter: (v, d) => {
+                                            return d.creditUser ? d.creditUser.nowPostCode : '';
+                                        }
+                                    })}
                                 </Row>
                                 <Row gutter={54}>
-                                    {this.getInputCol({field: 'residenceAddress', title: '户口所在地'}, 2)}
-                                    {this.getInputCol({field: 'postCode2', title: '户口所在地邮编'}, 2)}
+                                    {this.getInputCol({field: 'residenceAddress',
+                                        title: '户口所在地',
+                                        formatter: (v, d) => {
+                                            return d.creditUser ? d.creditUser.birthAddress : '';
+                                        }
+                                    }, 2)}
+                                    {this.getInputCol({field: 'postCode2',
+                                        title: '户口所在地邮编',
+                                        formatter: (v, d) => {
+                                            return d.creditUser ? d.creditUser.birthPostCode : '';
+                                        }
+                                    }, 2)}
                                 </Row>
                                 <Row gutter={54}>
                                     {this.getInputCol({field: 'familyMainAsset',
@@ -1488,17 +1483,17 @@ class ArchivesAddEdit extends React.Component {
                                         formatter: (v, d) => {
                                             return d.carPledge ? d.carPledge.pledgeUser : '';
                                         }})}
-                                    {this.getInputCol({field: 'pledgeAddress', title: '抵押地点'})}
+                                    {this.getInputCol({field: 'pledgeAddress',
+                                        title: '抵押地点',
+                                        formatter: (v, d) => {
+                                            return d.carPledge ? d.carPledge.pledgeAddress : '';
+                                        }
+                                    })}
                                     {this.getFileCol({
                                         field: 'pledgeUserIdCardCopy',
                                         title: '抵押代理人身份证复印件',
                                         type: 'img'
                                     }, 33)}
-                                </Row>
-                            </Card>
-                            <Card>
-                                <Row gutter={54}>
-                                    <Table {...this.getTableProp()}/>
                                 </Row>
                             </Card>
                         </TabPane>
@@ -1517,11 +1512,10 @@ class ArchivesAddEdit extends React.Component {
                                         return d.advance ? d.advance.backAdvanceFundType : '-';
                                     }
                                 }, 4)}
-                                {this.getInputCol({field: 'advanceFundDatetime',
-                                    title: '垫资日期',
-                                    formatter: (v, d) => {
-                                        return d.advance ? d.advance.advanceFundDatetime : '-';
-                                    }
+                                {this.getDateItem({
+                                    field: 'advanceFundDatetime',
+                                    _keys: ['advance', 'advanceFundDatetime'],
+                                    title: '垫资日期'
                                 }, 4)}
                                 {this.getInputCol({field: 'backAdvanceAmount',
                                     title: '退客户垫资款 退款金额',
@@ -1532,20 +1526,42 @@ class ArchivesAddEdit extends React.Component {
 
                             </Row>
                             <Row gutter={54}>
-                                {this.getInputCol({field: 'advanceFundAmount', title: '垫资金额'}, 4)}
-                                {this.getInputCol({field: 'totalAdvanceFundCode', title: '垫资汇总单编号'}, 4)}
+                                {this.getInputCol({field: 'advanceFundAmount',
+                                    title: '垫资金额',
+                                    formatter: (v, d) => {
+                                        return d.advance ? moneyFormat(d.advance.advanceFundAmount) : '-';
+                                    }
+                                }, 4)}
+                                {this.getInputCol({field: 'totalAdvanceFundCode',
+                                    title: '垫资汇总单编号',
+                                    formatter: (v, d) => {
+                                        return d.advance ? d.advance.totalAdvanceFundCode : '-';
+                                    }
+                                }, 4)}
                                 {this.getInputCol({field: 'billPdf', title: '水单'}, 4)}
-                                {this.getInputCol({field: 'advanceNote', title: '垫资说明'}, 4)}
+                                {this.getInputCol({field: 'advanceNote',
+                                    title: '垫资说明',
+                                    formatter: (v, d) => {
+                                        return d.advance ? d.advance.advanceNote : '-';
+                                    }
+                                }, 4)}
                             </Row>
                             <Row gutter={54}>
-                                    {this.getMonthCol({field: 'backAdvanceAccount', title: '退客户垫资款 收款账号'}, 4)}
-                                {this.getMonthCol({field: 'backAdvanceOpenBank', title: '退客户垫资款 开户行'}, 4)}
-                                {this.getInputCol({field: 'backAdvanceSubbranch', title: '退客户垫资款 开户支行'}, 4)}
+                                    {this.getMonthCol({field: 'backAdvanceAccount',
+                                        title: '退客户垫资款 收款账号',
+                                        formatter: (v, d) => {
+                                            return d.advance ? d.advance.backAdvanceAccount : '-';
+                                        }
+                                    }, 4)}
+                                {this.getMonthCol({field: 'backAdvanceOpenBank',
+                                    title: '退客户垫资款 开户行'}, 4)}
+                                {this.getInputCol({field: 'backAdvanceSubbranch',
+                                    title: '退客户垫资款 开户支行'}, 4)}
                                 {this.getMonthCol({field: 'backAdvanceWaterBill', title: '退客户垫资款 水单'}, 4)}
                             </Row>
                             <Row gutter={54}>
                              {this.getMonthCol({field: 'useAmount', title: '用款金额(应退按揭款)'}, 4)}
-                                {this.getInputCol({field: 'fundSource', title: '金额来源(1财务部2预支款)'}, 4)}
+                                {this.getInputCol({field: 'fundSource', title: '金额来源'}, 4)}
                                 {this.getMonthCol({field: 'makeBillNote', title: '制单意见说明'}, 4)}
                                 {this.getMonthCol({field: 'cancelReason', title: '撤销理由'}, 4)}
                             </Row>
@@ -1561,34 +1577,116 @@ class ArchivesAddEdit extends React.Component {
                         <TabPane tab="放款信息" key="9">
                             <Card>
                             <Row gutter={54}>
-                                {this.getInputCol({field: 'repayBankCode', title: '还款卡银行编号'}, 4)}
-                                {this.getMonthCol({field: 'repayBankName', title: '还款卡银行名称'}, 4)}
-                                {this.getMonthCol({field: 'repaySubbranch', title: '还款卡开户支行'}, 4)}
-                                {this.getInputCol({field: 'repayBankcardNumber', title: '还款卡银行卡号'}, 4)}
+                                {this.getInputCol({field: 'repayBankCode',
+                                    title: '还款卡银行编号',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.repayBankCode : '-';
+                                    }
+                                }, 4)}
+                                {this.getInputCol({field: 'repayBankName',
+                                    title: '还款卡银行名称',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.repayBankName : '-';
+                                    }
+                                }, 4)}
+                                {this.getInputCol({field: 'repaySubbranch',
+                                    title: '还款卡开户支行',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.repaySubbranch : '-';
+                                    }}, 4)}
+                                {this.getInputCol({field: 'repayBankcardNumber',
+                                    title: '还款卡银行卡号',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.repayBankcardNumber : '-';
+                                    }}, 4)}
                             </Row>
                             <Row gutter={54}>
-                                {this.getMonthCol({field: 'receiptBankCode', title: '收款银行编号'}, 4)}
-                                {this.getMonthCol({field: 'receiptBankName', title: '收款银行名称'}, 4)}
-                                {this.getInputCol({field: 'receiptSubbranch', title: '收款银行支行'}, 4)}
-                                {this.getMonthCol({field: 'receiptBankcardNumber', title: '收款银行卡号'}, 4)}
+                                {this.getInputCol({field: 'receiptBankCode',
+                                    title: '收款银行编号',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.receiptBankCode : '-';
+                                    }}, 4)}
+                                {this.getInputCol({field: 'receiptBankName',
+                                    title: '收款银行名称',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.receiptBankName : '-';
+                                    }}, 4)}
+                                {this.getInputCol({field: 'receiptSubbranch',
+                                    title: '收款银行支行',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.receiptSubbranch : '-';
+                                    }}, 4)}
+                                {this.getInputCol({field: 'receiptBankcardNumber',
+                                    title: '收款银行卡号',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.receiptBankcardNumber : '-';
+                                    }}, 4)}
                             </Row>
                             <Row gutter={54}>
-                                {this.getDateItem({field: 'bankCommitDatetime', title: '银行提交时间'}, 4)}
-                                {this.getInputCol({field: 'bankCommitNote', title: '银行提交说明', amount: true}, 4)}
-                                {this.getDateItem({field: 'bankFkDatetime', title: '银行放款时间'}, 4)}
-                                {this.getMonthCol({field: 'repayBillDate', title: '银行账单日'}, 4)}
+                                {this.getDateItem({field: 'bankCommitDatetime',
+                                    title: '银行提交时间',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.bankCommitDatetime : '-';
+                                    }}, 4)}
+                                {this.getInputCol({field: 'bankCommitNote',
+                                    title: '银行提交说明',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.bankCommitNote : '-';
+                                    }}, 4)}
+                                {this.getDateItem({field: 'bankFkDatetime',
+                                    title: '银行放款时间',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.bankFkDatetime : '-';
+                                    }}, 4)}
+                                {this.getDateItem({field: 'repayBillDate',
+                                    title: '银行账单日',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.repayBillDate : '-';
+                                    }}, 4)}
                             </Row>
                             <Row gutter={54}>
-                                {this.getInputCol({field: 'repayBankDate', title: '银行还款日'}, 4)}
-                                {this.getMonthCol({field: 'repayCompanyDate', title: '公司还款日'}, 4)}
-                                {this.getMonthCol({field: 'receiptPdf', title: '收款凭证'}, 4)}
-                                {this.getInputCol({field: 'receiptRemark', title: '收款备注'}, 4)}
+                                {this.getDateItem({field: 'repayBankDate',
+                                    title: '银行还款日',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.repayBankDate : '-';
+                                    }}, 4)}
+                                {this.getDateItem({field: 'repayCompanyDate',
+                                    title: '公司还款日',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.repayCompanyDate : '-';
+                                    }}, 4)}
+                                {this.getInputCol({field: 'receiptPdf',
+                                    title: '收款凭证',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.receiptPdf : '-';
+                                    }}, 4)}
+                                {this.getInputCol({field: 'receiptRemark',
+                                    title: '收款备注',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.receiptRemark : '-';
+                                    }}, 4)}
                             </Row>
                             <Row gutter={54}>
-                                {this.getDateItem({field: 'bankFkSendDatetime', title: '银行放款进件时间'}, 4)}
-                                {this.getMonthCol({field: 'hasLoanListPic', title: '已放款名单'}, 4)}
-                                {this.getInputCol({field: 'bankFkAmount', title: '银行放款金额'}, 4)}
-                                {this.getMonthCol({field: 'monthAmount', title: '月还款额'}, 4)}
+                                {this.getDateItem({field: 'bankFkSendDatetime',
+                                    title: '银行放款进件时间',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.bankFkSendDatetime : '-';
+                                    }}, 4)}
+                                {this.getInputCol({field: 'hasLoanListPic',
+                                    title: '已放款名单',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.hasLoanListPic : '-';
+                                    }}, 4)}
+                                {this.getInputCol({field: 'bankFkAmount',
+                                    title: '银行放款金额',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.bankFkAmount : '-';
+                                    }}, 4)}
+                                {this.getInputCol({field: 'monthAmount',
+                                    title: '月还款额',
+                                    formatter: (v, d) => {
+                                        return d.loanInfo ? d.loanInfo.monthAmount : '-';
+                                    }}, 4)}
                             </Row>
                             </Card>
                         </TabPane>
@@ -1636,7 +1734,11 @@ class ArchivesAddEdit extends React.Component {
                         <TabPane tab="手续费明细" key="12">
                             <Card>
                                 <Row gutter={54}>
-                                    {this.getInputCol({field: 'gpsFee', title: 'GPS费用'}, 4)}
+                                    {this.getInputCol({ field: 'gpsFee',
+                                        title: 'GPS费用(元)',
+                                        _keys: ['loanInfo', 'gpsFee'],
+                                        amount: true,
+                                        required: true}, 4)}
                                     {this.getInputCol({ field: 'authFee',
                                         title: '公证费用(元)',
                                         _keys: ['loanInfo', 'authFee'],
@@ -1644,12 +1746,21 @@ class ArchivesAddEdit extends React.Component {
                                         required: true
                                     }, 4)}
                                     {this.getInputCol({field: 'bankFee', title: '银行服务费'}, 4)}
-                                    {this.getInputCol({field: 'companyFee', title: '公司服务费'}, 4)}
+                                    {this.getInputCol({field: 'companyFee',
+                                        title: '公司服务费',
+                                        _keys: ['carInfo', 'companyFee'],
+                                        amount: true}, 4)}
                                 </Row>
                                 <Row gutter={54}>
-                                    {this.getInputCol({field: 'teamFee', title: '团队服务费'}, 4)}
+                                    {this.getInputCol({field: 'teamFee',
+                                        title: '团队服务费(元)',
+                                        _keys: ['loanInfo', 'teamFee'],
+                                        amount: true}, 4)}
                                     {this.getInputCol({field: 'otherFee', title: '杂费'}, 4)}
-                                    {this.getInputCol({field: 'otherFee', title: '其他费用'}, 4)}
+                                    {this.getInputCol({field: 'otherFee',
+                                        _keys: ['loanInfo', 'otherFee'],
+                                        amount: true,
+                                        title: '其他费用'}, 4)}
                                 </Row>
                             </Card>
                         </TabPane>

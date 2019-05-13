@@ -52,10 +52,6 @@ class mortgageSub extends DetailUtil {
             amount: true,
             readonly: true
         }, {
-            title: '区域经理',
-            field: 'areaName',
-            readonly: true
-        }, {
             title: '信贷专员',
             field: 'saleUserName',
             readonly: true

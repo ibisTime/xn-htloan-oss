@@ -77,7 +77,7 @@ class examineMoneyb extends React.Component {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d && d.saleUserName ? d.saleUserCompanyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
             },
             readonly: true
         }, {

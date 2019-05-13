@@ -120,14 +120,14 @@ class examineMoneyb extends React.Component {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d && d.saleUserName ? d.saleUserCompanyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
             },
             readonly: true
         }, {
             title: '指派归属',
             field: 'zfStatus',
             formatter: (v, d) => {
-                return d && d.insideJobName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobName : '';
+                return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
             },
             readonly: true
         }, {

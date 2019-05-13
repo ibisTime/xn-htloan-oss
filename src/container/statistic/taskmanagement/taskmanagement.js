@@ -43,13 +43,12 @@ class Notice extends React.Component {
     const fields = [{
         title: '业务编号',
         field: 'bizCode',
-        hidden: true,
         search: true
     }, {
       field: 'title',
       title: '任务名称'
     }, {
-      field: 'title',
+      field: 'time',
       title: '限时（h）'
     }, {
       field: 'title',

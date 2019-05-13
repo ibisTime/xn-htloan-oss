@@ -58,7 +58,8 @@ class TakeFreeEnter extends React.Component {
             readonly: true
         }, {
             title: '业务公司',
-            field: 'companyName'
+            field: 'companyName',
+            readonly: true
         }, {
             title: '客户姓名',
             field: 'customerName',

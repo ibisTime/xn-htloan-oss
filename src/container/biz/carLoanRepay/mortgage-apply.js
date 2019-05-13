@@ -70,6 +70,7 @@ class mortgageApply extends DetailUtil {
         }, {
             title: '抵押代理人身份证号',
             field: 'pledgeUserIdCard',
+            required: true,
             _keys: ['carPledge', 'pledgeUser'],
             idCard: true,
             readonly: !this.check

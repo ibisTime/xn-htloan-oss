@@ -41,19 +41,7 @@ class Insurance extends React.Component {
             search: true
         }, {
             title: '业务公司',
-            field: 'companyName',
-            listCode: 630106,
-            params: {
-                typeList: [1],
-                status: '1'
-            },
-            type: 'select',
-            keyName: 'code',
-            valueName: 'name',
-            render: (v, d) => {
-              return d.companyName ? d.companyName : '';
-            },
-            search: true
+            field: 'saleUserCompanyName'
         }, {
             title: '业务团队',
             field: 'teamName'
@@ -98,7 +86,7 @@ class Insurance extends React.Component {
             title: '贷款期数',
             field: 'loanPeriod',
             render: (v, d) => {
-                return d.repayBiz ? d.repayBiz.periods : '';
+                return d.loanInfo ? d.loanInfo.periods : '-';
             }
         }, {
             title: '业务种类',

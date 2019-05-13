@@ -80,7 +80,7 @@ class bizInsuranceEnter extends DetailUtil {
             title: '指派归属',
             field: 'zfStatus',
             formatter: (v, d) => {
-                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+                return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
             },
             readonly: true
         }, {
@@ -107,32 +107,59 @@ class bizInsuranceEnter extends DetailUtil {
         }, {
             title: '发票',
             field: 'carInvoice',
-            _keys: ['carInfo', 'carInvoice'],
             type: 'img',
+            formatter(v, d) {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if(item.vname === '车辆发票') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            },
             readonly: true
         }, {
             title: '交强险',
             field: 'carJqx',
-            _keys: ['carInfo', 'carJqx'],
+            _keys: ['attachments', 'carJqx'],
             type: 'img',
+            formatter(v, d) {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if(item.vname === '交强险') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            },
             readonly: true
         }, {
             title: '商业险',
             field: 'carSyx',
-            _keys: ['carInfo', 'carSyx'],
             type: 'img',
-            readonly: true
-        }, {
-            title: '其他资料',
-            field: 'carSettleOtherPdf',
-            _keys: ['carInfo', 'carSettleOtherPdf'],
-            type: 'file',
+            formatter(v, d) {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if(item.vname === '商业险') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            },
             readonly: true
         }, {
             title: '绿大本扫描件',
             field: 'greenBigSmj',
-            _keys: ['carInfo', 'greenBigSmj'],
             type: 'img',
+            formatter(v, d) {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if(item.vname === '绿大本扫描件') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            },
             readonly: true
         }];
         return this.buildDetail({
@@ -140,6 +167,26 @@ class bizInsuranceEnter extends DetailUtil {
             code: this.code,
             view: this.view,
             detailCode: 632516,
+            afterFetch: (data) => {
+                data.attachments.forEach(pic => {
+                    if (pic.kname === 'pledge_user_id_card_front') {
+                        data.carPledge.pledgeUserIdCardFront = pic.url;
+                    } else if (pic.kname === 'pledge_user_id_card_reverse') {
+                        data.carPledge.pledgeUserIdCardReverse = pic.url;
+                    } else if (pic.kname === 'car_regcerti') {
+                        data.carPledge.carRegcerti = pic.url;
+                    } else if (pic.kname === 'car_pd') {
+                        data.carPledge.carPd = pic.url;
+                    } else if (pic.kname === 'car_key') {
+                        data.carPledge.carKey = pic.url;
+                    } else if (pic.kname === 'car_xsz_smj') {
+                        data.carPledge.carXszSmj = pic.url;
+                    } else if (pic.kname === 'duty_paid_prove_smj') {
+                        data.carPledge.dutyPaidProveSmj = pic.url;
+                    }
+                });
+                return data;
+            },
             buttons: [{
                 title: '通过',
                 handler: (param) => {
@@ -159,21 +206,7 @@ class bizInsuranceEnter extends DetailUtil {
                 handler: (param) => {
                     this.props.history.go(-1);
                 }
-            }],
-            afterFetch: (data) => {
-                data.attachments.forEach(pic => {
-                    if (pic.kname === 'green_big_smj') {
-                        data.carInfo.greenBigSmj = pic.url;
-                    } else if (pic.kname === 'car_invoice') {
-                        data.carInfo.carInvoice = pic.url;
-                    } else if (pic.kname === 'car_jqx') {
-                        data.carInfo.carJqx = pic.url;
-                    } else if (pic.kname === 'car_syx') {
-                        data.carInfo.carSyx = pic.url;
-                    }
-                });
-                return data;
-            }
+            }]
         });
     }
 }

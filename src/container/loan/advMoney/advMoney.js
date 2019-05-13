@@ -152,8 +152,6 @@ class AdvMoney extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].fbhgpsNode !== 'g5') {
-                        showWarnMsg('当前不是财务垫资回录节点');
                     } else {
                         this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRows[0].bizCode}`);
                     }

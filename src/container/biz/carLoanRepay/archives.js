@@ -87,7 +87,10 @@ class archives extends React.Component {
             amount: true
         }, {
             title: '贷款期数',
-            field: 'loanPeriod'
+            field: 'loanPeriod',
+            render: (v, d) => {
+                return d.loanInfo ? d.loanInfo.periods : '-';
+            }
         }, {
             title: '业务种类',
             field: 'bizType',
@@ -115,7 +118,7 @@ class archives extends React.Component {
             searchParams: {
               userId: getUserId(),
               roleCode: getRoleCode(),
-              cundangStatusList: ['001', '002', '003']
+                enterNodeCodeList: ['e7', 'e8', 'e9', 'e10', 'f11', 'f12', 'f13', 'f14', 'f15']
             },
             btnEvent: {
               enter: (selectedRowKeys, selectedRows) => {
@@ -123,7 +126,7 @@ class archives extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
-              } else if (selectedRows[0].enterStatus !== '001' && selectedRows[0].enterStatus !== '002') {
+              } else if (selectedRows[0].enterNodeCode !== 'e9' && selectedRows[0].enterNodeCode !== 'f13') {
                   showWarnMsg('当前不是入档节点');
                 } else {
                   this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}`);
@@ -134,7 +137,7 @@ class archives extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
-              } else if (selectedRows[0].enterStatus === '003') {
+              } else if (selectedRows[0].enterNodeCode !== 'f14') {
                   showWarnMsg('当前不是确认入档节点');
                 } else {
                   this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}&certain=1`);
