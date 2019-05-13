@@ -88,13 +88,11 @@ class FaceSignAddedit extends DetailUtil {
         }, {
             title: '卡邮寄地址',
             field: 'cardPostAddress',
-            // type: 'citySelect',
-            // cFields: ['cardPostAddressProvince', 'cardPostAddressCity', 'cardPostAddressArea'],
             hidden: this.hande
         }, {
             title: '卡号',
             field: 'repayCardNumber',
-            // type: 'citySelect',
+            bankCard: true,
             hidden: !this.hande,
             required: true,
             readonly: false

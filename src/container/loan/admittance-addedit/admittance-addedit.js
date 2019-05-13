@@ -123,7 +123,7 @@ class AdmittanceAddEdit extends React.Component {
       // 婚姻状况
       isMarried: false,
       showMarry: false,
-      activeKey: '1',
+      activeKey: '0',
       brandData: [],
       carSeriesData: [],
       carShapeData: [],
@@ -135,8 +135,7 @@ class AdmittanceAddEdit extends React.Component {
   }
   componentDidMount() {
     fetch(632516, {code: this.code}).then((data) => {
-      this.setState({ pageData: data,
-        fetching: false });
+      this.setState({ pageData: data, fetching: false });
       Promise.all([
         fetch(632516, { code: data.code }),
         fetch(632036, { code: data.loanBank }), // 查贷款银行 计算银行利率
@@ -153,7 +152,7 @@ class AdmittanceAddEdit extends React.Component {
         getDictList({ parentKey: 'marry_state' }),
         getDictList({ parentKey: 'education' }),
         getDictList({ parentKey: 'is_card_mail_address' }),
-        getDictList({ parentKey: 'credit_user_relation' }),
+        getDictList({ parentKey: 'credit_contacts_relation' }),
         getDictList({ parentKey: 'work_belong_industry' }),
         getDictList({ parentKey: 'work_company_property' }),
         getDictList({ parentKey: 'main_income' }),
@@ -163,10 +162,10 @@ class AdmittanceAddEdit extends React.Component {
         getDictList({ parentKey: 'car_frame_price_count' }),
         getQiniuToken()
       ]).then(([pageData, loanBankData, carSaleData, loanProductData, brandData, carSeriesData,
-                 carShapeData, bizTypeData, loanPeriodData, regionData, carTypeData, genderData,
-                 marryStateData, educationData, addressData, relationData, industryData,
-                 propertyData, incomeData, positionData, professionData, interestData,
-                 carFrameData, uploadToken]) => {
+         carShapeData, bizTypeData, loanPeriodData, regionData, carTypeData, genderData,
+         marryStateData, educationData, addressData, relationData, industryData,
+         propertyData, incomeData, positionData, professionData, interestData,
+         carFrameData, uploadToken]) => {
         // 初始化万元系数、公证费比例、gps费用
         if (pageData.loanProductCode) { // 选择贷款产品后初始化
           let product = loanProductData.find(v => v.code === pageData.loanProductCode);
@@ -189,6 +188,7 @@ class AdmittanceAddEdit extends React.Component {
           }
         });
         pageData.carInfoRes = pageData.carInfoRes || {};
+        pageData.carPledge = pageData.carPledge || {};
         pageData.attachments.forEach(item => {
           if (item.kname === 'car_pic') {
             pageData.carInfoRes.carPic = item.url;
@@ -220,6 +220,10 @@ class AdmittanceAddEdit extends React.Component {
             pageData.creditUser2.mateAssetPdf = item.url;
           } else if (item.kname === 'asset_pdf_gua') {
             pageData.creditUser3.guaAssetPdf = item.url;
+          } else if (item.kname === 'pledge_user_id_card_front') {
+            pageData.carPledge.pledgeUserIdCardFront = item.url;
+          } else if (item.kname === 'pledge_user_id_card_reverse') {
+            pageData.carPledge.pledgeUserIdCardReverse = item.url;
           }
         });
         this.setState({
@@ -574,11 +578,14 @@ class AdmittanceAddEdit extends React.Component {
     this.packAmount(amountFields, values);
     switch(activeKey) {
       // 贷款信息
-      case '1':
+      case '0':
         return this.sendDkxx(values, callback);
       // 车辆信息
-      case '2':
+      case '1':
         return this.sendClxx(values, callback);
+      // 抵押信息
+      case '2':
+        return this.sendDyxx(values, callback);
       // 客户信息
       case '3':
         return this.sendKhxx(values, callback);
@@ -606,11 +613,15 @@ class AdmittanceAddEdit extends React.Component {
   // 贷款信息
   sendDkxx(params, callback) {
     params.bankRate = this.state.pageData.loanInfo.bankRate;
-    return this.sendForm(632530, params, '2', callback);
+    return this.sendForm(632530, params, '1', callback);
   }
   // 车辆信息
   sendClxx(params, callback) {
-    return this.sendForm(632531, params, '3', callback);
+    return this.sendForm(632531, params, '2', callback);
+  }
+  // 抵押信息
+  sendDyxx(params, callback) {
+      return this.sendForm(632539, params, '3', callback);
   }
   // 客户信息
   sendKhxx(params, callback) {
@@ -908,7 +919,7 @@ class AdmittanceAddEdit extends React.Component {
   prevStep = () => {
     let activeKey = +this.state.activeKey;
     activeKey -= 1;
-    activeKey = Math.max(1, activeKey) + '';
+    activeKey = Math.max(0, activeKey) + '';
     this.setState({ activeKey });
   }
   render() {
@@ -1026,7 +1037,7 @@ class AdmittanceAddEdit extends React.Component {
         <Spin spinning={fetching}>
           <Form>
             <Tabs activeKey={activeKey} onChange={this.tabChange}>
-              <TabPane tab="贷款信息" key="1">
+              <TabPane tab="贷款信息" key="0">
                 <Card style={{ marginTop: 16 }} title="贷款信息">
                   <Row gutter={54}>
                     {this.getInputCol({
@@ -1163,7 +1174,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="车辆信息" key="2">
+              <TabPane tab="车辆信息" key="1">
                 <Card title="车辆信息">
                   <Row gutter={54}>
                     {this.getSelectCol({
@@ -1296,11 +1307,9 @@ class AdmittanceAddEdit extends React.Component {
                     }, 3)}
                     {this.getFileCol({
                       field: 'carHgzPic',
-//                      title: data.bizType === '1' ? '绿大本' : '合格证照片',
-                      title: '绿大本',
+                      title: this.bizType === '1' ? '绿大本' : '合格证照片',
                       type: 'img',
-                      _keys: ['carInfoRes', 'carHgzPic'],
-                      required: true
+                      _keys: ['carInfoRes', 'carHgzPic']
                     }, 3)}
                   </Row>
                 </Card>
@@ -1867,7 +1876,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="流水信息" key="8" className='liushui'>
+              <TabPane tab="流水信息" key="2" className='liushui'>
                 <Card style={{ marginTop: 16 }} title="流水信息">
                   <Row gutter={54}>
                     {
@@ -1880,11 +1889,48 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
+              <TabPane tab="抵押信息" key="8">
+                <Card style={{ marginTop: 16 }} title="抵押信息">
+                  <Row gutter={54}>
+                    {this.getInputCol({
+                      field: 'pledgeUser',
+                      title: '代理人',
+                      _keys: ['carPledge', 'pledgeUser']
+                    }, 4)}
+                    {this.getInputCol({
+                      field: 'pledgeUserIdCard',
+                      title: '代理人身份证号',
+                      _keys: ['carPledge', 'pledgeUserIdCard'],
+                      idCard: true
+                    }, 4)}
+                    {this.getInputCol({
+                      field: 'pledgeAddress',
+                      title: '抵押地点',
+                      _keys: ['carPledge', 'pledgeAddress']
+                    }, 4)}
+                  </Row>
+                  <Row gutter={54}>
+                    {this.getFileCol({
+                      field: 'pledgeUserIdCardFront',
+                      title: '代理人身份证正面',
+                      _keys: ['carPledge', 'pledgeUserIdCardFront'],
+                      type: 'img'
+                    }, 4)}
+                    {this.getFileCol({
+                      field: 'pledgeUserIdCardReverse',
+                      title: '代理人身份证反面',
+                      _keys: ['carPledge', 'pledgeUserIdCardReverse'],
+                      type: 'img'
+                    }, 4)}
+
+                  </Row>
+                </Card>
+              </TabPane>
             </Tabs>
             <FormItem {...tailFormItemLayout} style={{marginTop: 20}}>
               <div>
                 {
-                  activeKey !== '1'
+                  activeKey !== '0'
                     ? <Button style={{marginLeft: 20}} onClick={this.prevStep}>上一步</Button>
                     : null
                 }

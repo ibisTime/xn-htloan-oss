@@ -634,7 +634,7 @@ class ArchivesAddEdit extends React.Component {
                             title: '指派归属',
                             formatter: (v, d) => {
                                 return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
-                            },
+                       },
                             readonly: true
                         }, 33)}
                             {this.getSelectCol({

@@ -98,7 +98,10 @@ class Transmit extends React.Component {
                 } else {
                   this.props.history.push(`/transmit/transmit/send?code=${selectedRowKeys[0]}`);
                 }
-              }
+              },
+                sj: (selectedRowKeys, selectedRows) => {
+                        this.props.history.push(`/transmit/collection`);
+                }
             }
         });
     }

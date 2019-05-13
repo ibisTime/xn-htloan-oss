@@ -74,7 +74,7 @@ export const dbrwxls = ['jourDatetime8', 'guaWxJourDatetimeStart',
   'guaWxJourMonthIncome', 'guaWxJourMonthExpend', 'guaWxJourRemark', 'guaWxJourPic'];
 // 每一步的校验
 export const checkFieldsMap = {
-  '1': [
+  '0': [
     [
       'loanBankName', 'periods', 'bankRate', 'loanAmount', 'loanProductCode',
       'monthDeposit', 'gpsFee', 'authFee', 'teamFee', 'otherFee', 'invoicePrice',
@@ -84,7 +84,7 @@ export const checkFieldsMap = {
     ['loanAmount', 'monthDeposit', 'gpsFee', 'authFee', 'teamFee', 'otherFee',
     'invoicePrice', 'sfAmount']
   ],
-  '2': [
+  '1': [
     [
       'bizType', 'vehicleCompanyName', 'invoiceCompany', 'carType', 'carBrand',
       'carSeries', 'carModel', 'carColor', 'carFrameNo', 'carEngineNo',
@@ -92,6 +92,13 @@ export const checkFieldsMap = {
       'settleAddress', 'carPic', 'carHgzPic'
     ],
     ['originalPrice', 'carDealerSubsidy', 'oilSubsidy']
+  ],
+  '2': [
+    [
+      'pledgeUser', 'pledgeUserIdCard', 'pledgeUserIdCardFront', 'pledgeUserIdCardReverse',
+      'pledgeAddress'
+    ],
+    []
   ],
   '3': [
     [

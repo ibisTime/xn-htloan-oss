@@ -67,7 +67,7 @@ class FaceSignAddedit extends DetailUtil {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName : '';
+                return d && d.saleUserName ? d.saleUserCompanyName + '-' + d.teamName + '-' + d.saleUserName : '';
             },
             readonly: true
         }, {
@@ -98,7 +98,7 @@ class FaceSignAddedit extends DetailUtil {
         }, {
             title: '卡号',
             field: 'repayCardNumber',
-            // type: 'citySelect',
+            bankCard: true,
             hidden: !this.hande,
             required: true,
             readonly: false

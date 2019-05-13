@@ -92,19 +92,24 @@ class Collection extends React.Component {
             searchParams: {
                 type: '1'
             },
-            btnEvent: {
-              check: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].status !== '1') {
-                  showWarnMsg('当前不是待收件节点');
-                } else {
-                  this.props.history.push(`/transmit/collection/check?code=${selectedRowKeys[0]}&toNodeCode=${selectedRows[0].toNodeCode}`);
+            buttons: [{
+                code: 'edit',
+                name: '收件并审核',
+                handler: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].status !== '1') {
+                        showWarnMsg('当前不是待收件节点');
+                    } else {
+                        this.props.history.push(`/transmit/collection/check?code=${selectedRowKeys[0]}&toNodeCode=${selectedRows[0].toNodeCode}`);
+                    }
                 }
-              }
-            }
+            }, {
+                code: 'detail',
+                name: '详情'
+            }]
         });
     }
 }

@@ -60,6 +60,7 @@ class ArchivesAddEdit extends React.Component {
             fetching: true,
             token: '',
             bizType: '',
+            budgetOrderGps: '',
             credits: '',
             // 用于upload控件判断页面是否初始化完成
             isLoaded: false,
@@ -201,7 +202,6 @@ class ArchivesAddEdit extends React.Component {
                      interestData, loanRoleData, enterFileData, enterLocationData,
                      uploadToken, pageData
                  ]) => {
-            console.log(2222, politics);
                 if (pageData.creditUserList.length === 0 || pageData.creditUserList.length === 1) {
                     this.setState({
                         isShowTabPane01: true,
@@ -240,7 +240,6 @@ class ArchivesAddEdit extends React.Component {
                         });
                     }
                 }
-                console.log('219', pageData.creditUserList.length);
                 this.setState({
                     politics,
                     loanProductData,
@@ -268,6 +267,7 @@ class ArchivesAddEdit extends React.Component {
                     uploadToken,
                     pageData,
                     credits: pageData,
+                    budgetOrderGps: pageData.budgetOrderGps,
                     bizType: pageData.bizType,
                     showMate: ((pageData.marryState === '2' && this.view)),
                     showGua: !!pageData.guaName,
@@ -307,8 +307,6 @@ class ArchivesAddEdit extends React.Component {
         }).catch(() => {
         });
         fetch(630147).then((dealNodeList) => {
-            console.log('222222');
-            console.log(dealNodeList);
             this.setState({dealNodeList});
         }).catch(() => {
         });
@@ -918,12 +916,8 @@ class ArchivesAddEdit extends React.Component {
                                         }
                                     })}
                                     {this.getInputCol({
-                                        field: 'companyName',
-                                        title: '业务公司',
-                                        formatter: (v, d) => {
-                                            let aa = d.credit;
-                                            return aa.companyName;
-                                        }
+                                        field: 'saleUserCompanyName',
+                                        title: '业务公司'
                                     })}
                                 </Row>
                                 <Row gutter={54}>
@@ -996,7 +990,7 @@ class ArchivesAddEdit extends React.Component {
                                         amount: true,
                                         positive: true,
                                         formatter: (v, d) => {
-                                            return d.repayBiz ? d.repayBiz.periods : '-';
+                                            return d.loanInfo ? d.loanInfo.periods : '-';
                                         }
                                     }, 2)}
                                 </Row>
@@ -1007,7 +1001,7 @@ class ArchivesAddEdit extends React.Component {
                                         keyName: 'code',
                                         valueName: 'name',
                                         formatter: (v, d) => {
-                                            return d.repayBiz.loanProductCode;
+                                            return d.loanInfo.loanProductCode;
                                         }
                                     }, loanProductData, 4)}
                                     {this.getSelectCol({
@@ -1034,7 +1028,7 @@ class ArchivesAddEdit extends React.Component {
                                         keyName: 'dkey',
                                         valueName: 'dvalue',
                                         formatter: (v, d) => {
-                                            return d.carInfo.region;
+                                            return d.carInfoRes.region;
                                         }
                                     }, regionData, 4)}
                                 </Row>
@@ -1042,44 +1036,44 @@ class ArchivesAddEdit extends React.Component {
                                     {this.getInputCol({field: 'vehicleCompanyName',
                                         title: '机动车销售公司',
                                         formatter: (v, d) => {
-                                            return d.carInfo.invoiceCompany;
+                                            return d.carInfoRes.invoiceCompany;
                                         }}, 4)}
                                     {this.getInputCol({field: 'invoiceCompany',
                                         title: '开票单位',
                                         formatter: (v, d) => {
-                                            return d.carInfo.invoiceCompany;
+                                            return d.carInfoRes.invoiceCompany;
                                         }
                                     }, 4)}
                                     {this.getInputCol({field: 'invoicePrice',
                                         title: '开票价(元)',
                                         amount: true,
                                         formatter: (v, d) => {
-                                            return moneyFormat(d.carInfo.invoicePrice);
+                                            return moneyFormat(d.carInfoRes.invoicePrice);
                                         }
                                     }, 4)}
                                     {this.getInputCol({field: 'originalPrice',
                                         title: '市场指导价(元)',
                                         amount: true,
                                         formatter: (v, d) => {
-                                            return moneyFormat(d.carInfo.originalPrice);
+                                            return moneyFormat(d.carInfoRes.originalPrice);
                                         }
                                     }, 4)}
                                 </Row>
                                 <Row gutter={54}>
                                     {this.getInputCol({field: 'firstAmount',
                                         formatter: (v, d) => {
-                                            return moneyFormat(d.carInfo.firstAmount);
+                                            return moneyFormat(d.loanInfo.sfAmount);
                                         },
                                         title: '首付金额(元)'
                                         })}
                                     {this.getInputCol({field: 'firstRate',
                                         formatter: (v, d) => {
-                                            return moneyFormat(d.carInfo.firstRate);
+                                            return moneyFormat(d.loanInfo.sfRate);
                                         },
                                         title: '首付比例(%)'})}
                                     {this.getInputCol({field: 'loanAmount',
                                         formatter: (v, d) => {
-                                            return d.carInfo.loanAmount;
+                                            return d.loanInfo.loanAmount;
                                         },
                                         title: '贷款额(元)',
                                         amount: true}, 33)}
@@ -1089,14 +1083,14 @@ class ArchivesAddEdit extends React.Component {
                                         title: '月供保证金(元)',
                                         amount: true,
                                         formatter: (v, d) => {
-                                            return (d.carInfo.monthDeposit);
+                                            return moneyFormat(d.loanInfo.monthDeposit);
                                         }
                                     }, 2)}
                                     {this.getInputCol({field: 'teamFee',
                                         title: '服务费(元)',
                                         amount: true,
                                         formatter: (v, d) => {
-                                            return moneyFormat(d.carInfo.teamFee);
+                                            return moneyFormat(d.loanInfo.teamFee);
                                         }
                                     }, 2)}
                                 </Row>
@@ -1105,20 +1099,20 @@ class ArchivesAddEdit extends React.Component {
                                         title: 'GPS费用(元)',
                                         amount: true,
                                         formatter: (v, d) => {
-                                            return moneyFormat(d.carInfo.gpsFee);
+                                            return moneyFormat(d.loanInfo.gpsFee);
                                         }
                                     }, 3)}
                                     {this.getInputCol({field: 'authFee',
                                         title: '公证费(元)',
                                         amount: true,
                                         formatter: (v, d) => {
-                                            return d.carInfo.authFee;
+                                            return d.loanInfo.authFee;
                                         }
                                     }, 3)}
                                     {this.getInputCol({field: 'otherFee',
                                         title: '其他费用(元)',
                                         formatter: (v, d) => {
-                                            return moneyFormat(d.carInfo.otherFee);
+                                            return moneyFormat(d.loanInfo.otherFee);
                                         }
                                     }, 33)}
                                 </Row>
@@ -1127,25 +1121,25 @@ class ArchivesAddEdit extends React.Component {
                                         field: 'carType',
                                         title: '车辆类型',
                                         formatter: (v, d) => {
-                                            return d.carInfo.carType;
+                                            return d.carInfoRes.carType;
                                         }
                                     }, 4)}
                                     {this.getInputCol({field: 'carBrand',
                                         title: '车辆品牌',
                                         formatter: (v, d) => {
-                                            return d.carInfo.carBrand;
+                                            return d.carInfoRes.carBrand;
                                         }
                                     }, 4)}
                                     {this.getInputCol({field: 'carSeries',
                                         title: '车系',
                                         formatter: (v, d) => {
-                                            return d.carInfo.carSeries;
+                                            return d.carInfoRes.carSeries;
                                         }
                                     }, 4)}
                                     {this.getInputCol({field: 'carModelName',
                                         title: '车型名称',
                                         formatter: (v, d) => {
-                                            return d.carInfo.carModel + d.carInfo.carBrand;
+                                            return d.carInfoRes.carModel + d.carInfoRes.carBrand;
                                         }
                                     }, 4)}
                                 </Row>
@@ -1153,25 +1147,25 @@ class ArchivesAddEdit extends React.Component {
                                     {this.getInputCol({field: 'carModel',
                                         title: '车辆型号',
                                         formatter: (v, d) => {
-                                            return d.carInfo.carModel;
+                                            return d.carInfoRes.carModel;
                                         }
                                     }, 4)}
                                     {this.getInputCol({field: 'carColor',
                                         title: '车辆颜色',
                                         formatter: (v, d) => {
-                                            return d.carInfo.carColor;
+                                            return d.carInfoRes.carColor;
                                         }
                                     }, 4)}
                                     {this.getInputCol({field: 'carFrameNo',
                                         title: '车架号',
                                         formatter: (v, d) => {
-                                            return d.carInfo.carFrameNo;
+                                            return d.carInfoRes.carFrameNo;
                                         }
                                     }, 4)}
                                     {this.getInputCol({field: 'carEngineNo',
                                         title: '发动机号',
                                         formatter: (v, d) => {
-                                            return d.carInfo.carEngineNo;
+                                            return d.carInfoRes.carEngineNo;
                                         }
                                     }, 4)}
                                 </Row>
@@ -1179,7 +1173,7 @@ class ArchivesAddEdit extends React.Component {
                                     {this.getInputCol({field: 'settleAddress',
                                         title: '落户地点',
                                         formatter: (v, d) => {
-                                            return d.carInfo.settleAddress;
+                                            return d.carInfoRes.settleAddress;
                                         }
                                     }, 1)}
                                 </Row>

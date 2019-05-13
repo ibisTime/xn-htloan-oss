@@ -91,25 +91,25 @@ class AdvMoneyAddedit extends DetailUtil {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName : '';
+                return d && d.saleUserName ? d.saleUserCompanyName + '-' + d.teamName + '-' + d.saleUserName : '';
             },
             readonly: true
         }, {
             title: '指派归属',
             field: 'zfStatus',
             formatter: (v, d) => {
-                return d && d.companyName ? d.companyName + '-' + d.teamName + '-' + d.insideJobName : '';
+                return d && d.insideJobName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobName : '';
             },
             readonly: true
         }, {
-            title: '当前状态',
-            field: 'status',
-            key: 'cdbiz_status',
+            title: '状态',
+            field: 'fbhgpsNode',
             type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name',
             readonly: true,
-            formatter: (v, d) => {
-                return d ? d.cdbiz.status : '';
-            }
+            params: {type: 'g'}
         }];
         let config = {
             code: this.code,

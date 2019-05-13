@@ -91,7 +91,7 @@ class AdmittanceShenhe extends DetailUtil {
             title: '贷款期数',
             field: 'periods',
             formatter: (v, d) => {
-                return d ? d.repayBiz.periods : '-';
+                return d ? d.loanInfo.periods : '-';
             }
         }, {
             title: '业务种类',

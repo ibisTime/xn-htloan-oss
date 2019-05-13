@@ -75,7 +75,7 @@ class AdvMoney extends React.Component {
             title: '贷款期数',
             field: 'loanPeriod',
             render: (v, d) => {
-                return d.repayBiz ? d.repayBiz.periods : '';
+                return d.loanInfo ? d.loanInfo.periods : '';
             }
         }, {
             title: '购车途径',
@@ -122,17 +122,17 @@ class AdvMoney extends React.Component {
                 fbhgpsNodeList: ['g1', 'g2', 'g3', 'g4', 'g5']
             },
             btnEvent: {
-               // 财务审核
-                check: (selectedRowKeys, selectedRows) => {
-                    // if (!selectedRowKeys.length) {
-                    //     showWarnMsg('请选择记录');
-                    // } else if (selectedRowKeys.length > 1) {
-                    //     showWarnMsg('请选择一条记录');
-                    // } else if (selectedRows[0].curNodeCode !== '002_29') {
-                    //     showWarnMsg('当前不是财务审核节点');
-                    // } else {
-                        this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRowKeys[0]}&check=1&v=1`);
-                    // }
+                // 确认用款单
+                tomoney: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                     } else if (selectedRows[0].fbhgpsNode !== 'g1') {
+                        showWarnMsg('当前不是确认用款单节点');
+                    } else {
+                        this.props.history.push(`/loan/advMoney/examine?isAddedit=1&code=${selectedRows[0].bizCode}`);
+                    }
                 },
                 // 制单回录
                 zdhl: (selectedRowKeys, selectedRows) => {
@@ -156,18 +156,6 @@ class AdvMoney extends React.Component {
                         showWarnMsg('当前不是财务垫资回录节点');
                     } else {
                         this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRows[0].bizCode}`);
-                    }
-                },
-                // 确认用款单
-                tomoney: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                     } else if (selectedRows[0].fbhgpsNode !== 'g1') {
-                        showWarnMsg('当前不是确认用款单节点');
-                    } else {
-                        this.props.history.push(`/loan/advMoney/examine?isAddedit=1&code=${selectedRows[0].bizCode}`);
                     }
                 },
                 // 用款一审
