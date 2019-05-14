@@ -93,6 +93,7 @@ class bankMoneySub extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
+            readonly: true,
             params: {type: 'e'}
         }, {
             title: '提交时间',

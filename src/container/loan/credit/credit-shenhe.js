@@ -626,7 +626,7 @@ class ArchivesAddEdit extends React.Component {
                             field: 'ywyUser',
                             title: '业务归属',
                             formatter: (v, d) => {
-                                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName : '';
+                                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
                             },
                             readonly: true
                         }, 33)}

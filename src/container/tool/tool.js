@@ -46,18 +46,17 @@ class Tool extends React.Component {
             field: 'videoUrl'
         }, {
             title: '格式',
-            field: 'loanBankName'
+            field: 'fileFormat'
         }, {
             title: '大小(K)',
-            field: 'loanAmount',
-            amount: true
+            field: 'fileSize'
         }, {
             title: '开始时间',
-            field: 'startDatetime',
+            field: 'startTime',
             type: 'datetime'
         }, {
             title: '结束时间',
-            field: 'endDatetime',
+            field: 'endTime',
             type: 'datetime'
         }];
         return this.props.buildList({
@@ -70,7 +69,7 @@ class Tool extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        window.open('https://' + selectedRows[0].videoUrl, '_bank');
+                        window.open(selectedRows[0].videoUrl, '_bank');
                     }
                 }
             }

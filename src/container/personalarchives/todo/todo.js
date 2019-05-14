@@ -94,6 +94,8 @@ class ToDo extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
+          } else if (selectedRows[0].refNode === 'e1') {
+            this.props.history.push(`/transmit/transmit/send?code=${selectedRows[0].refOrder}`);
           } else {
             console.log(curNodePageUrl);
             this.props.history.push(`${curNodePageUrl[selectedRows[0].refNode]}${selectedRows[0].bizCode}`);

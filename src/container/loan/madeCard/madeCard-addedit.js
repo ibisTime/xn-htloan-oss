@@ -88,6 +88,7 @@ class FaceSignAddedit extends DetailUtil {
         }, {
             title: '卡邮寄地址',
             field: 'cardPostAddress',
+            required: true,
             hidden: this.hande
         }, {
             title: '卡号',
@@ -103,7 +104,6 @@ class FaceSignAddedit extends DetailUtil {
                 title: '确认',
                 handler: (params) => {
                     if (params.repayCardNumber) {
-                        // console.log(params);
                         let data = {};
                         data.code = this.code;
                         data.operator = getUserId();

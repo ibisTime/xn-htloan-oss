@@ -68,7 +68,7 @@ class bankMoneyEnter extends React.Component {
             readonly: true
         }, {
             title: '卡号',
-            field: 'repayBankcardNumber',
+            field: 'repayCardNumber',
             required: true,
             bankCard: true
         }, {
@@ -125,6 +125,7 @@ class bankMoneyEnter extends React.Component {
               title: '确认',
               handler: (param) => {
                 param.approveResult = '1';
+                param.repayBankcardNumber = param.repayCardNumber;
                 param.operator = getUserId();
                 this.props.doFetching();
                 fetch(632135, param).then((data) => {

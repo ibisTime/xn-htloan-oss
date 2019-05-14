@@ -605,6 +605,18 @@ import {ywcxAddedit} from './redux/personalarchives/ywcx-addedit';
 //  贷后工具 面前视频
 import {Tool} from './redux/tool/tool';
 import {ShAddedit} from './redux/tool/shaddess';
+// 合同打印
+// 担保合同
+import { printingGuarantee } from './redux/printing/guarantee';
+import { printingGuaranteeMake } from './redux/printing/guarantee-make';
+
+// 抵押合同
+import { printingMortgage } from './redux/printing/mortgage';
+import { printingMortgageMake } from './redux/printing/mortgage-make';
+
+// 解除抵押
+import { printingRelieve } from './redux/printing/relieve';
+import { printingRelieveMake } from './redux/printing/relieve-make';
 
 export default combineReducers({
     accessorypool,
@@ -962,5 +974,11 @@ export default combineReducers({
     ywCx,
     ywcxAddedit,
     Tool,
-    ShAddedit
+    ShAddedit,
+    printingGuarantee,
+    printingGuaranteeMake,
+    printingMortgage,
+    printingMortgageMake,
+    printingRelieve,
+    printingRelieveMake
 });

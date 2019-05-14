@@ -63,7 +63,7 @@ class mortgageEnter extends DetailUtil {
         }, {
             title: '抵押代理人身份证号',
             field: 'pledgeUserIdCard',
-            _keys: ['carPledge', 'pledgeUser'],
+            _keys: ['carPledge', 'pledgeUserIdCard'],
             idCard: true
         }, {
             title: '抵押代理人身份证正面',

@@ -65,15 +65,13 @@ class mortgageApply extends DetailUtil {
             title: '抵押代理人',
             field: 'pledgeUser',
             _keys: ['carPledge', 'pledgeUser'],
-            readonly: !this.check,
-            required: this.check
+            required: true
         }, {
             title: '抵押代理人身份证号',
             field: 'pledgeUserIdCard',
             required: true,
             _keys: ['carPledge', 'pledgeUser'],
-            idCard: true,
-            readonly: !this.check
+            idCard: true
         }, {
             title: '抵押代理人身份证正面',
             field: 'pledgeUserIdCardFront',
@@ -92,10 +90,13 @@ class mortgageApply extends DetailUtil {
             title: '抵押地点',
             field: 'pledgeAddress',
             _keys: ['carPledge', 'pledgeAddress'],
-            readonly: true
+            required: true
         }, {
             title: '补充说明',
             field: 'supplementNote',
+            formatter: (v, d) => {
+              return d.carPledge ? d.carPledge.supplementNote : '';
+            },
             type: 'textarea',
             normalArea: true,
             required: !this.check,

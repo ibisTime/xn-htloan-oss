@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from 'antd';
-import { getQueryString, getUserId, showSucMsg } from 'common/js/util';
+import { getQueryString, getUserId, dateTimeFormat, showSucMsg } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import DetailUtil from 'common/js/build-detail-dev';
 
@@ -73,7 +73,7 @@ class bizInsuranceEnter extends DetailUtil {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName : '';
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
             },
             readonly: true
         }, {
@@ -97,12 +97,18 @@ class bizInsuranceEnter extends DetailUtil {
             field: 'policyDatetime',
             _keys: ['carInfo', 'policyDatetime'],
             type: 'date',
+            formatter: (v, d) => {
+              return d.carInfoRes ? dateTimeFormat(d.carInfoRes.policyDatetime) : '';
+            },
             readonly: true
         }, {
             title: '保单到期日',
             field: 'policyDueDate',
             _keys: ['carInfo', 'policyDueDate'],
             type: 'date',
+            formatter: (v, d) => {
+                return d.carInfoRes ? dateTimeFormat(d.carInfoRes.policyDueDate) : '';
+            },
             readonly: true
         }, {
             title: '发票',

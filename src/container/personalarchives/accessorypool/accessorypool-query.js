@@ -572,60 +572,53 @@ class ArchivesAddEdit extends React.Component {
 
     getAccessorypool() {
         const {pageData, attAchment} = this.state;
-        if (pageData.attachments) {
-            for (let i = 0; i < pageData.attachments.length; i++) {
-                if (pageData.attachments[i].attachType === '视频') {
-                    return pageData.attachments.map(c => (
-                        <Card key={c.code}>
-                            <Row gutter={54}>
-                                {this.getSelectCols({
-                                    field: 'vname',
-                                    formatter(v, d) {
-                                        let url = '';
-                                        d.attachments.forEach(item => {
-                                            if (item.url) {
-                                                url = item.url;
-                                            } else {
-                                            }
-                                        });
-                                        return url;
-                                    }
-                                }, attAchment, 3, c)}
-                                {this.getFileCols({
-                                    field: 'url',
-                                    type: 'file'
-                                }, 3, c)}
-                            </Row>
-                        </Card>
-                    ));
-                } else {
-                    if (pageData.attachments[i].attachType === '图片') {
-                        return pageData.attachments.map(c => (
-                            <Card key={c.code}>
-                                <Row gutter={54}>
-                                    {this.getSelectCols({
-                                        field: 'vname',
-                                        formatter(v, d) {
-                                            let url = '';
-                                            d.attachments.forEach(item => {
-                                                if (item.url) {
-                                                    url = item.url;
-                                                } else {
-                                                }
-                                            });
-                                            return url;
+        if (pageData.attachments && Array.isArray(pageData.attachments)) {
+            let attachments = pageData.attachments.map(item => {
+                if (item.attachType === '视频') {
+                    return <Row gutter={54}>
+                            {this.getSelectCols({
+                                field: 'vname',
+                                formatter(v, d) {
+                                    let url = '';
+                                    d.attachments.forEach(item => {
+                                        if (item.url) {
+                                            url = item.url;
+                                        } else {
                                         }
-                                    }, attAchment, 3, c)}
-                                    {this.getFileCols({
-                                        field: 'url',
-                                        type: 'img'
-                                    }, 3, c)}
-                                </Row>
-                            </Card>
-                        ));
-                    }
+                                    });
+                                    return url;
+                                }
+                            }, attAchment, 3, item)}
+                            {this.getFileCols({
+                                field: 'url',
+                                type: 'file'
+                            }, 3, item)}
+                        </Row>;
+                }else if(item.attachType === '图片' && item.url) {
+                    return <Row gutter={54}>
+                            {this.getSelectCols({
+                                field: 'vname',
+                                formatter(v, d) {
+                                    let url = '';
+                                    d.attachments.forEach(item => {
+                                        if (item.url) {
+                                            url = item.url;
+                                        } else {
+                                        }
+                                    });
+                                    return url;
+                                }
+                            }, attAchment, 3, item)}
+                            {this.getFileCols({
+                                field: 'url',
+                                type: 'img'
+                            }, 3, item)}
+                        </Row>;
+                }else {
+                    return null;
                 }
-            }
+            });
+            return attachments.map(item => item && <Card key={item.code}>{item}</Card>);
         }
         return null;
     }
@@ -646,7 +639,6 @@ class ArchivesAddEdit extends React.Component {
             showSqrzfbls, showSqrwxls, showPoyhls, showPozfbls, showPowxls,
             showDbryhls, showDbrzfbls, showDbrwxls, isMarried, showMarry, bizType
         } = this.state;
-        console.log(noticeData);
         const TabPane = Tabs.TabPane;
         return (
             <Spin spinning={this.state.fetching}>

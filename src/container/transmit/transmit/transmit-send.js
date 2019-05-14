@@ -76,6 +76,9 @@ class TransmitSend extends DetailUtil {
         title: '材料清单',
         field: 'filelist',
         type: 'checkbox',
+        params: {
+            category: 'node_file_list'
+        },
         listCode: 632217,
         keyName: 'id',
         valueName: '{{no.DATA}}-{{vname.DATA}}-{{number.DATA}}份'

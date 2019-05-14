@@ -294,6 +294,39 @@ export function showDelConfirm({onOk, onCancel}) {
     onCancel
   });
 }
+/**
+ * 金额格式转化
+ * @param money
+ * @param format
+ */
+export function moneyFormat2(money, format, isRe = true) {
+  var flag = true;
+  if (isUndefined(money) || isNaN(money)) {
+    return '';
+  }
+  if (money < 0) {
+    money = -1 * money;
+    flag = false;
+  }
+  if (isUndefined(format) || typeof format === 'object') {
+    format = 2;
+  }
+  // 钱除以1000并保留两位小数
+  money = (money / 1000).toString();
+  var reg = new RegExp('(\\.\\d{' + 0 + '})\\d+', 'ig');
+  money = money.replace(reg, '$1');
+  money = parseFloat(money).toFixed(0);
+  // 千分位转化
+  if (isRe) {
+    var re = /\d{1,3}(?=(\d{3})+$)/g;
+    money = money.replace(/^(\d+)((\.\d+)?)$/, (s, s1, s2) => (s1.replace(re, '$&,') + s2));
+  }
+  if (!flag) {
+    money = '-' + money;
+  }
+  return money;
+}
+
 export function convertCurrency(currencyDigits) {
   if (isUndefined(currencyDigits)) {
     return '';

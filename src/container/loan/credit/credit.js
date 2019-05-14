@@ -153,7 +153,7 @@ class Credit extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'a2' && selectedRows[0].curNodeCode !== 'a1x') {
                         showWarnMsg('当前不是录入征信结果的节点');
                     } else {
-                        this.props.history.push(`/loan/credit/addedit?v=1&isEntry=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/credit/query?v=1&isEntry=1&code=${selectedRowKeys[0]}`);
                     }
                 },
                 bigData: (selectedRowKeys, selectedRows) => {

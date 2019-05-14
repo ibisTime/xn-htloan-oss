@@ -11,7 +11,8 @@ import {
 } from '@redux/loanstools/cancel';
 import {
     showWarnMsg,
-    showSucMsg
+    showSucMsg,
+    dateTimeFormat
 } from 'common/js/util';
 import {
     listWrapper
@@ -46,11 +47,14 @@ class cancel extends React.Component {
             search: true
         }, {
             title: '业务公司',
-            field: 'companyName',
+            field: 'saleUserCompanyName',
             nowrap: true
         }, {
             title: '客户姓名',
             field: 'applyUserName',
+            render: (v, d) => {
+              return d.creditUser ? d.creditUser.userName : '';
+            },
             search: true
         }, {
             title: '贷款银行',
@@ -84,26 +88,31 @@ class cancel extends React.Component {
         }, {
             title: '垫资时间',
             field: 'advanceFundDatetime',
-            type: 'date'
+            type: 'date',
+           render: (v, d) => {
+                return d.advance ? dateTimeFormat(d.advance.advanceFundDatetime) : '';
+           }
         }, {
             title: '垫资金额',
             field: 'advanceFundAmount',
-            amount: true
+            render: (v, d) => {
+                return d.advance ? d.advance.advanceFundAmount : '';
+            }
         }, {
             title: '当前节点',
-            field: 'curNodeCode',
+            field: 'cancelNodeCode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
             search: true,
-            params: {type: 'a'}
+            params: {type: 'i'}
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632195,
+            pageCode: 632515,
             searchParams: {
-                curNodeCodeList: ['007_01', '007_02', '007_03', '007_04', '007_05']
+                cancelNodeCodeList: ['i1', 'i2', 'i3']
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {
@@ -114,10 +123,19 @@ class cancel extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '007_02') {
+                    } else if (selectedRows[0].cancelNodeCode !== 'i1') {
                         showWarnMsg('当前不是填写业务总监审核节点');
                     } else {
                         this.props.history.push(`/loanstools/cancel/check?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                detail: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/ywcx/ywcx/addedit?v=1&code=${selectedRowKeys[0]}`);
                     }
                 },
                 certain: (selectedRowKeys, selectedRows) => {
@@ -125,8 +143,8 @@ class cancel extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '007_03') {
-                        showWarnMsg('当前不是填写财务经理审核节点');
+                    } else if (selectedRows[0].cancelNodeCode !== 'i2') {
+                        showWarnMsg('当前不是填写财务总监审核节点');
                     } else {
                         this.props.history.push(`/loanstools/cancel/certain?code=${selectedRowKeys[0]}`);
                     }

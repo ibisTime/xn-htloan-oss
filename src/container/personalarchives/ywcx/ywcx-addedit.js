@@ -938,22 +938,421 @@ class ArchivesAddEdit extends React.Component {
                                 </Row>
                             </Card>
                         </TabPane>
-                        <TabPane tab="征信信息" key="2">
+                        <TabPane tab="征信列表" key="2">
                             <Card>
-                                <Tabs defaultActiveKey="1">
+                                <Tabs defaultActiveKey="2">
                                     {
                                         this.state.isShowTabPane01 ? (<TabPane tab="主贷人征信" key="2">
-                                            {this.getCreditList(1)}
+                                            <Row gutter={54}>
+                                                {this.getInputCol({
+                                                    field: 'userName',
+                                                    title: '姓名',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUser.userName;
+                                                    }
+                                                })}
+                                                {this.getSelectCol({
+                                                    field: 'relation',
+                                                    title: '与借款人关系',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUser.relation;
+                                                    }
+                                                }, relationData)}
+                                                {this.getSelectCol({
+                                                    field: 'loanRole',
+                                                    title: '贷款角色',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUser.loanRole;
+                                                    }
+                                                }, interestData, 33)}
+                                            </Row>
+                                            <Row gutter={54}>
+                                                {this.getInputCol({
+                                                    field: 'mobile',
+                                                    title: '手机号',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUser.mobile;
+                                                    }
+                                                })}
+                                                {this.getInputCol({
+                                                    field: 'idNo',
+                                                    title: '身份证号',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUser.idNo;
+                                                    }
+                                                })}
+                                                {this.getFileCol({
+                                                    field: 'idNoFront',
+                                                    title: '身份证正面',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '申请人身份证正面') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                }, 33)}
+                                            </Row>
+                                            <Row gutter={54}>
+                                                {this.getFileCol({
+                                                    field: 'idNoReverse',
+                                                    title: '身份证反面',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '申请人身份证反面') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                })}
+                                                {this.getFileCol({
+                                                    field: 'authPdf',
+                                                    title: '征信查询授权书',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '申请人征信查询授权书') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                })}
+                                                {this.getFileCol({
+                                                    field: 'interviewPic',
+                                                    title: '面签照片',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '申请人面签照片') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                }, 33)}
+                                            </Row>
+                                            <Row gutter={54}>
+                                                {this.getFileCol({
+                                                    field: 'bankCreditResultPdf',
+                                                    title: '银行征信报告',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '申请人银行征信报告') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                })}
+                                                {this.getFileCol({
+                                                    field: 'bankCreditResultPdf',
+                                                    title: '大数据征信报告',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '申请人大数据征信报告') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                })}
+                                                {this.getInputCol({
+                                                    field: 'bankCreditResultRemark',
+                                                    title: '征信结果说明',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUser.bankCreditResultRemark;
+                                                    }
+                                                }, 33)}
+                                            </Row>
                                         </TabPane>) : null
                                     }
                                     {
                                         this.state.isShowTabPane02 ? (<TabPane tab="共同还款人征信" key="1">
-                                            {this.getCreditList(2)}
+                                            <Row gutter={54}>
+                                                {this.getInputCol({
+                                                    field: 'userName',
+                                                    title: '姓名',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUserList[1].userName;
+                                                    }
+                                                })}
+                                                {this.getSelectCol({
+                                                    field: 'relation',
+                                                    title: '与借款人关系',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUserList[1].relation;
+                                                    }
+                                                }, relationData)}
+                                                {this.getSelectCol({
+                                                    field: 'loanRole',
+                                                    title: '贷款角色',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUserList[1].loanRole;
+                                                    }
+                                                }, interestData, 33)}
+                                            </Row>
+                                            <Row gutter={54}>
+                                                {this.getInputCol({
+                                                    field: 'mobile',
+                                                    title: '手机号',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUserList[1].mobile;
+                                                    }
+                                                })}
+                                                {this.getInputCol({
+                                                    field: 'idNo',
+                                                    title: '身份证号',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUserList[1].idNo;
+                                                    }
+                                                })}
+                                                <Row gutter={54}>
+                                                    {this.getFileCol({
+                                                        field: 'idNoFront',
+                                                        title: '身份证正面',
+                                                        type: 'img',
+                                                        formatter: (v, d) => {
+                                                            let url = '';
+                                                            d.attachments.forEach(item => {
+                                                                if(item.vname === '共还人身份证正面') {
+                                                                    url = item.url;
+                                                                }
+                                                            });
+                                                            return url;
+                                                        }
+                                                    }, 33)}
+                                                </Row>
+                                                {this.getFileCol({
+                                                    field: 'idNoReverse',
+                                                    title: '身份证反面',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                            let url = '';
+                                                            d.attachments.forEach(item => {
+                                                                if(item.vname === '共还人身份证反面') {
+                                                                    url = item.url;
+                                                                }
+                                                            });
+                                                            return url;
+                                                    }
+                                                })}
+                                                {this.getFileCol({
+                                                    field: 'authPdf',
+                                                    title: '征信查询授权书',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '共还人征信查询授权书') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                })}
+                                                {this.getFileCol({
+                                                    field: 'interviewPic',
+                                                    title: '面签照片',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '共还人面签照片') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                }, 33)}
+                                            </Row>
+                                            <Row gutter={54}>
+                                                {this.getFileCol({
+                                                    field: 'bankCreditResultPdf',
+                                                    title: '银行征信报告',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '共还人银行征信报告') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                })}
+                                                {this.getFileCol({
+                                                    field: 'bankCreditResultPdf',
+                                                    title: '大数据征信报告',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '共还人大数据征信报告') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                })}
+                                                {this.getInputCol({
+                                                    field: 'bankCreditResultRemark',
+                                                    title: '征信结果说明',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUserList[1].bankCreditResultRemark;
+                                                    }
+                                                }, 33)}
+                                            </Row>
                                         </TabPane>) : null
                                     }
                                     {
                                         this.state.isShowTabPane03 ? (<TabPane tab="担保人征信" key="3">
-                                            {this.getCreditList(3)}
+                                            <Row gutter={54}>
+                                                {this.getInputCol({
+                                                    field: 'userName',
+                                                    title: '姓名',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUserList[2].userName;
+                                                    }
+                                                })}
+                                                {this.getSelectCol({
+                                                    field: 'relation',
+                                                    title: '与借款人关系',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUserList[2].relation;
+                                                    }
+                                                }, relationData)}
+                                                {this.getSelectCol({
+                                                    field: 'loanRole',
+                                                    title: '贷款角色',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUserList[2].loanRole;
+                                                    }
+                                                }, interestData, 33)}
+                                            </Row>
+                                            <Row gutter={54}>
+                                                {this.getInputCol({
+                                                    field: 'mobile',
+                                                    title: '手机号',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUserList[2].mobile;
+                                                    }
+                                                })}
+                                                {this.getInputCol({
+                                                    field: 'idNo',
+                                                    title: '身份证号',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUserList[2].idNo;
+                                                    }
+                                                })}
+                                                {this.getFileCol({
+                                                    field: 'idNoFront',
+                                                    title: '身份证正面',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '担保人身份证正面') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                })}
+                                            </Row>
+                                            <Row gutter={54}>
+                                                {this.getFileCol({
+                                                    field: 'idNoReverse',
+                                                    title: '身份证反面',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '担保人身份证反面') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                }, 33)}
+                                                {this.getFileCol({
+                                                    field: 'authPdf',
+                                                    title: '征信查询授权书',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '担保人征信查询授权书') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                }, 33)}
+                                                {this.getFileCol({
+                                                    field: 'interviewPic',
+                                                    title: '面签照片',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '担保人面签照片') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                }, 33)}
+                                            </Row>
+                                            <Row gutter={54}>
+                                                {this.getFileCol({
+                                                    field: 'bankCreditResultPdf',
+                                                    title: '银行征信报告',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '担保人银行征信报告') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                }, 33)}
+                                                {this.getFileCol({
+                                                    field: 'bankCreditResultPdf',
+                                                    title: '大数据征信报告',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '担保人大数据征信报告') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                })}
+                                                {this.getInputCol({
+                                                    field: 'bankCreditResultRemark',
+                                                    title: '征信结果说明',
+                                                    formatter: (v, d) => {
+                                                        return d.creditUserList[2].bankCreditResultRemark;
+                                                    }
+                                                })}
+                                            </Row>
                                         </TabPane>) : null
                                     }
                                 </Tabs>
@@ -1184,7 +1583,7 @@ class ArchivesAddEdit extends React.Component {
                                             d.attachments.forEach(item => {
                                                 if (item.vname === '绿大本扫描件') {
                                                     url = item.url;
-                                                } else if (item.vname === '合格证照片') {
+                                                } else if (item.vname === '合格证') {
                                                     url = item.url;
                                                 }
                                             });
@@ -1251,20 +1650,7 @@ class ArchivesAddEdit extends React.Component {
                                         required: bizType === '1'
                                     }, 1)}
                                 </Row>
-                                <Row gutter={54}>
-                                    {this.getFileCol({field: 'carPriceCheckReport',
-                                        formatter: (v, d) => {
-                                            let url = '';
-                                            d.attachments.forEach(item => {
-                                                if (item.vname === '车辆价格核实报告') {
-                                                    url = item.url;
-                                                }
-                                            });
-                                            return url;
-                                        },
-                                        title: '车辆价格核实报告',
-                                        type: 'img'}, 1)}
-                                </Row></Card>
+                               </Card>
                             <Card>
                                 <Table {...this.getTableProp()}/>
                             </Card>
@@ -1284,8 +1670,9 @@ class ArchivesAddEdit extends React.Component {
                                     {this.getSelectCol({
                                         field: 'gender',
                                         title: '性别',
-                                        keyName: 'dkey',
-                                        valueName: 'dvalue'
+                                        formatter: (v, d) => {
+                                            return d.creditUser ? d.creditUser.gender : '';
+                                        }
                                     }, genderData)}
                                     {this.getInputCol({field: 'age',
                                         title: '年龄',

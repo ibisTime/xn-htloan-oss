@@ -45,7 +45,7 @@ class Notice extends React.Component {
         field: 'bizCode',
         search: true
     }, {
-      field: 'title',
+      field: 'name',
       title: '任务名称'
     }, {
       field: 'time',

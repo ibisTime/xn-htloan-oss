@@ -111,8 +111,8 @@ export const curNodePageUrl = {
 
     // ************贷后还款************
     // GPS安装
-    'd2': '/biz/installGps/enter?code=',
-    'd1': '/biz/installGps/check?code=',
+    'd1': '/biz/installGps/enter?code=',
+    'd2': '/biz/installGps/check?code=',
     'd3': '/biz/installGps/enter?edit=1&code=',
 
     // 银行放款
@@ -165,5 +165,4 @@ export const curNodePageUrl = {
 
   // 财务退款
     '008_01': '/loanstools/refund/certain?code='
-
 };

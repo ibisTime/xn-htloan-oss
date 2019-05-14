@@ -89,11 +89,13 @@ class FaceSignAddedit extends DetailUtil {
             title: '卡邮寄地址',
             field: 'cardPostAddress',
             type: 'citySelect',
+            required: true,
             cFields: ['cardPostAddressProvince', 'cardPostAddressCity', 'cardPostAddressArea'],
             hidden: this.hande
         }, {
             title: '详细地址',
             field: 'details',
+            required: true,
             hidden: this.hande
         }, {
             title: '卡号',
@@ -109,10 +111,8 @@ class FaceSignAddedit extends DetailUtil {
                 title: '确认',
                 handler: (params) => {
                     if (params.cardPostAddress) {
-                        console.log(222, params);
                         let aa = this.state.pageData;
                         params.cardPostAddress = params.cardPostAddressArea + params.cardPostAddressCity + params.cardPostAddressProvince + params.details;
-                        console.log(222, params.cardPostAddress);
                         let data = {};
                         data.code = this.code;
                         data.operator = getUserId();

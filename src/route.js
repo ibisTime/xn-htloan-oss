@@ -421,6 +421,21 @@ const ROUTES = [
     path: '/biz/bankMoney/record',
     component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney-record'))
   },
+  //  银行放款  流水修改
+  {
+    path: '/biz/record/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney-records'))
+  },
+  //  银行放款  流水修改
+  {
+    path: '/biz/bankMoney/record/addedit',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney-records'))
+  },
+  //  银行放款  流水修改
+  {
+    path: '/biz/bankMoney/record/add',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney-recordadd'))
+  },
   //  车辆抵押
   {
     path: '/biz/mortgage',
@@ -933,6 +948,11 @@ const ROUTES = [
   {
       path: '/loan/credit/addedit',
       component: asyncComponent(() => import('container/loan/credit-addedit/credit-addedit'))
+  },
+  // 发起征信查询  发起征信
+  {
+    path: '/loan/credit/query',
+    component: asyncComponent(() => import('container/loan/credit-addedit/credit-addedits'))
   },
   // 发起征信查询  内勤主管派单
   {
@@ -1996,8 +2016,38 @@ const ROUTES = [
 // 收货地址查询
   {
     path: '/shaddess/shaddess',
-    component: asyncComponent(() => import('container/tool/shaddess'))}
-
+    component: asyncComponent(() => import('container/tool/shaddess'))},
+  //  合同打印
+  //  担保合同
+  {
+    path: '/printing/guarantee',
+    component: asyncComponent(() => import('container/printing/guarantee/guarantee'))
+  },
+  //  担保合同 合同制作
+  {
+    path: '/printing/guarantee/make',
+    component: asyncComponent(() => import('container/printing/guarantee/guarantee-make'))
+  },
+  //  抵押合同
+  {
+    path: '/printing/mortgage',
+    component: asyncComponent(() => import('container/printing/mortgage/mortgage'))
+  },
+  //  抵押合同 合同制作
+  {
+    path: '/printing/mortgage/make',
+    component: asyncComponent(() => import('container/printing/mortgage/mortgage-make'))
+  },
+  //  解除合同
+  {
+    path: '/printing/relieve',
+    component: asyncComponent(() => import('container/printing/relieve/relieve'))
+  },
+  //  解除合同 合同制作
+  {
+    path: '/printing/relieve/make',
+    component: asyncComponent(() => import('container/printing/relieve/relieve-make'))
+  }
 ];
 
 export default ROUTES;

@@ -81,20 +81,21 @@ class InsuranceAddEdit extends DetailUtil {
             readonly: true
         }, {
             title: '保单日期',
+            required: true,
             field: 'policyDatetime',
             _keys: ['carInfo', 'policyDatetime'],
-            type: 'date',
-            readonly: true
+            type: 'date'
         }, {
             title: '保单到期日',
+            required: true,
             field: 'policyDueDate',
             _keys: ['carInfo', 'policyDueDate'],
-            type: 'date',
-            readonly: true
+            type: 'date'
         }, {
             title: '发票',
             field: 'carInvoice',
             type: 'img',
+            required: true,
             formatter(v, d) {
                 let url = '';
                 d.attachments.forEach(item => {
@@ -103,11 +104,11 @@ class InsuranceAddEdit extends DetailUtil {
                     }
                 });
                 return url;
-            },
-            readonly: true
+            }
         }, {
             title: '交强险',
             field: 'carJqx',
+            required: true,
             _keys: ['attachments', 'carJqx'],
             type: 'img',
             formatter(v, d) {
@@ -118,10 +119,10 @@ class InsuranceAddEdit extends DetailUtil {
                     }
                 });
                 return url;
-            },
-            readonly: true
+            }
         }, {
             title: '商业险',
+            required: true,
             field: 'carSyx',
             type: 'img',
             formatter(v, d) {
@@ -132,11 +133,11 @@ class InsuranceAddEdit extends DetailUtil {
                     }
                 });
                 return url;
-            },
-            readonly: true
+            }
         }, {
             title: '绿大本扫描件',
             field: 'greenBigSmj',
+            required: true,
             type: 'img',
             formatter(v, d) {
                 let url = '';
@@ -146,8 +147,7 @@ class InsuranceAddEdit extends DetailUtil {
                     }
                 });
                 return url;
-            },
-            readonly: true
+            }
         }];
         return this.buildDetail({
             fields,
