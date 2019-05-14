@@ -79,7 +79,7 @@ class archivesAddedit extends React.Component {
             field: 'ywyUser',
             readonly: true,
             formatter: (v, d) => {
-                return d ? d.companyName + '-' + d.teamName + '-' + d.saleUserName : '';
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
             }
         }, {
             title: '指派归属',

@@ -90,17 +90,17 @@ class AdvMoneyAddedit extends DetailUtil {
         }, {
             title: '业务归属',
             field: 'ywyUser',
+            readonly: true,
             formatter: (v, d) => {
-                return d && d.saleUserName ? d.saleUserCompanyName + '-' + d.teamName + '-' + d.saleUserName : '';
-            },
-            readonly: true
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
+            }
         }, {
             title: '指派归属',
             field: 'zfStatus',
+            readonly: true,
             formatter: (v, d) => {
-                return d && d.insideJobName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobName : '';
-            },
-            readonly: true
+                return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+            }
         }, {
             title: '状态',
             field: 'fbhgpsNode',

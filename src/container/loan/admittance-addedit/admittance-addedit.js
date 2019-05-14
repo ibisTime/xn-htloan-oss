@@ -1314,7 +1314,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="客户信息" key="3">
+              <TabPane tab="客户信息" key="2">
                 <Card style={{ marginTop: 16 }} title="主贷人基本信息">
                   <Row gutter={54}>
                     {this.getInputCol({
@@ -1342,7 +1342,7 @@ class AdmittanceAddEdit extends React.Component {
                       _keys: ['creditUser1', 'gender'],
                       keyName: 'dkey',
                       valueName: 'dvalue',
-                      required: true
+                      readonly: true
                     }, genderData, 4)}
                   </Row>
                   <Row gutter={54}>
@@ -1352,7 +1352,7 @@ class AdmittanceAddEdit extends React.Component {
                       _keys: ['creditUser1', 'age'],
                       number: true,
                       positive: true,
-                      required: true
+                      readonly: true
                     }, 4)}
                     {this.getInputCol({
                       field: 'nation',
@@ -1477,7 +1477,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="家庭情况" key="4">
+              <TabPane tab="家庭情况" key="3">
                 <Card title="家庭情况">
                   <Row gutter={54}>
                     {this.getSelectCol({
@@ -1531,6 +1531,7 @@ class AdmittanceAddEdit extends React.Component {
                     {this.getInputCol({
                       field: 'birthPostCode',
                       title: '户籍地邮编',
+                      number: true,
                       _keys: ['creditUser1', 'birthPostCode'],
                       required: true
                     }, 4)}
@@ -1610,7 +1611,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="工作情况" key="5">
+              <TabPane tab="工作情况" key="4">
                 <Card style={{ marginTop: 16 }} title="工作情况">
                   <Row gutter={54}>
                     {this.getSelectCol({
@@ -1636,6 +1637,7 @@ class AdmittanceAddEdit extends React.Component {
                     {this.getInputCol({
                       field: 'companyContactNo',
                       title: '工作单位电话',
+                      number: true,
                       _keys: ['creditUser1', 'companyContactNo']
                     }, 4)}
                   </Row>
@@ -1712,7 +1714,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="共还人信息" key="6">
+              <TabPane tab="共还人信息" key="5">
                 <Card style={{ marginTop: 16 }} title="共还人信息">
                   <Row gutter={54}>
                     {this.getInputCol({
@@ -1794,7 +1796,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="担保人信息" key="7">
+              <TabPane tab="担保人信息" key="6">
                 <Card style={{ marginTop: 16 }} title="担保人信息">
                   <Row gutter={54}>
                     {this.getInputCol({
@@ -1876,20 +1878,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="流水信息" key="2" className='liushui'>
-                <Card style={{ marginTop: 16 }} title="流水信息">
-                  <Row gutter={54}>
-                    {
-                      this.getTableItem({
-                        title: '流水信息',
-                        field: 'creditJours',
-                        options: lsOptions
-                      })
-                    }
-                  </Row>
-                </Card>
-              </TabPane>
-              <TabPane tab="抵押信息" key="8">
+              <TabPane tab="抵押信息" key="7">
                 <Card style={{ marginTop: 16 }} title="抵押信息">
                   <Row gutter={54}>
                     {this.getInputCol({
@@ -1923,6 +1912,19 @@ class AdmittanceAddEdit extends React.Component {
                       type: 'img'
                     }, 4)}
 
+                  </Row>
+                </Card>
+              </TabPane>
+              <TabPane tab="流水信息" key="8" className='liushui'>
+                <Card style={{ marginTop: 16 }} title="流水信息">
+                  <Row gutter={54}>
+                    {
+                      this.getTableItem({
+                        title: '流水信息',
+                        field: 'creditJours',
+                        options: lsOptions
+                      })
+                    }
                   </Row>
                 </Card>
               </TabPane>

@@ -59,17 +59,17 @@ class InsuranceAddEdit extends DetailUtil {
         }, {
             title: '业务归属',
             field: 'ywyUser',
+            readonly: true,
             formatter: (v, d) => {
-                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName : '';
-            },
-            readonly: true
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
+            }
         }, {
             title: '指派归属',
             field: 'zfStatus',
+            readonly: true,
             formatter: (v, d) => {
                 return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
-            },
-            readonly: true
+            }
         }, {
             title: '当前状态',
             field: 'fbhgpsNode',
@@ -84,57 +84,77 @@ class InsuranceAddEdit extends DetailUtil {
             field: 'policyDatetime',
             _keys: ['carInfo', 'policyDatetime'],
             type: 'date',
-            required: true
+            readonly: true
         }, {
             title: '保单到期日',
             field: 'policyDueDate',
             _keys: ['carInfo', 'policyDueDate'],
             type: 'date',
-            required: true
+            readonly: true
         }, {
             title: '发票',
             field: 'carInvoice',
-            _keys: ['carInfo', 'carInvoice'],
             type: 'img',
-            required: true
+            formatter(v, d) {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if(item.vname === '车辆发票') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            },
+            readonly: true
         }, {
             title: '交强险',
             field: 'carJqx',
-            _keys: ['carInfo', 'carJqx'],
+            _keys: ['attachments', 'carJqx'],
             type: 'img',
-            required: true
+            formatter(v, d) {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if(item.vname === '交强险') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            },
+            readonly: true
         }, {
             title: '商业险',
             field: 'carSyx',
-            _keys: ['carInfo', 'carSyx'],
             type: 'img',
-            required: true
+            formatter(v, d) {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if(item.vname === '商业险') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            },
+            readonly: true
         }, {
             title: '绿大本扫描件',
             field: 'greenBigSmj',
-            _keys: ['carInfo', 'greenBigSmj'],
-            type: 'img'
+            type: 'img',
+            formatter(v, d) {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if(item.vname === '绿大本扫描件') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            },
+            readonly: true
         }];
         return this.buildDetail({
             fields,
             code: this.code,
             view: this.view,
             detailCode: 632516,
-            editCode: 632131,
-            afterFetch: (data) => {
-                data.attachments.forEach(pic => {
-                    if (pic.kname === 'green_big_smj') {
-                        data.carInfo.greenBigSmj = pic.url;
-                    } else if (pic.kname === 'car_invoice') {
-                        data.carInfo.carInvoice = pic.url;
-                    } else if (pic.kname === 'car_jqx') {
-                        data.carInfo.carJqx = pic.url;
-                    } else if (pic.kname === 'car_syx') {
-                        data.carInfo.carSyx = pic.url;
-                    }
-                });
-                return data;
-            }
+            editCode: 632131
         });
     }
 }

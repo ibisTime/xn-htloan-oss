@@ -799,7 +799,7 @@ class ArchivesAddEdit extends React.Component {
                                         formatter(v, d) {
                                             let url = '';
                                             d.attachments.forEach(item => {
-                                                if(item.vname === '申请人面签照片' || item.vname === '共还人面签照片') {
+                                                if(item.vname === '申请人面签照片') {
                                                     url = item.url;
                                                 }
                                             });
@@ -815,7 +815,7 @@ class ArchivesAddEdit extends React.Component {
                                         formatter(v, d) {
                                             let url = '';
                                             d.attachments.forEach(item => {
-                                                if(item.vname === '申请人银行征信报告' || item.vname === '共还人银行征信报告') {
+                                                if(item.vname === '申请人银行征信报告') {
                                                     url = item.url;
                                                 }
                                             });
@@ -835,7 +835,7 @@ class ArchivesAddEdit extends React.Component {
                                         formatter(v, d) {
                                             let url = '';
                                             d.attachments.forEach(item => {
-                                                if(item.vname === '申请人征信查询授权书' || item.vname === '共还人征信查询授权书') {
+                                                if(item.vname === '申请人征信查询授权书') {
                                                     url = item.url;
                                                 }
                                             });

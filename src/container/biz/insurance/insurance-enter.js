@@ -167,26 +167,6 @@ class bizInsuranceEnter extends DetailUtil {
             code: this.code,
             view: this.view,
             detailCode: 632516,
-            afterFetch: (data) => {
-                data.attachments.forEach(pic => {
-                    if (pic.kname === 'pledge_user_id_card_front') {
-                        data.carPledge.pledgeUserIdCardFront = pic.url;
-                    } else if (pic.kname === 'pledge_user_id_card_reverse') {
-                        data.carPledge.pledgeUserIdCardReverse = pic.url;
-                    } else if (pic.kname === 'car_regcerti') {
-                        data.carPledge.carRegcerti = pic.url;
-                    } else if (pic.kname === 'car_pd') {
-                        data.carPledge.carPd = pic.url;
-                    } else if (pic.kname === 'car_key') {
-                        data.carPledge.carKey = pic.url;
-                    } else if (pic.kname === 'car_xsz_smj') {
-                        data.carPledge.carXszSmj = pic.url;
-                    } else if (pic.kname === 'duty_paid_prove_smj') {
-                        data.carPledge.dutyPaidProveSmj = pic.url;
-                    }
-                });
-                return data;
-            },
             buttons: [{
                 title: '通过',
                 handler: (param) => {

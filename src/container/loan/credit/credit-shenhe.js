@@ -607,7 +607,8 @@ class ArchivesAddEdit extends React.Component {
                                     return d ? d.creditUser.userName : '';
                                 },
                                 required: true })}
-                            {this.getInputCol({field: 'companyName', title: '业务公司'})}
+                            {this.getInputCol({field: 'saleUserCompanyName',
+                                title: '业务公司'})}
                         </Row>
                         <Row gutter={54}>
                             {this.getInputCol({field: 'loanBankName', title: '贷款银行'}, 33)}
