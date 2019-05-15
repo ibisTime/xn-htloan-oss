@@ -523,7 +523,7 @@ class BankMoneyRecord extends React.Component {
               {this.getInputCol({ field: 'vehicleCompanyName', title: '机动车销售公司' }, 4)}
               {this.getInputCol({ field: 'invoiceCompany', title: '开票单位' }, 4)}
               {this.getInputCol({ field: 'invoicePrice', title: '开票价(元)', onChange: this.invoicePriceChange, amount: true }, 4)}
-              {this.getInputCol({ field: 'originalPrice', title: '市场指导价(元)', amount: true }, 4)}
+              {this.getInputCol({ field: 'originalPrice', title: '市场指导价(元)', required: true, amount: true }, 4)}
             </Row>
             <Row gutter={54}>
               {this.getInputCol({ field: 'firstAmount', title: '首付金额(元)', onChange: this.firstAmountChange, amount: true })}

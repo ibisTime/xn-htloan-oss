@@ -58,7 +58,7 @@ class ArchivesAddEdit extends DetailUtil {
             title: '业务归属',
             field: 'ywyUser',
             formatter: (v, d) => {
-                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName : '';
             },
             readonly: true
         }, {
@@ -117,7 +117,7 @@ class ArchivesAddEdit extends DetailUtil {
             code: this.code,
             view: this.view,
             detailCode: 632516,
-            editCode: 632134
+            editCode: 632229
         });
     }
 }

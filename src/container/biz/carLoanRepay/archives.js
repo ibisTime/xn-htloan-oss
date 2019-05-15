@@ -105,7 +105,7 @@ class archives extends React.Component {
             search: true
         }, {
             title: '当前节点',
-            field: 'curNodeCode',
+            field: 'enterNodeCode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
@@ -140,7 +140,7 @@ class archives extends React.Component {
               } else if (selectedRows[0].enterNodeCode !== 'f14') {
                   showWarnMsg('当前不是确认入档节点');
                 } else {
-                  this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}&certain=1`);
+                  this.props.history.push(`/biz/archives/certain?code=${selectedRowKeys[0]}&certain=1`);
                 }
               },
               detail: (selectedRowKeys, selectedRows) => {

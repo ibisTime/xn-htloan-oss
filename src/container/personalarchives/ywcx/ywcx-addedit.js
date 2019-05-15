@@ -1437,6 +1437,7 @@ class ArchivesAddEdit extends React.Component {
                                     }, 4)}
                                     {this.getInputCol({field: 'originalPrice',
                                         title: '市场指导价(元)',
+                                        required: true,
                                         amount: true,
                                         formatter: (v, d) => {
                                             return moneyFormat(d.carInfoRes.originalPrice);

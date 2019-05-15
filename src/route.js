@@ -476,11 +476,11 @@ const ROUTES = [
     path: '/biz/archives/addedit',
     component: asyncComponent(() => import('container/biz/carLoanRepay/archives-addedit'))
   },
-  // //  档案入党 确认入档
-  // {
-  //   path: '/biz/archives/certain',
-  //   component: asyncComponent(() => import('container/biz/carLoanRepay/archives-certain'))
-  // },
+  //  档案入党 确认入档
+  {
+    path: '/biz/archives/certain',
+    component: asyncComponent(() => import('container/biz/carLoanRepay/archives-certain'))
+  },
   //  还款业务管理
   {
     path: '/biz/refundBusiness',

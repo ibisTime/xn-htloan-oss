@@ -51,10 +51,10 @@ class Notice extends React.Component {
       field: 'time',
       title: '限时（h）'
     }, {
-      field: 'title',
+      field: 'createrName',
       title: '发布人'
     }, {
-      field: 'title',
+      field: 'getUserName',
       title: '认领人'
     }, {
       field: 'status',

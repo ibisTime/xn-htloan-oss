@@ -162,10 +162,10 @@ class AdmittanceAddEdit extends React.Component {
         getDictList({ parentKey: 'car_frame_price_count' }),
         getQiniuToken()
       ]).then(([pageData, loanBankData, carSaleData, loanProductData, brandData, carSeriesData,
-                 carShapeData, bizTypeData, loanPeriodData, regionData, carTypeData, genderData,
-                 marryStateData, educationData, addressData, relationData, industryData,
-                 propertyData, incomeData, positionData, professionData, interestData,
-                 carFrameData, uploadToken]) => {
+         carShapeData, bizTypeData, loanPeriodData, regionData, carTypeData, genderData,
+         marryStateData, educationData, addressData, relationData, industryData,
+         propertyData, incomeData, positionData, professionData, interestData,
+         carFrameData, uploadToken]) => {
         // 初始化万元系数、公证费比例、gps费用
         if (pageData.loanProductCode) { // 选择贷款产品后初始化
           let product = loanProductData.find(v => v.code === pageData.loanProductCode);
@@ -471,9 +471,9 @@ class AdmittanceAddEdit extends React.Component {
       setO2MData: this.setO2MData
     };
     return (
-        <Col {...colProps}>
-          <CO2M key={item.field} {...props} setO2MSelectData={(d) => this.setO2MSelectData(item.field, d)}/>
-        </Col>
+      <Col {...colProps}>
+        <CO2M key={item.field} {...props} setO2MSelectData={(d) => this.setO2MSelectData(item.field, d)}/>
+      </Col>
     );
   }
   // o2m选择一行数据的回调
@@ -516,19 +516,6 @@ class AdmittanceAddEdit extends React.Component {
         }
         this.setState({ fetching: true });
         this.sendNormalForm(values, activeKey, callback)
-            .then(() => {
-              this.setState({ fetching: false }, () => {
-                setTimeout(() => {
-                  callback && callback();
-                }, 0);
-              });
-            })
-            .catch(() => this.setState({ fetching: false }));
-      });
-      // 流水信息
-    } else {
-      this.setState({ fetching: true });
-      this.sendLsxx({ code: this.code, operator: getUserId() }, callback)
           .then(() => {
             this.setState({ fetching: false }, () => {
               setTimeout(() => {
@@ -537,6 +524,19 @@ class AdmittanceAddEdit extends React.Component {
             });
           })
           .catch(() => this.setState({ fetching: false }));
+      });
+    // 流水信息
+    } else {
+      this.setState({ fetching: true });
+      this.sendLsxx({ code: this.code, operator: getUserId() }, callback)
+        .then(() => {
+          this.setState({ fetching: false }, () => {
+            setTimeout(() => {
+              callback && callback();
+            }, 0);
+          });
+        })
+        .catch(() => this.setState({ fetching: false }));
     }
   }
   applyForm() {
@@ -549,15 +549,15 @@ class AdmittanceAddEdit extends React.Component {
         }
         this.setState({ fetching: true });
         this.sendNormalForm(values, activeKey)
-            .then(() => this.applyAll())
-            .catch(() => this.setState({ fetching: false }));
+          .then(() => this.applyAll())
+          .catch(() => this.setState({ fetching: false }));
       });
-      // 流水信息
+    // 流水信息
     } else {
       this.setState({ fetching: true });
       this.sendLsxx({ code: this.code, operator: getUserId() })
-          .then(() => this.applyAll())
-          .catch(() => this.setState({ fetching: false }));
+        .then(() => this.applyAll())
+        .catch(() => this.setState({ fetching: false }));
     }
   }
   applyAll() {
@@ -567,7 +567,7 @@ class AdmittanceAddEdit extends React.Component {
     }).then(() => {
       showSucMsg('提交成功');
       setTimeout(() => {
-        this.props.history.go(-1);
+          this.props.history.go(-1);
       }, 1000);
     });
   }
@@ -577,28 +577,28 @@ class AdmittanceAddEdit extends React.Component {
     let amountFields = checkFieldsMap[activeKey][1];
     this.packAmount(amountFields, values);
     switch(activeKey) {
-        // 贷款信息
+      // 贷款信息
       case '0':
         return this.sendDkxx(values, callback);
-        // 车辆信息
+      // 车辆信息
       case '1':
         return this.sendClxx(values, callback);
-        // 抵押信息
+      // 抵押信息
       case '2':
         return this.sendDyxx(values, callback);
-        // 客户信息
+      // 客户信息
       case '3':
         return this.sendKhxx(values, callback);
-        // 家庭信息
+      // 家庭信息
       case '4':
         return this.sendJtxx(values, callback);
-        // 工作情况
+      // 工作情况
       case '5':
         return this.sendGzqq(values, callback);
-        // 共还人信息
+      // 共还人信息
       case '6':
         return this.sendGhrxx(values, callback);
-        // 担保人信息
+      // 担保人信息
       case '7':
         return this.sendDbrxx(values, callback);
     }
@@ -621,7 +621,7 @@ class AdmittanceAddEdit extends React.Component {
   }
   // 抵押信息
   sendDyxx(params, callback) {
-    return this.sendForm(632539, params, '3', callback);
+      return this.sendForm(632539, params, '3', callback);
   }
   // 客户信息
   sendKhxx(params, callback) {
@@ -704,11 +704,11 @@ class AdmittanceAddEdit extends React.Component {
   loanPeriodChange = (code) => {
     let bankRates = '';
     if (code === '12') {
-      bankRates = this.state.loanBankData.rate12;
+       bankRates = this.state.loanBankData.rate12;
     } else if (code === '24') {
-      bankRates = this.state.loanBankData.rate24;
+       bankRates = this.state.loanBankData.rate24;
     } else if (code === '36') {
-      bankRates = this.state.loanBankData.rate36;
+       bankRates = this.state.loanBankData.rate36;
     }
     this.setState({
       pageData: {
@@ -767,7 +767,6 @@ class AdmittanceAddEdit extends React.Component {
   // 首付比例=首付金额/开票价格
   invoicePriceChange = (v, data) => {
     let firstAmount = this.props.form.getFieldValue('sfAmount');
-    let invoicePrice = this.props.form.getFieldValue('invoicePrice');// 开票价格
     let loanAmount = this.props.form.getFieldValue('loanAmount');
     v = +moneyParse(v);
     // 如果已有首付金额，则改变贷款金额
@@ -789,7 +788,6 @@ class AdmittanceAddEdit extends React.Component {
     v = +moneyParse(v);
     if (invoicePrice) {
       invoicePrice = +moneyParse(invoicePrice);
-      let firstAmount = moneyFormat(invoicePrice - v);
       loanAmount = moneyFormat(invoicePrice - v);
       this.props.form.setFieldsValue({
         loanAmount,
@@ -802,7 +800,6 @@ class AdmittanceAddEdit extends React.Component {
   // 贷款金额改变
   loanAmountChange = (v) => {
     let invoicePrice = this.props.form.getFieldValue('invoicePrice');
-    v = +moneyParse(v);
     // 如果有发票价格了，则改变首付金额
     if (invoicePrice) {
       invoicePrice = +moneyParse(invoicePrice);
@@ -1103,39 +1100,39 @@ class AdmittanceAddEdit extends React.Component {
                       amount: true,
                       required: true
                     }, 4)}
-                  </Row>
-                  <Row gutter={54}>
-                    {this.getInputCol({
-                      field: 'teamFee',
-                      title: '团队服务费(元)',
-                      _keys: ['loanInfo', 'teamFee'],
-                      amount: true,
-                      required: true
-                    }, 4)}
-                    {this.getInputCol({
-                      field: 'otherFee',
-                      title: '其它费用(元)',
-                      _keys: ['loanInfo', 'otherFee'],
-                      amount: true,
-                      required: true
-                    }, 4)}
-                    {this.getInputCol({
-                      field: 'invoicePrice',
-                      title: '开票价格(元)',
-                      _keys: ['loanInfo', 'invoicePrice'],
-                      amount: true,
-                      required: true,
-                      onChange: this.invoicePriceChange
-                    }, 4)}
-                    {this.getInputCol({
-                      field: 'sfAmount',
-                      title: '首付金额(元)',
-                      _keys: ['loanInfo', 'sfAmount'],
-                      onChange: this.firstAmountChange,
-                      amount: true,
-                      required: true
-                    }, 4)}
-                  </Row>
+                   </Row>
+                <Row gutter={54}>
+                  {this.getInputCol({
+                    field: 'teamFee',
+                    title: '团队服务费(元)',
+                    _keys: ['loanInfo', 'teamFee'],
+                    amount: true,
+                    required: true
+                  }, 4)}
+                  {this.getInputCol({
+                    field: 'otherFee',
+                    title: '其它费用(元)',
+                    _keys: ['loanInfo', 'otherFee'],
+                    amount: true,
+                    required: true
+                  }, 4)}
+                  {this.getInputCol({
+                    field: 'invoicePrice',
+                    title: '开票价格(元)',
+                    _keys: ['loanInfo', 'invoicePrice'],
+                    amount: true,
+                    required: true,
+                    onChange: this.invoicePriceChange
+                  }, 4)}
+                  {this.getInputCol({
+                    field: 'sfAmount',
+                    title: '首付金额(元)',
+                    _keys: ['loanInfo', 'sfAmount'],
+                    onChange: this.firstAmountChange,
+                    amount: true,
+                    required: true
+                  }, 4)}
+                </Row>
                   <Row gutter={54}>
                     {this.getInputCol({
                       field: 'sfRate',
@@ -1165,7 +1162,7 @@ class AdmittanceAddEdit extends React.Component {
                       valueName: 'v',
                       required: true
                     }, isAdvFundData, 4)}
-                  </Row>
+                     </Row>
                   <Row gutter={54}>
                     {this.getSelectCol({
                       field: 'isPlatInsure',
@@ -1211,96 +1208,96 @@ class AdmittanceAddEdit extends React.Component {
                       required: true
                     }, carTypeData, 4)}
                   </Row>
-                  <Row gutter={54}>
-                    {this.getSelectCol({
-                      field: 'carBrand',
-                      title: '车辆品牌',
-                      _keys: ['carInfoRes', 'carBrand'],
-                      keyName: 'name',
-                      valueName: 'name',
-                      required: true
-                    }, brandData, 4)}
-                    {this.getSelectCol({
-                      field: 'carSeries',
-                      title: '车辆车系',
-                      _keys: ['carInfoRes', 'carSeries'],
-                      keyName: 'name',
-                      valueName: 'name',
-                      required: true
-                    }, carSeriesData, 4)}
-                    {this.getSelectCol({
-                      field: 'carModel',
-                      title: '车辆型号',
-                      _keys: ['carInfoRes', 'carModel'],
-                      keyName: 'name',
-                      valueName: 'name',
-                      required: true
-                    }, carShapeData, 4)}
-                    {this.getInputCol({
-                      field: 'carColor',
-                      title: '车辆颜色',
-                      _keys: ['carInfoRes', 'carColor'],
-                      required: true
-                    }, 4)}
-                  </Row>
-                  <Row gutter={54}>
-                    {this.getInputCol({
-                      field: 'carFrameNo',
-                      title: '车架号',
-                      _keys: ['carInfoRes', 'carFrameNo'],
-                      required: true
-                    }, 4)}
-                    {this.getInputCol({
-                      field: 'carEngineNo',
-                      title: '发动机号',
-                      _keys: ['carInfoRes', 'carEngineNo'],
-                      required: true
-                    }, 4)}
-                    {this.getInputCol({
-                      field: 'originalPrice',
-                      title: '市场指导价(元)',
-                      required: true,
-                      _keys: ['carInfoRes', 'originalPrice'],
-                      amount: true
-                    }, 4)}
-                    {this.getSelectCol({
-                      field: 'region',
-                      title: '所属区域',
-                      _keys: ['carInfoRes', 'region'],
-                      keyName: 'dkey',
-                      valueName: 'dvalue',
-                      required: true
-                    }, regionData, 4)}
-                  </Row>
-                  <Row gutter={54}>
-                    {this.getInputCol({
-                      field: 'carDealerSubsidy',
-                      title: '厂家贴息(元)',
-                      _keys: ['carInfoRes', 'carDealerSubsidy'],
-                      required: true,
-                      amount: true
-                    }, 4)}
-                    {this.getInputCol({
-                      field: 'oilSubsidyKil',
-                      title: '油补公里数',
-                      _keys: ['carInfoRes', 'oilSubsidyKil'],
-                      amount: true,
-                      required: true
-                    }, 4)}
-                    {this.getInputCol({
-                      field: 'oilSubsidy',
-                      title: '油补(元)',
-                      _keys: ['carInfoRes', 'oilSubsidy'],
-                      required: true,
-                      amount: true
-                    }, 4)}
-                    {this.getInputCol({
-                      field: 'settleAddress',
-                      title: '落户地点',
-                      _keys: ['carInfoRes', 'settleAddress'],
-                      required: true
-                    }, 4)}
-                  </Row>
+                    <Row gutter={54}>
+                      {this.getSelectCol({
+                        field: 'carBrand',
+                        title: '车辆品牌',
+                        _keys: ['carInfoRes', 'carBrand'],
+                        keyName: 'name',
+                        valueName: 'name',
+                        required: true
+                      }, brandData, 4)}
+                      {this.getSelectCol({
+                        field: 'carSeries',
+                        title: '车辆车系',
+                        _keys: ['carInfoRes', 'carSeries'],
+                        keyName: 'name',
+                        valueName: 'name',
+                        required: true
+                      }, carSeriesData, 4)}
+                      {this.getSelectCol({
+                        field: 'carModel',
+                        title: '车辆型号',
+                        _keys: ['carInfoRes', 'carModel'],
+                        keyName: 'name',
+                        valueName: 'name',
+                        required: true
+                      }, carShapeData, 4)}
+                      {this.getInputCol({
+                        field: 'carColor',
+                        title: '车辆颜色',
+                        _keys: ['carInfoRes', 'carColor'],
+                        required: true
+                      }, 4)}
+                    </Row>
+                    <Row gutter={54}>
+                      {this.getInputCol({
+                        field: 'carFrameNo',
+                        title: '车架号',
+                        _keys: ['carInfoRes', 'carFrameNo'],
+                        required: true
+                      }, 4)}
+                      {this.getInputCol({
+                        field: 'carEngineNo',
+                        title: '发动机号',
+                        _keys: ['carInfoRes', 'carEngineNo'],
+                        required: true
+                      }, 4)}
+                      {this.getInputCol({
+                        field: 'originalPrice',
+                        title: '市场指导价(元)',
+                        required: true,
+                        _keys: ['carInfoRes', 'originalPrice'],
+                        amount: true
+                      }, 4)}
+                      {this.getSelectCol({
+                        field: 'region',
+                        title: '所属区域',
+                        _keys: ['carInfoRes', 'region'],
+                        keyName: 'dkey',
+                        valueName: 'dvalue',
+                        required: true
+                      }, regionData, 4)}
+                    </Row>
+                    <Row gutter={54}>
+                      {this.getInputCol({
+                        field: 'carDealerSubsidy',
+                        title: '厂家贴息(元)',
+                        _keys: ['carInfoRes', 'carDealerSubsidy'],
+                        required: true,
+                        amount: true
+                      }, 4)}
+                      {this.getInputCol({
+                        field: 'oilSubsidyKil',
+                        title: '油补公里数',
+                        _keys: ['carInfoRes', 'oilSubsidyKil'],
+                        amount: true,
+                        required: true
+                      }, 4)}
+                      {this.getInputCol({
+                        field: 'oilSubsidy',
+                        title: '油补(元)',
+                        _keys: ['carInfoRes', 'oilSubsidy'],
+                        required: true,
+                        amount: true
+                      }, 4)}
+                      {this.getInputCol({
+                        field: 'settleAddress',
+                        title: '落户地点',
+                        _keys: ['carInfoRes', 'settleAddress'],
+                        required: true
+                      }, 4)}
+                     </Row>
                   <Row gutter={54}>
                     {this.getFileCol({
                       field: 'carPic',
@@ -1318,44 +1315,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="抵押信息" key="2">
-                <Card style={{ marginTop: 16 }} title="抵押信息">
-                  <Row gutter={54}>
-                    {this.getInputCol({
-                      field: 'pledgeUser',
-                      title: '代理人',
-                      _keys: ['carPledge', 'pledgeUser']
-                    }, 4)}
-                    {this.getInputCol({
-                      field: 'pledgeUserIdCard',
-                      title: '代理人身份证号',
-                      _keys: ['carPledge', 'pledgeUserIdCard'],
-                      idCard: true
-                    }, 4)}
-                    {this.getInputCol({
-                      field: 'pledgeAddress',
-                      title: '抵押地点',
-                      _keys: ['carPledge', 'pledgeAddress']
-                    }, 4)}
-                  </Row>
-                  <Row gutter={54}>
-                    {this.getFileCol({
-                      field: 'pledgeUserIdCardFront',
-                      title: '代理人身份证正面',
-                      _keys: ['carPledge', 'pledgeUserIdCardFront'],
-                      type: 'img'
-                    }, 4)}
-                    {this.getFileCol({
-                      field: 'pledgeUserIdCardReverse',
-                      title: '代理人身份证反面',
-                      _keys: ['carPledge', 'pledgeUserIdCardReverse'],
-                      type: 'img'
-                    }, 4)}
-
-                  </Row>
-                </Card>
-              </TabPane>
-              <TabPane tab="客户信息" key="3">
+              <TabPane tab="客户信息" key="2">
                 <Card style={{ marginTop: 16 }} title="主贷人基本信息">
                   <Row gutter={54}>
                     {this.getInputCol({
@@ -1467,7 +1427,7 @@ class AdmittanceAddEdit extends React.Component {
                       keyName: 'k',
                       valueName: 'v'
                     }, isDriverData, 4)}
-                  </Row>
+                   </Row>
                 </Card>
                 <Card style={{ marginTop: 16 }} title="紧急联系人">
                   <Row gutter={54}>
@@ -1518,7 +1478,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="家庭情况" key="4">
+              <TabPane tab="家庭情况" key="3">
                 <Card title="家庭情况">
                   <Row gutter={54}>
                     {this.getSelectCol({
@@ -1652,7 +1612,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="工作情况" key="5">
+              <TabPane tab="工作情况" key="4">
                 <Card style={{ marginTop: 16 }} title="工作情况">
                   <Row gutter={54}>
                     {this.getSelectCol({
@@ -1755,7 +1715,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="共还人信息" key="6">
+              <TabPane tab="共还人信息" key="5">
                 <Card style={{ marginTop: 16 }} title="共还人信息">
                   <Row gutter={54}>
                     {this.getInputCol({
@@ -1837,7 +1797,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="担保人信息" key="7">
+              <TabPane tab="担保人信息" key="6">
                 <Card style={{ marginTop: 16 }} title="担保人信息">
                   <Row gutter={54}>
                     {this.getInputCol({
@@ -1919,6 +1879,43 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
+              <TabPane tab="抵押信息" key="7">
+                <Card style={{ marginTop: 16 }} title="抵押信息">
+                  <Row gutter={54}>
+                    {this.getInputCol({
+                      field: 'pledgeUser',
+                      title: '代理人',
+                      _keys: ['carPledge', 'pledgeUser']
+                    }, 4)}
+                    {this.getInputCol({
+                      field: 'pledgeUserIdCard',
+                      title: '代理人身份证号',
+                      _keys: ['carPledge', 'pledgeUserIdCard'],
+                      idCard: true
+                    }, 4)}
+                    {this.getInputCol({
+                      field: 'pledgeAddress',
+                      title: '抵押地点',
+                      _keys: ['carPledge', 'pledgeAddress']
+                    }, 4)}
+                  </Row>
+                  <Row gutter={54}>
+                    {this.getFileCol({
+                      field: 'pledgeUserIdCardFront',
+                      title: '代理人身份证正面',
+                      _keys: ['carPledge', 'pledgeUserIdCardFront'],
+                      type: 'img'
+                    }, 4)}
+                    {this.getFileCol({
+                      field: 'pledgeUserIdCardReverse',
+                      title: '代理人身份证反面',
+                      _keys: ['carPledge', 'pledgeUserIdCardReverse'],
+                      type: 'img'
+                    }, 4)}
+
+                  </Row>
+                </Card>
+              </TabPane>
               <TabPane tab="流水信息" key="8" className='liushui'>
                 <Card style={{ marginTop: 16 }} title="流水信息">
                   <Row gutter={54}>
@@ -1937,14 +1934,14 @@ class AdmittanceAddEdit extends React.Component {
               <div>
                 {
                   activeKey !== '0'
-                      ? <Button style={{marginLeft: 20}} onClick={this.prevStep}>上一步</Button>
-                      : null
+                    ? <Button style={{marginLeft: 20}} onClick={this.prevStep}>上一步</Button>
+                    : null
                 }
                 <Button style={{marginLeft: 20}} type="primary" onClick={() => this.checkForm(0)}>保存当前页</Button>
                 {
                   activeKey === '8'
-                      ? <Button style={{marginLeft: 20}} type="primary" onClick={() => this.checkForm(1)}>提交</Button>
-                      : null
+                    ? <Button style={{marginLeft: 20}} type="primary" onClick={() => this.checkForm(1)}>提交</Button>
+                    : null
                 }
                 <Button style={{marginLeft: 20}} onClick={this.onCancel}>返回</Button>
               </div>

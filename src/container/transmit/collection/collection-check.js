@@ -37,7 +37,7 @@ class CollectionCheck extends React.Component {
               handler: (param) => {
                   param.operator = getUserId();
                   param.approveResult = '1';
-                  fetch(632152, param).then((data) => {
+                  fetch(632151, param).then((data) => {
                       this.doSuccess(data);
                   }).catch(this.props.cancelFetching);
               },

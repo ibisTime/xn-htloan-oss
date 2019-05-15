@@ -10,7 +10,7 @@ import {
   setSearchData
 } from '@redux/personalarchives/todo';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, showSucMsg } from 'common/js/util';
+import { showWarnMsg, getUserId, showSucMsg } from 'common/js/util';
 import {getNodeList} from 'api/menu';
 import {curNodePageUrl} from './../../../../src/common/js/config';
 
@@ -86,6 +86,9 @@ class ToDo extends React.Component {
     return this.props.buildList({
       fields,
       pageCode: 632525,
+      searchParams: {
+        userId: getUserId()
+      },
       buttons: [{
         code: 'handle',
         name: '处理',

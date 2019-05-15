@@ -23,6 +23,23 @@ import fetch from 'common/js/fetch';
 class examineMoneyb extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            // 页面详情数据
+            pageData: {},
+            // 是否自营企业
+            isSelfCompany: false,
+            // 婚姻状况
+            isMarried: false,
+            showMarry: false,
+            activeKey: '0',
+            brandData: [],
+            carSeriesData: [],
+            carShapeData: [],
+            // o2m选中的keys
+            selectedRowKeys: {},
+            // o2m下拉框中的数据
+            oSelectData: {}
+        };
         this.code = getQueryString('code', this.props.location.search);
         this.check = getQueryString('isCheck', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
@@ -77,7 +94,21 @@ class examineMoneyb extends React.Component {
             }];
         }
     }
+    componentDidMount() {
+        this.props.doFetching();
+        fetch(632516, {
+            code: this.code
+        }).then((data) => {
+            this.setState({
+                pageData: data
+            });
+            this.props.cancelFetching();
+        }).catch(this.props.cancelFetching);
+    }
+
     render() {
+        const pageData1 = this.state.pageData;
+        console.log(99, pageData1);
         const fields = [{
             field: 'operator',
             hidden: true,
@@ -161,12 +192,8 @@ class examineMoneyb extends React.Component {
                     required: true
                 }, {
                     title: '执行人',
-                    field: 'name',
-                    required: true
-                }, {
-                    title: '创建时间',
-                    field: 'createDatetime',
-                    type: 'datetime',
+                    data: pageData1,
+                    field: 'saleUserName',
                     required: true
                 }, {
                     title: '任务时效(h)',
