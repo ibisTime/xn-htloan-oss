@@ -9,13 +9,18 @@ import {
   cancelFetching,
   setSearchData
 } from '@redux/biz/refundList';
+import fetch from 'common/js/fetch';
+import {
+  showWarnMsg,
+  showSucMsg,
+  moneyFormat,
+  getUserId
+} from 'common/js/util';
 import {
   listWrapper
 } from 'common/js/build-list';
-import { showWarnMsg, moneyFormat } from 'common/js/util';
 import { Modal } from 'antd';
 import { sendMsg } from 'api/biz';
-
 @listWrapper(state => ({
   ...state.bizRefundList,
   parentCode: state.menu.subMenuCode
@@ -67,12 +72,42 @@ class RefundList extends React.Component {
       .props
       .buildList({
         fields,
+        singleSelect: false,
         pageCode: 630543,
         searchParams: {
           refType: '0',
           curNodeCodeList: ['004_01']
         },
         btnEvent: {
+          rghk: (selectedRowKeys, selectedRows) => {
+            if (!selectedRowKeys.length) {
+              showWarnMsg('请选择记录');
+            } else {
+              let idList = [];
+              for (let i = 0, len = selectedRows.length; i < len; i++) {
+                idList.push(selectedRows[i].code);
+              }
+              if (idList.length > 0) {
+                Modal.confirm({
+                  okText: '确认',
+                  cancelText: '取消',
+                  content: `确定人工还款？`,
+                  onOk: () => {
+                    this.props.doFetching();
+                    return fetch(630530, {
+                      codeList: idList,
+                      operator: getUserId()
+                    }).then(() => {
+                      this.props.getPageData();
+                      showSucMsg('操作成功');
+                    }).catch(() => {
+                      this.props.cancelFetching();
+                    });
+                  }
+                });
+              }
+            }
+          },
           message: (key, item) => {
             if (!key || !key.length || !item || !item.length) {
               showWarnMsg('请选择记录');

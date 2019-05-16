@@ -38,7 +38,8 @@ class examineMoneyb extends React.Component {
             // o2m选中的keys
             selectedRowKeys: {},
             // o2m下拉框中的数据
-            oSelectData: {}
+            oSelectData: {},
+            saleUserName: {}
         };
         this.code = getQueryString('code', this.props.location.search);
         this.check = getQueryString('isCheck', this.props.location.search);
@@ -108,7 +109,6 @@ class examineMoneyb extends React.Component {
 
     render() {
         const pageData1 = this.state.pageData;
-        console.log(99, pageData1);
         const fields = [{
             field: 'operator',
             hidden: true,
@@ -178,6 +178,12 @@ class examineMoneyb extends React.Component {
             readonly: true,
             params: {type: 'g'}
         }, {
+            field: 'saleUserName',
+            hidden: true,
+            formatter: (v) => {
+                this.saleUserName = v;
+            }
+        }, {
             title: '任务清单',
             field: 'missionList',
             type: 'o2m',
@@ -187,21 +193,22 @@ class examineMoneyb extends React.Component {
                 delete: true,
                 scroll: {x: 300},
                 fields: [{
+                    title: '执行人',
+                    field: 'saleUserName',
+                    readonly: true,
+                    formatter: () => {
+                        return this.saleUserName;
+                    }
+                }, {
                     title: '任务名称',
                     field: 'getUser',
-                    required: true
-                }, {
-                    title: '执行人',
-                    data: pageData1,
-                    field: 'saleUserName',
                     required: true
                 }, {
                     title: '任务时效(h)',
                     number: true,
                     field: 'time',
                     required: true
-                }]
-            }
+                }]}
         }, {
             title: '审核意见',
             field: 'approveNote',

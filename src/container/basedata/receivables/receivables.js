@@ -99,6 +99,11 @@ class receivables extends React.Component {
                         return item.code === v;
                     });
                     return company.length === 1 ? company[0].fullName : v;
+                } else if (d.type === '3') {
+                    let company = this.state.companyData.filter(item => {
+                        return item.code === v;
+                    });
+                    return company.length === 1 ? company[0].fullName : v;
                 }
                 let oCompanyData = this.state.o_companyData.filter(item =>
                     item.code === v);

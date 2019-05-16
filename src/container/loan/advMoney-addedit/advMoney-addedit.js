@@ -147,7 +147,7 @@ class AdvMoneyAddedit extends DetailUtil {
         } else {
                 fields = fields.concat([{
                     title: '汽车经销商',
-                    field: 'teamName',
+                    field: 'carDealerName',
                     readonly: true
                 }, {
                     title: '资金划转授权书 ',

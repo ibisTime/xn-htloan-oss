@@ -9,9 +9,8 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/personalarchives/ywcx';
-import { dateTimeFormat, showWarnMsg } from 'common/js/util';
+import { dateTimeFormat, getUserId, showWarnMsg } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
-
 @listWrapper(
     state => ({
         ...state.ywCx,
@@ -33,15 +32,25 @@ class ywCx extends React.Component {
             field: 'code',
             type: 'select',
             search: true,
-            listCode: 632517,
+            pageCode: 632515,
+            params: {
+                limit: 10,
+                start: 1
+            },
             valueName: '{{code.DATA}}',
             keyName: 'code',
             title: '业务编号',
+            hidden: true,
             required: true
         }, {
+            field: 'userName',
+            title: '业务编号',
+            render: (v, d) => {
+                return d.creditUser ? d.creditUser.code : '';
+            }
+        }, {
+            field: 'userName',
             title: '客户姓名',
-            field: 'ywyUser',
-            type: 'select',
             render: (v, d) => {
               return d.creditUser ? d.creditUser.userName : '';
             },
@@ -76,14 +85,13 @@ class ywCx extends React.Component {
             title: '业务员',
             field: 'saleUserName'
         }, {
-            title: '状态',
-            field: 'status',
-            search: true,
-            keyName: 'dkey',
-            valueName: 'dvalue',
+            title: '当前节点',
+            field: 'curNodeCode',
             type: 'select',
-            key: 'cdbiz_status'
-            }
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
+        }
         ];
         return this.props.buildList({
             fields,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from 'antd';
-import { getQueryString, showSucMsg, getUserId } from 'common/js/util';
+import { getQueryString, showSucMsg, getUserId, dateTimeFormat } from 'common/js/util';
 import DetailUtil from 'common/js/build-detail-dev';
 
 @Form.create()
@@ -67,7 +67,7 @@ class mortgageSub extends DetailUtil {
         }, {
             title: '抵押代理人身份证号',
             field: 'pledgeUserIdCard',
-            _keys: ['carPledge', 'pledgeUser'],
+            _keys: ['carPledge', 'pledgeUserIdCard'],
             idCard: true,
             readonly: true
         }, {
@@ -85,12 +85,16 @@ class mortgageSub extends DetailUtil {
         }, {
             title: '抵押地点',
             field: 'pledgeAddress',
-            _keys: ['carPledge', 'pledgeAddress'],
+            formatter: (v, d) => {
+                return d.carPledge ? d.carPledge.pledgeAddress : '';
+            },
             readonly: true
         }, {
             title: '落户日期',
             field: 'carSettleDatetime',
-            _keys: ['carPledge', 'carSettleDatetime'],
+            formatter: (v, d) => {
+                return d.carPledge ? dateTimeFormat(d.carPledge.pledgeAddress) : '';
+            },
             type: 'date',
             readonly: true
         }, {
@@ -101,7 +105,9 @@ class mortgageSub extends DetailUtil {
         }, {
             title: '车牌号',
             field: 'carNumber',
-            _keys: ['carPledge', 'carNumber'],
+            formatter: (v, d) => {
+                return d.carPledge ? d.carPledge.carNumber : '';
+            },
             readonly: true
         }, {
             title: '机动车登记证书',
@@ -124,7 +130,15 @@ class mortgageSub extends DetailUtil {
         }, {
             title: '大本扫描件',
             field: 'carBigSmj',
-            _keys: ['carPledge', 'carBigSmj'],
+            formatter: (v, d) => {
+                let url = '';
+                d.attachments.forEach(item => {
+                    if(item.vname === '大本扫描件') {
+                        url = item.url;
+                    }
+                });
+                return url;
+            },
             type: 'img',
             readonly: true
         }, {

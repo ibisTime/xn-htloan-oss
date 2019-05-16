@@ -84,13 +84,13 @@ class InsuranceAddEdit extends DetailUtil {
             required: true,
             field: 'policyDatetime',
             _keys: ['carInfo', 'policyDatetime'],
-            type: 'date'
+            type: 'datetime'
         }, {
             title: '保单到期日',
             required: true,
             field: 'policyDueDate',
             _keys: ['carInfo', 'policyDueDate'],
-            type: 'date'
+            type: 'datetime'
         }, {
             title: '发票',
             field: 'carInvoice',

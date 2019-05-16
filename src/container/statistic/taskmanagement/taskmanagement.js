@@ -60,7 +60,7 @@ class Notice extends React.Component {
       field: 'status',
       title: '状态',
       type: 'select',
-      key: 'notice_status',
+      key: 'mission_status',
       search: true
     }, {
       title: '创建时间',

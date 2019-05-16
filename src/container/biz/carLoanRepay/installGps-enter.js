@@ -113,7 +113,7 @@ class installGpsEnter extends React.Component {
                         useStatus: '0'
                     },
                     keyName: 'code',
-                    valueName: 'gpsDevNo',
+                    valueName: '{{gpsDevNo.DATA}}',
                     nowrap: true,
                     required: true
                 }, {

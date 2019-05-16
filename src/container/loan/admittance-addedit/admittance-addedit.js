@@ -44,8 +44,11 @@ const isDriverData = [
 ];
 // 政治面貌
 const politicalData = [
-  { k: '1', v: '共青团员' },
-  { k: '2', v: '党员' }
+  { k: '5', v: '其他' },
+  { k: '1', v: '群众' },
+  { k: '2', v: '共青团员' },
+  { k: '3', v: '预备党员' },
+  { k: '4', v: '党员' }
 ];
 // 现住房屋类型
 const houseTypeData = [
@@ -684,9 +687,13 @@ class AdmittanceAddEdit extends React.Component {
   }
   // 流水信息
   sendLsxx(params, callback) {
-    const { pageData } = this.state;
+   const { pageData } = this.state;
     params.jourList = pageData.creditJours;
-    return this.sendForm(632537, params, '8', callback);
+    params.jourList.datetimeStart = dateTimeFormat(params.jourList.datetimeStart);
+    params.jourList.datetimeEnd = dateTimeFormat(params.jourList.datetimeEnd);
+    return this.sendForm(632537,
+        params, '8',
+        callback);
   }
   sendForm(bizCode, params, nextActiveKey, callback) {
     return fetch(bizCode, params).then(() => {
@@ -765,23 +772,25 @@ class AdmittanceAddEdit extends React.Component {
   }
   // 开票价格改变
   // 首付比例=首付金额/开票价格
-  invoicePriceChange = (v, data) => {
-    let firstAmount = this.props.form.getFieldValue('sfAmount');
-    let invoicePrice = this.props.form.getFieldValue('invoicePrice');// 开票价格
-    let loanAmount = this.props.form.getFieldValue('loanAmount');
-    v = +moneyParse(v);
-    // 如果已有首付金额，则改变贷款金额
-    if (firstAmount) {
-      firstAmount = +moneyParse(firstAmount);
-      loanAmount = moneyFormat(v - firstAmount);
-      this.props.form.setFieldsValue({
-        loanAmount,
-        sfRate: (firstAmount / v * 100).toFixed(2),
-        monthDeposit: moneyFormat((this.wanFactor * moneyParse(loanAmount)) / 10000000),
-        authFee: moneyFormat(this.authRate * moneyParse(loanAmount))
-      });
+    invoicePriceChange = (v, data) => {
+        let firstAmount = this.props.form.getFieldValue('sfAmount');
+        let loanAmount = this.props.form.getFieldValue('loanAmount');// 贷款金额
+        v = +moneyParse(v);
+        // 如果已有首付金额，则改变贷款金额
+        if (firstAmount) {
+            firstAmount = +moneyParse(firstAmount);
+            loanAmount = +moneyFormat(v - firstAmount);
+            console.log(v - firstAmount, loanAmount);
+            // let firstAmounts = +moneyFormat(v - loanAmount);
+            this.props.form.setFieldsValue({
+                loanAmount,
+                // sfAmount: firstAmounts,
+                sfRate: (firstAmount / v * 100).toFixed(2),
+                monthDeposit: moneyFormat((this.wanFactor * moneyParse(loanAmount)) / 10000000),
+                authFee: moneyFormat(this.authRate * moneyParse(loanAmount))
+            });
+        }
     }
-  }
   // 首付金额改变
   firstAmountChange = (v) => {
     let invoicePrice = this.props.form.getFieldValue('invoicePrice');// 开票价格
@@ -969,9 +978,7 @@ class AdmittanceAddEdit extends React.Component {
         field: 'datetimeStart',
         rangedate: ['datetimeStart', 'datetimeEnd'],
         type: 'date',
-        render: (v, d) => {
-          return d && d.datetimeStart ? d.datetimeStart + '~' + d.datetimeEnd : '';
-        },
+        render: dateTimeFormat,
         required: true
       }, {
         title: '结息时间1',
@@ -1283,8 +1290,10 @@ class AdmittanceAddEdit extends React.Component {
                     {this.getInputCol({
                       field: 'oilSubsidyKil',
                       title: '油补公里数',
-                      _keys: ['carInfoRes', 'oilSubsidyKil'],
                       amount: true,
+                      formatter: (v, d) => {
+                        return d.carInfoRes ? d.carInfoRes.oilSubsidyKil : '';
+                      },
                       required: true
                     }, 4)}
                     {this.getInputCol({

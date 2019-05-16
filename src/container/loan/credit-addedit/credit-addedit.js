@@ -31,6 +31,7 @@ class CreditAddedit extends React.Component {
         this.code = getQueryString('code', this.props.location.search);
         // 发起征信
         this.isAddedit = !!getQueryString('isAddedit', this.props.location.search);
+        this.bizType = getQueryString('bizType', this.props.location.search);
         // 录入征信结果
         this.isEntry = !!getQueryString('isEntry', this.props.location.search);
         // 信贷专员初审
@@ -79,6 +80,16 @@ class CreditAddedit extends React.Component {
             creditResult
         });
     };
+componentDidMount() {
+    if (this.bizType === '1') {
+        this.setState({
+            secondCarReport: true,
+            xszFront: true,
+            xszReverse: true,
+            dkey: this.bizType
+        });
+    };
+}
 
     render() {
         // 征信列表字段
@@ -271,18 +282,24 @@ class CreditAddedit extends React.Component {
                 type: 'select',
                 key: 'budget_orde_biz_typer',
                 required: true,
-                onChange: (v, data, props) => {
-                    props.setPageData({
-                        ...this.props.pageData,
-                        bizType: data.dkey
-                    });
+                onChange: (v) => {
+                    if(v) {
+                        this.setState({dkey: v});
+                        if (v === '1') {
+                            this.setState({
+                                secondCarReport: true, xszFront: true, xszReverse: true
+                            });
+                        } else if (v === '0') {
+                            this.setState({secondCarReport: false, xszFront: false, xszReverse: false});
+                        }
+                    }
                 }
             }, {
                 title: '二手车评估报告',
                 field: 'secondCarReport', // secondCarReport
                 type: 'img',
-                hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车 录入征信结果 审核时隐藏
-                required: this.props.pageData.bizType === '1', // 二手车必填
+                hidden: this.isEntry || this.isCheck || this.state.dkey !== '1', // 新车 录入征信结果 审核时隐藏
+                required: this.state.dkey !== '0', // 二手车必填
                 formatter(v, d) {
                     let url = '';
                     d.attachments.forEach(item => {
@@ -296,8 +313,8 @@ class CreditAddedit extends React.Component {
                 title: '行驶证正面',
                 field: 'xszFront',
                 type: 'img',
-                hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车隐藏
-                required: this.props.pageData.bizType === '1',
+                hidden: this.isEntry || this.isCheck || this.state.dkey !== '1', // 新车隐藏
+                required: this.state.dkey !== '0',
                 formatter(v, d) {
                     let url = '';
                     d.attachments.forEach(item => {
@@ -311,8 +328,8 @@ class CreditAddedit extends React.Component {
                 title: '行驶证反面',
                 field: 'xszReverse',
                 type: 'img',
-                hidden: this.isEntry || this.isCheck || this.props.pageData.bizType === '0', // 新车隐藏
-                required: this.props.pageData.bizType === '1',
+                hidden: this.isEntry || this.isCheck || this.state.dkey !== '1', // 新车隐藏
+                required: this.state.dkey !== '0',
                 formatter(v, d) {
                     let url = '';
                     d.attachments.forEach(item => {

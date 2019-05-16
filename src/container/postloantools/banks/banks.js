@@ -23,9 +23,17 @@ class bizBanks extends React.Component {
     }
     render() {
         const fields = [{
-            field: 'code',
-            title: '业务编号',
-            required: true
+            field: 'bizCode',
+            type: 'select',
+            search: true,
+            pageCode: 632515,
+            params: {
+                limit: 10,
+                start: 1
+            },
+            valueName: '{{code.DATA}}- {{saleUserName.DATA}}',
+            keyName: 'code',
+            title: '业务编号'
         }];
         return this.props.buildDetail({
             fields,

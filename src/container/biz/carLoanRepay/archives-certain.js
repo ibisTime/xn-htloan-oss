@@ -75,7 +75,6 @@ class ArchivesAddEdit extends DetailUtil {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
-            params: { type: 'e' },
             readonly: true
         }, {
             title: '档案存放位置',

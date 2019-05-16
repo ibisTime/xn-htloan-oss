@@ -12,7 +12,8 @@ import {
 import {
     showWarnMsg,
     showSucMsg,
-    getRoleCode
+    getRoleCode,
+    getUserId
 } from 'common/js/util';
 import {
     listWrapper
@@ -22,7 +23,6 @@ import {
     onShelf,
     sendMsg
 } from 'api/biz';
-
 @listWrapper(
     state => ({
         ...state.printingGuarantee,
@@ -98,6 +98,7 @@ class Guarantee extends React.Component {
             fields,
             pageCode: 632515,
             searchParams: {
+                userId: getUserId(),
               roleCode: getRoleCode(),
               curNodeCodeList: ['007_03']
             },

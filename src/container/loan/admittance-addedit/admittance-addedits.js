@@ -1280,8 +1280,10 @@ class AdmittanceAddEdit extends React.Component {
                       {this.getInputCol({
                         field: 'oilSubsidyKil',
                         title: '油补公里数',
-                        _keys: ['carInfoRes', 'oilSubsidyKil'],
-                        amount: true,
+                        number: true,
+                       formatter: (v, d) => {
+                          return d.carInfoRes ? d.carInfoRes.oilSubsidyKil : '';
+                       },
                         required: true
                       }, 4)}
                       {this.getInputCol({

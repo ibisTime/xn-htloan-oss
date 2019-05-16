@@ -96,13 +96,13 @@ class bizInsuranceEnter extends DetailUtil {
             title: '保单日期',
             field: 'policyDatetime',
             _keys: ['carInfo', 'policyDatetime'],
-            type: 'date',
+            type: 'datetime',
             readonly: true
         }, {
             title: '保单到期日',
             field: 'policyDueDate',
             _keys: ['carInfo', 'policyDueDate'],
-            type: 'date',
+            type: 'datetime',
             readonly: true
         }, {
             title: '发票',

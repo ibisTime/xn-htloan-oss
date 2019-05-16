@@ -130,12 +130,12 @@ class BusinessReport extends React.Component {
         }, {
             title: '保单日期',
             field: 'policyDatetime',
-            type: 'date',
+            type: 'datetime',
             nowrap: true
         }, {
             title: '保单到期日',
             field: 'policyDueDate',
-            type: 'date',
+            type: 'datetime',
             nowrap: true
         }, {
             title: '业务种类',
