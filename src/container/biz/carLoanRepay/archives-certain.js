@@ -70,7 +70,7 @@ class ArchivesAddEdit extends DetailUtil {
             readonly: true
         }, {
             title: '当前状态',
-            field: 'enterNodeCode',
+            field: 'curNodeCode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',

@@ -259,7 +259,8 @@ class CarShape extends React.Component {
           fields,
           btnEvent,
           // rowKey: 'carCode',
-          pageCode: 630425
+          pageCode: 630425,
+          deleteCode: 630421
         })}
         <OnOrDownShelf
           selectKey={this.state.selectKey}

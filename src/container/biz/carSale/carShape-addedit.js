@@ -50,11 +50,10 @@ class CarShapeAddEdit extends DetailUtil {
       }, {
         field: 'fwAmount',
         title: '服务费',
-        amount: true,
+        amount: true
         // formatter: (v, d) => {
         // return d.fwAmount / 1000;
         // },
-        required: true
       }, {
         field: 'jsqByhf',
         title: '必要花费',
@@ -166,8 +165,7 @@ class CarShapeAddEdit extends DetailUtil {
         type: 'img'
       }, {
         title: '广告语',
-        field: 'slogan',
-        required: true
+        field: 'slogan'
       }, {
         title: '厂商指导价',
         field: 'salePrice',

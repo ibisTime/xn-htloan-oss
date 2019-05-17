@@ -39,12 +39,6 @@ class VehicleconfigurationAddedit extends React.Component {
                 field: 'name',
                 required: true
             }, {
-                title: '缩略图',
-                field: 'pic',
-                type: 'img',
-                help: '240*160',
-                single: true
-            }, {
                 title: '备注',
                 field: 'remark'
             }];

@@ -2,9 +2,29 @@ import React from 'react';
 import {Form, message} from 'antd';
 import {getQueryString, moneyFormat, moneyParse} from 'common/js/util';
 import fetch from 'common/js/fetch';
-
+import {
+    initStates,
+    doFetching,
+    cancelFetching,
+    setSelectData,
+    setPageData,
+    restore
+} from '@redux/basedata/receivables-addedit';
 import DetailUtil from 'common/js/build-detail-dev';
+import {
+    DetailWrapper
+} from 'common/js/build-detail';
 
+@DetailWrapper(
+    state => state.basedataReceivablesAddEdit, {
+        initStates,
+        doFetching,
+        cancelFetching,
+        setSelectData,
+        setPageData,
+        restore
+    }
+)
 @Form.create()
 class CarShapeAddEdit extends DetailUtil {
     constructor(props) {
@@ -29,6 +49,36 @@ class CarShapeAddEdit extends DetailUtil {
                 title: '名称',
                 required: true
             }, {
+                field: 'carBrand',
+                title: '车辆品牌',
+                required: true,
+                listCode: 630406,
+                params: {
+                    status: 1
+                },
+                type: 'select',
+                keyName: 'code',
+                valueName: 'name',
+                onChange: (v, d) => {
+                    console.log(222, d);
+                    if (!v) {
+                        this.props.setSelectData({
+                            key: 'seriesCode',
+                            data: []
+                        });
+                    } else {
+                        fetch(630416, {
+                            status: '1',
+                            brandCode: d.code
+                        }).then(data => {
+                            this.props.setSelectData({
+                                key: 'seriesCode',
+                                data: data
+                            });
+                        });
+                    }
+                }
+            }, {
                 title: '车系',
                 field: 'seriesCode',
                 type: 'select',
@@ -36,7 +86,6 @@ class CarShapeAddEdit extends DetailUtil {
                 params: {
                     status: 1
                 },
-                hidden: this.code && !this.view,
                 keyName: 'code',
                 listCode: '630416',
                 valueName: 'name'
@@ -52,11 +101,10 @@ class CarShapeAddEdit extends DetailUtil {
             }, {
                 field: 'fwAmount',
                 title: '服务费',
-                amount: true,
+                amount: true
                 // formatter: (v, d) => {
                 // return d.fwAmount / 1000;
                 // },
-                required: true
             }, {
                 field: 'jsqByhf',
                 title: '必要花费',
@@ -169,8 +217,7 @@ class CarShapeAddEdit extends DetailUtil {
                 type: 'img'
             }, {
                 title: '广告语',
-                field: 'slogan',
-                required: true
+                field: 'slogan'
             }, {
                 title: '厂商指导价',
                 field: 'salePrice',

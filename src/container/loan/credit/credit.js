@@ -120,7 +120,7 @@ class Credit extends React.Component {
                         }
                         this.props.history.push(`/loan/credit/addedit?isAddedit=1&code=${code}&bizType=${selectedRows[0].bizType}`);
                     } else {
-                        this.props.history.push(`/loan/credit/addedit`);
+                        this.props.history.push(`/loan/credit/addedit?isAddedit=1`);
                     }
                 },
                 dispatch: (selectedRowKeys, selectedRows) => {

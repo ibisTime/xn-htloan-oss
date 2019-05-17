@@ -1264,7 +1264,7 @@ class ArchivesAddEdit extends React.Component {
                                                     formatter: (v, d) => {
                                                         let url = '';
                                                         d.attachments.forEach(item => {
-                                                            if(item.vname === '担保人身份证正面') {
+                                                            if(item.kname === 'id_no_front_gua') {
                                                                 url = item.url;
                                                             }
                                                         });

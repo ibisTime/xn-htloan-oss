@@ -101,6 +101,10 @@ const ROUTES = [
     component: asyncComponent(() => import('container/public/time-addedit/time-addedit'))
   },
   {
+    path: '/public/times_addedit',
+    component: asyncComponent(() => import('container/public/times-addedit/time-addedit'))
+  },
+  {
     path: '/public/notice',
     component: asyncComponent(() => import('container/public/notice/notice'))
   },
@@ -114,7 +118,7 @@ const ROUTES = [
   },
   {
     path: '/public/banner/addedit',
-    component: asyncComponent(() => import('container/public/banner-addedit/banner-addedit'))
+    component: asyncComponent(() => import('container/public/bannerAddedit/banner-addedit'))
   },
     //  导航管理
   {

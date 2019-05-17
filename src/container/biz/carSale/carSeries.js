@@ -172,7 +172,8 @@ class CarSeries extends React.Component {
         {this.props.buildList({
           fields,
           btnEvent,
-          pageCode: 630415
+          pageCode: 630415,
+          deleteCode: 630411
         })}
         <OnOrDownShelf
           selectKey={this.state.selectKey}

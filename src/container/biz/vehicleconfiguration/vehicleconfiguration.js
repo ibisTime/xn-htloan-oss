@@ -44,14 +44,6 @@ class Vehicleconfiguration extends React.Component {
             field: 'name',
             search: true
         }, {
-            title: '图片',
-            field: 'pic',
-            render: (v, data) => {
-                if (data) {
-                    return (<div width={'30px'}><img width={'30px'} src={formatFile(data.pic)}/></div>);
-                }
-            }
-        }, {
             field: 'updater',
             title: '最新修改人',
             render: (v, data) => {

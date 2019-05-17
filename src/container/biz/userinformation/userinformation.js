@@ -69,6 +69,7 @@ class Userinformation extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 630455,
+            deleteCode: 630451,
             btnEvent: {
                 // 修改
                 edit: (selectedRowKeys, selectedRows) => {

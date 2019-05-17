@@ -99,8 +99,7 @@ class CarSeriesAddEdit extends React.Component {
       help: '240*160'
     }, {
       title: '广告标语',
-      field: 'slogan',
-      required: true
+      field: 'slogan'
     }, {
       title: '备注',
       field: 'remark'

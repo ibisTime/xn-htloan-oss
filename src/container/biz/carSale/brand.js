@@ -177,6 +177,7 @@ class Brand extends React.Component {
                 {this.props.buildList({
                     fields,
                     pageCode: 630405,
+                    deleteCode: 630401,
                     btnEvent: {
                         lower: (key, item) => {
                             if (!key || !key.length || !item || !item.length) {
