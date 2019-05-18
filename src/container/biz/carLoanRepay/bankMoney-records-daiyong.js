@@ -28,8 +28,8 @@ const col4Props = { xs: 32, sm: 24, md: 12, lg: 6 };
 
 // 是否垫资数据字典
 const isAdvFundData = [
-  { k: '0', v: '否' },
-  { k: '1', v: '是' }
+  { k: '1', v: '是' },
+  { k: '0', v: '否' }
 ];
 
 @Form.create()

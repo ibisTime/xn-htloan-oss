@@ -82,7 +82,6 @@ class Home extends React.Component {
                 curNodeData: curNodeD,
                 nodeTypeData: nodeTypeD
             }, () => {
-                console.log(2222, toDoListData);
             });
         }).catch(() => this.setState({ fetching: false }));
     }

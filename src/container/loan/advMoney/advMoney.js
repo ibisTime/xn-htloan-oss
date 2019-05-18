@@ -143,7 +143,7 @@ class AdvMoney extends React.Component {
                     } else if (selectedRows[0].fbhgpsNode !== 'g4') {
                         showWarnMsg('当前不是财务垫资回录节点');
                     } else {
-                        this.props.history.push(`${this.props.location.pathname}/addedit?&check=1&code=${selectedRows[0].bizCode}`);
+                        this.props.history.push(`/loan/advMoney/addedit?&check=1&code=${selectedRows[0].bizCode}`);
                     }
                 },
                 // 垫资回录
@@ -153,7 +153,7 @@ class AdvMoney extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRows[0].bizCode}`);
+                        this.props.history.push(`/loan/advMoney/addedit?code=${selectedRows[0].bizCode}`);
                     }
                 },
                 // 用款一审

@@ -193,13 +193,13 @@ class examineMoneyb extends React.Component {
                 delete: true,
                 scroll: {x: 300},
                 fields: [{
-                    title: '执行人',
-                    field: 'saleUserName',
-                    readonly: true,
-                    formatter: () => {
-                        return this.saleUserName;
-                    }
-                }, {
+                //     title: '执行人',
+                //     field: 'saleUserName',
+                //     readonly: true,
+                //     formatter: (value) => {
+                //         return this.saleUserName;
+                //     }
+                // }, {
                     title: '任务名称',
                     field: 'getUser',
                     required: true

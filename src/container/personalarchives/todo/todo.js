@@ -100,8 +100,7 @@ class ToDo extends React.Component {
           } else if (selectedRows[0].refNode === 'e1') {
             this.props.history.push(`/transmit/transmit/send?code=${selectedRows[0].refOrder}`);
           } else {
-            console.log(curNodePageUrl);
-            this.props.history.push(`${curNodePageUrl[selectedRows[0].refNode]}${selectedRows[0].bizCode}`);
+            this.props.history.push(`${curNodePageUrl[selectedRows[0].refNode]}${selectedRows[0].refOrder}`);
           }
         }
         }]

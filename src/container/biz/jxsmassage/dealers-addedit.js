@@ -61,11 +61,11 @@ class BankTypeAddedit extends React.Component {
             field: 'isSelfDevelop',
             type: 'select',
             data: [{
-                key: '1',
-                value: '是'
-            }, {
                 key: '0',
                 value: '否'
+            }, {
+                key: '1',
+                value: '是'
             }],
             keyName: 'key',
             valueName: 'value'

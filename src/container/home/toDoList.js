@@ -78,11 +78,12 @@ class ToDoList extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632528,
-            rowKey: 'id',
+            pageCode: 632525,
+            rowKey: 'code',
             searchParams: {
-                operator: getUserId(),
-                roleCode: getRoleCode()
+                userId: getUserId(),
+                roleCode: getRoleCode(),
+                status: '0'
             },
             buttons: [{
                 code: 'handle',
@@ -93,8 +94,7 @@ class ToDoList extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        console.log(curNodePageUrl);
-                        this.props.history.push(`${curNodePageUrl[selectedRows[0].refNode]}${selectedRows[0].bizCode}`);
+                        this.props.history.push(`${curNodePageUrl[selectedRows[0].refNode]}${selectedRows[0].refOrder}`);
                     }
                 }
             }, {

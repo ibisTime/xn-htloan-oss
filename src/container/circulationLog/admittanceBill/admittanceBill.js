@@ -86,11 +86,11 @@ class AdmittanceBill extends React.Component {
             field: 'isAdvanceFund',
             type: 'select',
             data: [{
-                dkey: '0',
-                dvalue: '否'
-            }, {
                 dkey: '1',
                 dvalue: '是'
+            }, {
+                dkey: '0',
+                dvalue: '否'
             }],
             keyName: 'dkey',
             valueName: 'dvalue'

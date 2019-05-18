@@ -6,16 +6,16 @@ import {
   setSelectData,
   setPageData,
   restore
-} from '@redux/public/time-addedit';
+} from '@redux/public/times-addedit';
 import { showSucMsg } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
-  state => state.publicTimeAddEdit,
+  state => state.publicTimesAddEdit,
   { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
 )
-class TimeAddEdit extends React.Component {
+class TimesAddEdit extends React.Component {
   render() {
     const fields = [{
       field: 'id',
@@ -25,7 +25,7 @@ class TimeAddEdit extends React.Component {
       value: '服务时间',
       hidden: true
     }, {
-      title: '内容',
+      title: '热线',
       field: 'cvalue',
       required: true
     }];
@@ -52,4 +52,4 @@ class TimeAddEdit extends React.Component {
   }
 }
 
-export default TimeAddEdit;
+export default TimesAddEdit;

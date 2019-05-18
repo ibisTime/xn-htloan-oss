@@ -97,6 +97,18 @@ class bankMoney extends React.Component {
       type: 'select',
       key: 'budget_orde_biz_typer'
     }, {
+      title: '状态',
+      field: 'curNodeCode',
+      type: 'select',
+      listCode: 630147,
+      keyName: 'code',
+      valueName: 'name',
+      params: {type: 'e'},
+      afterDetail: (list) => {
+        return list && list.length ? list.filter(l => l.code !== 'e6') : [];
+      },
+      search: true
+    }, {
       title: '申请日期',
       field: 'applyDatetime',
       rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
@@ -108,18 +120,6 @@ class bankMoney extends React.Component {
       field: 'bankFkDatetime',
       type: 'date'
     }, {
-      title: '状态',
-      field: 'curNodeCode',
-      type: 'select',
-      listCode: 630147,
-      keyName: 'code',
-      valueName: 'name',
-      params: {type: 'e'},
-      afterDetail: (list) => {
-          return list && list.length ? list.filter(l => l.code !== 'e6') : [];
-      },
-      search: true
-    }, {
       title: '备注',
       field: 'remark'
     }];
@@ -129,7 +129,7 @@ class bankMoney extends React.Component {
       searchParams: {
         userId: getUserId(),
         roleCode: getRoleCode(),
-        curNodeCodeList: ['e1', 'e2', 'e1x', 'e3', 'e4', 'e5', 'e7', 'e8', 'e9', 'e10']
+        curNodeCodeList: ['e1', 'e2', 'e1x', 'e3', 'e4', 'e5', 'e7', 'e8']
       },
       btnEvent: {
         // 确认提交银行
@@ -184,10 +184,10 @@ class bankMoney extends React.Component {
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
           } else if (selectedRows[0].curNodeCode !== 'e1' &&
+              selectedRows[0].curNodeCode !== 'e1x' &&
             selectedRows[0].curNodeCode !== 'e2' &&
-            selectedRows[0].curNodeCode !== 'e3' &&
-            selectedRows[0].curNodeCode !== 'e4' &&
-            selectedRows[0].curNodeCode !== 'e5') {
+              selectedRows[0].curNodeCode !== 'e7' &&
+              selectedRows[0].curNodeCode !== 'e8') {
             showWarnMsg('当前不是录入节点');
           } else {
             this.props.history.push(`/biz/bankMoney/record?code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}`);

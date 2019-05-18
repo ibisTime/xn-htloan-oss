@@ -83,11 +83,11 @@ class yellowList extends React.Component {
             field: 'isRepay',
             type: 'select',
             data: [{
-                key: '0',
-                value: '否'
-            }, {
                 key: '1',
                 value: '是'
+            }, {
+                key: '0',
+                value: '否'
             }],
             keyName: 'key',
             valueName: 'value'

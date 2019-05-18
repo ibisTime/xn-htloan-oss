@@ -17,7 +17,6 @@ class FaceSignAddedit extends DetailUtil {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.hande = !!getQueryString('hande', this.props.location.search);
-        console.log(this.hande);
         this.view = !!getQueryString('v', this.props.location.search);
     }
 
@@ -85,6 +84,10 @@ class FaceSignAddedit extends DetailUtil {
             readonly: true,
             keyName: 'dkey',
             valueName: 'dvalue'
+        }, {
+            title: '红卡照片',
+            field: 'redCardPic',
+            type: 'img'
         }, {
             title: '卡邮寄地址',
             field: 'cardPostAddress',

@@ -175,11 +175,11 @@ class CreditAddedit extends React.Component {
                 type: 'select',
                 readonly: !this.isEntry,
                 data: [{
-                    key: '0',
-                    value: '不通过'
-                }, {
                     key: '1',
                     value: '通过'
+                }, {
+                    key: '0',
+                    value: '不通过'
                 }],
                 keyName: 'key',
                 valueName: 'value',

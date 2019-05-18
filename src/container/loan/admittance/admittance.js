@@ -67,11 +67,11 @@ class Admittance extends React.Component {
             field: 'isAdvanceFund',
             type: 'select',
             data: [{
-                key: '0',
-                value: '否'
-            }, {
                 key: '1',
                 value: '是'
+            }, {
+                key: '0',
+                value: '否'
             }],
             keyName: 'key',
             valueName: 'value'
@@ -120,10 +120,10 @@ class Admittance extends React.Component {
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
-                curNodeCodeList: ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b1x']
+                curNodeCodeList: ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b1x']
             },
             btnEvent: {
-                // 申请
+                // 录入准入资料
                 apply: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -132,6 +132,18 @@ class Admittance extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'b1' && selectedRows[0].curNodeCode !== 'b1x') {
                         showWarnMsg('当前不是填写准入申请单节点');
                     } else {
+                        // let coOwnerFlag = '';
+                        // let guaranteeFlag = '';
+                        // selectedRows[0].creditUserList.map((item) => {
+                        //     if(item.loanRole === '2') {
+                        //         debugger;
+                        //         coOwnerFlag = '1';
+                        //     }
+                        //     if(item.loanRole === '3') {
+                        //         guaranteeFlag = '1';
+                        //     }
+                        // });
+                        // this.props.history.push(`/loan/admittance/addedit?&code=${selectedRowKeys[0]}&coOwnerFlag=${coOwnerFlag}&guaranteeFlag=${guaranteeFlag}`);
                         this.props.history.push(`/loan/admittance/addedit?&code=${selectedRowKeys[0]}`);
                     }
                 },
@@ -216,6 +228,18 @@ class Admittance extends React.Component {
                         showWarnMsg('当前不是业务总监审核节点');
                     } else {
                         this.props.history.push(`/loan/admittance/shenhe?v=1&isbusinessCheck=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
+                    }
+                },
+                // 总公司审核
+                checkHeadquarters: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].curNodeCode === 'b1' || selectedRows[0].curNodeCode === 'b1x') {
+                        showWarnMsg('当前不是审核节点');
+                    } else {
+                        this.props.history.push(`/loan/admittance/shenhe?v=1&isCheckHeadquarters=1&bizType=${selectedRows[0].bizType}&code=${selectedRowKeys[0]}`);
                     }
                 },
                 // 详情

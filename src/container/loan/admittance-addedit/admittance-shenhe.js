@@ -28,6 +28,8 @@ class AdmittanceShenhe extends DetailUtil {
         this.isCheckDirector = !!getQueryString('isCheckDirector', this.props.location.search);
         // 业务总监审核
         this.isbusinessCheck = !!getQueryString('isbusinessCheck', this.props.location.search);
+        // 总公司审核
+        this.isCheckHeadquarters = !!getQueryString('isCheckHeadquarters', this.props.location.search);
     }
     // 获取审核的接口号
     getBizCode() {
@@ -51,6 +53,9 @@ class AdmittanceShenhe extends DetailUtil {
             // 业务总监审核
         } else if (this.isbusinessCheck) {
             bizCode = 632139;
+            // 总公司审核
+        } else if (this.isCheckHeadquarters) {
+            bizCode = 632540;
         }
         return bizCode;
     }
@@ -66,7 +71,7 @@ class AdmittanceShenhe extends DetailUtil {
                 return <div>
                     {d.code}<a href="javascript:void(0);" type="primary" onClick={() => {
                     window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
-                }}>查看详情</a>
+                }}>  查看详情</a>
                 </div>;
             }
         }, {
@@ -103,11 +108,11 @@ class AdmittanceShenhe extends DetailUtil {
             field: 'isAdvanceFund',
             type: 'select',
             data: [{
-                dkey: '0',
-                dvalue: '否'
-            }, {
                 dkey: '1',
                 dvalue: '是'
+            }, {
+                dkey: '0',
+                dvalue: '否'
             }],
             keyName: 'dkey',
             valueName: 'dvalue'
@@ -129,7 +134,7 @@ class AdmittanceShenhe extends DetailUtil {
             type: 'textarea',
             normalArea: true,
             readonly: false,
-            required: this.isCheckNq && this.isCheck
+            required: this.isCheckNq && this.isCheck && this.isCheckHeadquarters
         }];
         let bizCode = this.getBizCode();
         // 准入审查

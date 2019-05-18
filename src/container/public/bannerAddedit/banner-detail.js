@@ -6,7 +6,7 @@ import {
     setSelectData,
     setPageData,
     restore
-} from '@redux/public/banner-addedit';
+} from '@redux/public/banner-detail';
 import {getQueryString, showSucMsg} from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 import {SYSTEM_CODE} from 'common/js/config';
@@ -14,15 +14,17 @@ import UpDown from 'component/up-down/repetition';
 import fetch from 'common/js/fetch';
 
 @DetailWrapper(
-    state => state.publicBannerAddEdit,
+    state => state.publicBannerDetail,
     {initStates, doFetching, cancelFetching, setSelectData, setPageData, restore}
 )
-class BannerAddEdit extends React.Component {
+class BannerDetail extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
-        this.contentType = getQueryString('contentType', this.props.location.search) || '1';
+        this.contentType = getQueryString('contentType', this.props.location.search);
+        this.brandCode = getQueryString('brandCode', this.props.location.search);
+        this.seriesCode = getQueryString('seriesCode', this.props.location.search);
         // 是否是车型
         this.state = {
             // 窗口是否显示
@@ -103,12 +105,7 @@ class BannerAddEdit extends React.Component {
             keyName: 'key',
             valueName: 'value',
             value: '1',
-            required: true,
-            onChange: (value) => {
-                if (value) {
-                    this.contentType = value;
-                }
-            }
+            required: true
         }, {
             title: 'url地址',
             field: 'url',
@@ -125,24 +122,6 @@ class BannerAddEdit extends React.Component {
             valueName: 'name',
             required: true,
             hidden: this.contentType !== '2',
-            formatter: (value, data) => {
-                if(data.contentType === '2') {
-                    fetch(630416, { status: '1', brandCode: value }).then((data) => {
-                        this.props.setSelectData({
-                            data: data,
-                            key: 'seriesCode'
-                        });
-                    }).catch();
-                    fetch(630429, { status: '1', seriesCode: data.seriesCode }).then((data) => {
-                        this.props.setSelectData({
-                            data: data,
-                            key: 'parentCode'
-                        });
-                    }).catch();
-                    this.flag = false;
-                }
-                return value;
-            },
             onChange: (value) => {
                 if(value) {
                     this.props.doFetching();
@@ -163,6 +142,11 @@ class BannerAddEdit extends React.Component {
             title: '车辆车系',
             field: 'seriesCode',
             type: 'select',
+            params: {
+                status: '1',
+                brandCode: this.brandCode
+            },
+            listCode: '630416',
             required: true,
             hidden: this.contentType !== '2',
             keyName: 'code',
@@ -186,6 +170,11 @@ class BannerAddEdit extends React.Component {
             title: '车辆型号',
             field: 'parentCode',
             type: 'select',
+            params: {
+                status: '1',
+                seriesCode: this.seriesCode
+            },
+            listCode: '630429',
             keyName: 'code',
             valueName: 'name',
             required: true,
@@ -226,4 +215,4 @@ class BannerAddEdit extends React.Component {
     }
 }
 
-export default BannerAddEdit;
+export default BannerDetail;

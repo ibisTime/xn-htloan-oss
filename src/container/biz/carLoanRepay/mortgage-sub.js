@@ -93,20 +93,20 @@ class mortgageSub extends DetailUtil {
             title: '落户日期',
             field: 'carSettleDatetime',
             formatter: (v, d) => {
-                return d.carPledge ? dateTimeFormat(d.carPledge.pledgeAddress) : '';
+                return d.carInfoRes ? dateTimeFormat(d.carInfoRes.carSettleDatetime) : '';
             },
             type: 'date',
             readonly: true
         }, {
             title: '落户地点',
             field: 'settleAddress',
-            _keys: ['carPledge', 'settleAddress'],
+            _keys: ['carInfoRes', 'settleAddress'],
             readonly: true
         }, {
             title: '车牌号',
             field: 'carNumber',
             formatter: (v, d) => {
-                return d.carPledge ? d.carPledge.carNumber : '';
+                return d.carInfoRes ? d.carInfoRes.carNumber : '';
             },
             readonly: true
         }, {

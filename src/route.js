@@ -102,7 +102,7 @@ const ROUTES = [
   },
   {
     path: '/public/times_addedit',
-    component: asyncComponent(() => import('container/public/times-addedit/time-addedit'))
+    component: asyncComponent(() => import('container/public/times-addedit/times-addedit'))
   },
   {
     path: '/public/notice',
@@ -120,6 +120,10 @@ const ROUTES = [
     path: '/public/banner/addedit',
     component: asyncComponent(() => import('container/public/bannerAddedit/banner-addedit'))
   },
+  {
+    path: '/public/banner/detail',
+    component: asyncComponent(() => import('container/public/bannerAddedit/banner-detail'))
+  },
     //  导航管理
   {
       path: '/public/navigation',
@@ -128,6 +132,11 @@ const ROUTES = [
   {
     path: '/public/navigation/addedit',
     component: asyncComponent(() => import('container/public/navigation/navigation-addedit'))
+  },
+  // app启动图
+  {
+    path: '/public/appStartPic',
+    component: asyncComponent(() => import('container/public/appStartPic/appStartPic-addedit'))
   },
   {
     path: '/biz/brand',

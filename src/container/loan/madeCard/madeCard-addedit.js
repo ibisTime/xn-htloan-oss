@@ -17,7 +17,6 @@ class FaceSignAddedit extends DetailUtil {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.hande = !!getQueryString('hande', this.props.location.search);
-        console.log(this.hande);
         this.view = !!getQueryString('v', this.props.location.search);
     }
 
@@ -89,7 +88,7 @@ class FaceSignAddedit extends DetailUtil {
             title: '卡邮寄地址',
             field: 'cardPostAddress',
             required: true,
-            hidden: this.hande
+            hidden: !this.hande
         }, {
             title: '卡号',
             field: 'repayCardNumber',

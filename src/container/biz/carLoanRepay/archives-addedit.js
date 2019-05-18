@@ -81,7 +81,9 @@ class ArchivesAddEdit extends DetailUtil {
             title: '档案存放位置',
             field: 'enterLocation',
             type: 'select',
-            key: 'enter_location',
+            listCode: '632827',
+            keyName: 'code',
+            valueName: 'name',
             required: true
         // }, {
         //     title: '本次存放清单',

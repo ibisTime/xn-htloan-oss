@@ -22,11 +22,14 @@ import {securityNodeAddEdit} from './redux/security/node-addedit';
 import {securityNodeSetMateriallist} from './redux/security/node-setMateriallist';
 import {publicBanner} from './redux/public/banner';
 import {publicBannerAddEdit} from './redux/public/banner-addedit';
+import {publicBannerDetail} from './redux/public/banner-detail';
 import {publicAboutusAddEdit} from './redux/public/aboutus-addedit';
 import {publicHotLineAddEdit} from './redux/public/hotLine-addedit';
 import {publicTimeAddEdit} from './redux/public/time-addedit';
+import {publicTimesAddEdit} from './redux/public/times-addedit';
 import {publicNotice} from './redux/public/notice';
 import {publicNoticeAddEdit} from './redux/public/notice-addedit';
+import {publicAppStartPicAddEdit} from './redux/public/appStartPic-addedit';
 import {bizBrand} from './redux/biz/brand';
 import {bizBrandAddEdit} from './redux/biz/brand-addedit';
 import {bizCarSeries} from './redux/biz/carSeries';
@@ -644,10 +647,13 @@ export default combineReducers({
     publicHotLineAddEdit,
     publicBanner,
     publicBannerAddEdit,
+    publicBannerDetail,
     publicAboutusAddEdit,
     publicTimeAddEdit,
+    publicTimesAddEdit,
     publicNotice,
     publicNoticeAddEdit,
+    publicAppStartPicAddEdit,
     bizMemberInquiries,
     bizBrand,
     bizBrandAddEdit,

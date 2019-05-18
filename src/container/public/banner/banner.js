@@ -11,7 +11,7 @@ import {
 } from '@redux/public/banner';
 import { listWrapper } from 'common/js/build-list';
 import { SYSTEM_CODE } from 'common/js/config';
-
+import { showWarnMsg } from 'common/js/util';
 @listWrapper(
   state => ({
     ...state.publicBanner,
@@ -37,6 +37,22 @@ class Banner extends React.Component {
       }],
       search: true
     }, {
+      title: '跳转类型',
+      field: 'contentType',
+      type: 'select',
+      data: [{
+        key: '1',
+        value: '网页'
+      }, {
+        key: '2',
+        value: '车型'
+      }, {
+        key: '3',
+        value: '资讯'
+      }],
+      keyName: 'key',
+      valueName: 'value'
+    }, {
       title: '顺序',
       field: 'orderNo'
     }, {
@@ -51,6 +67,26 @@ class Banner extends React.Component {
         systemCode: SYSTEM_CODE,
         companyCode: SYSTEM_CODE,
         type: 2
+      },
+      btnEvent: {
+        edit: (selectedRowKeys, selectedRows) => {
+          if (!selectedRowKeys.length) {
+            showWarnMsg('请选择记录');
+          } else if (selectedRowKeys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else {
+            this.props.history.push(`/public/banner/detail?code=${selectedRowKeys[0]}&contentType=${selectedRows[0].contentType}&brandCode=${selectedRows[0].brandCode}&seriesCode=${selectedRows[0].seriesCode}`);
+          }
+        },
+        detail: (selectedRowKeys, selectedRows) => {
+          if (!selectedRowKeys.length) {
+            showWarnMsg('请选择记录');
+          } else if (selectedRowKeys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else {
+            this.props.history.push(`/public/banner/detail?v=1&code=${selectedRowKeys[0]}&contentType=${selectedRows[0].contentType}&brandCode=${selectedRows[0].brandCode}&seriesCode=${selectedRows[0].seriesCode}`);
+          }
+        }
       }
     });
   }
