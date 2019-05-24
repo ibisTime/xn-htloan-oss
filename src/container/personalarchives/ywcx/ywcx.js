@@ -30,20 +30,10 @@ class ywCx extends React.Component {
     render() {
         const fields = [{
             field: 'code',
-            type: 'select',
-            search: true,
-            pageCode: 632515,
-            params: {
-                limit: 10,
-                start: 1
-            },
-            valueName: '{{code.DATA}}',
-            keyName: 'code',
             title: '业务编号',
-            hidden: true,
-            required: true
+            hidden: true
         }, {
-            field: 'userName',
+            field: 'uName',
             title: '业务编号',
             render: (v, d) => {
                 return d.creditUser ? d.creditUser.code : '';
@@ -96,6 +86,10 @@ class ywCx extends React.Component {
         return this.props.buildList({
             fields,
             pageCode: 632515,
+            searchParams: {
+                isMy: '1',
+                userId: getUserId()
+            },
             btnEvent: {
                 detail: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {

@@ -93,43 +93,43 @@ export const checkFieldsMap = {
     ],
     ['originalPrice', 'carDealerSubsidy', 'oilSubsidy']
   ],
-  '2': [
+  '7': [
     [
       'pledgeUser', 'pledgeUserIdCard', 'pledgeUserIdCardFront', 'pledgeUserIdCardReverse',
       'pledgeAddress'
     ],
     []
   ],
-  '3': [
+  '2': [
     [
       'applyUserName', 'mobile', 'idNo', 'gender', 'age', 'nation', 'political',
       'education', 'workProfession', 'postTitle', 'isDriceLicense', 'carTypeNow',
       'mainIncome', 'otherIncomeNote', 'isHouseProperty', 'emergencyName1',
       'emergencyRelation1', 'emergencyMobile1', 'emergencyName2',
-      'emergencyRelation2', 'emergencyMobile2'
+      'emergencyRelation2', 'emergencyMobile2', 'englishName', 'authref', 'statdate', 'emergencySex1', 'emergencySex2'
     ],
     []
   ],
-  '4': [
+  '3': [
     [
       'marryState', 'familyNumber', 'familyPhone', 'familyMainAsset', 'mainAssetInclude',
-      'birthAddressProvince', 'birthAddress', 'birthPostCode', 'nowHouseType',
-      'nowAddressProvince', 'nowAddress', 'nowPostCode', 'hkBookPdf', 'houseContract',
+      'birthAddressProvinceAll', 'birthAddress', 'birthPostCode', 'nowHouseType',
+      'nowAddressProvinceAll', 'nowAddress', 'nowPostCode', 'hkBookPdf', 'houseContract',
       'houseInvoice', 'liveProvePdf', 'buildProvePdf', 'housePictureApply',
-      'marryPdf'
+      'marryPdf', 'nowAddressDate'
     ],
     ['familyMainAsset']
   ],
-  '5': [
+  '4': [
     [
       'workBelongIndustry', 'workCompanyProperty', 'companyName', 'companyContactNo',
       'companyAddress', 'employeeQuantity', 'enterpriseMonthOutput', 'workDatetime',
       'position', 'monthIncome', 'otherWorkNote', 'improvePdf', 'frontTablePic',
-      'workPlacePic', 'salerAndcustomer'
+      'workPlacePic', 'salerAndcustomer', 'companyAddressProvince'
     ],
     ['monthIncome']
   ],
-  '6': [
+  '5': [
     [
       'mateName', 'mateRelation', 'mateMobile', 'mateIdNo', 'mateEducation',
       'mateBirthAddressProvince', 'mateBirthAddress', 'matePostCode',
@@ -138,7 +138,7 @@ export const checkFieldsMap = {
     ],
     []
   ],
-  '7': [
+  '6': [
     [
       'userName', 'guaRelation', 'guaMobile', 'guaIdNo', 'guaEducation',
       'guaBirthAddressProvince', 'guaBirthAddress', 'guaPostCode',

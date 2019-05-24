@@ -89,15 +89,25 @@ class FaceSignAddedit extends DetailUtil {
             field: 'redCardPic',
             type: 'img'
         }, {
+            title: '专项额度核定申请表',
+            field: 'specialQuatoPic',
+            type: 'img',
+            single: true
+        }, {
             title: '卡邮寄地址',
-            field: 'cardPostAddress',
+            field: 'cardPostAddress1',
             type: 'citySelect',
             required: true,
             cFields: ['cardPostAddressProvince', 'cardPostAddressCity', 'cardPostAddressArea'],
             hidden: this.hande
         }, {
             title: '详细地址',
-            field: 'details',
+            field: 'cardPostAddress',
+            required: true,
+            hidden: this.hande
+        }, {
+            title: '邮编',
+            field: 'cardPostCode',
             required: true,
             hidden: this.hande
         }, {
@@ -114,15 +124,16 @@ class FaceSignAddedit extends DetailUtil {
                 title: '确认',
                 handler: (params) => {
                     if (params.cardPostAddress) {
-                        let aa = this.state.pageData;
-                        params.cardPostAddress = params.cardPostAddressArea + params.cardPostAddressCity + params.cardPostAddressProvince + params.details;
-                        let data = {};
-                        data.code = this.code;
-                        data.operator = getUserId();
-                        data.cardPostAddress = params.cardPostAddress;
-                        data.repayCardNumber = params.repayCardNumber; // 卡号
+                        // let aa = this.state.pageData;
+                        // params.cardPostAddress = params.cardPostAddressArea + params.cardPostAddressCity + params.cardPostAddressProvince + params.details;
+                        // let data = {};
+                        delete params.cardPostAddress1;
+                        params.code = this.code;
+                        params.operator = getUserId();
+                        // data.cardPostAddress = params.cardPostAddress;
+                        // data.repayCardNumber = params.repayCardNumber; // 卡号
                         this.doFetching();
-                        fetch(bizCode, data).then((res) => {
+                        fetch(bizCode, params).then((res) => {
                             showSucMsg('操作成功');
                             isExpressConfirm(res);
                             this.cancelFetching();

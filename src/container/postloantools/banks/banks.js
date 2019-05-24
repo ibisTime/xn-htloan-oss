@@ -7,7 +7,7 @@ import {
     setPageData,
     restore
 } from '@redux/basedata/banks';
-import { getQueryString, showWarnMsg } from 'common/js/util';
+import { getQueryString, showWarnMsg, getUserId } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 
@@ -23,17 +23,15 @@ class bizBanks extends React.Component {
     }
     render() {
         const fields = [{
-            field: 'bizCode',
+            field: 'code',
             type: 'select',
-            search: true,
             pageCode: 632515,
-            params: {
-                limit: 10,
-                start: 1
-            },
             valueName: '{{code.DATA}}- {{saleUserName.DATA}}',
             keyName: 'code',
-            title: '业务编号'
+            title: '业务编号',
+            params: {
+                userId: getUserId()
+            }
         }];
         return this.props.buildDetail({
             fields,

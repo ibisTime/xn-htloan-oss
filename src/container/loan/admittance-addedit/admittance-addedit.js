@@ -508,11 +508,13 @@ class AdmittanceAddEdit extends React.Component {
   // 保存或提交表单前的校验
   checkForm = (dealType, callback) => {
     const { activeKey, pageData } = this.state;
+    console.log(activeKey);
     if (dealType === 1) {
       return this.applyForm();
     }
     if (activeKey !== '8') {
       let fields = checkFieldsMap[activeKey][0];
+      console.log(fields, checkFieldsMap);
       this.props.form.validateFieldsAndScroll(fields, validateFieldsAndScrollOption, (err, values) => {
         if (err) {
           return;
@@ -575,6 +577,7 @@ class AdmittanceAddEdit extends React.Component {
     });
   }
   sendNormalForm(values, activeKey, callback) {
+    console.log(values, activeKey);
     values.code = this.code;
     values.operator = getUserId();
     let amountFields = checkFieldsMap[activeKey][1];
@@ -587,22 +590,22 @@ class AdmittanceAddEdit extends React.Component {
       case '1':
         return this.sendClxx(values, callback);
         // 抵押信息
-      case '2':
+      case '7':
         return this.sendDyxx(values, callback);
         // 客户信息
-      case '3':
+      case '2':
         return this.sendKhxx(values, callback);
         // 家庭信息
-      case '4':
+      case '3':
         return this.sendJtxx(values, callback);
         // 工作情况
-      case '5':
+      case '4':
         return this.sendGzqq(values, callback);
         // 共还人信息
-      case '6':
+      case '5':
         return this.sendGhrxx(values, callback);
         // 担保人信息
-      case '7':
+      case '6':
         return this.sendDbrxx(values, callback);
     }
   }
@@ -624,30 +627,33 @@ class AdmittanceAddEdit extends React.Component {
   }
   // 抵押信息
   sendDyxx(params, callback) {
-    return this.sendForm(632539, params, '3', callback);
+    return this.sendForm(632539, params, '8', callback);
   }
   // 客户信息
   sendKhxx(params, callback) {
     params.carType = params.carTypeNow;
-    params.mainIncome = params.mainIncome.join(',');
-    return this.sendForm(632532, params, '4', callback);
+    params.mainIncome = params.mainIncome ? params.mainIncome.join(',') : '';
+    return this.sendForm(632532, params, '3', callback);
   }
   // 家庭信息
   sendJtxx(params, callback) {
-    params.birthAddressCity = params.birthAddressProvince[1];
-    params.birthAddressArea = params.birthAddressProvince[2];
-    params.birthAddressProvince = params.birthAddressProvince[0];
-    params.nowAddressCity = params.nowAddressProvince[1];
-    params.nowAddressArea = params.nowAddressProvince[2];
-    params.nowAddressProvince = params.nowAddressProvince[0];
-    return this.sendForm(632533, params, '5', callback);
+    params.birthAddressCity = params.birthAddressProvinceAll[1];
+    params.birthAddressArea = params.birthAddressProvinceAll[2];
+    params.birthAddressProvince = params.birthAddressProvinceAll[0];
+    params.nowAddressCity = params.nowAddressProvinceAll[1];
+    params.nowAddressArea = params.nowAddressProvinceAll[2];
+    params.nowAddressProvince = params.nowAddressProvinceAll[0];
+    return this.sendForm(632533, params, '4', callback);
   }
   // 工作情况
   sendGzqq(params, callback) {
     if (!isUndefined(params['workDatetime'])) {
       params['workDatetime'] = params['workDatetime'].format(MONTH_FORMAT);
     }
-    return this.sendForm(632534, params, '6', callback);
+    params.companyProvince = params.companyAddressProvince[0];
+    params.companyCity = params.companyAddressProvince[1];
+    params.companyArea = params.companyAddressProvince[2];
+    return this.sendForm(632534, params, '5', callback);
   }
   // 共还人信息
   sendGhrxx(params, callback) {
@@ -665,7 +671,7 @@ class AdmittanceAddEdit extends React.Component {
       companyContactNo: params.mateCompanyContactNo,
       mateAssetPdf: params.mateAssetPdf
     };
-    return this.sendForm(632535, newParams, '7', callback);
+    return this.sendForm(632535, newParams, '6', callback);
   }
   // 担保人信息
   sendDbrxx(params, callback) {
@@ -683,7 +689,7 @@ class AdmittanceAddEdit extends React.Component {
       companyContactNo: params.guaCompanyContactNo,
       guaAssetPdf: params.guaAssetPdf
     };
-    return this.sendForm(632536, newParams, '8', callback);
+    return this.sendForm(632536, newParams, '7', callback);
   }
   // 流水信息
   sendLsxx(params, callback) {
@@ -962,10 +968,10 @@ class AdmittanceAddEdit extends React.Component {
         type: 'select',
         data: [{
           key: '1',
-          value: '支付宝'
+          value: '微信'
         }, {
           key: '2',
-          value: '微信'
+          value: '支付宝'
         }, {
           key: '3',
           value: '银行'
@@ -1002,32 +1008,39 @@ class AdmittanceAddEdit extends React.Component {
         title: '结息1(元)',
         field: 'interest1',
         noVisible: true,
-        required: true
+        required: true,
+        amount: true
       }, {
         title: '结息2(元)',
         field: 'interest2',
         noVisible: true,
-        required: true
+        required: true,
+        amount: true
       }, {
         title: '总收入(元)',
         field: 'income',
-        required: true
+        required: true,
+          amount: true
       }, {
         title: '总支出(元)',
         field: 'expend',
-        required: true
+        required: true,
+          amount: true
       }, {
         title: '余额(元)',
         field: 'balance',
-        required: true
+        required: true,
+          amount: true
       }, {
         title: '月均收入(元)',
         field: 'monthIncome',
-        required: true
+        required: true,
+          amount: true
       }, {
         title: '月均支出(元)',
         field: 'monthExpend',
-        required: true
+        required: true,
+          amount: true
       }, {
         title: '流水说明',
         field: 'remark',
@@ -1327,44 +1340,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="抵押信息" key="2">
-                <Card style={{ marginTop: 16 }} title="抵押信息">
-                  <Row gutter={54}>
-                    {this.getInputCol({
-                      field: 'pledgeUser',
-                      title: '代理人',
-                      _keys: ['carPledge', 'pledgeUser']
-                    }, 4)}
-                    {this.getInputCol({
-                      field: 'pledgeUserIdCard',
-                      title: '代理人身份证号',
-                      _keys: ['carPledge', 'pledgeUserIdCard'],
-                      idCard: true
-                    }, 4)}
-                    {this.getInputCol({
-                      field: 'pledgeAddress',
-                      title: '抵押地点',
-                      _keys: ['carPledge', 'pledgeAddress']
-                    }, 4)}
-                  </Row>
-                  <Row gutter={54}>
-                    {this.getFileCol({
-                      field: 'pledgeUserIdCardFront',
-                      title: '代理人身份证正面',
-                      _keys: ['carPledge', 'pledgeUserIdCardFront'],
-                      type: 'img'
-                    }, 4)}
-                    {this.getFileCol({
-                      field: 'pledgeUserIdCardReverse',
-                      title: '代理人身份证反面',
-                      _keys: ['carPledge', 'pledgeUserIdCardReverse'],
-                      type: 'img'
-                    }, 4)}
-
-                  </Row>
-                </Card>
-              </TabPane>
-              <TabPane tab="客户信息" key="3">
+              <TabPane tab="客户信息" key="2">
                 <Card style={{ marginTop: 16 }} title="主贷人基本信息">
                   <Row gutter={54}>
                     {this.getInputCol({
@@ -1404,30 +1380,49 @@ class AdmittanceAddEdit extends React.Component {
                       positive: true,
                       readonly: true
                     }, 4)}
-                    {this.getInputCol({
-                      field: 'nation',
-                      title: '民族',
-                      _keys: ['creditUser1', 'nation'],
-                      required: true
-                    }, 4)}
-                    {this.getSelectCol({
-                      field: 'political',
-                      title: '政治面貌',
-                      _keys: ['creditUser1', 'political'],
-                      keyName: 'k',
-                      valueName: 'v',
-                      required: true
-                    }, politicalData, 4)}
-                    {this.getSelectCol({
-                      field: 'education',
-                      title: '学历',
-                      _keys: ['creditUser1', 'education'],
-                      keyName: 'dkey',
-                      valueName: 'dvalue',
-                      required: true
-                    }, educationData, 4)}
+                      {this.getInputCol({
+                          field: 'englishName',
+                          title: '英文名',
+                          _keys: ['creditUser1', 'englishName'],
+                          required: true
+                      }, 4)}
+                      {this.getInputCol({
+                          field: 'authref',
+                          title: '发证机关',
+                          _keys: ['creditUser1', 'authref'],
+                          required: true
+                      }, 4)}
+                      {this.getInputCol({
+                      field: 'statdate',
+                      title: '证件有效期',
+                      _keys: ['creditUser1', 'statdate'],
+                      type: 'date',
+                        required: true
+                  }, 4)}
                   </Row>
                   <Row gutter={54}>
+                      {this.getInputCol({
+                          field: 'nation',
+                          title: '民族',
+                          _keys: ['creditUser1', 'nation'],
+                          required: true
+                      }, 4)}
+                      {this.getSelectCol({
+                          field: 'political',
+                          title: '政治面貌',
+                          _keys: ['creditUser1', 'political'],
+                          keyName: 'k',
+                          valueName: 'v',
+                          required: true
+                      }, politicalData, 4)}
+                      {this.getSelectCol({
+                          field: 'education',
+                          title: '学历',
+                          _keys: ['creditUser1', 'education'],
+                          keyName: 'dkey',
+                          valueName: 'dvalue',
+                          required: true
+                      }, educationData, 4)}
                     {this.getSelectCol({
                       field: 'workProfession',
                       title: '职业',
@@ -1435,25 +1430,25 @@ class AdmittanceAddEdit extends React.Component {
                       keyName: 'dkey',
                       valueName: 'dvalue'
                     }, professionData, 4)}
-                    {this.getInputCol({
-                      field: 'postTitle',
-                      title: '职称',
-                      _keys: ['creditUser1', 'postTitle']
-                    }, 4)}
-                    {this.getSelectCol({
-                      field: 'isDriceLicense',
-                      title: '有无驾照',
-                      _keys: ['creditUser1', 'isDriceLicense'],
-                      keyName: 'k',
-                      valueName: 'v'
-                    }, isDriverData, 4)}
-                    {this.getInputCol({
-                      field: 'carTypeNow',
-                      title: '现有车辆',
-                      _keys: ['creditUser1', 'carType']
-                    }, 4)}
                   </Row>
                   <Row gutter={54}>
+                      {this.getInputCol({
+                          field: 'postTitle',
+                          title: '职称',
+                          _keys: ['creditUser1', 'postTitle']
+                      }, 4)}
+                      {this.getSelectCol({
+                          field: 'isDriceLicense',
+                          title: '有无驾照',
+                          _keys: ['creditUser1', 'isDriceLicense'],
+                          keyName: 'k',
+                          valueName: 'v'
+                      }, isDriverData, 4)}
+                      {this.getInputCol({
+                          field: 'carTypeNow',
+                          title: '现有车辆',
+                          _keys: ['creditUser1', 'carType']
+                      }, 4)}
                     {this.getSelectCol({
                       field: 'mainIncome',
                       title: '主要收入来源',
@@ -1464,19 +1459,21 @@ class AdmittanceAddEdit extends React.Component {
                       multiple: true,
                       required: true
                     }, incomeData, 4)}
+                  </Row>
+                </Card>
+                <Card gutter={54}>
                     {this.getInputCol({
-                      field: 'otherIncomeNote',
-                      title: '其他收入说明',
-                      _keys: ['creditUser1', 'otherIncomeNote']
+                        field: 'otherIncomeNote',
+                        title: '其他收入说明',
+                        _keys: ['creditUser1', 'otherIncomeNote']
                     }, 4)}
                     {this.getSelectCol({
-                      field: 'isHouseProperty',
-                      title: '有无房产',
-                      _keys: ['creditUser1', 'isHouseProperty'],
-                      keyName: 'k',
-                      valueName: 'v'
+                        field: 'isHouseProperty',
+                        title: '有无房产',
+                        _keys: ['creditUser1', 'isHouseProperty'],
+                        keyName: 'k',
+                        valueName: 'v'
                     }, isDriverData, 4)}
-                  </Row>
                 </Card>
                 <Card style={{ marginTop: 16 }} title="紧急联系人">
                   <Row gutter={54}>
@@ -1486,6 +1483,14 @@ class AdmittanceAddEdit extends React.Component {
                       _keys: ['creditUser1', 'emergencyName1'],
                       required: true
                     }, 3)}
+                      {this.getSelectCol({
+                          field: 'emergencySex1',
+                          title: '联系人1性别',
+                          _keys: ['creditUser1', 'emergencySex1'],
+                          keyName: 'dkey',
+                          valueName: 'dvalue',
+                          required: true
+                      }, genderData, 4)}
                     {this.getSelectCol({
                       field: 'emergencyRelation1',
                       title: '与申请人关系',
@@ -1509,6 +1514,14 @@ class AdmittanceAddEdit extends React.Component {
                       _keys: ['creditUser1', 'emergencyName2'],
                       required: true
                     }, 3)}
+                      {this.getSelectCol({
+                          field: 'emergencySex2',
+                          title: '联系人2性别',
+                          _keys: ['creditUser1', 'emergencySex2'],
+                          keyName: 'dkey',
+                          valueName: 'dvalue',
+                          required: true
+                      }, genderData, 4)}
                     {this.getSelectCol({
                       field: 'emergencyRelation2',
                       title: '与申请人关系',
@@ -1527,7 +1540,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="家庭情况" key="4">
+              <TabPane tab="家庭情况" key="3">
                 <Card title="家庭情况">
                   <Row gutter={54}>
                     {this.getSelectCol({
@@ -1566,7 +1579,7 @@ class AdmittanceAddEdit extends React.Component {
                       required: true
                     }, 4)}
                     {this.getCitySelectCol({
-                      field: 'birthAddressProvince',
+                      field: 'birthAddressProvinceAll',
                       title: '户籍地',
                       _keys: ['creditUser1'],
                       cFields: ['birthAddressProvince', 'birthAddressCity', 'birthAddressArea'],
@@ -1594,7 +1607,7 @@ class AdmittanceAddEdit extends React.Component {
                       required: true
                     }, houseTypeData, 4)}
                     {this.getCitySelectCol({
-                      field: 'nowAddressProvince',
+                      field: 'nowAddressProvinceAll',
                       title: '现居住地',
                       _keys: ['creditUser1'],
                       cFields: ['nowAddressProvince', 'nowAddressCity', 'nowAddressArea'],
@@ -1614,6 +1627,13 @@ class AdmittanceAddEdit extends React.Component {
                     }, 4)}
                   </Row>
                   <Row gutter={54}>
+                      {this.getInputCol({
+                          field: 'nowAddressDate',
+                          title: '何时入住现址',
+                          _keys: ['creditUser1', 'nowAddressDate'],
+                          required: true,
+                          type: 'date'
+                      }, 4)}
                     {this.getFileCol({
                       field: 'hkBookPdf',
                       title: '户口本',
@@ -1632,14 +1652,14 @@ class AdmittanceAddEdit extends React.Component {
                       _keys: ['creditUser1', 'houseInvoice'],
                       type: 'img'
                     }, 4)}
-                    {this.getFileCol({
-                      field: 'liveProvePdf',
-                      title: '居住证明',
-                      _keys: ['creditUser1', 'liveProvePdf'],
-                      type: 'img'
-                    }, 4)}
                   </Row>
                   <Row gutter={54}>
+                      {this.getFileCol({
+                          field: 'liveProvePdf',
+                          title: '居住证明',
+                          _keys: ['creditUser1', 'liveProvePdf'],
+                          type: 'img'
+                      }, 4)}
                     {this.getFileCol({
                       field: 'buildProvePdf',
                       title: '自建房证明',
@@ -1661,7 +1681,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="工作情况" key="5">
+              <TabPane tab="工作情况" key="4">
                 <Card style={{ marginTop: 16 }} title="工作情况">
                   <Row gutter={54}>
                     {this.getSelectCol({
@@ -1692,6 +1712,13 @@ class AdmittanceAddEdit extends React.Component {
                     }, 4)}
                   </Row>
                   <Row gutter={54}>
+                      {this.getCitySelectCol({
+                          field: 'companyAddressProvince',
+                          title: '工作单位所在地',
+                          _keys: ['creditUser1'],
+                          cFields: ['companyProvince', 'companyCity', 'companyArea'],
+                          required: true
+                      }, 4)}
                     {this.getInputCol({
                       field: 'companyAddress',
                       title: '工作单位地址',
@@ -1705,7 +1732,7 @@ class AdmittanceAddEdit extends React.Component {
                     }, 4)}
                     {this.getInputCol({
                       field: 'enterpriseMonthOutput',
-                      title: '企业月产值',
+                      title: '企业月产值(万元)',
                       _keys: ['creditUser1', 'enterpriseMonthOutput']
                     }, 4)}
                     {this.getMonthCol({
@@ -1764,7 +1791,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="共还人信息" key="6">
+              <TabPane tab="共还人信息" key="5">
                 <Card style={{ marginTop: 16 }} title="共还人信息">
                   <Row gutter={54}>
                     {this.getInputCol({
@@ -1846,7 +1873,7 @@ class AdmittanceAddEdit extends React.Component {
                   </Row>
                 </Card>
               </TabPane>
-              <TabPane tab="担保人信息" key="7">
+              <TabPane tab="担保人信息" key="6">
                 <Card style={{ marginTop: 16 }} title="担保人信息">
                   <Row gutter={54}>
                     {this.getInputCol({
@@ -1927,6 +1954,42 @@ class AdmittanceAddEdit extends React.Component {
                     }, 1)}
                   </Row>
                 </Card>
+              </TabPane>
+                <TabPane tab="抵押信息" key="7">
+                  <Card style={{ marginTop: 16 }} title="抵押信息">
+                      <Row gutter={54}>
+                          {this.getInputCol({
+                              field: 'pledgeUser',
+                              title: '代理人',
+                              _keys: ['carPledge', 'pledgeUser']
+                          }, 4)}
+                          {this.getInputCol({
+                              field: 'pledgeUserIdCard',
+                              title: '代理人身份证号',
+                              _keys: ['carPledge', 'pledgeUserIdCard'],
+                              idCard: true
+                          }, 4)}
+                          {this.getInputCol({
+                              field: 'pledgeAddress',
+                              title: '抵押地点',
+                              _keys: ['carPledge', 'pledgeAddress']
+                          }, 4)}
+                      </Row>
+                      <Row gutter={54}>
+                          {this.getFileCol({
+                              field: 'pledgeUserIdCardFront',
+                              title: '代理人身份证正面',
+                              _keys: ['carPledge', 'pledgeUserIdCardFront'],
+                              type: 'img'
+                          }, 4)}
+                          {this.getFileCol({
+                              field: 'pledgeUserIdCardReverse',
+                              title: '代理人身份证反面',
+                              _keys: ['carPledge', 'pledgeUserIdCardReverse'],
+                              type: 'img'
+                          }, 4)}
+                      </Row>
+                  </Card>
               </TabPane>
               <TabPane tab="流水信息" key="8" className='liushui'>
                 <Card style={{ marginTop: 16 }} title="流水信息">

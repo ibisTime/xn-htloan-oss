@@ -21,7 +21,11 @@ class ArchivesAddEdit extends DetailUtil {
             readonly: true,
             formatter: (v, d) => {
                 return <div>
-                    {d.code}<a href={`/ywcx/ywcx/addedit?v=1&code=${d.code}`} style={{ marginLeft: 20 }}>查看详情</a>
+                    {d.code}<a href='javascript:void(0);' style={{ marginLeft: 20 }} onClick={
+                    () => {
+                        this.props.history.push(`/ywcx/ywcx/addedit?v=1&code=${d.code}`);
+                    }
+                }>查看详情</a>
                 </div>;
             }
         }, {
@@ -75,7 +79,6 @@ class ArchivesAddEdit extends DetailUtil {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
-            params: { type: 'e' },
             readonly: true
         }, {
             title: '档案存放位置',

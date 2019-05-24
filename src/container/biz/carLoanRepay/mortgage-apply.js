@@ -22,7 +22,9 @@ class mortgageApply extends DetailUtil {
             field: 'code',
             formatter: (v, d) => {
                 return <div>
-                    {d.code}<a href={`/ywcx/ywcx/addedit?v=1&code=${d.code}`} style={{marginLeft: 20}}>查看详情</a>
+                    {d.code}<a href='javascript:void(0);' style={{marginLeft: 20}} onClick={() => {
+                        this.props.history.push(`/ywcx/ywcx/addedit?v=1&code=${d.code}`);
+                }}>查看详情</a>
                 </div>;
             },
             readonly: true
@@ -77,14 +79,12 @@ class mortgageApply extends DetailUtil {
             field: 'pledgeUserIdCardFront',
             _keys: ['carPledge', 'pledgeUserIdCardFront'],
             type: 'img',
-            readonly: !this.check,
             required: this.check
         }, {
             title: '抵押代理人身份证反面',
             field: 'pledgeUserIdCardReverse',
             _keys: ['carPledge', 'pledgeUserIdCardReverse'],
             type: 'img',
-            readonly: !this.check,
             required: this.check
         }, {
             title: '抵押地点',
@@ -95,7 +95,7 @@ class mortgageApply extends DetailUtil {
             title: '补充说明',
             field: 'supplementNote',
             formatter: (v, d) => {
-              return d.carPledge ? d.carPledge.supplementNote : '';
+              return d.carPledge ? d.carPledge.pledgeSupplementNote : '';
             },
             type: 'textarea',
             normalArea: true,

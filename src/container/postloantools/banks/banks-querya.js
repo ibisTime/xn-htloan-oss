@@ -52,7 +52,20 @@ class importAddedit extends React.Component {
             key: 'credit_user_loan_role'
         }, {
             title: '风险筛查结果',
-            field: 'result'
+            field: 'result',
+            type: 'select',
+            data: [{
+                key: '001',
+                value: '通过'
+            }, {
+                key: '003',
+                value: '不通过'
+            }, {
+                key: '099',
+                value: '由于资料不全等原因退回'
+            }],
+            keyName: 'key',
+            valueName: 'value'
         }, {
             title: '贷款逾期记录',
             field: 'loanCrdt'

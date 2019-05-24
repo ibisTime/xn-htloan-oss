@@ -31,25 +31,11 @@ import {
 class materiallist extends React.Component {
     render() {
         const fields = [{
-            title: '文件形式',
-            field: 'attachType',
-            required: true,
-            type: 'select',
-            data: [{
-                key: '图片',
-                value: '图片'
-            }, {
-                key: '视频',
-                value: '视频'
-            }, {
-                key: '文件',
-                value: '文件'
-            }],
-            keyName: 'key',
-            valueName: 'value'
-        }, {
             title: '名称',
             field: 'vname'
+        }, {
+            title: '文件形式',
+            field: 'attachType'
         }, {
             title: '份数',
             field: 'number'

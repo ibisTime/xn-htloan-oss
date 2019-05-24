@@ -54,8 +54,7 @@ class refundBusiness extends React.Component {
       nowrap: true
     }, {
       title: '贷款银行',
-      field: 'loanBankName',
-      render: (v, d) => d.budgetOrder ? d.budgetOrder.loanBankName + d.budgetOrder.repaySubbranch : ''
+      field: 'loanBankName'
     }, {
       title: '贷款金额(元)',
       field: 'loanAmount',

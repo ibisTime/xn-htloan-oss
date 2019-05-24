@@ -13,7 +13,8 @@ import {
     showWarnMsg,
     showSucMsg,
     getRoleCode,
-    getUserId
+    getUserId,
+    formatDate
 } from 'common/js/util';
 import {
     listWrapper
@@ -23,6 +24,7 @@ import {
     onShelf,
     sendMsg
 } from 'api/biz';
+
 @listWrapper(
     state => ({
         ...state.printingGuarantee,
@@ -58,7 +60,8 @@ class Guarantee extends React.Component {
         }, {
             title: '客户姓名',
             field: 'customerName',
-            search: true
+            search: true,
+            render: (v, d) => d.creditUser ? d.creditUser.userName : ''
         }, {
             title: '贷款银行',
             field: 'loanBankName'
@@ -78,8 +81,7 @@ class Guarantee extends React.Component {
             field: 'carModel'
         }, {
             title: '打件日期',
-            field: 'guarantPrintDatetime',
-            type: 'date'
+            field: 'guarantPrintDatetime'
         }, {
             title: '打件人',
             field: 'guarantPrintName'
@@ -99,8 +101,7 @@ class Guarantee extends React.Component {
             pageCode: 632515,
             searchParams: {
                 userId: getUserId(),
-              roleCode: getRoleCode(),
-              curNodeCodeList: ['007_03']
+              roleCode: getRoleCode()
             },
             btnEvent: {
                 make: (selectedRowKeys, selectedRows) => {
@@ -108,8 +109,6 @@ class Guarantee extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '007_03') {
-                        showSucMsg('当前节点不是合同打印的节点');
                     } else {
                         this.props.history.push(`/printing/guarantee/make?code=${selectedRowKeys[0]}`);
                     }

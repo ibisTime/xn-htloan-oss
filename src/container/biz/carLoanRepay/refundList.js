@@ -38,7 +38,7 @@ class RefundList extends React.Component {
   render() {
     const fields = [{
       title: '业务编号',
-      field: 'code',
+      field: 'repayBizCode',
       search: true
     }, {
       title: '贷款人',
@@ -76,7 +76,7 @@ class RefundList extends React.Component {
         pageCode: 630543,
         searchParams: {
           refType: '0',
-          curNodeCodeList: ['004_01']
+          curNodeCodeList: ['004_01', '004_11']
         },
         btnEvent: {
           rghk: (selectedRowKeys, selectedRows) => {
@@ -147,7 +147,36 @@ class RefundList extends React.Component {
                 }
               });
             }
-          }
+          },
+            ManualConfirmationOverdue: (selectedRowKeys, selectedRows) => {
+                if (!selectedRowKeys.length) {
+                    showWarnMsg('请选择记录');
+                } else {
+                    let idList = [];
+                    for (let i = 0, len = selectedRows.length; i < len; i++) {
+                        idList.push(selectedRows[i].code);
+                    }
+                    if (idList.length > 0) {
+                        Modal.confirm({
+                            okText: '确认',
+                            cancelText: '取消',
+                            content: `确定人工逾期？`,
+                            onOk: () => {
+                                this.props.doFetching();
+                                return fetch(630537, {
+                                    codeList: idList,
+                                    operator: getUserId()
+                                }).then(() => {
+                                    this.props.getPageData();
+                                    showSucMsg('操作成功');
+                                }).catch(() => {
+                                    this.props.cancelFetching();
+                                });
+                            }
+                        });
+                    }
+                }
+            }
         }
       });
   }

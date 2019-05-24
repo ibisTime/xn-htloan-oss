@@ -12,7 +12,8 @@ import {
 import {
     showWarnMsg,
     showSucMsg,
-    dateTimeFormat
+    dateTimeFormat,
+    getUserId
 } from 'common/js/util';
 import {
     listWrapper
@@ -112,7 +113,8 @@ class cancel extends React.Component {
             fields,
             pageCode: 632515,
             searchParams: {
-                cancelNodeCodeList: ['i1', 'i2', 'i3']
+                cancelNodeCodeList: ['i1', 'i2', 'i3'],
+                userId: getUserId()
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {

@@ -103,7 +103,7 @@ class Credit extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632115,
+            pageCode: 632515,
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),

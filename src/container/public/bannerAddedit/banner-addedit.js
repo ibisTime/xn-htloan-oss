@@ -110,9 +110,20 @@ class BannerAddEdit extends React.Component {
                 }
             }
         }, {
+            title: '资讯',
+            field: 'parentCode',
+            type: 'select',
+            hidden: this.contentType !== '3',
+            listCode: '630457',
+            params: {
+                status: '1'
+            },
+            keyName: 'code',
+            valueName: 'title'
+        }, {
             title: 'url地址',
             field: 'url',
-            hidden: this.contentType === '2'
+            hidden: this.contentType !== '1'
         }, {
             title: '车辆品牌',
             field: 'brandCode',

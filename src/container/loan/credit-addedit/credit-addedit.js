@@ -565,7 +565,6 @@ componentDidMount() {
                     title: '保存',
                     check: true,
                     handler: (params) => {
-                        console.log(222, params);
                         let data = {};
                         let item = [];
                         data.bizType = params.bizType; // 业务类型
@@ -601,8 +600,6 @@ componentDidMount() {
                             }
                         }
                         data.creditUserList = item;
-                        console.log('入参：');
-                        console.log(data);
                         if (!flag) {
                             showWarnMsg('请录入申请人的征信信息！');
                             return;
@@ -610,8 +607,6 @@ componentDidMount() {
                         this.props.doFetching();
                         let bizCode = this.code ? 632112 : 632110;
                         fetch(bizCode, data).then((data) => {
-                            console.log('提交接口返回数据：');
-                            console.log(data);
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
                             setTimeout(() => {
@@ -659,7 +654,6 @@ componentDidMount() {
                             }
                         }
                         data.creditUserList = item;
-                        console.log(data);
                         if (!flag) {
                             showWarnMsg('请录入申请人的征信信息！');
                             return;
@@ -719,7 +713,7 @@ componentDidMount() {
                                             user.interviewPic = item.url;
                                         }
                                     });
-                                } else if (user.loanRole === '2') {
+                                } else if (user.loanRole === '3') {
                                     data.attachments.forEach(item => {
                                         if (item.vname === '担保人身份证正面') {
                                             user.idFront = item.url;
@@ -731,7 +725,7 @@ componentDidMount() {
                                             user.interviewPic = item.url;
                                         }
                                     });
-                                } else if (user.loanRole === '3') {
+                                } else if (user.loanRole === '2') {
                                     data.attachments.forEach(item => {
                                         if (item.vname === '共还人身份证正面') {
                                             user.idFront = item.url;
