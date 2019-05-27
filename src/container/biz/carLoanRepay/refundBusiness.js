@@ -10,7 +10,7 @@ import {
   setSearchData
 } from '@redux/biz/refundBusiness';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, getUserId } from 'common/js/util';
 
 @listWrapper(
   state => ({
@@ -110,10 +110,11 @@ class refundBusiness extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 630520,
+      pageCode: 630522,
       searchParams: {
         refType: '0',
-        curNodeCode: '003_01'
+        curNodeCode: 'j1',
+          userId: getUserId()
       },
       btnEvent: {
         // 还款计划

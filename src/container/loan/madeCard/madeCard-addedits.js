@@ -98,7 +98,7 @@ class FaceSignAddedit extends DetailUtil {
             field: 'cardPostAddress1',
             type: 'citySelect',
             required: true,
-            cFields: ['cardPostAddressProvince', 'cardPostAddressCity', 'cardPostAddressArea'],
+            cFields: ['cardPostProvince', 'cardPostCity', 'cardPostArea'],
             hidden: this.hande
         }, {
             title: '详细地址',

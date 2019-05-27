@@ -335,7 +335,6 @@ export default class DetailComponent extends React.Component {
         });
     }
     handleFilePreview = (file) => {
-      console.log(file);
         if (file.status === 'done') {
             let key = file.key || (file.response && file.response.key) || '';
             window.open(formatFile(key), true);
@@ -1558,6 +1557,12 @@ export default class DetailComponent extends React.Component {
             rules.push({
                 pattern: /^([01](\.0+)?|0\.([1-9]|[0-9][1-9]))$/,
                 message: '请输入大于0小于等于1的数字，且小数点后最多2位'
+            });
+        }
+        if (item.number5) {
+            rules.push({
+                pattern: /^([01](\.0+)?|0\.([1-9]|[0-9][1-9]|[0-9][1-9][1-9]|[0-9][1-9][1-9][1-9]))$/,
+                message: '请输入大于0小于等于1的数字，且小数点后最多4位'
             });
         }
         if (item.positive) {

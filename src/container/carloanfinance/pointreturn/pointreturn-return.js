@@ -67,6 +67,17 @@ class pointreturnReturn extends React.Component {
             amount: true,
             readonly: true
         }, {
+            title: '返点账号',
+            field: 'repointCardCode',
+            type: 'select',
+            listCode: '632007',
+            params: {
+                type: '3'
+            },
+            keyName: 'code',
+            valueName: '{{bankName.DATA}}-{{bankcardNumber.DATA}}',
+            required: true
+        }, {
             title: '实返金额',
             field: 'actualAmount',
             amount: true,

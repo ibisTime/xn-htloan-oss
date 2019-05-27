@@ -80,6 +80,7 @@ class AdmittanceAddEdit extends React.Component {
     this.b = !!getQueryString('b', this.props.location.search);
     this.bizType = getQueryString('bizType', this.props.location.search);
     this.loanBank = getQueryString('loanBank', this.props.location.search);
+      this.pEle = document.createElement('p');
     // 万元系数
     this.wanFactor = 0;
     // 公证费比例
@@ -90,6 +91,8 @@ class AdmittanceAddEdit extends React.Component {
     this.preRate = 0;
     // 返点利率
     this.backRate = 0;
+    // 开始贷款金额
+      this.loanAmount = 0;
     this.state = {
       fetching: true,
       token: '',
@@ -138,6 +141,7 @@ class AdmittanceAddEdit extends React.Component {
   }
   componentDidMount() {
     fetch(632516, {code: this.code}).then((data) => {
+        this.loanAmount = moneyFormat(data.loanAmount);
       this.setState({ pageData: data, fetching: false });
       Promise.all([
         fetch(632516, { code: data.code }),
@@ -508,13 +512,11 @@ class AdmittanceAddEdit extends React.Component {
   // 保存或提交表单前的校验
   checkForm = (dealType, callback) => {
     const { activeKey, pageData } = this.state;
-    console.log(activeKey);
     if (dealType === 1) {
       return this.applyForm();
     }
     if (activeKey !== '8') {
       let fields = checkFieldsMap[activeKey][0];
-      console.log(fields, checkFieldsMap);
       this.props.form.validateFieldsAndScroll(fields, validateFieldsAndScrollOption, (err, values) => {
         if (err) {
           return;
@@ -577,7 +579,6 @@ class AdmittanceAddEdit extends React.Component {
     });
   }
   sendNormalForm(values, activeKey, callback) {
-    console.log(values, activeKey);
     values.code = this.code;
     values.operator = getUserId();
     let amountFields = checkFieldsMap[activeKey][1];
@@ -780,53 +781,43 @@ class AdmittanceAddEdit extends React.Component {
   // 首付比例=首付金额/开票价格
     invoicePriceChange = (v, data) => {
         let firstAmount = this.props.form.getFieldValue('sfAmount');
-        let loanAmount = this.props.form.getFieldValue('loanAmount');// 贷款金额
         v = +moneyParse(v);
         // 如果已有首付金额，则改变贷款金额
         if (firstAmount) {
-            firstAmount = +moneyParse(firstAmount);
-            loanAmount = +moneyFormat(v - firstAmount);
-            console.log(v - firstAmount, loanAmount);
-            // let firstAmounts = +moneyFormat(v - loanAmount);
             this.props.form.setFieldsValue({
-                loanAmount,
-                // sfAmount: firstAmounts,
-                sfRate: (firstAmount / v * 100).toFixed(2),
-                monthDeposit: moneyFormat((this.wanFactor * moneyParse(loanAmount)) / 10000000),
-                authFee: moneyFormat(this.authRate * moneyParse(loanAmount))
+                sfRate: (firstAmount / v * 100).toFixed(2)
             });
         }
     }
   // 首付金额改变
   firstAmountChange = (v) => {
-    let invoicePrice = this.props.form.getFieldValue('invoicePrice');// 开票价格
     let loanAmount = this.props.form.getFieldValue('loanAmount');// 贷款金额
     v = +moneyParse(v);
-    if (invoicePrice) {
-      invoicePrice = +moneyParse(invoicePrice);
-      let firstAmount = moneyFormat(invoicePrice - v);
-      loanAmount = moneyFormat(invoicePrice - v);
+    if (loanAmount) {
+        loanAmount = +moneyParse(loanAmount);
       this.props.form.setFieldsValue({
-        loanAmount,
-        sfRate: (v / invoicePrice * 100).toFixed(2),
-        monthDeposit: moneyFormat((this.wanFactor * moneyParse(loanAmount)) / 10000000),
-        authFee: moneyFormat(this.authRate * moneyParse(loanAmount))
+        sfRate: (v / (loanAmount + v) * 100).toFixed(2)
       });
     }
   }
   // 贷款金额改变
   loanAmountChange = (v) => {
-    let invoicePrice = this.props.form.getFieldValue('invoicePrice');
+      // this.loanAmount
+      let ele = document.getElementById('loanAmount');
+      let eleParent = ele.parentNode.parentNode.parentNode.parentNode.parentNode;
+      if(eleParent) {
+          this.pEle.style.fontSize = '12px';
+          this.pEle.style.color = 'red';
+          this.pEle.innerText = '录入征信时填写的贷款金额为：' + this.loanAmount;
+          eleParent.appendChild(this.pEle);
+      }
+    let sfAmount = this.props.form.getFieldValue('sfAmount');
     v = +moneyParse(v);
     // 如果有发票价格了，则改变首付金额
-    if (invoicePrice) {
-      invoicePrice = +moneyParse(invoicePrice);
-      let firstAmount = moneyFormat(invoicePrice - v);
+    if (sfAmount) {
+        sfAmount = +moneyParse(sfAmount);
       this.props.form.setFieldsValue({
-        sfAmount: firstAmount,
-        sfRate: (moneyParse(firstAmount) / invoicePrice).toFixed(2),
-        monthDeposit: moneyFormat((this.wanFactor * v) / 10000000),
-        authFee: moneyFormat(this.authRate * v)
+        sfRate: (sfAmount / (v + sfAmount) * 100).toFixed(2)
       });
     }
   }
@@ -1144,8 +1135,7 @@ class AdmittanceAddEdit extends React.Component {
                       title: '开票价格(元)',
                       _keys: ['loanInfo', 'invoicePrice'],
                       amount: true,
-                      required: true,
-                      onChange: this.invoicePriceChange
+                      required: true
                     }, 4)}
                     {this.getInputCol({
                       field: 'sfAmount',
@@ -1236,23 +1226,47 @@ class AdmittanceAddEdit extends React.Component {
                       field: 'carBrand',
                       title: '车辆品牌',
                       _keys: ['carInfoRes', 'carBrand'],
-                      keyName: 'name',
+                      keyName: 'code',
                       valueName: 'name',
-                      required: true
+                      required: true,
+                      onChange: (v) => {
+                          if(v) {
+                              fetch(630416, { status: '1', brandCode: v }).then((data) => {
+                                  this.setState({
+                                      carSeriesData: data
+                                  });
+                                  let carSeries = document.querySelector('#carSeries .ant-select-selection__clear');
+                                  let carShapeData = document.querySelector('#carModel .ant-select-selection__clear');
+                                  carSeries.click();
+                                  carShapeData.click();
+                              }).catch();
+                          }
+                      }
                     }, brandData, 4)}
                     {this.getSelectCol({
                       field: 'carSeries',
                       title: '车辆车系',
                       _keys: ['carInfoRes', 'carSeries'],
-                      keyName: 'name',
+                      keyName: 'code',
                       valueName: 'name',
-                      required: true
+                      required: true,
+                      onChange: (v) => {
+                          if(v) {
+                              fetch(630429, { status: '1', seriesCode: v }).then((data) => {
+                                  this.setState({
+                                      carShapeData: data
+                                  });
+                                  let carShapeData = document.querySelector('#carModel .ant-select-selection__clear');
+                                  carShapeData.click();
+                              }).catch();
+                          }
+                      }
                     }, carSeriesData, 4)}
                     {this.getSelectCol({
                       field: 'carModel',
                       title: '车辆型号',
                       _keys: ['carInfoRes', 'carModel'],
-                      keyName: 'name',
+                      keyName: 'code',
                       valueName: 'name',
                       required: true
                     }, carShapeData, 4)}
@@ -1306,14 +1320,12 @@ class AdmittanceAddEdit extends React.Component {
                       amount: true,
                       formatter: (v, d) => {
                         return d.carInfoRes ? d.carInfoRes.oilSubsidyKil : '';
-                      },
-                      required: true
+                      }
                     }, 4)}
                     {this.getInputCol({
                       field: 'oilSubsidy',
                       title: '油补(元)',
                       _keys: ['carInfoRes', 'oilSubsidy'],
-                      required: true,
                       amount: true
                     }, 4)}
                     {this.getInputCol({

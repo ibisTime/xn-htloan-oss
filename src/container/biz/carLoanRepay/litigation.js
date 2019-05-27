@@ -10,7 +10,7 @@ import {
     setSearchData
 } from '@redux/biz/litigation';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, formatDate } from 'common/js/util';
+import { showWarnMsg, formatDate, getUserId } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -79,10 +79,11 @@ class litigation extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 630520,
+            pageCode: 630522,
             searchParams: {
                 refType: '0',
-                curNodeCode: '003_13'
+                curNodeCode: 'j13',
+                userId: getUserId()
             },
             btnEvent: {
                 dispose: (selectedRowKeys, selectedRows) => {
@@ -90,7 +91,7 @@ class litigation extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].curNodeCode !== '003_13') {
+                    } else if (selectedRows[0].curNodeCode !== 'j13') {
                         showWarnMsg('当前节点不是司法诉讼节点');
                     } else {
                         this.props.history.push(`/biz/litigation/dispose?code=${selectedRowKeys[0]}&userId=${selectedRows[0].user.userId}`);

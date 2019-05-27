@@ -107,9 +107,20 @@ class BannerDetail extends React.Component {
             value: '1',
             required: true
         }, {
+            title: '资讯',
+            field: 'parentCode',
+            type: 'select',
+            hidden: this.contentType !== '3',
+            listCode: '630457',
+            params: {
+                status: '1'
+            },
+            keyName: 'code',
+            valueName: 'title'
+        }, {
             title: 'url地址',
             field: 'url',
-            hidden: this.contentType === '2'
+            hidden: this.contentType !== '1'
         }, {
             title: '车辆品牌',
             field: 'brandCode',
@@ -121,23 +132,7 @@ class BannerDetail extends React.Component {
             keyName: 'code',
             valueName: 'name',
             required: true,
-            hidden: this.contentType !== '2',
-            onChange: (value) => {
-                if(value) {
-                    this.props.doFetching();
-                    fetch(630416, { status: '1', brandCode: value }).then((data) => {
-                        this.props.setSelectData({
-                            data: data,
-                            key: 'seriesCode'
-                        });
-                        this.props.form.setFieldsValue({
-                            seriesCode: '',
-                            parentCode: ''
-                        });
-                        this.props.cancelFetching();
-                    }).catch(this.props.cancelFetching);
-                }
-            }
+            hidden: this.contentType !== '2'
         }, {
             title: '车辆车系',
             field: 'seriesCode',
@@ -150,25 +145,10 @@ class BannerDetail extends React.Component {
             required: true,
             hidden: this.contentType !== '2',
             keyName: 'code',
-            valueName: 'name',
-            onChange: (value) => {
-                if(value) {
-                    this.props.doFetching();
-                    fetch(630429, { status: '1', seriesCode: value }).then((data) => {
-                        this.props.setSelectData({
-                            data: data,
-                            key: 'parentCode'
-                        });
-                        this.props.form.setFieldsValue({
-                            parentCode: ''
-                        });
-                        this.props.cancelFetching();
-                    }).catch(this.props.cancelFetching);
-                }
-            }
+            valueName: 'name'
         }, {
             title: '车辆型号',
-            field: 'parentCode',
+            field: 'parentCode1',
             type: 'select',
             params: {
                 status: '1',
@@ -178,7 +158,10 @@ class BannerDetail extends React.Component {
             keyName: 'code',
             valueName: 'name',
             required: true,
-            hidden: this.contentType !== '2'
+            hidden: this.contentType !== '2',
+            formatter(v, d) {
+                return d.parentCode;
+            }
         }, {
             title: '备注',
             field: 'remark',

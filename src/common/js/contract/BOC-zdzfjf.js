@@ -86,7 +86,7 @@ function createData(wb, data) {
     ['贷款额（大写）', ''],
     ['贷款额（小写）', moneyReplaceComma(moneyFormat(data.loanAmount))],
     ['附加费（小写）', '附加费（小写）'],
-    ['利率', (data.bankRate * 100).toFixed(2)],
+    ['利率', (data.bankRate * 100).toFixed(4)],
     ['总手续费（小写合同）', ''],
     ['附加费手续费（小写合同/11.5）', ''],
     ['分期', data.loanPeriods],

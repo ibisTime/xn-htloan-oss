@@ -10,7 +10,7 @@ import {
   setSearchData
 } from '@redux/biz/userRedemption';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, formatDate } from 'common/js/util';
+import { showWarnMsg, formatDate, getUserId } from 'common/js/util';
 
 @listWrapper(
   state => ({
@@ -79,10 +79,11 @@ class userRedemption extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 630520,
+      pageCode: 630522,
       searchParams: {
         refType: '0',
-        curNodeCodeList: ['003_17', '003_18', '003_19']
+        curNodeCodeList: ['j17', 'j18', 'j19'],
+          userId: getUserId()
       },
       btnEvent: {
         applyRedeem: (selectedRowKeys, selectedRows) => {
@@ -90,7 +91,7 @@ class userRedemption extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
               showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].curNodeCode !== '003_17') {
+          } else if (selectedRows[0].curNodeCode !== 'j17') {
               showWarnMsg('不是待用户赎回的节点');
           } else {
             this.props.history.push(`/biz/userRedemption/applyRedeem?code=${selectedRowKeys[0]}`);
@@ -112,7 +113,7 @@ class userRedemption extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].curNodeCode !== '003_19') {
+          } else if (selectedRows[0].curNodeCode !== 'j19') {
               showWarnMsg('不是财务经理审核的节点');
           } else {
             this.props.history.push(`/biz/userRedemption/checkFinance?code=${selectedRowKeys[0]}`);

@@ -10,7 +10,7 @@ import {
     setSearchData
 } from '@redux/biz/advsettlement';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, isUndefined, moneyFormat } from 'common/js/util';
+import { showWarnMsg, isUndefined, moneyFormat, getUserId } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -97,10 +97,11 @@ class Advsettlement extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 630520,
+            pageCode: 630522,
             searchParams: {
                 refType: '0',
-                curNodeCodeList: ['003_20']
+                curNodeCodeList: ['j20'],
+                userId: getUserId()
             },
             btnEvent: {
                 check: (selectedRowKeys, selectedRows) => {

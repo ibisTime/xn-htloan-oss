@@ -67,6 +67,14 @@ class RefundList extends React.Component {
       render: (v, d) => {
         return moneyFormat(d.repayBiz.monthAmount);
       }
+    // }, {
+    //     title: '状态',
+    //     field: 'curNodeCode',
+    //     type: 'select',
+    //     listCode: 630147,
+    //     keyName: 'code',
+    //     valueName: 'name',
+    //     search: true
     }];
     return this
       .props
@@ -76,7 +84,7 @@ class RefundList extends React.Component {
         pageCode: 630543,
         searchParams: {
           refType: '0',
-          curNodeCodeList: ['004_01', '004_11']
+          curNodeCodeList: ['l1', 'l11']
         },
         btnEvent: {
           rghk: (selectedRowKeys, selectedRows) => {

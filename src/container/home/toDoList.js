@@ -51,12 +51,12 @@ class ToDoList extends React.Component {
         const {nodeDict} = this.state;
         const fields = [{
             field: 'bizCode',
-            // type: 'select',
             search: true,
-            // // listCode: 632517,
-            // valueName: '{{code.DATA}}',
-            // keyName: 'code',
             title: '业务编号'
+        }, {
+            title: '贷款人姓名',
+            field: 'userName',
+            search: true
         }, {
             title: '消息内容',
             field: 'content'

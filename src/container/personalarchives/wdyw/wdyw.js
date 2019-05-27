@@ -12,19 +12,19 @@ import {
 import { dateTimeFormat, getUserId, showWarnMsg } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
 @listWrapper(
-    state => ({
-        ...state.ywCx,
-        parentCode: state.menu.subMenuCode
-    }), {
-        setTableData,
-        clearSearchParam,
-        doFetching,
-        setBtnList,
-        cancelFetching,
-        setPagination,
-        setSearchParam,
-        setSearchData
-    }
+  state => ({
+      ...state.ywCx,
+      parentCode: state.menu.subMenuCode
+  }), {
+      setTableData,
+      clearSearchParam,
+      doFetching,
+      setBtnList,
+      cancelFetching,
+      setPagination,
+      setSearchParam,
+      setSearchData
+  }
 )
 class ywCx extends React.Component {
     render() {
@@ -42,7 +42,7 @@ class ywCx extends React.Component {
             field: 'userName',
             title: '客户姓名',
             render: (v, d) => {
-              return d.creditUser ? d.creditUser.userName : '';
+                return d.creditUser ? d.creditUser.userName : '';
             },
             search: true
         }, {
@@ -85,7 +85,11 @@ class ywCx extends React.Component {
         ];
         return this.props.buildList({
             fields,
-            pageCode: 632519,
+            pageCode: 632515,
+            searchParams: {
+                isMy: '1',
+                userId: getUserId()
+            },
             btnEvent: {
                 detail: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {

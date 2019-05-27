@@ -146,26 +146,26 @@ export const curNodePageUrl = {
     '002_22': '/biz/archives/addedit?e=1&code=',
 
     // 结清审核
-    '003_02': '/biz/settlement/collection?code=',
-    '003_03': '/biz/settlement/stationed?code=',
-    '003_05': '/biz/settlement/finance?code=',
-    '003_04': '/biz/settlement/manager?code=',
+    'j2': '/biz/settlement/collection?code=',
+    'j3': '/biz/settlement/stationed?code=',
+    'j5': '/biz/settlement/finance?code=',
+    'j4': '/biz/settlement/manager?code=',
 
     // 解除抵押
-    '003_06': '/biz/mortgages/relieve?code=',
+    'j6': '/biz/mortgages/relieve?code=',
 
     // 红名单
-    '003_08': '/biz/redList/apply?code=',
-    '003_09': '/biz/redList/pay?code=',
-    '003_10': '/biz/redList/enter?code=',
+    'j8': '/biz/redList/apply?code=',
+    'j9': '/biz/redList/pay?code=',
+    'j10': '/biz/redList/enter?code=',
 
     // 司法诉讼
-    '003_13': '/biz/litigation/dispose?code=',
+    'j13': '/biz/litigation/dispose?code=',
 
     // 用户赎回
-    '003_17': '/biz/userRedemption/applyRedeem?code=',
-    '003_18': '/biz/userRedemption/checkDirector?code=',
-    '003_19': '/biz/userRedemption/checkFinance?code=',
+    'j17': '/biz/userRedemption/applyRedeem?code=',
+    'j18': '/biz/userRedemption/checkDirector?code=',
+    '19': '/biz/userRedemption/checkFinance?code=',
 
     // ************人事************
     // 出勤审批

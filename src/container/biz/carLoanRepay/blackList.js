@@ -10,6 +10,7 @@ import {
   setSearchData
 } from '@redux/biz/blackList';
 import { listWrapper } from 'common/js/build-list';
+import {getUserId} from 'common/js/util';
 
 @listWrapper(state => ({
   ...state.bizBlackList,
@@ -69,9 +70,10 @@ class blackList extends React.Component {
       fields,
       searchParams: {
         refType: '0',
-        curNodeCodeList: ['003_13', '003_14', '003_15', '003_16']
+        curNodeCodeList: ['j13', 'j14', 'j15', 'j16'],
+          userId: getUserId()
       },
-      pageCode: 630520
+      pageCode: 630522
     });
   }
 }

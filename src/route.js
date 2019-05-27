@@ -1303,6 +1303,16 @@ const ROUTES = [
     path: '/ywcx/ywcx/addedit',
     component: asyncComponent(() => import('container/personalarchives/ywcx/ywcx-addedit'))
   },
+    //  车贷档案  我的业务
+    {
+        path: '/loanarchives/businessMe',
+        component: asyncComponent(() => import('container/personalarchives/wdyw/wdyw'))
+    },
+    //  车贷档案  我的业务  详情
+    {
+        path: '/loanarchives/businessMe/addedit',
+        component: asyncComponent(() => import('container/personalarchives/wdyw/wdyw-addedit'))
+    },
   //  车贷档案  流转日志
   {
     path: '/circulationlog/circulationlog',

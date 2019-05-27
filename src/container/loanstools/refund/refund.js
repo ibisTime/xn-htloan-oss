@@ -9,7 +9,7 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/loanstools/refund';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, getUserId } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
@@ -114,7 +114,8 @@ class refund extends React.Component {
             fields,
             pageCode: 632515,
             searchParams: {
-                isAdvanceFund: '0'
+                isAdvanceFund: '0',
+                userId: getUserId()
             },
             btnEvent: {
               // 财务确认退款

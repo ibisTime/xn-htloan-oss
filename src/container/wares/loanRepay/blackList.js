@@ -14,7 +14,8 @@ import {
 } from 'common/js/build-list';
 import {
   showWarnMsg,
-  showSucMsg
+  showSucMsg,
+  getUserId
 } from 'common/js/util';
 import {
   Button,
@@ -87,10 +88,11 @@ class blackList extends React.Component {
   }];
     return this.props.buildList({
       fields,
-      pageCode: 630520,
+      pageCode: 630522,
       searchParams: {
         refType: '1',
-        curNodeCodeList: ['005_04']
+        curNodeCodeList: ['005_04'],
+          userId: getUserId()
       }
     });
   }

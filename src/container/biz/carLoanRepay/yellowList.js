@@ -80,7 +80,7 @@ class yellowList extends React.Component {
             pageCode: 630540,
             searchParams: {
               refType: '0',
-              curNodeCode: '004_05'
+              curNodeCode: 'l5'
             },
             btnEvent: {
                 payCost: (selectedRowKeys, selectedRows) => {

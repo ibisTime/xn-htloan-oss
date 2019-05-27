@@ -13,7 +13,8 @@ import {
     showWarnMsg,
     showSucMsg,
     moneyFormat,
-    formatDate
+    formatDate,
+    getUserId
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import {
@@ -117,9 +118,10 @@ class Relieve extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 630520,
+            pageCode: 630522,
             searchParams: {
-                curNodeCodeList: ['020_06']
+                curNodeCodeList: ['020_06'],
+                userId: getUserId()
             },
             btnEvent: {
                 make: (selectedRowKeys, selectedRows) => {

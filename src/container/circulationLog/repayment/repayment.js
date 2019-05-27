@@ -111,7 +111,7 @@ class Repayment extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 630520,
+            pageCode: 630522,
             searchParams: {
               refType: 0,
                 userId: getUserId()

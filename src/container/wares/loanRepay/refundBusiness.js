@@ -14,7 +14,8 @@ import {
 } from 'common/js/build-list';
 import {
   showWarnMsg,
-  showSucMsg
+  showSucMsg,
+  getUserId
 } from 'common/js/util';
 import {
   lowerFrame,
@@ -124,10 +125,11 @@ class refundBusiness extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 630520,
+      pageCode: 630522,
       searchParams: {
         refType: '1',
-        curNodeCode: '005_01'
+        curNodeCode: '005_01',
+          userId: getUserId()
       },
       btnEvent: {
         refundplan: (selectedRowKeys, selectedRows) => {

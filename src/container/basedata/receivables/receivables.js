@@ -65,16 +65,7 @@ class receivables extends React.Component {
             field: 'type',
             required: true,
             type: 'select',
-            data: [{
-                dkey: '1',
-                dvalue: '分公司收款账号'
-            }, {
-                dkey: '2',
-                dvalue: '经销商收款账号'
-            }, {
-                dkey: '3',
-                dvalue: '经销商返点账号'
-            }],
+            key: 'collect_type',
             keyName: 'dkey',
             valueName: 'dvalue'
         }, {

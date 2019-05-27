@@ -65,11 +65,12 @@ class applyGpsAddedit extends React.Component {
         title: '对应业务',
         field: 'repayBizCode',
         type: 'select',
-        pageCode: 630520,
+        pageCode: 630522,
         keyName: 'code',
         valueName: '{{code.DATA}}-{{realName.DATA}}',
         params: {
-          refType: 0
+          refType: 0,
+            userId: getUserId()
         },
         required: true
     }];

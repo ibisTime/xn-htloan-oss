@@ -605,6 +605,8 @@ import {toDo} from './redux/personalarchives/todo';
 import {accessorypool} from './redux/circulationLog/accessorypool';
 import {ywCx} from './redux/personalarchives/ywcx';
 import {ywcxAddedit} from './redux/personalarchives/ywcx-addedit';
+import {wdYw} from './redux/personalarchives/wdyw';
+import {wdywAddedit} from './redux/personalarchives/wdyw-addedit';
 //  贷后工具 面前视频
 import {Tool} from './redux/tool/tool';
 import {ShAddedit} from './redux/tool/shaddess';
@@ -986,5 +988,7 @@ export default combineReducers({
     printingMortgage,
     printingMortgageMake,
     printingRelieve,
-    printingRelieveMake
+    printingRelieveMake,
+    wdYw,
+    wdywAddedit
 });

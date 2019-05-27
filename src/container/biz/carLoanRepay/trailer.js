@@ -10,7 +10,7 @@ import {
   setSearchData
 } from '@redux/biz/trailer';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, formatDate } from 'common/js/util';
+import { showWarnMsg, formatDate, getUserId } from 'common/js/util';
 
 @listWrapper(
   state => ({
@@ -79,10 +79,11 @@ class trailer extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 630520,
+      pageCode: 630522,
       searchParams: {
         refType: '0',
-        curNodeCode: '003_11'
+        curNodeCode: 'j11',
+          userId: getUserId()
       },
       btnEvent: {
         dispose: (selectedRowKeys, selectedRows) => {
@@ -90,7 +91,7 @@ class trailer extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].curNodeCode !== '003_11') {
+          } else if (selectedRows[0].curNodeCode !== 'j11') {
             showWarnMsg('当前节点不是清款催收部拖车结果已录入节点');
           } else {
             this.props.history.push(`/biz/trailer/dispose?code=${selectedRowKeys[0]}`);

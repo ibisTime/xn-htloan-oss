@@ -50,7 +50,7 @@ function createData(wb, data) {
         ['身份证号码', data.ghIdNo],
         ['工作单位', data.ghCompanyName],
         ['手机号码', data.ghMobile],
-        ['费利率（银行利率）', (data.bankRate * 100).toFixed(2)],
+        ['费利率（银行利率）', (data.bankRate * 100).toFixed(4)],
         ['贷款额', moneyFormat(data.loanAmount)],
         ['服务费', moneyReplaceComma(moneyFormat(data.fee))],
         ['总贷款额（包含服务费）', ''],

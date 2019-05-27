@@ -178,6 +178,15 @@ class AdvMoneyAddedit extends DetailUtil {
                     field: 'billPdf',
                     type: 'img',
                     required: true
+                }, {
+                    title: '垫资账号',
+                    field: 'advanceCardCode',
+                    type: 'select',
+                    listCode: 632007,
+                    keyName: 'code',
+                    valueName: '{{bankName.DATA}}-{{bankcardNumber.DATA}}',
+                    required: true,
+                    params: {type: '4'}
                 }]);
         }
         config.fields = fields;

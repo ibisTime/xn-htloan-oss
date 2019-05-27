@@ -43,7 +43,7 @@ class carloanAddedit extends React.Component {
           number: true
       }, {
         title: '利率',
-          number3: true,
+          number5: true,
           required: true,
         field: 'cvalue'
       }, {

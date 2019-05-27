@@ -272,7 +272,7 @@ componentDidMount() {
             },
             {
                 title: '贷款金额',
-                field: 'loanAmount',
+                field: 'creditLoanAmount',
                 amount: true,
                 min: '1',
                 required: true
@@ -571,7 +571,7 @@ componentDidMount() {
                         data.bizCode = this.code;// 征信单编号
                         data.buttonCode = '0';
                         data.operator = getUserId(); // 操作员
-                        data.loanAmount = params.loanAmount; // 贷款金额
+                        data.creditLoanAmount = params.creditLoanAmount; // 贷款金额
                         data.loanBankCode = this.props.pageData.loanBankCode; // 贷款银行
                         data.secondCarReport = params.secondCarReport; // 二手车评估报告
                         data.xszFront = params.xszFront; // 身份证正面
@@ -625,7 +625,7 @@ componentDidMount() {
                         data.bizCode = this.code;// 征信单编号
                         data.buttonCode = '1';
                         data.operator = getUserId(); // 操作员
-                        data.loanAmount = params.loanAmount; // 贷款金额
+                        data.creditLoanAmount = params.creditLoanAmount; // 贷款金额
                         data.loanBankCode = this.props.pageData.loanBankCode; // 贷款银行
                         data.secondCarReport = params.secondCarReport; // 二手车评估报告
                         data.xszFront = params.xszFront; // 身份证正面

@@ -44,7 +44,7 @@ function createData(wb, data) {
     ['贷款额（大写）', ''],
     ['贷款额（大写）', ''],
     ['贷款额（小写）', moneyReplaceComma(moneyFormat(data.loanAmount))],
-    ['利率', (data.bankRate * 100).toFixed(2)],
+    ['利率', (data.bankRate * 100).toFixed(4)],
     ['总手续费（小写合同）', ''],
     ['分期', data.loanPeriods],
     ['总手续费（大写合同）', ''],

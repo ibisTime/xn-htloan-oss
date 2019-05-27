@@ -1283,14 +1283,12 @@ class AdmittanceAddEdit extends React.Component {
                         number: true,
                        formatter: (v, d) => {
                           return d.carInfoRes ? d.carInfoRes.oilSubsidyKil : '';
-                       },
-                        required: true
+                       }
                       }, 4)}
                       {this.getInputCol({
                         field: 'oilSubsidy',
                         title: '油补(元)',
                         _keys: ['carInfoRes', 'oilSubsidy'],
-                        required: true,
                         amount: true
                       }, 4)}
                       {this.getInputCol({

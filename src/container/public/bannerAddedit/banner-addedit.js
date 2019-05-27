@@ -23,6 +23,9 @@ class BannerAddEdit extends React.Component {
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
         this.contentType = getQueryString('contentType', this.props.location.search) || '1';
+        this.brandCode = getQueryString('brandCode', this.props.location.search);
+        this.seriesCode = getQueryString('seriesCode', this.props.location.search);
+        this.index = 0;
         // 是否是车型
         this.state = {
             // 窗口是否显示
@@ -119,7 +122,14 @@ class BannerAddEdit extends React.Component {
                 status: '1'
             },
             keyName: 'code',
-            valueName: 'title'
+            valueName: 'title',
+            formatter(v, d) {
+                if(d.contentType === '3') {
+                    return v;
+                }else {
+                    return '';
+                }
+            }
         }, {
             title: 'url地址',
             field: 'url',
@@ -137,7 +147,8 @@ class BannerAddEdit extends React.Component {
             required: true,
             hidden: this.contentType !== '2',
             formatter: (value, data) => {
-                if(data.contentType === '2') {
+                if(this.contentType === '2' && this.index === 0) {
+                    this.index++;
                     fetch(630416, { status: '1', brandCode: value }).then((data) => {
                         this.props.setSelectData({
                             data: data,
@@ -147,7 +158,7 @@ class BannerAddEdit extends React.Component {
                     fetch(630429, { status: '1', seriesCode: data.seriesCode }).then((data) => {
                         this.props.setSelectData({
                             data: data,
-                            key: 'parentCode'
+                            key: 'parentCode1'
                         });
                     }).catch();
                     this.flag = false;
@@ -184,7 +195,7 @@ class BannerAddEdit extends React.Component {
                     fetch(630429, { status: '1', seriesCode: value }).then((data) => {
                         this.props.setSelectData({
                             data: data,
-                            key: 'parentCode'
+                            key: 'parentCode1'
                         });
                         this.props.form.setFieldsValue({
                             parentCode: ''
@@ -195,12 +206,24 @@ class BannerAddEdit extends React.Component {
             }
         }, {
             title: '车辆型号',
-            field: 'parentCode',
+            field: 'parentCode1',
             type: 'select',
+            params: {
+                status: '1',
+                seriesCode: this.seriesCode
+            },
+            listCode: '630429',
             keyName: 'code',
             valueName: 'name',
             required: true,
-            hidden: this.contentType !== '2'
+            hidden: this.contentType !== '2',
+            formatter(v, d) {
+                if(d.contentType === '2') {
+                    return d.parentCode;
+                }else {
+                    return '';
+                }
+            }
         }, {
             title: '备注',
             field: 'remark',
@@ -218,6 +241,10 @@ class BannerAddEdit extends React.Component {
                     beforeSubmit: (params) => {
                         params.systemCode = SYSTEM_CODE;
                         params.companyCode = SYSTEM_CODE;
+                        if(params.parentCode1 && params.contentType === '2') {
+                            params.parentCode = params.parentCode1;
+                            delete params.parentCode1;
+                        }
                         return params;
                     }
                 })};

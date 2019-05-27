@@ -75,7 +75,7 @@ class Banner extends React.Component {
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
           } else {
-            this.props.history.push(`/public/banner/detail?code=${selectedRowKeys[0]}&contentType=${selectedRows[0].contentType}&brandCode=${selectedRows[0].brandCode}&seriesCode=${selectedRows[0].seriesCode}`);
+            this.props.history.push(`/public/banner/addedit?code=${selectedRowKeys[0]}&contentType=${selectedRows[0].contentType}&brandCode=${selectedRows[0].brandCode}&seriesCode=${selectedRows[0].seriesCode}`);
           }
         },
         detail: (selectedRowKeys, selectedRows) => {
