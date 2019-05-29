@@ -1753,7 +1753,7 @@ const ROUTES = [
   //  返点支付 详情
   {
       path: '/carloanfinance/pointreturn/addedit',
-      component: asyncComponent(() => import('container/carloanfinance/pointreturn/pointreturn-addedit'))
+      component: asyncComponent(() => import('container/carloanfinance/pointreturn/pointreturn-return'))
   },
   //  返点支付 成员管理
   {

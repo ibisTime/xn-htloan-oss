@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Tabs, Row, Col, Spin, Button, Table, Card, Icon, Tooltip } from 'antd';
+import { Form, Tabs, Row, Col, Spin, Button, Table, Card, Icon, Tooltip, Cascader } from 'antd';
 import moment from 'moment';
 import CUpload from 'component/cUpload/cUpload';
 import CO2M from 'component/cO2M/cO2M';
@@ -9,7 +9,7 @@ import CCitySelect from 'component/cCitySelect/cCitySelect';
 import CNormalTextArea from 'component/cNormalTextArea/cNormalTextArea';
 import CMonth from 'component/cMonth/cMonth';
 import CRangeDate from 'component/cRangeDate/cRangeDate';
-import { tailFormItemLayout, DATE_FORMAT, MONTH_FORMAT, validateFieldsAndScrollOption } from 'common/js/config';
+import { tailFormItemLayout, DATE_FORMAT, formItemLayout, MONTH_FORMAT, validateFieldsAndScrollOption } from 'common/js/config';
 import {
   getQueryString, showWarnMsg, showSucMsg, isUndefined, getUserId, getRules,
   getRealValue, moneyFormat, moneyParse, getUserName, dateTimeFormat
@@ -153,7 +153,7 @@ class AdmittanceAddEdit extends React.Component {
         fetch(630429, { status: '1' }),
         getDictList({ parentKey: 'budget_orde_biz_typer' }),
         getDictList({ parentKey: 'loan_period' }),
-        getDictList({ parentKey: 'region' }),
+        getDictList({ parentKey: 'belong' }),
         getDictList({ parentKey: 'car_type' }),
         getDictList({ parentKey: 'gender' }),
         getDictList({ parentKey: 'marry_state' }),
@@ -233,7 +233,12 @@ class AdmittanceAddEdit extends React.Component {
             pageData.carPledge.pledgeUserIdCardReverse = item.url;
           }
         });
+        const OPTION = regionData.map(item => ({
+            value: item.dkey,
+            label: item.dvalue
+        }));
         this.setState({
+            OPTION,
           loanBankData,
           carSaleData,
           loanProductData,
@@ -355,6 +360,48 @@ class AdmittanceAddEdit extends React.Component {
         </Col>
     );
   }
+    ownerLoadData(selectedOptions) {
+        const targetOption = selectedOptions[selectedOptions.length - 1];
+        targetOption.loading = true;
+        let key = targetOption[0].value;
+        fetch(630038, {key}).then(data => {
+            console.log(data);
+        });
+        // setTimeout(() => {
+        //     targetOption.loading = false;
+        //     targetOption.children = [
+        //         {
+        //             label: `${targetOption.label} Dynamic 1`,
+        //             value: 'dynamic1'
+        //         },
+        //         {
+        //             label: `${targetOption.label} Dynamic 2`,
+        //             value: 'dynamic2'
+        //         }
+        //     ];
+        //     this.setState({
+        //         options: [...this.state.options],
+        //     });
+        // }, 1000);
+    }
+    onOwnerChange(value, selectedOptions) {
+        console.log(value, selectedOptions);
+    }
+    // 自定义城市控件
+    ownerCitySelectCol(item, split = 3) {
+        let colProps = this.getColProps(split);
+        return (
+          <Col {...colProps}>
+              <FormItem
+                key={item.field}
+                {...formItemLayout}
+                className={item.hidden ? 'hidden' : ''}
+                label='所属区域'>
+                  {}
+              </FormItem>
+          </Col>
+        );
+    }
   // 获取文件图片上传类型的控件
   getFileCol(item, split = 3) {
     let colProps = this.getColProps(split);
@@ -934,7 +981,7 @@ class AdmittanceAddEdit extends React.Component {
   render() {
     const {
       fetching, carSaleData, loanBankData, bizTypeData, loanPeriodData,
-      loanProductData, regionData, carTypeData, genderData, marryStateData,
+      loanProductData, OPTION, carTypeData, genderData, marryStateData,
       educationData, addressData, relationData, industryData, propertyData,
       incomeData, positionData, professionData, carFrameData, carShapeData,
       pageData, isMarried, showMarry, activeKey, brandData, carSeriesData
@@ -1297,14 +1344,14 @@ class AdmittanceAddEdit extends React.Component {
                       _keys: ['carInfoRes', 'originalPrice'],
                       amount: true
                     }, 4)}
-                    {this.getSelectCol({
+                    {this.ownerCitySelectCol({
                       field: 'region',
                       title: '所属区域',
-                      _keys: ['carInfoRes', 'region'],
+                      _keys: ['carInfoRes', 'belong'],
                       keyName: 'dkey',
                       valueName: 'dvalue',
                       required: true
-                    }, regionData, 4)}
+                    }, OPTION, 4)}
                   </Row>
                   <Row gutter={54}>
                     {this.getInputCol({
