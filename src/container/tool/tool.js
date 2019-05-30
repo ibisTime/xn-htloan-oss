@@ -54,7 +54,6 @@ class Tool extends React.Component {
                           <p>客户姓名：{d.creditUser.userName}</p>
                           <p>身份证号：{d.creditUser.idNo}</p>
                           <p>意向车型：{d.carInfoRes.carBrand ? `${d.carInfoRes.carBrand}-${d.carInfoRes.carSeries}-${d.carInfoRes.carModel}-${d.carInfoRes.carColor}` : '-'}</p>
-                          <p>意向金额：{d.carInfoRes.originalPrice ? moneyFormat2(d.carInfoRes.originalPrice) : '-'}</p>
                       </div>
                   </div>
                 );
@@ -123,7 +122,7 @@ class Tool extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632515,
+            pageCode: 632957,
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),

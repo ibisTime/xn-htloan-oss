@@ -70,7 +70,7 @@ class receivables extends React.Component {
             valueName: 'dvalue'
         }, {
             title: '公司名称',
-            field: 'companyCode1',
+            field: 'companyCode',
             listCode: 630106,
             params: {
                 typeList: [1]
@@ -83,18 +83,7 @@ class receivables extends React.Component {
             hidden: true
         }, {
             title: '公司名称',
-            field: 'companyCode',
-            render: (v, d, props) => {
-                if (d.type === '2') {
-                    let company = this.state.companyData.filter(item => {
-                        return item.code === v;
-                    });
-                    return company.length === 1 ? company[0].fullName : v;
-                }
-                let oCompanyData = this.state.o_companyData.filter(item =>
-                    item.code === v);
-                return oCompanyData[0] && oCompanyData[0].name;
-            }
+            field: 'companyName'
         }, {
             title: '开户行',
             field: 'bankCode',
