@@ -29,14 +29,26 @@ class historicalApplyAddedit extends React.Component {
             title: '订单编号',
             field: 'code'
         }, {
+            title: '品牌',
+            field: 'brandCode',
+            search: true,
+            type: 'select',
+            listCode: 630406,
+            keyName: 'code',
+            valueName: 'name'
+        }, {
             title: '申请人',
             field: 'userId',
             formatter: (v, data) => {
-                let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
-                return prefix + (data.user.mobile || '');
+                // let prefix = data.user && data.user.realName ? data.user.realName + '-' : '';
+                //                 // return prefix + (data.user.mobile || '');
+                if (data.name) {
+                    return data.name ? data.name + '-' + data.userMobile : data.name;
+                } else if(data.userMobile) {
+                    return data.userMobile ? data.userMobile + '-' + data.name : data.userMobile;
+                }
             }
         }, {
-
             title: '车型名称',
             field: 'carName',
             readonly: true
@@ -47,10 +59,6 @@ class historicalApplyAddedit extends React.Component {
             formatter: (v, d) => {
               return d.sysUser ? d.sysUser.loginName : '';
             },
-            readonly: true
-        }, {
-            title: '车系编号',
-            field: 'seriesCode',
             readonly: true
         }, {
             title: '车系名称',
@@ -65,19 +73,9 @@ class historicalApplyAddedit extends React.Component {
             amount: true,
             field: 'sfAmount'
         }, {
-            title: '车贷计算器信息',
-            field: 'saleDesc'
-        }, {
             title: '申请时间',
             field: 'createDatetime',
             type: 'datetime'
-        }, {
-            title: '处理人',
-            field: 'handler',
-            type: 'select',
-            listCode: 630066,
-            keyName: 'userId',
-            valueName: 'realName'
         }, {
             title: '状态',
             field: 'status',

@@ -49,8 +49,7 @@ class CollectionAddedit extends React.Component {
         type: 'select',
         listCode: 630147,
         keyName: 'code',
-        valueName: 'name',
-        params: {type: 'a'}
+        valueName: 'name'
     }, {
         title: '业务团队',
         field: 'teamName',

@@ -16,8 +16,8 @@ import { getRoleList } from 'api/company';
 import { getDictList } from 'api/dict';
 import { getQiniuToken } from 'api/general';
 import { getUser, setUserPhoto } from 'api/user';
-// import { getPageMyNotice, getPageMyCompanysystem, getPageMyToDoList, getCurNodeCode } from 'api/home';
- import { getPageMyNotice, getPageMyCompanysystem, getCurNodeCode } from 'api/home';
+import { getPageMyNotice, getPageMyCompanysystem, getPageMyToDoList, getCurNodeCode } from 'api/home';
+// import { getPageMyNotice, getPageMyCompanysystem, getCurNodeCode } from 'api/home';
 import { PIC_PREFIX, PIC_BASEURL_L, UPLOAD_URL } from 'common/js/config';
 import './home.css';
 import userPhoto from '../../images/home-userPhoto.png';
@@ -53,7 +53,7 @@ class Home extends React.Component {
             getPageMyNotice(),
             getPageMyCompanysystem(),
             getUser(),
-            // getPageMyToDoList(),
+            getPageMyToDoList(),
             getCurNodeCode(),
             getDictList({parentKey: 'node_type'})
         ]).then(([qiniuToken, roleData, noticeData, companysystemData, userData, toDoListData, curNodeData, nodeType]) => {
@@ -62,15 +62,15 @@ class Home extends React.Component {
             curNodeData.map(v => {
                 curNodeD[v.code] = v.name;
             });
-            nodeType.map(v => {
+            nodeType && nodeType.map(v => {
                 nodeTypeD[v.dkey] = v.dvalue;
             });
-            if (!userData.photo) {
+            if (userData && !userData.photo) {
                 userData.photo = userPhoto;
             } else {
                 userData.photo = formatImg(userData.photo, '?imageMogr2/auto-orient/thumbnail/!400x400r');
             }
-            this.getUserRole(roleData);
+            roleData && this.getUserRole(roleData);
             this.setState({
                 qiniuToken: qiniuToken.uploadToken,
                 roleData: roleData,
@@ -81,6 +81,7 @@ class Home extends React.Component {
                 toDoListData: toDoListData.list,
                 curNodeData: curNodeD,
                 nodeTypeData: nodeTypeD
+            }, () => {
             });
         }).catch(() => this.setState({ fetching: false }));
     }
@@ -131,6 +132,9 @@ class Home extends React.Component {
             });
         }).catch(() => this.setState({ fetching: false }));
     }
+    tourl = () => {
+        this.props.history.push(`/home/toDoList`);
+    }
 
     render() {
         const imgProps = {
@@ -178,10 +182,10 @@ class Home extends React.Component {
                         <div className="card-content">
                             { this.state.toDoListData && this.state.toDoListData.length >= 1 ? this.state.toDoListData.map(d => (
                                 <div className="content-item" key={d.id}>
-                                    <Link to={getNowCurNodePageUrl(d)}>
+                                    <Link to={`/home/toDoList`}>
                                         <img className="icon" src={iconLi}/>
-                                        <p className="txt">{d.companyName} 客户{d.userName} {this.state.nodeTypeData[d.flowTypeCode]} {this.state.curNodeData[d.curNodeCode]}</p>
-                                        <samp className="date">{dateFormat(d.startDatetime)}</samp>
+                                        <p className="txt">{d.content}</p>
+                                        <samp className="date">{dateFormat(d.createDatetime)}</samp>
                                     </Link>
                                 </div>
                             )) : <div className="noData"><img src={noData}/><p>暂无待办事项</p></div>}

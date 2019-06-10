@@ -36,53 +36,23 @@ import { Modal } from 'antd';
         cancelFetching,
         setPagination,
         setSearchParam,
-        setSearchData
+        setSearchData,
     }
 )
 class Credit extends React.Component {
     render() {
         const fields = [{
-            title: '业务编号',
             field: 'code',
-            search: true
-        }, {
-            title: '业务公司',
-            field: 'companyName'
-        }, {
-            title: '业务团队',
-            field: 'teamName'
-        }, {
-            title: '信贷专员',
-            field: 'saleUserId',
-            type: 'select',
-            pageCode: 630065,
-            params: {
-                type: 'P',
-                roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
-            },
-            keyName: 'userId',
-            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
-            searchName: 'realName',
             search: true,
-            render: (v, d) => {
-                return d.saleUserName;
-            }
+            title: '业务编号'
         }, {
             title: '客户姓名',
             field: 'userName',
-            render: (v, t) => t.creditUser ? t.creditUser.userName : '-',
-            search: true
-        }, {
-            title: '手机号',
-            field: 'mobile',
-            render: (v, t) => t.creditUser ? t.creditUser.mobile : '-'
+            search: true,
+            render: (v, t) => t.creditUser ? t.creditUser.userName : '-'
         }, {
             title: '贷款银行',
-            field: 'loanBankCode',
-            type: 'select',
-            listCode: 632037,
-            keyName: 'code',
-            valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
+            field: 'loanBankName'
         }, {
             title: '贷款金额',
             field: 'loanAmount',
@@ -93,17 +63,36 @@ class Credit extends React.Component {
             type: 'select',
             key: 'budget_orde_biz_typer'
         }, {
-            title: '驻行内勤',
-            field: 'operatorName'
+            title: '业务公司',
+            field: 'companyCode',
+            listCode: 630106,
+            params: {
+                typeList: [1],
+                status: '1'
+            },
+            type: 'select',
+            keyName: 'code',
+            valueName: 'name'
         }, {
-            title: '申请日期',
-            field: 'applyDatetime',
-            type: 'date',
-            rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
-            render: dateTimeFormat,
-            search: true
+            title: '业务团队',
+            field: 'teamName'
         }, {
-            title: '当前节点',
+            title: '业务员', // 信贷专员
+            field: 'saleUserId',
+            type: 'select',
+            pageCode: 630065,
+            params: {
+                type: 'P',
+                roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
+            },
+            keyName: 'userId',
+            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
+            searchName: 'realName',
+            render: (v, d) => {
+                return d.saleUserName;
+            }
+        }, {
+            title: '状态',
             field: 'curNodeCode',
             type: 'select',
             listCode: 630147,
@@ -111,47 +100,25 @@ class Credit extends React.Component {
             valueName: 'name',
             search: true,
             params: {type: 'a'}
-        }, {
-            title: '节点时间',
-            field: 'updateDatetime',
-            type: 'datetime'
-        }, {
-            title: '节点操作人',
-            field: 'updaterName'
-        }, {
-            title: '是否通过',
-            field: 'isPass',
-            type: 'select',
-            data: [{
-                key: '0',
-                value: '不通过'
-            }, {
-                key: '1',
-                value: '通过'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            hidden: true,
-            search: true
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632115,
+            pageCode: 632515,
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
                 teamCode: getTeamCode(),
-                curNodeCodeList: ['a1', 'a2', 'a3', 'ax1']
+                curNodeCodeList: ['a1', 'a2', 'a3', 'a1x']
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {
                     let code = selectedRowKeys ? selectedRowKeys[0] : '';
                     if (code) {
-                        if (selectedRows[0].curNodeCode !== 'a1' && selectedRows[0].curNodeCode !== 'ax1') {
+                        if (selectedRows[0].curNodeCode !== 'a1' && selectedRows[0].curNodeCode !== 'a1x') {
                             showWarnMsg('当前不是填写征信单的节点');
                             return;
                         }
-                        this.props.history.push(`/loan/credit/addedit?isAddedit=1&code=${code}`);
+                        this.props.history.push(`/loan/credit/addedit?isAddedit=1&code=${code}&bizType=${selectedRows[0].bizType}`);
                     } else {
                         this.props.history.push(`/loan/credit/addedit?isAddedit=1`);
                     }
@@ -175,7 +142,7 @@ class Credit extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'a3') {
                         showWarnMsg('当前不是风控专员审核的节点');
                     } else {
-                        this.props.history.push(`/loan/credit/addedit?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
+                         this.props.history.push(`/loan/credit/shenhe?v=1&isCheck=1&code=${selectedRowKeys[0]}`);
                     }
                 },
                 entering: (selectedRowKeys, selectedRows) => {
@@ -186,7 +153,7 @@ class Credit extends React.Component {
                     } else if (selectedRows[0].curNodeCode !== 'a2') {
                         showWarnMsg('当前不是录入征信结果的节点');
                     } else {
-                        this.props.history.push(`/loan/credit/addedit?v=1&isEntry=1&code=${selectedRowKeys[0]}`);
+                        this.props.history.push(`/loan/credit/query?v=1&isEntry=1&code=${selectedRowKeys[0]}`);
                     }
                 },
                 bigData: (selectedRowKeys, selectedRows) => {
@@ -196,30 +163,41 @@ class Credit extends React.Component {
                         this.props.history.push(`/loan/credit/bigdata?&code=${selectedRowKeys[0]}`);
                     }
                 },
+                detail: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        console.log('详情code');
+                         console.log(selectedRows);
+                        this.props.history.push(`/ywcx/ywcx/addedit?&v=1&code=${selectedRows[0].code}`);
+                    }
+                },
                 withdraw: (key, item) => {
-                  if (!key || !key.length || !item || !item.length) {
-                    showWarnMsg('请选择记录');
-                  } else if (item[0].curNodeCode !== '001_01' && item[0].curNodeCode !== '001_02' && item[0].curNodeCode !== '001_06') {
-                    showWarnMsg('该状态不可撤回');
-                  } else {
-                    Modal.confirm({
-                      okText: '确认',
-                      cancelText: '取消',
-                      content: '确定撤回？',
-                      onOk: () => {
-                        this.props.doFetching();
-                        return creditWithdraw(key[0]).then(() => {
-                          this.props.getPageData();
-                          showWarnMsg('操作成功');
-                          setTimeout(() => {
-                              this.props.getPageData();
-                          }, 500);
-                        }).catch(() => {
-                          this.props.cancelFetching();
+                    if (!key || !key.length || !item || !item.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (item[0].curNodeCode !== '001_01' && item[0].curNodeCode !== '001_02' && item[0].curNodeCode !== '001_06') {
+                        showWarnMsg('该状态不可撤回');
+                    } else {
+                        Modal.confirm({
+                            okText: '确认',
+                            cancelText: '取消',
+                            content: '确定撤回？',
+                            onOk: () => {
+                                this.props.doFetching();
+                                return creditWithdraw(key[0]).then(() => {
+                                    this.props.getPageData();
+                                    showWarnMsg('操作成功');
+                                    setTimeout(() => {
+                                        this.props.getPageData();
+                                    }, 500);
+                                }).catch(() => {
+                                    this.props.cancelFetching();
+                                });
+                            }
                         });
-                      }
-                    });
-                  }
+                    }
                 }
             }
         });

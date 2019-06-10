@@ -37,6 +37,30 @@ class handleApplyCheck extends React.Component {
             field: 'code',
             readonly: true
         }, {
+            title: '品牌',
+            field: 'brandCode',
+            search: true,
+            type: 'select',
+            listCode: 630406,
+            keyName: 'code',
+            valueName: 'name',
+            readonly: true
+        }, {
+            title: '车系名称',
+            field: 'seriesName',
+            readonly: true
+        }, {
+            title: '车型名称',
+            field: 'carName',
+            readonly: true
+        },
+            // {
+            //     title: '处理人',
+            //     field: 'handler',
+            //     hidden: !this.view,
+            //     readonly: true
+            // },
+           {
             title: '申请人',
             field: 'userId',
             type: 'select',
@@ -45,10 +69,10 @@ class handleApplyCheck extends React.Component {
             valueName: 'realName',
             readonly: true,
                 formatter: (v, data) => {
-                    if (data.user.realName) {
-                        return data.user.mobile ? data.user.realName + '-' + data.user.mobile : data.user.realName;
-                    } else if(data.user.mobile) {
-                        return data.user.realName ? data.user.realName + '-' + data.user.mobile : data.user.mobile;
+                    if (data.name) {
+                        return data.name ? data.name + '-' + data.userMobile : data.name;
+                    } else if(data.userMobile) {
+                        return data.userMobile ? data.userMobile + '-' + data.name : data.userMobile;
                     }
                        }
         }, {
@@ -61,21 +85,9 @@ class handleApplyCheck extends React.Component {
             amount: true,
             readonly: true
         }, {
-            title: '分期期数',
-            field: 'periods',
-            readonly: true
-        }, {
             title: '申请时间',
             field: 'createDatetime',
             type: 'datetime',
-            readonly: true
-        }, {
-            title: '车贷计算器信息',
-            field: 'saleDesc',
-            readonly: true
-        }, {
-            title: '备注',
-            field: 'remark',
             readonly: true
         }];
         let buttons = [{
