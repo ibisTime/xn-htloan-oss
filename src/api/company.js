@@ -40,12 +40,3 @@ export function editUser(params) {
 export function getCompanyList(parentCode) {
     return fetch(630106, { parentCode, status: 1, typeList: [1] });
 }
-
-// 获取代办数量
-// export function getAgencyList() {
-// //     return fetch(632911, {
-// //       start: 0,
-// //       limit: 10,
-// //       roleCode: getRoleCode()
-// //     });
-// }

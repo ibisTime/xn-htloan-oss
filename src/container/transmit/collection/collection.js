@@ -75,7 +75,8 @@ class Collection extends React.Component {
             type: 'select',
             listCode: 630147,
             keyName: 'code',
-            valueName: 'name'
+            valueName: 'name',
+            params: {type: 'a'}
         }, {
             title: '状态',
             field: 'status',

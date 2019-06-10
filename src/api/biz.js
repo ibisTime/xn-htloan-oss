@@ -116,6 +116,7 @@ export function creditWithdraw(code) {
 export function getCreditReport(id) {
   return fetch(632948, { id });
 }
+
 // 详情查图片
 export function getCreditReports(code, attAchment) {
     return fetch(623546, { code, attAchment });

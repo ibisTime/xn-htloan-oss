@@ -875,6 +875,12 @@ const ROUTES = [
     path: '/basedata/receivables/addedit',
     component: asyncComponent(() => import('container/basedata/receivables/receivables-addedit'))
   },
+    // 报表中心 车贷档案模块
+    // 车贷档案 业务查询
+  {
+    path: '/loandocuments/businessquery',
+    component: asyncComponent(() => import('container/loandocuments/businessquery/businessquery'))
+  },
   //  统计分析模块
   //  征信统计表
   {
@@ -992,7 +998,11 @@ const ROUTES = [
       path: '/loan/admittance/addedit',
       component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-addedit'))
   },
-  // 准入审查 区域经理审核 风控一审  二审
+  // 制卡
+  {
+      path: '/loan/makecard',
+      component: asyncComponent(() => import('container/loan/makecard/makecard'))
+  },
   {
     path: '/loan/admittance/shenhe',
     component: asyncComponent(() => import('container/loan/admittance-addedit/admittance-shenhe'))

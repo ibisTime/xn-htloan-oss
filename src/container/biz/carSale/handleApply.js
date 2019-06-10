@@ -35,12 +35,11 @@ class HandleApply extends React.Component {
     }, {
       title: '申请人',
       field: 'userId',
-      search: true,
       render: (v, data) => {
-        if (data.name) {
-          return data.name ? data.name + '-' + data.userMobile : data.name;
-        } else if(data.userMobile) {
-          return data.userMobile ? data.userMobile + '-' + data.name : data.userMobile;
+        if (data.user.realName) {
+          return data.user.mobile ? data.user.realName + '-' + data.user.mobile : data.user.realName;
+        } else if(data.user.mobile) {
+          return data.user.realName ? data.user.realName + '-' + data.user.mobile : data.user.mobile;
         }
       }
     }, {
@@ -58,6 +57,9 @@ class HandleApply extends React.Component {
       rangedate: ['createDatetimeStart', 'createDatetimeEnd'],
       render: dateTimeFormat,
       search: true
+    }, {
+      title: '车贷计算器信息',
+      field: 'saleDesc'
     }];
     return this.props.buildList({
       fields,

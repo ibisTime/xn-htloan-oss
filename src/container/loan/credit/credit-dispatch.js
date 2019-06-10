@@ -38,24 +38,14 @@ class archivesAddedit extends React.Component {
         const fields = [{
             title: '业务编号',
             field: 'code',
-            readonly: true,
-            formatter: (v, d) => {
-                return <div>
-                    {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
-                        this.props.history.push(`/ywcx/ywcx/addedit?v=1&code=${d.code}`);
-                }}>查看详情</a>
-                </div>;
-            }
+            readonly: true
         }, {
             title: '客户姓名',
             field: 'userName',
-            readonly: true,
-            formatter: (v, d) => {
-                return d ? d.creditUser.userName : '';
-            }
+            readonly: true
         }, {
             title: '贷款银行',
-            field: 'loanBankName',
+            field: 'loanBankCode',
             type: 'select',
             listCode: 632037,
             keyName: 'code',
@@ -76,29 +66,25 @@ class archivesAddedit extends React.Component {
         }, {
             title: '业务归属',
             field: 'ywyUser',
-            readonly: true,
             formatter: (v, d) => {
-                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
-            }
+                return d ? d.cdbiz.ywyUser : '';
+            },
+            readonly: true
         }, {
             title: '指派归属',
             field: 'zfStatus',
-            readonly: true,
             formatter: (v, d) => {
-                return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
-            }
+                return d ? d.cdbiz.zfStatus : '';
+            },
+            readonly: true
         }, {
             title: '当前状态',
             field: 'status',
-            key: 'cdbiz_status',
-            type: 'select',
-            readonly: true,
-            formatter: (v, d) => {
-                return d ? d.cdbiz.status : '';
-            }
+            listCode: 630066,
+            readonly: true
         }, {
             title: '派单给', // 派单给：默认为当前业务员
-            field: 'insideJob',
+            field: 'saleUserName',
             type: 'select',
             listCode: 630066,
             params: {
@@ -106,39 +92,35 @@ class archivesAddedit extends React.Component {
             },
             keyName: 'userId',
             valueName: 'realName',
-            formatter: (v, d) => {
-              return d ? d.insideJobName : '';
-            },
             required: true
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632516, // 征信详情查询接口
+            detailCode: 632117, // 征信详情查询接口
             buttons: [{
-                title: '确认',
-                handler: (param) => {
-                    param.operator = getUserId();
-                    if (param.insideJob === this.props.pageData.insideJobName) {
-                      param.insideJob = this.props.pageData.insideJob;
-                    }
-                    param.bizCode = this.code;
-                    fetch(632119, param).then(() => {
-                        showSucMsg('操作成功');
-                        this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
-                    }).catch(this.props.cancelFetching);
-                },
-                check: true,
-                type: 'primary'
-            }, {
-                title: '返回',
-                handler: (param) => {
+              title: '确认',
+              handler: (param) => {
+                  console.log(param);// param 为选中返回的一条数据
+                param.operator = getUserId();
+                param.insideJob = param.saleUserName;
+                param.creditCode = this.code;
+                fetch(632119, param).then(() => {
+                  showSucMsg('操作成功');
+                  this.props.cancelFetching();
+                  setTimeout(() => {
                     this.props.history.go(-1);
-                }
+                  }, 1000);
+                }).catch(this.props.cancelFetching);
+              },
+              check: true,
+              type: 'primary'
+            }, {
+              title: '返回',
+              handler: (param) => {
+                this.props.history.go(-1);
+              }
             }]
         });
     }
