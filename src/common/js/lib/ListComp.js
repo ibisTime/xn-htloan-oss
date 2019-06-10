@@ -1,16 +1,15 @@
 import React from 'react';
-import XLSX from 'xlsx';
+import {getWorkbook} from 'common/js/xlsx-util';
 import { Form, Select, DatePicker, Input, Button, Table } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import { moneyFormat, dateTimeFormat, dateFormat, monthFormat, tempString,
-  showWarnMsg, showSucMsg, showDelConfirm } from 'common/js/util';
+  showWarnMsg, showSucMsg, showDelConfirm, getUserId } from 'common/js/util';
 import { PIC_PREFIX } from 'common/js/config';
 import { getOwnerBtns } from 'api/menu';
 import { getDictList } from 'api/dict';
 import fetch from 'common/js/fetch';
 import locale from './date-locale';
-
 moment.locale('zh-cn');
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -164,6 +163,7 @@ export default class ListComponent extends React.Component {
   // 导出表单
   handleExport() {
     this.props.doFetching();
+    let url = window.location.pathname;
     fetch(this.options.pageCode, {
       start: 1,
       limit: 1000000,
@@ -173,26 +173,31 @@ export default class ListComponent extends React.Component {
       if (!data.list.length) {
         this.props.cancelFetching();
         showWarnMsg('暂无数据');
-        return;
-      }
-      let titles = [];
-      let bodys = [];
-      data.list.forEach((d, i) => {
-        let temp = [];
-        this.options.fields.forEach(f => {
-          if (i === 0) {
-            titles.push(f.title);
-          }
-          temp.push(f.render(d[f.field], d));
+      } else {
+        let operator = getUserId();
+        fetch(632090, {
+          url,
+          operator
+        }).then(info => {
+          let titles = [];
+          let bodys = [];
+          data.list.forEach((d, i) => {
+            let temp = [];
+            this.options.fields.forEach(f => {
+              if (i === 0) {
+                titles.push(f.title);
+              }
+              temp.push(f.render(d[f.field], d));
+            });
+            bodys.push(temp);
+          });
+          let result = [titles].concat(bodys);
+          const wb = getWorkbook();
+          wb.getSheet(result, 'SheetJS');
+          wb.downloadXls(info);
+          this.props.cancelFetching();
         });
-        bodys.push(temp);
-      });
-      let result = [titles].concat(bodys);
-      const ws = XLSX.utils.aoa_to_sheet(result);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'SheetJS');
-      XLSX.writeFile(wb, '表格导出.xlsx');
-      this.props.cancelFetching();
+      }
     }).catch(this.props.cancelFetching);
   }
   onSelectChange = (selectedRowKeys, selectedRows) => {
@@ -340,11 +345,17 @@ export default class ListComponent extends React.Component {
   getSelectData(item) {
     if (item.key) {
       getDictList({ parentKey: item.key, bizType: item.keyCode }).then(data => {
+        if (item.afterDetail) {
+          data = item.afterDetail(data);
+        }
         this.props.setSearchData({ data, key: item.field });
       }).catch(() => {});
     } else if (item.listCode) {
       let param = item.params || {};
       fetch(item.listCode, param).then(data => {
+        if (item.afterDetail) {
+          data = item.afterDetail(data);
+        }
         this.props.setSearchData({ data, key: item.field });
       }).catch(() => {});
     }

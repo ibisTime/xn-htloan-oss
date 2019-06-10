@@ -31,28 +31,23 @@ import {
 class materiallist extends React.Component {
     render() {
         const fields = [{
-            title: '序号',
-            field: 'no',
-            search: true
-        }, {
             title: '名称',
-            field: 'name'
+            field: 'vname'
+        }, {
+            title: '文件形式',
+            field: 'attachType'
         }, {
             title: '份数',
             field: 'number'
-        }, {
-            title: '更新时间',
-            field: 'updateDatetime',
-            type: 'date'
-        }, {
-            title: '更新人',
-            field: 'updaterName'
         }];
         return this.props.buildList({
             fields,
             rowKey: 'id',
             pageCode: 632215,
-            deleteCode: 632211
+            deleteCode: 632211,
+            searchParams: {
+                category: 'node_file_list'
+            }
         });
     }
 }

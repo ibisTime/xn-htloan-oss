@@ -61,11 +61,11 @@ class yellowList extends React.Component {
             field: 'isRepay',
             type: 'select',
             data: [{
-                key: '0',
-                value: '否'
-            }, {
                 key: '1',
                 value: '是'
+            }, {
+                key: '0',
+                value: '否'
             }],
             keyName: 'key',
             valueName: 'value',
@@ -80,7 +80,7 @@ class yellowList extends React.Component {
             pageCode: 630540,
             searchParams: {
               refType: '0',
-              curNodeCode: '004_05'
+              curNodeCode: 'l5'
             },
             btnEvent: {
                 payCost: (selectedRowKeys, selectedRows) => {

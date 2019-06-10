@@ -35,25 +35,12 @@ class Collection extends React.Component {
             search: true
         }, {
             title: '客户姓名',
-            field: 'customerName'
+            field: 'customerName',
+            search: true
         }, {
             title: '业务团队',
             field: 'teamName',
             readonly: true
-        }, {
-            title: '信贷专员',
-            field: 'saleUserName',
-            readonly: true
-        }, {
-            title: '内勤专员',
-            field: 'insideJobName',
-            readonly: true
-        }, {
-            title: '发件人',
-            field: 'senderName'
-        }, {
-            title: '收件人',
-            field: 'receiverName'
         }, {
             title: '传递方式',
             field: 'sendType',
@@ -106,19 +93,24 @@ class Collection extends React.Component {
             searchParams: {
                 type: '1'
             },
-            btnEvent: {
-              check: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].status !== '1') {
-                  showWarnMsg('当前不是待收件节点');
-                } else {
-                  this.props.history.push(`/transmit/collection/check?code=${selectedRowKeys[0]}`);
+            buttons: [{
+                code: 'edit',
+                name: '收件并审核',
+                handler: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].status !== '1') {
+                        showWarnMsg('当前不是待收件节点');
+                    } else {
+                        this.props.history.push(`/transmit/collection/check?code=${selectedRowKeys[0]}&toNodeCode=${selectedRows[0].toNodeCode}`);
+                    }
                 }
-              }
-            }
+            }, {
+                code: 'detail',
+                name: '详情'
+            }]
         });
     }
 }

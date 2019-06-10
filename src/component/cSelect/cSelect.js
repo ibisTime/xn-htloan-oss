@@ -90,22 +90,28 @@ export default class CSelect extends React.Component {
       onChange, initVal, inline, list, multiple, keyName, valueName } = this.props;
     let layoutProps = inline ? {} : formItemLayout;
     let value = this.getReadonlyValue(initVal, readonly, list, keyName, valueName, multiple);
+    let _initVal = initVal;
+    if (!multiple) {
+      _initVal = isUndefined(initVal) ? '' : (initVal + '');
+    }
     return (
-      <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''}>
-        {
-          readonly ? <div className="readonly-text">{value}</div>
-            : getFieldDecorator(field, {
-                rules,
-                initialValue: initVal
-              })(
-              <Select {...this.getSelectProps(multiple, onChange)}>
-                {list && list.length ? list.map(d => (
-                  <Option key={d[keyName]} value={d[keyName]}>
-                    {this.getValueName(d, valueName)}
-                  </Option>
-                )) : null}
-              </Select>)
-        }
+      <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''} >
+        <div style={{marginLeft: '20px'}}>
+          {
+            readonly ? <div className="readonly-text">{value}</div>
+              : getFieldDecorator(field, {
+                  rules,
+                  initialValue: _initVal
+                })(
+                <Select {...this.getSelectProps(multiple, onChange)}>
+                  {list && list.length ? list.map(d => (
+                    <Option key={d[keyName] + ''} value={d[keyName] + ''}>
+                      {this.getValueName(d, valueName)}
+                    </Option>
+                  )) : null}
+                </Select>)
+          }
+        </div>
       </FormItem>
     );
   }

@@ -28,23 +28,6 @@ class Role extends React.Component {
       field: 'name',
       search: true
     }, {
-      title: '角色等级',
-      field: 'level',
-      type: 'select',
-      data: [{
-        dkey: '1',
-        dvalue: '运维'
-      }, {
-        dkey: '2',
-        dvalue: '运营'
-      }, {
-        dkey: '3',
-        dvalue: '客户'
-      }],
-      keyName: 'dkey',
-      valueName: 'dvalue',
-      search: true
-    }, {
       title: '最近更新人',
       field: 'updaterName'
     }, {

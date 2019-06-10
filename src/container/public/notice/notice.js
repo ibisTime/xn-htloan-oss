@@ -44,6 +44,24 @@ class Notice extends React.Component {
       field: 'title',
       title: '标题'
     }, {
+      title: '类型',
+      field: 'type',
+      required: true,
+      type: 'select',
+      data: [{
+        key: '1',
+        value: '提醒'
+      }, {
+        key: '2',
+        value: '通知'
+      }, {
+        key: '3',
+        value: '公告'
+      }],
+      keyName: 'key',
+      valueName: 'value',
+      search: true
+    }, {
       field: 'status',
       title: '状态',
       type: 'select',
@@ -51,7 +69,10 @@ class Notice extends React.Component {
       search: true
     }, {
       field: 'updater',
-      title: '最近修改人'
+      title: '最近修改人',
+      render: (v, data) => {
+        return data.sysUser ? data.sysUser.loginName : '';
+      }
     }, {
       field: 'updateDatetime',
       title: '最近修改时间',

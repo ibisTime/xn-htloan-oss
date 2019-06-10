@@ -335,7 +335,6 @@ export default class DetailComponent extends React.Component {
         });
     }
     handleFilePreview = (file) => {
-      console.log(file);
         if (file.status === 'done') {
             let key = file.key || (file.response && file.response.key) || '';
             window.open(formatFile(key), true);
@@ -379,6 +378,7 @@ export default class DetailComponent extends React.Component {
         ...data,
         ...pageData
       });
+      this.options.afterDetail && this.options.afterDetail();
       this.o2mDataTmpls = null;
     }
 
@@ -1503,9 +1503,9 @@ export default class DetailComponent extends React.Component {
                         ? <Button style={{marginLeft: 20}} onClick={this.onCancel}>返回</Button>
                         : (
                             <div>
-                                <Button type="primary" htmlType="submit">{this.options.okText || '保存'}</Button>
+                                <Button type="primary" htmlType="submit" id='save'>{this.options.okText || '保存'}</Button>
                                 <Button style={{marginLeft: 20}}
-                                        onClick={this.onCancel}>{this.options.cancelText || '返回'}</Button>
+                                        onClick={this.onCancel} id='cancel'>{this.options.cancelText || '返回'}</Button>
                             </div>
                         )
                 }
@@ -1553,10 +1553,28 @@ export default class DetailComponent extends React.Component {
                 message: '请输入合法的数字'
             });
         }
+        if (item.number3) {
+            rules.push({
+                pattern: /^([01](\.0+)?|0\.([1-9]|[0-9][1-9]))$/,
+                message: '请输入大于0小于等于1的数字，且小数点后最多2位'
+            });
+        }
+        if (item.number5) {
+            rules.push({
+                pattern: /^([01](\.0+)?|0\.([1-9]|[0-9][1-9]|[0-9][1-9][1-9]|[0-9][1-9][1-9][1-9]))$/,
+                message: '请输入大于0小于等于1的数字，且小数点后最多4位'
+            });
+        }
         if (item.positive) {
             rules.push({
                 pattern: /^\d+(\.\d+)?$/,
                 message: '请输入正数'
+            });
+        }
+        if (item.positives) {
+            rules.push({
+                pattern: /^(0(.\d+)?|1(\.0+)?)$/,
+                message: '请输入0～1之间的数值'
             });
         }
         if (item.integer) {

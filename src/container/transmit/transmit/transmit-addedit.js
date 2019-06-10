@@ -30,7 +30,12 @@ class TransmitAddedit extends React.Component {
         field: 'customerName'
     }, {
         title: '业务编号',
-        field: 'bizCode'
+        field: 'bizCode',
+        formatter: (v, d) => {
+            return <div>
+                {d.bizCode}<a href={`/ywcx/ywcx/addedit?v=1&code=${d.bizCode}`} style={{ marginLeft: 20 }}>查看详情</a>
+            </div>;
+        }
     }, {
         title: '发件节点',
         field: 'fromNodeCode',
@@ -68,7 +73,7 @@ class TransmitAddedit extends React.Component {
         type: 'checkbox',
         listCode: 632217,
         keyName: 'id',
-        valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份'
+        valueName: '{{no.DATA}}-{{vname.DATA}}-{{number.DATA}}份'
     }, {
         title: '传递方式',
         field: 'sendType',

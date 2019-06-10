@@ -23,15 +23,15 @@ class CompAdd extends React.Component {
         title: '名称',
         required: true,
         maxlength: 30
-      }, {
-        field: 'leadUserId',
-        title: '负责人',
-        type: 'select',
-        listCode: 630066,
-        keyName: 'userId',
-        valueName: '{{realName.DATA}}-{{mobile.DATA}}',
-        searchName: 'keyword',
-        required: true
+      // }, {
+      //   field: 'leadUserId',
+      //   title: '负责人',
+      //   type: 'select',
+      //   listCode: 630066,
+      //   keyName: 'userId',
+      //   valueName: '{{realName.DATA}}-{{mobile.DATA}}',
+      //   searchName: 'keyword',
+      //   required: true
       }, {
         field: 'orderNo',
         title: 'UI次序',

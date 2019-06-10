@@ -30,9 +30,10 @@ import { listWrapper } from 'common/js/build-list';
 class imports extends React.Component {
     render() {
         const fields = [{
-            title: '编号',
-            field: 'code',
-            search: true
+            title: '业务编号',
+            field: 'repayBizCode',
+            search: true,
+            render: (v) => v || '-'
         }, {
             title: '客户姓名',
             field: 'realName',
@@ -56,22 +57,10 @@ class imports extends React.Component {
             field: 'overdueAmount',
             amount: true
         }, {
-            title: '逾期日期',
-            field: 'overdueDatetime',
-            type: 'date'
-        }, {
             title: '状态',
             field: 'status',
             type: 'select',
-            data: [{
-                key: '0',
-                value: '待处理'
-            }, {
-                key: '1',
-                value: '已处理'
-            }],
-            keyName: 'key',
-            valueName: 'value',
+            key: 'overdue_menu_status',
             search: true
         }];
         return this.props.buildList({

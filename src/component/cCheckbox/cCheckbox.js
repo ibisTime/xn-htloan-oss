@@ -86,18 +86,20 @@ export default class CCheckbox extends React.Component {
     }
     return (
       <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''}>
-        {
-          readonly ? <div className="readonly-text">{value}</div>
-            : getFieldDecorator(field, {
-                rules,
-                initialValue: initVal
-              })(
-              <CheckboxGroup {...this.getCheckProps(onChange, readonly)}>
-                {list && list.length
-                  ? list.map(d => <Checkbox key={d[keyName]} value={d[keyName]}>{d[valueName] ? d[valueName] : tempString(valueName, d)}</Checkbox>)
-                  : null}
-              </CheckboxGroup>)
-        }
+        <div style={{marginLeft: '20px'}}>
+          {
+            readonly ? <div className="readonly-text">{value}</div>
+              : getFieldDecorator(field, {
+                  rules,
+                  initialValue: initVal
+                })(
+                <CheckboxGroup {...this.getCheckProps(onChange, readonly)}>
+                  {list && list.length
+                    ? list.map(d => <Checkbox key={d[keyName]} value={d[keyName]}>{d[valueName] ? d[valueName] : tempString(valueName, d)}</Checkbox>)
+                    : null}
+                </CheckboxGroup>)
+          }
+        </div>
       </FormItem>
     );
   }

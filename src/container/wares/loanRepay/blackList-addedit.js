@@ -55,11 +55,11 @@ class blackListAddedit extends React.Component {
         field: 'isAdvanceSettled',
         type: 'select',
         data: [{
-            key: '0',
-            value: '否'
-        }, {
             key: '1',
             value: '是'
+        }, {
+            key: '0',
+            value: '否'
         }]
     }, {
         title: '总期数',

@@ -10,7 +10,7 @@ import {
   setSearchData
 } from '@redux/biz/historyBusinessManage';
 import { listWrapper } from 'common/js/build-list';
-import { formatDate, getTeamCode } from 'common/js/util';
+import { formatDate, getTeamCode, getUserId } from 'common/js/util';
 
 @listWrapper(state => ({
   ...state.bizHistoryBusinessManage,
@@ -87,17 +87,18 @@ class historyBusinessManage extends React.Component {
         listCode: 630147,
         keyName: 'code',
         valueName: 'name',
-        search: true
+        search: true,
+        params: {type: 'a'}
       }
     ];
     return this.props.buildList({
         fields,
         searchParams: {
           refType: '0',
-          // teamCode: getTeamCode(),
-          curNodeCodeList: ['003_14', '003_15', '003_16', '003_07', '007_04']
+            userId: getUserId(),
+          curNodeCodeList: ['j14', 'j15', 'j16', '7', '007_04']
         },
-        pageCode: 630520
+        pageCode: 630522
       });
   }
 }

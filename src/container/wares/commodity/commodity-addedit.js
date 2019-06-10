@@ -96,6 +96,7 @@ class commodityAddedit extends DetailUtil {
                 }, {
                     title: '分期利率',
                     field: 'bankRate',
+                    number3: true,
                     required: true
                 }, {
                     title: '首付比例',

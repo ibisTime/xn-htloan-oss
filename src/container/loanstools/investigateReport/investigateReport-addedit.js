@@ -41,7 +41,6 @@ class InvestigateReportAddedit extends DetailUtil {
                 [{
                     title: '授信金额',
                     field: 'loanAmount',
-                    amount: true,
                     required: true,
                     readonly: true
                 }, {
@@ -135,39 +134,32 @@ class InvestigateReportAddedit extends DetailUtil {
                 [{
                     field: 'interest1',
                     title: '结息1(元)',
-                    amount: true,
                     readonly: true
                 }, {
                     field: 'interest2',
                     title: '结息2(元)',
-                    amount: true,
                     readonly: true
                 }],
                 [{
                     field: 'jourIncome',
                     title: '总收入(元)',
-                    amount: true,
                     readonly: true
                 }, {
                     field: 'jourExpend',
                     title: '总支出(元)',
-                    amount: true,
                     readonly: true
                 }],
                 [{
                     field: 'jourBalance',
                     title: '账户余额(元)',
-                    amount: true,
                     readonly: true
                 }, {
                     field: 'jourMonthIncome',
                     title: '月均收入(元)',
-                    amount: true,
                     readonly: true
                 }, {
                     field: 'jourMonthExpend',
                     title: '月均支出(元)',
-                    amount: true,
                     readonly: true
                 }],
                 [{
@@ -211,40 +203,33 @@ class InvestigateReportAddedit extends DetailUtil {
                 [{
                     field: 'zfbInterest1',
                     title: '结息1(元)',
-                    amount: true,
                     readonly: true
                 }, {
                     field: 'zfbInterest2',
                     title: '结息2(元)',
-                    amount: true,
                     readonly: true
                 }],
                 [{
                     field: 'zfbJourIncome',
                     title: '总收入(元)',
-                    amount: true,
                     readonly: true
                 }, {
                     field: 'zfbJourExpend',
                     title: '总支出(元)',
-                    amount: true,
                     readonly: true
                 }
                 ],
                 [{
                     field: 'zfbJourBalance',
                     title: '账户余额(元)',
-                    amount: true,
                     readonly: true
                 }, {
                     field: 'zfbJourMonthIncome',
                     title: '月均收入(元)',
-                    amount: true,
                     readonly: true
                 }, {
                     field: 'zfbJourMonthExpend',
                     title: '月均支出(元)',
-                    amount: true,
                     readonly: true
                 }],
                 [{
@@ -288,39 +273,32 @@ class InvestigateReportAddedit extends DetailUtil {
                 [{
                     field: 'wxInterest1',
                     title: '结息1(元)',
-                    amount: true,
                     readonly: true
                 }, {
                     field: 'wxInterest2',
                     title: '结息2(元)',
-                    amount: true,
                     readonly: true
                 }],
                 [{
                     field: 'wxJourIncome',
                     title: '总收入(元)',
-                    amount: true,
                     readonly: true
                 }, {
                     field: 'wxJourExpend',
                     title: '总支出(元)',
-                    amount: true,
                     readonly: true
                 }],
                 [{
                     field: 'wxJourBalance',
                     title: '账户余额(元)',
-                    amount: true,
                     readonly: true
                 }, {
                     field: 'wxJourMonthIncome',
                     title: '月均收入(元)',
-                    amount: true,
                     readonly: true
                 }, {
                     field: 'wxJourMonthExpend',
                     title: '月均支出(元)',
-                    amount: true,
                     readonly: true
                 }],
                 [{

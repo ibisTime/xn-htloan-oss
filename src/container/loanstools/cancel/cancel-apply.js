@@ -38,13 +38,14 @@ class CancelApply extends React.Component {
       title: '选择预算单',
       field: 'code',
       type: 'select',
-      pageCode: 632145,
+      pageCode: 632515,
       params: {
+        saleUserId: getUserId(),
         teamCode: getTeamCode()
       },
       searchName: 'keyword',
       keyName: 'code',
-      valueName: '{{code.DATA}}-{{applyUserName.DATA}}',
+      valueName: '{{code.DATA}}',
       required: true
     }, {
       title: '作废原因',

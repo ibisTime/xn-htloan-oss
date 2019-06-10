@@ -37,21 +37,6 @@ class Transmit extends React.Component {
             title: '客户姓名',
             field: 'customerName'
         }, {
-            title: '业务团队',
-            field: 'teamName'
-        }, {
-            title: '信贷专员',
-            field: 'saleUserName'
-        }, {
-            title: '内勤专员',
-            field: 'insideJobName'
-        }, {
-            title: '发件人',
-            field: 'senderName'
-        }, {
-            title: '收件人',
-            field: 'receiverName'
-        }, {
             title: '传递方式',
             field: 'sendType',
             type: 'select',
@@ -103,17 +88,28 @@ class Transmit extends React.Component {
                 type: '1'
             },
             btnEvent: {
-              send: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].status !== '0' && selectedRows[0].status !== '3') {
-                  showWarnMsg('当前不是待发件节点');
-                } else {
-                  this.props.history.push(`/transmit/transmit/send?code=${selectedRowKeys[0]}`);
+                send: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].status !== '0' && selectedRows[0].status !== '3') {
+                        showWarnMsg('当前不是待发件节点');
+                    } else {
+                        this.props.history.push(`/transmit/transmit/send?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                sj: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else if (selectedRows[0].status !== '1') {
+                        showWarnMsg('当前不是待收件节点');
+                    } else {
+                        this.props.history.push(`/transmit/collection/check?code=${selectedRowKeys[0]}&toNodeCode=${selectedRows[0].toNodeCode}`);
+                    }
                 }
-              }
             }
         });
     }

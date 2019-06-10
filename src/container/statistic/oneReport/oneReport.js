@@ -67,7 +67,8 @@ class OneReport extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
-            nowrap: true
+            nowrap: true,
+            params: {type: 'a'}
         }, {
             title: '垫资日期',
             field: 'advanceFundDatetime',

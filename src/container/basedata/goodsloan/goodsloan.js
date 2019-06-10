@@ -34,6 +34,7 @@ class Goodsloan extends React.Component {
             title: '针对类型',
             field: 'type',
             type: 'select',
+            search: true,
             key: 'budget_orde_biz_typer'
         }, {
             title: '贷款银行',
@@ -54,7 +55,7 @@ class Goodsloan extends React.Component {
             field: 'authRate'
         }, {
             title: '返点利率',
-            field: 'backRate'
+            field: 'returnPointRate'
         }, {
             title: '前置利率',
             field: 'preRate'

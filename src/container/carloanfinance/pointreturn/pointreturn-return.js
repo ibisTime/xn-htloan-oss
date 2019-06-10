@@ -30,6 +30,43 @@ class pointreturnReturn extends React.Component {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
+        this.state = {
+            realName: '',
+            bankName: '',
+            subbranch: '',
+            bankcardNumber: ''
+        };
+        this.buttons = [];
+        if(this.view) {
+            this.buttons = [{
+                title: '返回',
+                handler: () => {
+                    this.props.history.go(-1);
+                }
+            }];
+        } else {
+            this.buttons = [{
+                title: '确认',
+                handler: (param) => {
+                    param.updater = getUserId();
+                    this.props.doFetching();
+                    fetch(632310, param).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
+                },
+                check: true,
+                type: 'primary'
+            }, {
+                title: '返回',
+                handler: (param) => {
+                    this.props.history.go(-1);
+                }
+            }];
+        }
     }
     render() {
         const fields = [{
@@ -46,39 +83,100 @@ class pointreturnReturn extends React.Component {
             field: 'bizCode',
             readonly: true
         }, {
-            title: '收款银行',
-            field: 'bank',
-            type: 'select',
-            listCode: 802116,
-            keyName: 'bankCode',
-            valueName: 'bankName',
-            readonly: true
-        }, {
-            title: '收款支行',
-            field: 'subbranch',
-            readonly: true
-        }, {
-            title: '收款账号',
-            field: 'accountNo',
-            readonly: true
-        }, {
             title: '应返金额',
             field: 'shouldAmount',
             amount: true,
             readonly: true
         }, {
-            title: '实返金额',
-            field: 'actualAmount',
-            amount: true,
-            required: true
-        }, {
-            title: '水单',
-            field: 'waterBill',
-            type: 'img',
-            required: true
-        }, {
-            title: '备注',
-            field: 'remark'
+            title: '返点账号列表',
+            field: 'repointAccountList',
+            type: 'o2m',
+            options: {
+                add: true,
+                edit: true,
+                delete: true,
+                fields: [{
+                    title: '返点账号',
+                    field: 'repointCardCode',
+                    type: 'select',
+                    listCode: '632007',
+                    params: {
+                        type: '3'
+                    },
+                    keyName: 'code',
+                    valueName: '{{bankName.DATA}}-{{bankcardNumber.DATA}}',
+                    required: true,
+                    onChange: (v, d) => {
+                        this.setState({
+                            realName: d.realName,
+                            bankName: d.bankName,
+                            subbranch: d.subbranch,
+                            bankcardNumber: d.bankcardNumber
+                        });
+                    }
+                }, {
+                    title: '户名',
+                    field: 'realName',
+                    readonly: true,
+                    hidden: !this.view,
+                    render: (v, d) => {
+                        if(this.state.realName) {
+                            return this.state.realName;
+                        }else {
+                            return d.collectBankcard.realName;
+                        }
+                    }
+                }, {
+                    title: '银行',
+                    field: 'bankName',
+                    readonly: true,
+                    hidden: !this.view,
+                    render: (v, d) => {
+                        if(this.state.bankName) {
+                            return this.state.bankName;
+                        }else {
+                            return d.collectBankcard.bankName;
+                        }
+                    }
+                }, {
+                    title: '支行',
+                    field: 'subbranch',
+                    readonly: true,
+                    hidden: !this.view,
+                    render: (v, d) => {
+                        if(this.state.subbranch) {
+                            return this.state.subbranch;
+                        }else {
+                            return d.collectBankcard.subbranch;
+                        }
+                    }
+                }, {
+                    title: '收款账号',
+                    field: 'bankcardNumber',
+                    readonly: true,
+                    hidden: !this.view,
+                    render: (v, d) => {
+                        if(this.state.bankcardNumber) {
+                            return this.state.bankcardNumber;
+                        }else {
+                            return d.collectBankcard.bankcardNumber;
+                        }
+                    }
+                }, {
+                    title: '实返金额',
+                    field: 'actualAmount',
+                    amount: true,
+                    required: true
+                }, {
+                    title: '水单',
+                    field: 'waterBill',
+                    type: 'img',
+                    required: true
+                }, {
+                    title: '备注',
+                    field: 'remark'
+                }]
+            }
         }];
         return this
             .props
@@ -87,27 +185,7 @@ class pointreturnReturn extends React.Component {
                 code: this.code,
                 view: this.view,
                 detailCode: 632316,
-                buttons: [{
-                    title: '确认',
-                    handler: (param) => {
-                        param.updater = getUserId();
-                        this.props.doFetching();
-                        fetch(632310, param).then(() => {
-                            showSucMsg('操作成功');
-                            this.props.cancelFetching();
-                            setTimeout(() => {
-                                this.props.history.go(-1);
-                            }, 1000);
-                        }).catch(this.props.cancelFetching);
-                    },
-                    check: true,
-                    type: 'primary'
-                }, {
-                    title: '返回',
-                    handler: (param) => {
-                        this.props.history.go(-1);
-                    }
-                }]
+                buttons: this.buttons
             });
     }
 }

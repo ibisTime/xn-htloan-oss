@@ -42,6 +42,16 @@ class businessTeamAddedit extends React.Component {
             searchName: 'keyword',
             required: true
         }, {
+            title: '区域',
+            field: 'place',
+            value: '1',
+            hidden: true
+        }, {
+            title: '地名',
+            field: 'region',
+            value: '2',
+            hidden: true
+        }, {
             field: 'bank',
             title: '收款银行',
             type: 'select',
@@ -57,14 +67,6 @@ class businessTeamAddedit extends React.Component {
             field: 'accountNo',
             title: '收款账号',
             bankCard: true,
-            required: true
-        }, {
-            title: '区域',
-            field: 'place',
-            required: true
-        }, {
-            title: '地名',
-            field: 'region',
             required: true
         }];
         return this.props.buildDetail({

@@ -30,17 +30,33 @@ class installGpsEnter extends React.Component {
     }
     render() {
         const fields = [{
-            title: '客户姓名',
-            field: 'applyUserName',
-            readonly: true
-        }, {
             title: '业务编号',
             field: 'code',
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+                return <div>
+                    {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                }}>查看详情</a>
+                </div>;
+            }
+        }, {
+            title: '客户姓名',
+            field: 'applyUserName',
+            readonly: true,
+            formatter: (v, d) => {
+                return d.creditUser ? d.creditUser.userName : '';
+            }
         }, {
             title: '贷款银行',
             field: 'loanBankName',
-            formatter: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : '',
+            formatter: (v, d) => {
+                if (d.loanBankName) {
+                    return d.repaySubbranch ? d.loanBankName + d.repaySubbranch : d.loanBankName;
+                } else if (d.repaySubbranch) {
+                    return d.loanBankName ? d.loanBankName + d.repaySubbranch : d.repaySubbranch;
+                }
+            },
             readonly: true
         }, {
             title: '贷款金额',
@@ -48,12 +64,39 @@ class installGpsEnter extends React.Component {
             amount: true,
             readonly: true
         }, {
-            field: 'carFrameNo',
-            title: '车架号',
+            title: '业务类型',
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer',
+            required: true,
+            readonly: true
+        }, {
+            title: '业务归属',
+            field: 'ywyUser',
+            formatter: (v, d) => {
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
+            },
+            readonly: true
+        }, {
+            title: '指派归属',
+            field: 'zfStatus',
+            readonly: true,
+            formatter: (v, d) => {
+                return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+            }
+        }, {
+            title: '当前状态',
+            field: 'fbhgpsNode',
+            type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name',
+            params: {type: 'd'},
             readonly: true
         }, {
             title: 'GPS安装列表',
-            field: 'budgetOrderGpsList',
+            field: 'gpsAzList',
+            required: true,
             type: 'o2m',
             options: {
                 add: true,
@@ -70,7 +113,7 @@ class installGpsEnter extends React.Component {
                         useStatus: '0'
                     },
                     keyName: 'code',
-                    valueName: 'gpsDevNo',
+                    valueName: '{{gpsDevNo.DATA}}',
                     nowrap: true,
                     required: true
                 }, {
@@ -113,13 +156,13 @@ class installGpsEnter extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
+            detailCode: 632516,
             buttons: [{
               title: '确认',
               handler: (param) => {
                 param.operator = getUserId();
                 this.props.doFetching();
-                param.gpsAzList = param.budgetOrderGpsList;
+                param.gpsAzList = param.gpsAzList;
                 fetch(632126, param).then(() => {
                   showSucMsg('操作成功');
                   this.props.cancelFetching();

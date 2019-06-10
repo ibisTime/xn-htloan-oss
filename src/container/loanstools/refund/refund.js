@@ -9,7 +9,7 @@ import {
     cancelFetching,
     setSearchData
 } from '@redux/loanstools/refund';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, getUserId } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
@@ -35,7 +35,7 @@ class refund extends React.Component {
             search: true
         }, {
             title: '业务公司',
-            field: 'companyName'
+            field: 'saleUserCompanyName'
         }, {
             title: '业务团队',
             field: 'teamName'
@@ -57,19 +57,25 @@ class refund extends React.Component {
             }
         }, {
             title: '客户姓名',
-            field: 'applyUserName',
+            field: 'ywyUser',
+            type: 'select',
+            render: (v, d) => {
+                return d.creditUser ? d.creditUser.userName : '';
+            },
             search: true
         }, {
             title: '贷款银行',
-            field: 'loanBankName',
-            render: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : ''
+            field: 'loanBankName'
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
         }, {
             title: '贷款期数',
-            field: 'loanPeriod'
+            field: 'loanPeriod',
+            render: (v, d) => {
+                return d.loanInfo ? d.loanInfo.periods : '-';
+            }
         }, {
             title: '业务种类',
             field: 'bizType',
@@ -103,13 +109,13 @@ class refund extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
-            search: true
-        }];
+            search: true}];
         return this.props.buildList({
             fields,
-            pageCode: 632185,
+            pageCode: 632515,
             searchParams: {
-                isAdvanceFund: '0'
+                isAdvanceFund: '0',
+                userId: getUserId()
             },
             btnEvent: {
               // 财务确认退款

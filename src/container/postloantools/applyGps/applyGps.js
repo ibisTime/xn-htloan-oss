@@ -15,7 +15,7 @@ import { listWrapper } from 'common/js/build-list';
 @listWrapper(
     state => ({
         ...state.postloantoolsApplyGps,
-        parentCode: state.menu.subMenuCode
+        parentCode: state.menu.subMenuCode,
     }), {
         setTableData,
         clearSearchParam,
@@ -24,29 +24,33 @@ import { listWrapper } from 'common/js/build-list';
         cancelFetching,
         setPagination,
         setSearchParam,
-        setSearchData
+        setSearchData,
     }
 )
 class applyGps extends React.Component {
     render() {
         const fields = [{
+            title: '所属公司',
+            field: 'companyName',
+            search: true
+        }, {
             title: '申领人',
-            field: 'applyUserName'
+            field: 'applyUserName',
+            search: true
+        }, {
+            title: '所属团队',
+            field: 'teamName'
         }, {
             title: '申领时间',
             field: 'applyDatetime',
             type: 'date',
             rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
-            render: dateTimeFormat,
-            search: true
+            render: dateTimeFormat
         }, {
             title: '申领个数',
-            field: 'applyCount',
-            search: true
-        }, {
-            title: '申领原因',
-            field: 'applyReason'
-        }, {
+            field: 'applyCount'
+        },
+            {
             title: '发货时间',
             field: 'sendDatetime',
             type: 'datetime'
@@ -60,7 +64,13 @@ class applyGps extends React.Component {
             type: 'select',
             key: 'gps_apply_status',
             search: true
-        }];
+        }, {
+                title: '备注',
+                field: 'remark',
+                render: (v, d) => {
+                    return d.remark ? d.remark : '无';
+                }
+            }];
         return this.props.buildList({
             fields,
             pageCode: 632715,

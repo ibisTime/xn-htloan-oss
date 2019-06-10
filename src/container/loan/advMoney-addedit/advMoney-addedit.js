@@ -18,7 +18,18 @@ class AdvMoneyAddedit extends DetailUtil {
     }
     checkRecord(params) {
         this.doFetching();
-        fetch(632143, params).then(() => {
+        fetch(632463, params).then(() => {
+            showSucMsg('操作成功');
+            this.cancelFetching();
+            setTimeout(() => {
+                this.props.history.go(-1);
+            }, 1000);
+        }).catch(this.cancelFetching);
+    }
+    // 确认垫资接口
+    checkRecords(params) {
+        this.doFetching();
+        fetch(632464, params).then(() => {
             showSucMsg('操作成功');
             this.cancelFetching();
             setTimeout(() => {
@@ -37,53 +48,32 @@ class AdvMoneyAddedit extends DetailUtil {
             readonly: false
         }, {
             title: '业务编号',
-            field: 'code1',
-            required: true,
+            field: 'code',
             readonly: true,
             formatter: (v, d) => {
-                return d.code;
+                return <div>
+                    {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                }}>查看详情</a>
+                </div>;
             }
         }, {
             title: '客户姓名',
             field: 'applyUserName',
-            required: true,
-            readonly: true
-        }, {
-            title: '业务公司',
-            field: 'companyName',
-            readonly: true
-        }, {
-            title: '区域经理',
-            field: 'areaName',
+            readonly: true,
             formatter: (v, d) => {
-                return d.areaMobile ? `${d.areaName}-${d.areaMobile}` : `${d.areaName || ''}`;
-            },
-            readonly: true
-        }, {
-            title: '业务团队',
-            field: 'teamName',
-            readonly: true
-        }, {
-            title: '信贷专员',
-            field: 'saleUserName',
-            readonly: true
-        }, {
-            title: '业务内勤',
-            field: 'insideJobName',
-            readonly: true
+                return d.creditUser ? d.creditUser.userName : '';
+            }
         }, {
             title: '贷款银行',
             field: 'loanBankName',
-            readonly: true
-        }, {
-            title: '资金划转授权书 ',
-            field: 'advanceFundAmountPdf',
-            type: 'img',
-            readonly: true
-        }, {
-            title: '其他资料',
-            field: 'interviewOtherPdf',
-            type: 'file',
+            formatter: (v, d) => {
+                if (d.loanBankName) {
+                    return d.repaySubbranch ? d.loanBankName + d.repaySubbranch : d.loanBankName;
+                } else if (d.repaySubbranch) {
+                    return d.loanBankName ? d.loanBankName + d.repaySubbranch : d.repaySubbranch;
+                }
+            },
             readonly: true
         }, {
             title: '贷款金额',
@@ -91,111 +81,46 @@ class AdvMoneyAddedit extends DetailUtil {
             amount: true,
             readonly: true
         }, {
-            title: 'GPS费用',
-            field: 'gpsFee',
-            amount: true,
+            title: '业务类型',
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer',
+            required: true,
             readonly: true
         }, {
-            title: '公证费',
-            field: 'authFee',
-            amount: true,
-            readonly: true
+            title: '业务归属',
+            field: 'ywyUser',
+            readonly: true,
+            formatter: (v, d) => {
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
+            }
         }, {
-            title: '月供保证金',
-            field: 'monthDeposit',
-            amount: true,
-            readonly: true
+            title: '指派归属',
+            field: 'zfStatus',
+            readonly: true,
+            formatter: (v, d) => {
+                return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+            }
         }, {
-            title: '其他费用',
-            field: 'otherFee',
-            amount: true,
-            readonly: true
-        }, {
-            title: '公司服务费',
-            field: 'companyFee',
-            amount: true,
-            readonly: true
-        }, {
-            title: '团队服务费',
-            field: 'teamFee',
-            amount: true,
-            readonly: true
-        }, {
-            title: '银行服务费',
-            field: 'bankFee',
-            amount: true,
-            readonly: true
+            title: '状态',
+            field: 'fbhgpsNode',
+            type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name',
+            readonly: true,
+            params: {type: 'g'}
         }];
         let config = {
             code: this.code,
             view: this.view,
-            detailCode: 632146,
-            editCode: 632125
+            detailCode: 632516,
+            editCode: 632464
         };
-        if (!this.check) {
-            fields = fields.concat([{
-                title: '垫资日期',
-                field: 'advanceFundDatetime',
-                type: 'date',
-                required: true
-            }, {
-                title: '垫资金额',
-                field: 'advanceFundAmount',
-                amount: true,
-                required: true
-            }, {
-                title: '水单',
-                field: 'billPdf',
-                type: 'img',
-                required: true
-            }, {
-                title: '垫资说明',
-                field: 'advanceNote',
-                type: 'textarea',
-                normalArea: true,
-                required: true
-            }]);
-        }
-        fields.push({
-            title: '流转日志',
-            field: 'list',
-            type: 'o2m',
-            listCode: 630176,
-            params: { refOrder: this.code },
-            options: {
-                rowKey: 'id',
-                noSelect: true,
-                fields: [{
-                    title: '操作人',
-                    field: 'operatorName'
-                }, {
-                    title: '开始时间',
-                    field: 'startDatetime',
-                    type: 'datetime'
-                }, {
-                    title: '结束时间',
-                    field: 'endDatetime',
-                    type: 'datetime'
-                }, {
-                    title: '花费时长',
-                    field: 'speedTime'
-                }, {
-                    title: '审核意见',
-                    field: 'dealNote'
-                }, {
-                    title: '当前节点',
-                    field: 'dealNode',
-                    type: 'select',
-                    listCode: 630147,
-                    keyName: 'code',
-                    valueName: 'name'
-                }]
-            }
-        });
         if (this.check) {
             fields.push({
-                title: '审核说明',
-                field: 'approveNote',
+                title: '垫资说明',
+                field: 'advanceNote',
                 required: true,
                 readonly: !this.check
             });
@@ -219,6 +144,50 @@ class AdvMoneyAddedit extends DetailUtil {
                     this.props.history.go(-1);
                 }
             }];
+        } else {
+                fields = fields.concat([{
+                    title: '汽车经销商',
+                    field: 'carDealerName',
+                    readonly: true
+                }, {
+                    title: '资金划转授权书 ',
+                    field: 'advanceFundAmountPdf',
+                    type: 'img',
+                    readonly: true,
+                    formatter: (v, d) => {
+                        let url = '';
+                        d.attachments.forEach(item => {
+                            if (item.vname === '资金划转授权书') {
+                                url = item.url;
+                            }
+                        });
+                        return url;
+                    }
+                }, {
+                    title: '垫资日期',
+                    field: 'advanceFundDatetime',
+                    type: 'date',
+                    required: true
+                }, {
+                    title: '垫资金额',
+                    field: 'advanceFundAmount',
+                    amount: true,
+                    required: true
+                }, {
+                    title: '水单',
+                    field: 'billPdf',
+                    type: 'img',
+                    required: true
+                }, {
+                    title: '垫资账号',
+                    field: 'advanceCardCode',
+                    type: 'select',
+                    listCode: 632007,
+                    keyName: 'code',
+                    valueName: '{{bankName.DATA}}-{{bankcardNumber.DATA}}',
+                    required: true,
+                    params: {type: '4'}
+                }]);
         }
         config.fields = fields;
         return this.buildDetail(config);

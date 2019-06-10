@@ -14,7 +14,8 @@ import {
 } from 'common/js/build-list';
 import {
   showWarnMsg,
-  showSucMsg
+  showSucMsg,
+  getUserId
 } from 'common/js/util';
 import {
   Button,
@@ -86,7 +87,8 @@ class trailer extends React.Component {
       type: 'select',
       listCode: 630147,
       keyName: 'code',
-      valueName: 'name'
+      valueName: 'name',
+      params: {type: 'a'}
     }, {
       title: '关键字搜索',
       field: 'keyword',
@@ -95,14 +97,17 @@ class trailer extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 630520,
+      pageCode: 630522,
+        searchParams: {
+          userId: getUserId()
+        },
       btnEvent: {
         dispose: (selectedRowKeys, selectedRows) => {
           if (!selectedRowKeys.length) {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].curNodeCode !== '003_11') {
+          } else if (selectedRows[0].curNodeCode !== 'j11') {
             showWarnMsg('当前节点不是清款催收部拖车结果已录入节点');
           } else {
             this.props.history.push(`/wares/trailer/dispose?code=${selectedRowKeys[0]}`);

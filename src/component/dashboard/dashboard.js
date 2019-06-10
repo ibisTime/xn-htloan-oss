@@ -12,7 +12,7 @@ import {
 import { clearUser } from 'common/js/util';
 import asyncComponent from '../async-component/async-component';
 import EditPwd from 'component/edit-pwd/edit-pwd';
-import { getToDoCount } from 'api/biz';
+// import { getToDoCount } from 'api/biz';
 import ROUTES from 'src/route';
 import './dashboard.css';
 import logo from './logo.png';

@@ -32,23 +32,69 @@ class bankMoneySub extends React.Component {
           hidden: true,
           value: getUserId()
         }, {
-            title: '客户姓名',
-            field: 'applyUserName',
-            readonly: true
-        }, {
             title: '业务编号',
             field: 'code',
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+                return <div>
+                    {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                }}>查看详情</a>
+                </div>;
+            }
+        }, {
+            title: '客户姓名',
+            field: 'applyUserName',
+            readonly: true,
+            formatter: (v, d) => {
+                return d.creditUser ? d.creditUser.userName : '';
+            }
         }, {
             title: '贷款银行',
-            field: 'loanBank',
-            formatter: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : '',
+            field: 'loanBankName',
+            formatter: (v, d) => {
+                if (d.loanBankName) {
+                    return d.repaySubbranch ? d.loanBankName + d.repaySubbranch : d.loanBankName;
+                } else if (d.repaySubbranch) {
+                    return d.loanBankName ? d.loanBankName + d.repaySubbranch : d.repaySubbranch;
+                }
+            },
             readonly: true
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true,
             readonly: true
+        }, {
+            title: '业务类型',
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer',
+            required: true,
+            readonly: true
+        }, {
+            title: '业务归属',
+            field: 'ywyUser',
+            formatter: (v, d) => {
+                return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
+            },
+            readonly: true
+        }, {
+            title: '指派归属',
+            field: 'zfStatus',
+            readonly: true,
+            formatter: (v, d) => {
+                return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+            }
+        }, {
+            title: '当前状态',
+            field: 'curNodeCode',
+            type: 'select',
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name',
+            readonly: true,
+            params: {type: 'e'}
         }, {
             title: '提交时间',
             field: 'bankCommitDatetime',
@@ -62,8 +108,12 @@ class bankMoneySub extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
-            editCode: 632129
+            detailCode: 632516,
+            editCode: 632129,
+            beforeSubmit: (params) => {
+                params.operator = getUserId();
+                return params;
+            }
         });
     }
 }

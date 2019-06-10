@@ -34,11 +34,21 @@ class bankMoneyCertain extends React.Component {
         }, {
             title: '客户姓名',
             field: 'applyUserName',
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+                return d ? d.creditUser.userName : '-';
+            }
         }, {
             title: '业务编号',
             field: 'code',
-            readonly: true
+            readonly: true,
+            formatter: (v, d) => {
+                return <div>
+                    {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+                    window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+                }}>查看详情</a>
+                </div>;
+            }
         }, {
             title: '贷款银行',
             field: 'loanBankName',
@@ -69,7 +79,7 @@ class bankMoneyCertain extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632146,
+            detailCode: 632516,
             editCode: 632130,
             beforeSubmit: (param) => {
                 let bank = this.props.selectData.receiptBankCode.find(v => v.code === param.receiptBankCode);

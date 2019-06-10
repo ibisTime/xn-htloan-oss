@@ -42,17 +42,16 @@ class Locationcode extends React.Component {
     render() {
         const fields = [{
             title: '位置编号',
-            field: 'location',
-            search: true
+            field: 'location'
         }, {
             title: '位置名称',
             field: 'name',
             search: true
         }, {
-            title: '最后更新人',
+            title: '更新人',
             field: 'updaterName'
         }, {
-            title: '最后更新时间',
+            title: '更新时间',
             field: 'updateDatetime',
             type: 'datetime'
         }];

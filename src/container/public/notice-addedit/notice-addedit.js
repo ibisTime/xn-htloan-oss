@@ -22,18 +22,33 @@ class NoticeAddEdit extends React.Component {
   }
   render() {
     const fields = [{
-      field: 'type',
-      value: '1',
-      hidden: true
-    }, {
       title: '标题',
       field: 'title',
       maxlength: 50,
       required: true
     }, {
+      title: '类型',
+      field: 'type',
+      required: true,
+      type: 'select',
+      data: [{
+        key: '1',
+        value: '提醒'
+      }, {
+        key: '2',
+        value: '通知'
+      }, {
+        key: '3',
+        value: '公告'
+      }],
+      keyName: 'key',
+      valueName: 'value',
+      search: true
+    }, {
       title: '内容',
       field: 'content',
       type: 'textarea',
+      normalArea: true,
       required: true
     }, {
       title: '备注',

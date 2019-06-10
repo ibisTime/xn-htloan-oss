@@ -67,23 +67,47 @@ class bankMoney extends React.Component {
     }, {
       title: '客户姓名',
       field: 'applyUserName',
-      search: true
+      search: true,
+      render: (v, d) => {
+        return d.creditUser ? d.creditUser.userName : '';
+      }
     }, {
       title: '贷款银行',
       field: 'loanBankName',
-      render: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : ''
+      render: (v, d) => {
+        if (d.loanBankName) {
+          return d.repaySubbranch ? d.loanBankName + d.repaySubbranch : d.loanBankName;
+        } else if (d.repaySubbranch) {
+          return d.loanBankName ? d.loanBankName + d.repaySubbranch : d.repaySubbranch;
+        }
+      }
     }, {
       title: '贷款金额',
       field: 'loanAmount',
       amount: true
     }, {
       title: '贷款期数',
-      field: 'loanPeriod'
+      field: 'loanPeriod',
+      render: (v, d) => {
+        return d.loanInfo ? d.loanInfo.periods : '-';
+      }
     }, {
-      title: '业务种类',
+      title: '购车途径',
       field: 'bizType',
       type: 'select',
       key: 'budget_orde_biz_typer'
+    }, {
+      title: '状态',
+      field: 'curNodeCode',
+      type: 'select',
+      listCode: 630147,
+      keyName: 'code',
+      valueName: 'name',
+      params: {type: 'e'},
+      afterDetail: (list) => {
+        return list && list.length ? list.filter(l => l.code !== 'e6') : [];
+      },
+      search: true
     }, {
       title: '申请日期',
       field: 'applyDatetime',
@@ -96,24 +120,16 @@ class bankMoney extends React.Component {
       field: 'bankFkDatetime',
       type: 'date'
     }, {
-      title: '当前节点',
-      field: 'intevCurNodeCode',
-      type: 'select',
-      listCode: 630147,
-      keyName: 'code',
-      valueName: 'name',
-      search: true
-    }, {
       title: '备注',
       field: 'remark'
     }];
     return this.props.buildList({
       fields,
-      pageCode: 632148,
+      pageCode: 632515,
       searchParams: {
         userId: getUserId(),
         roleCode: getRoleCode(),
-        intevCurNodeCodeList: ['002_11', '002_13', '002_14', '002_15', '002_16', '002_17', '002_31', '002_37', '002_38']
+        curNodeCodeList: ['e1', 'e2', 'e1x', 'e3', 'e4', 'e5', 'e7', 'e8']
       },
       btnEvent: {
         // 确认提交银行
@@ -122,7 +138,7 @@ class bankMoney extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].intevCurNodeCode !== '002_15') {
+          } else if (selectedRows[0].curNodeCode !== 'e3') {
             showWarnMsg('当前不是确认提交银行节点');
           } else {
             this.props.history.push(`/biz/bankMoney/sub?code=${selectedRowKeys[0]}`);
@@ -134,7 +150,7 @@ class bankMoney extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].intevCurNodeCode !== '002_16') {
+          } else if (selectedRows[0].curNodeCode !== 'e4') {
             showWarnMsg('当前不是录入放款信息节点');
           } else {
             this.props.history.push(`/biz/bankMoney/enter?code=${selectedRowKeys[0]}`);
@@ -146,10 +162,19 @@ class bankMoney extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].intevCurNodeCode !== '002_17') {
+          } else if (selectedRows[0].curNodeCode !== 'e5') {
             showWarnMsg('当前不是确认收款节点');
           } else {
             this.props.history.push(`/biz/bankMoney/certain?code=${selectedRowKeys[0]}`);
+          }
+        },
+        detail: (selectedRowKeys, selectedRows) => {
+          if (!selectedRowKeys.length) {
+            showWarnMsg('请选择记录');
+          } else if (selectedRowKeys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else {
+            this.props.history.push(`/ywcx/ywcx/addedit?v=1&code=${selectedRowKeys[0]}`);
           }
         },
         // 资料补录
@@ -158,11 +183,11 @@ class bankMoney extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].intevCurNodeCode !== '002_11' &&
-            selectedRows[0].intevCurNodeCode !== '002_13' &&
-            selectedRows[0].intevCurNodeCode !== '002_14' &&
-            selectedRows[0].intevCurNodeCode !== '002_15' &&
-            selectedRows[0].intevCurNodeCode !== '002_16') {
+          } else if (selectedRows[0].curNodeCode !== 'e1' &&
+              selectedRows[0].curNodeCode !== 'e1x' &&
+            selectedRows[0].curNodeCode !== 'e2' &&
+              selectedRows[0].curNodeCode !== 'e7' &&
+              selectedRows[0].curNodeCode !== 'e8') {
             showWarnMsg('当前不是录入节点');
           } else {
             this.props.history.push(`/biz/bankMoney/record?code=${selectedRowKeys[0]}&bizType=${selectedRows[0].bizType}`);

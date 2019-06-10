@@ -25,7 +25,7 @@ class AboutusAddEdit extends React.Component {
       value: '关于我们',
       hidden: true
     }, {
-      title: '角色名称',
+      title: '内容',
       field: 'cvalue',
       type: 'textarea',
       required: true

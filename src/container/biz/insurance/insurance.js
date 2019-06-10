@@ -41,16 +41,7 @@ class Insurance extends React.Component {
             search: true
         }, {
             title: '业务公司',
-            field: 'companyCode',
-            listCode: 630106,
-            params: {
-                typeList: [1],
-                status: '1'
-            },
-            type: 'select',
-            keyName: 'code',
-            valueName: 'name',
-            search: true
+            field: 'saleUserCompanyName'
         }, {
             title: '业务团队',
             field: 'teamName'
@@ -73,63 +64,66 @@ class Insurance extends React.Component {
         }, {
             title: '客户姓名',
             field: 'applyUserName',
-            search: true
+            search: true,
+            render: (v, d) => {
+                return d.creditUser ? d.creditUser.userName : '';
+            }
         }, {
-            title: '业务内勤',
-            field: 'insideJobName'
-        }, {
-            title: '手机号',
-            field: 'mobile'
+            title: '贷款银行',
+            field: 'loanBankName',
+            render: (v, d) => {
+                if (d.loanBankName) {
+                    return d.repaySubbranch ? d.loanBankName + d.repaySubbranch : d.loanBankName;
+                } else if (d.repaySubbranch) {
+                    return d.loanBankName ? d.loanBankName + d.repaySubbranch : d.repaySubbranch;
+                }
+            }
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
         }, {
-            title: '贷款期限',
+            title: '贷款期数',
             field: 'loanPeriod',
-            type: 'select',
-            key: 'loan_period'
+            render: (v, d) => {
+                return d.loanInfo ? d.loanInfo.periods : '-';
+            }
         }, {
             title: '业务种类',
             field: 'bizType',
             type: 'select',
             key: 'budget_orde_biz_typer'
         }, {
-            title: '是否垫资',
-            field: 'isAdvanceFund',
-            type: 'select',
-            data: [{
-                dkey: '0',
-                dvalue: '否'
-            }, {
-                dkey: '1',
-                dvalue: '是'
-            }],
-            keyName: 'dkey',
-            valueName: 'dvalue'
-        }, {
-            title: '申请日期',
+            title: '申请时间',
             field: 'applyDatetime',
             rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
             type: 'date',
             render: dateTimeFormat,
             search: true
         }, {
-            title: '当前节点',
-            field: 'advanfCurNodeCode',
+            title: '放款日期',
+            field: 'bankFkDatetime',
+            type: 'date'
+        }, {
+            title: '状态',
+            field: 'fbhgpsNode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
-            search: true
+            search: true,
+            params: {type: 'c'}
+        }, {
+            title: '备注',
+            field: 'remark'
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632148,
+            pageCode: 632515,
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
-                advanfCurNodeCodeList: ['002_18']
+                fbhgpsNodeList: ['c1', 'c1x', 'c2']
             },
             btnEvent: {
                 // 录入
@@ -138,10 +132,31 @@ class Insurance extends React.Component {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                    } else if (selectedRows[0].advanfCurNodeCode !== '002_18') {
+                    } else if (selectedRows[0].fbhgpsNode !== 'c1' && selectedRows[0].fbhgpsNode !== 'c1x') {
                         showWarnMsg('当前不是录入发保合节点');
                     } else {
                         this.props.history.push(`${this.props.location.pathname}/addedit?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                // 审核
+                check: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                     } else if (selectedRows[0].fbhgpsNode !== 'c2') {
+                      showWarnMsg('当前不是录入发保合节点');
+                    } else {
+                        this.props.history.push(`${this.props.location.pathname}/enter?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                detail: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/ywcx/ywcx/addedit?v=1&code=${selectedRowKeys[0]}`);
                     }
                 }
             }

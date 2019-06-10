@@ -28,16 +28,63 @@ class CollectionCheck extends React.Component {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
+      this.toNodeCode = getQueryString('toNodeCode', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
-  }
-  doSuccess = (data) => {
-    showSucMsg('操作成功');
-    isExpressConfirm(data);
-    this.props.cancelFetching();
-    setTimeout(() => {
-        this.props.history.go(-1);
-    }, 1000);
-  }
+      this.buttons = [];
+      if(this.toNodeCode === 'e8') {
+          this.buttons = [{
+              title: '收件并审核通过',
+              handler: (param) => {
+                  param.operator = getUserId();
+                  param.approveResult = '1';
+                  fetch(632151, param).then((data) => {
+                      this.doSuccess(data);
+                  }).catch(this.props.cancelFetching);
+              },
+              check: true
+          }, {
+              title: '返回',
+              handler: (param) => {
+                  this.props.history.go(-1);
+              }
+          }];
+      }else {
+          this.buttons = [{
+              title: '收件并审核通过',
+              handler: (param) => {
+                  param.operator = getUserId();
+                  param.approveResult = '1';
+                  fetch(632151, param).then((data) => {
+                      this.doSuccess(data);
+                  }).catch(this.props.cancelFetching);
+              },
+              check: true
+          }, {
+              title: '收件待补件',
+              handler: (param) => {
+                  param.operator = getUserId();
+                  param.approveResult = '0';
+                  fetch(632151, param).then((data) => {
+                      this.doSuccess(data);
+                  }).catch(this.props.cancelFetching);
+              },
+              check: true
+          }, {
+              title: '返回',
+              handler: (param) => {
+                  this.props.history.go(-1);
+              }
+          }];
+      }
+      }
+    doSuccess = (data) => {
+        showSucMsg('操作成功');
+        isExpressConfirm(data);
+        this.props.cancelFetching();
+        setTimeout(() => {
+            this.props.history.go(-1);
+        }, 1000);
+    }
   render() {
     const fields = [{
         title: '客户姓名',
@@ -46,7 +93,12 @@ class CollectionCheck extends React.Component {
     }, {
         title: '业务编号',
         field: 'bizCode',
-        readonly: true
+        readonly: true,
+        formatter: (v, d) => {
+            return <div>
+                {d.bizCode}<a href={`/ywcx/ywcx/addedit?v=1&code=${d.bizCode}`} style={{ marginLeft: 20 }}>查看详情</a>
+            </div>;
+        }
     }, {
         title: '发件节点',
         field: 'fromNodeCode',
@@ -92,7 +144,14 @@ class CollectionCheck extends React.Component {
         type: 'checkbox',
         listCode: 632217,
         keyName: 'id',
-        valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份',
+        valueName: '{{no.DATA}}-{{vname.DATA}}-{{number.DATA}}份',
+        render: (v, d) => {
+            if (d.filelist) {
+                return d.filelist.split(',');
+             } else {
+                return [];
+            }
+        },
         readonly: true
     }, {
         title: '传递方式',
@@ -113,10 +172,12 @@ class CollectionCheck extends React.Component {
         field: 'logisticsCompany',
         type: 'select',
         key: 'kd_company',
+        hidden: !this.props.pageData || !this.props.pageData.logisticsCompany,
         readonly: true
     }, {
         title: '快递单号',
         field: 'logisticsCode',
+        hidden: !this.props.pageData || !this.props.pageData.logisticsCode,
         readonly: true
     }, {
         title: '发货时间',
@@ -136,30 +197,7 @@ class CollectionCheck extends React.Component {
         code: this.code,
         view: this.view,
         detailCode: 632156,
-        buttons: [{
-            title: '收件并审核通过',
-            handler: (param) => {
-                param.operator = getUserId();
-                fetch(632151, param).then((data) => {
-                    this.doSuccess(data);
-                }).catch(this.props.cancelFetching);
-            },
-            check: true
-        }, {
-            title: '收件待补件',
-            handler: (param) => {
-                param.operator = getUserId();
-                fetch(632152, param).then((data) => {
-                    this.doSuccess(data);
-                }).catch(this.props.cancelFetching);
-            },
-            check: true
-        }, {
-            title: '返回',
-            handler: (param) => {
-                this.props.history.go(-1);
-            }
-        }]
+        buttons: this.buttons
       });
   }
 }

@@ -26,7 +26,12 @@ class TransmitSend extends DetailUtil {
     }, {
         title: '业务编号',
         field: 'bizCode',
-        readonly: true
+        readonly: true,
+        formatter: (v, d) => {
+            return <div>
+                {d.bizCode}<a href={`/ywcx/ywcx/addedit?v=1&code=${d.bizCode}`} style={{ marginLeft: 20 }}>查看详情</a>
+            </div>;
+        }
     }, {
         title: '发件节点',
         field: 'fromNodeCode',
@@ -71,9 +76,12 @@ class TransmitSend extends DetailUtil {
         title: '材料清单',
         field: 'filelist',
         type: 'checkbox',
+        params: {
+            category: 'node_file_list'
+        },
         listCode: 632217,
         keyName: 'id',
-        valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份'
+        valueName: '{{no.DATA}}-{{vname.DATA}}-{{number.DATA}}份'
     }, {
         title: '寄送方式',
         field: 'sendType',

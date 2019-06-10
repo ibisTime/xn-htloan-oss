@@ -31,13 +31,15 @@ class Pointreturn extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
-            field: 'bizCode'
+            field: 'bizCode',
+            search: true
         }, {
             title: '业务团队队长',
             field: 'captain',
             type: 'select',
             listCode: 630207,
             keyName: 'userId',
+            search: true,
             valueName: 'realName'
         }, {
             title: '返还金额',
@@ -51,6 +53,7 @@ class Pointreturn extends React.Component {
             title: '状态',
             field: 'status',
             type: 'select',
+            search: true,
             data: [{
                 key: '0',
                 value: '待返点'

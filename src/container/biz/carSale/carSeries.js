@@ -11,10 +11,9 @@ import {
 } from '@redux/biz/carSeries';
 import { listWrapper } from 'common/js/build-list';
 import OnOrDownShelf from 'component/onordownshelf/onordownshelf';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, showSucMsg, moneyFormat } from 'common/js/util';
 import { Modal } from 'antd';
 import { lowerFrameSys, onShelfSys } from 'api/biz';
-
 @listWrapper(
   state => ({
     ...state.bizCarSeries,
@@ -32,7 +31,10 @@ class CarSeries extends React.Component {
       shelfVisible: false,
       selectKey: ''
     };
-    this.arr = ['首页推荐', '普通'];
+    this.arr = {
+      '0': '首页推荐',
+      '1': '普通'
+    };
   }
   setShelfVisible = (shelfVisible) => {
     this.setState({ shelfVisible });
@@ -53,17 +55,58 @@ class CarSeries extends React.Component {
       valueName: 'name',
       search: true
     }, {
+      field: 'level',
+      title: '级别',
+      required: true,
+      type: 'select',
+      data: [{
+        key: '0',
+        value: 'SUV'
+      }, {
+        key: '1',
+        value: '轿车'
+      }, {
+        key: '2',
+        value: 'MPV'
+      }, {
+        key: '3',
+        value: '跑车'
+      }, {
+        key: '4',
+        value: '皮卡'
+      }, {
+        key: '5',
+        value: '房车'
+      }],
+      keyName: 'key',
+      valueName: 'value'
+    }, {
+      field: 'picNumber',
+      title: '照片张数(广告图) ',
+      required: true,
+      number: true
+    }, {
       title: '状态',
       field: 'status',
       search: true,
       type: 'select',
       key: 'status'
     }, {
+      field: 'lowest',
+      title: '价格区间(最低价-最高价)',
+      render: (v, d) => {
+        return moneyFormat(d.lowest) + '元-' + moneyFormat(d.highest) + '元';
+    }
+    }, {
       field: 'location',
       title: 'UI位置',
       render: (v, d) => {
         return this.arr[d.location];
       }
+    }, {
+      title: 'UI次序',
+      field: 'orderNo',
+      key: 'order_no'
     }, {
       title: '最新修改人',
       field: 'updaterName'
@@ -90,7 +133,7 @@ class CarSeries extends React.Component {
               this.props.doFetching();
               return lowerFrameSys(key[0]).then(() => {
                 this.props.getPageData();
-                showWarnMsg('操作成功');
+                  showSucMsg('操作成功');
                 setTimeout(() => {
                     this.props.getPageData();
                 }, 500);
@@ -120,7 +163,7 @@ class CarSeries extends React.Component {
           } else if (item[0].status === '1') {
               showWarnMsg('下架后才能修改');
           } else {
-              this.props.history.push(`/biz/carSeries/addedit?code=${item[0].code}`);
+              this.props.history.push(`/biz/carSeries/addedits?code=${item[0].code}`);
           }
       }
     };
@@ -129,7 +172,8 @@ class CarSeries extends React.Component {
         {this.props.buildList({
           fields,
           btnEvent,
-          pageCode: 630415
+          pageCode: 630415,
+          deleteCode: 630411
         })}
         <OnOrDownShelf
           selectKey={this.state.selectKey}

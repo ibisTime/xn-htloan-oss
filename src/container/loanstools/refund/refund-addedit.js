@@ -40,18 +40,19 @@ class refundAddedit extends React.Component {
         }, {
             title: '客户姓名',
             field: 'applyUserName',
-            search: true
+            formatter: (v, d) => d.creditUser ? d.creditUser.userName : '-'
         }, {
             title: '贷款银行',
             field: 'loanBankName',
-            formatter: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : ''
+            formatter: (v, d) => d.loanBankName ? `${d.loanBankName}${d.repaySubbranch ? '-' + d.repaySubbranch : ''}` : ''
         }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
         }, {
             title: '贷款期数',
-            field: 'loanPeriod'
+            field: 'loanPeriod',
+            formatter: (v, d) => d.loanInfo ? d.loanInfo.periods : '-'
         }, {
             title: '业务种类',
             field: 'bizType',
@@ -83,9 +84,11 @@ class refundAddedit extends React.Component {
             valueName: 'value'
         }, {
             title: '状态',
-            field: 'backAdvanceStatus',
+            field: 'curNodeCode',
             type: 'select',
-            key: 'back_advance_status'
+            listCode: 630147,
+            keyName: 'code',
+            valueName: 'name'
         }, {
             title: '退款金额',
             field: 'backAdvanceAmount',
@@ -96,7 +99,6 @@ class refundAddedit extends React.Component {
         }, {
             title: '开户行',
             field: 'backAdvanceOpenBank',
-          // field: 'loanBank',
             type: 'select',
             listCode: 802116,
             keyName: 'bankCode',
@@ -113,7 +115,7 @@ class refundAddedit extends React.Component {
             fields,
             code: this.code,
             view: this.view,
-            detailCode: 632186
+            detailCode: 632516
         });
     }
 }

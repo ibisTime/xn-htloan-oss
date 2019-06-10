@@ -16,6 +16,7 @@ import {
     showWarnMsg,
     showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 import {
     Button,
     Upload,
@@ -42,8 +43,32 @@ import {
     }
 )
 class receivables extends React.Component {
+    state = {
+        companyData: [],
+        o_companyData: []
+    };
+    componentDidMount() {
+        fetch(632067).then(data => {
+            this.setState({
+                companyData: data
+            });
+        });
+        fetch(630106, {typeList: [1]}).then(data => {
+            this.setState({
+                o_companyData: data
+            });
+        });
+    }
     render() {
         const fields = [{
+            title: '账号类型',
+            field: 'type',
+            required: true,
+            type: 'select',
+            key: 'collect_type',
+            keyName: 'dkey',
+            valueName: 'dvalue'
+        }, {
             title: '公司名称',
             field: 'companyCode',
             listCode: 630106,
@@ -52,17 +77,31 @@ class receivables extends React.Component {
             },
             type: 'select',
             keyName: 'code',
+            search: true,
             valueName: 'name',
+            required: true,
+            hidden: true
+        }, {
+            title: '公司名称',
+            field: 'companyName'
+        }, {
+            title: '开户行',
+            field: 'bankCode',
+            type: 'select',
+            listCode: 802116,
+            keyName: 'bankCode',
+            valueName: 'bankName',
             required: true
         }, {
-            title: '户名',
-            field: 'realName'
+            title: '支行',
+            field: 'subbranch',
+            required: true
         }, {
             title: '账号',
             field: 'bankcardNumber'
         }, {
-            title: '开户行',
-            field: 'bankName'
+            title: '收款比例(%)',
+            field: 'pointRate'
         }, {
             title: '备注',
             field: 'remark'

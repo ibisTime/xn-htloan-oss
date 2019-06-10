@@ -109,8 +109,7 @@ class InvestigateReport extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
-            search: true
-        }, {
+            search: true}, {
             title: '关键字搜索',
             field: 'keyword',
             hidden: true,

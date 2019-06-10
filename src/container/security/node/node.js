@@ -85,6 +85,9 @@ class node extends React.Component {
                     } else {
                         this.props.history.push(`/system/node/setMateriallist?code=${selectedRowKeys[0]}`);
                     }
+                },
+                clqd: (selectedRowKeys, selectedRows) => {
+                        this.props.history.push(`/system/clqd`);
                 }
             }
         }) : null;

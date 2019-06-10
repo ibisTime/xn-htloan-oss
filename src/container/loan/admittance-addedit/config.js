@@ -27,6 +27,11 @@ export const sqryhls = ['jourDatetime3', 'jourDatetimeStart',
   'jourDatetimeEnd', 'jourInterest1', 'jourInterest2', 'interest1',
   'interest2', 'jourIncome', 'jourExpend', 'jourBalance',
   'jourMonthIncome', 'jourMonthExpend', 'jourRemark', 'jourPic'];
+// 消息
+export const dbxx = ['jourDatetime3', 'jourDatetimeStart',
+  'jourDatetimeEnd', 'jourInterest1', 'jourInterest2', 'interest1',
+  'interest2', 'jourIncome', 'jourExpend', 'jourBalance',
+  'jourMonthIncome', 'jourMonthExpend', 'jourRemark', 'jourPic'];
 // 申请人支付宝流水
 export const sqrzfbls = ['jourDatetime1', 'zfbJourDatetimeStart',
   'zfbJourDatetimeEnd', 'zfbJourInterest1', 'zfbJourInterest2', 'zfbInterest1',
@@ -67,3 +72,79 @@ export const dbrwxls = ['jourDatetime8', 'guaWxJourDatetimeStart',
   'guaWxJourDatetimeEnd', 'guaWxJourInterest1', 'guaWxJourInterest2', 'guaWxInterest1',
   'guaWxInterest2', 'guaWxJourIncome', 'guaWxJourExpend', 'guaWxJourBalance',
   'guaWxJourMonthIncome', 'guaWxJourMonthExpend', 'guaWxJourRemark', 'guaWxJourPic'];
+// 每一步的校验
+export const checkFieldsMap = {
+  '0': [
+    [
+      'loanBankName', 'periods', 'bankRate', 'loanAmount', 'loanProductCode',
+      'monthDeposit', 'gpsFee', 'authFee', 'teamFee', 'otherFee', 'invoicePrice',
+      'sfAmount', 'sfRate', 'isAdvanceFund', 'isFinacing', 'isAzGps',
+      'isPlatInsure'
+    ],
+    ['loanAmount', 'monthDeposit', 'gpsFee', 'authFee', 'teamFee', 'otherFee',
+    'invoicePrice', 'sfAmount']
+  ],
+  '1': [
+    [
+      'bizType', 'vehicleCompanyName', 'invoiceCompany', 'carType', 'carBrand',
+      'carSeries', 'carModel', 'carColor', 'carFrameNo', 'carEngineNo',
+      'originalPrice', 'region', 'carDealerSubsidy', 'oilSubsidyKil', 'oilSubsidy',
+      'settleAddress', 'carPic', 'carHgzPic'
+    ],
+    ['originalPrice', 'carDealerSubsidy', 'oilSubsidy']
+  ],
+  '7': [
+    [
+      'pledgeUser', 'pledgeUserIdCard', 'pledgeUserIdCardFront', 'pledgeUserIdCardReverse',
+      'pledgeAddress'
+    ],
+    []
+  ],
+  '2': [
+    [
+      'applyUserName', 'mobile', 'idNo', 'gender', 'age', 'nation', 'political',
+      'education', 'workProfession', 'postTitle', 'isDriceLicense', 'carTypeNow',
+      'mainIncome', 'otherIncomeNote', 'isHouseProperty', 'emergencyName1',
+      'emergencyRelation1', 'emergencyMobile1', 'emergencyName2',
+      'emergencyRelation2', 'emergencyMobile2', 'englishName', 'authref', 'statdate', 'emergencySex1', 'emergencySex2'
+    ],
+    []
+  ],
+  '3': [
+    [
+      'marryState', 'familyNumber', 'familyPhone', 'familyMainAsset', 'mainAssetInclude',
+      'birthAddressProvinceAll', 'birthAddress', 'birthPostCode', 'nowHouseType',
+      'nowAddressProvinceAll', 'nowAddress', 'nowPostCode', 'hkBookPdf', 'houseContract',
+      'houseInvoice', 'liveProvePdf', 'buildProvePdf', 'housePictureApply',
+      'marryPdf', 'nowAddressDate'
+    ],
+    ['familyMainAsset']
+  ],
+  '4': [
+    [
+      'workBelongIndustry', 'workCompanyProperty', 'companyName', 'companyContactNo',
+      'companyAddress', 'employeeQuantity', 'enterpriseMonthOutput', 'workDatetime',
+      'position', 'monthIncome', 'otherWorkNote', 'improvePdf', 'frontTablePic',
+      'workPlacePic', 'salerAndcustomer', 'companyAddressProvince'
+    ],
+    ['monthIncome']
+  ],
+  '5': [
+    [
+      'mateName', 'mateRelation', 'mateMobile', 'mateIdNo', 'mateEducation',
+      'mateBirthAddressProvince', 'mateBirthAddress', 'matePostCode',
+      'mateCompanyName', 'mateCompanyAddress', 'mateCompanyContactNo',
+      'mateAssetPdf'
+    ],
+    []
+  ],
+  '6': [
+    [
+      'userName', 'guaRelation', 'guaMobile', 'guaIdNo', 'guaEducation',
+      'guaBirthAddressProvince', 'guaBirthAddress', 'guaPostCode',
+      'guaCompanyName', 'guaCompanyAddress', 'guaCompanyContactNo',
+      'guaAssetPdf'
+    ],
+    []
+  ]
+};

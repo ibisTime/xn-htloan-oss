@@ -159,23 +159,26 @@ export default class CSearchSelect extends React.Component {
     let layoutProps = inline ? {} : formItemLayout;
     let value = this.getReadonlyValue(initVal, readonly, keyName, valueName);
     !code && this.initList();
+    let _initVal = isUndefined(initVal) ? '' : (initVal + '');
     return (
       <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''}>
-        {
-          readonly ? <div className="readonly-text">{value}</div>
-            : getFieldDecorator(field, {
-                rules,
-                initialValue: initVal
-              })(
-              <Select {...this.getSelectProps(onChange)}>
-                {list && list.length ? list.map(d => (
-                  <Option key={d[keyName]} value={d[keyName]}>
-                    {d[valueName] ? d[valueName] : tempString(valueName, d)}
-                  </Option>
-                )) : null}
-              </Select>
-            )
-        }
+        <div style={{marginLeft: '20px'}}>
+          {
+            readonly ? <div style={{marginLeft: '20px'}} className="readonly-text">{value}</div>
+              : getFieldDecorator(field, {
+                  rules,
+                  initialValue: _initVal
+                })(
+                <Select {...this.getSelectProps(onChange)}>
+                  {list && list.length ? list.map(d => (
+                    <Option key={d[keyName] + ''} value={d[keyName] + ''}>
+                      {d[valueName] ? d[valueName] : tempString(valueName, d)}
+                    </Option>
+                  )) : null}
+                </Select>
+              )
+          }
+        </div>
       </FormItem>
     );
   }

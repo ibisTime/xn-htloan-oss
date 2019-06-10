@@ -37,19 +37,64 @@ class CancelCheck extends React.Component {
     const fields = [{
       title: '业务编号',
       field: 'code',
-      readonly: true
+      readonly: true,
+      formatter: (v, d) => {
+        return <div>
+          {d.code}<a href="javascript:void(0);" style={{ marginLeft: 20 }} onClick={() => {
+          window.location.href = '/ywcx/ywcx/addedit?v=1&code' + '=' + d.code;
+        }}>查看详情</a>
+        </div>;
+      }
     }, {
       title: '客户姓名',
-      field: 'applyUserName',
-      readonly: true
+      field: 'userName',
+      readonly: true,
+      formatter: (v, d) => {
+        return d ? d.creditUser.userName : '';
+      }
     }, {
       title: '贷款银行',
-      field: 'loanBank',
+      field: 'loanBankName',
       type: 'select',
       listCode: 632037,
       keyName: 'code',
-      valueName: '{{bankName.DATA}}{{subbranch.DATA}}',
+      readonly: true,
+      valueName: '{{bankName.DATA}}{{subbranch.DATA}}'
+    }, {
+      title: '贷款金额',
+      field: 'loanAmount',
+      amount: true,
+      min: '1',
       readonly: true
+    }, {
+      title: '业务种类',
+      field: 'bizType',
+      type: 'select',
+      key: 'budget_orde_biz_typer',
+      readonly: true
+    }, {
+      title: '业务归属',
+      field: 'ywyUser',
+      readonly: true,
+      formatter: (v, d) => {
+        return d && d.saleUserCompanyName ? d.saleUserCompanyName + '-' + d.saleUserDepartMentName + '-' + d.saleUserPostName + '-' + d.saleUserName : '';
+      }
+    }, {
+      title: '指派归属',
+      field: 'zfStatus',
+      readonly: true,
+      formatter: (v, d) => {
+        return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+      }
+    }, {
+      title: '当前状态',
+      field: 'status',
+      key: 'cdbiz_status',
+      type: 'select',
+      readonly: true,
+      formatter: (v, d) => {
+        return d ? d.cdbiz.status : '';
+      }
     }, {
       title: '贷款金额',
       field: 'loanAmount',
@@ -92,7 +137,7 @@ class CancelCheck extends React.Component {
       fields,
       code: this.code,
       view: this.view,
-      detailCode: 632196,
+      detailCode: 632516,
       buttons: [{
         title: '通过',
         handler: (param) => {

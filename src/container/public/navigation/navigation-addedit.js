@@ -15,7 +15,7 @@ import { SYSTEM_CODE } from 'common/js/config';
   state => state.publicBannerAddEdit,
   { initStates, doFetching, cancelFetching, setSelectData, setPageData, restore }
 )
-class BannerAddEdit extends React.Component {
+class NavigationAddedit extends React.Component {
   constructor(props) {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
@@ -103,4 +103,4 @@ class BannerAddEdit extends React.Component {
   }
 }
 
-export default BannerAddEdit;
+export default NavigationAddedit;

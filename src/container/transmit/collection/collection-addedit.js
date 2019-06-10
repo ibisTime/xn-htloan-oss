@@ -30,7 +30,12 @@ class CollectionAddedit extends React.Component {
         field: 'customerName'
     }, {
         title: '业务编号',
-        field: 'bizCode'
+        field: 'bizCode',
+        formatter: (v, d) => {
+            return <div>
+                {d.bizCode}<a href={`/ywcx/ywcx/addedit?v=1&code=${d.bizCode}`} style={{ marginLeft: 20 }}>查看详情</a>
+            </div>;
+        }
     }, {
         title: '发件节点',
         field: 'fromNodeCode',
@@ -73,7 +78,7 @@ class CollectionAddedit extends React.Component {
         type: 'checkbox',
         listCode: 632217,
         keyName: 'id',
-        valueName: '{{no.DATA}}-{{name.DATA}}-{{number.DATA}}份',
+        valueName: '{{no.DATA}}-{{vname.DATA}}-{{number.DATA}}份',
         readonly: true
     }, {
         title: '传递方式',
@@ -93,10 +98,12 @@ class CollectionAddedit extends React.Component {
         title: '快递公司',
         field: 'logisticsCompany',
         type: 'select',
-        key: 'kd_company'
+        key: 'kd_company',
+        hidden: !this.props.pageData || !this.props.pageData.logisticsCompany
     }, {
         title: '快递单号',
-        field: 'logisticsCode'
+        field: 'logisticsCode',
+        hidden: !this.props.pageData || !this.props.pageData.logisticsCode
     }, {
         title: '发货时间',
         field: 'sendDatetime',

@@ -4,6 +4,28 @@ import fetch from 'common/js/fetch';
 export function lowerFrame(code) {
   return fetch(630404, { code, updater: getUserId() });
 }
+// 经销商 上架
+export function dealerOnShelf(code) {
+  return fetch(632064, {
+    code,
+    operator: getUserId()
+  });
+}
+// 详情查经销商管理
+export function getJxsDetail(code) {
+  return fetch(632066, { code });
+}
+// 列表查询银行
+export function getBankList() {
+  return fetch(802116);
+}
+// 经销商 下架
+export function dealerLower(code) {
+  return fetch(632061, {
+    code,
+    operator: getUserId()
+  });
+}
 
 export function onShelf(code) {
   return fetch(630403, { code, updater: getUserId() });
@@ -38,6 +60,15 @@ export function putaway(code) {
 //  商品分类下架
 export function soldOut(code) {
   return fetch(808004, { code, updater: getUserId() });
+}
+//  任务管理完成
+export function complete(code) {
+  return fetch(623594, { code, updater: getUserId() });
+}
+
+//  任务管理作废
+export function tovoid(code) {
+  return fetch(623593, { code, updater: getUserId() });
 }
 
 //  商品上架
@@ -85,7 +116,12 @@ export function creditWithdraw(code) {
 export function getCreditReport(id) {
   return fetch(632948, { id });
 }
-// 获取待办数量
+
+// 详情查图片
+export function getCreditReports(code, attAchment) {
+    return fetch(623546, { code, attAchment });
+}
+// // 获取待办数量
 // export function getToDoCount() {
 //   return fetch(632911, {
 //     teamCode: getTeamCode(),

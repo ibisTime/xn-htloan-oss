@@ -54,16 +54,6 @@ class CollectionGPSCheck extends React.Component {
         hidden: !this.props.pageData.teamName,
         readonly: true
     }, {
-        title: '信贷专员',
-        field: 'saleUserName',
-        hidden: !this.props.pageData.saleUserName,
-        readonly: true
-    }, {
-        title: '内勤专员',
-        field: 'insideJobName',
-        hidden: !this.props.pageData.insideJobName,
-        readonly: true
-    }, {
       title: '申领有线个数',
       field: 'applyWiredCount',
       formatter: (v, d) => {
@@ -120,10 +110,12 @@ class CollectionGPSCheck extends React.Component {
         field: 'logisticsCompany',
         type: 'select',
         key: 'kd_company',
+        hidden: !this.props.pageData || !this.props.pageData.logisticsCompany,
         readonly: true
     }, {
         title: '快递单号',
         field: 'logisticsCode',
+        hidden: !this.props.pageData || !this.props.pageData.logisticsCode,
         readonly: true
     }, {
         title: '发货时间',
@@ -137,7 +129,35 @@ class CollectionGPSCheck extends React.Component {
     }, {
         title: '备注',
         field: 'remark'
-    }];
+    },
+        {
+        title: 'GPS列表',
+        field: 'gpsList',
+        type: 'o2m',
+        formatter: (v, d) => {
+            return d.gpsApply.gpsList ? d.gpsApply.gpsList : '';
+        },
+        options: {
+            fields: [{
+                field: 'gpsType',
+                title: 'GPS类型',
+                type: 'select',
+                data: [{
+                    dkey: '0',
+                    dvalue: '无线'
+                }, {
+                    dkey: '1',
+                    dvalue: '有线'
+                }],
+                keyName: 'dkey',
+                valueName: 'dvalue'
+            }, {
+                title: 'GPS设备号',
+                field: 'gpsDevNo'
+            }]
+        }
+    }
+    ];
     return this.props.buildDetail({
         fields,
         code: this.code,
@@ -147,16 +167,30 @@ class CollectionGPSCheck extends React.Component {
             title: '收件并审核通过',
             handler: (param) => {
                 param.operator = getUserId();
+                param.approveResult = '1';
                 fetch(632151, param).then((data) => {
                     this.doSuccess(data);
                 }).catch(this.props.cancelFetching);
             },
             check: true
-        }, {
+        },
+        //     {
+        //     title: '收件审核不通过',
+        //     handler: (param) => {
+        //         param.operator = getUserId();
+        //         param.approveResult = '0';
+        //         fetch(632151, param).then((data) => {
+        //             this.doSuccess(data);
+        //         }).catch(this.props.cancelFetching);
+        //     },
+        //     check: true
+        // },
+            {
             title: '收件待补件',
             handler: (param) => {
                 param.operator = getUserId();
-                fetch(632152, param).then((data) => {
+                param.approveResult = '0';
+                fetch(632151, param).then((data) => {
                     this.doSuccess(data);
                 }).catch(this.props.cancelFetching);
             },

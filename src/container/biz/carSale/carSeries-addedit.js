@@ -7,7 +7,7 @@ import {
   setPageData,
   restore
 } from '@redux/biz/carSeries-addedit';
-import { getQueryString, getUserId } from 'common/js/util';
+import { getQueryString, moneyFormat, getUserId } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
 @DetailWrapper(
@@ -22,6 +22,32 @@ class CarSeriesAddEdit extends React.Component {
   }
   render() {
     const fields = [{
+      field: 'isReferee',
+      value: 0,
+      hidden: true
+    }, {
+      field: 'name',
+      title: '名称',
+      required: true
+    }, {
+      field: 'lowest',
+      title: '最低价',
+      number: true,
+      formatter: (v, d) => {
+        return moneyFormat(v, ' ', d.lowest);
+      },
+      hidden: ((!this.view && this.code) || !this.code),
+      required: true
+    }, {
+      field: 'highest',
+      title: '最高价',
+      number: true,
+      formatter: (v, d) => {
+        return moneyFormat(v, ' ', d.highest);
+      },
+      hidden: ((!this.view && this.code) || !this.code),
+      required: true
+    }, {
       field: 'brandCode',
       title: '品牌',
       type: 'select',
@@ -34,25 +60,46 @@ class CarSeriesAddEdit extends React.Component {
       valueName: 'name',
       required: true
     }, {
-      field: 'name',
-      title: '名称',
-      required: true
+      field: 'level',
+      title: '轿车',
+      type: 'select',
+      required: true,
+      data: [{
+        key: '0',
+        value: 'SUV'
+      }, {
+        key: '1',
+        value: '轿车'
+      }, {
+        key: '2',
+        value: 'MPV'
+      }, {
+        key: '3',
+        value: '跑车'
+      }, {
+        key: '4',
+        value: '皮卡'
+      }, {
+        key: '5',
+        value: '房车'
+      }],
+      keyName: 'key',
+      valueName: 'value'
     }, {
-      title: '价格',
-      field: 'price',
-      amount: true,
+      field: 'picNumber',
+      title: '照片张数(广告图)',
+      number: true,
+      hidden: true,
       required: true
     }, {
       title: '广告图',
       field: 'advPic',
       type: 'img',
       required: true,
-      help: '240*160',
-      single: true
+      help: '240*160'
     }, {
       title: '广告标语',
-      field: 'slogan',
-      required: true
+      field: 'slogan'
     }, {
       title: '备注',
       field: 'remark'
@@ -65,6 +112,7 @@ class CarSeriesAddEdit extends React.Component {
       editCode: 630412,
       detailCode: 630417,
       beforeSubmit: (param) => {
+        param.picNumber = param.advPic.split('||').length;
           param.updater = getUserId();
           return param;
       }

@@ -185,24 +185,6 @@ class CompConstruct extends React.Component {
                       rules: rule0
                     })(<Input style={{minWidth: 300}} />)}
                   </Item>
-                  <Item key='leadUserId' {...formItemLayout} label='负责人'>
-                    {
-                      getFieldDecorator('leadUserId', {
-                        rules: rule0
-                      })(
-                        <Select
-                          allowClear
-                          style={{minWidth: 300}}
-                          filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                          optionLabelProp="children"
-                          notFoundContent='暂无数据'
-                          placeholder="请选择">
-                          {this.props.userList.map(d => (
-                            <Option key={d.userId} value={d.userId}>{`${d.realName || d.loginName}${d.mobile ? '-' + d.mobile : ''}`}</Option>
-                          ))}
-                        </Select>)
-                      }
-                  </Item>
                   <Item key='orderNo' {...formItemLayout} label={(
                     <span>顺序<Tooltip title='数字越小，排序越靠前'>
                         <Icon type="question-circle-o"/>

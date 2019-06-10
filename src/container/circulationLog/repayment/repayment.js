@@ -10,7 +10,7 @@ import {
     setSearchData
 } from '@redux/circulationLog/repayment';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg } from 'common/js/util';
+import { showWarnMsg, getUserId } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -111,9 +111,10 @@ class Repayment extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 630520,
+            pageCode: 630522,
             searchParams: {
-              refType: 0
+              refType: 0,
+                userId: getUserId()
             },
             btnEvent: {
                 refundplan: (selectedRowKeys, selectedRows) => {

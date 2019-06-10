@@ -67,18 +67,30 @@ class archives extends React.Component {
         }, {
             title: '客户姓名',
             field: 'applyUserName',
-            search: true
+            search: true,
+            render: (v, d) => {
+                return d.creditUser ? d.creditUser.userName : '';
+            }
         }, {
             title: '贷款银行',
             field: 'loanBankName',
-            render: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : ''
-        }, {
+            render: (v, d) => {
+                if (d.loanBankName) {
+                    return d.repaySubbranch ? d.loanBankName + d.repaySubbranch : d.loanBankName;
+                } else if (d.repaySubbranch) {
+                    return d.loanBankName ? d.loanBankName + d.repaySubbranch : d.repaySubbranch;
+                }
+            }
+            }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
         }, {
             title: '贷款期数',
-            field: 'loanPeriod'
+            field: 'loanPeriod',
+            render: (v, d) => {
+                return d.loanInfo ? d.loanInfo.periods : '-';
+            }
         }, {
             title: '业务种类',
             field: 'bizType',
@@ -93,7 +105,7 @@ class archives extends React.Component {
             search: true
         }, {
             title: '当前节点',
-            field: 'curNodeCode',
+            field: 'enterNodeCode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
@@ -102,22 +114,33 @@ class archives extends React.Component {
         }];
         return this.props.buildList({
             fields,
-            pageCode: 632148,
+            pageCode: 632515,
             searchParams: {
               userId: getUserId(),
               roleCode: getRoleCode(),
-              curNodeCodeList: ['002_22', '002_23']
+                enterNodeCodeList: ['e7', 'e8', 'e9', 'e10', 'f11', 'f12', 'f13', 'f14', 'f15']
             },
             btnEvent: {
+              enter: (selectedRowKeys, selectedRows) => {
+                if (!selectedRowKeys.length) {
+                  showWarnMsg('请选择记录');
+                } else if (selectedRowKeys.length > 1) {
+                  showWarnMsg('请选择一条记录');
+              } else if (selectedRows[0].enterNodeCode !== 'e9' && selectedRows[0].enterNodeCode !== 'f13') {
+                  showWarnMsg('当前不是入档节点');
+                } else {
+                  this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}`);
+                }
+              },
               certain: (selectedRowKeys, selectedRows) => {
                 if (!selectedRowKeys.length) {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].curNodeCode !== '002_22') {
+              } else if (selectedRows[0].enterNodeCode !== 'f14') {
                   showWarnMsg('当前不是确认入档节点');
                 } else {
-                  this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}&e=1`);
+                  this.props.history.push(`/biz/archives/certain?code=${selectedRowKeys[0]}&certain=1`);
                 }
               },
               detail: (selectedRowKeys, selectedRows) => {

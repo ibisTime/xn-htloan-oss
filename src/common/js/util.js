@@ -294,6 +294,39 @@ export function showDelConfirm({onOk, onCancel}) {
     onCancel
   });
 }
+/**
+ * 金额格式转化
+ * @param money
+ * @param format
+ */
+export function moneyFormat2(money, format, isRe = true) {
+  var flag = true;
+  if (isUndefined(money) || isNaN(money)) {
+    return '';
+  }
+  if (money < 0) {
+    money = -1 * money;
+    flag = false;
+  }
+  if (isUndefined(format) || typeof format === 'object') {
+    format = 2;
+  }
+  // 钱除以1000并保留两位小数
+  money = (money / 1000).toString();
+  var reg = new RegExp('(\\.\\d{' + 0 + '})\\d+', 'ig');
+  money = money.replace(reg, '$1');
+  money = parseFloat(money).toFixed(0);
+  // 千分位转化
+  if (isRe) {
+    var re = /\d{1,3}(?=(\d{3})+$)/g;
+    money = money.replace(/^(\d+)((\.\d+)?)$/, (s, s1, s2) => (s1.replace(re, '$&,') + s2));
+  }
+  if (!flag) {
+    money = '-' + money;
+  }
+  return money;
+}
+
 export function convertCurrency(currencyDigits) {
   if (isUndefined(currencyDigits)) {
     return '';
@@ -491,6 +524,12 @@ export const getRules = (item) => {
       message: '请输入正数'
     });
   }
+  if (item.positives) {
+    rules.push({
+    pattern: /^-?(0\.\d*[1-9]+\d*)$/,
+    message: '请输入0～1之间的数值'
+  });
+}
   if (item.integer) {
     rules.push({
       pattern: /^-?\d+$/,
@@ -671,27 +710,17 @@ export function getRealName() {
 
 // 返回当前节点应跳转的页面
 export function getNowCurNodePageUrl(data) {
-  let url;
-  // "0", "待发件"，"1", "已发件待收件"，"3", "已收件待补件"
-  // 物流单
-  if (data.refType === '012') {
-    if (data.logisticsStatus === '0' || data.logisticsStatus === '3') {
-      url = '/transmit/transmit/send?code=';
-    } else {
-      url = '/transmit/collection/check?code=';
-    }
-  } else {
+    let url;
     url = curNodePageUrl[data.dealNode];
-  }
-  if (!url) {
-    return '';
-  }
-  url += data.refOrder;
-  // 准入申请单
-  if (data.dealNode === '002_01' || data.dealNode === '002_02' || data.dealNode === '002_03' ||
-    data.dealNode === '002_04' || data.dealNode === '002_24' || data.dealNode === '002_25' ||
-    data.dealNode === '002_27' || data.dealNode === '002_28') {
-    url = `${url}&bizType=${data.bizType}&loanBank=${data.loanBank}`;
-  }
+    if (!url) {
+      return '';
+    }
+    url += data.refOrder;
+    // 准入申请单
+    if (data.dealNode === '002_01' || data.dealNode === '002_02' || data.dealNode === '002_03' ||
+        data.dealNode === '002_04' || data.dealNode === '002_24' || data.dealNode === '002_25' ||
+        data.dealNode === '002_27' || data.dealNode === '002_28') {
+      url = `${url}&bizType=${data.bizType}&loanBank=${data.loanBank}`;
+    }
   return url;
 }

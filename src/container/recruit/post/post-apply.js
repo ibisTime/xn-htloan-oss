@@ -49,7 +49,6 @@ class postApply extends React.Component {
                 [{
                     title: '部门',
                     field: 'realName',
-                    field: 'departmentCode',
                     listCode: 630106,
                     params: {
                         typeList: '2'
@@ -60,7 +59,6 @@ class postApply extends React.Component {
                 }, {
                     title: '新部门',
                     field: 'gender',
-                    field: 'departmentCode',
                     listCode: 630106,
                     params: {
                         typeList: '2'

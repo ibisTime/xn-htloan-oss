@@ -27,6 +27,7 @@ class MemberList extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
+        this.name = getQueryString('name', this.props.location.search);
     }
 
     render() {
@@ -55,7 +56,7 @@ class MemberList extends React.Component {
                 code: 'add',
                 name: '新增',
                 handler: () => {
-                    this.props.history.push(`/system/businessTeam/memberList/addedit?teamcode=${this.code}`);
+                    this.props.history.push(`/system/businessTeam/memberList/addedit?name=${this.name}&teamcode=${this.code}`);
                 }
             }, {
                 code: 'delete',

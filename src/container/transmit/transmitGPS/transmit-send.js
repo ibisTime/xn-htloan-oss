@@ -27,29 +27,19 @@ class TransmitSend extends DetailUtil {
         hidden: !this.state.pageData || !this.state.pageData.teamName,
         readonly: true
     }, {
-        title: '信贷专员',
-        field: 'saleUserName',
-        hidden: !this.state.pageData || !this.state.pageData.saleUserName,
+        title: '申领有线个数',
+        field: 'applyWiredCount',
+        formatter: (v, d) => {
+            return d.gpsApply.applyWiredCount;
+        },
         readonly: true
     }, {
-        title: '内勤专员',
-        field: 'insideJobName',
-        hidden: !this.state.pageData || !this.state.pageData.insideJobName,
+        title: '申领无线个数',
+        field: 'applyWirelessCount',
+        formatter: (v, d) => {
+            return d.gpsApply.applyWirelessCount;
+        },
         readonly: true
-    }, {
-      title: '申领有线个数',
-      field: 'applyWiredCount',
-      formatter: (v, d) => {
-          return d.gpsApply.applyWiredCount;
-      },
-      readonly: true
-    }, {
-      title: '申领无线个数',
-      field: 'applyWirelessCount',
-      formatter: (v, d) => {
-          return d.gpsApply.applyWirelessCount;
-      },
-      readonly: true
     }, {
         title: '客户姓名',
         field: 'customerName',
@@ -120,6 +110,32 @@ class TransmitSend extends DetailUtil {
         field: 'remark',
         hidden: !this.state.pageData || !this.state.pageData.remark,
         readonly: true
+    }, {
+        title: 'GPS列表',
+        field: 'gpsList',
+        type: 'o2m',
+        formatter: (v, d) => {
+            return d.gpsApply.gpsList ? d.gpsApply.gpsList : '';
+        },
+        options: {
+          fields: [{
+              field: 'gpsType',
+              title: 'GPS类型',
+              type: 'select',
+              data: [{
+                  dkey: '0',
+                  dvalue: '无线'
+              }, {
+                  dkey: '1',
+                  dvalue: '有线'
+              }],
+              keyName: 'dkey',
+              valueName: 'dvalue'
+          }, {
+              title: 'GPS设备号',
+              field: 'gpsDevNo'
+          }]
+        }
     }];
     return this.buildDetail({
         fields,

@@ -156,13 +156,15 @@ export default class CTreeSelect extends React.Component {
     let value = this.getReadonlyValue(initVal, readonly, list, keyName, valueName);
     return (
       <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''}>
-        {
-          readonly ? <div className="readonly-text">{value}</div>
-            : getFieldDecorator(field, {
-                rules,
-                initialValue: initVal
-              })(<TreeSelect {...this.getTreeProps(onChange, readonly)}>{this.renderTreeNodes(this.state.treeData, disabled)}</TreeSelect>)
-        }
+        <div style={{marginLeft: '20px'}}>
+          {
+            readonly ? <div className="readonly-text">{value}</div>
+              : getFieldDecorator(field, {
+                  rules,
+                  initialValue: initVal
+                })(<TreeSelect {...this.getTreeProps(onChange, readonly)}>{this.renderTreeNodes(this.state.treeData, disabled)}</TreeSelect>)
+          }
+        </div>
       </FormItem>
     );
   }

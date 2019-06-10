@@ -10,7 +10,7 @@ import {
   setSearchData
 } from '@redux/wares/historyBusinessManage';
 import {listWrapper} from 'common/js/build-list';
-import {showWarnMsg, showSucMsg, formatDate} from 'common/js/util';
+import {showWarnMsg, showSucMsg, formatDate, getUserId} from 'common/js/util';
 import {Button, Upload, Modal} from 'antd';
 import {lowerFrame, onShelf} from 'api/biz';
 
@@ -98,10 +98,11 @@ class historyBusinessManage extends React.Component {
     ];
     return this.props.buildList({
         fields,
-        pageCode: 630520,
+        pageCode: 630522,
         searchParams: {
             refType: '1',
-            curNodeCodeList: ['005_02', '005_04']
+            curNodeCodeList: ['005_02', '005_04'],
+            userId: getUserId()
         }
       });
   }
