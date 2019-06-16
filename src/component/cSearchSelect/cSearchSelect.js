@@ -20,11 +20,17 @@ export default class CSearchSelect extends React.Component {
     this.initList();
   }
   initList() {
-    const { initVal, isLoaded } = this.props;
-    if (isLoaded && !this.hasInitVal) {
-      this.searchSelectChange(initVal);
-      this.hasInitVal = true;
-    }
+      const { initVal, isLoaded, field, resetFields } = this.props;
+      if (isLoaded) {
+          if (!this.hasInitVal) {
+              this.hasInitVal = true;
+              this.searchSelectChange(initVal, true);
+          } else if (this.paramFlag) {
+              this.paramFlag = false;
+              resetFields([field]);
+              this.searchSelectChange(initVal, true);
+          }
+      }
   }
   shouldComponentUpdate(nextProps, nextState) {
     return this.isPropsChange(nextProps) || this.isStateChange(nextState);
@@ -42,8 +48,9 @@ export default class CSearchSelect extends React.Component {
     let nowErr = getFieldError(field);
     let errFlag = this.isErrChange(nowErr);
     if (errFlag) {
-      this.prevErr = nowErr;
+        this.prevErr = nowErr;
     }
+    this.paramFlag = paramFlag;
     return nextProps.field !== field || nextProps.rules.length !== rules.length ||
       nextProps.readonly !== readonly || nextProps.hidden !== hidden ||
       nextProps.initVal !== initVal || nextProps.inline !== inline ||
@@ -123,8 +130,8 @@ export default class CSearchSelect extends React.Component {
     }
     let { params, keyName, field, searchName } = this.props;
     let param = params ? {...params} : {};
-    param.start = 1;
-    param.limit = 20;
+    param.start = param.start || 1;
+    param.limit = param.limit || 20;
     let key = searchName || keyName || field;
     if (!this.hasInitVal) {
       key = keyName || field;
@@ -162,7 +169,7 @@ export default class CSearchSelect extends React.Component {
     let _initVal = isUndefined(initVal) ? '' : (initVal + '');
     return (
       <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''}>
-        <div style={{marginLeft: '20px'}}>
+        <div>
           {
             readonly ? <div style={{marginLeft: '20px'}} className="readonly-text">{value}</div>
               : getFieldDecorator(field, {
@@ -212,6 +219,7 @@ CSearchSelect.propTypes = {
   getFieldValue: PropTypes.func.isRequired,
   getFieldDecorator: PropTypes.func.isRequired,
   getFieldError: PropTypes.func.isRequired,
+  resetFields: PropTypes.func.isRequired,
   updateSelectData: PropTypes.func.isRequired
 };
 
@@ -221,6 +229,7 @@ CSearchSelect.defaultProps = {
   getFieldDecorator: noop,
   getFieldValue: noop,
   getFieldError: noop,
+  resetFields: noop,
   updateSelectData: noop,
   hidden: false,
   inline: false,

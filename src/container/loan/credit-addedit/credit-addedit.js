@@ -7,11 +7,13 @@ import {
 import {DetailWrapper} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 // import {Card, Form, Row, Spin, Tabs} from "antd";
-import {Form, Tabs, Row, Col, Spin, Button, Table, Card, Icon, Tooltip} from 'antd';
+import {Form, Tabs, Row, Col, Spin, Button, Table, Card, Icon, Tooltip, Modal, Select, Input, DatePicker} from 'antd';
 import {
     getQueryString, showWarnMsg, showSucMsg, isUndefined, getUserId, getRules,
     getRealValue, moneyFormat, moneyParse, getUserName, dateTimeFormat
 } from 'common/js/util';
+const { Option } = Select;
+const { MonthPicker } = DatePicker;
 
 @DetailWrapper(
     state => state.loanCreditAddedit,
@@ -23,10 +25,20 @@ class CreditAddedit extends React.Component {
         this.state = {
             entryVisible: false,
             creditResult: [],
+            zoneList: [],
+            carModelList: [],
             selectData: {},
             selectKey: '',
             bizType: '',
-            loanBankCode: ''
+            loanBankCode: '',
+            brandCode: '',
+            seriesCode: '',
+            secondCarReportText: '',
+            modelId: '',
+            regDate: '',
+            zone: '',
+            mile: '',
+            visible: false
         };
         this.code = getQueryString('code', this.props.location.search);
         // 发起征信
@@ -37,10 +49,9 @@ class CreditAddedit extends React.Component {
         // 信贷专员初审
         this.isCheck = !!getQueryString('isCheck', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
-        this.newCar = true;
-        this.creditUserListIndex = 6;
+        this.carInfoResIndex = 0;
+        this.carSeriesIndex = 0;
         this.buttons = [];
-        this.concatFalg = false;
     }
 
     // 录入银行征信结果
@@ -63,33 +74,67 @@ class CreditAddedit extends React.Component {
         }
         this.setState({entryVisible, selectKey});
     };
-
-    creditEntryFun = (data) => {
-        let creditResult = this.state.creditResult;
-        for (let i = 0; i < this.state.creditResult.length; i++) {
-            if (creditResult[i].creditUserCode === data.creditUserCode) {
-                creditResult[i] = data;
+    showModal = () => {
+        this.setState({
+            visible: true
+        });
+    };
+    handleOk = e => {
+        let mile = document.getElementById('mile').value.trim();
+        if(!this.state.zone || !mile || !this.state.regDate) {
+            showWarnMsg('请填写完整');
+        }else {
+            this.setState({
+                mile
+            });
+            fetch(630479, {
+                mile,
+                modelId: this.state.modelId,
+                zone: this.state.zone,
+                regDate: this.state.regDate
+            }).then(data => {
+                if(data) {
+                    this.setState({
+                        visible: false,
+                        secondCarReportText: data.url
+                    });
+                }
+            }, () => {
                 this.setState({
-                    creditResult
+                    visible: false
                 });
-                return;
-            }
+            });
         }
-        creditResult.push(data);
+    };
+    handleCancel = e => {
         this.setState({
-            creditResult
+            visible: false
         });
     };
-componentDidMount() {
-    if (this.bizType === '1') {
+    onChange = (date, dateString) => {
+        if(new Date(dateString).getTime() > new Date().getTime()) {
+            showWarnMsg('请选择小于今天的日期');
+        }else {
+            this.setState({
+                regDate: dateString
+            });
+        }
+    };
+    selectChange = (value) => {
         this.setState({
-            secondCarReport: true,
-            xszFront: true,
-            xszReverse: true,
-            dkey: this.bizType
+            zone: value
         });
     };
-}
+    componentDidMount() {
+        if (this.bizType === '1') {
+            this.setState({
+                secondCarReport: true,
+                xszFront: true,
+                xszReverse: true,
+                dkey: this.bizType
+            });
+        };
+    }
 
     render() {
         // 征信列表字段
@@ -117,15 +162,6 @@ componentDidMount() {
                 props.selectData.loanRole.map(l => {
                     loanRoleList[l.dkey] = l.dvalue;
                 });
-                // creditUserList && creditUserList.forEach(d => {
-                //     if (d.loanRole === v) {
-                //         setTimeout(() => {
-                //             props.form.setFieldsValue({loanRole: ''});
-                //         }, 100);
-                //         showWarnMsg(loanRoleList[v] + '记录已添加');
-                //         return false;
-                //     }
-                // });
             }
         }, {
             title: '手机号',
@@ -295,19 +331,131 @@ componentDidMount() {
                     }
                 }
             }, {
+                field: 'carBrand',
+                title: '品牌',
+                type: 'select',
+                listCode: 630406,
+                params: {
+                    status: 1
+                },
+                keyName: 'code',
+                valueName: 'name',
+                required: true,
+                hidden: this.isEntry || this.isCheck || this.state.dkey !== '1',
+                onChange: (v) => {
+                    if(v) {
+                        this.setState({
+                            brandCode: v
+                        });
+                    }
+                },
+                formatter: (v, d) => {
+                    if(d.carInfoRes.carBrand && this.carInfoResIndex === 0) {
+                        this.carInfoResIndex++;
+                        this.setState({
+                            brandCode: d.carInfoRes.carBrand
+                        });
+                    }
+                    return d.carInfoRes ? d.carInfoRes.carBrand : '';
+                }
+            }, {
+                field: 'carSeries',
+                title: '车系',
+                type: 'select',
+                pageCode: 630415,
+                hidden: this.isEntry || this.isCheck || this.state.dkey !== '1',
+                params: {
+                    status: 1,
+                    brandCode: this.state.brandCode,
+                    limit: 100
+                },
+                keyName: 'code',
+                valueName: 'name',
+                required: true,
+                onChange: (v, d) => {
+                    if(v) {
+                        this.setState({
+                            seriesCode: v
+                        });
+                    }
+                },
+                formatter: (v, d) => {
+                    if(d.carInfoRes.carSeries && this.carSeriesIndex === 0) {
+                        this.carSeriesIndex++;
+                        this.setState({
+                            seriesCode: d.carInfoRes.carSeries
+                        });
+                    }
+                    return d.carInfoRes ? d.carInfoRes.carSeries : '';
+                }
+            }, {
+                field: 'carModel',
+                title: '车型',
+                type: 'select',
+                pageCode: 630425,
+                hidden: this.isEntry || this.isCheck || this.state.dkey !== '1',
+                params: {
+                    status: 1,
+                    seriesCode: this.state.seriesCode,
+                    limit: 100
+                },
+                keyName: 'code',
+                valueName: 'name',
+                required: true,
+                onChange: (v, d) => {
+                    if(!this.state.brandCode || !this.state.seriesCode) {
+                        showWarnMsg('请先选择品牌与车型');
+                    } else {
+                        fetch(630425, {
+                            status: 1,
+                            seriesCode: this.state.seriesCode,
+                            limit: 100,
+                            start: 1
+                        }).then(data => {
+                            let list = data.list;
+                            this.setState({
+                                carModelList: list
+                            }, () => {
+                                this.state.carModelList.forEach(item => {
+                                    if(v === item.code) {
+                                        this.setState({
+                                            modelId: item.modelId
+                                        });
+                                    }
+                                });
+                            });
+                        });
+                        fetch('630477').then(data => {
+                            this.setState({
+                                zoneList: data
+                            }, () => {
+                                this.showModal();
+                            });
+                        });
+                    }
+                },
+                formatter(v, d) {
+                    return d.carInfoRes ? d.carInfoRes.carModel : '';
+                }
+            }, {
                 title: '二手车评估报告',
                 field: 'secondCarReport', // secondCarReport
-                type: 'img',
                 hidden: this.isEntry || this.isCheck || this.state.dkey !== '1', // 新车 录入征信结果 审核时隐藏
                 required: this.state.dkey !== '0', // 二手车必填
-                formatter(v, d) {
-                    let url = '';
-                    d.attachments.forEach(item => {
-                        if (item.vname === '二手车评估报告') {
-                            url = item.url;
-                        }
-                    });
-                    return url;
+                readonly: true,
+                formatter: (v, d) => {
+                    if(this.state.secondCarReportText) {
+                        return (<a href={this.state.secondCarReportText} target="_bank">{this.state.secondCarReportText}</a>);
+                    }
+                    if(d.attachments && Array.isArray(d.attachments)) {
+                        let url = '';
+                         d.attachments.forEach(item => {
+                            if(item.kname === 'second_car_report') {
+                                url = item.url;
+                            }
+                        });
+                        return (<a href={url} target="_bank">{url}</a>);
+                    }
                 }
             }, {
                 title: '行驶证正面',
@@ -418,46 +566,6 @@ componentDidMount() {
                 }
             }
         ];
-        // 流转日志 if (this.code) {
-        //     fields.push({
-        //         title: '流转日志',
-        //         field: 'list',
-        //         type: 'o2m',
-        //         hidden: this.isCheck,
-        //         listCode: 630176,
-        //         params: { refOrder: this.code },
-        //         options: {
-        //             rowKey: 'id',
-        //             noSelect: true,
-        //             fields: [{
-        //                 title: '操作人',
-        //                 field: 'operatorName'
-        //             }, {
-        //                 title: '开始时间',
-        //                 field: 'startDatetime',
-        //                 type: 'datetime'
-        //             }, {
-        //                 title: '结束时间',
-        //                 field: 'endDatetime',
-        //                 type: 'datetime'
-        //             }, {
-        //                 title: '花费时长',
-        //                 field: 'speedTime'
-        //             }, {
-        //                 title: '审核意见',
-        //                 field: 'dealNote'
-        //             }, {
-        //                 title: '当前节点',
-        //                 field: 'dealNode',
-        //                 type: 'select',
-        //                 listCode: 630147,
-        //                 keyName: 'code',
-        //                 valueName: 'name'
-        //             }]
-        //         }
-        //     });
-        // }
-        // 风控专员审核
         if (this.isCheck) {
             this.buttons = [{
                 title: '通过',
@@ -567,6 +675,9 @@ componentDidMount() {
                     handler: (params) => {
                         let data = {};
                         let item = [];
+                        data.carBrand = params.carBrand;
+                        data.carSeries = params.carSeries;
+                        data.carModel = params.carModel;
                         data.bizType = params.bizType; // 业务类型
                         data.bizCode = this.code;// 征信单编号
                         data.buttonCode = '0';
@@ -576,6 +687,14 @@ componentDidMount() {
                         data.secondCarReport = params.secondCarReport; // 二手车评估报告
                         data.xszFront = params.xszFront; // 身份证正面
                         data.xszReverse = params.xszReverse;// 身份证反面
+                        data.region = this.state.zone;
+                        data.regDate = this.state.regDate;
+                        data.mile = this.state.mile;
+                        if(!params.secondCarReport) {
+                            data.secondCarReport = this.state.secondCarReportText;
+                        }else {
+                            data.secondCarReport = params.secondCarReport;
+                        }
                         if (!params.creditUserList || params.creditUserList.length < 1) {
                             showWarnMsg('至少录入一条征信信息');
                             return;
@@ -621,6 +740,9 @@ componentDidMount() {
                         console.log(params);
                         let data = {};
                         let item = [];
+                        data.carBrand = params.carBrand;
+                        data.carSeries = params.carSeries;
+                        data.carModel = params.carModel;
                         data.bizType = params.bizType; // 业务类型
                         data.bizCode = this.code;// 征信单编号
                         data.buttonCode = '1';
@@ -630,9 +752,17 @@ componentDidMount() {
                         data.secondCarReport = params.secondCarReport; // 二手车评估报告
                         data.xszFront = params.xszFront; // 身份证正面
                         data.xszReverse = params.xszReverse;// 身份证反面
+                        data.region = this.state.zone;
+                        data.regDate = this.state.regDate;
+                        data.mile = this.state.mile;
                         if (!params.creditUserList || params.creditUserList.length < 1) {
                             showWarnMsg('至少录入一条征信信息');
                             return;
+                        }
+                        if(!params.secondCarReport) {
+                            data.secondCarReport = this.state.secondCarReportText;
+                        }else {
+                            data.secondCarReport = params.secondCarReport;
                         }
                         let flag = false;
                         for (let i = 0; i < params.creditUserList.length; i++) {
@@ -687,12 +817,13 @@ componentDidMount() {
                         detailCode: 632516, // 征信详情查询接口
                         buttons: this.buttons, // 根据判断将所有按钮添加到页面
                         beforeSubmit: (param) => { // 提交前传参
-                            console.log('beforeSubmit中的参数param：');
-                            console.log(param);
                             if (!param.creditUserList) {
                                 showWarnMsg('至少新增一条征信列表');
                                 return false;
                             } else {
+                                if(!param.secondCarReport) {
+                                    param.secondCarReport = this.state.secondCarReportText;
+                                }
                                 param.operator = getUserId();
                                 return param;
                             }
@@ -743,6 +874,33 @@ componentDidMount() {
                         }
                     })
                 }
+                <Modal
+                  title="车辆信息"
+                  visible={this.state.visible}
+                  onOk={this.handleOk}
+                  onCancel={this.handleCancel}
+                  okText="确定"
+                  cancelText="取消"
+                >
+                    <div style={{display: 'flex', marginBottom: '20px'}}>
+                        <label htmlFor="regDate" style={{width: '100px'}}>上牌时间:</label>
+                        <MonthPicker format={'YYYY-MM'} onChange={this.onChange} style={{width: '100%'}}/>
+                    </div>
+                    <div style={{display: 'flex', marginBottom: '20px'}}>
+                        <label htmlFor="mile" style={{width: '100px'}}>公里数(万):</label>
+                        <Input id="mile" placeholder="请输入公里数(万)"/>
+                    </div>
+                    <div style={{display: 'flex', marginBottom: '20px'}}>
+                        <label htmlFor="zone" style={{width: '100px'}}>城市标识:</label>
+                        <Select id="zone" placeholder="请输入城市标识" style={{width: '100%'}} onChange={this.selectChange}>
+                            {
+                                this.state.zoneList.length > 0 && this.state.zoneList.map(item => (
+                                  <Option value={item.id} key={item.id}>{item.cityName}</Option>
+                                ))
+                            }
+                        </Select>
+                    </div>
+                </Modal>
             </div>
         );
     }

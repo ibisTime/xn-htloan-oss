@@ -124,8 +124,9 @@ class ArchivesAddEdit extends React.Component {
             // 所有节点（用于解析节点）
             dealNodeList: [],
             isShowTabPane01: true,
-            isShowTabPane02: true,
-            isShowTabPane03: true
+            isShowTabPane02: false,
+            isShowTabPane03: false,
+            isShowTabPane04: false
         };
         this.columns = [{
             title: '操作人',
@@ -202,44 +203,28 @@ class ArchivesAddEdit extends React.Component {
                      interestData, loanRoleData, enterFileData, enterLocationData,
                      uploadToken, pageData
                  ]) => {
-                if (pageData.creditUserList.length === 0 || pageData.creditUserList.length === 1) {
-                    this.setState({
-                        isShowTabPane01: true,
-                        isShowTabPane02: false,
-                        isShowTabPane03: false
-                    });
-                } else if (pageData.creditUserList.length === 2) {
-                    this.setState({
-                        isShowTabPane03: false
-                    });
-                } else {
-                    let len = pageData.creditUserList.length - 1;
-                    if (len === 1) {
-                        if (pageData.creditUserList[len].relation === '2') {
-                            this.setState({
-                                isShowTabPane03: false
-                            });
-                        }
-                        if (pageData.creditUserList[len].relation === '3') {
-                            this.setState({
-                                isShowTabPane02: false
-                            });
-                        }
-                    }
-                    if (len === 0) {
-                        this.setState({
-                            isShowTabPane02: false,
-                            isShowTabPane03: false
-                        });
-                    }
-                    if (len === -1) {
-                        this.setState({
-                            isShowTabPane01: false,
-                            isShowTabPane02: false,
-                            isShowTabPane03: false
-                        });
-                    }
+            let len1 = 0;
+            pageData.creditUserList.forEach(item => {
+                if(item.loanRole === '3') {
+                    len1++;
                 }
+                if(item.loanRole === '2') {
+                    this.setState({
+                        isShowTabPane02: true
+                    });
+                }
+            });
+            if (len1 === 2) {
+                this.setState({
+                    isShowTabPane04: true,
+                    isShowTabPane03: true
+                });
+            }
+            if(len1 === 1) {
+                this.setState({
+                    isShowTabPane03: true
+                });
+            }
                 this.setState({
                     politics,
                     loanProductData,
@@ -1229,27 +1214,30 @@ class ArchivesAddEdit extends React.Component {
                                         </TabPane>) : null
                                     }
                                     {
-                                        this.state.isShowTabPane03 ? (<TabPane tab="担保人征信" key="3">
+                                        this.state.isShowTabPane03 ? (<TabPane tab="担保人1征信" key="3">
                                             <Row gutter={54}>
                                                 {this.getInputCol({
                                                     field: 'userName',
                                                     title: '姓名',
                                                     formatter: (v, d) => {
-                                                        return d.creditUserList[2].userName;
+                                                        let list = d.creditUserList.filter(item => item.loanRole === '3');
+                                                        return list[0].userName;
                                                     }
                                                 })}
                                                 {this.getSelectCol({
                                                     field: 'relation',
                                                     title: '与借款人关系',
                                                     formatter: (v, d) => {
-                                                        return d.creditUserList[2].relation;
+                                                        let list = d.creditUserList.filter(item => item.loanRole === '3');
+                                                        return list[0].relation;
                                                     }
                                                 }, relationData)}
                                                 {this.getSelectCol({
                                                     field: 'loanRole',
                                                     title: '贷款角色',
                                                     formatter: (v, d) => {
-                                                        return d.creditUserList[2].loanRole;
+                                                        let list = d.creditUserList.filter(item => item.loanRole === '3');
+                                                        return list[0].loanRole;
                                                     }
                                                 }, interestData, 33)}
                                             </Row>
@@ -1258,14 +1246,16 @@ class ArchivesAddEdit extends React.Component {
                                                     field: 'mobile',
                                                     title: '手机号',
                                                     formatter: (v, d) => {
-                                                        return d.creditUserList[2].mobile;
+                                                        let list = d.creditUserList.filter(item => item.loanRole === '3');
+                                                        return list[0].mobile;
                                                     }
                                                 })}
                                                 {this.getInputCol({
                                                     field: 'idNo',
                                                     title: '身份证号',
                                                     formatter: (v, d) => {
-                                                        return d.creditUserList[2].idNo;
+                                                        let list = d.creditUserList.filter(item => item.loanRole === '3');
+                                                        return list[0].idNo;
                                                     }
                                                 })}
                                                 {this.getFileCol({
@@ -1360,7 +1350,152 @@ class ArchivesAddEdit extends React.Component {
                                                     field: 'bankCreditResultRemark',
                                                     title: '征信结果说明',
                                                     formatter: (v, d) => {
-                                                        return d.creditUserList[2].bankCreditResultRemark;
+                                                        let list = d.creditUserList.filter(item => item.loanRole === '3');
+                                                        return list[1].bankCreditResultRemark;
+                                                    }
+                                                })}
+                                            </Row>
+                                        </TabPane>) : null
+                                    }
+                                    {
+                                        this.state.isShowTabPane04 ? (<TabPane tab="担保人2征信" key="4">
+                                            <Row gutter={54}>
+                                                {this.getInputCol({
+                                                    field: 'userName',
+                                                    title: '姓名',
+                                                    formatter: (v, d) => {
+                                                        let list = d.creditUserList.filter(item => item.loanRole === '3');
+                                                        return list[1] && list[1].userName;
+                                                    }
+                                                })}
+                                                {this.getSelectCol({
+                                                    field: 'relation',
+                                                    title: '与借款人关系',
+                                                    formatter: (v, d) => {
+                                                        let list = d.creditUserList.filter(item => item.loanRole === '3');
+                                                        return list[1] && list[1].relation;
+                                                    }
+                                                }, relationData)}
+                                                {this.getSelectCol({
+                                                    field: 'loanRole',
+                                                    title: '贷款角色',
+                                                    formatter: (v, d) => {
+                                                        let list = d.creditUserList.filter(item => item.loanRole === '3');
+                                                        return list[1] && list[1].loanRole;
+                                                    }
+                                                }, interestData, 33)}
+                                            </Row>
+                                            <Row gutter={54}>
+                                                {this.getInputCol({
+                                                    field: 'mobile',
+                                                    title: '手机号',
+                                                    formatter: (v, d) => {
+                                                        let list = d.creditUserList.filter(item => item.loanRole === '3');
+                                                        return list[1] && list[1].mobile;
+                                                    }
+                                                })}
+                                                {this.getInputCol({
+                                                    field: 'idNo',
+                                                    title: '身份证号',
+                                                    formatter: (v, d) => {
+                                                        let list = d.creditUserList.filter(item => item.loanRole === '3');
+                                                        return list[1] && list[1].idNo;
+                                                    }
+                                                })}
+                                                {this.getFileCol({
+                                                    field: 'idNoFront',
+                                                    title: '身份证正面',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.kname === 'id_no_front_gua1') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                })}
+                                            </Row>
+                                            <Row gutter={54}>
+                                                {this.getFileCol({
+                                                    field: 'idNoReverse',
+                                                    title: '身份证反面',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '担保人2身份证反面') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                }, 33)}
+                                                {this.getFileCol({
+                                                    field: 'authPdf',
+                                                    title: '征信查询授权书',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '担保人2征信查询授权书') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                }, 33)}
+                                                {this.getFileCol({
+                                                    field: 'interviewPic',
+                                                    title: '面签照片',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '担保人2面签照片') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                }, 33)}
+                                            </Row>
+                                            <Row gutter={54}>
+                                                {this.getFileCol({
+                                                    field: 'bankCreditResultPdf',
+                                                    title: '银行征信报告',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '担保人2银行征信报告') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                }, 33)}
+                                                {this.getFileCol({
+                                                    field: 'bankCreditResultPdf',
+                                                    title: '大数据征信报告',
+                                                    type: 'img',
+                                                    formatter: (v, d) => {
+                                                        let url = '';
+                                                        d.attachments.forEach(item => {
+                                                            if(item.vname === '担保人2大数据征信报告') {
+                                                                url = item.url;
+                                                            }
+                                                        });
+                                                        return url;
+                                                    }
+                                                })}
+                                                {this.getInputCol({
+                                                    field: 'bankCreditResultRemark',
+                                                    title: '征信结果说明',
+                                                    formatter: (v, d) => {
+                                                        let list = d.creditUserList.filter(item => item.loanRole === '3');
+                                                        return list[1] && list[1].bankCreditResultRemark;
                                                     }
                                                 })}
                                             </Row>

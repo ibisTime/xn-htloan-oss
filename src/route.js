@@ -1232,6 +1232,11 @@ const ROUTES = [
         path: '/postloantools/banks',
         component: asyncComponent(() => import('container/postloantools/banks/banks'))
     },
+    //  同盾征信
+    {
+        path: '/postloantools/tdunzhengxing',
+        component: asyncComponent(() => import('container/postloantools/tdunzhengxing/tdunzhengxing'))
+    },
     //  工行征信-- 查询
     {
         path: '/postloantools/banks/query',
@@ -1242,6 +1247,16 @@ const ROUTES = [
     path: '/postloantools/banks/query/addedit',
     component: asyncComponent(() => import('container/postloantools/banks/banks-querya'))
   },
+    //  同盾征信-- 查询
+    {
+        path: '/postloantools/tdunzhengxing/query',
+        component: asyncComponent(() => import('container/postloantools/tdunzhengxing/tdunzhengxing-query'))
+    },
+    //  同盾征信-- 详情
+    {
+        path: '/postloantools/tdunzhengxing/detail',
+        component: asyncComponent(() => import('container/postloantools/tdunzhengxing/tdunzhengxing-detail'))
+    },
   //  人事
   //  人事档案
   {

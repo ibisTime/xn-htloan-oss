@@ -392,7 +392,7 @@ export default class DetailComponent extends React.Component {
     }
 
     // 获取搜索框数据
-    searchSelectChange({keyword, item, start = 1, limit = 20, key}) {
+    searchSelectChange({keyword, item, key}) {
         let selectFetch = this.state.selectFetch;
         if (this.timeout) {
             clearTimeout(this.timeout);
@@ -408,6 +408,8 @@ export default class DetailComponent extends React.Component {
         });
         this.props.setSelectData({data: [], key: item.field});
         let params = item.params || {};
+        let start = item.start || 1;
+        let limit = item.limit || 20;
         params.start = start;
         params.limit = limit;
         key = key || item.searchName || item.keyName || item.field;
