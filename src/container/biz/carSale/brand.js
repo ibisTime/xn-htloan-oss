@@ -10,10 +10,11 @@ import {
     setSearchData
 } from '@redux/biz/brand';
 import {listWrapper} from 'common/js/build-list';
-import {showWarnMsg, getUserName, showSucMsg, formatFile} from 'common/js/util';
-import {Modal} from 'antd';
+import {showWarnMsg, getUserName, showSucMsg, formatFile, getUserId} from 'common/js/util';
+import {Modal, message} from 'antd';
 import {lowerFrame, onShelf} from 'api/biz';
 import OnOrDownShelf from 'component/onordownshelf/onordownshelfs';
+import fetch from 'common/js/fetch';
 @listWrapper(
     state => ({
         ...state.bizBrand,
@@ -168,6 +169,22 @@ class Brand extends React.Component {
             field: 'updateDatetime',
             type: 'datetime'
         }, {
+            title: '类型',
+            field: 'type',
+            data: [
+                {
+                    key: '1',
+                    name: '接口导入'
+                },
+                {
+                    key: '2',
+                    name: '用户新增'
+                }
+            ],
+            type: 'select',
+            keyName: 'key',
+            valueName: 'name'
+        }, {
             title: '备注',
             field: 'remark'
         }];
@@ -225,6 +242,15 @@ class Brand extends React.Component {
                             } else {
                                 this.props.history.push(`/biz/brand/addedit?code=${item[0].code}`);
                             }
+                        },
+                        refresh: () => {
+                            let hasMsg = message.loading('正在努力刷新中...', 100);
+                            fetch(630408, {
+                                updater: getUserId()
+                            }).then(() => {
+                                hasMsg();
+                                this.props.getPageData();
+                            }, hasMsg);
                         }
                     }
                 })}

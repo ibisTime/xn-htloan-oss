@@ -46,12 +46,12 @@ class ToDo extends React.Component {
     }, {
       title: '消息内容',
       field: 'content'
-    }, {
-      title: '推送对象',
-      field: 'operateRole',
-      render: (v, d) => {
-        return d.operateRoleName ? d.operateRoleName : '';
-      }
+    // }, {
+    //   title: '推送对象',
+    //   field: 'operateRole',
+    //   render: (v, d) => {
+    //     return d.operateRoleName ? d.operateRoleName : '';
+    //   }
     }, {
       title: '推送节点',
       field: 'refNode',

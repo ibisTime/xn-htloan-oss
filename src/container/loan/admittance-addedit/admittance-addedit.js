@@ -149,8 +149,8 @@ class AdmittanceAddEdit extends React.Component {
                 fetch(632067, { curNodeCode: '006_03' }), // 查机动车销售公司
                 fetch(632177, { status: '2', type: data.bizType, loanBank: data.loanBank }), // 查贷款产品
                 fetch(630406, { status: '1' }),
-                fetch(630416, { status: '1' }),
-                fetch(630429, { status: '1' }),
+                fetch(630415, { status: '1', start: 100, limit: 1 }),
+                fetch(630425, { status: '1', start: 100, limit: 1 }),
                 getDictList({ parentKey: 'budget_orde_biz_typer' }),
                 getDictList({ parentKey: 'loan_period' }),
                 getDictList({ parentKey: 'region' }),
@@ -719,6 +719,8 @@ class AdmittanceAddEdit extends React.Component {
         let bankRates = '';
         if (code === '12') {
             bankRates = this.state.loanBankData.rate12;
+        } else if (code === '18') {
+            bankRates = this.state.loanBankData.rate18;
         } else if (code === '24') {
             bankRates = this.state.loanBankData.rate24;
         } else if (code === '36') {
@@ -1237,8 +1239,8 @@ class AdmittanceAddEdit extends React.Component {
                                                   });
                                                   let carSeries = document.querySelector('#carSeries .ant-select-selection__clear');
                                                   let carShapeData = document.querySelector('#carModel .ant-select-selection__clear');
-                                                  carSeries.click();
-                                                  carShapeData.click();
+                                                  carSeries && carSeries.click();
+                                                  carShapeData && carShapeData.click();
                                               }).catch();
                                           }
                                       }
@@ -1257,7 +1259,7 @@ class AdmittanceAddEdit extends React.Component {
                                                       carShapeData: data
                                                   });
                                                   let carShapeData = document.querySelector('#carModel .ant-select-selection__clear');
-                                                  carShapeData.click();
+                                                  carShapeData && carShapeData.click();
                                               }).catch();
                                           }
                                       }
@@ -1992,13 +1994,15 @@ class AdmittanceAddEdit extends React.Component {
                                       field: 'pledgeUserIdCardFront',
                                       title: '代理人身份证正面',
                                       _keys: ['carPledge', 'pledgeUserIdCardFront'],
-                                      type: 'img'
+                                      type: 'img',
+                                      single: true
                                   }, 4)}
                                   {this.getFileCol({
                                       field: 'pledgeUserIdCardReverse',
                                       title: '代理人身份证反面',
                                       _keys: ['carPledge', 'pledgeUserIdCardReverse'],
-                                      type: 'img'
+                                      type: 'img',
+                                      single: true
                                   }, 4)}
                               </Row>
                           </Card>

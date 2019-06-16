@@ -81,6 +81,9 @@ class ArchivesAddEdit extends DetailUtil {
             valueName: 'name',
             readonly: true
         }, {
+            title: '档案编号',
+            field: 'enterCode'
+        }, {
             title: '档案存放位置',
             field: 'enterLocation',
             type: 'select',

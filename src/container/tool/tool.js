@@ -53,7 +53,7 @@ class Tool extends React.Component {
                       <div style={{width: '300px', 'overflow': 'scroll', 'textOverflow': 'ellipsis', 'whiteSpace': 'nowrap', 'padding': '10px 0'}}>
                           <p>客户姓名：{d.creditUser.userName}</p>
                           <p>身份证号：{d.creditUser.idNo}</p>
-                          <p>意向车型：{d.carInfoRes.carBrand ? `${d.carInfoRes.carBrand}-${d.carInfoRes.carSeries}-${d.carInfoRes.carModel}-${d.carInfoRes.carColor}` : '-'}</p>
+                          <p>意向车型：{d.carInfoRes.carBrandName ? `${d.carInfoRes.carBrandName}-${d.carInfoRes.carSeriesName}-${d.carInfoRes.carModelName}-${d.carInfoRes.carColor}` : '-'}</p>
                       </div>
                   </div>
                 );

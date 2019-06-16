@@ -67,14 +67,14 @@ class RefundList extends React.Component {
       render: (v, d) => {
         return moneyFormat(d.repayBiz.monthAmount);
       }
-    // }, {
-    //     title: '状态',
-    //     field: 'curNodeCode',
-    //     type: 'select',
-    //     listCode: 630147,
-    //     keyName: 'code',
-    //     valueName: 'name',
-    //     search: true
+    }, {
+        title: '当前状态',
+        field: 'curNodeCode',
+        type: 'select',
+        listCode: 630147,
+        keyName: 'code',
+        valueName: 'name',
+        search: true
     }];
     return this
       .props

@@ -179,7 +179,7 @@ class AdvMoneyAddedit extends DetailUtil {
                     type: 'img',
                     required: true
                 }, {
-                    title: '垫资账号',
+                    title: '出款账号',
                     field: 'advanceCardCode',
                     type: 'select',
                     listCode: 632007,
@@ -187,6 +187,16 @@ class AdvMoneyAddedit extends DetailUtil {
                     valueName: '{{bankName.DATA}}-{{bankcardNumber.DATA}}',
                     required: true,
                     params: {type: '4'}
+                }, {
+                    title: '收款账号',
+                    field: 'collectCardCodeList',
+                    type: 'select',
+                    listCode: 632007,
+                    keyName: 'code',
+                    valueName: '{{bankName.DATA}}-{{bankcardNumber.DATA}}',
+                    required: true,
+                    params: {type: '4'},
+                    multiple: true
                 }]);
         }
         config.fields = fields;

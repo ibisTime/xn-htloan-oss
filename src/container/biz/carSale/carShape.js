@@ -11,9 +11,10 @@ import {
 } from '@redux/biz/carShape';
 import { listWrapper } from 'common/js/build-list';
 import OnOrDownShelf from 'component/onordownshelf/onordownshelf';
-import { showWarnMsg, showSucMsg, moneyFormat } from 'common/js/util';
-import { Modal } from 'antd';
+import { showWarnMsg, showSucMsg, moneyFormat, getUserId } from 'common/js/util';
+import { Modal, message } from 'antd';
 import { lowerFrameShape } from 'api/biz';
+import fetch from 'common/js/fetch';
 
 @listWrapper(
   state => ({
@@ -179,6 +180,22 @@ class CarShape extends React.Component {
       field: 'orderNo',
       key: 'order_no'
     }, {
+        title: '类型',
+        field: 'type',
+        data: [
+            {
+                key: '1',
+                name: '接口导入'
+            },
+            {
+                key: '2',
+                name: '用户新增'
+            }
+        ],
+        type: 'select',
+        keyName: 'key',
+        valueName: 'name'
+    }, {
       title: '状态',
       field: 'status',
       search: true,
@@ -251,6 +268,19 @@ class CarShape extends React.Component {
         } else {
           this.props.history.push(`/biz/carShape/cxpz?code=${selectedRows[0].code}&carCode=${selectedRows[0].code}`);
         }
+      },
+      refresh: (key, item) => {
+          let hasMsg = message.loading('正在努力刷新中...', 100);
+          let config = {
+              updater: getUserId()
+          };
+          if(key.length > 0) {
+              config.seriesId = item[0].seriesId;
+          }
+          fetch(630419, config).then(() => {
+              hasMsg();
+              this.props.getPageData();
+          }, hasMsg);
       }
     };
     return (

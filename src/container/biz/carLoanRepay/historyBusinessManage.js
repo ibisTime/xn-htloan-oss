@@ -96,7 +96,7 @@ class historyBusinessManage extends React.Component {
         searchParams: {
           refType: '0',
             userId: getUserId(),
-          curNodeCodeList: ['j14', 'j15', 'j16', '7', '007_04']
+          curNodeCodeList: ['j14', 'j15', 'j16', 'j7', '007_04']
         },
         pageCode: 630522
       });

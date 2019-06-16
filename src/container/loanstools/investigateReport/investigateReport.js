@@ -13,7 +13,8 @@ import {
     showWarnMsg,
     getRoleCode,
     dateTimeFormat,
-    getTeamCode
+    getTeamCode,
+    getUserId
 } from 'common/js/util';
 import { listWrapper } from 'common/js/build-list';
 
@@ -121,7 +122,8 @@ class InvestigateReport extends React.Component {
             searchName: {
                 curNodeCodeList: ['010_01', '010_02', '010_03', '010_04'],
                 teamCode: getTeamCode(),
-                roleCode: getRoleCode()
+                roleCode: getRoleCode(),
+                userId: getUserId()
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {

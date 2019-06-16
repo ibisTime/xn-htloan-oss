@@ -40,7 +40,10 @@ class businessTeamAddedit extends React.Component {
             keyName: 'userId',
             valueName: '{{realName.DATA}}-{{mobile.DATA}}',
             searchName: 'keyword',
-            required: true
+            required: true,
+            params: {
+                roleCode: 'SR201905261942406683243'
+            }
         }, {
             title: '区域',
             field: 'place',

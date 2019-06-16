@@ -74,6 +74,14 @@ class refundBusinessPlan extends React.Component {
                     title: '剩余欠款',
                     amount: true,
                     field: 'overplusAmount'
+                }, {
+                    title: '当前状态',
+                    field: 'curNodeCode',
+                    type: 'select',
+                    listCode: 630147,
+                    keyName: 'code',
+                    valueName: 'name',
+                    search: true
                 }]
             }
         }];

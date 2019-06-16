@@ -11,9 +11,10 @@ import {
 } from '@redux/biz/carSeries';
 import { listWrapper } from 'common/js/build-list';
 import OnOrDownShelf from 'component/onordownshelf/onordownshelf';
-import { showWarnMsg, showSucMsg, moneyFormat } from 'common/js/util';
-import { Modal } from 'antd';
+import { showWarnMsg, showSucMsg, moneyFormat, getUserId } from 'common/js/util';
+import { Modal, message } from 'antd';
 import { lowerFrameSys, onShelfSys } from 'api/biz';
+import fetch from 'common/js/fetch';
 @listWrapper(
   state => ({
     ...state.bizCarSeries,
@@ -115,6 +116,22 @@ class CarSeries extends React.Component {
       field: 'updateDatetime',
       type: 'datetime'
     }, {
+        title: '类型',
+        field: 'type',
+        data: [
+            {
+                key: '1',
+                name: '接口导入'
+            },
+            {
+                key: '2',
+                name: '用户新增'
+            }
+        ],
+        type: 'select',
+        keyName: 'key',
+        valueName: 'name'
+    }, {
       title: '备注',
       field: 'remark'
     }];
@@ -157,7 +174,6 @@ class CarSeries extends React.Component {
         }
       },
       edit: (key, item) => {
-          console.log(item);
           if (!key || !key.length || !item || !item.length) {
               showWarnMsg('请选择记录');
           } else if (item[0].status === '1') {
@@ -165,6 +181,19 @@ class CarSeries extends React.Component {
           } else {
               this.props.history.push(`/biz/carSeries/addedits?code=${item[0].code}`);
           }
+      },
+      refresh: (key, item) => {
+          let hasMsg = message.loading('正在努力刷新中...', 100);
+          let config = {
+            updater: getUserId()
+          };
+          if(key) {
+              config.seriesId = item[0].seriesId;
+          }
+          fetch(630418, config).then(() => {
+              hasMsg();
+              this.props.getPageData();
+          }, hasMsg);
       }
     };
     return (

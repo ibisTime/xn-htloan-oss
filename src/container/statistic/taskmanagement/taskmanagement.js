@@ -108,8 +108,6 @@ class Notice extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].status === '0') {
-            showWarnMsg('已作废的任务不可修改');
           } else {
             Modal.confirm({
               okText: '确认',

@@ -147,7 +147,7 @@ class ArchivesAddEdit extends React.Component {
             dataIndex: 'dealNote'
         }, {
             title: '当前节点',
-            dataIndex: 'dealNode',
+            dataIndex: 'curNodeCode',
             render: this.formatDealNote
         }];
         this.column = [{
