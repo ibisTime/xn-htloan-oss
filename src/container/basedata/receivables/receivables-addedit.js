@@ -26,28 +26,26 @@ import fetch from 'common/js/fetch';
     }
 )
 class receivablesAddedit extends React.Component {
+    constructor(props) {
+        super(props);
+        this.code = getQueryString('code', this.props.location.search);
+        this.view = !!getQueryString('v', this.props.location.search);
+        this.index = 0;
+    }
     state = {
         companyData: [],
         o_companyData: []
     };
     componentDidMount() {
-        fetch(632067).then(data => {
-            console.log(22, data);
+        Promise.all([
+            fetch(632067),
+            fetch(630106, {typeList: [1]})
+        ]).then(([data1, data2]) => {
             this.setState({
-                companyData: data
+                companyData: data1,
+                o_companyData: data2
             });
         });
-        fetch(630106, {typeList: [1]}).then(data => {
-            console.log(33, data);
-            this.setState({
-                o_companyData: data
-            });
-        });
-    }
-    constructor(props) {
-        super(props);
-        this.code = getQueryString('code', this.props.location.search);
-        this.view = !!getQueryString('v', this.props.location.search);
     }
     render() {
         const fields = [{
@@ -58,7 +56,8 @@ class receivablesAddedit extends React.Component {
             key: 'collect_type',
             keyName: 'dkey',
             valueName: 'dvalue',
-            onChange: (v) => {
+            onChange: (v, d) => {
+                this.index++;
                 if (!v) {
                     this.props.setSelectData({
                         key: 'companyCode',
@@ -76,10 +75,13 @@ class receivablesAddedit extends React.Component {
                     });
                 } else {
                     fetch(632067, {}).then(data => {
-                        data.forEach(d => d.name = d.fullName);
+                        let list = data.map(item => ({
+                            code: item.code,
+                            name: item.fullName
+                        }));
                         this.props.setSelectData({
                             key: 'companyCode',
-                            data: data
+                            data: list
                         });
                     });
                 }
@@ -96,20 +98,23 @@ class receivablesAddedit extends React.Component {
             keyName: 'code',
             valueName: 'name',
             formatter: (v, d, props) => {
-                if (d.type === '2') {
-                    let company = this.state.companyData.filter(item => {
-                        return item.code === v;
-                    });
-                    return company.length === 1 ? company[0].fullName : v;
-                } else if (d.type === '3') {
-                    let company = this.state.companyData.filter(item => {
-                        return item.code === v;
-                    });
-                    return company.length === 1 ? company[0].fullName : v;
+                if(d.type && this.index === 0) {
+                    if (d.type === '2') {
+                        let company = this.state.companyData.filter(item => {
+                            return item.code === v;
+                        });
+                        return company.length === 1 ? company[0].fullName : v;
+                    } else if (d.type === '3') {
+                        let company = this.state.companyData.filter(item => {
+                            return item.code === v;
+                        });
+                        return company.length === 1 ? company[0].fullName : v;
+                    }
+                    let oCompanyData = this.state.o_companyData.filter(item =>
+                      item.code === v);
+                    return oCompanyData[0] && oCompanyData[0].name;
                 }
-                let oCompanyData = this.state.o_companyData.filter(item =>
-                    item.code === v);
-                return oCompanyData[0] && oCompanyData[0].name;
+                return '';
             },
             required: true
         }, {

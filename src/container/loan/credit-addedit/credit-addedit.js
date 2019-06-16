@@ -117,15 +117,15 @@ componentDidMount() {
                 props.selectData.loanRole.map(l => {
                     loanRoleList[l.dkey] = l.dvalue;
                 });
-                creditUserList && creditUserList.forEach(d => {
-                    if (d.loanRole === v) {
-                        setTimeout(() => {
-                            props.form.setFieldsValue({loanRole: ''});
-                        }, 100);
-                        showWarnMsg(loanRoleList[v] + '记录已添加');
-                        return false;
-                    }
-                });
+                // creditUserList && creditUserList.forEach(d => {
+                //     if (d.loanRole === v) {
+                //         setTimeout(() => {
+                //             props.form.setFieldsValue({loanRole: ''});
+                //         }, 100);
+                //         showWarnMsg(loanRoleList[v] + '记录已添加');
+                //         return false;
+                //     }
+                // });
             }
         }, {
             title: '手机号',
