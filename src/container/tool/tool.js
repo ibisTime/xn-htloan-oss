@@ -26,6 +26,7 @@ import {
 } from 'api/biz';
 import { Modal } from 'antd';
 import { PIC_PREFIX } from 'common/js/config';
+import VideoCapture from 'component/videoCapture/videoCapture';
 
 @listWrapper(
     state => ({
@@ -62,38 +63,17 @@ class Tool extends React.Component {
             title: '面签视频',
             field: 'videoUrl',
             render(v, d) {
-                if(d.attachments) {
-                    let yhVideo = d.attachments.filter(item => item.vname === '银行视频')[0];
-                    let gsVideo = d.attachments.filter(item => item.vname === '公司视频')[0];
-                    if(!yhVideo.url.includes('http') && !gsVideo.url.includes('http')) {
-                        return (
-                          <div>
-                              <p>银行视频：<a href={PIC_PREFIX + yhVideo.url} target="view_window">{yhVideo.url}</a></p>
-                              <p>公司视频：<a href={PIC_PREFIX + gsVideo.url} target="view_window">{gsVideo.url}</a></p>
-                          </div>
-                        );
-                    }else if(yhVideo.url.includes('http') && !gsVideo.url.includes('http')) {
-                        return (
-                          <div>
-                              <p>银行视频：<a href={yhVideo.url} target="view_window">{yhVideo.url}</a></p>
-                              <p>公司视频：<a href={PIC_PREFIX + gsVideo.url} target="view_window">{gsVideo.url}</a></p>
-                          </div>
-                        );
-                    } else if(!yhVideo.url.includes('http') && gsVideo.url.includes('http')) {
-                        return (
-                          <div>
-                              <p>银行视频：<a href={PIC_PREFIX + yhVideo.url} target="view_window">{yhVideo.url}</a></p>
-                              <p>公司视频：<a href={gsVideo.url} target="view_window">{gsVideo.url}</a></p>
-                          </div>
-                        );
-                    } else {
-                        return (
-                          <div>
-                              <p>银行视频：<a href={yhVideo.url} target="view_window">{yhVideo.url}</a></p>
-                              <p>公司视频：<a href={gsVideo.url} target="view_window">{gsVideo.url}</a></p>
-                          </div>
-                        );
-                    }
+                if (d.attachments) {
+                    let yhVideoUrl = d.attachments.filter(item => item.vname === '银行视频')[0].url;
+                    let gsVideoUrl = d.attachments.filter(item => item.vname === '公司视频')[0].url;
+                    yhVideoUrl = yhVideoUrl.includes('http') ? yhVideoUrl : (PIC_PREFIX + yhVideoUrl);
+                    gsVideoUrl = gsVideoUrl.includes('http') ? gsVideoUrl : (PIC_PREFIX + gsVideoUrl);
+                    return (
+                        <div>
+                            <p>银行视频：<VideoCapture url={yhVideoUrl}/></p>
+                            <p>公司视频：<VideoCapture url={gsVideoUrl}/></p>
+                        </div>
+                    );
                 }
                 return null;
             }

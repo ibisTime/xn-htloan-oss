@@ -57,6 +57,10 @@ class imports extends React.Component {
             field: 'overdueAmount',
             amount: true
         }, {
+            title: '创建日期',
+            field: 'createDatetime',
+            type: 'date'
+        }, {
             title: '状态',
             field: 'status',
             type: 'select',

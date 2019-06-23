@@ -59,6 +59,10 @@ class importImport extends React.Component {
             title: '放款日期',
             dataIndex: 'fkDatetime',
             type: 'date'
+        }, {
+            title: '创建日期',
+            dataIndex: 'createDatetime',
+            type: 'date'
         }];
         this.state = {
             data: [],
@@ -104,7 +108,8 @@ class importImport extends React.Component {
                         loanAmount: item[2] * 1000,
                         periods: item[3],
                         overdueAmount: item[4] * 1000,
-                        fkDatetime: item[5]
+                        fkDatetime: item[5],
+                        createDatetime: item[6]
                     });
                 }
             });
