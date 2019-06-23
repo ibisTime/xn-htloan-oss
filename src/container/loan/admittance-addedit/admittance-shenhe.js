@@ -133,8 +133,7 @@ class AdmittanceShenhe extends DetailUtil {
             field: 'approveNote',
             type: 'textarea',
             normalArea: true,
-            readonly: false,
-            required: this.isCheckNq && this.isCheck && this.isCheckHeadquarters
+            readonly: false
         }];
         let bizCode = this.getBizCode();
         // 准入审查

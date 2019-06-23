@@ -8,8 +8,8 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use('/api', function (req, res) {
-  // var url = 'http://120.26.6.213:2401/forward-service/api';
-  var url = 'http://m.wzcddev.hichengdai.com/api';
+  var url = 'http://120.26.6.213:2401/forward-service/api';
+  // var url = 'http://m.wzcddev.hichengdai.com/api';
   // var url = 'http://192.168.8.108:8080/forward-service/api';
  // var url = 'http://47.110.249.120:2401/forward-service/api'; // 线上
   var _body = req.body;

@@ -26,7 +26,12 @@ class IdCheckQuery extends React.Component {
             field: 'code',
             type: 'select',
             listCode: 632517,
-            valueName: '{{code.DATA}}',
+            valueName: (d) => {
+                if (d && d.creditUser) {
+                    return `${d.code}-${d.creditUser.userName}`;
+                }
+                return '';
+            },
             keyName: 'code',
             title: '业务编号',
             required: true

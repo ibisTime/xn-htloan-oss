@@ -74,8 +74,7 @@ class trailer extends React.Component {
       listCode: 630147,
       keyName: 'code',
       valueName: 'name',
-      search: true,
-      params: {type: 'a'}
+      search: true
     }];
     return this.props.buildList({
       fields,

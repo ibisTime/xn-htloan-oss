@@ -3,10 +3,8 @@ import {
     initStates, doFetching, cancelFetching, setSelectData, setPageData,
     restore
 } from '@redux/loan/credit-addedit';
-// import { getQueryString, showWarnMsg, showSucMsg, getUserId, moneyFormat } from 'common/js/util';
 import {DetailWrapper} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
-// import {Card, Form, Row, Spin, Tabs} from "antd";
 import {Form, Tabs, Row, Col, Spin, Button, Table, Card, Icon, Tooltip, Modal, Select, Input, DatePicker} from 'antd';
 import {
     getQueryString, showWarnMsg, showSucMsg, isUndefined, getUserId, getRules,
@@ -336,7 +334,8 @@ class CreditAddedit extends React.Component {
                 type: 'select',
                 listCode: 630406,
                 params: {
-                    status: 1
+                    status: 1,
+                    type: 1
                 },
                 keyName: 'code',
                 valueName: 'name',
@@ -367,6 +366,7 @@ class CreditAddedit extends React.Component {
                 params: {
                     status: 1,
                     brandCode: this.state.brandCode,
+                    type: 1,
                     limit: 100
                 },
                 keyName: 'code',
@@ -397,6 +397,7 @@ class CreditAddedit extends React.Component {
                 params: {
                     status: 1,
                     seriesCode: this.state.seriesCode,
+                    type: 1,
                     limit: 100
                 },
                 keyName: 'code',

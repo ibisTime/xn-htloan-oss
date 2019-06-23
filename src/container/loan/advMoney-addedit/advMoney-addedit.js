@@ -26,17 +26,6 @@ class AdvMoneyAddedit extends DetailUtil {
             }, 1000);
         }).catch(this.cancelFetching);
     }
-    // 确认垫资接口
-    checkRecords(params) {
-        this.doFetching();
-        fetch(632464, params).then(() => {
-            showSucMsg('操作成功');
-            this.cancelFetching();
-            setTimeout(() => {
-                this.props.history.go(-1);
-            }, 1000);
-        }).catch(this.cancelFetching);
-    }
     render() {
         let _this = this;
         let buttons = [];
@@ -145,59 +134,65 @@ class AdvMoneyAddedit extends DetailUtil {
                 }
             }];
         } else {
-                fields = fields.concat([{
-                    title: '汽车经销商',
-                    field: 'carDealerName',
-                    readonly: true
-                }, {
-                    title: '资金划转授权书 ',
-                    field: 'advanceFundAmountPdf',
-                    type: 'img',
-                    readonly: true,
-                    formatter: (v, d) => {
-                        let url = '';
-                        d.attachments.forEach(item => {
-                            if (item.vname === '资金划转授权书') {
-                                url = item.url;
-                            }
-                        });
-                        return url;
-                    }
-                }, {
-                    title: '垫资日期',
-                    field: 'advanceFundDatetime',
-                    type: 'date',
-                    required: true
-                }, {
-                    title: '垫资金额',
-                    field: 'advanceFundAmount',
-                    amount: true,
-                    required: true
-                }, {
-                    title: '水单',
-                    field: 'billPdf',
-                    type: 'img',
-                    required: true
-                }, {
-                    title: '出款账号',
-                    field: 'advanceCardCode',
-                    type: 'select',
-                    listCode: 632007,
-                    keyName: 'code',
-                    valueName: '{{bankName.DATA}}-{{bankcardNumber.DATA}}',
-                    required: true,
-                    params: {type: '4'}
-                }, {
-                    title: '收款账号',
-                    field: 'collectCardCodeList',
-                    type: 'select',
-                    listCode: 632007,
-                    keyName: 'code',
-                    valueName: '{{bankName.DATA}}-{{bankcardNumber.DATA}}',
-                    required: true,
-                    params: {type: '4'},
-                    multiple: true
-                }]);
+            fields = fields.concat([{
+                title: '汽车经销商',
+                field: 'carDealerName',
+                readonly: true
+            }, {
+                title: '资金划转授权书 ',
+                field: 'advanceFundAmountPdf',
+                type: 'img',
+                readonly: true,
+                formatter: (v, d) => {
+                    let url = '';
+                    d.attachments.forEach(item => {
+                        if (item.vname === '资金划转授权书') {
+                            url = item.url;
+                        }
+                    });
+                    return url;
+                }
+            }, {
+                title: '垫资日期',
+                field: 'advanceFundDatetime',
+                type: 'date',
+                required: true
+            }, {
+                title: '垫资金额',
+                field: 'advanceFundAmount',
+                amount: true,
+                required: true
+            }, {
+                title: '水单',
+                field: 'billPdf',
+                type: 'img',
+                required: true
+            }, {
+                title: '出款账号',
+                field: 'advanceCardCode',
+                type: 'select',
+                listCode: 632007,
+                keyName: 'code',
+                valueName: '{{bankName.DATA}}-{{bankcardNumber.DATA}}',
+                required: true,
+                params: { type: 4, advanceType: 2 }
+            }, {
+                title: '收款账号',
+                field: 'collectCardCodeList',
+                type: 'select',
+                listCode: 632007,
+                keyName: 'code',
+                valueName: '{{bankName.DATA}}-{{bankcardNumber.DATA}}',
+                required: true,
+                params: { type: 4, advanceType: 1 },
+                multiple: true
+            }]);
+            config.beforeSubmit = (params) => {
+                if (params.collectCardCodeList) {
+                    params.collectCardCodeList = params.collectCardCodeList.split(',');
+                }
+                return true;
+            };
         }
         config.fields = fields;
         return this.buildDetail(config);

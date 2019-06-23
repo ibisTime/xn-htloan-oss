@@ -169,9 +169,9 @@ export default class CSearchSelect extends React.Component {
     let _initVal = isUndefined(initVal) ? '' : (initVal + '');
     return (
       <FormItem key={field} label={label} {...layoutProps} className={hidden ? 'hidden' : ''}>
-        <div>
+        <div style={{marginLeft: '20px'}}>
           {
-            readonly ? <div style={{marginLeft: '20px'}} className="readonly-text">{value}</div>
+            readonly ? <div className="readonly-text">{value}</div>
               : getFieldDecorator(field, {
                   rules,
                   initialValue: _initVal

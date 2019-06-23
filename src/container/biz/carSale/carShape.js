@@ -56,15 +56,24 @@ class CarShape extends React.Component {
       type: 'select',
       listCode: 630406,
       keyName: 'code',
-      valueName: 'name'
+      valueName: 'name',
+      hidden: true
+    }, {
+      title: '品牌',
+      field: 'brandName'
     }, {
       title: '车系',
       field: 'seriesCode',
       search: true,
       type: 'select',
-      listCode: 630416,
+      pageCode: 630415,
       keyName: 'code',
-      valueName: 'name'
+      valueName: 'name',
+      searchName: 'name',
+      hidden: true
+    }, {
+      title: '车系',
+      field: 'seriesName'
     }, {
       field: 'level',
       title: '级别',
@@ -145,13 +154,8 @@ class CarShape extends React.Component {
       keyName: 'key',
       valueName: 'value'
     }, {
-      field: 'displacement',
-      title: '排量(L)',
-      number: true,
-      render: (v, d) => {
-       return d.displacement + 'L';
-    },
-      required: true
+      field: 'liter',
+      title: '排量'
     }, {
       field: 'fromPlace',
       title: '车源地',
@@ -182,16 +186,13 @@ class CarShape extends React.Component {
     }, {
         title: '类型',
         field: 'type',
-        data: [
-            {
-                key: '1',
-                name: '接口导入'
-            },
-            {
-                key: '2',
-                name: '用户新增'
-            }
-        ],
+        data: [{
+            key: '1',
+            name: '接口导入'
+        }, {
+            key: '2',
+            name: '用户新增'
+        }],
         type: 'select',
         keyName: 'key',
         valueName: 'name'
@@ -270,13 +271,10 @@ class CarShape extends React.Component {
         }
       },
       refresh: (key, item) => {
-          let hasMsg = message.loading('正在努力刷新中...', 100);
+          let hasMsg = message.loading('正在努力刷新中...', 0);
           let config = {
               updater: getUserId()
           };
-          if(key.length > 0) {
-              config.seriesId = item[0].seriesId;
-          }
           fetch(630419, config).then(() => {
               hasMsg();
               this.props.getPageData();

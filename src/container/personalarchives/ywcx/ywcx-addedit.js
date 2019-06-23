@@ -8,7 +8,9 @@ import CNormalTextArea from 'component/cNormalTextArea/cNormalTextAreas';
 import CMonth from 'component/cMonth/cMonth';
 import CRangeDate from 'component/cRangeDate/cRangeDate';
 import CDate from 'component/cDate/cDates';
-import {tailFormItemLayout, validateFieldsAndScrollOption} from 'common/js/config';
+import {
+    tailFormItemLayout, validateFieldsAndScrollOption, formItemLayout
+} from 'common/js/config';
 import {
     getQueryString, showSucMsg, isUndefined, getUserId, getRules,
     getRealValue, dateTimeFormat, moneyFormat
@@ -177,7 +179,7 @@ class ArchivesAddEdit extends React.Component {
             fetch(630147),
             getDictList({parentKey: 'budget_orde_biz_typer'}),
             getDictList({parentKey: 'loan_period'}),
-            getDictList({parentKey: 'region'}),
+            fetch(630477),
             getDictList({parentKey: 'car_type'}),
             getDictList({parentKey: 'gender'}),
             getDictList({parentKey: 'marry_state'}),
@@ -541,6 +543,21 @@ class ArchivesAddEdit extends React.Component {
         return (
             <Col {...colProps}>
                 <CRangeDate key={item.field} {...props} />
+            </Col>
+        );
+    }
+    // 获取链接类型的控件
+    getLinkComp(item, split = 3) {
+        let colProps = this.getColProps(split);
+        let url = getRealValue({...item, pageData: this.state.pageData});
+        let label = this.getLabel(item);
+        return (
+            <Col {...colProps}>
+                <FormItem key={item.field} {...formItemLayout} className={item.hidden ? 'hidden' : ''} label={label}>
+                    <div className="readonly-text">
+                        <a href={url} target="_blank" style={{marginLeft: 20}}>{item.title}</a>
+                    </div>
+                </FormItem>
             </Col>
         );
     }
@@ -1555,11 +1572,9 @@ class ArchivesAddEdit extends React.Component {
                                     {this.getSelectCol({
                                         field: 'region',
                                         title: '所属区域',
-                                        keyName: 'dkey',
-                                        valueName: 'dvalue',
-                                        formatter: (v, d) => {
-                                            return d.carInfoRes.region;
-                                        }
+                                        _keys: ['carInfoRes', 'region'],
+                                        keyName: 'cityId',
+                                        valueName: '{{provName.DATA}}-{{cityName.DATA}}'
                                     }, regionData, 4)}
                                 </Row>
                                 <Row gutter={54}>
@@ -1659,29 +1674,23 @@ class ArchivesAddEdit extends React.Component {
                                     {this.getInputCol({field: 'carBrand',
                                         title: '车辆品牌',
                                         formatter: (v, d) => {
-                                            return d.carInfoRes.carBrand;
+                                            return d.carInfoRes.carBrandName;
                                         }
                                     }, 4)}
                                     {this.getInputCol({field: 'carSeries',
                                         title: '车系',
                                         formatter: (v, d) => {
-                                            return d.carInfoRes.carSeries;
+                                            return d.carInfoRes.carSeriesName;
                                         }
                                     }, 4)}
-                                    {this.getInputCol({field: 'carModelName',
-                                        title: '车型名称',
+                                    {this.getInputCol({field: 'carModel',
+                                        title: '车辆型号',
                                         formatter: (v, d) => {
-                                            return d.carInfoRes ? d.carInfoRes.carModel : '';
+                                            return d.carInfoRes.carModelName;
                                         }
                                     }, 4)}
                                 </Row>
                                 <Row gutter={54}>
-                                    {this.getInputCol({field: 'carModel',
-                                        title: '车辆型号',
-                                        formatter: (v, d) => {
-                                            return d.carInfoRes.carModel;
-                                        }
-                                    }, 4)}
                                     {this.getInputCol({field: 'carColor',
                                         title: '车辆颜色',
                                         formatter: (v, d) => {
@@ -1756,16 +1765,14 @@ class ArchivesAddEdit extends React.Component {
                                             return url;
                                         }
                                     }, 3)}
-                                    {this.getFileCol({
+                                    {this.getLinkComp({
                                         field: 'secondCarReport',
-                                        _keys: ['credit', 'secondCarReport'],
                                         title: '二手车评估报告',
-                                        type: 'img',
                                         hidden: bizType !== '1',
                                         formatter: (v, d) => {
                                             let url = '';
                                             d.attachments.forEach(item => {
-                                                if (item.vname === '二手车评估报告') {
+                                                if (item.kname === 'second_car_report') {
                                                     url = item.url;
                                                 }
                                             });

@@ -167,8 +167,7 @@ class CreditAddedit extends React.Component {
                 title: '信用卡使用占比',
                 field: 'creditCardOccupation',
                 help: '请输入0-100之间的数字',
-                readonly: !this.isEntry,
-                required: true
+                readonly: !this.isEntry
             }, {
                 title: '银行征信结果(是否通过)',
                 field: 'bankResult',
@@ -191,7 +190,6 @@ class CreditAddedit extends React.Component {
                 field: 'bankCreditReport',
                 type: 'img',
                 single: true, // 单张
-                required: true,
                 readonly: !this.isEntry,
                 hidden: !this.view,
                 noVisible: true

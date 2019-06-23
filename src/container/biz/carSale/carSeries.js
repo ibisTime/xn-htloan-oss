@@ -182,18 +182,33 @@ class CarSeries extends React.Component {
               this.props.history.push(`/biz/carSeries/addedits?code=${item[0].code}`);
           }
       },
-      refresh: (key, item) => {
+      refresh: () => {
           let hasMsg = message.loading('正在努力刷新中...', 100);
           let config = {
             updater: getUserId()
           };
-          if(key) {
-              config.seriesId = item[0].seriesId;
-          }
           fetch(630418, config).then(() => {
               hasMsg();
               this.props.getPageData();
           }, hasMsg);
+      },
+      // 刷新该车系下车型
+      refreshShape: (key, item) => {
+          if (!key || !key.length || !item || !item.length) {
+              showWarnMsg('请选择车系');
+          } else if (key.length > 1) {
+              showWarnMsg('最多选择1个车系');
+          } else {
+              let hasMsg = message.loading('正在努力刷新中...', 100);
+              let config = {
+                updater: getUserId(),
+                seriesId: item[0].seriesId
+              };
+              fetch(630419, config).then(() => {
+                  hasMsg();
+                  this.props.getPageData();
+              }, hasMsg);
+          }
       }
     };
     return (

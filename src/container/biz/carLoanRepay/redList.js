@@ -68,16 +68,14 @@ class redList extends React.Component {
       listCode: 630147,
       keyName: 'code',
       valueName: 'name',
-      search: true,
-      params: {type: 'a'}
+      search: true
     }];
     return this.props.buildList({
       fields,
       pageCode: 630522,
       searchParams: {
         refType: '0',
-        curNodeCodeList: ['j8', 'j9', 'j10'],
-          userId: getUserId()
+        userId: getUserId()
       },
       btnEvent: {
         // 财务打款

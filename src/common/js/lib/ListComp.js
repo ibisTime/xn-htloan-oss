@@ -358,6 +358,8 @@ export default class ListComponent extends React.Component {
         }
         this.props.setSearchData({ data, key: item.field });
       }).catch(() => {});
+    } else if (item.pageCode) {
+      this.searchSelectChange('', item);
     }
   }
   getOwnerBtns() {

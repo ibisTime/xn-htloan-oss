@@ -143,17 +143,19 @@ class AdmittanceAddEdit extends React.Component {
         fetch(632516, {code: this.code}).then((data) => {
             this.loanAmount = moneyFormat(data.loanAmount);
             this.setState({ pageData: data, fetching: false });
+            let brandCode = data.carInfoRes ? data.carInfoRes.carBrand : '';
+            let seriesCode = data.carInfoRes ? data.carInfoRes.carSeries : '';
             Promise.all([
                 fetch(632516, { code: data.code }),
                 fetch(632036, { code: data.loanBank }), // 查贷款银行 计算银行利率
                 fetch(632067, { curNodeCode: '006_03' }), // 查机动车销售公司
                 fetch(632177, { status: '2', type: data.bizType, loanBank: data.loanBank }), // 查贷款产品
                 fetch(630406, { status: '1' }),
-                fetch(630415, { status: '1', start: 100, limit: 1 }),
-                fetch(630425, { status: '1', start: 100, limit: 1 }),
+                fetch(630415, { brandCode, status: '1', start: 1, limit: 100 }),
+                fetch(630425, { seriesCode, status: '1', start: 1, limit: 100 }),
+                fetch(630477),
                 getDictList({ parentKey: 'budget_orde_biz_typer' }),
                 getDictList({ parentKey: 'loan_period' }),
-                getDictList({ parentKey: 'region' }),
                 getDictList({ parentKey: 'car_type' }),
                 getDictList({ parentKey: 'gender' }),
                 getDictList({ parentKey: 'marry_state' }),
@@ -169,10 +171,10 @@ class AdmittanceAddEdit extends React.Component {
                 getDictList({ parentKey: 'car_frame_price_count' }),
                 getQiniuToken()
             ]).then(([pageData, loanBankData, carSaleData, loanProductData, brandData, carSeriesData,
-                         carShapeData, bizTypeData, loanPeriodData, regionData, carTypeData, genderData,
-                         marryStateData, educationData, addressData, relationData, industryData,
-                         propertyData, incomeData, positionData, professionData, interestData,
-                         carFrameData, uploadToken]) => {
+                carShapeData, regionData, bizTypeData, loanPeriodData, carTypeData, genderData,
+                marryStateData, educationData, addressData, relationData, industryData,
+                propertyData, incomeData, positionData, professionData, interestData,
+                carFrameData, uploadToken]) => {
                 // 初始化万元系数、公证费比例、gps费用
                 if (pageData.loanProductCode) { // 选择贷款产品后初始化
                     let product = loanProductData.find(v => v.code === pageData.loanProductCode);
@@ -238,11 +240,11 @@ class AdmittanceAddEdit extends React.Component {
                     carSaleData,
                     loanProductData,
                     brandData,
-                    carSeriesData,
-                    carShapeData,
+                    carSeriesData: carSeriesData.list,
+                    carShapeData: carShapeData.list,
+                    regionData,
                     bizTypeData,
                     loanPeriodData,
-                    regionData,
                     carTypeData,
                     genderData,
                     marryStateData,
@@ -1303,8 +1305,8 @@ class AdmittanceAddEdit extends React.Component {
                                       field: 'region',
                                       title: '所属区域',
                                       _keys: ['carInfoRes', 'region'],
-                                      keyName: 'dkey',
-                                      valueName: 'dvalue',
+                                      keyName: 'cityId',
+                                      valueName: '{{provName.DATA}}-{{cityName.DATA}}',
                                       required: true
                                   }, regionData, 4)}
                               </Row>

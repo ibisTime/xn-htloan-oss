@@ -1,53 +1,32 @@
 import React from 'react';
-import {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-} from '@redux/basedata/receivables-addedit';
-import {
-    getQueryString
-} from 'common/js/util';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
+import { Form } from 'antd';
+import { getQueryString } from 'common/js/util';
+import DetailUtil from 'common/js/build-detail-dev';
 import fetch from 'common/js/fetch';
 
-@DetailWrapper(
-    state => state.basedataReceivablesAddEdit, {
-        initStates,
-        doFetching,
-        cancelFetching,
-        setSelectData,
-        setPageData,
-        restore
-    }
-)
-class receivablesAddedit extends React.Component {
+@Form.create()
+class receivablesAddedit extends DetailUtil {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
         this.index = 0;
+        this.state = {
+            ...this.state,
+            // 当前是否是垫资账号
+            isDz: false
+        };
     }
-    state = {
-        companyData: [],
-        o_companyData: []
-    };
-    componentDidMount() {
-        Promise.all([
-            fetch(632067),
-            fetch(630106, {typeList: [1]})
-        ]).then(([data1, data2]) => {
-            this.setState({
-                companyData: data1,
-                o_companyData: data2
-            });
+    setCompanySelectData(list) {
+        this.setState({
+            selectData: {
+                ...this.state.selectData,
+                companyCode: list
+            }
         });
     }
     render() {
+        const { isDz } = this.state;
         const fields = [{
             title: '账号类型',
             field: 'type',
@@ -57,35 +36,46 @@ class receivablesAddedit extends React.Component {
             keyName: 'dkey',
             valueName: 'dvalue',
             onChange: (v, d) => {
-                this.index++;
                 if (!v) {
-                    this.props.setSelectData({
-                        key: 'companyCode',
-                        data: []
+                    this.setCompanySelectData([]);
+                    this.props.form.setFieldsValue({
+                        companyCode: ''
                     });
                 } else if (v === '1' || v === '4') {
                     fetch(630106, {
                         typeList: [1],
                         status: '1'
                     }).then(data => {
-                        this.props.setSelectData({
-                            key: 'companyCode',
-                            data: data
-                        });
+                        this.setCompanySelectData(data);
                     });
                 } else {
-                    fetch(632067, {}).then(data => {
+                    fetch(632067).then(data => {
                         let list = data.map(item => ({
                             code: item.code,
                             name: item.fullName
                         }));
-                        this.props.setSelectData({
-                            key: 'companyCode',
-                            data: list
-                        });
+                        this.setCompanySelectData(list);
                     });
                 }
+                this.setState({
+                    isDz: v === '4'
+                });
             }
+        }, {
+            title: '类型',
+            field: 'advanceType',
+            type: 'select',
+            keyName: 'dkey',
+            valueName: 'dvalue',
+            data: [{
+                dkey: '1',
+                dvalue: '收款'
+            }, {
+                dkey: '2',
+                dvalue: '出款'
+            }],
+            required: isDz,
+            hidden: !isDz
         }, {
             title: '公司名称',
             field: 'companyCode',
@@ -97,25 +87,6 @@ class receivablesAddedit extends React.Component {
             type: 'select',
             keyName: 'code',
             valueName: 'name',
-            formatter: (v, d, props) => {
-                if(d.type && this.index === 0) {
-                    if (d.type === '2') {
-                        let company = this.state.companyData.filter(item => {
-                            return item.code === v;
-                        });
-                        return company.length === 1 ? company[0].fullName : v;
-                    } else if (d.type === '3') {
-                        let company = this.state.companyData.filter(item => {
-                            return item.code === v;
-                        });
-                        return company.length === 1 ? company[0].fullName : v;
-                    }
-                    let oCompanyData = this.state.o_companyData.filter(item =>
-                      item.code === v);
-                    return oCompanyData[0] && oCompanyData[0].name;
-                }
-                return '';
-            },
             required: true
         }, {
             title: '户名',
@@ -148,7 +119,7 @@ class receivablesAddedit extends React.Component {
             title: '备注',
             field: 'remark'
         }];
-        return this.props.buildDetail({
+        return this.buildDetail({
             fields,
             code: this.code,
             view: this.view,

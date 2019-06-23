@@ -251,6 +251,24 @@ class Brand extends React.Component {
                                 hasMsg();
                                 this.props.getPageData();
                             }, hasMsg);
+                        },
+                        // 刷新该品牌下的车系
+                        refreshSeries: (key, item) => {
+                            if (!key || !key.length || !item || !item.length) {
+                                showWarnMsg('请选择品牌');
+                            } else if (key.length > 1) {
+                                showWarnMsg('最多选择1个品牌');
+                            } else {
+                                let hasMsg = message.loading('正在努力刷新中...', 100);
+                                let config = {
+                                  updater: getUserId(),
+                                  brandId: item[0].brandId
+                                };
+                                fetch(630418, config).then(() => {
+                                    hasMsg();
+                                    this.props.getPageData();
+                                }, hasMsg);
+                            }
                         }
                     }
                 })}

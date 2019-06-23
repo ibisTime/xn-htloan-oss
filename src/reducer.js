@@ -250,6 +250,9 @@ import {basedataMateriallistAddEdit} from './redux/basedata/materiallist-addedit
 import {basedataReceivables} from './redux/basedata/receivables';
 import {basedataReceivablesAddEdit} from './redux/basedata/receivables-addedit';
 
+// 城市列表
+import { basedataCities } from './redux/basedata/cities';
+
 /**
  * 贷前管理
  */
@@ -787,6 +790,7 @@ export default combineReducers({
     basedataMateriallistAddEdit,
     basedataReceivables,
     basedataReceivablesAddEdit,
+    basedataCities,
     transmit,
     transmitAddedit,
     transmitCollection,

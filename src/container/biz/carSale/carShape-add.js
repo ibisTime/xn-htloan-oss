@@ -1,39 +1,23 @@
 import React from 'react';
-import {Form, message} from 'antd';
-import {getQueryString, moneyFormat, moneyParse} from 'common/js/util';
+import { Form } from 'antd';
+import { getQueryString, moneyFormat, moneyParse } from 'common/js/util';
 import fetch from 'common/js/fetch';
-import {
-    initStates,
-    doFetching,
-    cancelFetching,
-    setSelectData,
-    setPageData,
-    restore
-} from '@redux/basedata/receivables-addedit';
 import DetailUtil from 'common/js/build-detail-dev';
-import {
-    DetailWrapper
-} from 'common/js/build-detail';
 
-@DetailWrapper(
-    state => state.basedataReceivablesAddEdit, {
-        initStates,
-        doFetching,
-        cancelFetching,
-        setSelectData,
-        setPageData,
-        restore
-    }
-)
 @Form.create()
 class CarShapeAddEdit extends DetailUtil {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
+        this.state = {
+            ...this.state,
+            brandCode: ''
+        };
     }
 
     render() {
+        const { brandCode } = this.state;
         const fields = [
             {
                 field: 'isReferee',
@@ -49,7 +33,7 @@ class CarShapeAddEdit extends DetailUtil {
                 title: '名称',
                 required: true
             }, {
-                field: 'carBrand',
+                field: 'brandCode',
                 title: '车辆品牌',
                 required: true,
                 listCode: 630406,
@@ -60,23 +44,9 @@ class CarShapeAddEdit extends DetailUtil {
                 keyName: 'code',
                 valueName: 'name',
                 onChange: (v, d) => {
-                    console.log(222, d);
-                    if (!v) {
-                        this.props.setSelectData({
-                            key: 'seriesCode',
-                            data: []
-                        });
-                    } else {
-                        fetch(630416, {
-                            status: '1',
-                            brandCode: d.code
-                        }).then(data => {
-                            this.props.setSelectData({
-                                key: 'seriesCode',
-                                data: data
-                            });
-                        });
-                    }
+                    this.setState({
+                        brandCode: v
+                    });
                 }
             }, {
                 title: '车系',
@@ -84,15 +54,16 @@ class CarShapeAddEdit extends DetailUtil {
                 type: 'select',
                 required: true,
                 params: {
+                    brandCode,
                     status: 1
                 },
                 keyName: 'code',
-                listCode: '630416',
+                pageCode: '630415',
                 valueName: 'name'
             }, {
-                field: 'displacement',
-                title: '排量(L)',
-                number: true,
+                field: 'liter',
+                title: '排量(L/T)',
+                help: '排量末尾记得带上单位',
                 required: true
             }, {
                 field: 'fromPlace',
@@ -102,9 +73,6 @@ class CarShapeAddEdit extends DetailUtil {
                 field: 'fwAmount',
                 title: '服务费',
                 amount: true
-                // formatter: (v, d) => {
-                // return d.fwAmount / 1000;
-                // },
             }, {
                 field: 'jsqByhf',
                 title: '必要花费',
@@ -274,13 +242,8 @@ class CarShapeAddEdit extends DetailUtil {
             editCode: 630422,
             detailCode: 630427,
             beforeSubmit: (params) => {
-                // params.jsqSybx = moneyFormat(params.jsqSybx);
-                console.log(params.jsqSybx);
                 const {selectData, pageData, selectedRowKeys} = this.state;
                 params.configList = selectedRowKeys.carconfig;
-                // let advpic = params.advPic.split('||');
-                // params.advPic = advpic.join(',');
-                console.log(params.advPic);
                 params.picNumber = params.advPic.split('||').length;
                 if (!this.code) {
                     let series = selectData.seriesCode.find(v => v.code === params.seriesCode);

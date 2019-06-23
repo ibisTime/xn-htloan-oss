@@ -129,8 +129,7 @@ class RefundBusinessApply extends React.Component {
     if (this.check) {
       config.fields.push({
         title: '审核说明',
-        field: 'approveNote',
-        required: true
+        field: 'approveNote'
       });
       config.buttons = [{
         title: '通过',

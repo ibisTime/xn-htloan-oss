@@ -16,7 +16,6 @@ class FaceSignAddedit extends DetailUtil {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         // 审核
-        this.isCheck = !!getQueryString('isCheck', this.props.location.search);
         this.isCheckNq = !!getQueryString('isCheckNq', this.props.location.search);
         this.view = !!getQueryString('v', this.props.location.search);
     }
@@ -74,7 +73,7 @@ class FaceSignAddedit extends DetailUtil {
             title: '指派归属',
             field: 'zfStatus',
             formatter: (v, d) => {
-                return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';// hidden: !this.isEntry && !this.isCheck// 录入征信结果 审核才显示
+                return d && d.insideJobCompanyName ? d.insideJobCompanyName + '-' + d.insideJobDepartMentName + '-' + d.insideJobPostName + '-' + d.insideJobName : '';
             },
             readonly: true
         }, {
@@ -91,7 +90,6 @@ class FaceSignAddedit extends DetailUtil {
             field: 'bankVideo',
             type: 'file',
             required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false,
             hidden: this.isCheckNq, // 内勤主管审核隐藏
             formatter: (v, d) => {
                 let url = '';
@@ -107,8 +105,6 @@ class FaceSignAddedit extends DetailUtil {
             field: 'companyVideo',
             type: 'file',
             required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq, // 内勤主管审核隐藏
             formatter: (v, d) => {
                 let url = '';
                 d.attachments.forEach(item => {
@@ -122,8 +118,6 @@ class FaceSignAddedit extends DetailUtil {
             title: '其他视频',
             field: 'otherVideo',
             type: 'file',
-            readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq, // 内勤主管审核隐藏
             formatter: (v, d) => {
                 let url = '';
                 d.attachments.forEach(item => {
@@ -138,8 +132,6 @@ class FaceSignAddedit extends DetailUtil {
             field: 'bankPhoto',
             type: 'img',
             required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq, // 内勤主管审核隐藏
             formatter: (v, d) => {
                 let url = '';
                 d.attachments.forEach(item => {
@@ -153,8 +145,6 @@ class FaceSignAddedit extends DetailUtil {
             title: '银行合同',
             field: 'bankContract',
             type: 'img',
-            readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq, // 内勤主管审核隐藏
             formatter: (v, d) => {
                 let url = '';
                 d.attachments.forEach(item => {
@@ -168,8 +158,6 @@ class FaceSignAddedit extends DetailUtil {
             title: '公司合同',
             field: 'companyContract',
             type: 'img',
-            readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq, // 内勤主管审核隐藏
             formatter: (v, d) => {
                 let url = '';
                 d.attachments.forEach(item => {
@@ -184,8 +172,6 @@ class FaceSignAddedit extends DetailUtil {
             field: 'advanceFundAmountPdf',
             type: 'img',
             required: true,
-            readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq, // 内勤主管审核隐藏
             formatter: (v, d) => {
                 let url = '';
                 d.attachments.forEach(item => {
@@ -199,8 +185,6 @@ class FaceSignAddedit extends DetailUtil {
             title: '其他资料',
             field: 'interviewOtherPdf',
             type: 'img',
-            readonly: (this.isCheck || this.view) ? 'true' : false,
-            hidden: this.isCheckNq, // 内勤主管审核隐藏
             formatter: (v, d) => {
                 let url = '';
                 d.attachments.forEach(item => {
@@ -215,12 +199,12 @@ class FaceSignAddedit extends DetailUtil {
             field: 'approveNote',
             type: 'textarea',
             normalArea: true,
-            readonly: !(this.isCheck || this.isCheckNq),
-            hidden: !this.view
+            readonly: !this.isCheckNq,
+            hidden: !this.view && !this.isCheckNq
         }];
         let bizCode = this.isCheckNq ? 632137 : 632124;
         // 准入审查
-        if (this.isCheck || this.isCheckNq) {
+        if (this.isCheckNq) {
             buttons = [{
                 title: '通过',
                 handler: (params) => {

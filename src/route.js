@@ -875,6 +875,11 @@ const ROUTES = [
     path: '/basedata/receivables/addedit',
     component: asyncComponent(() => import('container/basedata/receivables/receivables-addedit'))
   },
+  // 城市列表
+  {
+      path: '/basedata/cities',
+      component: asyncComponent(() => import('container/basedata/cities/cities'))
+  },
   //  统计分析模块
   //  征信统计表
   {

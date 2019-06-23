@@ -1557,13 +1557,13 @@ export default class DetailComponent extends React.Component {
         }
         if (item.number3) {
             rules.push({
-                pattern: /^([01](\.0+)?|0\.([1-9]|[0-9][1-9]))$/,
+                pattern: /^(0(\.\d{1,2})?|1(\.0+)?)$/,
                 message: '请输入大于0小于等于1的数字，且小数点后最多2位'
             });
         }
         if (item.number5) {
             rules.push({
-                pattern: /^([01](\.0+)?|0\.([1-9]|[0-9][1-9]|[0-9][1-9][1-9]|[0-9][1-9][1-9][1-9]))$/,
+                pattern: /^(0(\.\d{1,4})?|1(\.0+)?)$/,
                 message: '请输入大于0小于等于1的数字，且小数点后最多4位'
             });
         }
@@ -1575,7 +1575,7 @@ export default class DetailComponent extends React.Component {
         }
         if (item.positives) {
             rules.push({
-                pattern: /^(0(.\d+)?|1(\.0+)?)$/,
+                pattern: /^(0(\.\d+)?|1(\.0+)?)$/,
                 message: '请输入0～1之间的数值'
             });
         }

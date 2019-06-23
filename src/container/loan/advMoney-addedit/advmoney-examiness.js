@@ -214,7 +214,6 @@ class examineMoneyb extends React.Component {
             field: 'approveNote',
             type: 'textarea',
             normalArea: true,
-            required: true,
             readonly: false
         }];
         return this.props.buildDetail({
