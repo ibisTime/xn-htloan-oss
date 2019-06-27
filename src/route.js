@@ -847,6 +847,16 @@ const ROUTES = [
     path: '/basedata/bank/addedit',
     component: asyncComponent(() => import('container/basedata/bank/bank-addedit'))
   },
+  //  品牌管理
+  {
+    path: '/basedata/brand',
+    component: asyncComponent(() => import('container/basedata/brand/brand'))
+  },
+  //  品牌管理详情 + 修改
+  {
+    path: '/basedata/brand/addedit',
+    component: asyncComponent(() => import('container/basedata/brand/brand-addedit'))
+  },
   //  节点材料清单
   {
     path: '/basedata/materiallist',

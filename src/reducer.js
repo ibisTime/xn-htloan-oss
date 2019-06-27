@@ -229,6 +229,8 @@ import {bizBeforeloan} from './redux/basedata/beforeloan';
 //  经销商管理 + 详情 + 删除
 import { basisDealer } from './redux/basedata/dealer';
 import { basisDealerAddedit } from './redux/basedata/dealer-addedit';
+// 品牌管理
+import { basisBrand } from './redux/basedata/brand';
 
 //  返点
 import {bizBeforedot} from './redux/basedata/beforedot';
@@ -665,6 +667,7 @@ export default combineReducers({
     bizBrandAddEdit,
     basisDealer,
     basisDealerAddedit,
+    basisBrand,
     bizCarSeries,
     bizCarSeriesAddEdit,
     bizCarShape,
