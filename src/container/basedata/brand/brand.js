@@ -37,7 +37,8 @@ class Brand extends React.Component {
         }, {
             title: '品牌logo',
             field: 'brandLogo',
-            type: 'img'
+            type: 'img',
+            single: true
         }];
         return this.props.buildList({
             fields,

@@ -102,23 +102,21 @@ export default class ListComponent extends React.Component {
         this.addRender(f, (val) => this.renderSelect(val, f));
       } else if (f.type === 'img') {
         if (!f.render) {
-          obj.render = (value) => {
-            if(f.single) {
-              obj.render = (value) => value ? <img style={{maxWidth: 25, maxHeight: 25}} src={PIC_PREFIX + value}/> : '';
-            } else {
-              obj.render = (value) => {
-                if (value) {
-                  let imgStr = value.split('||');
-                  return (<div>
-                      { imgStr.map(pic => (
-                          <img key={pic} style={{maxWidth: 25, maxHeight: 25, marginRight: 10}} src={PIC_PREFIX + pic}/>
-                      ))}
-                  </div>);
-                }
-                return '';
-              };
-            }
-          };
+          if(f.single) {
+            obj.render = (value) => value ? <img style={{maxWidth: 35, maxHeight: 35}} src={PIC_PREFIX + value}/> : '';
+          } else {
+            obj.render = (value) => {
+              if (value) {
+                let imgStr = value.split('||');
+                return (<div>
+                    { imgStr.map(pic => (
+                        <img key={pic} style={{maxWidth: 35, maxHeight: 35, marginRight: 10}} src={PIC_PREFIX + pic}/>
+                    ))}
+                </div>);
+              }
+              return '';
+            };
+          }
         } else {
             obj.render = f.render;
         }

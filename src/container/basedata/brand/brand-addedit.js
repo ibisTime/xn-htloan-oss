@@ -19,6 +19,7 @@ class BrandAddEdit extends DetailUtil {
             title: '品牌logo',
             field: 'brandLogo',
             type: 'img',
+            single: true,
             required: true
         }];
         return this.buildDetail({
