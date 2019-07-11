@@ -1,17 +1,20 @@
 import React from 'react';
 import {
-    initStates,
-    doFetching,
     cancelFetching,
-    setSelectData,
+    doFetching,
+    initStates,
+    restore,
     setPageData,
-    restore
+    setSelectData
 } from '@redux/recruit/register-apply.js';
-import {getQueryString, getUserId, showSucMsg, formatDate} from 'common/js/util';
-import fetch from 'common/js/fetch';
 import {
-    CollapseWrapper
-} from 'component/collapse-detail/collapse-detail';
+    formatDate,
+    getQueryString,
+    getUserId,
+    showSucMsg
+} from 'common/js/util';
+import fetch from 'common/js/fetch';
+import {CollapseWrapper} from 'component/collapse-detail/collapse-detail';
 
 @CollapseWrapper(
     state => state.recruitRegisterApply, {
@@ -212,7 +215,8 @@ class registerApply extends React.Component {
                 }, {
                     title: '试用期工资(元/月)',
                     field: 'probationSalary',
-                    amount: true
+                    amount: true,
+                    required: true
                 }, {
                     title: '转正后基本工资(元/月)',
                     field: 'baseSalary',
@@ -270,8 +274,8 @@ class registerApply extends React.Component {
                     title: '开户行',
                     field: 'bankCode',
                     type: 'select',
-                    listCode: 802016,
-                    keyName: 'code',
+                    listCode: 802116,
+                    keyName: 'bankCode',
                     valueName: 'bankName'
                 }, {
                     title: '开户行支行',

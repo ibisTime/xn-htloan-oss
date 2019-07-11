@@ -1,14 +1,28 @@
 import React from 'react';
-import { initStates, doFetching, cancelFetching, setSelectData, setPageData,
-    restore } from '@redux/loan/credit-addedit';
+import {
+  cancelFetching,
+  doFetching,
+  initStates,
+  restore,
+  setPageData,
+  setSelectData
+} from '@redux/loan/credit-addedit';
 // import { getQueryString, showWarnMsg, showSucMsg, getUserId, moneyFormat } from 'common/js/util';
-import { DetailWrapper } from 'common/js/build-detail';
+import {DetailWrapper} from 'common/js/build-detail';
 import fetch from 'common/js/fetch';
 // import {Card, Form, Row, Spin, Tabs} from "antd";
-import {Form, Tabs, Row, Col, Spin, Button, Table, Card, Icon, Tooltip} from 'antd';
 import {
-    getQueryString, showWarnMsg, showSucMsg, isUndefined, getUserId, getRules,
-    getRealValue, moneyFormat, moneyParse, getUserName, dateTimeFormat
+  dateTimeFormat,
+  getQueryString,
+  getRealValue,
+  getRules,
+  getUserId,
+  getUserName,
+  isUndefined,
+  moneyFormat,
+  moneyParse,
+  showSucMsg,
+  showWarnMsg
 } from 'common/js/util';
 
 @DetailWrapper(
@@ -463,10 +477,6 @@ class CreditAddedit extends React.Component {
                                         bankResult: params.creditUserList[i].bankResult,
                                         dataCreditReport: params.creditUserList[i].dataCreditReport
                                     });
-                                    if (!params.creditUserList[i].bankCreditReport) {
-                                        showWarnMsg('请录入' + params.creditUserList[i].userName + '的银行征信结果！');
-                                        return;
-                                    }
                                 }
                                 data.creditList = creditList;
                                 data.operator = getUserId();
