@@ -1,0 +1,71 @@
+.preLoan-detail-box{
+    width: 80%;
+    background:rgba(255,255,255,1);
+    border: 1px solid #E6E6E6;
+}
+
+.preLoan-detail-box-header{
+    width:100%;
+    height:50px;
+    line-height: 50px;
+    padding-left: 30px;
+    background:rgba(255,255,255,1);
+    border-top: 4px solid rgba(23,145,255,1);
+    border-bottom: 1px solid #E6E6E6;
+}
+
+.preLoan-detail-box-content{
+    padding: 34px 30px;
+}
+
+.preLoan-detail-empty{
+    width: 100%;
+    height: 20px;
+}
+
+.preLoan-detail-row-line{
+    width:92%;
+    height:1px;
+    background:rgba(230,230,230,1);
+    margin: 30px 0px;
+}
+
+.sendRmk{
+    position: fixed;
+    right: 3%;
+    z-index: 1;
+    padding: 40px 23px 0px 23px;
+    background: #fff;
+    width:260px;
+    height:500px;
+}
+
+.sendRmk textarea{
+    width:100%;
+    padding: 17px;
+    height:379px;
+    background:rgba(245,245,245,1);
+    border:1px solid rgba(230,230,230,1);
+    color: #999999;
+}
+.box{
+    margin-top: 12px;
+    float:left;
+    position:relative;
+    left:50%;
+}
+.btnGray{
+    float:left;
+    position:relative;
+    right:50%;
+    width:54px;
+    height:28px;
+    line-height: 28px;
+    text-align: center;
+    border-radius:2px;
+    border:1px solid rgba(204,204,204,1);
+    font-size:12px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(153,153,153,1);
+}

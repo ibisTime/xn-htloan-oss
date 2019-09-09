@@ -724,3 +724,50 @@ export function getNowCurNodePageUrl(data) {
     }
   return url;
 }
+
+/**
+ * 查询字典对应的dValue
+ */
+export function findDsct(array, value) {
+  if(array.find(item => item.dkey === value) === undefined) {
+    return '';
+  }else {
+    return array.find(item => item.dkey === value).dvalue;
+  }
+}
+
+/**
+ * 查询字典对应的dValue
+ */
+export function dsctList(array) {
+  let arr = [];
+  for(let i = 0; i < array.length; i++) {
+    arr.push({
+      dkey: array[i].dkey,
+      dvalue: array[i].dvalue
+    });
+  }
+  return arr;
+}
+
+export function dsctImgList(array) {
+  let arr = [];
+  for(let i = 0; i < array.length; i++) {
+    arr.push({
+      dkey: array[i].kname,
+      dvalue: array[i].url
+    });
+  }
+  return arr;
+}
+
+export function dsctList1(array) {
+  let arr = [];
+  for(let i = 0; i < array.length; i++) {
+    arr.push({
+      dkey: array[i].code,
+      dvalue: array[i].name
+    });
+  }
+  return arr;
+}

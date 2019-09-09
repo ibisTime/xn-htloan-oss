@@ -1,0 +1,95 @@
+.clear{
+    clear: both;
+}
+
+.afp-body{
+    padding: 30px 45px;
+    color: #4D4D4D;
+}
+
+.afp-body-tag{
+    color: #4D4D4D;
+    font-size: 16px;
+}
+
+.afp-body-user-detail{
+    margin-top: 30px;
+}
+
+.afp-body-line{
+    width:100%;
+    height:1px;
+    background:rgba(230,230,230,1);
+    margin: 30px auto;
+}
+
+.afp-body-title{
+    display: block;
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    float: left;
+}
+
+.afp-body-select{
+    width:270px;
+    float: left;
+}
+
+.afp-body-btn-group{
+    margin-top: 40px;
+}
+
+.afp-body-btn-gray{
+    display: block;
+    float: left;
+    width:64px;
+    height:32px;
+    line-height: 32px;
+    text-align: center;
+    color: #999999;
+    border-radius:2px;
+    border:1px solid rgba(204,204,204,1);
+}
+
+.afp-body-btn-blue{
+    display: block;
+    float: left;
+    width:64px;
+    height:32px;
+    line-height: 32px;
+    text-align: center;
+    color: #FFFFFF;
+    background:rgba(23,145,255,1);
+    border-radius:2px;
+}
+
+.afp-body-textarea{
+    width:415px;
+    height:82px;
+    border-radius:2px;
+    border:1px solid rgba(230,230,230,1);
+    padding-left: 10px;
+}
+
+.afp-body-table{
+    margin-top: 20px;
+    width: 50%;
+    border: 1px solid rgba(230,230,230,1);
+    border-radius: 4px;
+}
+
+.afp-body-input{
+    width:270px;
+    height:32px;
+    border-radius:2px;
+    border:1px solid rgba(230,230,230,1);
+    padding-left: 10px;
+}
+
+.afp-body-card{
+    width:181px;
+    height:113px;
+    background: #f5f5f5;
+    border-radius: 2%;
+}

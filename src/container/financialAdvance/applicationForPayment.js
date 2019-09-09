@@ -1,0 +1,174 @@
+import React from 'react';
+import {
+    showWarnMsg,
+    showSucMsg,
+    getQueryString,
+    findDsct,
+    dsctList1
+} from 'common/js/util';
+import {Row, Col, Select} from 'antd';
+import {
+    accessSlipStatus,
+    accessSlipDetail,
+    carBuyingList,
+    accountBlankList
+} from '../../api/preLoan.js';
+import './applicationForPayment.css';
+
+const {Option} = Select;
+class applicationForPayment extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            baseInfo: {},
+            carBuyingListArrs: [],
+            accessSlipStatusArr: [],
+            bankListArr: [],
+            bankCode: '',
+            bankObject: {}
+        };
+        this.code = getQueryString('code', this.props.location.search);
+    }
+    componentDidMount(): void {
+        // 购车行
+        carBuyingList(1, 100).then(data => {
+            let arr = [];
+            for(let i = 0; i < data.list.length; i++) {
+                arr.push({
+                    dkey: data.list[i].code,
+                    dvalue: data.list[i].fullName
+                });
+            }
+            this.setState({
+                carBuyingListArrs: arr
+            });
+        });
+        this.getAccessSlipStatus();
+        accessSlipDetail(this.code).then(data => {
+            this.setState({
+                baseInfo: {
+                    code: data.code,
+                    customerName: data.customerName,
+                    loanBankName: data.loanBankName,
+                    loanAmount: data.loanAmount,
+                    bizType: data.bizType === '0' ? '新车' : '二手车',
+                    shopCarGarage: data.shopCarGarage,
+                    saleGroup: data.saleUserCompanyName + '-' + data.saleUserDepartMentName + '-' + data.saleUserPostName + '-' + data.saleUserName,
+                    curNodeCode: data.curNodeCode ? data.curNodeCode : ''
+                }
+            });
+        });
+        accountBlankList(1, 1000, '').then(data => {
+            let arr = [];
+            for(let i = 0; i < data.list.length; i++) {
+                arr.push({
+                    dkey: data.list[i].code,
+                    dvalue: data.list[i].bankName
+                });
+            }
+            this.setState({
+                bankListArr: arr
+            });
+        });
+    }
+    // 状态
+    getAccessSlipStatus = () => {
+        accessSlipStatus().then(data => {
+            let arr = dsctList1(data);
+            this.setState({
+                accessSlipStatusArr: arr
+            });
+        });
+    }
+    // 收款账号
+    handleChange = (value) => {
+        this.setState({
+            bankCode: value
+        });
+        accountBlankList(1, 1000, value).then(data => {
+            this.setState({
+                bankObject: data
+            });
+            console.log('accountBlankList', this.state.bankObject);
+        });
+    }
+    // 保存
+
+    // 提交
+    render() {
+        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, bankListArr} = this.state;
+        return (
+            <div className="afp-body">
+                <span className="afp-body-tag">业务基本信息</span>
+                <Row className="afp-body-user-detail">
+                    <Col span={6}>
+                        <span>业务编号：{baseInfo.code}</span>
+                    </Col>
+                    <Col span={6}>
+                        <span>客户名称：{baseInfo.customerName}</span>
+                    </Col>
+                    <Col span={6}>
+                        <span>贷款银行：{baseInfo.loanBankName}</span>
+                    </Col>
+                    <Col span={6}></Col>
+                </Row>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={6}>
+                        <span>贷款金额：{baseInfo.loanAmount}</span>
+                    </Col>
+                    <Col span={6}>
+                        <span>业务类型：{baseInfo.bizType}</span>
+                    </Col>
+                    <Col span={6}>
+                        <span>汽车经销商：{findDsct(carBuyingListArrs, baseInfo.shopCarGarage)}</span>
+                    </Col>
+                    <Col span={6}></Col>
+                </Row>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={7}>
+                        <span>业务归属：{baseInfo.saleGroup}</span>
+                    </Col>
+                    <Col span={5}>
+                        <span></span>
+                    </Col>
+                    <Col span={6}>
+                        <span>当前状态：{findDsct(accessSlipStatusArr, baseInfo.curNodeCode)}</span>
+                    </Col>
+                    <Col span={6}></Col>
+                </Row>
+                <div className="afp-body-line"></div>
+                <Row>
+                    <Col span={12}>
+                        <span className="afp-body-title" style={{width: '100px'}}>收款账号：</span>
+                        <Select className="afp-body-select" onChange={this.handleChange}>
+                            {
+                                bankListArr.map(item => {
+                                    return (
+                                        <Option key={item.dkey} value={item.dkey}>{item.dvalue}</Option>
+                                    );
+                                })
+                            }
+                        </Select>
+                        <div className="clear"></div>
+                    </Col>
+                    <Col span={12}></Col>
+                </Row>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>收款账户户名：xxx汽车经销商</Col>
+                    <Col span={12}></Col>
+                </Row>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>收款账户账号：88950036892</Col>
+                    <Col span={12}></Col>
+                </Row>
+                <div className="afp-body-btn-group">
+                    <span className="afp-body-btn-gray">返回</span>
+                    <span className="afp-body-btn-gray" style={{marginLeft: '40px'}}>提交</span>
+                    <span className="afp-body-btn-blue" style={{marginLeft: '40px'}}>保存</span>
+                </div>
+            </div>
+        );
+    }
+}
+
+export default applicationForPayment;

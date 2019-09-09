@@ -2100,6 +2100,48 @@ const ROUTES = [
   {
     path: '/printing/relieve/make',
     component: asyncComponent(() => import('container/printing/relieve/relieve-make'))
+  },
+  // 贷前管理
+  {
+    path: '/preLoan/Access',
+    component: asyncComponent(() => import('container/preLoanManagement/preloanAccess'))
+  },
+  {
+    path: '/preLoan/Access/detail',
+    component: asyncComponent(() => import('container/preLoanManagement/preloanAccessDetail'))
+  },
+  {
+    path: '/preLoan/Access/examine',
+    component: asyncComponent(() => import('container/preLoanManagement/preloanAccessExamine'))
+  },
+  {
+    path: '/preLoan/Access/list',
+    component: asyncComponent(() => import('container/preLoanManagement/preloanAccessList'))
+  },
+  // 财务垫资 -- 用款申请
+  {
+    path: '/financial/advance/afp',
+    component: asyncComponent(() => import('container/financialAdvance/applicationForPayment'))
+  },
+  // 财务垫资 -- 用款申请一
+  {
+    path: '/financial/advance/afpOne',
+    component: asyncComponent(() => import('container/financialAdvance/applicationForPaymentOne'))
+  },
+  // 财务垫资 -- 用款申请二
+  {
+    path: '/financial/advance/afpTwo',
+    component: asyncComponent(() => import('container/financialAdvance/applicationForPaymentTwo'))
+  },
+  // 财务垫资 -- 制单回录
+  {
+    path: '/financial/advance/orderRecall',
+    component: asyncComponent(() => import('container/financialAdvance/orderRecall'))
+  },
+  // 财务垫资 -- 垫资回录
+  {
+    path: '/financial/advance/orderMemory',
+    component: asyncComponent(() => import('container/financialAdvance/orderMemory'))
   }
 ];
 
