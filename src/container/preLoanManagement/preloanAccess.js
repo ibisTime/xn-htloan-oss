@@ -1144,64 +1144,56 @@ class preloanAccess extends React.Component {
     // 基本信息
     addBaseInfo = (code) => {
         const {permanentResidenceCode, housingTypeCode, marriageStatusCode, edtCode, mainLoanPpIptArr, altogetherPpIptArr, bkGuaranteePpArr} = this.state;
-        if(edtCode === '' || mainLoanPpIptArr.nowAddressProvince === '' || marriageStatusCode === '' || housingTypeCode === '' || mainLoanPpIptArr.companyName || mainLoanPpIptArr.companyAddress) {
-            if(mainLoanPpIptArr.position === '' || mainLoanPpIptArr.yearIncome === '' || mainLoanPpIptArr.currentPostYears === '' || permanentResidenceCode === '') {
-                if(mainLoanPpIptArr.emergencyName1 === '' || mainLoanPpIptArr.emergencyRelation1 === '' || mainLoanPpIptArr.emergencyMobile1 === '' || mainLoanPpIptArr.emergencyName2 === '' || mainLoanPpIptArr.emergencyRelation2 === '' || mainLoanPpIptArr.emergencyMobile2) {
-                    showWarnMsg('请将基本信息填写完整!');
-                }else {
-                    let creditUserList = [];
-                    for(let i = 1; i <= 3; i++) {
-                        if(i === 1) {
-                            creditUserList.push({
-                                loanRole: i,
-                                education: edtCode,
-                                nowAddress: mainLoanPpIptArr.nowAddressProvince,
-                                marryState: marriageStatusCode,
-                                nowHouseType: housingTypeCode,
-                                companyName: mainLoanPpIptArr.companyName,
-                                companyAddress: mainLoanPpIptArr.companyAddress,
-                                position: mainLoanPpIptArr.position,
-                                yearIncome: mainLoanPpIptArr.yearIncome,
-                                presentJobYears: mainLoanPpIptArr.currentPostYears,
-                                permanentType: permanentResidenceCode,
-                                emergencyName1: mainLoanPpIptArr.emergencyName1,
-                                emergencyRelation1: mainLoanPpIptArr.emergencyRelation1,
-                                emergencyMobile1: mainLoanPpIptArr.emergencyMobile1,
-                                emergencyName2: mainLoanPpIptArr.emergencyName2,
-                                emergencyRelation2: mainLoanPpIptArr.emergencyRelation2,
-                                emergencyMobile2: mainLoanPpIptArr.emergencyMobile2,
-                                localResidencePermit: 'FrLh-zbku8RLBn0Uf2FOmRLgZKoD'
-                            });
-                        }else if(i === 2) {
-                            creditUserList.push({
-                                loanRole: i,
-                                companyName: altogetherPpIptArr.companyName,
-                                position: altogetherPpIptArr.position,
-                                nowAddress: altogetherPpIptArr.nowAddress,
-                                companyAddress: altogetherPpIptArr.companyAddress
-                            });
-                        }else if(i === 3) {
-                            creditUserList.push({
-                                loanRole: i,
-                                companyName: bkGuaranteePpArr.companyName,
-                                position: bkGuaranteePpArr.position,
-                                nowAddress: bkGuaranteePpArr.nowAddress,
-                                companyAddress: bkGuaranteePpArr.companyAddress
-                            });
-                        }
-                    }
-                    let arr = {
-                        code: code,
-                        operator: getUserId(),
-                        creditUserList: creditUserList
-                    };
-                    console.log('addBaseInfo', arr);
-                    baseDsInfoLs(arr).then(data => {
-                        console.log(data);
-                    });
-                }
+        let creditUserList = [];
+        for(let i = 1; i <= 3; i++) {
+            if(i === 1) {
+                creditUserList.push({
+                    loanRole: i,
+                    education: edtCode,
+                    nowAddress: mainLoanPpIptArr.nowAddressProvince,
+                    marryState: marriageStatusCode,
+                    nowHouseType: housingTypeCode,
+                    companyName: mainLoanPpIptArr.companyName,
+                    companyAddress: mainLoanPpIptArr.companyAddress,
+                    position: mainLoanPpIptArr.position,
+                    yearIncome: mainLoanPpIptArr.yearIncome,
+                    presentJobYears: mainLoanPpIptArr.currentPostYears,
+                    permanentType: permanentResidenceCode,
+                    emergencyName1: mainLoanPpIptArr.emergencyName1,
+                    emergencyRelation1: mainLoanPpIptArr.emergencyRelation1,
+                    emergencyMobile1: mainLoanPpIptArr.emergencyMobile1,
+                    emergencyName2: mainLoanPpIptArr.emergencyName2,
+                    emergencyRelation2: mainLoanPpIptArr.emergencyRelation2,
+                    emergencyMobile2: mainLoanPpIptArr.emergencyMobile2,
+                    localResidencePermit: 'FrLh-zbku8RLBn0Uf2FOmRLgZKoD'
+                });
+            }else if(i === 2) {
+                creditUserList.push({
+                    loanRole: i,
+                    companyName: altogetherPpIptArr.companyName,
+                    position: altogetherPpIptArr.position,
+                    nowAddress: altogetherPpIptArr.nowAddress,
+                    companyAddress: altogetherPpIptArr.companyAddress
+                });
+            }else if(i === 3) {
+                creditUserList.push({
+                    loanRole: i,
+                    companyName: bkGuaranteePpArr.companyName,
+                    position: bkGuaranteePpArr.position,
+                    nowAddress: bkGuaranteePpArr.nowAddress,
+                    companyAddress: bkGuaranteePpArr.companyAddress
+                });
             }
         }
+        let arr = {
+            code: code,
+            operator: getUserId(),
+            creditUserList: creditUserList
+        };
+        console.log('addBaseInfo', arr);
+        baseDsInfoLs(arr).then(data => {
+            console.log(data);
+        });
     }
     // 添加贷款信息 'CB332019090401414B'
     addLoanInfo = (code) => {
