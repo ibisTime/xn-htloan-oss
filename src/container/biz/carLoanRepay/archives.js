@@ -43,31 +43,14 @@ class archives extends React.Component {
             },
             type: 'select',
             keyName: 'code',
-            valueName: 'name',
-            search: true
-        }, {
-            title: '业务团队',
-            field: 'teamName'
-        }, {
-            title: '信贷专员',
-            field: 'saleUserId',
-            type: 'select',
-            pageCode: 630065,
-            params: {
-                type: 'P',
-                roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
-            },
-            keyName: 'userId',
-            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
-            searchName: 'realName',
-            search: true,
-            render: (v, d) => {
-                return d.saleUserName;
-            }
+            valueName: 'name'
         }, {
             title: '客户姓名',
-            field: 'customerName',
-            search: true
+            field: 'applyUserName',
+            search: true,
+            render: (v, d) => {
+                return d.creditUser ? d.creditUser.userName : '';
+            }
         }, {
             title: '贷款银行',
             field: 'loanBankName',
@@ -78,7 +61,7 @@ class archives extends React.Component {
                     return d.loanBankName ? d.loanBankName + d.repaySubbranch : d.repaySubbranch;
                 }
             }
-            }, {
+        }, {
             title: '贷款金额',
             field: 'loanAmount',
             amount: true
@@ -86,20 +69,34 @@ class archives extends React.Component {
             title: '贷款期数',
             field: 'loanPeriod',
             render: (v, d) => {
-                return d.loanInfo ? d.loanInfo.periods : '-';
+                return d.loanInfo ? d.loanInfo.periods : '';
             }
         }, {
-            title: '业务种类',
+            title: '购车途径',
             field: 'bizType',
             type: 'select',
             key: 'budget_orde_biz_typer'
         }, {
-            title: '申请日期',
+            title: '业务员',
+            field: 'saleUserId',
+            type: 'select',
+            pageCode: 630065,
+            params: {
+                type: 'P',
+                roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
+            },
+            keyName: 'userId',
+            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
+            searchName: 'realName',
+            render: (v, d) => {
+                return d.saleUserName;
+            }
+        }, {
+            title: '申请时间',
             field: 'applyDatetime',
             rangedate: ['applyDatetimeStart', 'applyDatetimeEnd'],
             type: 'date',
-            render: dateTimeFormat,
-            search: true
+            render: dateTimeFormat
         }, {
             title: '状态',
             field: 'curNodeCode',

@@ -52,8 +52,11 @@ class rationale extends React.Component {
             valueName: 'name'
         }, {
             title: '客户姓名',
-            field: 'customerName',
-            search: true
+            field: 'applyUserName',
+            search: true,
+            render: (v, d) => {
+                return d.creditUser ? d.creditUser.userName : '';
+            }
         }, {
             title: '贷款银行',
             field: 'loanBankName',

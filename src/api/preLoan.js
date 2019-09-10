@@ -85,8 +85,8 @@ export function findCarType(start, limit, seriesCode) {
 }
 
 // 分页查准入单
-export function accessSlip(start, limit, code, customerName, curNodeCode) {
-    return fetch(632515, {start, limit, code, customerName, curNodeCode});
+export function accessSlip(start, limit, code, customerName, curNodeCode, curNodeCodeList) {
+    return fetch(632515, {start, limit, code, customerName, curNodeCode, curNodeCodeList});
 }
 
 // 准入列表状态

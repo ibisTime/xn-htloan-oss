@@ -914,7 +914,7 @@ class preloanAccess extends React.Component {
     }
     // 发起征信
     addSendCreditReporting = () => {
-        const {fileList, loanBankCode, brandCode, seriesCode, carCode, bizType} = this.state;
+        const {fileList, loanBankCode, brandCode, seriesCode, carCode, bizType, accessInfoCode} = this.state;
         let picHash = '';
         if(fileList[0] === undefined) {
             picHash = '';
@@ -925,35 +925,55 @@ class preloanAccess extends React.Component {
                 picHash = fileList[0].response.hash;
             }
         }
-        let arr = {
-            loanBankCode: loanBankCode,
-            region: this.regionIpt.value,
-            bizType: bizType,
-            regAddress: this.regAddressIpt.value,
-            mile: this.mileIpt.value,
-            secondCarReport: picHash,
-            carBrand: brandCode,
-            carSeries: seriesCode,
-            carModel: carCode
-        };
-        sendCreditReportingLs(arr).then(data => {
-            this.setState({
-                accessInfoCode: data
-            });
-            this.addLenderInfo(data);
-            // 贷款信息
-            this.addLoanInfo(data);
-            // 费用结算
-            this.addCostSettlementInfo(data);
-            // 车辆信息
-            this.addCarDsInfoLs(data);
-            // 贷款材料图
-            this.addMaterialDsInfoLs(data);
-            // 上门调查照片
-            this.addInvestigationImgInfoLs(data);
-            // 车辆图
-            this.addCarImgInfoLs(data);
-        });
+        if(picHash === '' || loanBankCode === '' || bizType === '' || this.regionIpt.value === '' || this.mileIpt.value === '') {
+            showWarnMsg('请将发起征信内容填写完整!');
+        }else {
+            let arr = {
+                loanBankCode: loanBankCode,
+                region: this.regionIpt.value,
+                bizType: bizType,
+                regAddress: this.regAddressIpt.value,
+                mile: this.mileIpt.value,
+                secondCarReport: picHash,
+                carBrand: brandCode,
+                carSeries: seriesCode,
+                carModel: carCode
+            };
+            if(accessInfoCode === '') {
+                sendCreditReportingLs(arr).then(data => {
+                    this.setState({
+                        accessInfoCode: data
+                    });
+                    this.addLenderInfo(data);
+                    // 贷款信息
+                    this.addLoanInfo(data);
+                    // 费用结算
+                    this.addCostSettlementInfo(data);
+                    // 车辆信息
+                    this.addCarDsInfoLs(data);
+                    // 贷款材料图
+                    this.addMaterialDsInfoLs(data);
+                    // 上门调查照片
+                    this.addInvestigationImgInfoLs(data);
+                    // 车辆图
+                    this.addCarImgInfoLs(data);
+                });
+            }else {
+                this.addLenderInfo(accessInfoCode);
+                // 贷款信息
+                this.addLoanInfo(accessInfoCode);
+                // 费用结算
+                this.addCostSettlementInfo(accessInfoCode);
+                // 车辆信息
+                this.addCarDsInfoLs(accessInfoCode);
+                // 贷款材料图
+                this.addMaterialDsInfoLs(accessInfoCode);
+                // 上门调查照片
+                this.addInvestigationImgInfoLs(accessInfoCode);
+                // 车辆图
+                this.addCarImgInfoLs(accessInfoCode);
+            }
+        }
     }
     // 贷款人信息
     addLenderInfo = (code) => {
@@ -1124,56 +1144,64 @@ class preloanAccess extends React.Component {
     // 基本信息
     addBaseInfo = (code) => {
         const {permanentResidenceCode, housingTypeCode, marriageStatusCode, edtCode, mainLoanPpIptArr, altogetherPpIptArr, bkGuaranteePpArr} = this.state;
-        let creditUserList = [];
-        for(let i = 1; i <= 3; i++) {
-            if(i === 1) {
-                creditUserList.push({
-                    loanRole: i,
-                    education: edtCode,
-                    nowAddress: mainLoanPpIptArr.nowAddressProvince,
-                    marryState: marriageStatusCode,
-                    nowHouseType: housingTypeCode,
-                    companyName: mainLoanPpIptArr.companyName,
-                    companyAddress: mainLoanPpIptArr.companyAddress,
-                    position: mainLoanPpIptArr.position,
-                    yearIncome: mainLoanPpIptArr.yearIncome,
-                    presentJobYears: mainLoanPpIptArr.currentPostYears,
-                    permanentType: permanentResidenceCode,
-                    emergencyName1: mainLoanPpIptArr.emergencyName1,
-                    emergencyRelation1: mainLoanPpIptArr.emergencyRelation1,
-                    emergencyMobile1: mainLoanPpIptArr.emergencyMobile1,
-                    emergencyName2: mainLoanPpIptArr.emergencyName2,
-                    emergencyRelation2: mainLoanPpIptArr.emergencyRelation2,
-                    emergencyMobile2: mainLoanPpIptArr.emergencyMobile2,
-                    localResidencePermit: 'FrLh-zbku8RLBn0Uf2FOmRLgZKoD'
-                });
-            }else if(i === 2) {
-                creditUserList.push({
-                    loanRole: i,
-                    companyName: altogetherPpIptArr.companyName,
-                    position: altogetherPpIptArr.position,
-                    nowAddress: altogetherPpIptArr.nowAddress,
-                    companyAddress: altogetherPpIptArr.companyAddress
-                });
-            }else if(i === 3) {
-                creditUserList.push({
-                    loanRole: i,
-                    companyName: bkGuaranteePpArr.companyName,
-                    position: bkGuaranteePpArr.position,
-                    nowAddress: bkGuaranteePpArr.nowAddress,
-                    companyAddress: bkGuaranteePpArr.companyAddress
-                });
+        if(edtCode === '' || mainLoanPpIptArr.nowAddressProvince === '' || marriageStatusCode === '' || housingTypeCode === '' || mainLoanPpIptArr.companyName || mainLoanPpIptArr.companyAddress) {
+            if(mainLoanPpIptArr.position === '' || mainLoanPpIptArr.yearIncome === '' || mainLoanPpIptArr.currentPostYears === '' || permanentResidenceCode === '') {
+                if(mainLoanPpIptArr.emergencyName1 === '' || mainLoanPpIptArr.emergencyRelation1 === '' || mainLoanPpIptArr.emergencyMobile1 === '' || mainLoanPpIptArr.emergencyName2 === '' || mainLoanPpIptArr.emergencyRelation2 === '' || mainLoanPpIptArr.emergencyMobile2) {
+                    showWarnMsg('请将基本信息填写完整!');
+                }else {
+                    let creditUserList = [];
+                    for(let i = 1; i <= 3; i++) {
+                        if(i === 1) {
+                            creditUserList.push({
+                                loanRole: i,
+                                education: edtCode,
+                                nowAddress: mainLoanPpIptArr.nowAddressProvince,
+                                marryState: marriageStatusCode,
+                                nowHouseType: housingTypeCode,
+                                companyName: mainLoanPpIptArr.companyName,
+                                companyAddress: mainLoanPpIptArr.companyAddress,
+                                position: mainLoanPpIptArr.position,
+                                yearIncome: mainLoanPpIptArr.yearIncome,
+                                presentJobYears: mainLoanPpIptArr.currentPostYears,
+                                permanentType: permanentResidenceCode,
+                                emergencyName1: mainLoanPpIptArr.emergencyName1,
+                                emergencyRelation1: mainLoanPpIptArr.emergencyRelation1,
+                                emergencyMobile1: mainLoanPpIptArr.emergencyMobile1,
+                                emergencyName2: mainLoanPpIptArr.emergencyName2,
+                                emergencyRelation2: mainLoanPpIptArr.emergencyRelation2,
+                                emergencyMobile2: mainLoanPpIptArr.emergencyMobile2,
+                                localResidencePermit: 'FrLh-zbku8RLBn0Uf2FOmRLgZKoD'
+                            });
+                        }else if(i === 2) {
+                            creditUserList.push({
+                                loanRole: i,
+                                companyName: altogetherPpIptArr.companyName,
+                                position: altogetherPpIptArr.position,
+                                nowAddress: altogetherPpIptArr.nowAddress,
+                                companyAddress: altogetherPpIptArr.companyAddress
+                            });
+                        }else if(i === 3) {
+                            creditUserList.push({
+                                loanRole: i,
+                                companyName: bkGuaranteePpArr.companyName,
+                                position: bkGuaranteePpArr.position,
+                                nowAddress: bkGuaranteePpArr.nowAddress,
+                                companyAddress: bkGuaranteePpArr.companyAddress
+                            });
+                        }
+                    }
+                    let arr = {
+                        code: code,
+                        operator: getUserId(),
+                        creditUserList: creditUserList
+                    };
+                    console.log('addBaseInfo', arr);
+                    baseDsInfoLs(arr).then(data => {
+                        console.log(data);
+                    });
+                }
             }
         }
-        let arr = {
-            code: code,
-            operator: getUserId(),
-            creditUserList: creditUserList
-        };
-        console.log('addBaseInfo', arr);
-        baseDsInfoLs(arr).then(data => {
-            console.log(data);
-        });
     }
     // 添加贷款信息 'CB332019090401414B'
     addLoanInfo = (code) => {
@@ -1210,18 +1238,22 @@ class preloanAccess extends React.Component {
     // 费用结算
     addCostSettlementInfo = (code) => {
         const {costSettlementInfoArrIpt} = this.state;
-        let arr = {
-            code: code,
-            operator: getUserId(),
-            fxAmount: costSettlementInfoArrIpt.fxAmount,
-            lyDeposit: costSettlementInfoArrIpt.lyDeposit,
-            repointAmount: costSettlementInfoArrIpt.repointAmount,
-            gpsFee: costSettlementInfoArrIpt.gpsFee,
-            otherFee: costSettlementInfoArrIpt.otherFee
-        };
-        costSettlementInfoLs(arr).then(data => {
-            console.log(data);
-        });
+        if(costSettlementInfoArrIpt.fxAmount === '' || costSettlementInfoArrIpt.lyDeposit === '' || costSettlementInfoArrIpt.repointAmount === '' || costSettlementInfoArrIpt.gpsFee === '' || costSettlementInfoArrIpt.otherFee === '') {
+            showWarnMsg('请将费用结算信息填写完整');
+        }else {
+            let arr = {
+                code: code,
+                operator: getUserId(),
+                fxAmount: costSettlementInfoArrIpt.fxAmount,
+                lyDeposit: costSettlementInfoArrIpt.lyDeposit,
+                repointAmount: costSettlementInfoArrIpt.repointAmount,
+                gpsFee: costSettlementInfoArrIpt.gpsFee,
+                otherFee: costSettlementInfoArrIpt.otherFee
+            };
+            costSettlementInfoLs(arr).then(data => {
+                console.log(data);
+            });
+        }
     }
     // 车辆信息
     addCarDsInfoLs = (code) => {
@@ -1474,32 +1506,36 @@ class preloanAccess extends React.Component {
                 picHashQt = fileListQT[0].response.hash;
             }
         }
-        let arr = {
-            code: code,
-            operator: getUserId(),
-            driveCard: picHashJSZ,
-            marryPdf: picHashJHZ,
-            divorcePdf: picHashLHZ,
-            singleProve: picHashDSZ,
-            incomeProve: picHashSRZ,
-            hkBookFirstPage: picHashHKBSY,
-            hkBookHomePage: picHashHKBZY,
-            hkBookMyPage: picHashHKBRY,
-            housePropertyCardPdf: picHashFZZ,
-            liveProvePdf: picHashJZZ,
-            bankJourFirstPage: picHashYHS,
-            bankJourInterestFirst: picHashLS1,
-            bankJourInterestSecond: picHashLS2,
-            bankJourInterestThird: picHashLS3,
-            bankJourInterestFourth: picHashLS4,
-            bankJourLastPage: picHashLS5,
-            zfbJour: picHashZFB,
-            wxJour: picHashQt,
-            otherPdf: picHashQt
-        };
-        materialDsInfoLs(arr).then(data => {
-            console.log(data);
-        });
+        if(picHashJSZ === '' || picHashJHZ === '' || picHashLHZ === '' || picHashDSZ === '' || picHashSRZ === '' || picHashHKBSY === '' || picHashHKBZY === '' || picHashHKBRY === '' || picHashFZZ === '' || picHashJZZ === '' || picHashYHS === '' || picHashLS1 === '' || picHashLS2 === '' || picHashLS3 === '' || picHashLS4 === '' || picHashLS5 === '' || picHashZFB === '' || picHashQt === '' || picHashQt === '') {
+            showWarnMsg('请将贷款材料图信息填写完整');
+        }else {
+            let arr = {
+                code: code,
+                operator: getUserId(),
+                driveCard: picHashJSZ,
+                marryPdf: picHashJHZ,
+                divorcePdf: picHashLHZ,
+                singleProve: picHashDSZ,
+                incomeProve: picHashSRZ,
+                hkBookFirstPage: picHashHKBSY,
+                hkBookHomePage: picHashHKBZY,
+                hkBookMyPage: picHashHKBRY,
+                housePropertyCardPdf: picHashFZZ,
+                liveProvePdf: picHashJZZ,
+                bankJourFirstPage: picHashYHS,
+                bankJourInterestFirst: picHashLS1,
+                bankJourInterestSecond: picHashLS2,
+                bankJourInterestThird: picHashLS3,
+                bankJourInterestFourth: picHashLS4,
+                bankJourLastPage: picHashLS5,
+                zfbJour: picHashZFB,
+                wxJour: picHashQt,
+                otherPdf: picHashQt
+            };
+            materialDsInfoLs(arr).then(data => {
+                console.log(data);
+            });
+        }
     }
     // 上门调查照片
     addInvestigationImgInfoLs = (code) => {
@@ -1539,17 +1575,20 @@ class preloanAccess extends React.Component {
                 picHashJF = fileListJF[0].response.hash;
             }
         }
-
-        let arr = {
-            code: code,
-            operator: getUserId(),
-            doorPdf: picHashSM,
-            groupPhoto: picHashHZ,
-            houseVideo: picHashJF
-        };
-        investigationImgInfoLs(arr).then(data => {
-            console.log('investigationImgInfoLs', data);
-        });
+        if(picHashSM === '' || picHashHZ === '' || picHashJF === '') {
+            showWarnMsg('请将上门调查照片信息填写完整!');
+        }else {
+            let arr = {
+                code: code,
+                operator: getUserId(),
+                doorPdf: picHashSM,
+                groupPhoto: picHashHZ,
+                houseVideo: picHashJF
+            };
+            investigationImgInfoLs(arr).then(data => {
+                console.log('investigationImgInfoLs', data);
+            });
+        }
     }
     // 车辆图
     addCarImgInfoLs = (code) => {
@@ -1723,28 +1762,31 @@ class preloanAccess extends React.Component {
                 picHashDJZS3 = fileListDJZS3[0].response.hash;
             }
         }
-
-        let arr = {
-            code: code,
-            operator: getUserId(),
-            carHead: picHashCT,
-            nameplate: picHashCMP,
-            vinNumber: picHashVIN,
-            dashboard: picHashYBP,
-            cab: picHashJSS,
-            carEngine: picHashFDJ,
-            centralControl: picHashZK,
-            skylight: picHashTC,
-            rearSeat: picHashHZC,
-            vehicleTail: picHashCW,
-            carBody: picHashCQS,
-            carRegisterCertificateFirst: picHashDJZS,
-            carRegisterCertificateSecond: picHashDJZS2,
-            carRegisterCertificateThird: picHashDJZS3
-        };
-        carImgInfoLs(arr).then(data => {
-            console.log(data);
-        });
+        if(picHashCT === '' || picHashCMP === '' || picHashVIN === '' || picHashYBP === '' || picHashJSS === '' || picHashFDJ === '' || picHashZK === '' || picHashTC === '' || picHashHZC === '' || picHashCW === '' || picHashCQS === '' || picHashDJZS === '' || picHashDJZS2 === '' || picHashDJZS3 === '') {
+            showWarnMsg('请将车辆图信息填写完整');
+        }else {
+            let arr = {
+                code: code,
+                operator: getUserId(),
+                carHead: picHashCT,
+                nameplate: picHashCMP,
+                vinNumber: picHashVIN,
+                dashboard: picHashYBP,
+                cab: picHashJSS,
+                carEngine: picHashFDJ,
+                centralControl: picHashZK,
+                skylight: picHashTC,
+                rearSeat: picHashHZC,
+                vehicleTail: picHashCW,
+                carBody: picHashCQS,
+                carRegisterCertificateFirst: picHashDJZS,
+                carRegisterCertificateSecond: picHashDJZS2,
+                carRegisterCertificateThird: picHashDJZS3
+            };
+            carImgInfoLs(arr).then(data => {
+                console.log(data);
+            });
+        }
     }
     // 获取银行列表
     getBankList = () => {
@@ -1773,7 +1815,9 @@ class preloanAccess extends React.Component {
     accessInfoUp = () => {
         const {accessInfoCode} = this.state;
         accessInfoSend(accessInfoCode).then(data => {
-            console.log(data);
+            if(data.isSuccess) {
+                showSucMsg('操作成功');
+            }
         });
     }
     // 数据双向绑定
@@ -2597,17 +2641,17 @@ class preloanAccess extends React.Component {
         this.props.history.go(-1);
     }
     handleChangeSearchZXJG1 = (value) => {
-        this.state({
+        this.setState({
             zXjg1: value
         });
     }
     handleChangeSearchZXJG2 = (value) => {
-        this.state({
+        this.setState({
             zXjg2: value
         });
     }
     handleChangeSearchZXJG3 = (value) => {
-        this.state({
+        this.setState({
             zXjg3: value
         });
     }
