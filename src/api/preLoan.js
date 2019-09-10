@@ -228,3 +228,8 @@ export function sendEnterArchivesCm(params) {
         ...params
     });
 }
+
+// 获取城市
+export function getCityList(start, limit) {
+    return fetch(630475, {start, limit});
+}

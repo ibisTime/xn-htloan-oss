@@ -6,7 +6,7 @@ import {
     findDsct,
     dsctList1
 } from 'common/js/util';
-import {Row, Col, Select, Upload, Button, Icon} from 'antd';
+import {Row, Col, Select, Upload, Button, Icon, DatePicker} from 'antd';
 import {
     accessSlipStatus,
     accessSlipDetail,
@@ -19,6 +19,7 @@ import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
 import './applicationForPayment.css';
 
 const {Option} = Select;
+const { MonthPicker } = DatePicker;
 class orderMemory extends React.Component {
     constructor(props) {
         super(props);
@@ -36,7 +37,8 @@ class orderMemory extends React.Component {
                 time: '',
                 amount: '',
                 rmk: ''
-            }
+            },
+            regDate: ''
         };
         this.code = getQueryString('code', this.props.location.search);
     }
@@ -110,7 +112,7 @@ class orderMemory extends React.Component {
     }
     // 提交
     sendSave = () => {
-        const {iptInfoArr, fileListJF} = this.state;
+        const {iptInfoArr, fileListJF, regDate} = this.state;
         let picHashJF = '';
         if(fileListJF) {
             if (fileListJF[0] === undefined || fileListJF[0] === '') {
@@ -121,13 +123,16 @@ class orderMemory extends React.Component {
         }
         let arr = {
             code: this.code,
-            advanceFundDatetime: iptInfoArr.time,
+            advanceFundDatetime: regDate,
             advanceFundAmount: iptInfoArr.amount,
             billPdf: picHashJF,
             advanceNote: iptInfoArr.rmk
         };
         recall(arr).then(data => {
             showSucMsg('操作成功!');
+            setTimeout(() => {
+                this.props.history.go(-1);
+            }, 1000);
         });
     }
     // 返回
@@ -153,6 +158,15 @@ class orderMemory extends React.Component {
         this.setState({
             iptInfoArr
         });
+    };
+    onChangeTime = (date, dateString) => {
+        if(new Date(dateString).getTime() > new Date().getTime()) {
+            showWarnMsg('请选择小于今天的日期');
+        }else {
+            this.setState({
+                regDate: dateString
+            });
+        }
     };
     render() {
         const {carBuyingListArrs, baseInfo, accessSlipStatusArr, collectBankcard, fileListJF, uploadToken, iptInfoArr} = this.state;
@@ -218,7 +232,7 @@ class orderMemory extends React.Component {
                 <Row>
                     <Col span={12}>
                         <span className="afp-body-title">垫资日期：</span>
-                        <input type="text" value={iptInfoArr.time} ref={input => this.timeIpt = input} onChange={(e) => { this.iupChange(e, 'time'); }} className="afp-body-input" />
+                        <DatePicker format={'YYYY-MM-DD'} style={{width: '220px', float: 'left'}} onChange={this.onChangeTime}/>
                         <div className="clear"></div>
                     </Col>
                     <Col span={12}></Col>
@@ -232,7 +246,7 @@ class orderMemory extends React.Component {
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={6}>
-                        <span className="afp-body-title">税单：</span>
+                        <span className="afp-body-title">水单：</span>
                         <Upload {...propsJF} data={{token: uploadToken}} fileList={fileListJF}>
                             <Button>
                                 <Icon type="upload" /> Upload

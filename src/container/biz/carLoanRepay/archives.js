@@ -46,11 +46,8 @@ class archives extends React.Component {
             valueName: 'name'
         }, {
             title: '客户姓名',
-            field: 'applyUserName',
-            search: true,
-            render: (v, d) => {
-                return d.creditUser ? d.creditUser.userName : '';
-            }
+            field: 'customerName',
+            search: true
         }, {
             title: '贷款银行',
             field: 'loanBankName',
@@ -67,10 +64,7 @@ class archives extends React.Component {
             amount: true
         }, {
             title: '贷款期数',
-            field: 'loanPeriod',
-            render: (v, d) => {
-                return d.loanInfo ? d.loanInfo.periods : '';
-            }
+            field: 'periods'
         }, {
             title: '购车途径',
             field: 'bizType',

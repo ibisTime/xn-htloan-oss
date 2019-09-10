@@ -439,7 +439,7 @@ class preloanAccessDetail extends React.Component {
                     </div>
                     <div className="preLoan-detail-box-content">
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>是否公牌：{carInfo.isPublicCard}</Col>
+                            <Col span={12}>是否公牌：{carInfo.isPublicCard === 0 ? '否' : '是'}</Col>
                             <Col span={12}>发动机号：{carInfo.carEngineNo}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>

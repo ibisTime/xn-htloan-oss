@@ -47,11 +47,8 @@ class mortgage extends React.Component {
             valueName: 'name'
         }, {
             title: '客户姓名',
-            field: 'applyUserName',
-            search: true,
-            render: (v, d) => {
-                return d.creditUser ? d.creditUser.userName : '';
-            }
+            field: 'customerName',
+            search: true
         }, {
             title: '贷款银行',
             field: 'loanBankName',
@@ -68,10 +65,7 @@ class mortgage extends React.Component {
             amount: true
         }, {
             title: '贷款期数',
-            field: 'loanPeriod',
-            render: (v, d) => {
-                return d.loanInfo ? d.loanInfo.periods : '';
-            }
+            field: 'periods'
         }, {
             title: '购车途径',
             field: 'bizType',
@@ -100,7 +94,7 @@ class mortgage extends React.Component {
             render: dateTimeFormat
         }, {
             title: '状态',
-            field: 'curNodeCode',
+            field: 'pledgeNodeCode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
@@ -180,7 +174,27 @@ class mortgage extends React.Component {
                         }, 1000);
                     }).catch(this.props.cancelFetching);
                 }
-              }
+              },
+            // 确认提交银行
+                mortgage: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        let param = {
+                            code: selectedRowKeys[0],
+                            operator: getUserId()
+                        };
+                        fetch(632581, param).then(() => {
+                            showSucMsg('操作成功');
+                            this.props.cancelFetching();
+                            setTimeout(() => {
+                                this.props.history.go(-1);
+                            }, 1000);
+                        }).catch(this.props.cancelFetching);
+                    }
+                }
             }
         });
     }

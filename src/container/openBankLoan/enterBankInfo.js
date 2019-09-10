@@ -6,7 +6,7 @@ import {
     findDsct,
     dsctList1
 } from 'common/js/util';
-import {Row, Col, Select} from 'antd';
+import {Row, Col, Select, DatePicker} from 'antd';
 import {
     accessSlipStatus,
     accessSlipDetail,
@@ -17,6 +17,7 @@ import {
 import '../financialAdvance/applicationForPayment.css';
 
 const {Option} = Select;
+const { MonthPicker } = DatePicker;
 class enterBankInfo extends React.Component {
     constructor(props) {
         super(props);
@@ -31,7 +32,9 @@ class enterBankInfo extends React.Component {
                 time: '',
                 rmk: '',
                 cpTime: ''
-            }
+            },
+            regDate: '',
+            regDate2: ''
         };
         this.code = getQueryString('code', this.props.location.search);
     }
@@ -99,11 +102,11 @@ class enterBankInfo extends React.Component {
     }
     // 提交
     sendSave = () => {
-        const {iptArr} = this.state;
+        const {iptArr, regDate, regDate2} = this.state;
         let arr = {
             code: this.code,
-            repayBankDate: iptArr.time,
-            repayCompanyDate: iptArr.cpTime,
+            repayBankDate: regDate,
+            repayCompanyDate: regDate2,
             bankFkRemark: iptArr.rmk
         };
         enterBankAmountInfo(arr).then(data => {
@@ -141,6 +144,34 @@ class enterBankInfo extends React.Component {
             iptArr
         });
     };
+    onChangeTime = (date, dateString) => {
+        if(new Date(dateString).getTime() > new Date().getTime()) {
+            showWarnMsg('请选择小于今天的日期');
+        }else {
+            this.setState({
+                regDate: dateString
+            });
+        }
+    };
+    onChangeTime1 = (date, dateString) => {
+        if(new Date(dateString).getTime() > new Date().getTime()) {
+            showWarnMsg('请选择小于今天的日期');
+        }else {
+            this.setState({
+                regDate2: dateString
+            });
+        }
+    };
+    handleChangeDay1 = (value) => {
+        this.setState({
+            regDate: value
+        });
+    }
+    handleChangeDay2 = (value) => {
+        this.setState({
+            regDate2: value
+        });
+    }
     render() {
         const {carBuyingListArrs, baseInfo, accessSlipStatusArr, iptArr} = this.state;
         return (
@@ -184,15 +215,83 @@ class enterBankInfo extends React.Component {
                 </Row>
                 <div className="afp-body-line"></div>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={12}>银行还款日：<input type="text" value={iptArr.time} ref={input => this.timeIpt = input} onChange={(e) => { this.iupChange(e, 'time'); }} className="dealer-user-detail-edit-input" /><span style={{color: '#999999'}}>（默认当前时间）</span></Col>
+                    <Col span={12}>
+                        <span style={{float: 'left'}}>银行还款日：</span>
+                        <Select className="preLoan-body-select" style={{width: '100px'}} onChange={this.handleChangeDay1}>
+                            <Option value="1">1</Option>
+                            <Option value="2">2</Option>
+                            <Option value="3">3</Option>
+                            <Option value="4">4</Option>
+                            <Option value="5">5</Option>
+                            <Option value="6">6</Option>
+                            <Option value="7">7</Option>
+                            <Option value="8">8</Option>
+                            <Option value="9">9</Option>
+                            <Option value="10">10</Option>
+                            <Option value="11">11</Option>
+                            <Option value="12">12</Option>
+                            <Option value="13">13</Option>
+                            <Option value="14">14</Option>
+                            <Option value="15">15</Option>
+                            <Option value="16">16</Option>
+                            <Option value="17">17</Option>
+                            <Option value="18">18</Option>
+                            <Option value="19">19</Option>
+                            <Option value="20">20</Option>
+                            <Option value="21">21</Option>
+                            <Option value="22">22</Option>
+                            <Option value="23">23</Option>
+                            <Option value="24">24</Option>
+                            <Option value="25">25</Option>
+                            <Option value="26">26</Option>
+                            <Option value="27">27</Option>
+                            <Option value="28">28</Option>
+                            <Option value="29">29</Option>
+                            <Option value="20">30</Option>
+                        </Select>
+                    </Col>
                     <Col span={12}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={12}>公司还款日：<input type="text" value={iptArr.cpTime} ref={input => this.cpTimeIpt = input} onChange={(e) => { this.iupChange(e, 'cpTime'); }} className="dealer-user-detail-edit-input" /><span style={{color: '#999999'}}>（默认当前时间）</span></Col>
+                    <Col span={12}>
+                        <span style={{float: 'left'}}>公司还款日：</span>
+                        <Select className="preLoan-body-select" style={{width: '100px'}} onChange={this.handleChangeDay2}>
+                            <Option value="1">1</Option>
+                            <Option value="2">2</Option>
+                            <Option value="3">3</Option>
+                            <Option value="4">4</Option>
+                            <Option value="5">5</Option>
+                            <Option value="6">6</Option>
+                            <Option value="7">7</Option>
+                            <Option value="8">8</Option>
+                            <Option value="9">9</Option>
+                            <Option value="10">10</Option>
+                            <Option value="11">11</Option>
+                            <Option value="12">12</Option>
+                            <Option value="13">13</Option>
+                            <Option value="14">14</Option>
+                            <Option value="15">15</Option>
+                            <Option value="16">16</Option>
+                            <Option value="17">17</Option>
+                            <Option value="18">18</Option>
+                            <Option value="19">19</Option>
+                            <Option value="20">20</Option>
+                            <Option value="21">21</Option>
+                            <Option value="22">22</Option>
+                            <Option value="23">23</Option>
+                            <Option value="24">24</Option>
+                            <Option value="25">25</Option>
+                            <Option value="26">26</Option>
+                            <Option value="27">27</Option>
+                            <Option value="28">28</Option>
+                            <Option value="29">29</Option>
+                            <Option value="20">30</Option>
+                        </Select>
+                    </Col>
                     <Col span={12}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={2}>备注：</Col>
+                    <Col span={1}>备注：</Col>
                     <Col span={22}>
                         <textarea value={iptArr.rmk} ref={input => this.rmkIpt = input} onChange={(e) => { this.iupChange(e, 'rmk'); }} className="afp-body-textarea" />
                     </Col>

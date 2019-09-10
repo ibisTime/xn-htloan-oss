@@ -6,7 +6,7 @@ import {
     findDsct,
     dsctList1
 } from 'common/js/util';
-import {Row, Col, Select} from 'antd';
+import {Row, Col, Select, DatePicker} from 'antd';
 import {
     accessSlipStatus,
     accessSlipDetail,
@@ -17,6 +17,7 @@ import {
 import '../financialAdvance/applicationForPayment.css';
 
 const {Option} = Select;
+const { MonthPicker } = DatePicker;
 class rationaleOk extends React.Component {
     constructor(props) {
         super(props);
@@ -30,7 +31,8 @@ class rationaleOk extends React.Component {
             iptArr: {
                 time: '',
                 rmk: ''
-            }
+            },
+            regDate: ''
         };
         this.code = getQueryString('code', this.props.location.search);
     }
@@ -98,10 +100,10 @@ class rationaleOk extends React.Component {
     }
     // 提交
     sendSave = () => {
-        const {iptArr} = this.state;
+        const {iptArr, regDate} = this.state;
         let arr = {
             code: this.code,
-            rationaleDatetime: iptArr.time,
+            rationaleDatetime: regDate,
             rationaleNote: iptArr.rmk
         };
         sendRationaleOk(arr).then(data => {
@@ -138,6 +140,15 @@ class rationaleOk extends React.Component {
         this.setState({
             iptArr
         });
+    };
+    onChangeTime = (date, dateString) => {
+        if(new Date(dateString).getTime() > new Date().getTime()) {
+            showWarnMsg('请选择小于今天的日期');
+        }else {
+            this.setState({
+                regDate: dateString
+            });
+        }
     };
     render() {
         const {carBuyingListArrs, baseInfo, accessSlipStatusArr, iptArr} = this.state;
@@ -182,7 +193,10 @@ class rationaleOk extends React.Component {
                 </Row>
                 <div className="afp-body-line"></div>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={12}>完成时间：<input type="text" value={iptArr.time} ref={input => this.timeIpt = input} onChange={(e) => { this.iupChange(e, 'time'); }} className="dealer-user-detail-edit-input" /><span style={{color: '#999999'}}>（默认当前时间）</span></Col>
+                    <Col span={12}>
+                        <span style={{float: 'left'}}>完成时间：</span>
+                        <DatePicker format={'YYYY-MM-DD HH:mm:ss'} style={{width: '220px', float: 'left', marginLeft: '22px'}} onChange={this.onChangeTime}/>
+                    </Col>
                     <Col span={12}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>

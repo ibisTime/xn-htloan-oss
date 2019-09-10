@@ -6,7 +6,7 @@ import {
     findDsct,
     dsctList
 } from 'common/js/util';
-import {Row, Col, Select, Upload, Button, Icon, Modal} from 'antd';
+import {Row, Col, Select, Upload, Button, Icon, Modal, DatePicker} from 'antd';
 import { getDictList } from 'api/dict';
 import './preloanAccess.css';
 import {
@@ -27,10 +27,12 @@ import {
     carTypeMng,
     findCarType,
     accessInfoSend,
-    carBuyingList
+    carBuyingList,
+    getCityList
 } from '../../api/preLoan.js';
 import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
 const { Option } = Select;
+const { MonthPicker } = DatePicker;
 function getBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -512,7 +514,13 @@ class preloanAccess extends React.Component {
             permanentType: [],
             accessInfoCode: '',
             carBuyingListArrs: [],
-            carLineCode: ''
+            carLineCode: '',
+            creditUserRelation: [],
+            emergencyRelationCode1: '',
+            emergencyRelationCode2: '',
+            cityList: [],
+            nowAddressCode: '',
+            regDate: ''
         };
         // this.mobileIpt = '';
         // this.bankCreditResultIpt = '';
@@ -539,7 +547,8 @@ class preloanAccess extends React.Component {
             getDictList({ parentKey: 'work_profession' }),
             getDictList({ parentKey: 'interest' }),
             getDictList({ parentKey: 'car_frame_price_count' }),
-            getDictList({ parentKey: 'permanent_type' })
+            getDictList({ parentKey: 'permanent_type' }),
+            getDictList({ parentKey: 'credit_user_relation' })
         ]).then(([
             budgetOrdeBizTyper,
             loanPeriod,
@@ -556,7 +565,8 @@ class preloanAccess extends React.Component {
             workProfession,
             interest,
             carFramePriceCount,
-            permanentType
+            permanentType,
+            creditUserRelation
             ]) => {
             this.setState({
                 budgetOrdeBizTyper: dsctList(budgetOrdeBizTyper),
@@ -574,7 +584,8 @@ class preloanAccess extends React.Component {
                 workProfession: dsctList(workProfession),
                 interest: dsctList(interest),
                 carFramePriceCount: dsctList(carFramePriceCount),
-                permanentType: dsctList(permanentType)
+                permanentType: dsctList(permanentType),
+                creditUserRelation: dsctList(creditUserRelation)
             });
         });
         getQiNiu().then(data => {
@@ -592,7 +603,6 @@ class preloanAccess extends React.Component {
         // 购车行
         carBuyingList(1, 100).then(data => {
             let arr = [];
-            console.log('carBuyingList', data);
             for(let i = 0; i < data.list.length; i++) {
                 arr.push({
                     dkey: data.list[i].code,
@@ -603,12 +613,47 @@ class preloanAccess extends React.Component {
                 carBuyingListArrs: arr
             });
         });
+        // getCityList
+        getCityList(1, 1000).then(data => {
+            let arr = [];
+            console.log('getCityList', data);
+            for(let i = 0; i < data.list.length; i++) {
+                arr.push({
+                    dkey: data.list[i].cityId,
+                    dvalue: data.list[i].cityName
+                });
+            }
+            this.setState({
+                cityList: arr
+            });
+        });
     }
+    onChangeTime = (date, dateString) => {
+        if(new Date(dateString).getTime() > new Date().getTime()) {
+            showWarnMsg('请选择小于今天的日期');
+        }else {
+            this.setState({
+                regDate: dateString
+            });
+        }
+    };
     // 获取code
     // 获取银行code
     handleChangeBank = (value) => {
         this.setState({
             loanBankCode: value
+        });
+    }
+    // 获取主贷人关系1 Code emergencyRelation1code
+    handleChangeEmergency = (value) => {
+        this.setState({
+            emergencyRelationCode1: value
+        });
+    }
+    // 获取主贷人关系2 Code emergencyRelation1code
+    handleChangeEmergency2 = (value) => {
+        this.setState({
+            emergencyRelationCode2: value
         });
     }
     // 获取学历code
@@ -914,7 +959,7 @@ class preloanAccess extends React.Component {
     }
     // 发起征信
     addSendCreditReporting = () => {
-        const {fileList, loanBankCode, brandCode, seriesCode, carCode, bizType, accessInfoCode} = this.state;
+        const {fileList, loanBankCode, brandCode, seriesCode, carCode, bizType, accessInfoCode, nowAddressCode, regDate} = this.state;
         let picHash = '';
         if(fileList[0] === undefined) {
             picHash = '';
@@ -925,14 +970,11 @@ class preloanAccess extends React.Component {
                 picHash = fileList[0].response.hash;
             }
         }
-        if(picHash === '' || loanBankCode === '' || bizType === '' || this.regionIpt.value === '' || this.mileIpt.value === '') {
-            showWarnMsg('请将发起征信内容填写完整!');
-        }else {
             let arr = {
                 loanBankCode: loanBankCode,
-                region: this.regionIpt.value,
+                region: nowAddressCode,
                 bizType: bizType,
-                regAddress: this.regAddressIpt.value,
+                regDate: regDate,
                 mile: this.mileIpt.value,
                 secondCarReport: picHash,
                 carBrand: brandCode,
@@ -973,7 +1015,6 @@ class preloanAccess extends React.Component {
                 // 车辆图
                 this.addCarImgInfoLs(accessInfoCode);
             }
-        }
     }
     // 贷款人信息
     addLenderInfo = (code) => {
@@ -1143,7 +1184,7 @@ class preloanAccess extends React.Component {
     }
     // 基本信息
     addBaseInfo = (code) => {
-        const {permanentResidenceCode, housingTypeCode, marriageStatusCode, edtCode, mainLoanPpIptArr, altogetherPpIptArr, bkGuaranteePpArr} = this.state;
+        const {permanentResidenceCode, housingTypeCode, marriageStatusCode, edtCode, mainLoanPpIptArr, altogetherPpIptArr, bkGuaranteePpArr, emergencyRelationCode1, emergencyRelationCode2} = this.state;
         let creditUserList = [];
         for(let i = 1; i <= 3; i++) {
             if(i === 1) {
@@ -1160,10 +1201,10 @@ class preloanAccess extends React.Component {
                     presentJobYears: mainLoanPpIptArr.currentPostYears,
                     permanentType: permanentResidenceCode,
                     emergencyName1: mainLoanPpIptArr.emergencyName1,
-                    emergencyRelation1: mainLoanPpIptArr.emergencyRelation1,
+                    emergencyRelation1: emergencyRelationCode1,
                     emergencyMobile1: mainLoanPpIptArr.emergencyMobile1,
                     emergencyName2: mainLoanPpIptArr.emergencyName2,
-                    emergencyRelation2: mainLoanPpIptArr.emergencyRelation2,
+                    emergencyRelation2: emergencyRelationCode2,
                     emergencyMobile2: mainLoanPpIptArr.emergencyMobile2,
                     localResidencePermit: 'FrLh-zbku8RLBn0Uf2FOmRLgZKoD'
                 });
@@ -2655,6 +2696,12 @@ class preloanAccess extends React.Component {
             carLineCode: value
         });
     }
+    // 业务发生地点
+    handleChangeAddress = (value, event) => {
+        this.setState({
+            nowAddressCode: value
+        });
+    }
     render() {
         const {
             isMain,
@@ -2906,7 +2953,9 @@ class preloanAccess extends React.Component {
             // 字典
             marryState,
             education,
-            permanentType
+            permanentType,
+            creditUserRelation,
+            cityList
         } = this.state;
         const props = {
             action: UPLOAD_URL,
@@ -2943,7 +2992,15 @@ class preloanAccess extends React.Component {
                     </Col>
                     <Col span={12}>
                         <span className="preLoan-body-title" style={{width: '100px'}}>业务发生地点：</span>
-                        <input type="text" value={sendCreditReporting.region} ref={input => this.regionIpt = input} onChange={(e) => { this.iptChangeSendCreditReporting(e, 'region'); }} className="preLoan-body-input" />
+                        <Select style={{ width: '220px' }} onChange={this.handleChangeAddress}>
+                            {
+                                cityList.map(item => {
+                                    return (
+                                        <Option key={item.dkey} value={item.dkey}>{item.dvalue}</Option>
+                                    );
+                                })
+                            }
+                        </Select>
                         <div className="clear"></div>
                     </Col>
                 </Row>
@@ -2957,8 +3014,8 @@ class preloanAccess extends React.Component {
                         <div className="clear"></div>
                     </Col>
                     <Col span={12}>
-                        <span className="preLoan-body-title" style={{width: '100px'}}>上牌地：</span>
-                        <input type="text" value={sendCreditReporting.regAddress} ref={input => this.regAddressIpt = input} onChange={(e) => { this.iptChangeSendCreditReporting(e, 'regAddress'); }} className="preLoan-body-input" />
+                        <span className="preLoan-body-title" style={{width: '100px'}}>上牌时间：</span>
+                        <MonthPicker format={'YYYY-MM'} style={{width: '220px', float: 'left'}} onChange={this.onChangeTime}/>
                         <div className="clear"></div>
                     </Col>
                 </Row>
@@ -3525,7 +3582,15 @@ class preloanAccess extends React.Component {
                                         </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title" style={{width: '100px'}}>与主贷人关系：</span>
-                                            <input type="text" value={mainLoanPpIptArr.emergencyRelation1} ref={input => this.emergencyRelation1Ipt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'emergencyRelation1'); }} className="preLoan-body-input" />
+                                            <Select className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeEmergency}>
+                                                {
+                                                    creditUserRelation.map(data => {
+                                                        return (
+                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                        );
+                                                    })
+                                                }
+                                            </Select>
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
@@ -3545,7 +3610,15 @@ class preloanAccess extends React.Component {
                                         </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title" style={{width: '100px'}}>与主贷人关系：</span>
-                                            <input type="text" value={mainLoanPpIptArr.emergencyRelation2} ref={input => this.emergencyRelation2Ipt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'emergencyRelation2'); }} className="preLoan-body-input" />
+                                            <Select className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeEmergency2}>
+                                                {
+                                                    creditUserRelation.map(data => {
+                                                        return (
+                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                        );
+                                                    })
+                                                }
+                                            </Select>
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">

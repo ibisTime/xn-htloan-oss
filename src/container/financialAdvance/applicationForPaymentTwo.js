@@ -201,6 +201,9 @@ class applicationForPayment extends React.Component {
             };
             examineTwo(params).then(data => {
                 showSucMsg('操作成功!');
+                setTimeout(() => {
+                    this.props.history.go(-1);
+                }, 1000);
             });
         }
     }
