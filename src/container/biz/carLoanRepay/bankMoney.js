@@ -66,11 +66,8 @@ class bankMoney extends React.Component {
       }
     }, {
       title: '客户姓名',
-      field: 'applyUserName',
-      search: true,
-      render: (v, d) => {
-        return d.creditUser ? d.creditUser.userName : '';
-      }
+      field: 'customerName',
+      search: true
     }, {
       title: '贷款银行',
       field: 'loanBankName',
@@ -103,10 +100,6 @@ class bankMoney extends React.Component {
       listCode: 630147,
       keyName: 'code',
       valueName: 'name',
-      params: {type: 'e'},
-      afterDetail: (list) => {
-        return list && list.length ? list.filter(l => l.code !== 'e6') : [];
-      },
       search: true
     }, {
       title: '申请日期',
@@ -129,7 +122,7 @@ class bankMoney extends React.Component {
       searchParams: {
         userId: getUserId(),
         roleCode: getRoleCode(),
-        curNodeCodeList: ['e1', 'e2', 'e1x', 'e3', 'e4', 'e5', 'e7', 'e8']
+        curNodeCodeList: ['d1', 'd2', 'd3', 'd4']
       },
       btnEvent: {
         // 确认提交银行
@@ -138,10 +131,8 @@ class bankMoney extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].curNodeCode !== 'e3') {
-            showWarnMsg('当前不是确认提交银行节点');
           } else {
-            this.props.history.push(`/biz/bankMoney/sub?code=${selectedRowKeys[0]}`);
+            this.props.history.push(`/biz/bankMoney/cSs?code=${selectedRowKeys[0]}`);
           }
         },
         // 录入放款信息
@@ -150,10 +141,8 @@ class bankMoney extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].curNodeCode !== 'e4') {
-            showWarnMsg('当前不是录入放款信息节点');
           } else {
-            this.props.history.push(`/biz/bankMoney/enter?code=${selectedRowKeys[0]}`);
+            this.props.history.push(`/biz/bankMoney/cSs2?code=${selectedRowKeys[0]}`);
           }
         },
         // 确认收款
@@ -162,10 +151,18 @@ class bankMoney extends React.Component {
             showWarnMsg('请选择记录');
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
-          } else if (selectedRows[0].curNodeCode !== 'e5') {
-            showWarnMsg('当前不是确认收款节点');
           } else {
-            this.props.history.push(`/biz/bankMoney/certain?code=${selectedRowKeys[0]}`);
+            this.props.history.push(`/biz/bankMoney/enterBk?code=${selectedRowKeys[0]}`);
+          }
+        },
+        // 确认收款
+        prepareCollection: (selectedRowKeys, selectedRows) => {
+          if (!selectedRowKeys.length) {
+            showWarnMsg('请选择记录');
+          } else if (selectedRowKeys.length > 1) {
+            showWarnMsg('请选择一条记录');
+          } else {
+            this.props.history.push(`/biz/bankMoney/cRs?code=${selectedRowKeys[0]}`);
           }
         },
         detail: (selectedRowKeys, selectedRows) => {
@@ -174,7 +171,7 @@ class bankMoney extends React.Component {
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
           } else {
-            this.props.history.push(`/ywcx/ywcx/addedit?v=1&code=${selectedRowKeys[0]}`);
+            this.props.history.push(`/preLoan/Access/detail?code=${selectedRowKeys[0]}`);
           }
         },
         // 资料补录

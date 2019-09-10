@@ -157,7 +157,7 @@ class preloanAccessDetail extends React.Component {
                     <textarea value={rmkText} ref={input => this.inputRmk = input} onChange={(e) => { this.iptChange(e); }} placeholder="请输入备注"></textarea>
                     <div className="box">
                         <div className="btnGray" onClick={this.goBack}>返回</div>
-                        <div className="btnGray" style={{marginLeft: '20px', marginRight: '20px'}} onClick={this.notAdopt}>不通过</div>
+                        <div className="btnGray" style={{marginLeft: '10px', marginRight: '10px'}} onClick={this.notAdopt}>不通过</div>
                         <div className="btnGray" style={{background: 'rgba(23,145,255,1)', color: '#FFFFFF', border: '0px'}} onClick={this.adopt}>通过</div>
                     </div>
                 </div>
@@ -209,10 +209,10 @@ class preloanAccessDetail extends React.Component {
                                         <Col span={4} >
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_front_apply')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
-                                        <Col span={4} style={{marginLeft: '13px'}}>
+                                        <Col span={4} style={{marginLeft: '30px'}}>
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_reverse_apply')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
-                                        <Col span={4} className="preLoan-body-table-content-tab-card" style={{marginLeft: '13px'}}></Col>
+                                        <Col span={4} className="preLoan-body-table-content-tab-card" style={{marginLeft: '30px'}}></Col>
                                         <Col span={8}></Col>
                                     </Row>
                                     <Row style={{marginTop: '34px'}}>
@@ -245,10 +245,10 @@ class preloanAccessDetail extends React.Component {
                                         <Col span={4} >
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_front_gh')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
-                                        <Col span={4} style={{marginLeft: '13px'}}>
+                                        <Col span={4} style={{marginLeft: '30px'}}>
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gh')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
-                                        <Col span={4} className="preLoan-body-table-content-tab-card" style={{marginLeft: '13px'}}></Col>
+                                        <Col span={4} className="preLoan-body-table-content-tab-card" style={{marginLeft: '30px'}}></Col>
                                         <Col span={8}></Col>
                                     </Row>
                                     <Row style={{marginTop: '34px'}}>
@@ -281,10 +281,10 @@ class preloanAccessDetail extends React.Component {
                                         <Col span={4} >
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_front_gua')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
-                                        <Col span={4} style={{marginLeft: '13px'}}>
+                                        <Col span={4} style={{marginLeft: '30px'}}>
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gua')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
-                                        <Col span={4} className="preLoan-body-table-content-tab-card" style={{marginLeft: '13px'}}></Col>
+                                        <Col span={4} className="preLoan-body-table-content-tab-card" style={{marginLeft: '30px'}}></Col>
                                         <Col span={8}></Col>
                                     </Row>
                                     <Row style={{marginTop: '34px'}}>

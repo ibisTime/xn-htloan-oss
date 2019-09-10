@@ -66,11 +66,8 @@ class archives extends React.Component {
             }
         }, {
             title: '客户姓名',
-            field: 'applyUserName',
-            search: true,
-            render: (v, d) => {
-                return d.creditUser ? d.creditUser.userName : '';
-            }
+            field: 'customerName',
+            search: true
         }, {
             title: '贷款银行',
             field: 'loanBankName',
@@ -104,8 +101,8 @@ class archives extends React.Component {
             render: dateTimeFormat,
             search: true
         }, {
-            title: '当前节点',
-            field: 'enterNodeCode',
+            title: '状态',
+            field: 'curNodeCode',
             type: 'select',
             listCode: 630147,
             keyName: 'code',
@@ -118,7 +115,7 @@ class archives extends React.Component {
             searchParams: {
               userId: getUserId(),
               roleCode: getRoleCode(),
-                enterNodeCodeList: ['e7', 'e8', 'e9', 'e10', 'f11', 'f12', 'f13', 'f14', 'f15']
+                curNodeCodeList: ['f1', 'f2']
             },
             btnEvent: {
               enter: (selectedRowKeys, selectedRows) => {
@@ -126,10 +123,8 @@ class archives extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
-              } else if (selectedRows[0].enterNodeCode !== 'e9' && selectedRows[0].enterNodeCode !== 'f13') {
-                  showWarnMsg('当前不是入档节点');
-                } else {
-                  this.props.history.push(`/biz/archives/addedit?code=${selectedRowKeys[0]}`);
+              } else {
+                  this.props.history.push(`/biz/archives/add?code=${selectedRowKeys[0]}`);
                 }
               },
               certain: (selectedRowKeys, selectedRows) => {
@@ -137,10 +132,8 @@ class archives extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
-              } else if (selectedRows[0].enterNodeCode !== 'f14') {
-                  showWarnMsg('当前不是确认入档节点');
-                } else {
-                  this.props.history.push(`/biz/archives/certain?code=${selectedRowKeys[0]}&certain=1`);
+              } else {
+                  this.props.history.push(`/biz/archives/cmAdd?code=${selectedRowKeys[0]}&certain=1`);
                 }
               },
               detail: (selectedRowKeys, selectedRows) => {

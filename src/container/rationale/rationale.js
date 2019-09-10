@@ -8,7 +8,7 @@ import {
     doFetching,
     cancelFetching,
     setSearchData
-} from '@redux/loan/advMoney';
+} from '@redux/rationale/rationale';
 import {
     showWarnMsg,
     showSucMsg,
@@ -20,7 +20,7 @@ import { listWrapper } from 'common/js/build-list';
 
 @listWrapper(
     state => ({
-        ...state.loanAdvMoney,
+        ...state.rationale,
         parentCode: state.menu.subMenuCode
     }), {
         setTableData,
@@ -33,7 +33,7 @@ import { listWrapper } from 'common/js/build-list';
         setSearchData
     }
 )
-class AdvMoney extends React.Component {
+class rationale extends React.Component {
     render() {
         const fields = [{
             title: '业务编号',
@@ -52,11 +52,8 @@ class AdvMoney extends React.Component {
             valueName: 'name'
         }, {
             title: '客户姓名',
-            field: 'applyUserName',
-            search: true,
-            render: (v, d) => {
-                return d.creditUser ? d.creditUser.userName : '';
-            }
+            field: 'customerName',
+            search: true
         }, {
             title: '贷款银行',
             field: 'loanBankName',
@@ -118,57 +115,34 @@ class AdvMoney extends React.Component {
             searchParams: {
                 userId: getUserId(),
                 roleCode: getRoleCode(),
-                curNodeCodeList: ['b1', 'b2', 'b3', 'b4', 'b5']
+                curNodeCodeList: ['c1', 'c2']
             },
             btnEvent: {
-                // 确认用款单
-                tomoney: (selectedRowKeys, selectedRows) => {
+                rationaleOk: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
-                     } else {
+                    } else {
+                        this.props.history.push(`/rationale/list/rationaleOk?code=${selectedRows[0].bizCode}`);
+                    }
+                },
+                typingOk: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/rationale/list/typingOk?code=${selectedRows[0].bizCode}`);
+                    }
+                },
+                mortgage: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
                         this.props.history.push(`/financial/advance/afp?code=${selectedRows[0].bizCode}`);
-                    }
-                },
-                // 制单回录
-                zdhl: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else {
-                        this.props.history.push(`/financial/advance/orderRecall?code=${selectedRows[0].bizCode}`);
-                    }
-                },
-                // 垫资回录
-                edit: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else {
-                        this.props.history.push(`/financial/advance/orderMemory?code=${selectedRows[0].bizCode}`);
-                    }
-                },
-                // 用款一审
-                toexamine: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else {
-                        this.props.history.push(`/financial/advance/afpOne?code=${selectedRows[0].bizCode}`);
-                     }
-                },
-                // 用款二审
-                toexamines: (selectedRowKeys, selectedRows) => {
-                    if (!selectedRowKeys.length) {
-                        showWarnMsg('请选择记录');
-                    } else if (selectedRowKeys.length > 1) {
-                        showWarnMsg('请选择一条记录');
-                    } else {
-                        this.props.history.push(`/financial/advance/afpTwo?code=${selectedRows[0].bizCode}`);
                     }
                 },
                 detail: (selectedRowKeys, selectedRows) => {
@@ -185,4 +159,4 @@ class AdvMoney extends React.Component {
     }
 }
 
-export default AdvMoney;
+export default rationale;

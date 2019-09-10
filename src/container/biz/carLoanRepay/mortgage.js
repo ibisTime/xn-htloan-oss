@@ -10,7 +10,8 @@ import {
     setSearchData
 } from '@redux/biz/mortgage';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, getRoleCode, dateTimeFormat, getUserId } from 'common/js/util';
+import fetch from 'common/js/fetch';
+import { showWarnMsg, showSucMsg, getRoleCode, dateTimeFormat, getUserId } from 'common/js/util';
 
 @listWrapper(
     state => ({
@@ -65,11 +66,7 @@ class mortgage extends React.Component {
             }
         }, {
             title: '客户姓名',
-            field: 'applyUserName',
-            search: true,
-            render: (v, d) => {
-                return d.creditUser ? d.creditUser.userName : '';
-            }
+            field: 'customerName'
         }, {
             title: '贷款银行',
             field: 'loanBankName',
@@ -109,14 +106,6 @@ class mortgage extends React.Component {
             listCode: 630147,
             keyName: 'code',
             valueName: 'name',
-            params: { type: 'f' },
-            afterDetail: (list) => {
-                if (list && list.length) {
-                    list.unshift({ code: 'e6', name: '待抵押申请', type: 'e' });
-                    return list;
-                }
-                return [];
-            },
             search: true
         }];
         return this.props.buildList({
@@ -125,7 +114,7 @@ class mortgage extends React.Component {
             searchParams: {
               userId: getUserId(),
               roleCode: getRoleCode(),
-              curNodeCodeList: ['e6', 'f1', 'f2', 'f3', 'f4', 'f2x', 'f4', 'f5', 'f5x', 'f6', 'f7', 'f8', 'f9', 'f10', 'f11', 'f12', 'f13', 'f14']
+              curNodeCodeList: ['e1']
             },
             btnEvent: {
               // 抵押申请
@@ -179,10 +168,18 @@ class mortgage extends React.Component {
                   showWarnMsg('请选择记录');
                 } else if (selectedRowKeys.length > 1) {
                   showWarnMsg('请选择一条记录');
-                } else if (selectedRows[0].curNodeCode !== 'f9') {
-                  showWarnMsg('当前不是确认提交银行节点');
                 } else {
-                  this.props.history.push(`/biz/mortgage/sub?code=${selectedRowKeys[0]}`);
+                    let param = {
+                        code: selectedRowKeys[0],
+                        operator: getUserId()
+                    };
+                    fetch(632580, param).then(() => {
+                        showSucMsg('操作成功');
+                        this.props.cancelFetching();
+                        setTimeout(() => {
+                            this.props.history.go(-1);
+                        }, 1000);
+                    }).catch(this.props.cancelFetching);
                 }
               }
             }

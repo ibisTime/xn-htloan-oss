@@ -629,6 +629,9 @@ import { printingMortgageMake } from './redux/printing/mortgage-make';
 import { printingRelieve } from './redux/printing/relieve';
 import { printingRelieveMake } from './redux/printing/relieve-make';
 
+// 理件打件
+import { rationale } from './redux/rationale/rationale';
+
 export default combineReducers({
     accessorypool,
     user,
@@ -999,5 +1002,6 @@ export default combineReducers({
     printingRelieveMake,
     wdYw,
     wdywAddedit,
-    bizTdunzhengxing
+    bizTdunzhengxing,
+    rationale
 });

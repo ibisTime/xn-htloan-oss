@@ -12,36 +12,48 @@ import {
     accessSlipDetail,
     carBuyingList,
     accountBlankList,
-    examineTwo
+    sendEnterArchives
 } from '../../api/preLoan.js';
-import './applicationForPayment.css';
+import './../financialAdvance/applicationForPayment.css';
 import add from './add.png';
 import edit from './edit.png';
 import deletes from './delete.png';
 
 const {Option} = Select;
-class applicationForPayment extends React.Component {
+class enterArchives extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.state = {
             columns: [
                 {
-                    title: '任务名称',
-                    dataIndex: 'name',
-                    width: '40%',
+                    title: '文件内容',
+                    dataIndex: 'content',
+                    width: '20%',
                     align: 'center'
                 },
                 {
-                    title: '执行人',
-                    dataIndex: 'getUser',
-                    width: '30%',
+                    title: '份数',
+                    dataIndex: 'fileCount',
+                    width: '20%',
                     align: 'center'
                 },
                 {
-                    title: '任务时效',
-                    dataIndex: 'time',
-                    width: '30%',
+                    title: '存放人',
+                    dataIndex: 'operator',
+                    width: '20%',
+                    align: 'center'
+                },
+                {
+                    title: '存放时间',
+                    dataIndex: 'depositDateTime',
+                    width: '20%',
+                    align: 'center'
+                },
+                {
+                    title: '备注',
+                    dataIndex: 'remark',
+                    width: '20%',
                     align: 'center'
                 }
             ],
@@ -56,11 +68,17 @@ class applicationForPayment extends React.Component {
             isDz: '',
             missionList: [],
             information: {
-                name: '',
+                content: '',
+                count: '',
+                savePp: '',
                 time: '',
-                getUser: ''
+                rmk: ''
             },
-            visible: false
+            visible: false,
+            iptInfoArr: {
+                code: '',
+                path: ''
+            }
         };
         this.count = 1;
         this.selectedRowKeys = [];
@@ -153,14 +171,16 @@ class applicationForPayment extends React.Component {
         const {information, count} = this.state;
         this.arr.push({
             key: this.count++,
-            name: information.name,
-            time: information.time,
-            getUser: information.getUser
+            content: information.content,
+            fileCount: information.count,
+            operator: information.savePp,
+            depositDateTime: information.time,
+            remark: information.rmk
         });
         this.setState({
             missionList: this.arr
         });
-     }
+    }
     // missionList修改
     editMission = () => {
     }
@@ -168,41 +188,18 @@ class applicationForPayment extends React.Component {
     deleteMission = () => {
 
     }
-    // 不通过
-    notAdopt = () => {
-        const {rmkText, isDz, missionList} = this.state;
-        if(rmkText === '' || rmkText === undefined) {
-            showWarnMsg('请填写审核信息!');
-        }else {
-            let params = {
-                code: this.code,
-                approveResult: 0,
-                approveNote: rmkText,
-                isContinueAdvance: isDz,
-                missionList: missionList
-            };
-            examineTwo(params).then(data => {
-                showSucMsg('操作成功!');
-            });
-        }
-    }
-    // 通过
+    // 确认
     adopt = () => {
-        const {rmkText, isDz, missionList} = this.state;
-        if(rmkText === '' || rmkText === undefined) {
-            showWarnMsg('请填写审核信息!');
-        }else {
-            let params = {
-                code: this.code,
-                approveResult: 1,
-                approveNote: rmkText,
-                isContinueAdvance: isDz,
-                missionList: missionList
-            };
-            examineTwo(params).then(data => {
-                showSucMsg('操作成功!');
-            });
-        }
+        const {missionList, iptInfoArr, information} = this.state;
+        let params = {
+            code: this.code,
+            enterCode: iptInfoArr.code,
+            enterLocation: iptInfoArr.path,
+            fileList: missionList
+        };
+        sendEnterArchives(params).then(data => {
+            showSucMsg('操作成功!');
+        });
     }
     // 状态
     getAccessSlipStatus = () => {
@@ -230,11 +227,18 @@ class applicationForPayment extends React.Component {
             information
         });
     };
+    iptChange1 = (e, name) => {
+        const {iptInfoArr} = this.state;
+        iptInfoArr[name] = e.target.value;
+        this.setState({
+            iptInfoArr
+        });
+    }
     render() {
-        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, rmkText, collectBankcard, missionList, information} = this.state;
+        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, missionList, information, iptInfoArr} = this.state;
         return (
             <div className="afp-body">
-                <span className="afp-body-tag">业务基本信息</span>
+                <span className="afp-body-tag">档案入档</span>
                 <Row className="afp-body-user-detail">
                     <Col span={6}>
                         <span>业务编号：{baseInfo.code}</span>
@@ -272,34 +276,22 @@ class applicationForPayment extends React.Component {
                     <Col span={6}></Col>
                 </Row>
                 <div className="afp-body-line"></div>
-                <span className="afp-body-tag">垫资信息</span>
-                <Row style={{marginTop: '20px'}}>
-                    <Col span={6}>
-                        <span>收款账户户名：{collectBankcard.realName}</span>
-                    </Col>
-                    <Col span={6}>
-                        <span>收款账户银行：{collectBankcard.bankName}</span>
-                    </Col>
-                    <Col span={6}>
-                        <span>收款账户账号：{collectBankcard.bankcardNumber}</span>
-                    </Col>
-                    <Col span={6}></Col>
-                </Row>
-                <div className="afp-body-line"></div>
                 <Row>
                     <Col span={12}>
-                        <span className="afp-body-title" style={{width: '100px'}}>是否继续垫资：</span>
-                        <Select className="afp-body-select" onChange={this.handleChange}>
-                            <Option value="0">否</Option>
-                            <Option value="1">是</Option>
-                        </Select>
+                        <span className="afp-body-title" style={{width: '100px'}}>档案编号：</span>
+                        <input type="text" value={iptInfoArr.code} ref={input => this.codeIpt = input} onChange={(e) => { this.iptChange1(e, 'code'); }} className="dealer-user-detail-edit-input" />
                         <div className="clear"></div>
                     </Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
-                        <span className="afp-body-title">审核意见：</span>
-                        <textarea value={rmkText} ref={input => this.inputRmk = input} onChange={(e) => { this.iptChange(e); }} className="afp-body-textarea"></textarea>
+                        <span className="afp-body-title" style={{width: '100px'}}>档案存放位置：</span>
+                        <input type="text" value={iptInfoArr.path} ref={input => this.pathIpt = input} onChange={(e) => { this.iptChange1(e, 'path'); }} className="dealer-user-detail-edit-input" />
+                    </Col>
+                </Row>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>
+                        <span className="afp-body-title" style={{width: '100px'}}>本次存放清单：</span>
                     </Col>
                 </Row>
                 <Table
@@ -328,7 +320,7 @@ class applicationForPayment extends React.Component {
                         <strong className="dealer-user-detail-edit-dialog-title">新增</strong>
                         <Row style={{marginTop: '30px'}}>
                             <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>任务名称：</span>
+                                <span><span className="dealer-color-read-must-fill">* </span>文件内容：</span>
                             </Col>
                             <Col span={18}>
                             </Col>
@@ -336,7 +328,7 @@ class applicationForPayment extends React.Component {
                         <Row style={{marginTop: '10px'}}>
                             <Col span={6}>
                                 <span>
-                                  <input value={information.name} ref={input => this.nameIpt = input} onChange={(e) => { this.iupChange(e, 'name'); }} type="text" className="dealer-user-detail-edit-input" />
+                                  <input value={information.content} ref={input => this.contentIpt = input} onChange={(e) => { this.iupChange(e, 'content'); }} type="text" className="dealer-user-detail-edit-input" />
                                 </span>
                             </Col>
                             <Col span={18}>
@@ -344,7 +336,39 @@ class applicationForPayment extends React.Component {
                         </Row>
                         <Row style={{marginTop: '30px'}}>
                             <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>任务时效：</span>
+                                <span><span className="dealer-color-read-must-fill">* </span>份数：</span>
+                            </Col>
+                            <Col span={18}>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: '10px'}}>
+                            <Col span={6}>
+                                <span>
+                                  <input value={information.count} ref={input => this.countIpt = input} onChange={(e) => { this.iupChange(e, 'count'); }} type="text" className="dealer-user-detail-edit-input" />
+                                </span>
+                            </Col>
+                            <Col span={18}>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: '30px'}}>
+                            <Col span={6}>
+                                <span><span className="dealer-color-read-must-fill">* </span>存放人：</span>
+                            </Col>
+                            <Col span={18}>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: '10px'}}>
+                            <Col span={6}>
+                                <span>
+                                  <input value={information.savePp} ref={input => this.savePpIpt = input} onChange={(e) => { this.iupChange(e, 'savePp'); }} type="text" className="dealer-user-detail-edit-input" />
+                                </span>
+                            </Col>
+                            <Col span={18}>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: '30px'}}>
+                            <Col span={6}>
+                                <span><span className="dealer-color-read-must-fill">* </span>存放时间：</span>
                             </Col>
                             <Col span={18}>
                             </Col>
@@ -360,7 +384,7 @@ class applicationForPayment extends React.Component {
                         </Row>
                         <Row style={{marginTop: '30px'}}>
                             <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>执行人：</span>
+                                <span>备注：</span>
                             </Col>
                             <Col span={18}>
                             </Col>
@@ -368,7 +392,7 @@ class applicationForPayment extends React.Component {
                         <Row style={{marginTop: '10px'}}>
                             <Col span={6}>
                                 <span>
-                                  <input value={information.getUser} ref={input => this.getUserIpt = input} onChange={(e) => { this.iupChange(e, 'getUser'); }} type="text" className="dealer-user-detail-edit-input" />
+                                  <input value={information.rmk} ref={input => this.rmkIpt = input} onChange={(e) => { this.iupChange(e, 'rmk'); }} type="text" className="dealer-user-detail-edit-input" />
                                 </span>
                             </Col>
                             <Col span={18}>
@@ -394,12 +418,11 @@ class applicationForPayment extends React.Component {
                 </div>
                 <div className="afp-body-btn-group">
                     <span className="afp-body-btn-gray" onClick={this.goBack} style={{width: '72px'}}>返回</span>
-                    <span className="afp-body-btn-gray" onClick={this.notAdopt} style={{marginLeft: '40px'}}>不通过</span>
-                    <span className="afp-body-btn-blue" onClick={this.adopt} style={{marginLeft: '40px'}}>通过</span>
+                    <span className="afp-body-btn-blue" onClick={this.adopt} style={{marginLeft: '40px'}}>确认</span>
                 </div>
             </div>
         );
     }
 }
 
-export default applicationForPayment;
+export default enterArchives;

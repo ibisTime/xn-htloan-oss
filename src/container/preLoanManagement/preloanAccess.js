@@ -1192,7 +1192,7 @@ class preloanAccess extends React.Component {
             loanRatio: loanInfoArrIpt.loanRatio,
             wanFactor: loanInfoArrIpt.wanFactor,
             monthAmount: loanInfoArrIpt.monthAmount,
-            firstRepayAmount: loanInfoArrIpt.firstRepayAmount,
+            repayFirstMonthAmount: loanInfoArrIpt.firstRepayAmount,
             highCashAmount: loanInfoArrIpt.highCashAmount,
             totalFee: loanInfoArrIpt.totalFee,
             customerBearRate: loanInfoArrIpt.customerBearRate,
@@ -1238,7 +1238,7 @@ class preloanAccess extends React.Component {
             carPrice: carInfoArrIpt.carPrice,
             invoicePrice: carInfoArrIpt.invoicePrice,
             carFrameNo: carInfoArrIpt.carFrameNo,
-            number: carInfoArrIpt.number,
+            carNumber: carInfoArrIpt.number,
             evalPrice: carInfoArrIpt.evalPrice,
             regDate: carInfoArrIpt.regDate,
             mile: carInfoArrIpt.mile
@@ -3540,7 +3540,7 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={loanInfoArrIpt.periods} ref={input => this.periodsIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'periods'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">银行利率（%）：</span>
+                                            <span className="preLoan-body-title" style={{width: '120px'}}>银行利率（%）：</span>
                                             <br />
                                             <input type="text" value={loanInfoArrIpt.bankRate} ref={input => this.bankRateIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'bankRate'); }} className="preLoan-body-input" />
                                         </Col>
@@ -3615,7 +3615,7 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={loanInfoArrIpt.monthAmount} ref={input => this.monthAmountIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'monthAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">首月还款额：</span>
+                                            <span className="preLoan-body-title" style={{width: '120px'}}>首月还款额：</span>
                                             <br />
                                             <input type="text" value={loanInfoArrIpt.firstRepayAmount} ref={input => this.firstRepayAmountIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'firstRepayAmount'); }} className="preLoan-body-input" />
                                         </Col>
@@ -3632,12 +3632,12 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={loanInfoArrIpt.totalFee} ref={input => this.totalFeeIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'totalFee'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">客户承担利率：</span>
+                                            <span className="preLoan-body-title" style={{width: '120px'}}>客户承担利率：</span>
                                             <br />
                                             <input type="text" value={loanInfoArrIpt.customerBearRate} ref={input => this.customerBearRateIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'customerBearRate'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">附加费费率：</span>
+                                            <span className="preLoan-body-title" style={{width: '120px'}}>附加费费率：</span>
                                             <br />
                                             <input type="text" value={loanInfoArrIpt.surchargeRate} ref={input => this.surchargeRateIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'surchargeRate'); }} className="preLoan-body-input" />
                                         </Col>
@@ -3657,7 +3657,7 @@ class preloanAccess extends React.Component {
                                     <span className="preLoan-body-tag">费用结算</span>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">担保风险金：</span>
+                                            <span className="preLoan-body-title" style={{width: '120px'}}>担保风险金：</span>
                                             <br />
                                             <input type="text" value={costSettlementInfoArrIpt.fxAmount} ref={input => this.fxAmountIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'fxAmount'); }} className="preLoan-body-input" />
                                         </Col>

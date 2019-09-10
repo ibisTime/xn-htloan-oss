@@ -409,6 +409,22 @@ const ROUTES = [
     path: '/biz/bankMoney',
     component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney'))
   },
+  {
+    path: '/biz/bankMoney/cRs',
+    component: asyncComponent(() => import('container/openBankLoan/confirmReceivables'))
+  },
+  {
+    path: '/biz/bankMoney/cSs',
+    component: asyncComponent(() => import('container/openBankLoan/confirmSubmission'))
+  },
+  {
+    path: '/biz/bankMoney/cSs2',
+    component: asyncComponent(() => import('container/openBankLoan/confirmSubmission2'))
+  },
+  {
+    path: '/biz/bankMoney/enterBk',
+    component: asyncComponent(() => import('container/openBankLoan/enterBankInfo'))
+  },
   //  银行放款 详情
   {
     path: '/biz/bankMoney/addedit',
@@ -493,6 +509,16 @@ const ROUTES = [
   {
     path: '/biz/archives/certain',
     component: asyncComponent(() => import('container/biz/carLoanRepay/archives-certain'))
+  },
+  //  档案入党 入档2
+  {
+    path: '/biz/archives/add',
+    component: asyncComponent(() => import('container/archivesManager/enterArchives'))
+  },
+  //  档案入党 确认入档2
+  {
+    path: '/biz/archives/cmAdd',
+    component: asyncComponent(() => import('container/archivesManager/enterArchivesCm'))
   },
   //  还款业务管理
   {
@@ -2142,6 +2168,19 @@ const ROUTES = [
   {
     path: '/financial/advance/orderMemory',
     component: asyncComponent(() => import('container/financialAdvance/orderMemory'))
+  },
+  // 理件打件
+  {
+    path: '/rationale/list',
+    component: asyncComponent(() => import('container/rationale/rationale'))
+  },
+  {
+    path: '/rationale/list/rationaleOk',
+    component: asyncComponent(() => import('container/rationale/rationaleOk'))
+  },
+  {
+    path: '/rationale/list/typingOk',
+    component: asyncComponent(() => import('container/rationale/typingOk'))
   }
 ];
 

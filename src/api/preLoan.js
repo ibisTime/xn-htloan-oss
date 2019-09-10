@@ -115,6 +115,22 @@ export function accessInfoSend(code) {
     });
 }
 
+// 用款申请
+export function sendApplicationForPayment(params) {
+    return fetch(632550, {
+        operator: getUserId(),
+        ...params
+    });
+}
+
+// 制单回录
+export function sendApplicationForPaymentBack(params) {
+    return fetch(632553, {
+        operator: getUserId(),
+        ...params
+    });
+}
+
 // 收款账号列表
 export function accountBlankList(start, limit, code) {
     return fetch(632005, {start, limit, code});
@@ -123,4 +139,92 @@ export function accountBlankList(start, limit, code) {
 // 购车车行
 export function carBuyingList(start, limit) {
     return fetch(632065, {start, limit});
+}
+
+// 用款一审
+export function examineOne(params) {
+    return fetch(632551, {
+        operator: getUserId(),
+        ...params
+    });
+}
+
+// 用户二审
+export function examineTwo(params) {
+    return fetch(632552, {
+        operator: getUserId(),
+        ...params
+    });
+}
+
+// 垫资回录
+export function recall(params) {
+    return fetch(632554, {
+        operator: getUserId(),
+        ...params
+    });
+}
+
+// 理件完成
+export function sendRationaleOk(params) {
+    return fetch(632560, {
+        operator: getUserId(),
+        ...params
+    });
+}
+
+// 打件完成
+export function sendTypingOk(params) {
+    return fetch(632561, {
+        operator: getUserId(),
+        ...params
+    });
+}
+
+// 确认提交完成
+export function sendCmSucess(params) {
+    return fetch(632571, {
+        operator: getUserId(),
+        ...params
+    });
+}
+
+// 银行放款
+export function sendBankAmount(params) {
+    return fetch(632570, {
+        operator: getUserId(),
+        ...params
+    });
+}
+
+// 录入放款信息
+export function enterBankAmountInfo(params) {
+    return fetch(632572, {
+        operator: getUserId(),
+        ...params
+    });
+}
+
+// 确认收款
+export function sendBkAmount(params) {
+    return fetch(632573, {
+        operator: getUserId(),
+        ...params
+    });
+}
+
+// 入档
+export function sendEnterArchives(params) {
+    return fetch(632590, {
+        operator: getUserId(),
+        ...params
+    });
+}
+
+// 确认
+export function sendEnterArchivesCm(params) {
+    return fetch(632591, {
+        operator: getUserId(),
+        ...params
+    });
 }

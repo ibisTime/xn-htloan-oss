@@ -12,12 +12,12 @@ import {
     accessSlipDetail,
     carBuyingList,
     accountBlankList,
-    examineOne
+    sendRationaleOk
 } from '../../api/preLoan.js';
-import './applicationForPayment.css';
+import '../financialAdvance/applicationForPayment.css';
 
 const {Option} = Select;
-class applicationForPayment extends React.Component {
+class rationaleOk extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,8 +27,10 @@ class applicationForPayment extends React.Component {
             bankListArr: [],
             bankCode: '',
             bankObject: {},
-            rmkText: '',
-            collectBankcard: {}
+            iptArr: {
+                time: '',
+                rmk: ''
+            }
         };
         this.code = getQueryString('code', this.props.location.search);
     }
@@ -58,8 +60,7 @@ class applicationForPayment extends React.Component {
                     shopCarGarage: data.shopCarGarage,
                     saleGroup: data.saleUserCompanyName + '-' + data.saleUserDepartMentName + '-' + data.saleUserPostName + '-' + data.saleUserName,
                     curNodeCode: data.curNodeCode ? data.curNodeCode : ''
-                },
-                collectBankcard: data.advance.collectBankcard
+                }
             });
         });
         accountBlankList(1, 1000, '').then(data => {
@@ -74,43 +75,6 @@ class applicationForPayment extends React.Component {
                 bankListArr: arr
             });
         });
-    }
-    iptChange = (e) => {
-        this.setState({
-            rmkText: e.target.value
-        });
-    }
-    // 不通过
-    notAdopt = () => {
-        const {rmkText} = this.state;
-        if(rmkText === '' || rmkText === undefined) {
-            showWarnMsg('请填写审核信息!');
-        }else {
-            let params = {
-                code: this.code,
-                approveResult: 0,
-                approveNote: rmkText
-            };
-            examineOne(params).then(data => {
-                showSucMsg('操作成功!');
-            });
-        }
-    }
-    // 通过
-    adopt = () => {
-        const {rmkText} = this.state;
-        if(rmkText === '' || rmkText === undefined) {
-            showWarnMsg('请填写审核信息!');
-        }else {
-            let params = {
-                code: this.code,
-                approveResult: 1,
-                approveNote: rmkText
-            };
-            examineOne(params).then(data => {
-                showSucMsg('操作成功!');
-            });
-        }
     }
     // 状态
     getAccessSlipStatus = () => {
@@ -132,12 +96,51 @@ class applicationForPayment extends React.Component {
             });
         });
     }
+    // 提交
+    sendSave = () => {
+        const {iptArr} = this.state;
+        let arr = {
+            code: this.code,
+            rationaleDatetime: iptArr.time,
+            rationaleNote: iptArr.rmk
+        };
+        sendRationaleOk(arr).then(data => {
+            showSucMsg('操作成功');
+            setTimeout(() => {
+                this.props.history.go(-1);
+            }, 1000);
+        });
+        // if(bankCode === '' || bankCode === undefined) {
+        //     showSucMsg('银行账户不能为空!');
+        // }else {
+        //     let arr = {
+        //         code: this.code,
+        //         advanceCardCode: bankCode
+        //     };
+        //
+        // }
+        // sendApplicationForPayment(arr).then(data => {
+        //     if(data.isSuccess) {
+        //         showSucMsg('操作成功');
+        //         setTimeout(() => {
+        //             this.props.history.go(-1);
+        //         }, 1000);
+        //     }
+        // });
+    }
     // 返回
     goBack = () => {
         this.props.history.go(-1);
     }
+    iupChange = (e, name) => {
+        const {iptArr} = this.state;
+        iptArr[name] = e.target.value;
+        this.setState({
+            iptArr
+        });
+    };
     render() {
-        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, rmkText, collectBankcard} = this.state;
+        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, iptArr} = this.state;
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">业务基本信息</span>
@@ -166,10 +169,10 @@ class applicationForPayment extends React.Component {
                     <Col span={6}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={7}>
+                    <Col span={9}>
                         <span>业务归属：{baseInfo.saleGroup}</span>
                     </Col>
-                    <Col span={5}>
+                    <Col span={3}>
                         <span></span>
                     </Col>
                     <Col span={6}>
@@ -178,34 +181,23 @@ class applicationForPayment extends React.Component {
                     <Col span={6}></Col>
                 </Row>
                 <div className="afp-body-line"></div>
-                <span className="afp-body-tag">垫资信息</span>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={6}>
-                        <span>收款账户户名：{collectBankcard.realName}</span>
-                    </Col>
-                    <Col span={6}>
-                        <span>收款账户银行：{collectBankcard.bankName}</span>
-                    </Col>
-                    <Col span={6}>
-                        <span>收款账户账号：{collectBankcard.bankcardNumber}</span>
-                    </Col>
-                    <Col span={6}></Col>
+                    <Col span={12}>完成时间：<input type="text" value={iptArr.time} ref={input => this.timeIpt = input} onChange={(e) => { this.iupChange(e, 'time'); }} className="dealer-user-detail-edit-input" /><span style={{color: '#999999'}}>（默认当前时间）</span></Col>
+                    <Col span={12}></Col>
                 </Row>
-                <div className="afp-body-line"></div>
-                <Row>
-                    <Col span={12}>
-                        <span className="afp-body-title">审核意见：</span>
-                        <textarea value={rmkText} ref={input => this.inputRmk = input} onChange={(e) => { this.iptChange(e); }} className="afp-body-textarea"></textarea>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={2}>完成说明：</Col>
+                    <Col span={22}>
+                        <textarea value={iptArr.rmk} ref={input => this.rmkIpt = input} onChange={(e) => { this.iupChange(e, 'rmk'); }} className="afp-body-textarea" />
                     </Col>
                 </Row>
                 <div className="afp-body-btn-group">
                     <span className="afp-body-btn-gray" onClick={this.goBack}>返回</span>
-                    <span className="afp-body-btn-gray" style={{marginLeft: '40px'}} onClick={this.notAdopt}>不通过</span>
-                    <span className="afp-body-btn-blue" style={{marginLeft: '40px'}} onClick={this.adopt}>通过</span>
+                    <span className="afp-body-btn-blue" onClick={this.sendSave} style={{marginLeft: '40px'}}>保存</span>
                 </div>
             </div>
         );
     }
 }
 
-export default applicationForPayment;
+export default rationaleOk;

@@ -11,7 +11,8 @@ import {
     accessSlipStatus,
     accessSlipDetail,
     carBuyingList,
-    accountBlankList
+    accountBlankList,
+    sendApplicationForPayment
 } from '../../api/preLoan.js';
 import './applicationForPayment.css';
 
@@ -87,16 +88,36 @@ class applicationForPayment extends React.Component {
         });
         accountBlankList(1, 1000, value).then(data => {
             this.setState({
-                bankObject: data
+                bankObject: data.list[0]
             });
-            console.log('accountBlankList', this.state.bankObject);
         });
     }
-    // 保存
-
     // 提交
+    sendSave = () => {
+        const {bankCode} = this.state;
+        if(bankCode === '' || bankCode === undefined) {
+            showSucMsg('银行账户不能为空!');
+        }else {
+            let arr = {
+                code: this.code,
+                advanceCardCode: bankCode
+            };
+            sendApplicationForPayment(arr).then(data => {
+                if(data.isSuccess) {
+                    showSucMsg('操作成功');
+                    setTimeout(() => {
+                        this.props.history.go(-1);
+                    }, 1000);
+                }
+            });
+        }
+    }
+    // 返回
+    goBack = () => {
+        this.props.history.go(-1);
+    }
     render() {
-        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, bankListArr} = this.state;
+        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, bankListArr, bankObject} = this.state;
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">业务基本信息</span>
@@ -154,17 +175,16 @@ class applicationForPayment extends React.Component {
                     <Col span={12}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={12}>收款账户户名：xxx汽车经销商</Col>
+                    <Col span={12}>收款账户户名：{bankObject ? bankObject.companyName : ''}</Col>
                     <Col span={12}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={12}>收款账户账号：88950036892</Col>
+                    <Col span={12}>收款账户账号：{bankObject ? bankObject.bankcardNumber : ''}</Col>
                     <Col span={12}></Col>
                 </Row>
                 <div className="afp-body-btn-group">
-                    <span className="afp-body-btn-gray">返回</span>
-                    <span className="afp-body-btn-gray" style={{marginLeft: '40px'}}>提交</span>
-                    <span className="afp-body-btn-blue" style={{marginLeft: '40px'}}>保存</span>
+                    <span className="afp-body-btn-gray" onClick={this.goBack}>返回</span>
+                    <span className="afp-body-btn-blue" onClick={this.sendSave} style={{marginLeft: '40px'}}>保存</span>
                 </div>
             </div>
         );
