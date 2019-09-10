@@ -28,7 +28,8 @@ import {
     findCarType,
     accessInfoSend,
     carBuyingList,
-    getCityList
+    getCityList,
+    sendPjPost
 } from '../../api/preLoan.js';
 import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
 const { Option } = Select;
@@ -520,7 +521,9 @@ class preloanAccess extends React.Component {
             emergencyRelationCode2: '',
             cityList: [],
             nowAddressCode: '',
-            regDate: ''
+            regDate: '',
+            carUrl: '',
+            modelName: ''
         };
         // this.mobileIpt = '';
         // this.bankCreditResultIpt = '';
@@ -619,7 +622,7 @@ class preloanAccess extends React.Component {
             console.log('getCityList', data);
             for(let i = 0; i < data.list.length; i++) {
                 arr.push({
-                    dkey: data.list[i].cityId,
+                    dkey: data.list[i].id,
                     dvalue: data.list[i].cityName
                 });
             }
@@ -959,7 +962,7 @@ class preloanAccess extends React.Component {
     }
     // 发起征信
     addSendCreditReporting = () => {
-        const {fileList, loanBankCode, brandCode, seriesCode, carCode, bizType, accessInfoCode, nowAddressCode, regDate} = this.state;
+        const {fileList, loanBankCode, brandCode, seriesCode, carCode, bizType, accessInfoCode, nowAddressCode, regDate, carUrl} = this.state;
         let picHash = '';
         if(fileList[0] === undefined) {
             picHash = '';
@@ -976,7 +979,7 @@ class preloanAccess extends React.Component {
                 bizType: bizType,
                 regDate: regDate,
                 mile: this.mileIpt.value,
-                secondCarReport: picHash,
+                secondCarReport: carUrl,
                 carBrand: brandCode,
                 carSeries: seriesCode,
                 carModel: carCode
@@ -1817,7 +1820,7 @@ class preloanAccess extends React.Component {
                 carRegisterCertificateThird: picHashDJZS3
             };
             carImgInfoLs(arr).then(data => {
-                console.log(data);
+                showSucMsg('操作成功!');
             });
         }
     }
@@ -2698,8 +2701,26 @@ class preloanAccess extends React.Component {
     }
     // 业务发生地点
     handleChangeAddress = (value, event) => {
+        console.log(value);
         this.setState({
             nowAddressCode: value
+        });
+    }
+    // 生成评估报告
+    sendAssessment = () => {
+        const {carCode, regDate, nowAddressCode} = this.state;
+        let arr = {
+            modelId: carCode,
+            regDate: regDate,
+            mile: this.mileIpt.value,
+            zone: nowAddressCode
+        };
+        sendPjPost(arr).then(data => {
+            this.setState({
+                carUrl: data.url,
+                modelName: data.model_name
+            });
+            console.log(this.state.modelName, this.state.carUrl);
         });
     }
     render() {
@@ -2955,7 +2976,9 @@ class preloanAccess extends React.Component {
             education,
             permanentType,
             creditUserRelation,
-            cityList
+            cityList,
+            carUrl,
+            modelName
         } = this.state;
         const props = {
             action: UPLOAD_URL,
@@ -3013,11 +3036,21 @@ class preloanAccess extends React.Component {
                         </Select>
                         <div className="clear"></div>
                     </Col>
-                    <Col span={12}>
-                        <span className="preLoan-body-title" style={{width: '100px'}}>上牌时间：</span>
-                        <MonthPicker format={'YYYY-MM'} style={{width: '220px', float: 'left'}} onChange={this.onChangeTime}/>
-                        <div className="clear"></div>
-                    </Col>
+                    {
+                        isShowCarGroup ? (
+                            <div>
+                                <Col span={12}>
+                                    <span className="preLoan-body-title" style={{width: '100px'}}>上牌时间：</span>
+                                    <MonthPicker format={'YYYY-MM'} style={{width: '220px', float: 'left'}} onChange={this.onChangeTime}/>
+                                    <div className="clear"></div>
+                                </Col>
+                            </div>
+                        ) : (
+                            <div>
+                                <Col span={12}></Col>
+                            </div>
+                        )
+                    }
                 </Row>
                 {
                     isShowCarGroup ? (
@@ -3066,29 +3099,27 @@ class preloanAccess extends React.Component {
                                 </Col>
                                 <Col span={12}></Col>
                             </Row>
+                            <Row className="preLoan-body-row-top">
+                                <Col span={12}>
+                                    <span className="preLoan-body-title">公里数：</span>
+                                    <input type="text" value={sendCreditReporting.mile} ref={input => this.mileIpt = input} onChange={(e) => { this.iptChangeSendCreditReporting(e, 'mile'); }} className="preLoan-body-input" />
+                                </Col>
+                                <Col span={12}>
+                                </Col>
+                            </Row>
+                            <Row className="preLoan-body-row-top">
+                                <Col span={12}>
+                                    <span className="preLoan-body-title">评估报告：</span>
+                                    <span className="preLoan-body-title" style={{width: '200px'}} onClick={this.sendAssessment}>点击生成评报告</span>
+                                    <a className="preLoan-body-title" style={{width: '200px'}} href={carUrl === '' ? '' : carUrl}>{modelName === '' ? '' : modelName}</a>
+                                    <a></a>
+                                </Col>
+                                <Col span={12}>
+                                </Col>
+                            </Row>
                         </div>
                     ) : null
                 }
-                <Row className="preLoan-body-row-top">
-                    <Col span={12}>
-                        <span className="preLoan-body-title">公里数：</span>
-                        <input type="text" value={sendCreditReporting.mile} ref={input => this.mileIpt = input} onChange={(e) => { this.iptChangeSendCreditReporting(e, 'mile'); }} className="preLoan-body-input" />
-                    </Col>
-                    <Col span={12}>
-                    </Col>
-                </Row>
-                <Row className="preLoan-body-row-top">
-                    <Col span={12}>
-                        <span className="preLoan-body-title">评估报告：</span>
-                        <Upload {...props} data={{token: uploadToken}} fileList={fileList}>
-                            <Button>
-                                <Icon type="upload" /> Upload
-                            </Button>
-                        </Upload>
-                    </Col>
-                    <Col span={12}>
-                    </Col>
-                </Row>
                 <Row style={{marginTop: '36px'}}></Row>
                 <span className="preLoan-body-tag">贷款信息</span>
                 <Row className="preLoan-body-table-content">

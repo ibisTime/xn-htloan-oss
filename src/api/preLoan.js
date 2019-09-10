@@ -233,3 +233,13 @@ export function sendEnterArchivesCm(params) {
 export function getCityList(start, limit) {
     return fetch(630475, {start, limit});
 }
+
+// 生成评估报告
+export function sendPjPost(params) {
+    return fetch(630479, {...params});
+}
+
+// 档案位置
+export function archivesPath(start, limit) {
+    return fetch(632825, {start, limit});
+}

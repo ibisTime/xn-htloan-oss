@@ -132,6 +132,9 @@ class preloanAccessDetail extends React.Component {
             };
             accessExamine(params).then(data => {
                 showSucMsg('操作成功!');
+                setTimeout(() => {
+                    this.props.history.go(-1);
+                }, 1000);
             });
         }
     }
@@ -209,10 +212,10 @@ class preloanAccessDetail extends React.Component {
                                         <Col span={4} >
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_front_apply')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
-                                        <Col span={4} style={{marginLeft: '30px'}}>
+                                        <Col span={4} style={{marginLeft: '60px'}}>
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_reverse_apply')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
-                                        <Col span={4} className="preLoan-body-table-content-tab-card" style={{marginLeft: '30px'}}></Col>
+                                        <Col span={4} className="preLoan-body-table-content-tab-card" style={{marginLeft: '60px'}}></Col>
                                         <Col span={8}></Col>
                                     </Row>
                                     <Row style={{marginTop: '34px'}}>
@@ -245,10 +248,10 @@ class preloanAccessDetail extends React.Component {
                                         <Col span={4} >
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_front_gh')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
-                                        <Col span={4} style={{marginLeft: '30px'}}>
+                                        <Col span={4} style={{marginLeft: '60px'}}>
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gh')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
-                                        <Col span={4} className="preLoan-body-table-content-tab-card" style={{marginLeft: '30px'}}></Col>
+                                        <Col span={4} className="preLoan-body-table-content-tab-card" style={{marginLeft: '60px'}}></Col>
                                         <Col span={8}></Col>
                                     </Row>
                                     <Row style={{marginTop: '34px'}}>
@@ -281,10 +284,10 @@ class preloanAccessDetail extends React.Component {
                                         <Col span={4} >
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_front_gua')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
-                                        <Col span={4} style={{marginLeft: '30px'}}>
+                                        <Col span={4} style={{marginLeft: '60px'}}>
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gua')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
-                                        <Col span={4} className="preLoan-body-table-content-tab-card" style={{marginLeft: '30px'}}></Col>
+                                        <Col span={4} className="preLoan-body-table-content-tab-card" style={{marginLeft: '60px'}}></Col>
                                         <Col span={8}></Col>
                                     </Row>
                                     <Row style={{marginTop: '34px'}}>

@@ -59,7 +59,7 @@ class confirmSubmission extends React.Component {
                     loanBankName: data.loanBankName,
                     loanAmount: data.loanAmount,
                     bizType: data.bizType === '0' ? '新车' : '二手车',
-                    shopCarGarage: data.shopCarGarage,
+                    shopCarGarage: data.carInfo.shopCarGarageName,
                     saleGroup: data.saleUserCompanyName + '-' + data.saleUserDepartMentName + '-' + data.saleUserPostName + '-' + data.saleUserName,
                     curNodeCode: data.curNodeCode ? data.curNodeCode : ''
                 }
@@ -158,7 +158,7 @@ class confirmSubmission extends React.Component {
                         <span>业务类型：{baseInfo.bizType}</span>
                     </Col>
                     <Col span={6}>
-                        <span>汽车经销商：{findDsct(carBuyingListArrs, baseInfo.shopCarGarage)}</span>
+                        <span>汽车经销商：{baseInfo.shopCarGarage}</span>
                     </Col>
                     <Col span={6}></Col>
                 </Row>

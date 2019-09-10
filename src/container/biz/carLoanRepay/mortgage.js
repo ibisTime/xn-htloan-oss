@@ -61,8 +61,7 @@ class mortgage extends React.Component {
             }
         }, {
             title: '贷款金额',
-            field: 'loanAmount',
-            amount: true
+            field: 'loanAmount'
         }, {
             title: '贷款期数',
             field: 'periods'

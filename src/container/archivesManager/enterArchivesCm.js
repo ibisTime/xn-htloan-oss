@@ -12,7 +12,8 @@ import {
     accessSlipDetail,
     carBuyingList,
     accountBlankList,
-    sendEnterArchivesCm
+    sendEnterArchivesCm,
+    archivesPath
 } from '../../api/preLoan.js';
 import './../financialAdvance/applicationForPayment.css';
 import add from './add.png';
@@ -78,7 +79,9 @@ class enterArchives extends React.Component {
             iptInfoArr: {
                 code: '',
                 path: ''
-            }
+            },
+            loanBankCode: '',
+            archivesPathArr: []
         };
         this.count = 1;
         this.selectedRowKeys = [];
@@ -118,7 +121,7 @@ class enterArchives extends React.Component {
                     loanBankName: data.loanBankName,
                     loanAmount: data.loanAmount,
                     bizType: data.bizType === '0' ? '新车' : '二手车',
-                    shopCarGarage: data.shopCarGarage,
+                    shopCarGarage: data.carInfo.shopCarGarageName,
                     saleGroup: data.saleUserCompanyName + '-' + data.saleUserDepartMentName + '-' + data.saleUserPostName + '-' + data.saleUserName,
                     curNodeCode: data.curNodeCode ? data.curNodeCode : ''
                 },
@@ -135,6 +138,18 @@ class enterArchives extends React.Component {
             }
             this.setState({
                 bankListArr: arr
+            });
+        });
+        archivesPath(1, 10000).then(data => {
+            let arr = [];
+            for(let i = 0; i < data.list.length; i++) {
+                arr.push({
+                    dkey: data.list[i].code,
+                    dvalue: data.list[i].name
+                });
+            }
+            this.setState({
+                archivesPathArr: arr
             });
         });
     }
@@ -180,6 +195,7 @@ class enterArchives extends React.Component {
         this.setState({
             missionList: this.arr
         });
+        this.hideModal('dataEdit');
     }
     // missionList修改
     editMission = () => {
@@ -190,14 +206,17 @@ class enterArchives extends React.Component {
     }
     // 确认
     adopt = () => {
-        const {missionList, iptInfoArr} = this.state;
+        const {missionList, iptInfoArr, loanBankCode} = this.state;
         let params = {
             code: this.code,
-            enterLocation: iptInfoArr.path,
+            enterLocation: loanBankCode,
             fileList: missionList
         };
         sendEnterArchivesCm(params).then(data => {
             showSucMsg('操作成功!');
+            setTimeout(() => {
+                this.props.history.go(-1);
+            }, 1000);
         });
     }
     // 状态
@@ -233,8 +252,13 @@ class enterArchives extends React.Component {
             iptInfoArr
         });
     }
+    handleChangeBank = (value) => {
+        this.setState({
+            loanBankCode: value
+        });
+    }
     render() {
-        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, missionList, information, iptInfoArr} = this.state;
+        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, missionList, information, iptInfoArr, archivesPathArr} = this.state;
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">档案入档</span>
@@ -258,7 +282,7 @@ class enterArchives extends React.Component {
                         <span>业务类型：{baseInfo.bizType}</span>
                     </Col>
                     <Col span={6}>
-                        <span>汽车经销商：{findDsct(carBuyingListArrs, baseInfo.shopCarGarage)}</span>
+                        <span>汽车经销商：{baseInfo.shopCarGarage}</span>
                     </Col>
                     <Col span={6}></Col>
                 </Row>
@@ -278,7 +302,15 @@ class enterArchives extends React.Component {
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span className="afp-body-title" style={{width: '100px'}}>档案存放位置：</span>
-                        <input type="text" value={iptInfoArr.path} ref={input => this.pathIpt = input} onChange={(e) => { this.iptChange1(e, 'path'); }} className="dealer-user-detail-edit-input" />
+                        <Select className="preLoan-body-select" style={{width: '300px'}} onChange={this.handleChangeBank}>
+                            {
+                                archivesPathArr.map(data => {
+                                    return (
+                                        <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                    );
+                                })
+                            }
+                        </Select>
                     </Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
