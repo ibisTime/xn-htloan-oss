@@ -139,7 +139,7 @@ class preloanAccessList extends React.Component {
                 this.props.history.push(`/preLoan/Access`);
             }else {
                 if(this.checkBoxGroup[0].split('|')[1] === 'a1' || this.checkBoxGroup[0].split('|')[1] === 'a1x') {
-                    this.props.history.push(`/preLoan/Access?code=${this.checkBoxGroup[0].split('|')[0]}`);
+                    this.props.history.push(`/preLoan/Access?code=${this.checkBoxGroup[0].split('|')[0]}&type=edit`);
                 }else {
                     showWarnMsg('当前状态不能操作!');
                 }
@@ -147,10 +147,10 @@ class preloanAccessList extends React.Component {
         }
     }
     sendDetailCode = (code) => {
-        this.props.history.push(`/preLoan/Access/detail?code=${code.split('|')[0]}&type=edit`);
+        this.props.history.push(`/preLoan/Access/detail?code=${code.split('|')[0]}`);
     }
     sendExamineCode = (code) => {
-        this.props.history.push(`/preLoan/Access/examine?code=${code.split('|')[0]}&type=edit`);
+        this.props.history.push(`/preLoan/Access/examine?code=${code.split('|')[0]}`);
     }
     searchSend = () => {
         this.getAccessSlip(1);

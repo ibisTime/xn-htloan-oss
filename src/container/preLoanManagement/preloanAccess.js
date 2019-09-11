@@ -567,6 +567,7 @@ class preloanAccess extends React.Component {
         // this.bankCreditResult3Ipt = '';
         this.code = getQueryString('code', this.props.location.search);
         this.typeEdit = getQueryString('type', this.props.location.search);
+        console.log(this.code);
         if(this.code) {
             this.setState({
                 accessInfoCode: this.code
@@ -2326,14 +2327,25 @@ class preloanAccess extends React.Component {
     }
     accessInfoUp = () => {
         const {accessInfoCode} = this.state;
-        accessInfoSend(accessInfoCode).then(data => {
-            if(data.isSuccess) {
-                showSucMsg('操作成功');
-                setTimeout(() => {
-                    this.props.history.go(-1);
-                }, 1000);
-            }
-        });
+        if(this.typeEdit === 'edit') {
+            accessInfoSend(this.code).then(data => {
+                if(data.isSuccess) {
+                    showSucMsg('操作成功');
+                    setTimeout(() => {
+                        this.props.history.go(-1);
+                    }, 1000);
+                }
+            });
+        }else {
+            accessInfoSend(accessInfoCode).then(data => {
+                if(data.isSuccess) {
+                    showSucMsg('操作成功');
+                    setTimeout(() => {
+                        this.props.history.go(-1);
+                    }, 1000);
+                }
+            });
+        }
     }
     // 数据双向绑定
     // 发起征信
