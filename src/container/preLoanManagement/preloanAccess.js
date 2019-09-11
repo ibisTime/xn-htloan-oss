@@ -566,6 +566,7 @@ class preloanAccess extends React.Component {
         // this.mobile3Ipt = '';
         // this.bankCreditResult3Ipt = '';
         this.code = getQueryString('code', this.props.location.search);
+        this.typeEdit = getQueryString('type', this.props.location.search);
         if(this.code) {
             this.setState({
                 accessInfoCode: this.code
@@ -901,8 +902,33 @@ class preloanAccess extends React.Component {
                         name: 'ot.png',
                         status: 'done',
                         url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_third')
-                    }]
+                    }],
+                    hyzt: data.creditUser.marryState,
+                    zxjgName1: data.creditUserList[0].bankCreditResult === '0' ? '通过' : '不通过',
+                    zxjgName2: data.creditUserList[1].bankCreditResult === '0' ? '通过' : '不通过',
+                    zxjgName3: data.creditUserList[2].bankCreditResult === '0' ? '通过' : '不通过',
+                    jycd: data.creditUser.education,
+                    zflx: data.creditUser.nowHouseType,
+                    czlx: data.creditUser.permanentType,
+                    yzdgx: data.creditUser.emergencyRelation1,
+                    yzdgx2: data.creditUser.emergencyRelation2,
+                    lllx: data.bankLoan.rateType,
+                    sfdz: data.bankLoan.isAdvanceFund === '0' ? '否' : '是',
+                    sftx: data.bankLoan.isDiscount === '0' ? '否' : '是',
+                    sfgp: data.bankLoan.isPublicCard === '0' ? '否' : '是',
+                    gcch: data.carInfo.shopCarGarageName,
+                    sfjzgps: data.bankLoan.isAzGps === '0' ? '否' : '是'
                 });
+                // 购车途径 显示隐藏
+                if(data.bizType === '0') {
+                    this.setState({
+                        isShowCarGroup: false
+                    });
+                }else if(data.bizType === '1') {
+                    this.setState({
+                        isShowCarGroup: true
+                    });
+                }
             });
         }
         this.getBankList();
@@ -1092,7 +1118,7 @@ class preloanAccess extends React.Component {
         });
     }
     // 获取是否GPS
-    handleChangecarInfoIsNotGPS = (value) => {
+    handleChangecarInfoIsNotGPS = (value, event) => {
         this.setState({
             carInfoIsNotGPSCode: value,
             sfjzgps: event.props.children
@@ -1347,7 +1373,7 @@ class preloanAccess extends React.Component {
     }
     // 发起征信
     addSendCreditReporting = () => {
-        const {fileList, loanBankCode, brandCode, seriesCode, carCode, bizType, accessInfoCode, nowAddressCode, regDate, carUrl} = this.state;
+        const {fileList, loanBankCode, brandCode, seriesCode, carCode, bizType, accessInfoCode, nowAddressCode, regDate, carUrl, isLoanPpInfo, isBaseInfo, isLoanInfo, isCostSettlement, isCarInfo, isMaterialInfo, isInvestigation, isCarImg} = this.state;
         let picHash = '';
         if(fileList[0] === undefined) {
             picHash = '';
@@ -1374,7 +1400,58 @@ class preloanAccess extends React.Component {
                     this.setState({
                         accessInfoCode: data
                     });
+                    if(isLoanPpInfo) {
+                        // 贷款人信息
+                        this.addLenderInfo(data);
+                    }else if(isBaseInfo) {
+                        // 基本信息
+                        this.addBaseInfo(data);
+                    }else if(isLoanInfo) {
+                        // 贷款信息
+                        this.addLoanInfo(data);
+                    }else if(isCostSettlement) {
+                        // 费用结算
+                        this.addCostSettlementInfo(data);
+                    }else if(isCarInfo) {
+                        // 车辆信息
+                        this.addCarDsInfoLs(data);
+                    }else if(isMaterialInfo) {
+                        // 贷款材料图
+                        this.addMaterialDsInfoLs(data);
+                    }else if(isInvestigation) {
+                        // 上门调查照片
+                        this.addInvestigationImgInfoLs(data);
+                    }else if(isCarImg) {
+                        // 车辆图
+                        this.addCarImgInfoLs(data);
+                    }
                 });
+            }else {
+                if(isLoanPpInfo) {
+                    // 贷款人信息
+                    this.addLenderInfo(accessInfoCode);
+                }else if(isBaseInfo) {
+                    // 基本信息
+                    this.addBaseInfo(accessInfoCode);
+                }else if(isLoanInfo) {
+                    // 贷款信息
+                    this.addLoanInfo(accessInfoCode);
+                }else if(isCostSettlement) {
+                    // 费用结算
+                    this.addCostSettlementInfo(accessInfoCode);
+                }else if(isCarInfo) {
+                    // 车辆信息
+                    this.addCarDsInfoLs(accessInfoCode);
+                }else if(isMaterialInfo) {
+                    // 贷款材料图
+                    this.addMaterialDsInfoLs(accessInfoCode);
+                }else if(isInvestigation) {
+                    // 上门调查照片
+                    this.addInvestigationImgInfoLs(accessInfoCode);
+                }else if(isCarImg) {
+                    // 车辆图
+                    this.addCarImgInfoLs(accessInfoCode);
+                }
             }
     }
     // 贷款人信息
@@ -1929,7 +2006,7 @@ class preloanAccess extends React.Component {
                 bankJourInterestFourth: picHashLS4,
                 bankJourLastPage: picHashLS5,
                 zfbJour: picHashZFB,
-                wxJour: picHashQt,
+                wxJour: picHashWX,
                 otherPdf: picHashQt
             };
             materialDsInfoLs(arr).then(data => {
@@ -2216,32 +2293,35 @@ class preloanAccess extends React.Component {
     }
     // 保存
     openSave = () => {
-        const {isLoanPpInfo, isBaseInfo, isLoanInfo, isCostSettlement, isCarInfo, isMaterialInfo, isInvestigation, isCarImg, accessInfoCode} = this.state;
-        this.addSendCreditReporting();
-        if(isLoanPpInfo) {
-            // 贷款人信息
-            this.addLenderInfo(accessInfoCode);
-        }else if(isBaseInfo) {
-            // 基本信息
-            this.addBaseInfo(accessInfoCode);
-        }else if(isLoanInfo) {
-            // 贷款信息
-            this.addLoanInfo(accessInfoCode);
-        }else if(isCostSettlement) {
-            // 费用结算
-            this.addCostSettlementInfo(accessInfoCode);
-        }else if(isCarInfo) {
-            // 车辆信息
-            this.addCarDsInfoLs(accessInfoCode);
-        }else if(isMaterialInfo) {
-            // 贷款材料图
-            this.addMaterialDsInfoLs(accessInfoCode);
-        }else if(isInvestigation) {
-            // 上门调查照片
-            this.addInvestigationImgInfoLs(accessInfoCode);
-        }else if(isCarImg) {
-            // 车辆图
-            this.addCarImgInfoLs(accessInfoCode);
+        const {accessInfoCode, isLoanPpInfo, isBaseInfo, isLoanInfo, isCostSettlement, isCarInfo, isMaterialInfo, isInvestigation, isCarImg} = this.state;
+        if(this.typeEdit === 'edit') {
+            if(isLoanPpInfo) {
+                // 贷款人信息
+                this.addLenderInfo(accessInfoCode);
+            }else if(isBaseInfo) {
+                // 基本信息
+                this.addBaseInfo(accessInfoCode);
+            }else if(isLoanInfo) {
+                // 贷款信息
+                this.addLoanInfo(accessInfoCode);
+            }else if(isCostSettlement) {
+                // 费用结算
+                this.addCostSettlementInfo(accessInfoCode);
+            }else if(isCarInfo) {
+                // 车辆信息
+                this.addCarDsInfoLs(accessInfoCode);
+            }else if(isMaterialInfo) {
+                // 贷款材料图
+                this.addMaterialDsInfoLs(accessInfoCode);
+            }else if(isInvestigation) {
+                // 上门调查照片
+                this.addInvestigationImgInfoLs(accessInfoCode);
+            }else if(isCarImg) {
+                // 车辆图
+                this.addCarImgInfoLs(accessInfoCode);
+            }
+        }else {
+            this.addSendCreditReporting();
         }
     }
     accessInfoUp = () => {
@@ -4330,7 +4410,7 @@ class preloanAccess extends React.Component {
                                         </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title">车牌号：</span>
-                                            <input type="text" value={carInfoArrIpt.carNumber} ref={input => this.numberIpt = input} onChange={(e) => { this.iptCarInfoArr(e, 'number'); }} className="preLoan-body-input" />
+                                            <input type="text" value={carInfoArrIpt.carNumber} ref={input => this.numberIpt = input} onChange={(e) => { this.iptCarInfoArr(e, 'carNumber'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
