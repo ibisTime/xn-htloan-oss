@@ -132,46 +132,47 @@ class typingOk extends React.Component {
             });
         }
     };
+    showDetail = () => {
+        this.props.history.push(`/preLoan/Access/detail?code=${this.code}`);
+    }
     render() {
         const {carBuyingListArrs, baseInfo, accessSlipStatusArr, iptArr} = this.state;
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">业务基本信息</span>
                 <Row className="afp-body-user-detail">
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>业务编号：{baseInfo.code}</span>
+                        <span style={{color: '#1791FF', marginLeft: '15px'}} onClick={this.showDetail}>查看详情</span>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>客户名称：{baseInfo.customerName}</span>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>贷款银行：{baseInfo.loanBankName}</span>
                     </Col>
-                    <Col span={6}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>贷款金额：{baseInfo.loanAmount}</span>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>业务类型：{baseInfo.bizType}</span>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>汽车经销商：{findDsct(carBuyingListArrs, baseInfo.shopCarGarage)}</span>
                     </Col>
-                    <Col span={6}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={9}>
+                    <Col span={8}>
                         <span>业务归属：{baseInfo.saleGroup}</span>
                     </Col>
-                    <Col span={3}>
+                    <Col span={8}>
                         <span></span>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>当前状态：{findDsct(accessSlipStatusArr, baseInfo.curNodeCode)}</span>
                     </Col>
-                    <Col span={6}></Col>
                 </Row>
                 <div className="afp-body-line"></div>
                 <Row style={{marginTop: '20px'}}>

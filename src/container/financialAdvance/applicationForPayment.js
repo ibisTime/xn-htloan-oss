@@ -116,6 +116,9 @@ class applicationForPayment extends React.Component {
     goBack = () => {
         this.props.history.go(-1);
     }
+    showDetail = () => {
+        this.props.history.push(`/preLoan/Access/detail?code=${this.code}`);
+    }
     render() {
         const {carBuyingListArrs, baseInfo, accessSlipStatusArr, bankListArr, bankObject} = this.state;
         return (
@@ -124,7 +127,7 @@ class applicationForPayment extends React.Component {
                 <Row className="afp-body-user-detail">
                     <Col span={8}>
                         <span>业务编号：{baseInfo.code}</span>
-                        <span style={{color: '#1791FF', marginLeft: '30px'}}>查看详情</span>
+                        <span style={{color: '#1791FF', marginLeft: '15px'}} onClick={this.showDetail}>查看详情</span>
                     </Col>
                     <Col span={8}>
                         <span>客户名称：{baseInfo.customerName}</span>

@@ -4,7 +4,9 @@ import {
     showSucMsg,
     getUserId,
     findDsct,
-    dsctList
+    dsctList,
+    dsctImgList,
+    getQueryString
 } from 'common/js/util';
 import {Row, Col, Select, Upload, Button, Icon, Modal, DatePicker} from 'antd';
 import { getDictList } from 'api/dict';
@@ -29,7 +31,8 @@ import {
     accessInfoSend,
     carBuyingList,
     getCityList,
-    sendPjPost
+    sendPjPost,
+    accessSlipDetail
 } from '../../api/preLoan.js';
 import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
 const { Option } = Select;
@@ -531,6 +534,39 @@ class preloanAccess extends React.Component {
         // this.bankCreditResult2Ipt = '';
         // this.mobile3Ipt = '';
         // this.bankCreditResult3Ipt = '';
+        this.code = getQueryString('code', this.props.location.search);
+        if(this.code) {
+            this.setState({
+                accessInfoCode: this.code
+            });
+            accessSlipDetail(this.code).then(data => {
+                this.setState({
+                    pAcreditUserList1: data.creditUserList[0],
+                    pAcreditUserList2: data.creditUserList[1],
+                    pAcreditUserList3: data.creditUserList[2],
+                    pAbankLoan: data.bankLoan,
+                    pAcarInfo: data.carInfo,
+                    pAheadInfo: {
+                        loanBankName: data.loanBankName,
+                        region: data.region,
+                        bizType: data.bizType === '0' ? '新车' : '二手车',
+                        regAddress: data.regAddress,
+                        mile: data.mile,
+                        secondCarReport: data.secondCarReport
+                    },
+                    pAattachments: dsctImgList(data.attachments),
+                    pAcreditUser: data.creditUser,
+                    pAcostSettlement: {
+                        fxAmount: data.fxAmount,
+                        lyDeposit: data.lyDeposit,
+                        repointAmount: data.repointAmount,
+                        gpsFee: data.gpsFee,
+                        otherFee: data.otherFee
+                    }
+                });
+                console.log(this.state.pAattachments);
+            });
+        }
         this.getBankList();
     }
     componentDidMount(): void {
@@ -978,7 +1014,7 @@ class preloanAccess extends React.Component {
                 region: nowAddressCode,
                 bizType: bizType,
                 regDate: regDate,
-                mile: this.mileIpt.value,
+                mile: this.mileIpt ? this.mileIpt.value : '',
                 secondCarReport: carUrl,
                 carBrand: brandCode,
                 carSeries: seriesCode,
@@ -989,34 +1025,7 @@ class preloanAccess extends React.Component {
                     this.setState({
                         accessInfoCode: data
                     });
-                    this.addLenderInfo(data);
-                    // 贷款信息
-                    this.addLoanInfo(data);
-                    // 费用结算
-                    this.addCostSettlementInfo(data);
-                    // 车辆信息
-                    this.addCarDsInfoLs(data);
-                    // 贷款材料图
-                    this.addMaterialDsInfoLs(data);
-                    // 上门调查照片
-                    this.addInvestigationImgInfoLs(data);
-                    // 车辆图
-                    this.addCarImgInfoLs(data);
                 });
-            }else {
-                this.addLenderInfo(accessInfoCode);
-                // 贷款信息
-                this.addLoanInfo(accessInfoCode);
-                // 费用结算
-                this.addCostSettlementInfo(accessInfoCode);
-                // 车辆信息
-                this.addCarDsInfoLs(accessInfoCode);
-                // 贷款材料图
-                this.addMaterialDsInfoLs(accessInfoCode);
-                // 上门调查照片
-                this.addInvestigationImgInfoLs(accessInfoCode);
-                // 车辆图
-                this.addCarImgInfoLs(accessInfoCode);
             }
     }
     // 贷款人信息
@@ -1181,7 +1190,7 @@ class preloanAccess extends React.Component {
         };
         lenderInfoLs(arr).then(data => {
             if(data.isSuccess) {
-                this.addBaseInfo(code);
+                showSucMsg('操作成功!');
             }
         });
     }
@@ -1236,7 +1245,9 @@ class preloanAccess extends React.Component {
         };
         console.log('addBaseInfo', arr);
         baseDsInfoLs(arr).then(data => {
-            console.log(data);
+            if(data.isSuccess) {
+                showSucMsg('操作成功!');
+            }
         });
     }
     // 添加贷款信息 'CB332019090401414B'
@@ -1268,7 +1279,9 @@ class preloanAccess extends React.Component {
         };
         preLoanInfoLs(arr).then(data => {
             // 基本信息
-            console.log(data);
+            if(data.isSuccess) {
+                showSucMsg('操作成功!');
+            }
         });
     }
     // 费用结算
@@ -1287,7 +1300,7 @@ class preloanAccess extends React.Component {
                 otherFee: costSettlementInfoArrIpt.otherFee
             };
             costSettlementInfoLs(arr).then(data => {
-                console.log(data);
+                showSucMsg('操作成功!');
             });
         }
     }
@@ -1312,7 +1325,9 @@ class preloanAccess extends React.Component {
             mile: carInfoArrIpt.mile
         };
         carDsInfoLs(arr).then(data => {
-            console.log(data);
+            if(data.isSuccess) {
+                showSucMsg('操作成功!');
+            }
         });
     }
     // 贷款材料图
@@ -1569,7 +1584,9 @@ class preloanAccess extends React.Component {
                 otherPdf: picHashQt
             };
             materialDsInfoLs(arr).then(data => {
-                console.log(data);
+                if(data.isSuccess) {
+                    showSucMsg('操作成功!');
+                }
             });
         }
     }
@@ -1622,7 +1639,9 @@ class preloanAccess extends React.Component {
                 houseVideo: picHashJF
             };
             investigationImgInfoLs(arr).then(data => {
-                console.log('investigationImgInfoLs', data);
+                if(data.isSuccess) {
+                    showSucMsg('操作成功!');
+                }
             });
         }
     }
@@ -1820,7 +1839,9 @@ class preloanAccess extends React.Component {
                 carRegisterCertificateThird: picHashDJZS3
             };
             carImgInfoLs(arr).then(data => {
-                showSucMsg('操作成功!');
+                if(data.isSuccess) {
+                    showSucMsg('操作成功!');
+                }
             });
         }
     }
@@ -1846,13 +1867,42 @@ class preloanAccess extends React.Component {
     }
     // 保存
     openSave = () => {
+        const {isLoanPpInfo, isBaseInfo, isLoanInfo, isCostSettlement, isCarInfo, isMaterialInfo, isInvestigation, isCarImg, accessInfoCode} = this.state;
         this.addSendCreditReporting();
+        if(isLoanPpInfo) {
+            // 贷款人信息
+            this.addLenderInfo(accessInfoCode);
+        }else if(isBaseInfo) {
+            // 基本信息
+            this.addBaseInfo(accessInfoCode);
+        }else if(isLoanInfo) {
+            // 贷款信息
+            this.addLoanInfo(accessInfoCode);
+        }else if(isCostSettlement) {
+            // 费用结算
+            this.addCostSettlementInfo(accessInfoCode);
+        }else if(isCarInfo) {
+            // 车辆信息
+            this.addCarDsInfoLs(accessInfoCode);
+        }else if(isMaterialInfo) {
+            // 贷款材料图
+            this.addMaterialDsInfoLs(accessInfoCode);
+        }else if(isInvestigation) {
+            // 上门调查照片
+            this.addInvestigationImgInfoLs(accessInfoCode);
+        }else if(isCarImg) {
+            // 车辆图
+            this.addCarImgInfoLs(accessInfoCode);
+        }
     }
     accessInfoUp = () => {
         const {accessInfoCode} = this.state;
         accessInfoSend(accessInfoCode).then(data => {
             if(data.isSuccess) {
                 showSucMsg('操作成功');
+                setTimeout(() => {
+                    this.props.history.go(-1);
+                }, 1000);
             }
         });
     }
@@ -3110,8 +3160,8 @@ class preloanAccess extends React.Component {
                             <Row className="preLoan-body-row-top">
                                 <Col span={12}>
                                     <span className="preLoan-body-title">评估报告：</span>
-                                    <span className="preLoan-body-title" style={{width: '200px'}} onClick={this.sendAssessment}>点击生成评报告</span>
-                                    <a className="preLoan-body-title" style={{width: '200px'}} href={carUrl === '' ? '' : carUrl}>{modelName === '' ? '' : modelName}</a>
+                                    <span className="preLoan-body-title" style={{width: '140px'}} onClick={this.sendAssessment}>点击生成评报告</span>
+                                    <a target="_blank" className="preLoan-body-title" style={{width: '300px'}} href={carUrl === '' ? '' : carUrl}>{modelName === '' ? '' : modelName}</a>
                                     <a></a>
                                 </Col>
                                 <Col span={12}>

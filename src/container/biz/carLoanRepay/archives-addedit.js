@@ -23,7 +23,7 @@ class ArchivesAddEdit extends DetailUtil {
                 return <div>
                     {d.code}<a href='javascript:void(0);' style={{ marginLeft: 20 }} onClick={
                     () => {
-                        this.props.history.push(`/ywcx/ywcx/addedit?v=1&code=${d.code}`);
+                        this.props.history.push(`/preLoan/Access/detail?code=${d.code}`);
                     }
                 }>查看详情</a>
                 </div>;

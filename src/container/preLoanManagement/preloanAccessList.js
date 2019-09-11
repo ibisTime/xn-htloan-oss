@@ -131,11 +131,26 @@ class preloanAccessList extends React.Component {
             this.sendExamineCode(this.checkBoxGroup[0]);
         }
     }
+    sendAddInfoOrChange = () => {
+        if(this.checkBoxGroup.length >= 2) {
+            showWarnMsg('请选择不大于一条记录');
+        }else {
+            if(this.checkBoxGroup[0] === undefined) {
+                this.props.history.push(`/preLoan/Access`);
+            }else {
+                if(this.checkBoxGroup[0].split('|')[1] === 'a1' || this.checkBoxGroup[0].split('|')[1] === 'a1x') {
+                    this.props.history.push(`/preLoan/Access?code=${this.checkBoxGroup[0].split('|')[0]}`);
+                }else {
+                    showWarnMsg('当前状态不能操作!');
+                }
+            }
+        }
+    }
     sendDetailCode = (code) => {
-        this.props.history.push(`/preLoan/Access/detail?code=${code}`);
+        this.props.history.push(`/preLoan/Access/detail?code=${code.split('|')[0]}`);
     }
     sendExamineCode = (code) => {
-        this.props.history.push(`/preLoan/Access/examine?code=${code}`);
+        this.props.history.push(`/preLoan/Access/examine?code=${code.split('|')[0]}`);
     }
     searchSend = () => {
         this.getAccessSlip(1);
@@ -184,7 +199,7 @@ class preloanAccessList extends React.Component {
                     <div className="clear"></div>
                 </div>
                 <div className="preLoan-access-list-btn-group">
-                    <Link to="/preLoan/Access"><span className="preLoan-access-list-btn-gray" style={{width: '80px'}}>准入资料</span></Link>
+                    <span className="preLoan-access-list-btn-gray" onClick={this.sendAddInfoOrChange} style={{width: '80px'}}>准入资料</span>
                     <span className="preLoan-access-list-btn-gray" onClick={this.sendExamine} style={{marginLeft: '30px', width: '80px'}}>准入审核</span>
                     <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginLeft: '30px'}}>详情</span>
                     <div className="clear"></div>
@@ -198,15 +213,15 @@ class preloanAccessList extends React.Component {
                         : accessSlipList.map(d => {
                             return (<Row className="preLoan-access-list-item">
                                 <Col span={1} style={{lineHeight: '130px'}}>
-                                    <Checkbox value={d.code} onChange={this.onChange} />
+                                    <Checkbox value={d.code + '|' + d.curNodeCode} onChange={this.onChange} />
                                 </Col>
                                 <Col span={23}>
                                     <Row>
-                                        <Col span={5}>业务编号：{d.code}</Col>
+                                        <Col span={6}>业务编号：{d.code}</Col>
                                         <Col span={1}>
                                             <span className={d.bizType === '0' ? 'preLoan-access-list-btn-blue' : 'preLoan-access-list-row-orange'}>{d.bizType === '0' ? '新车' : '二手车'}</span>
                                         </Col>
-                                        <Col span={18} style={{textAlign: 'right'}}>
+                                        <Col span={17} style={{textAlign: 'right'}}>
                                             <span>状态：{findDsct(accessSlipStatusArr, d.curNodeCode)}</span>
                                         </Col>
                                     </Row>

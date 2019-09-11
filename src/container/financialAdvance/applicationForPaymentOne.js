@@ -139,60 +139,60 @@ class applicationForPayment extends React.Component {
     goBack = () => {
         this.props.history.go(-1);
     }
+    showDetail = () => {
+        this.props.history.push(`/preLoan/Access/detail?code=${this.code}`);
+    }
     render() {
         const {carBuyingListArrs, baseInfo, accessSlipStatusArr, rmkText, collectBankcard} = this.state;
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">业务基本信息</span>
                 <Row className="afp-body-user-detail">
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>业务编号：{baseInfo.code}</span>
+                        <span style={{color: '#1791FF', marginLeft: '15px'}} onClick={this.showDetail}>查看详情</span>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>客户名称：{baseInfo.customerName}</span>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>贷款银行：{baseInfo.loanBankName}</span>
                     </Col>
-                    <Col span={6}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>贷款金额：{baseInfo.loanAmount}</span>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>业务类型：{baseInfo.bizType}</span>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>汽车经销商：{baseInfo.shopCarGarage}</span>
                     </Col>
-                    <Col span={6}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={7}>
+                    <Col span={8}>
                         <span>业务归属：{baseInfo.saleGroup}</span>
                     </Col>
-                    <Col span={5}>
+                    <Col span={8}>
                         <span></span>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>当前状态：{findDsct(accessSlipStatusArr, baseInfo.curNodeCode)}</span>
                     </Col>
-                    <Col span={6}></Col>
                 </Row>
                 <div className="afp-body-line"></div>
                 <span className="afp-body-tag">垫资信息</span>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>收款账户户名：{collectBankcard.realName}</span>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>收款账户银行：{collectBankcard.bankName}</span>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <span>收款账户账号：{collectBankcard.bankcardNumber}</span>
                     </Col>
-                    <Col span={6}></Col>
                 </Row>
                 <div className="afp-body-line"></div>
                 <Row>
