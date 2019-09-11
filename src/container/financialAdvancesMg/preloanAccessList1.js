@@ -237,7 +237,7 @@ class preloanAccessList1 extends React.Component {
                     <div className="clear"></div>
                 </div>
                 <div className="preLoan-access-list-btn-group">
-                    <span className="preLoan-access-list-btn-gray" onClick={this.skFor1} style={{width: '80px'}}>用款申请</span>
+                    <span className="preLoan-access-list-btn-gray" onClick={this.skFor} style={{width: '80px'}}>用款申请</span>
                     <span className="preLoan-access-list-btn-gray" onClick={this.skFor1} style={{marginLeft: '30px', width: '80px'}}>用款一审核</span>
                     <span className="preLoan-access-list-btn-gray" onClick={this.skFor2} style={{marginLeft: '30px', width: '80px'}}>用款二审核</span>
                     <span className="preLoan-access-list-btn-gray" onClick={this.skForBack1} style={{marginLeft: '30px', width: '80px'}}>制单录回</span>
