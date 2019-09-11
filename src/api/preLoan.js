@@ -89,6 +89,11 @@ export function accessSlip(start, limit, code, customerName, curNodeCode, curNod
     return fetch(632515, {start, limit, code, customerName, curNodeCode, curNodeCodeList});
 }
 
+// 分页查准入单
+export function accessSlipCar(start, limit, code, customerName, curNodeCode, pledgeNodeCodeList) {
+    return fetch(632515, {start, limit, code, customerName, curNodeCode, pledgeNodeCodeList});
+}
+
 // 准入列表状态
 export function accessSlipStatus(code) {
     return fetch(630147, {code});

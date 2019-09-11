@@ -209,8 +209,8 @@ class enterArchives extends React.Component {
         const {missionList, iptInfoArr, information, loanBankCode} = this.state;
         let params = {
             code: this.code,
-            enterCode: loanBankCode,
-            enterLocation: iptInfoArr.path,
+            enterCode: iptInfoArr.code,
+            enterLocation: loanBankCode,
             fileList: missionList
         };
         sendEnterArchives(params).then(data => {

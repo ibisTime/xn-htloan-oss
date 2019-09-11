@@ -116,6 +116,9 @@ class preloanAccessDetail extends React.Component {
             };
             accessExamine(params).then(data => {
                 showSucMsg('操作成功!');
+                setTimeout(() => {
+                    this.props.history.go(-1);
+                }, 1000);
             });
         }
     }

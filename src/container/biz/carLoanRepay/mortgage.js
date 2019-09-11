@@ -168,13 +168,10 @@ class mortgage extends React.Component {
                     fetch(632580, param).then(() => {
                         showSucMsg('操作成功');
                         this.props.cancelFetching();
-                        setTimeout(() => {
-                            this.props.history.go(-1);
-                        }, 1000);
                     }).catch(this.props.cancelFetching);
                 }
               },
-            // 确认提交银行
+                // 确认提交银行
                 mortgage: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -188,9 +185,6 @@ class mortgage extends React.Component {
                         fetch(632581, param).then(() => {
                             showSucMsg('操作成功');
                             this.props.cancelFetching();
-                            setTimeout(() => {
-                                this.props.history.go(-1);
-                            }, 1000);
                         }).catch(this.props.cancelFetching);
                     }
                 }

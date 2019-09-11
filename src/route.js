@@ -407,7 +407,7 @@ const ROUTES = [
   //  银行放款
   {
     path: '/biz/bankMoney',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/bankMoney'))
+    component: asyncComponent(() => import('container/bankFeedbackMg/bankMoney'))
   },
   {
     path: '/biz/bankMoney/cRs',
@@ -468,7 +468,7 @@ const ROUTES = [
   //  车辆抵押
   {
     path: '/biz/mortgage',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/mortgage'))
+    component: asyncComponent(() => import('container/vehicleMortgageMg/mortgage'))
   },
   //  车辆抵押 详情
   {
@@ -498,7 +498,7 @@ const ROUTES = [
   //  档案入党
   {
     path: '/biz/archives',
-    component: asyncComponent(() => import('container/biz/carLoanRepay/archives'))
+    component: asyncComponent(() => import('container/fileEntryMg/archives'))
   },
   //  档案入党 详情
   {
@@ -1051,7 +1051,7 @@ const ROUTES = [
   // 财务垫资
   {
       path: '/loan/advMoney',
-      component: asyncComponent(() => import('container/loan/advMoney/advMoney'))
+      component: asyncComponent(() => import('container/financialAdvancesMg/preloanAccessList1'))
   },
   // 财务垫资 垫资
   {
@@ -2172,7 +2172,7 @@ const ROUTES = [
   // 理件打件
   {
     path: '/rationale/list',
-    component: asyncComponent(() => import('container/rationale/rationale'))
+    component: asyncComponent(() => import('container/componentPartsMg/componentPartsMg'))
   },
   {
     path: '/rationale/list/rationaleOk',
