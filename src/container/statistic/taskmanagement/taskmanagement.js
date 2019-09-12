@@ -55,7 +55,7 @@ class Notice extends React.Component {
       field: 'createrName',
       title: '发布人'
     }, {
-      field: 'getUser',
+      field: 'getUserName',
       title: '认领人'
     }, {
       field: 'status',
