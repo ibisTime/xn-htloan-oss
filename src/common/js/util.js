@@ -771,3 +771,19 @@ export function dsctList1(array) {
   }
   return arr;
 }
+
+export function getNowTime(type) {
+  let date = new Date();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
+  let day = date.getDate();
+  let hours = date.getHours();
+  let mints = date.getMinutes();
+  let seconds = date.getSeconds();
+  let millise = date.getMilliseconds();
+  if(type) {
+    return `${year}-${month}`;
+  }else {
+    return `${year}-${month}-${day} ${hours}:${mints}:${seconds}`;
+  }
+}

@@ -237,8 +237,8 @@ class archives extends React.Component {
                                     <Row style={{marginTop: '23px'}}>
                                         <Col span={5}>客户姓名：{d.customerName}</Col>
                                         <Col span={5}>贷款银行：{d.loanBankName}</Col>
-                                        <Col span={5}>贷款金额：{d.loanAmount}</Col>
-                                        <Col span={5}>贷款期数：{d.periods}</Col>
+                                        <Col span={5}>贷款金额：{d.loanAmount / 1000}</Col>
+                                        <Col span={5}>贷款期数：{d.periods}期</Col>
                                         <Col span={4}>是否垫资：{d.isAdvanceFund === '0' ? '否' : '是'}</Col>
                                     </Row>
                                     <Row style={{marginTop: '15px'}}>

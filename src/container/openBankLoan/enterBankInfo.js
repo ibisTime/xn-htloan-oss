@@ -183,8 +183,7 @@ class enterBankInfo extends React.Component {
                 <Row className="afp-body-user-detail">
                     <Col span={8}>
                         <span>业务编号：{baseInfo.code}</span>
-                        <span style={{color: '#1791FF', marginLeft: '15px'}} onClick={this.showDetail}>查看详情</span>
-                    </Col>
+                        <a target="_blank" style={{color: '#1791FF', marginLeft: '15px'}} href={`/preLoan/Access/detail?code=${this.code}`}>查看详情</a>                    </Col>
                     <Col span={8}>
                         <span>客户名称：{baseInfo.customerName}</span>
                     </Col>
@@ -217,7 +216,7 @@ class enterBankInfo extends React.Component {
                 <div className="afp-body-line"></div>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
-                        <span style={{float: 'left'}}>银行还款日：</span>
+                        <span style={{float: 'left'}}><span style={{color: 'red'}}>* </span>银行还款日：</span>
                         <Select className="preLoan-body-select" style={{width: '100px'}} onChange={this.handleChangeDay1}>
                             <Option value="1">1</Option>
                             <Option value="2">2</Option>
@@ -255,7 +254,7 @@ class enterBankInfo extends React.Component {
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
-                        <span style={{float: 'left'}}>公司还款日：</span>
+                        <span style={{float: 'left'}}><span style={{color: 'red'}}>* </span>公司还款日：</span>
                         <Select className="preLoan-body-select" style={{width: '100px'}} onChange={this.handleChangeDay2}>
                             <Option value="1">1</Option>
                             <Option value="2">2</Option>

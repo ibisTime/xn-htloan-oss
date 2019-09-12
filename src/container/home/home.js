@@ -211,7 +211,7 @@ class Home extends React.Component {
                     </div>
                     <div className="card companysystem-wrap">
                         <div className="card-top">
-                            <div className="title">公司制度</div>
+                            <div className="title">消息通知</div>
                         </div>
                         <div className="card-content">
                             { this.state.companysystemData && this.state.companysystemData.length >= 1 ? this.state.companysystemData.map(d => (

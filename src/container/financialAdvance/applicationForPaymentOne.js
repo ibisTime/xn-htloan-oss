@@ -153,7 +153,7 @@ class applicationForPayment extends React.Component {
                 <Row className="afp-body-user-detail">
                     <Col span={8}>
                         <span>业务编号：{baseInfo.code}</span>
-                        <span style={{color: '#1791FF', marginLeft: '15px'}} onClick={this.showDetail}>查看详情</span>
+                        <a target="_blank" style={{color: '#1791FF', marginLeft: '15px'}} href={`/preLoan/Access/detail?code=${this.code}`}>查看详情</a>
                     </Col>
                     <Col span={8}>
                         <span>客户名称：{baseInfo.customerName}</span>

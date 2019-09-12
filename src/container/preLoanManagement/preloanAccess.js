@@ -6,11 +6,13 @@ import {
     findDsct,
     dsctList,
     dsctImgList,
-    getQueryString
+    getQueryString,
+    getNowTime
 } from 'common/js/util';
 import {Row, Col, Select, Upload, Button, Icon, Modal, DatePicker} from 'antd';
 import { getDictList } from 'api/dict';
 import './preloanAccess.css';
+import moment from 'moment';
 import {
     sendCreditReportingLs,
     lenderInfoLs,
@@ -209,7 +211,7 @@ class preloanAccess extends React.Component {
                 loanRatio: '',
                 wanFactor: '',
                 monthAmount: '',
-                firstRepayAmount: '',
+                repayFirstMonthAmount: '',
                 highCashAmount: '',
                 totalFee: '',
                 customerBearRate: '',
@@ -236,12 +238,12 @@ class preloanAccess extends React.Component {
                 emergencyMobile1: '',
                 emergencyRelation1: '',
                 emergencyName1: '',
-                currentPostYears: '',
+                presentJobYears: '',
                 yearIncome: '',
                 position: '',
                 companyAddress: '',
                 companyName: '',
-                nowAddressProvince: ''
+                nowAddress: ''
             },
             altogetherPpIptArr: {
                 companyName: '',
@@ -582,7 +584,7 @@ class preloanAccess extends React.Component {
                     },
                     mainLoanPpIptArr: data.creditUser,
                     altogetherPpIptArr: data.creditUserList[1],
-                    bkGuaranteePpArr: data.creditUserList[2],
+                    bkGuaranteePpArr: data.creditUser,
                     cardZ: data.creditUserList[0],
                     cardF: data.creditUserList[0],
                     cardZTwo: data.creditUserList[1],
@@ -593,57 +595,103 @@ class preloanAccess extends React.Component {
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_front_apply')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_front_apply'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'id_no_front_apply')
+                        }
                     }],
                     fileList2: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_reverse_apply')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_reverse_apply'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'id_no_reverse_apply')
+                        }
+
                     }],
                     fileList3: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hold_id_card_apply')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hold_id_card_apply'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'hold_id_card_apply')
+                        }
                     }],
                     fileListG1: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_front_gh')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_front_gh'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'id_no_front_gh')
+                        }
                     }],
                     fileListG2: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_reverse_gh')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_reverse_gh'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'id_no_reverse_gh')
+                        }
                     }],
                     fileListG3: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hold_id_card_gh')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hold_id_card_gh'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'hold_id_card_gh')
+                        }
                     }],
                     fileListB1: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_front_gua')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_front_gua'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'id_no_front_gua')
+                        }
                     }],
                     fileListB2: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_reverse_gua')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_reverse_gua'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'id_no_reverse_gua')
+                        }
                     }],
                     fileListB3: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hold_id_card_gua')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hold_id_card_gua'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'hold_id_card_gua')
+                        }
                     }],
-                    loanInfoArrIpt: data.bankLoan,
+                    loanInfoArrIpt: data.bankLoan ? data.bankLoan : {
+                        loanAmount: '',
+                        periods: '',
+                        bankRate: '',
+                        totalRate: '',
+                        rebateRate: '',
+                        fee: '',
+                        discountRate: '',
+                        discountAmount: '',
+                        loanRatio: '',
+                        wanFactor: '',
+                        monthAmount: '',
+                        repayFirstMonthAmount: '',
+                        highCashAmount: '',
+                        totalFee: '',
+                        customerBearRate: '',
+                        surchargeRate: '',
+                        surchargeAmount: ''
+                    },
                     costSettlementInfoArrIpt: {
                         fxAmount: data.fxAmount,
                         lyDeposit: data.lyDeposit,
@@ -657,268 +705,405 @@ class preloanAccess extends React.Component {
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'drive_card')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'drive_card'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'drive_card')
+                        }
                     }],
                     // 结婚证
                     fileListJHZ: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'marry_pdf')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'marry_pdf'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'marry_pdf')
+                        }
                     }],
                     // 离婚证
                     fileListLHZ: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'divorce_pdf')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'divorce_pdf'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'divorce_pdf')
+                        }
                     }],
                     // 单身证明
                     fileListDSZ: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'single_prove')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'single_prove'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'single_prove')
+                        }
                     }],
                     // 收入证明
                     fileListSRZ: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'income_prove')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'income_prove'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'income_prove')
+                        }
                     }],
                     // 户口本首页
                     fileListHKBSY: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hk_book_first_page')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hk_book_first_page'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'hk_book_first_page')
+                        }
                     }],
                     // 户口本主页
                     fileListHKBZY: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hk_book_home_page')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hk_book_home_page'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'hk_book_home_page')
+                        }
                     }],
                     // 户口本本人页
                     fileListHKBRY: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hk_book_my_page')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hk_book_my_page'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'hk_book_my_page')
+                        }
                     }],
                     // 房产证
                     fileListFZZ: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'house_property_card_pdf')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'house_property_card_pdf'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'house_property_card_pdf')
+                        }
                     }],
                     // 居住证
                     fileListJZZ: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'live_prove_pdf')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'live_prove_pdf'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'live_prove_pdf')
+                        }
                     }],
                     // 银行流水首页
                     fileListYHS: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_first_page')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_first_page'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'bank_jour_first_page')
+                        }
                     }],
                     // 银行流水结息一季度
                     fileListLS1: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_first')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_first'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_first')
+                        }
                     }],
                     // 银行流水结息二季度
                     fileListLS2: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_second')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_second'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_second')
+                        }
                     }],
                     // 银行流水结息三季度
                     fileListLS3: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_third')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_third'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_third')
+                        }
                     }],
                     // 银行流水结息四季度
                     fileListLS4: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_fourth')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_fourth'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_fourth')
+                        }
                     }],
                     // 银行流水末页
                     fileListLS5: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_last_page')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_last_page'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'bank_jour_last_page')
+                        }
                     }],
                     // 支付宝流水
                     fileListZFB: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'zfb_jour')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'zfb_jour'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'zfb_jour')
+                        }
                     }],
                     // 微信流水
                     fileListWX: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'wx_jour')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'wx_jour'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'wx_jour')
+                        }
                     }],
                     // 其他
                     fileListQT: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'other_pdf')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'other_pdf'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'other_pdf')
+                        }
                     }],
                     // 上门照片
                     fileListSM: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'door_photo')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'door_photo'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'door_photo')
+                        }
                     }],
                     // 合照
                     fileListHZ: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'group_photo')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'group_photo'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'group_photo')
+                        }
                     }],
                     // 家访视频
                     fileListJF: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'house_video')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'house_video'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'house_video')
+                        }
                     }],
                     // 车头
                     fileListCT: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_head')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_head'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'car_head')
+                        }
                     }],
                     // 铭牌
                     fileListCMP: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'nameplate')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'nameplate'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'nameplate')
+                        }
                     }],
                     // VIN码
                     fileListVIN: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'vin_number')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'vin_number'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'vin_number')
+                        }
                     }],
                     // 仪表盘
                     fileListYBP: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'dashboard')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'dashboard'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'dashboard')
+                        }
                     }],
                     // 驾驶室
                     fileListJSS: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'cab')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'cab'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'cab')
+                        }
                     }],
                     // 发动机
                     fileListFDJ: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_engine')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_engine'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'car_engine')
+                        }
                     }],
                     // 中控
                     fileListZK: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'central_control')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'central_control'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'central_control')
+                        }
                     }],
                     // 天窗
                     fileListTC: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'skylight')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'skylight'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'skylight')
+                        }
                     }],
                     // 车后座
                     fileListHZC: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'rear_seat')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'rear_seat'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'rear_seat')
+                        }
                     }],
                     // 车尾
                     fileListCW: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'vehicle_tail')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'vehicle_tail'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'vehicle_tail')
+                        }
                     }],
                     // 车全身
                     fileListCQS: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_body')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_body'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'car_body')
+                        }
                     }],
                     // 车辆登记证书（首页）
                     fileListDJZS: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_first')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_first'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'car_register_certificate_first')
+                        }
                     }],
                     // 车辆登记证书（二页）
                     fileListDJZS2: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_second')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_second'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'car_register_certificate_second')
+                        }
                     }],
                     // 车辆登记证书（三页）
                     fileListDJZS3: [{
                         uid: '-2',
                         name: 'ot.png',
                         status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_third')
+                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_third'),
+                        response: {
+                            hash: findDsct(dsctImgList(data.attachments), 'car_register_certificate_third')
+                        }
                     }],
                     hyzt: data.creditUser.marryState,
-                    zxjgName1: data.creditUserList[0].bankCreditResult === '0' ? '通过' : '不通过',
-                    zxjgName2: data.creditUserList[1].bankCreditResult === '0' ? '通过' : '不通过',
-                    zxjgName3: data.creditUserList[2].bankCreditResult === '0' ? '通过' : '不通过',
+                    zxjgName1: data.creditUserList[0].bankCreditResult === '0' ? '不通过' : '通过',
+                    zxjgName2: data.creditUserList[1].bankCreditResult === '0' ? '不通过' : '通过',
+                    zxjgName3: data.creditUserList[2].bankCreditResult === '0' ? '不通过' : '通过',
                     jycd: data.creditUser.education,
                     zflx: data.creditUser.nowHouseType,
                     czlx: data.creditUser.permanentType,
                     yzdgx: data.creditUser.emergencyRelation1,
                     yzdgx2: data.creditUser.emergencyRelation2,
-                    lllx: data.bankLoan.rateType,
-                    sfdz: data.bankLoan.isAdvanceFund === '0' ? '否' : '是',
-                    sftx: data.bankLoan.isDiscount === '0' ? '否' : '是',
-                    sfgp: data.bankLoan.isPublicCard === '0' ? '否' : '是',
+                    lllx: data.bankLoan ? data.bankLoan.rateType : '',
+                    sfdz: data.bankLoan ? (data.bankLoan.isAdvanceFund === '0' ? '否' : '是') : '',
+                    sftx: data.bankLoan ? (data.bankLoan.isDiscount === '0' ? '否' : '是') : '',
+                    sfgp: data.bankLoan ? (data.bankLoan.isPublicCard === '0' ? '否' : '是') : '',
                     gcch: data.carInfo.shopCarGarageName,
-                    sfjzgps: data.bankLoan.isAzGps === '0' ? '否' : '是'
+                    sfjzgps: data.bankLoan ? (data.bankLoan.isAzGps === '0' ? '否' : '是') : '',
+                    sendCreditReporting: {
+                        mile: data.mile
+                    },
+                    // 经办银行
+                    jbyh: data.loanBankName,
+                    // 业务发生地点
+                    ywfsdd: data.region,
+                    // 购车途径
+                    gctj: data.bizType,
+                    // 上牌时间
+                    spsj: data.carInfo.regDate,
+                    // 品牌
+                    pp: data.carInfo.carBrand,
+                    // 车系
+                    cx1: data.carInfo.carSeriesName,
+                    // 车型
+                    cx2: data.carInfo.carModelName,
+                    carUrl: data.carInfo.secondCarReport,
+                    modelName: data.carInfo.carModelName,
+                    dkqx: data.periods,
+                    // 基本信息默认code
+                    permanentResidenceCode: data.creditUser.permanentType,
+                    housingTypeCode: data.creditUser.nowHouseType,
+                    marriageStatusCode: data.creditUser.marryState,
+                    edtCode: data.creditUser.education,
+                    emergencyRelationCode1: data.creditUser.emergencyRelation1,
+                    emergencyRelationCode2: data.creditUser.emergencyRelation2,
+                    // 购车行
+                    carLineCode: data.carInfo.shopCarGarage
                 });
                 // 购车途径 显示隐藏
                 if(data.bizType === '0') {
@@ -930,6 +1115,12 @@ class preloanAccess extends React.Component {
                         isShowCarGroup: true
                     });
                 }
+                // permanentResidenceCode
+                // housingTypeCode
+                // marriageStatusCode
+                // edtCode
+                // emergencyRelationCode1
+                // emergencyRelationCode2
             });
         }
         this.getBankList();
@@ -1037,14 +1228,16 @@ class preloanAccess extends React.Component {
             showWarnMsg('请选择小于今天的日期');
         }else {
             this.setState({
-                regDate: dateString
+                regDate: dateString,
+                spsj: dateString === '' ? getNowTime() : dateString
             });
         }
     };
     // 获取code
     // 获取银行code
-    handleChangeBank = (value) => {
+    handleChangeBank = (value, event) => {
         this.setState({
+            jbyh: event.props.children,
             loanBankCode: value
         });
     }
@@ -1060,6 +1253,13 @@ class preloanAccess extends React.Component {
         this.setState({
             yzdgx2: event.props.children,
             emergencyRelationCode2: value
+        });
+    }
+    // 贷款期限 code
+    handleChangeLoanPeriod = (value, event) => {
+        this.setState({
+            dkqx: event.props.children,
+            loanPeriodCode: value
         });
     }
     // 获取学历code
@@ -1127,7 +1327,8 @@ class preloanAccess extends React.Component {
     }
     handleChangeCarType1 = (value, event) => {
         this.setState({
-            changeBrandName: event.props.children
+            changeBrandName: event.props.children,
+            pp: event.props.children
         });
         carTypeMng(value, 1, 1, 100).then(data => {
             let arr = [];
@@ -1145,10 +1346,8 @@ class preloanAccess extends React.Component {
     }
     handleChangeCarType = (value, event) => {
         this.setState({
-            changeSeriesName: event.props.children
-        });
-        this.setState({
-            seriesCode: value
+            seriesCode: value,
+            cx1: event.props.children
         });
         findCarType(1, 100, value).then(data => {
             let arr = [];
@@ -1166,7 +1365,8 @@ class preloanAccess extends React.Component {
     handleChangeCar3Type = (value, event) => {
         this.setState({
             carCode: value,
-            changeCarName: event.props.children
+            changeCarName: event.props.children,
+            cx2: event.props.children
         });
     }
     // 发起征信文件上传
@@ -1188,8 +1388,9 @@ class preloanAccess extends React.Component {
 
         this.setState({ fileList });
     };
-    handleChangeCarBuying = (value) => {
+    handleChangeCarBuying = (value, event) => {
         this.setState({
+            gctj: event.props.children,
             bizType: value
         });
         if(value === '0') {
@@ -1630,14 +1831,14 @@ class preloanAccess extends React.Component {
                 creditUserList.push({
                     loanRole: i,
                     education: edtCode,
-                    nowAddress: mainLoanPpIptArr.nowAddressProvince,
+                    nowAddress: mainLoanPpIptArr.nowAddress,
                     marryState: marriageStatusCode,
                     nowHouseType: housingTypeCode,
                     companyName: mainLoanPpIptArr.companyName,
                     companyAddress: mainLoanPpIptArr.companyAddress,
                     position: mainLoanPpIptArr.position,
                     yearIncome: mainLoanPpIptArr.yearIncome,
-                    presentJobYears: mainLoanPpIptArr.currentPostYears,
+                    presentJobYears: mainLoanPpIptArr.presentJobYears,
                     permanentType: permanentResidenceCode,
                     emergencyName1: mainLoanPpIptArr.emergencyName1,
                     emergencyRelation1: emergencyRelationCode1,
@@ -1679,27 +1880,27 @@ class preloanAccess extends React.Component {
     }
     // 添加贷款信息 'CB332019090401414B'
     addLoanInfo = (code) => {
-        const {loanInfoArrIpt, loanInfoRateTypeCode, loanInfoIsNotAdvanceCode, loanInfoIsNotInterestCode} = this.state;
+        const {loanInfoArrIpt, loanInfoRateTypeCode, loanInfoIsNotAdvanceCode, loanInfoIsNotInterestCode, loanPeriodCode} = this.state;
         let arr = {
             code: code,
             operator: getUserId(),
-            loanAmount: loanInfoArrIpt.loanAmount,
-            periods: loanInfoArrIpt.periods,
+            loanAmount: loanInfoArrIpt.loanAmount * 1000,
+            periods: loanPeriodCode,
             bankRate: loanInfoArrIpt.bankRate,
             totalRate: loanInfoArrIpt.totalRate,
             rebateRate: loanInfoArrIpt.rebateRate,
-            fee: loanInfoArrIpt.fee,
+            fee: loanInfoArrIpt.fee * 1000,
             discountRate: loanInfoArrIpt.discountRate,
-            discountAmount: loanInfoArrIpt.discountAmount,
+            discountAmount: loanInfoArrIpt.discountAmount * 1000,
             loanRatio: loanInfoArrIpt.loanRatio,
             wanFactor: loanInfoArrIpt.wanFactor,
-            monthAmount: loanInfoArrIpt.monthAmount,
-            repayFirstMonthAmount: loanInfoArrIpt.firstRepayAmount,
-            highCashAmount: loanInfoArrIpt.highCashAmount,
-            totalFee: loanInfoArrIpt.totalFee,
+            monthAmount: loanInfoArrIpt.monthAmount * 1000,
+            repayFirstMonthAmount: loanInfoArrIpt.repayFirstMonthAmount * 1000,
+            highCashAmount: loanInfoArrIpt.highCashAmount * 1000,
+            totalFee: loanInfoArrIpt.totalFee * 1000,
             customerBearRate: loanInfoArrIpt.customerBearRate,
             surchargeRate: loanInfoArrIpt.surchargeRate,
-            surchargeAmount: loanInfoArrIpt.surchargeAmount,
+            surchargeAmount: loanInfoArrIpt.surchargeAmount * 1000,
             rateType: loanInfoRateTypeCode,
             isAdvanceFund: loanInfoIsNotAdvanceCode,
             isDiscount: loanInfoIsNotInterestCode
@@ -1720,11 +1921,11 @@ class preloanAccess extends React.Component {
             let arr = {
                 code: code,
                 operator: getUserId(),
-                fxAmount: costSettlementInfoArrIpt.fxAmount,
-                lyDeposit: costSettlementInfoArrIpt.lyDeposit,
-                repointAmount: costSettlementInfoArrIpt.repointAmount,
-                gpsFee: costSettlementInfoArrIpt.gpsFee,
-                otherFee: costSettlementInfoArrIpt.otherFee
+                fxAmount: costSettlementInfoArrIpt.fxAmount * 1000,
+                lyDeposit: costSettlementInfoArrIpt.lyDeposit * 1000,
+                repointAmount: costSettlementInfoArrIpt.repointAmount * 1000,
+                gpsFee: costSettlementInfoArrIpt.gpsFee * 1000,
+                otherFee: costSettlementInfoArrIpt.otherFee * 1000
             };
             costSettlementInfoLs(arr).then(data => {
                 showSucMsg('操作成功!');
@@ -1984,38 +2185,34 @@ class preloanAccess extends React.Component {
                 picHashQt = fileListQT[0].response.hash;
             }
         }
-        if(picHashJSZ === '' || picHashJHZ === '' || picHashLHZ === '' || picHashDSZ === '' || picHashSRZ === '' || picHashHKBSY === '' || picHashHKBZY === '' || picHashHKBRY === '' || picHashFZZ === '' || picHashJZZ === '' || picHashYHS === '' || picHashLS1 === '' || picHashLS2 === '' || picHashLS3 === '' || picHashLS4 === '' || picHashLS5 === '' || picHashZFB === '' || picHashQt === '' || picHashQt === '') {
-            showWarnMsg('请将贷款材料图信息填写完整');
-        }else {
-            let arr = {
-                code: code,
-                operator: getUserId(),
-                driveCard: picHashJSZ,
-                marryPdf: picHashJHZ,
-                divorcePdf: picHashLHZ,
-                singleProve: picHashDSZ,
-                incomeProve: picHashSRZ,
-                hkBookFirstPage: picHashHKBSY,
-                hkBookHomePage: picHashHKBZY,
-                hkBookMyPage: picHashHKBRY,
-                housePropertyCardPdf: picHashFZZ,
-                liveProvePdf: picHashJZZ,
-                bankJourFirstPage: picHashYHS,
-                bankJourInterestFirst: picHashLS1,
-                bankJourInterestSecond: picHashLS2,
-                bankJourInterestThird: picHashLS3,
-                bankJourInterestFourth: picHashLS4,
-                bankJourLastPage: picHashLS5,
-                zfbJour: picHashZFB,
-                wxJour: picHashWX,
-                otherPdf: picHashQt
-            };
-            materialDsInfoLs(arr).then(data => {
-                if(data.isSuccess) {
-                    showSucMsg('操作成功!');
-                }
-            });
-        }
+        let arr = {
+            code: code,
+            operator: getUserId(),
+            driveCard: picHashJSZ,
+            marryPdf: picHashJHZ,
+            divorcePdf: picHashLHZ,
+            singleProve: picHashDSZ,
+            incomeProve: picHashSRZ,
+            hkBookFirstPage: picHashHKBSY,
+            hkBookHomePage: picHashHKBZY,
+            hkBookMyPage: picHashHKBRY,
+            housePropertyCardPdf: picHashFZZ,
+            liveProvePdf: picHashJZZ,
+            bankJourFirstPage: picHashYHS,
+            bankJourInterestFirst: picHashLS1,
+            bankJourInterestSecond: picHashLS2,
+            bankJourInterestThird: picHashLS3,
+            bankJourInterestFourth: picHashLS4,
+            bankJourLastPage: picHashLS5,
+            zfbJour: picHashZFB,
+            wxJour: picHashWX,
+            otherPdf: picHashQt
+        };
+        materialDsInfoLs(arr).then(data => {
+            if(data.isSuccess) {
+                showSucMsg('操作成功!');
+            }
+        });
     }
     // 上门调查照片
     addInvestigationImgInfoLs = (code) => {
@@ -2055,22 +2252,18 @@ class preloanAccess extends React.Component {
                 picHashJF = fileListJF[0].response.hash;
             }
         }
-        if(picHashSM === '' || picHashHZ === '' || picHashJF === '') {
-            showWarnMsg('请将上门调查照片信息填写完整!');
-        }else {
-            let arr = {
-                code: code,
-                operator: getUserId(),
-                doorPdf: picHashSM,
-                groupPhoto: picHashHZ,
-                houseVideo: picHashJF
-            };
-            investigationImgInfoLs(arr).then(data => {
-                if(data.isSuccess) {
-                    showSucMsg('操作成功!');
-                }
-            });
-        }
+        let arr = {
+            code: code,
+            operator: getUserId(),
+            doorPdf: picHashSM,
+            groupPhoto: picHashHZ,
+            houseVideo: picHashJF
+        };
+        investigationImgInfoLs(arr).then(data => {
+            if(data.isSuccess) {
+                showSucMsg('操作成功!');
+            }
+        });
     }
     // 车辆图
     addCarImgInfoLs = (code) => {
@@ -2244,33 +2437,29 @@ class preloanAccess extends React.Component {
                 picHashDJZS3 = fileListDJZS3[0].response.hash;
             }
         }
-        if(picHashCT === '' || picHashCMP === '' || picHashVIN === '' || picHashYBP === '' || picHashJSS === '' || picHashFDJ === '' || picHashZK === '' || picHashTC === '' || picHashHZC === '' || picHashCW === '' || picHashCQS === '' || picHashDJZS === '' || picHashDJZS2 === '' || picHashDJZS3 === '') {
-            showWarnMsg('请将车辆图信息填写完整');
-        }else {
-            let arr = {
-                code: code,
-                operator: getUserId(),
-                carHead: picHashCT,
-                nameplate: picHashCMP,
-                vinNumber: picHashVIN,
-                dashboard: picHashYBP,
-                cab: picHashJSS,
-                carEngine: picHashFDJ,
-                centralControl: picHashZK,
-                skylight: picHashTC,
-                rearSeat: picHashHZC,
-                vehicleTail: picHashCW,
-                carBody: picHashCQS,
-                carRegisterCertificateFirst: picHashDJZS,
-                carRegisterCertificateSecond: picHashDJZS2,
-                carRegisterCertificateThird: picHashDJZS3
-            };
-            carImgInfoLs(arr).then(data => {
-                if(data.isSuccess) {
-                    showSucMsg('操作成功!');
-                }
-            });
-        }
+        let arr = {
+            code: code,
+            operator: getUserId(),
+            carHead: picHashCT,
+            nameplate: picHashCMP,
+            vinNumber: picHashVIN,
+            dashboard: picHashYBP,
+            cab: picHashJSS,
+            carEngine: picHashFDJ,
+            centralControl: picHashZK,
+            skylight: picHashTC,
+            rearSeat: picHashHZC,
+            vehicleTail: picHashCW,
+            carBody: picHashCQS,
+            carRegisterCertificateFirst: picHashDJZS,
+            carRegisterCertificateSecond: picHashDJZS2,
+            carRegisterCertificateThird: picHashDJZS3
+        };
+        carImgInfoLs(arr).then(data => {
+            if(data.isSuccess) {
+                showSucMsg('操作成功!');
+            }
+        });
     }
     // 获取银行列表
     getBankList = () => {
@@ -2298,28 +2487,28 @@ class preloanAccess extends React.Component {
         if(this.typeEdit === 'edit') {
             if(isLoanPpInfo) {
                 // 贷款人信息
-                this.addLenderInfo(accessInfoCode);
+                this.addLenderInfo(this.code);
             }else if(isBaseInfo) {
                 // 基本信息
-                this.addBaseInfo(accessInfoCode);
+                this.addBaseInfo(this.code);
             }else if(isLoanInfo) {
                 // 贷款信息
-                this.addLoanInfo(accessInfoCode);
+                this.addLoanInfo(this.code);
             }else if(isCostSettlement) {
                 // 费用结算
-                this.addCostSettlementInfo(accessInfoCode);
+                this.addCostSettlementInfo(this.code);
             }else if(isCarInfo) {
                 // 车辆信息
-                this.addCarDsInfoLs(accessInfoCode);
+                this.addCarDsInfoLs(this.code);
             }else if(isMaterialInfo) {
                 // 贷款材料图
-                this.addMaterialDsInfoLs(accessInfoCode);
+                this.addMaterialDsInfoLs(this.code);
             }else if(isInvestigation) {
                 // 上门调查照片
-                this.addInvestigationImgInfoLs(accessInfoCode);
+                this.addInvestigationImgInfoLs(this.code);
             }else if(isCarImg) {
                 // 车辆图
-                this.addCarImgInfoLs(accessInfoCode);
+                this.addCarImgInfoLs(this.code);
             }
         }else {
             this.addSendCreditReporting();
@@ -3196,8 +3385,8 @@ class preloanAccess extends React.Component {
     }
     // 业务发生地点
     handleChangeAddress = (value, event) => {
-        console.log(value);
         this.setState({
+            ywfsdd: event.props.children,
             nowAddressCode: value
         });
     }
@@ -3206,7 +3395,7 @@ class preloanAccess extends React.Component {
         const {carCode, regDate, nowAddressCode} = this.state;
         let arr = {
             modelId: carCode,
-            regDate: regDate,
+            regDate: regDate === '' ? getNowTime(true) : regDate,
             mile: this.mileIpt.value,
             zone: nowAddressCode
         };
@@ -3501,7 +3690,26 @@ class preloanAccess extends React.Component {
             // 购车车行
             gcch,
             // 是否加装
-            sfjzgps
+            sfjzgps,
+            // 经办银行
+            jbyh,
+            // 业务发生地点
+            ywfsdd,
+            // 购车途径
+            gctj,
+            // 上牌时间
+            spsj,
+            // 品牌
+            pp,
+            // 车系
+            cx1,
+            // 车型
+            cx2,
+            // 公里
+            gl,
+            loanPeriod,
+            // 贷款期限
+            dkqx
         } = this.state;
         const props = {
             action: UPLOAD_URL,
@@ -3524,8 +3732,8 @@ class preloanAccess extends React.Component {
                 <span className="preLoan-body-tag">发起征信</span>
                 <Row className="preLoan-body-row-top-one">
                     <Col span={12}>
-                        <span className="preLoan-body-title">经办银行：</span>
-                        <Select className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeBank}>
+                        <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>经办银行：</span>
+                        <Select className="preLoan-body-select" style={{width: '220px'}} value={jbyh} onChange={this.handleChangeBank}>
                             {
                                 bankList.map(data => {
                                     return (
@@ -3537,8 +3745,8 @@ class preloanAccess extends React.Component {
                         <div className="clear"></div>
                     </Col>
                     <Col span={12}>
-                        <span className="preLoan-body-title" style={{width: '100px'}}>业务发生地点：</span>
-                        <Select style={{ width: '220px' }} onChange={this.handleChangeAddress}>
+                        <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>业务发生地点：</span>
+                        <Select style={{ width: '220px' }} value={ywfsdd} onChange={this.handleChangeAddress}>
                             {
                                 cityList.map(item => {
                                     return (
@@ -3552,8 +3760,8 @@ class preloanAccess extends React.Component {
                 </Row>
                 <Row className="preLoan-body-row-top">
                     <Col span={12}>
-                        <span className="preLoan-body-title">购车途径：</span>
-                        <Select className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCarBuying}>
+                        <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>购车途径：</span>
+                        <Select className="preLoan-body-select" style={{width: '220px'}} value={gctj} onChange={this.handleChangeCarBuying}>
                             <Option value="0">新车</Option>
                             <Option value="1">二手车</Option>
                         </Select>
@@ -3563,8 +3771,8 @@ class preloanAccess extends React.Component {
                         isShowCarGroup ? (
                             <div>
                                 <Col span={12}>
-                                    <span className="preLoan-body-title" style={{width: '100px'}}>上牌时间：</span>
-                                    <MonthPicker format={'YYYY-MM'} style={{width: '220px', float: 'left'}} onChange={this.onChangeTime}/>
+                                    <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>上牌时间：</span>
+                                    <MonthPicker format={'YYYY-MM'} style={{width: '220px', float: 'left'}} defaultValue={moment(spsj === '' ? new Date() : spsj)} onChange={this.onChangeTime}/>
                                     <div className="clear"></div>
                                 </Col>
                             </div>
@@ -3580,8 +3788,8 @@ class preloanAccess extends React.Component {
                         <div>
                             <Row className="preLoan-body-row-top">
                                 <Col span={12}>
-                                    <span className="preLoan-body-title">品牌：</span>
-                                    <Select placeholder="请选择品牌" className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCarType1}>
+                                    <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>品牌：</span>
+                                    <Select placeholder="请选择品牌" className="preLoan-body-select" style={{width: '220px'}} value={pp} onChange={this.handleChangeCarType1}>
                                         {
                                             brandList.map(data => {
                                                 return (
@@ -3593,8 +3801,8 @@ class preloanAccess extends React.Component {
                                     <div className="clear"></div>
                                 </Col>
                                 <Col span={12}>
-                                    <span className="preLoan-body-title" style={{width: '100px'}}>车系：</span>
-                                    <Select placeholder="请选择车系" className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCarType}>
+                                    <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>车系：</span>
+                                    <Select placeholder="请选择车系" value={cx1} className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCarType}>
                                         {
                                             carType.map(data => {
                                                 return (
@@ -3608,8 +3816,8 @@ class preloanAccess extends React.Component {
                             </Row>
                             <Row className="preLoan-body-row-top">
                                 <Col span={12}>
-                                    <span className="preLoan-body-title">车型：</span>
-                                    <Select placeholder="请选择车型" className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCar3Type}>
+                                    <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>车型：</span>
+                                    <Select placeholder="请选择车型" value={cx2} className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCar3Type}>
                                         {
                                             carType3.map(data => {
                                                 return (
@@ -3624,7 +3832,7 @@ class preloanAccess extends React.Component {
                             </Row>
                             <Row className="preLoan-body-row-top">
                                 <Col span={12}>
-                                    <span className="preLoan-body-title">公里数：</span>
+                                    <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>公里数：</span>
                                     <input type="text" value={sendCreditReporting.mile} ref={input => this.mileIpt = input} onChange={(e) => { this.iptChangeSendCreditReporting(e, 'mile'); }} className="preLoan-body-input" />
                                 </Col>
                                 <Col span={12}>
@@ -3778,7 +3986,7 @@ class preloanAccess extends React.Component {
                                                 </Row>
                                                 <Row className="preLoan-body-row-top">
                                                     <Col span={12}>
-                                                        <span className="preLoan-body-title">手机号：</span>
+                                                        <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>手机号：</span>
                                                         <input type="text" value={loanIptArr.mobile} ref={input => this.mobileIpt = input} onChange={(e) => { this.iptLoanIptArr(e, 'mobile'); }} className="preLoan-body-input" />
                                                     </Col>
                                                     <Col span={12}>
@@ -3786,7 +3994,7 @@ class preloanAccess extends React.Component {
                                                 </Row>
                                                 <Row className="preLoan-body-row-top">
                                                     <Col span={12}>
-                                                        <span className="preLoan-body-title">征信结果：</span>
+                                                        <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>征信结果：</span>
                                                         <Select style={{ width: '220px' }} value={zxjgName1} onChange={this.handleChangeSearchZXJG1}>
                                                             <Option value="0">不通过</Option>
                                                             <Option value="1">通过</Option>
@@ -3877,7 +4085,7 @@ class preloanAccess extends React.Component {
                                                     </Row>
                                                     <Row className="preLoan-body-row-top">
                                                         <Col span={12}>
-                                                            <span className="preLoan-body-title">手机号：</span>
+                                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>手机号：</span>
                                                             <input type="text" value={loanIptArr.mobile2} ref={input => this.mobile2Ipt = input} onChange={(e) => { this.iptLoanIptArr(e, 'mobile2'); }} className="preLoan-body-input" />
                                                         </Col>
                                                         <Col span={12}>
@@ -3885,7 +4093,7 @@ class preloanAccess extends React.Component {
                                                     </Row>
                                                     <Row className="preLoan-body-row-top">
                                                         <Col span={12}>
-                                                            <span className="preLoan-body-title">征信结果：</span>
+                                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>征信结果：</span>
                                                             <Select style={{ width: '220px' }} value={zxjgName2} onChange={this.handleChangeSearchZXJG2}>
                                                                 <Option value="0">不通过</Option>
                                                                 <Option value="1">通过</Option>
@@ -3976,7 +4184,7 @@ class preloanAccess extends React.Component {
                                                 </Row>
                                                 <Row className="preLoan-body-row-top">
                                                     <Col span={12}>
-                                                        <span className="preLoan-body-title">手机号：</span>
+                                                        <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>手机号：</span>
                                                         <input type="text" value={loanIptArr.mobile3} ref={input => this.mobile3Ipt = input} onChange={(e) => { this.iptLoanIptArr(e, 'mobile3'); }} className="preLoan-body-input" />
                                                     </Col>
                                                     <Col span={12}>
@@ -3984,7 +4192,7 @@ class preloanAccess extends React.Component {
                                                 </Row>
                                                 <Row className="preLoan-body-row-top">
                                                     <Col span={12}>
-                                                        <span className="preLoan-body-title">征信结果：</span>
+                                                        <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>征信结果：</span>
                                                         <Select style={{ width: '220px' }} value={zxjgName3} onChange={this.handleChangeSearchZXJG3}>
                                                             <Option value="0">不通过</Option>
                                                             <Option value="1">通过</Option>
@@ -4019,7 +4227,7 @@ class preloanAccess extends React.Component {
                                         </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title">现住地址：</span>
-                                            <input type="text" value={mainLoanPpIptArr.nowAddressProvince} ref={input => this.nowAddressProvinceIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'nowAddressProvince'); }} className="preLoan-body-input" />
+                                            <input type="text" value={mainLoanPpIptArr.nowAddress} ref={input => this.nowAddressProvinceIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'nowAddress'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
@@ -4066,7 +4274,7 @@ class preloanAccess extends React.Component {
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">现职年数：</span>
-                                            <input type="text" value={mainLoanPpIptArr.currentPostYears} ref={input => this.currentPostYearsIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'currentPostYears'); }} className="preLoan-body-input" />
+                                            <input type="text" value={mainLoanPpIptArr.presentJobYears} ref={input => this.currentPostYearsIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'presentJobYears'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title">常住类型：</span>
@@ -4083,7 +4291,7 @@ class preloanAccess extends React.Component {
                                     </Row>
                                     <div className="preLoan-body-row-line"></div>
                                     <span className="preLoan-body-tag">共还人</span>
-                                    <div style={{marginTop: '24px'}}><span>姓名：王大锤</span><span style={{marginLeft: '90px'}}>手机号：18038902880</span><span style={{marginLeft: '90px'}}>身份证号：143030199801190533</span></div>
+                                    <div style={{marginTop: '24px'}}><span>姓名：{cardZTwo.userName === '' ? '暂无人员信息' : cardZTwo.userName}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr.mobile2 === '' ? '暂无手机号信息' : loanIptArr.mobile2}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZTwo.idNo === '' ? '暂无身份证号信息' : cardZTwo.idNo }</span></div>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">工作单位：</span>
@@ -4106,7 +4314,7 @@ class preloanAccess extends React.Component {
                                     </Row>
                                     <div className="preLoan-body-row-line"></div>
                                     <span className="preLoan-body-tag">反担保人信息</span>
-                                    <div style={{marginTop: '24px'}}><span>姓名：王大锤</span><span style={{marginLeft: '90px'}}>手机号：18038902880</span><span style={{marginLeft: '90px'}}>身份证号：143030199801190533</span></div>
+                                    <div style={{marginTop: '24px'}}><span>姓名：{cardZThree.userName === '' ? '暂无人员信息' : cardZThree.userName}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr.mobile3 === '' ? '暂无手机号信息' : loanIptArr.mobile3}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZThree.idNo === '' ? '暂无身份证号信息' : cardZThree.idNo }</span></div>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">工作单位：</span>
@@ -4193,29 +4401,37 @@ class preloanAccess extends React.Component {
                                     <span className="preLoan-body-tag">贷款信息</span>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">贷款本金：</span>
+                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>贷款本金：</span>
                                             <br />
                                             <input type="text" value={loanInfoArrIpt.loanAmount} ref={input => this.loanAmountIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'loanAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">贷款期限：</span>
+                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>贷款期限：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.periods} ref={input => this.periodsIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'periods'); }} className="preLoan-body-input" />
+                                            <Select className="preLoan-body-select" value={dkqx} style={{width: '220px'}} onChange={this.handleChangeLoanPeriod}>
+                                                {
+                                                    loanPeriod.map(data => {
+                                                        return (
+                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                        );
+                                                    })
+                                                }
+                                            </Select>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}>银行利率（%）：</span>
+                                            <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>银行利率：</span>
                                             <br />
                                             <input type="text" value={loanInfoArrIpt.bankRate} ref={input => this.bankRateIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'bankRate'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">总利率：</span>
+                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>总利率：</span>
                                             <br />
                                             <input type="text" value={loanInfoArrIpt.totalRate} ref={input => this.totalRateIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'totalRate'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">返点利率：</span>
+                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>返点利率：</span>
                                             <br />
                                             <input type="text" value={loanInfoArrIpt.rebateRate} ref={input => this.rebateRateIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'rebateRate'); }} className="preLoan-body-input" />
                                         </Col>
@@ -4233,7 +4449,7 @@ class preloanAccess extends React.Component {
                                             </Select>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">是否垫资：</span>
+                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>是否垫资：</span>
                                             <br />
                                             <Select className="preLoan-body-select" value={sfdz} style={{width: '220px'}} onChange={this.handleChangeLoanInfoIsNotAdvance}>
                                                 <Option value="0">否</Option>
@@ -4273,14 +4489,14 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={loanInfoArrIpt.wanFactor} ref={input => this.wanFactorIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'wanFactor'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">月供：</span>
+                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>月供：</span>
                                             <br />
                                             <input type="text" value={loanInfoArrIpt.monthAmount} ref={input => this.monthAmountIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'monthAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}>首月还款额：</span>
+                                            <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>首月还款额：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.firstRepayAmount} ref={input => this.firstRepayAmountIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'firstRepayAmount'); }} className="preLoan-body-input" />
+                                            <input type="text" value={loanInfoArrIpt.repayFirstMonthAmount} ref={input => this.firstRepayAmountIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'repayFirstMonthAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
                                             <span className="preLoan-body-title">高抛金额：</span>
@@ -4325,7 +4541,7 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={costSettlementInfoArrIpt.fxAmount} ref={input => this.fxAmountIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'fxAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">履约押金：</span>
+                                            <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>履约押金：</span>
                                             <br />
                                             <input type="text" value={costSettlementInfoArrIpt.lyDeposit} ref={input => this.lyDepositIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'lyDeposit'); }} className="preLoan-body-input" />
                                         </Col>

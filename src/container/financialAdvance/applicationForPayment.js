@@ -96,7 +96,7 @@ class applicationForPayment extends React.Component {
     sendSave = () => {
         const {bankCode} = this.state;
         if(bankCode === '' || bankCode === undefined) {
-            showSucMsg('银行账户不能为空!');
+            showWarnMsg('银行账户不能为空!');
         }else {
             let arr = {
                 code: this.code,
@@ -127,7 +127,7 @@ class applicationForPayment extends React.Component {
                 <Row className="afp-body-user-detail">
                     <Col span={8}>
                         <span>业务编号：{baseInfo.code}</span>
-                        <span style={{color: '#1791FF', marginLeft: '15px'}} onClick={this.showDetail}>查看详情</span>
+                        <a target="_blank" style={{color: '#1791FF', marginLeft: '15px'}} href={`/preLoan/Access/detail?code=${this.code}`}>查看详情</a>
                     </Col>
                     <Col span={8}>
                         <span>客户名称：{baseInfo.customerName}</span>
@@ -161,7 +161,7 @@ class applicationForPayment extends React.Component {
                 <div className="afp-body-line"></div>
                 <Row>
                     <Col span={12}>
-                        <span className="afp-body-title" style={{width: '100px'}}>收款账号：</span>
+                        <span className="afp-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>收款账号：</span>
                         <Select className="afp-body-select" onChange={this.handleChange}>
                             {
                                 bankListArr.map(item => {

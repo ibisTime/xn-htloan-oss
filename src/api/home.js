@@ -8,7 +8,7 @@ export function getPageMyNotice() {
 
 // 分页查询我的公司制度
 export function getPageMyCompanysystem() {
-    return fetch(632735, { start: 1, limit: 5, status: 1 });
+    return fetch(805305, { start: 1, limit: 5, status: 1, notifier: getUserId(), type: 2 });
 }
 
 // 分页查询我的待办事项

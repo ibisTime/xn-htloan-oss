@@ -160,6 +160,8 @@ class preloanAccessList1 extends React.Component {
             showWarnMsg('请选择车辆信息');
         }else if(this.checkBoxGroup.length >= 2) {
             showWarnMsg('请选择不大于一条记录');
+        }else if(this.checkBoxGroup[0].split('|')[1] != 'b1') {
+            showWarnMsg('当前状态无权操作');
         }else {
             this.props.history.push(`/financial/advance/afp?code=${this.checkBoxGroup[0].split('|')[0]}`);
         }
@@ -170,6 +172,8 @@ class preloanAccessList1 extends React.Component {
             showWarnMsg('请选择车辆信息');
         }else if(this.checkBoxGroup.length >= 2) {
             showWarnMsg('请选择不大于一条记录');
+        }else if(this.checkBoxGroup[0].split('|')[1] != 'b2') {
+            showWarnMsg('当前状态无权操作');
         }else {
             this.props.history.push(`/financial/advance/afpOne?code=${this.checkBoxGroup[0].split('|')[0]}`);
         }
@@ -180,6 +184,8 @@ class preloanAccessList1 extends React.Component {
             showWarnMsg('请选择车辆信息');
         }else if(this.checkBoxGroup.length >= 2) {
             showWarnMsg('请选择不大于一条记录');
+        }else if(this.checkBoxGroup[0].split('|')[1] != 'b3') {
+            showWarnMsg('当前状态无权操作');
         }else {
             this.props.history.push(`/financial/advance/afpTwo?code=${this.checkBoxGroup[0].split('|')[0]}`);
         }
@@ -190,6 +196,8 @@ class preloanAccessList1 extends React.Component {
             showWarnMsg('请选择车辆信息');
         }else if(this.checkBoxGroup.length >= 2) {
             showWarnMsg('请选择不大于一条记录');
+        }else if(this.checkBoxGroup[0].split('|')[1] != 'b4') {
+            showWarnMsg('当前状态无权操作');
         }else {
             this.props.history.push(`/financial/advance/orderRecall?code=${this.checkBoxGroup[0].split('|')[0]}`);
         }
@@ -200,6 +208,8 @@ class preloanAccessList1 extends React.Component {
             showWarnMsg('请选择车辆信息');
         }else if(this.checkBoxGroup.length >= 2) {
             showWarnMsg('请选择不大于一条记录');
+        }else if(this.checkBoxGroup[0].split('|')[1] != 'b5') {
+            showWarnMsg('当前状态无权操作');
         }else {
             this.props.history.push(`/financial/advance/orderMemory?code=${this.checkBoxGroup[0].split('|')[0]}`);
         }
@@ -238,8 +248,8 @@ class preloanAccessList1 extends React.Component {
                 </div>
                 <div className="preLoan-access-list-btn-group">
                     <span className="preLoan-access-list-btn-gray" onClick={this.skFor} style={{width: '80px'}}>用款申请</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.skFor1} style={{marginLeft: '30px', width: '80px'}}>用款一审核</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.skFor2} style={{marginLeft: '30px', width: '80px'}}>用款二审核</span>
+                    <span className="preLoan-access-list-btn-gray" onClick={this.skFor1} style={{marginLeft: '30px', width: '80px'}}>用款一审</span>
+                    <span className="preLoan-access-list-btn-gray" onClick={this.skFor2} style={{marginLeft: '30px', width: '80px'}}>用款二审</span>
                     <span className="preLoan-access-list-btn-gray" onClick={this.skForBack1} style={{marginLeft: '30px', width: '80px'}}>制单录回</span>
                     <span className="preLoan-access-list-btn-gray" onClick={this.skForBack2} style={{marginLeft: '30px', width: '80px'}}>垫资回录</span>
                     <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginLeft: '30px'}}>详情</span>
@@ -270,8 +280,8 @@ class preloanAccessList1 extends React.Component {
                                     <Row style={{marginTop: '23px'}}>
                                         <Col span={5}>客户姓名：{d.customerName}</Col>
                                         <Col span={5}>贷款银行：{d.loanBankName}</Col>
-                                        <Col span={5}>贷款金额：{d.loanAmount}</Col>
-                                        <Col span={5}>贷款期数：{d.periods}</Col>
+                                        <Col span={5}>贷款金额：{d.loanAmount / 1000}</Col>
+                                        <Col span={5}>贷款期数：{d.periods}期</Col>
                                         <Col span={4}>是否垫资：{d.isAdvanceFund === '0' ? '否' : '是'}</Col>
                                     </Row>
                                     <Row style={{marginTop: '15px'}}>

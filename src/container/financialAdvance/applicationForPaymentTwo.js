@@ -12,7 +12,8 @@ import {
     accessSlipDetail,
     carBuyingList,
     accountBlankList,
-    examineTwo
+    examineTwo,
+    executorList
 } from '../../api/preLoan.js';
 import './applicationForPayment.css';
 import add from './add.png';
@@ -60,7 +61,8 @@ class applicationForPayment extends React.Component {
                 time: '',
                 getUser: ''
             },
-            visible: false
+            visible: false,
+            executorListArr: []
         };
         this.count = 1;
         this.selectedRowKeys = [];
@@ -119,6 +121,19 @@ class applicationForPayment extends React.Component {
                 bankListArr: arr
             });
         });
+        executorList(1, 1000).then(data => {
+            let arr = [];
+            for(let i = 0; i < data.list.length; i++) {
+                arr.push({
+                    dkey: data.list[i].userId,
+                    dvalue: data.list[i].realName ? data.list[i].realName : ''
+                });
+            }
+            this.setState({
+                executorListArr: arr
+            });
+            console.log('executorListArr', this.state.executorListArr);
+        });
     }
     // 以下是关于对话框的相关
     showModal = (type) => {
@@ -172,33 +187,52 @@ class applicationForPayment extends React.Component {
     // 不通过
     notAdopt = () => {
         const {rmkText, isDz, missionList} = this.state;
-        if(rmkText === '' || rmkText === undefined) {
-            showWarnMsg('请填写审核信息!');
+        let arr = [];
+        for(let i = 0; i < missionList.length; i++) {
+            arr.push({
+                name: missionList[i].name,
+                time: missionList[i].time,
+                getUser: missionList[i].getUser.split('-')[0]
+            });
+        }
+        if(isDz === '' || isDz === undefined) {
+            showWarnMsg('是否垫资不能为空!');
         }else {
             let params = {
                 code: this.code,
                 approveResult: 0,
                 approveNote: rmkText,
                 isContinueAdvance: isDz,
-                missionList: missionList
+                missionList: arr
             };
             examineTwo(params).then(data => {
                 showSucMsg('操作成功!');
+                setTimeout(() => {
+                    this.props.history.go(-1);
+                }, 1000);
             });
         }
     }
     // 通过
     adopt = () => {
         const {rmkText, isDz, missionList} = this.state;
-        if(rmkText === '' || rmkText === undefined) {
-            showWarnMsg('请填写审核信息!');
+        let arr = [];
+        for(let i = 0; i < missionList.length; i++) {
+            arr.push({
+                name: missionList[i].name,
+                time: missionList[i].time,
+                getUser: missionList[i].getUser.split('-')[0]
+            });
+        }
+        if(isDz === '' || isDz === undefined) {
+            showWarnMsg('是否垫资不能为空!');
         }else {
             let params = {
                 code: this.code,
                 approveResult: 1,
                 approveNote: rmkText,
                 isContinueAdvance: isDz,
-                missionList: missionList
+                missionList: arr
             };
             examineTwo(params).then(data => {
                 showSucMsg('操作成功!');
@@ -237,16 +271,23 @@ class applicationForPayment extends React.Component {
     showDetail = () => {
         this.props.history.push(`/preLoan/Access/detail?code=${this.code}`);
     }
+    // 执行人编号
+    handleChangeExecutorListArr = (value, event) => {
+        const {information} = this.state;
+        information['getUser'] = value + '-' + event.props.children;
+        this.setState({
+            information
+        });
+    }
     render() {
-        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, rmkText, collectBankcard, missionList, information} = this.state;
+        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, rmkText, collectBankcard, missionList, information, executorListArr} = this.state;
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">业务基本信息</span>
                 <Row className="afp-body-user-detail">
                     <Col span={8}>
                         <span>业务编号：{baseInfo.code}</span>
-                        <span style={{color: '#1791FF', marginLeft: '15px'}} onClick={this.showDetail}>查看详情</span>
-                    </Col>
+                        <a target="_blank" style={{color: '#1791FF', marginLeft: '15px'}} href={`/preLoan/Access/detail?code=${this.code}`}>查看详情</a>                    </Col>
                     <Col span={8}>
                         <span>客户名称：{baseInfo.customerName}</span>
                     </Col>
@@ -292,7 +333,7 @@ class applicationForPayment extends React.Component {
                 <div className="afp-body-line"></div>
                 <Row>
                     <Col span={12}>
-                        <span className="afp-body-title" style={{width: '100px'}}>是否继续垫资：</span>
+                        <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>是否继续垫资：</span>
                         <Select className="afp-body-select" onChange={this.handleChange}>
                             <Option value="0">否</Option>
                             <Option value="1">是</Option>
@@ -301,8 +342,8 @@ class applicationForPayment extends React.Component {
                     </Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={12}>
-                        <span className="afp-body-title">审核意见：</span>
+                    <Col span={18}>
+                        <span className="afp-body-title" style={{width: '120px', textIndent: '12px'}}>审核意见：</span>
                         <textarea value={rmkText} ref={input => this.inputRmk = input} onChange={(e) => { this.iptChange(e); }} className="afp-body-textarea"></textarea>
                     </Col>
                 </Row>
@@ -372,7 +413,15 @@ class applicationForPayment extends React.Component {
                         <Row style={{marginTop: '10px'}}>
                             <Col span={6}>
                                 <span>
-                                  <input value={information.getUser} ref={input => this.getUserIpt = input} onChange={(e) => { this.iupChange(e, 'getUser'); }} type="text" className="dealer-user-detail-edit-input" />
+                                    <Select className="afp-body-select" style={{width: '300px'}} onChange={this.handleChangeExecutorListArr}>
+                                        {
+                                            executorListArr.map(item => {
+                                                return (
+                                                    <Option key={item.dkey} value={item.dkey}>{item.dvalue}</Option>
+                                                );
+                                            })
+                                        }
+                                    </Select>
                                 </span>
                             </Col>
                             <Col span={18}>
