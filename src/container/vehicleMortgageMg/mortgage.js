@@ -75,7 +75,7 @@ class mortgage extends React.Component {
                     // 是否垫资
                     isAdvanceFund: data.list[i].isAdvanceFund ? data.list[i].isAdvanceFund : '',
                     // 状态
-                    curNodeCode: data.list[i].curNodeCode ? data.list[i].curNodeCode : '',
+                    curNodeCode: data.list[i].pledgeNodeCode ? data.list[i].pledgeNodeCode : '',
                     // 贷款金额
                     loanAmount: data.list[i].loanAmount ? data.list[i].loanAmount : ''
                 });
@@ -222,8 +222,8 @@ class mortgage extends React.Component {
                     <div className="clear"></div>
                 </div>
                 <div className="preLoan-access-list-btn-group">
-                    <span className="preLoan-access-list-btn-gray" onClick={this.sendFsdy} style={{width: '80px'}}>发送抵押</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.sendQrdy} style={{marginLeft: '30px', width: '120px'}}>确认抵押完成</span>
+                    <span className="preLoan-access-list-btn-gray" onClick={this.sendQrdy} style={{width: '80px'}}>发送抵押</span>
+                    <span className="preLoan-access-list-btn-gray" onClick={this.sendFsdy} style={{marginLeft: '30px', width: '120px'}}>确认抵押完成</span>
                     <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginLeft: '30px'}}>详情</span>
                     <div className="clear"></div>
                 </div>
@@ -252,8 +252,8 @@ class mortgage extends React.Component {
                                     <Row style={{marginTop: '23px'}}>
                                         <Col span={5}>客户姓名：{d.customerName}</Col>
                                         <Col span={5}>贷款银行：{d.loanBankName}</Col>
-                                        <Col span={5}>贷款金额：{d.loanAmount}</Col>
-                                        <Col span={5}>贷款期数：{d.periods}</Col>
+                                        <Col span={5}>贷款金额：{d.loanAmount / 1000}</Col>
+                                        <Col span={5}>贷款期数：{d.periods}期限</Col>
                                         <Col span={4}>是否垫资：{d.isAdvanceFund === '0' ? '否' : '是'}</Col>
                                     </Row>
                                     <Row style={{marginTop: '15px'}}>

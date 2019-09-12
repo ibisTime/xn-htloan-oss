@@ -4,21 +4,25 @@ import {
     showSucMsg,
     getQueryString,
     findDsct,
-    dsctList1
+    dsctList1,
+    getNowTime
 } from 'common/js/util';
-import {Row, Col, Select, Table, Modal} from 'antd';
+import {Row, Col, Select, Table, Modal, DatePicker} from 'antd';
 import {
     accessSlipStatus,
     accessSlipDetail,
     carBuyingList,
     accountBlankList,
     sendEnterArchives,
-    archivesPath
+    archivesPath,
+    fileCtList,
+    executorList
 } from '../../api/preLoan.js';
 import './../financialAdvance/applicationForPayment.css';
 import add from './add.png';
 import edit from './edit.png';
 import deletes from './delete.png';
+import moment from 'moment';
 
 const {Option} = Select;
 class enterArchives extends React.Component {
@@ -81,7 +85,8 @@ class enterArchives extends React.Component {
                 path: ''
             },
             archivesPathArr: [],
-            loanBankCode: ''
+            loanBankCode: '',
+            executorListArr: []
         };
         this.count = 1;
         this.selectedRowKeys = [];
@@ -98,6 +103,18 @@ class enterArchives extends React.Component {
         this.arr = [];
     }
     componentDidMount(): void {
+        executorList(1, 1000).then(data => {
+            let arr = [];
+            for(let i = 0; i < data.list.length; i++) {
+                arr.push({
+                    dkey: data.list[i].userId,
+                    dvalue: data.list[i].realName ? data.list[i].realName : ''
+                });
+            }
+            this.setState({
+                executorListArr: arr
+            });
+        });
         // 购车行
         carBuyingList(1, 100).then(data => {
             let arr = [];
@@ -183,13 +200,13 @@ class enterArchives extends React.Component {
     }
     // missionList添加
     addMission = () => {
-        const {information, count} = this.state;
+        const {information, count, regDate} = this.state;
         this.arr.push({
             key: this.count++,
             content: information.content,
             fileCount: information.count,
             operator: information.savePp,
-            depositDateTime: information.time,
+            depositDateTime: regDate === '' ? getNowTime() : regDate,
             remark: information.rmk
         });
         this.setState({
@@ -206,12 +223,22 @@ class enterArchives extends React.Component {
     }
     // 确认
     adopt = () => {
-        const {missionList, iptInfoArr, information, loanBankCode} = this.state;
+        const {missionList, iptInfoArr, information, loanBankCode, regDate} = this.state;
+        let arr = [];
+        for(let i = 0; i < missionList.length; i++) {
+            arr.push({
+                content: missionList[i].content,
+                fileCount: missionList[i].fileCount,
+                depositDateTime: regDate === '' ? getNowTime() : regDate,
+                operator: missionList[i].operator.split('-')[0],
+                remark: missionList[i].remark
+            });
+        }
         let params = {
             code: this.code,
             enterCode: iptInfoArr.code,
             enterLocation: loanBankCode,
-            fileList: missionList
+            fileList: arr
         };
         sendEnterArchives(params).then(data => {
             showSucMsg('操作成功!');
@@ -261,16 +288,32 @@ class enterArchives extends React.Component {
     showDetail = () => {
         this.props.history.push(`/preLoan/Access/detail?code=${this.code}`);
     }
+    // 执行人编号
+    handleChangeExecutorListArr = (value, event) => {
+        const {information} = this.state;
+        information['savePp'] = value + '-' + event.props.children;
+        this.setState({
+            information
+        });
+    }
+    onChangeTime = (date, dateString) => {
+        if(new Date(dateString).getTime() > new Date().getTime()) {
+            showWarnMsg('请选择小于今天的日期');
+        }else {
+            this.setState({
+                regDate: dateString
+            });
+        }
+    };
     render() {
-        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, missionList, information, iptInfoArr, archivesPathArr} = this.state;
+        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, missionList, information, iptInfoArr, archivesPathArr, executorListArr} = this.state;
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">档案入档</span>
                 <Row className="afp-body-user-detail">
                     <Col span={8}>
                         <span>业务编号：{baseInfo.code}</span>
-                        <span style={{color: '#1791FF', marginLeft: '15px'}} onClick={this.showDetail}>查看详情</span>
-                    </Col>
+                        <a target="_blank" style={{color: '#1791FF', marginLeft: '15px'}} href={`/preLoan/Access/detail?code=${this.code}`}>查看详情</a>                    </Col>
                     <Col span={8}>
                         <span>客户名称：{baseInfo.customerName}</span>
                     </Col>
@@ -303,14 +346,14 @@ class enterArchives extends React.Component {
                 <div className="afp-body-line"></div>
                 <Row>
                     <Col span={12}>
-                        <span className="afp-body-title" style={{width: '100px'}}>档案编号：</span>
+                        <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>档案编号：</span>
                         <input type="text" value={iptInfoArr.code} ref={input => this.codeIpt = input} onChange={(e) => { this.iptChange1(e, 'code'); }} className="dealer-user-detail-edit-input" />
                         <div className="clear"></div>
                     </Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
-                        <span className="afp-body-title" style={{width: '100px'}}>档案存放位置：</span>
+                        <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>档案存放位置：</span>
                         <Select className="preLoan-body-select" style={{width: '300px'}} onChange={this.handleChangeBank}>
                             {
                                 archivesPathArr.map(data => {
@@ -324,11 +367,12 @@ class enterArchives extends React.Component {
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
-                        <span className="afp-body-title" style={{width: '100px'}}>本次存放清单：</span>
+                        <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>本次存放清单：</span>
                     </Col>
                 </Row>
                 <Table
                     className="afp-body-table"
+                    style={{width: '900px'}}
                     onRow={(record) => {
                         return {
                             onClick: (e) => {
@@ -393,7 +437,15 @@ class enterArchives extends React.Component {
                         <Row style={{marginTop: '10px'}}>
                             <Col span={6}>
                                 <span>
-                                  <input value={information.savePp} ref={input => this.savePpIpt = input} onChange={(e) => { this.iupChange(e, 'savePp'); }} type="text" className="dealer-user-detail-edit-input" />
+                                    <Select className="afp-body-select" style={{width: '300px'}} onChange={this.handleChangeExecutorListArr}>
+                                        {
+                                            executorListArr.map(item => {
+                                                return (
+                                                    <Option key={item.dkey} value={item.dkey}>{item.dvalue}</Option>
+                                                );
+                                            })
+                                        }
+                                    </Select>
                                 </span>
                             </Col>
                             <Col span={18}>
@@ -409,7 +461,7 @@ class enterArchives extends React.Component {
                         <Row style={{marginTop: '10px'}}>
                             <Col span={6}>
                                 <span>
-                                  <input value={information.time} ref={input => this.timeIpt = input} onChange={(e) => { this.iupChange(e, 'time'); }} type="text" className="dealer-user-detail-edit-input" />
+                                  <DatePicker format={'YYYY-MM-DD HH:mm:ss'} style={{width: '300px', float: 'left'}} onChange={this.onChangeTime}/>
                                 </span>
                             </Col>
                             <Col span={18}>

@@ -121,19 +121,23 @@ class orderMemory extends React.Component {
                 picHashJF = fileListJF[0].response.hash;
             }
         }
-        let arr = {
-            code: this.code,
-            advanceFundDatetime: regDate,
-            advanceFundAmount: iptInfoArr.amount,
-            billPdf: picHashJF,
-            advanceNote: iptInfoArr.rmk
-        };
-        recall(arr).then(data => {
-            showSucMsg('操作成功!');
-            setTimeout(() => {
-                this.props.history.go(-1);
-            }, 1000);
-        });
+        if(regDate === '' || iptInfoArr.amount === '' || iptInfoArr.rmk === '' || picHashJF === '') {
+            showWarnMsg('请将信息填写完整!');
+        }else {
+            let arr = {
+                code: this.code,
+                advanceFundDatetime: regDate,
+                advanceFundAmount: iptInfoArr.amount,
+                billPdf: picHashJF,
+                advanceNote: iptInfoArr.rmk
+            };
+            recall(arr).then(data => {
+                showSucMsg('操作成功!');
+                setTimeout(() => {
+                    this.props.history.go(-1);
+                }, 1000);
+            });
+        }
     }
     // 返回
     goBack = () => {
@@ -184,8 +188,7 @@ class orderMemory extends React.Component {
                 <Row className="afp-body-user-detail">
                     <Col span={8}>
                         <span>业务编号：{baseInfo.code}</span>
-                        <span style={{color: '#1791FF', marginLeft: '15px'}} onClick={this.showDetail}>查看详情</span>
-                    </Col>
+                        <a target="_blank" style={{color: '#1791FF', marginLeft: '15px'}} href={`/preLoan/Access/detail?code=${this.code}`}>查看详情</a>                    </Col>
                     <Col span={8}>
                         <span>客户名称：{baseInfo.customerName}</span>
                     </Col>
@@ -231,7 +234,7 @@ class orderMemory extends React.Component {
                 <div className="afp-body-line"></div>
                 <Row>
                     <Col span={12}>
-                        <span className="afp-body-title">垫资日期：</span>
+                        <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>垫资日期：</span>
                         <DatePicker format={'YYYY-MM-DD'} style={{width: '220px', float: 'left'}} onChange={this.onChangeTime}/>
                         <div className="clear"></div>
                     </Col>
@@ -239,14 +242,14 @@ class orderMemory extends React.Component {
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
-                        <span className="afp-body-title">垫资金额：</span>
+                        <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>垫资金额：</span>
                         <input type="text" value={iptInfoArr.amount} ref={input => this.amountIpt = input} onChange={(e) => { this.iupChange(e, 'amount'); }} className="afp-body-input" />
                     </Col>
                     <Col span={12}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={6}>
-                        <span className="afp-body-title">水单：</span>
+                        <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>水单：</span>
                         <Upload {...propsJF} data={{token: uploadToken}} fileList={fileListJF}>
                             <Button>
                                 <Icon type="upload" /> Upload
@@ -258,8 +261,8 @@ class orderMemory extends React.Component {
                     <Col span={6}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={12}>
-                        <span className="afp-body-title">垫资说明：</span>
+                    <Col span={14}>
+                        <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>垫资说明：</span>
                         <textarea value={iptInfoArr.rmk} ref={input => this.rmkIpt = input} onChange={(e) => { this.iupChange(e, 'rmk'); }} className="afp-body-textarea"></textarea>
                     </Col>
                 </Row>

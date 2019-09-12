@@ -248,3 +248,13 @@ export function sendPjPost(params) {
 export function archivesPath(start, limit) {
     return fetch(632825, {start, limit});
 }
+
+// 执行人列表
+export function executorList(start, limit) {
+    return fetch(630065, {start, limit, status: 1});
+}
+
+// 文件内容列表
+export function fileCtList(start, limit) {
+    return fetch(632215, {start, limit, category: 'node_file_list'});
+}

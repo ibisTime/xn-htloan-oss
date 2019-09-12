@@ -4,14 +4,15 @@ import {
     showSucMsg,
     getQueryString,
     dsctImgList,
-    findDsct
+    findDsct,
+    dsctList
 } from 'common/js/util';
 import {
-    sendCreditReportingLs,
     accessSlipDetail
 } from '../../api/preLoan.js';
 import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
 import {Row, Col} from 'antd';
+import { getDictList } from 'api/dict';
 import './preloanAccessDetail.css';
 import './preloanAccess.css';
 
@@ -70,6 +71,63 @@ class preloanAccessDetail extends React.Component {
             });
             console.log(this.state.attachments);
         });
+        Promise.all([
+            getDictList({ parentKey: 'budget_orde_biz_typer' }),
+            getDictList({ parentKey: 'loan_period' }),
+            getDictList({ parentKey: 'car_type' }),
+            getDictList({ parentKey: 'gender' }),
+            getDictList({ parentKey: 'marry_state' }),
+            getDictList({ parentKey: 'education' }),
+            getDictList({ parentKey: 'is_card_mail_address' }),
+            getDictList({ parentKey: 'credit_contacts_relation' }),
+            getDictList({ parentKey: 'work_belong_industry' }),
+            getDictList({ parentKey: 'work_company_property' }),
+            getDictList({ parentKey: 'main_income' }),
+            getDictList({ parentKey: 'position' }),
+            getDictList({ parentKey: 'work_profession' }),
+            getDictList({ parentKey: 'interest' }),
+            getDictList({ parentKey: 'car_frame_price_count' }),
+            getDictList({ parentKey: 'permanent_type' }),
+            getDictList({ parentKey: 'credit_user_relation' })
+        ]).then(([
+                     budgetOrdeBizTyper,
+                     loanPeriod,
+                     carTypeData,
+                     genderData,
+                     marryState,
+                     education,
+                     isCardMailAddress,
+                     creditContactsRelation,
+                     workBelongIndustry,
+                     workCompanyProperty,
+                     mainIncome,
+                     position,
+                     workProfession,
+                     interest,
+                     carFramePriceCount,
+                     permanentType,
+                     creditUserRelation
+                 ]) => {
+            this.setState({
+                budgetOrdeBizTyper: dsctList(budgetOrdeBizTyper),
+                loanPeriod: dsctList(loanPeriod),
+                carTypeData: dsctList(carTypeData),
+                genderData: dsctList(genderData),
+                marryState: dsctList(marryState),
+                education: dsctList(education),
+                isCardMailAddress: dsctList(isCardMailAddress),
+                creditContactsRelation: dsctList(creditContactsRelation),
+                workBelongIndustry: dsctList(workBelongIndustry),
+                workCompanyProperty: dsctList(workCompanyProperty),
+                mainIncome: dsctList(mainIncome),
+                position: dsctList(position),
+                workProfession: dsctList(workProfession),
+                interest: dsctList(interest),
+                carFramePriceCount: dsctList(carFramePriceCount),
+                permanentType: dsctList(permanentType),
+                creditUserRelation: dsctList(creditUserRelation)
+            });
+        });
     }
 
     // 贷款人信息Tab效果
@@ -111,7 +169,8 @@ class preloanAccessDetail extends React.Component {
             creditUser,
             bankLoan,
             costSettlement,
-            carInfo
+            carInfo,
+            education
         } = this.state;
         return (
             <div>
@@ -194,7 +253,7 @@ class preloanAccessDetail extends React.Component {
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
                                         <Col span={12}>手机号：{creditUserList1.mobile}</Col>
-                                        <Col span={12}>征信结果：{creditUserList1.bankCreditResult === '0' ? '通过' : '不通过'}</Col>
+                                        <Col span={12}>征信结果：{creditUserList1.bankCreditResult === '0' ? '不通过' : '通过'}</Col>
                                     </Row>
                                 </div>
                             ) : null
@@ -232,7 +291,7 @@ class preloanAccessDetail extends React.Component {
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
                                         <Col span={12}>手机号：{creditUserList2.mobile}</Col>
-                                        <Col span={12}>征信结果：{creditUserList2.bankCreditResult === '0' ? '通过' : '不通过'}</Col>
+                                        <Col span={12}>征信结果：{creditUserList2.bankCreditResult === '0' ? '不通过' : '通过'}</Col>
                                     </Row>
                                 </div>
                             ) : null
@@ -270,7 +329,7 @@ class preloanAccessDetail extends React.Component {
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
                                         <Col span={12}>手机号：{creditUserList3.mobile}</Col>
-                                        <Col span={12}>征信结果：{creditUserList3.bankCreditResult === '0' ? '通过' : '不通过'}</Col>
+                                        <Col span={12}>征信结果：{creditUserList3.bankCreditResult === '0' ? '不通过' : '通过'}</Col>
                                     </Row>
                                 </div>
                             ) : null
@@ -286,12 +345,12 @@ class preloanAccessDetail extends React.Component {
                     <div className="preLoan-detail-box-content">
                         <span className="preLoan-body-tag">主贷人</span>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>教育程度：{creditUser.education}</Col>
+                            <Col span={12}>教育程度：{creditUserList1.educationeName}</Col>
                             <Col span={12}>现住地址：{creditUser.nowAddress}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
-                            <Col span={12}>婚姻状态：{creditUser.marryState}</Col>
-                            <Col span={12}>住房类型：{creditUser.nowHouseType}</Col>
+                            <Col span={12}>婚姻状态：{creditUserList1.marryStateName}</Col>
+                            <Col span={12}>住房类型：{creditUserList1.nowHouseTypeName}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
                             <Col span={12}>工作单位：{creditUser.companyName}</Col>
@@ -303,21 +362,7 @@ class preloanAccessDetail extends React.Component {
                         </Row>
                         <Row style={{marginTop: '16px'}}>
                             <Col span={12}>现职年数：{creditUser.presentJobYears}年</Col>
-                            <Col span={12}>常住类型：{creditUser.permanentType}</Col>
-                        </Row>
-                        <Row className="preLoan-body-row-top">
-                            <Col span={6}>
-                                <span>结婚证</span>
-                                <br />
-                                <div className="preLoan-body-table-content-tab-card"></div>
-                            </Col>
-                            <Col span={6}>
-                                <span>离婚证</span>
-                                <br />
-                                <div className="preLoan-body-table-content-tab-card"></div>
-                            </Col>
-                            <Col span={6}></Col>
-                            <Col span={6}></Col>
+                            <Col span={12}>常住类型：{creditUserList1.permanentTypeName}</Col>
                         </Row>
                         <div className="preLoan-detail-row-line"></div>
                         <span className="preLoan-body-tag">共还人信息</span>
@@ -359,7 +404,7 @@ class preloanAccessDetail extends React.Component {
                         <span className="preLoan-body-tag">紧急联系人</span>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={12}>姓名：{creditUser.emergencyName1}</Col>
-                            <Col span={12}>与主贷人关系：{creditUser.emergencyRelation1}</Col>
+                            <Col span={12}>与主贷人关系：{creditUserList1.setEmergencyRelation1Name}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
                             <Col span={12}>联系电话：{creditUser.emergencyMobile1}</Col>
@@ -369,7 +414,7 @@ class preloanAccessDetail extends React.Component {
                         <span className="preLoan-body-tag">紧急联系人</span>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={12}>姓名：{creditUser.emergencyName2}</Col>
-                            <Col span={12}>与主贷人关系：{creditUser.emergencyRelation2}</Col>
+                            <Col span={12}>与主贷人关系：{creditUserList1.setEmergencyRelation2Name}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
                             <Col span={12}>联系电话：{creditUser.emergencyMobile2}</Col>
@@ -387,33 +432,33 @@ class preloanAccessDetail extends React.Component {
                     <div className="preLoan-detail-box-content">
                         <span className="preLoan-body-tag">贷款信息</span>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={8}>贷款本金：{bankLoan.loanAmount}</Col>
-                            <Col span={8}>贷款期限：{bankLoan.periods}年</Col>
-                            <Col span={8}>银行利率（%）：{bankLoan.bankRate}%</Col>
+                            <Col span={8}>贷款本金：{bankLoan ? bankLoan.loanAmount / 1000 : ''}</Col>
+                            <Col span={8}>贷款期限：{bankLoan ? bankLoan.periods : ''}期</Col>
+                            <Col span={8}>银行利率（%）：{bankLoan ? bankLoan.bankRate : ''}%</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={8}>总利率：{bankLoan.totalRate}%</Col>
-                            <Col span={8}>返点利率：{bankLoan.rebateRate}%</Col>
-                            <Col span={8}>服务费：{bankLoan.fee}</Col>
+                            <Col span={8}>总利率：{bankLoan ? bankLoan.totalRate : ''}%</Col>
+                            <Col span={8}>返点利率：{bankLoan ? bankLoan.rebateRate : ''}%</Col>
+                            <Col span={8}>服务费：{bankLoan ? bankLoan.fee / 1000 : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={8}>利率类型：{bankLoan.rateType}</Col>
-                            <Col span={8}>是否垫资：{bankLoan.isAdvanceFund}</Col>
-                            <Col span={8}>是否贴息：{bankLoan.isDiscount}</Col>
+                            <Col span={8}>利率类型：{bankLoan ? bankLoan.rateType : ''}</Col>
+                            <Col span={8}>是否垫资：{bankLoan ? (bankLoan.isAdvanceFund === '0' ? '否' : '是') : ''}</Col>
+                            <Col span={8}>是否贴息：{bankLoan ? (bankLoan.isDiscount === '0' ? '否' : '是') : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={8}>贴息利率：{bankLoan.discountRate}%</Col>
-                            <Col span={8}>贴息金额：{bankLoan.discountAmount}</Col>
-                            <Col span={8}>贷款成数：{bankLoan.loanRatio}%</Col>
+                            <Col span={8}>贴息利率：{bankLoan ? bankLoan.discountRate : ''}%</Col>
+                            <Col span={8}>贴息金额：{bankLoan ? bankLoan.discountAmount / 1000 : ''}</Col>
+                            <Col span={8}>贷款成数：{bankLoan ? bankLoan.loanRatio : ''}%</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={8}>万元系数：{bankLoan.wanFactor}</Col>
-                            <Col span={8}>月供：{bankLoan.monthAmount}</Col>
-                            <Col span={8}>首月还款额：{bankLoan.firstRepayAmount}</Col>
+                            <Col span={8}>万元系数：{bankLoan ? bankLoan.wanFactor : ''}</Col>
+                            <Col span={8}>月供：{bankLoan ? bankLoan.monthAmount / 1000 : ''}</Col>
+                            <Col span={8}>首月还款额：{bankLoan ? bankLoan.repayFirstMonthAmount / 1000 : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={8}>高抛金额：{bankLoan.highCashAmount}</Col>
-                            <Col span={8}>贷款总额：{bankLoan.totalFee}</Col>
+                            <Col span={8}>高抛金额：{bankLoan ? bankLoan.highCashAmount / 1000 : ''}</Col>
+                            <Col span={8}>贷款总额：{bankLoan ? bankLoan.totalFee / 1000 : ''}</Col>
                             <Col span={8}></Col>
                         </Row>
                     </div>
@@ -426,13 +471,13 @@ class preloanAccessDetail extends React.Component {
                     </div>
                     <div className="preLoan-detail-box-content">
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={8}>担保风险金：{costSettlement.fxAmount}</Col>
-                            <Col span={8}>履约押金：{costSettlement.lyDeposit}</Col>
-                            <Col span={8}>返点金额：{costSettlement.repointAmount}</Col>
+                            <Col span={8}>担保风险金：{costSettlement ? costSettlement.fxAmount / 1000 : ''}</Col>
+                            <Col span={8}>履约押金：{costSettlement ? costSettlement.lyDeposit / 1000 : ''}</Col>
+                            <Col span={8}>返点金额：{costSettlement ? costSettlement.repointAmount / 1000 : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={8}>GPS费：{costSettlement.gpsFee}</Col>
-                            <Col span={8}>其他费用：{costSettlement.otherFee}</Col>
+                            <Col span={8}>GPS费：{costSettlement ? costSettlement.gpsFee / 1000 : ''}</Col>
+                            <Col span={8}>其他费用：{costSettlement ? costSettlement.otherFee / 1000 : ''}</Col>
                             <Col span={8}></Col>
                         </Row>
                     </div>
@@ -454,7 +499,7 @@ class preloanAccessDetail extends React.Component {
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={12}>车辆型号：{carInfo.model}</Col>
-                            <Col span={12}>是否加装GPS：{carInfo.isAzGps}</Col>
+                            <Col span={12}>是否加装GPS：{carInfo.isAzGps === '0' ? '否' : '是'}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={12}>车辆价格：{carInfo.carPrice}</Col>

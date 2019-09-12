@@ -35,82 +35,19 @@ class companysystemAddedit extends React.Component {
 
     render() {
         const fields = [{
-            field: 'regimeCode',
-            title: '制度编号',
+            field: 'code',
+            title: '编号',
             required: true
         }, {
-            field: 'name',
+            field: 'title',
             title: '标题',
             required: true
         }, {
             field: 'type',
             title: '类型',
             type: 'select',
-            key: 'regime_status',
+            key: 'sms_type',
             required: true
-        }, {
-            title: '公告范围类型',
-            field: 'scopeType',
-            type: 'select',
-            key: 'scope_people_type',
-            required: true,
-            onChange: (value) => {
-                this.hideStatus = value === '-1';
-                this.isUserId = value === '4';
-                let bizCode;
-                let params = {};
-                if (value !== '-1') {
-                    // 分公司
-                    if (value === '1') {
-                        bizCode = 630106;
-                        params.typeList = ['1'];
-                        params.status = '1';
-                        // 部门
-                    } else if (value === '2') {
-                        bizCode = 630106;
-                        params.typeList = ['2'];
-                        params.status = '1';
-                        // 职位
-                    } else if (value === '3') {
-                        bizCode = 630106;
-                        params.typeList = ['3'];
-                        params.status = '1';
-                        // 具体人
-                    } else if (value === '4') {
-                        bizCode = 632807;
-                    }
-                    this.props.setSelectData({
-                        data: [],
-                        key: 'peopleCode'
-                    });
-                    this.props.form.setFieldsValue({
-                        peopleCode: ''
-                    });
-                    this.props.doFetching();
-                    fetch(bizCode, params).then((data) => {
-                        this.props.setSelectData({
-                            data: data.list ? data.list : data,
-                            key: 'peopleCode'
-                        });
-                        this.props.cancelFetching();
-                    }).catch(this.props.cancelFetching);
-                }
-            },
-            formatter: (v, data) => {
-                return data.scopePeopleList[0].type;
-            }
-        }, {
-            title: '具体类型人员',
-            field: 'peopleCode',
-            type: 'select',
-            keyName: this.isUserId ? 'userId' : 'code',
-            valueName: this.isUserId ? '{{postName.DATA}}-{{realName.DATA}}' : 'name',
-            searchName: this.isUserId ? 'keyword' : '',
-            required: true,
-            hidden: this.hideStatus,
-            formatter: (v, data) => {
-                return data.scopePeopleList[0].peopleCode ? data.scopePeopleList[0].peopleName : '-';
-            }
         }, {
             title: '内容',
             field: 'content',
@@ -118,16 +55,14 @@ class companysystemAddedit extends React.Component {
             normalArea: true,
             required: true
         }, {
-            title: '备注',
-            field: 'remark'
+            title: '创建时间',
+            field: 'createDatetime'
         }];
         return this.props.buildDetail({
             fields,
             code: this.code,
             view: this.view,
-            addCode: 632730,
-            editCode: 632731,
-            detailCode: 632736,
+            detailCode: 805307,
             beforeSubmit: (params) => {
                 params.scopePeopleList = [{
                     scopeType: params.scopeType,

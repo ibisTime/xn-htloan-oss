@@ -4,7 +4,8 @@ import {
     showSucMsg,
     getQueryString,
     findDsct,
-    dsctList1
+    dsctList1,
+    getNowTime
 } from 'common/js/util';
 import {Row, Col, Select, DatePicker} from 'antd';
 import {
@@ -15,6 +16,7 @@ import {
     sendCmSucess
 } from '../../api/preLoan.js';
 import '../financialAdvance/applicationForPayment.css';
+import moment from 'moment';
 
 const {Option} = Select;
 const { MonthPicker } = DatePicker;
@@ -103,7 +105,7 @@ class confirmSubmission extends React.Component {
         const {iptArr, regDate} = this.state;
         let arr = {
             code: this.code,
-            bankCommitDatetime: regDate,
+            bankCommitDatetime: regDate === '' ? getNowTime() : regDate,
             bankCommitNote: iptArr.rmk
         };
         sendCmSucess(arr).then(data => {
@@ -144,8 +146,7 @@ class confirmSubmission extends React.Component {
                 <Row className="afp-body-user-detail">
                     <Col span={8}>
                         <span>业务编号：{baseInfo.code}</span>
-                        <span style={{color: '#1791FF', marginLeft: '15px'}} onClick={this.showDetail}>查看详情</span>
-                    </Col>
+                        <a target="_blank" style={{color: '#1791FF', marginLeft: '15px'}} href={`/preLoan/Access/detail?code=${this.code}`}>查看详情</a>                    </Col>
                     <Col span={8}>
                         <span>客户名称：{baseInfo.customerName}</span>
                     </Col>
@@ -179,7 +180,8 @@ class confirmSubmission extends React.Component {
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span style={{float: 'left'}}>提交时间：</span>
-                        <DatePicker format={'YYYY-MM-DD HH:mm:ss'} style={{width: '220px', float: 'left', marginLeft: '22px'}} onChange={this.onChangeTime}/>
+                        <DatePicker format={'YYYY-MM-DD HH:mm:ss'} defaultValue={moment(new Date(), 'YYYY-MM-DD HH:mm:ss')} style={{width: '220px', float: 'left', marginLeft: '22px'}} onChange={this.onChangeTime}/>
+                        <span style={{color: '#999999', marginTop: '5px', display: 'block'}}>（默认当前时间）</span>
                     </Col>
                     <Col span={12}></Col>
                 </Row>
