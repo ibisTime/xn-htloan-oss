@@ -1,19 +1,20 @@
 import React from 'react';
-import { Modal } from 'antd';
+import {Modal} from 'antd';
 import {
-  setTableData,
-  setPagination,
-  setBtnList,
-  setSearchParam,
+  cancelFetching,
   clearSearchParam,
   doFetching,
-  cancelFetching,
-  setSearchData
+  setBtnList,
+  setPagination,
+  setSearchData,
+  setSearchParam,
+  setTableData
 } from '@redux/taskmanagement/taskmanagement';
-import { showWarnMsg, showSucMsg, getUserId } from 'common/js/util';
-import { listWrapper } from 'common/js/build-list';
+import {getUserId, showSucMsg, showWarnMsg} from 'common/js/util';
+import {listWrapper} from 'common/js/build-list';
 import fetch from 'common/js/fetch';
-import { complete, tovoid } from 'api/biz';
+import {complete, tovoid} from 'api/biz';
+
 @listWrapper(
     state => ({
       ...state.taskmanageMent,
@@ -54,7 +55,7 @@ class Notice extends React.Component {
       field: 'createrName',
       title: '发布人'
     }, {
-      field: 'getUserName',
+      field: 'getUser',
       title: '认领人'
     }, {
       field: 'status',

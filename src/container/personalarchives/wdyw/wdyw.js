@@ -1,16 +1,17 @@
 import React from 'react';
 import {
-    setTableData,
-    setPagination,
-    setBtnList,
-    setSearchParam,
+    cancelFetching,
     clearSearchParam,
     doFetching,
-    cancelFetching,
-    setSearchData
+    setBtnList,
+    setPagination,
+    setSearchData,
+    setSearchParam,
+    setTableData
 } from '@redux/personalarchives/ywcx';
-import { dateTimeFormat, getUserId, showWarnMsg } from 'common/js/util';
-import { listWrapper } from 'common/js/build-list';
+import {dateTimeFormat, getUserId, showWarnMsg} from 'common/js/util';
+import {listWrapper} from 'common/js/build-list';
+
 @listWrapper(
   state => ({
       ...state.ywCx,
@@ -33,17 +34,11 @@ class ywCx extends React.Component {
             title: '业务编号',
             hidden: true
         }, {
-            field: 'uName',
-            title: '业务编号',
-            render: (v, d) => {
-                return d.creditUser ? d.creditUser.code : '';
-            }
+            field: 'code',
+            title: '业务编号'
         }, {
-            field: 'userName',
+            field: 'customerName',
             title: '客户姓名',
-            render: (v, d) => {
-                return d.creditUser ? d.creditUser.userName : '';
-            },
             search: true
         }, {
             title: '贷款银行',
