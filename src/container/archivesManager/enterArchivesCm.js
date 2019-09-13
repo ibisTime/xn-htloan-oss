@@ -150,7 +150,7 @@ class enterArchives extends React.Component {
                     saleGroup: data.saleUserCompanyName + '-' + data.saleUserDepartMentName + '-' + data.saleUserPostName + '-' + data.saleUserName,
                     curNodeCode: data.curNodeCode ? data.curNodeCode : ''
                 },
-                collectBankcard: data.advance.collectBankcard,
+                collectBankcard: data.advance ? data.advance.collectBankcard : '',
                 fileLists: data.fileList,
                 missionList: [...arr],
                 enterLocationCode: data.enterLocation

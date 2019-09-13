@@ -60,9 +60,6 @@ class Circulationlog extends React.Component {
         return `${v}(${d.operatorMobile})`;
       }
     }, {
-      title: '手机号',
-      field: 'operatorMobile'
-    }, {
       title: '节点名称',
       field: 'dealNode',
       type: 'select',

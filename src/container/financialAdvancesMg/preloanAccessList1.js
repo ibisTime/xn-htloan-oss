@@ -5,13 +5,14 @@ import {
     moneyFormat,
     dateTimeFormat,
     dsctList1,
-    findDsct
+    findDsct,
+    getRoleCode
 } from 'common/js/util';
 import {Row, Col, Checkbox, Pagination, Select} from 'antd';
-import {Link} from 'react-router-dom';
 import {
     accessSlip,
-    accessSlipStatus
+    accessSlipStatus,
+    showButton
 } from '../../api/preLoan.js';
 import './preloanAccess.css';
 import './preloanAccessList.css';
@@ -29,7 +30,13 @@ class preloanAccessList1 extends React.Component {
             customerName: '',
             curNodeCode: '',
             accessSlipStatusArr: [],
-            paginationCurrent: 1
+            paginationCurrent: 1,
+            tomoney: false,
+            toexamine: false,
+            toexamines: false,
+            zdhl: false,
+            edit: false,
+            detail: false
         };
         this.checkBoxGroup = [];
         this.statusName = '';
@@ -37,6 +44,41 @@ class preloanAccessList1 extends React.Component {
     componentDidMount(): void {
         this.getAccessSlip(1);
         this.getAccessSlipStatus();
+        let btnArr = {
+            parentCode: 'SM201805291018133331107',
+            roleCode: getRoleCode(),
+            type: '2'
+        };
+        showButton(btnArr).then(data => {
+            console.log('showButton', data);
+            for(let i = 0; i < data.length; i++) {
+                if(data[i].url === '/tomoney') {
+                    this.setState({
+                        tomoney: true
+                    });
+                }else if(data[i].url === '/toexamine') {
+                    this.setState({
+                        toexamine: true
+                    });
+                }else if(data[i].url === '/toexamines') {
+                    this.setState({
+                        toexamines: true
+                    });
+                }else if(data[i].url === '/zdhl') {
+                    this.setState({
+                        zdhl: true
+                    });
+                }else if(data[i].url === '/edit') {
+                    this.setState({
+                        edit: true
+                    });
+                }else if(data[i].url === '/detail') {
+                    this.setState({
+                        detail: true
+                    });
+                }
+            }
+        });
     }
 
     // 状态
@@ -215,8 +257,20 @@ class preloanAccessList1 extends React.Component {
         }
     }
     render() {
-        const {accessSlipList, total, accessSlipStatusArr, code, customerName, paginationCurrent} = this.state;
-        console.log(accessSlipStatusArr);
+        const {
+            accessSlipList,
+            total,
+            accessSlipStatusArr,
+            code,
+            customerName,
+            paginationCurrent,
+            tomoney,
+            toexamine,
+            toexamines,
+            zdhl,
+            edit,
+            detail
+        } = this.state;
         return (
             <div className="preLoan-access-list-global">
                 <Row>
@@ -247,12 +301,36 @@ class preloanAccessList1 extends React.Component {
                     <div className="clear"></div>
                 </div>
                 <div className="preLoan-access-list-btn-group">
-                    <span className="preLoan-access-list-btn-gray" onClick={this.skFor} style={{width: '80px'}}>用款申请</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.skFor1} style={{marginLeft: '30px', width: '80px'}}>用款一审</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.skFor2} style={{marginLeft: '30px', width: '80px'}}>用款二审</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.skForBack1} style={{marginLeft: '30px', width: '80px'}}>制单录回</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.skForBack2} style={{marginLeft: '30px', width: '80px'}}>垫资回录</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginLeft: '30px'}}>详情</span>
+                    {
+                        tomoney ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.skFor} style={{width: '80px'}}>用款申请</span>
+                        ) : null
+                    }
+                    {
+                        toexamine ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.skFor1} style={{marginLeft: '30px', width: '80px'}}>用款一审</span>
+                        ) : null
+                    }
+                    {
+                        toexamines ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.skFor2} style={{marginLeft: '30px', width: '80px'}}>用款二审</span>
+                        ) : null
+                    }
+                    {
+                        zdhl ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.skForBack1} style={{marginLeft: '30px', width: '80px'}}>制单录回</span>
+                        ) : null
+                    }
+                    {
+                        edit ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.skForBack2} style={{marginLeft: '30px', width: '80px'}}>垫资回录</span>
+                        ) : null
+                    }
+                    {
+                        detail ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginLeft: '30px'}}>详情</span>
+                        ) : null
+                    }
                     <div className="clear"></div>
                 </div>
                 {

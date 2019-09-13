@@ -5,13 +5,14 @@ import {
     moneyFormat,
     dateTimeFormat,
     dsctList1,
-    findDsct
+    findDsct,
+    getRoleCode
 } from 'common/js/util';
 import {Row, Col, Checkbox, Pagination, Select} from 'antd';
-import {Link} from 'react-router-dom';
 import {
     accessSlip,
-    accessSlipStatus
+    accessSlipStatus,
+    showButton
 } from '../../api/preLoan.js';
 import './preloanAccess.css';
 import './preloanAccessList.css';
@@ -29,7 +30,10 @@ class preloanAccessList extends React.Component {
             customerName: '',
             curNodeCode: '',
             accessSlipStatusArr: [],
-            paginationCurrent: 1
+            paginationCurrent: 1,
+            showZrzl: false,
+            showZrsk: false,
+            showDetail: false
         };
         this.checkBoxGroup = [];
         this.statusName = '';
@@ -37,6 +41,29 @@ class preloanAccessList extends React.Component {
     componentDidMount(): void {
         this.getAccessSlip(1);
         this.getAccessSlipStatus();
+        let btnArr = {
+            parentCode: 'SM201805291013406492370',
+            roleCode: getRoleCode(),
+            type: '2'
+        };
+        showButton(btnArr).then(data => {
+            console.log('showButton', data);
+            for(let i = 0; i < data.length; i++) {
+                if(data[i].url === '/apply') {
+                    this.setState({
+                        showZrzl: true
+                    });
+                }else if(data[i].url === '/examine') {
+                    this.setState({
+                        showZrsk: true
+                    });
+                }else if(data[i].url === '/detail') {
+                    this.setState({
+                        showDetail: true
+                    });
+                }
+            }
+        });
     }
 
     // 状态
@@ -175,8 +202,7 @@ class preloanAccessList extends React.Component {
         this.statusName = '';
     }
     render() {
-        const {accessSlipList, total, accessSlipStatusArr, code, customerName, paginationCurrent} = this.state;
-        console.log(accessSlipStatusArr);
+        const {accessSlipList, total, accessSlipStatusArr, code, customerName, paginationCurrent, showZrzl, showZrsk, showDetail} = this.state;
         return (
             <div className="preLoan-access-list-global">
                 <Row>
@@ -207,9 +233,21 @@ class preloanAccessList extends React.Component {
                     <div className="clear"></div>
                 </div>
                 <div className="preLoan-access-list-btn-group">
-                    <span className="preLoan-access-list-btn-gray" onClick={this.sendAddInfoOrChange} style={{width: '80px'}}>准入资料</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.sendExamine} style={{marginLeft: '30px', width: '80px'}}>准入审核</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginLeft: '30px'}}>详情</span>
+                    {
+                        showZrzl ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendAddInfoOrChange} style={{width: '80px'}}>准入资料</span>
+                        ) : null
+                    }
+                    {
+                        showZrsk ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendExamine} style={{marginLeft: '30px', width: '80px'}}>准入审核</span>
+                        ) : null
+                    }
+                    {
+                        showDetail ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginLeft: '30px'}}>详情</span>
+                        ) : null
+                    }
                     <div className="clear"></div>
                 </div>
                 {

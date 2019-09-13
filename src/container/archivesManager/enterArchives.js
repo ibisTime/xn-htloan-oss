@@ -147,7 +147,7 @@ class enterArchives extends React.Component {
                     saleGroup: data.saleUserCompanyName + '-' + data.saleUserDepartMentName + '-' + data.saleUserPostName + '-' + data.saleUserName,
                     curNodeCode: data.curNodeCode ? data.curNodeCode : ''
                 },
-                collectBankcard: data.advance.collectBankcard
+                collectBankcard: data.advance ? data.advance.collectBankcard : ''
             });
         });
         accountBlankList(1, 1000, '').then(data => {

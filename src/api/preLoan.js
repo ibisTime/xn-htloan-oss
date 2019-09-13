@@ -258,3 +258,8 @@ export function executorList(start, limit) {
 export function fileCtList(start, limit) {
     return fetch(632215, {start, limit, category: 'node_file_list'});
 }
+
+// 根据权限显示可显示按钮
+export function showButton(params) {
+    return fetch(630025, {...params});
+}
