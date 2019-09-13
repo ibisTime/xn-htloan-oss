@@ -128,7 +128,15 @@ class preloanAccessList extends React.Component {
         }else if(this.checkBoxGroup.length >= 2) {
             showWarnMsg('请选择不大于一条记录');
         }else {
-            this.sendExamineCode(this.checkBoxGroup[0]);
+            if(this.checkBoxGroup[0] === undefined) {
+                this.props.history.push(`/preLoan/Access`);
+            }else {
+                if(this.checkBoxGroup[0].split('|')[1] === 'a2') {
+                    this.sendExamineCode(this.checkBoxGroup[0]);
+                }else {
+                    showWarnMsg('当前状态不能操作!');
+                }
+            }
         }
     }
     sendAddInfoOrChange = () => {

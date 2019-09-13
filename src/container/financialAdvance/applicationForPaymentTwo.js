@@ -59,17 +59,22 @@ class applicationForPayment extends React.Component {
             information: {
                 name: '',
                 time: '',
-                getUser: ''
+                getUser: '',
+                getUserCode: ''
             },
             visible: false,
-            executorListArr: []
+            visibleEdit: false,
+            executorListArr: [],
+            getUserNames: ''
         };
         this.count = 1;
+        this.selectedRows = [];
         this.selectedRowKeys = [];
         this.selectedRowKeysArr = [];
         this.rowSelection = {
             onChange: (selectedRowKeys, selectedRows) => {
                 this.selectedRowKeysArr = selectedRowKeys;
+                this.selectedRows = selectedRows;
             },
             getCheckboxProps: record => ({
                 disabled: record.name === 'Disabled User',
@@ -102,7 +107,7 @@ class applicationForPayment extends React.Component {
                     loanBankName: data.loanBankName,
                     loanAmount: data.loanAmount,
                     bizType: data.bizType === '0' ? '新车' : '二手车',
-                    shopCarGarage: data.carInfo.shopCarGarageName,
+                    shopCarGarage: data.carInfo ? data.carInfo.shopCarGarageName : '',
                     saleGroup: data.saleUserCompanyName + '-' + data.saleUserDepartMentName + '-' + data.saleUserPostName + '-' + data.saleUserName,
                     curNodeCode: data.curNodeCode ? data.curNodeCode : ''
                 },
@@ -146,15 +151,40 @@ class applicationForPayment extends React.Component {
                 visibleDetail: true
             });
         }else if(type === 'dataChange') {
-            this.setState({
-                visibleChange: true
-            });
+            if(this.selectedRowKeysArr.length < 1) {
+                showWarnMsg('请选择记录!');
+            }else if(this.selectedRowKeysArr.length > 1) {
+                showWarnMsg('请选择不大于一条记录!');
+            }else {
+                this.setState({
+                    visibleEdit: true
+                });
+                this.editMission();
+            }
         }
     };
     hideModal = (type) => {
         if(type === 'dataEdit') {
             this.setState({
-                visible: false
+                visible: false,
+                information: {
+                    name: '',
+                    time: '',
+                    getUser: '',
+                    getUserCode: ''
+                },
+                getUserNames: ''
+            });
+        }else if(type === 'dataChange') {
+            this.setState({
+                visibleEdit: false,
+                information: {
+                    name: '',
+                    time: '',
+                    getUser: '',
+                    getUserCode: ''
+                },
+                getUserNames: ''
             });
         }
     };
@@ -170,7 +200,8 @@ class applicationForPayment extends React.Component {
             key: this.count++,
             name: information.name,
             time: information.time,
-            getUser: information.getUser
+            getUser: information.getUser,
+            getUserCode: information.getUserCode
         });
         this.setState({
             missionList: this.arr
@@ -179,10 +210,46 @@ class applicationForPayment extends React.Component {
      }
     // missionList修改
     editMission = () => {
+        console.log('editMission', this.selectedRowKeysArr);
+        console.log('selectedRows', this.selectedRows);
+        this.setState({
+            information: {
+                name: this.selectedRows[0].name,
+                time: this.selectedRows[0].time,
+                getUser: this.selectedRows[0].getUser,
+                getUserCode: this.selectedRows[0].getUserCode
+            },
+            getUserNames: this.selectedRows[0].getUser
+        });
+    }
+    // 点击修改
+    sendEdit = () => {
+        const {information, missionList} = this.state;
+        let arr = {
+            key: this.selectedRowKeysArr[0],
+            name: information.name,
+            time: information.time,
+            getUser: information.getUser,
+            getUserCode: information.getUserCode
+        };
+        let missionListArr = missionList;
+        missionListArr.splice(this.selectedRowKeysArr[0] - 1, 2, arr);
+        this.setState({
+            missionList: missionListArr
+        });
+        this.hideModal('dataChange');
     }
     // missionList删除
     deleteMission = () => {
-
+        const {missionList} = this.state;
+        let missionListArr = missionList;
+        missionListArr.splice(this.selectedRowKeysArr[0] - 1, 1);
+        this.setState({
+            missionList: missionListArr
+        });
+        this.selectedRows = [];
+        this.selectedRowKeys = [];
+        this.selectedRowKeysArr = [];
     }
     // 不通过
     notAdopt = () => {
@@ -192,7 +259,7 @@ class applicationForPayment extends React.Component {
             arr.push({
                 name: missionList[i].name,
                 time: missionList[i].time,
-                getUser: missionList[i].getUser.split('-')[0]
+                getUser: missionList[i].getUserCode
             });
         }
         if(isDz === '' || isDz === undefined) {
@@ -221,7 +288,7 @@ class applicationForPayment extends React.Component {
             arr.push({
                 name: missionList[i].name,
                 time: missionList[i].time,
-                getUser: missionList[i].getUser.split('-')[0]
+                getUser: missionList[i].getUserCode
             });
         }
         if(isDz === '' || isDz === undefined) {
@@ -274,13 +341,15 @@ class applicationForPayment extends React.Component {
     // 执行人编号
     handleChangeExecutorListArr = (value, event) => {
         const {information} = this.state;
-        information['getUser'] = value + '-' + event.props.children;
+        information['getUser'] = event.props.children;
+        information['getUserCode'] = value;
         this.setState({
-            information
+            information,
+            getUserNames: event.props.children
         });
     }
     render() {
-        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, rmkText, collectBankcard, missionList, information, executorListArr} = this.state;
+        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, rmkText, collectBankcard, missionList, information, executorListArr, getUserNames} = this.state;
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">业务基本信息</span>
@@ -413,7 +482,7 @@ class applicationForPayment extends React.Component {
                         <Row style={{marginTop: '10px'}}>
                             <Col span={6}>
                                 <span>
-                                    <Select className="afp-body-select" style={{width: '300px'}} onChange={this.handleChangeExecutorListArr}>
+                                    <Select className="afp-body-select" style={{width: '300px'}} value={getUserNames} onChange={this.handleChangeExecutorListArr}>
                                         {
                                             executorListArr.map(item => {
                                                 return (
@@ -437,13 +506,90 @@ class applicationForPayment extends React.Component {
                         </Row>
                     </div>
                 </Modal>
+                {/* 修改 */}
+                <Modal
+                    visible={this.state.visibleEdit}
+                    onOk={type => this.hideModal('dataChange')}
+                    onCancel={type => this.hideModal('dataChange')}
+                    footer={null}
+                    width={400}
+                    style={{ top: 60 }}
+                >
+                    <div className="dealer-user-detail-edit-dialog-body">
+                        <strong className="dealer-user-detail-edit-dialog-title">修改</strong>
+                        <Row style={{marginTop: '30px'}}>
+                            <Col span={6}>
+                                <span><span className="dealer-color-read-must-fill">* </span>任务名称：</span>
+                            </Col>
+                            <Col span={18}>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: '10px'}}>
+                            <Col span={6}>
+                                <span>
+                                  <input value={information.name} ref={input => this.nameIpt = input} onChange={(e) => { this.iupChange(e, 'name'); }} type="text" className="dealer-user-detail-edit-input" />
+                                </span>
+                            </Col>
+                            <Col span={18}>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: '30px'}}>
+                            <Col span={6}>
+                                <span><span className="dealer-color-read-must-fill">* </span>任务时效：</span>
+                            </Col>
+                            <Col span={18}>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: '10px'}}>
+                            <Col span={6}>
+                                <span>
+                                  <input value={information.time} ref={input => this.timeIpt = input} onChange={(e) => { this.iupChange(e, 'time'); }} type="text" className="dealer-user-detail-edit-input" />
+                                </span>
+                            </Col>
+                            <Col span={18}>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: '30px'}}>
+                            <Col span={6}>
+                                <span><span className="dealer-color-read-must-fill">* </span>执行人：</span>
+                            </Col>
+                            <Col span={18}>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: '10px'}}>
+                            <Col span={6}>
+                                <span>
+                                    <Select className="afp-body-select" style={{width: '300px'}} value={getUserNames} onChange={this.handleChangeExecutorListArr}>
+                                        {
+                                            executorListArr.map(item => {
+                                                return (
+                                                    <Option key={item.dkey} value={item.dkey}>{item.dvalue}</Option>
+                                                );
+                                            })
+                                        }
+                                    </Select>
+                                </span>
+                            </Col>
+                            <Col span={18}>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span={2}></Col>
+                            <Col span={20}>
+                                <span className="editBtnBack" onClick={type => this.hideModal('dataChange')}>返回</span>
+                                <span className="editDefine" onClick={this.sendEdit}>修改</span>
+                            </Col>
+                            <Col span={2}></Col>
+                        </Row>
+                    </div>
+                </Modal>
                 <div style={{marginTop: '10px'}}>
                     <img src={add} />
                     <span style={{color: '#29C456'}} onClick={type => this.showModal('dataEdit')}> 新增</span>
                     <img src={edit} style={{marginLeft: '30px'}} />
-                    <span style={{color: '#999999'}}> 修改</span>
+                    <span style={{color: '#999999'}} onClick={type => this.showModal('dataChange')}> 修改</span>
                     <img src={deletes} style={{marginLeft: '30px'}} />
-                    <span style={{color: '#999999'}}> 删除</span>
+                    <span style={{color: '#999999'}} onClick={this.deleteMission}> 删除</span>
                 </div>
                 <div className="afp-body-btn-group">
                     <span className="afp-body-btn-gray" onClick={this.goBack} style={{width: '72px'}}>返回</span>

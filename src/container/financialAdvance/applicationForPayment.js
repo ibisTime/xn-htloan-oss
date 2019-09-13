@@ -53,7 +53,7 @@ class applicationForPayment extends React.Component {
                     loanBankName: data.loanBankName,
                     loanAmount: data.loanAmount,
                     bizType: data.bizType === '0' ? '新车' : '二手车',
-                    shopCarGarage: data.carInfo.shopCarGarageName,
+                    shopCarGarage: data.carInfo ? data.carInfo.shopCarGarageName : '',
                     saleGroup: data.saleUserCompanyName + '-' + data.saleUserDepartMentName + '-' + data.saleUserPostName + '-' + data.saleUserName,
                     curNodeCode: data.curNodeCode ? data.curNodeCode : ''
                 }

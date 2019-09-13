@@ -74,8 +74,10 @@ class enterArchives extends React.Component {
             missionList: [],
             information: {
                 content: '',
+                contentName: '',
                 count: '',
                 savePp: '',
+                getUserCode: '',
                 time: '',
                 rmk: ''
             },
@@ -86,7 +88,10 @@ class enterArchives extends React.Component {
             },
             archivesPathArr: [],
             loanBankCode: '',
-            executorListArr: []
+            executorListArr: [],
+            getUserNames: '',
+            fileName: '',
+            fileCtListArr: []
         };
         this.count = 1;
         this.selectedRowKeys = [];
@@ -138,7 +143,7 @@ class enterArchives extends React.Component {
                     loanBankName: data.loanBankName,
                     loanAmount: data.loanAmount,
                     bizType: data.bizType === '0' ? '新车' : '二手车',
-                    shopCarGarage: data.carInfo.shopCarGarageName,
+                    shopCarGarage: data.carInfo ? data.carInfo.shopCarGarageName : '',
                     saleGroup: data.saleUserCompanyName + '-' + data.saleUserDepartMentName + '-' + data.saleUserPostName + '-' + data.saleUserName,
                     curNodeCode: data.curNodeCode ? data.curNodeCode : ''
                 },
@@ -169,6 +174,19 @@ class enterArchives extends React.Component {
                 archivesPathArr: arr
             });
         });
+        fileCtList(1, 1000).then(data => {
+            console.log('fileCtList', data);
+            let arr = [];
+            for(let i = 0; i < data.list.length; i++) {
+                arr.push({
+                    dkey: data.list[i].id,
+                    dvalue: data.list[i].vname
+                });
+            }
+            this.setState({
+                fileCtListArr: arr
+            });
+        });
     }
     // 以下是关于对话框的相关
     showModal = (type) => {
@@ -189,7 +207,18 @@ class enterArchives extends React.Component {
     hideModal = (type) => {
         if(type === 'dataEdit') {
             this.setState({
-                visible: false
+                visible: false,
+                information: {
+                    content: '',
+                    contentName: '',
+                    count: '',
+                    savePp: '',
+                    getUserCode: '',
+                    time: '',
+                    rmk: ''
+                },
+                getUserNames: '',
+                fileName: ''
             });
         }
     };
@@ -203,9 +232,11 @@ class enterArchives extends React.Component {
         const {information, count, regDate} = this.state;
         this.arr.push({
             key: this.count++,
-            content: information.content,
+            content: information.contentName,
+            contentCode: information.content,
             fileCount: information.count,
             operator: information.savePp,
+            getUserCode: information.getUserCode,
             depositDateTime: regDate === '' ? getNowTime() : regDate,
             remark: information.rmk
         });
@@ -227,10 +258,10 @@ class enterArchives extends React.Component {
         let arr = [];
         for(let i = 0; i < missionList.length; i++) {
             arr.push({
-                content: missionList[i].content,
+                content: missionList[i].contentCode,
                 fileCount: missionList[i].fileCount,
                 depositDateTime: regDate === '' ? getNowTime() : regDate,
-                operator: missionList[i].operator.split('-')[0],
+                operator: missionList[i].getUserCode,
                 remark: missionList[i].remark
             });
         }
@@ -285,15 +316,26 @@ class enterArchives extends React.Component {
             loanBankCode: value
         });
     }
+    handleChangeFile = (value, event) => {
+        const {information} = this.state;
+        information['contentName'] = event.props.children;
+        information['content'] = value;
+        this.setState({
+            information,
+            fileName: event.props.children
+        });
+    }
     showDetail = () => {
         this.props.history.push(`/preLoan/Access/detail?code=${this.code}`);
     }
     // 执行人编号
     handleChangeExecutorListArr = (value, event) => {
         const {information} = this.state;
-        information['savePp'] = value + '-' + event.props.children;
+        information['savePp'] = event.props.children;
+        information['getUserCode'] = value;
         this.setState({
-            information
+            information,
+            getUserNames: event.props.children
         });
     }
     onChangeTime = (date, dateString) => {
@@ -306,7 +348,7 @@ class enterArchives extends React.Component {
         }
     };
     render() {
-        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, missionList, information, iptInfoArr, archivesPathArr, executorListArr} = this.state;
+        const {getUserNames, fileName, fileCtListArr, carBuyingListArrs, baseInfo, accessSlipStatusArr, missionList, information, iptInfoArr, archivesPathArr, executorListArr} = this.state;
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">档案入档</span>
@@ -405,7 +447,15 @@ class enterArchives extends React.Component {
                         <Row style={{marginTop: '10px'}}>
                             <Col span={6}>
                                 <span>
-                                  <input value={information.content} ref={input => this.contentIpt = input} onChange={(e) => { this.iupChange(e, 'content'); }} type="text" className="dealer-user-detail-edit-input" />
+                                    <Select className="preLoan-body-select" style={{width: '300px'}} value={fileName} onChange={this.handleChangeFile}>
+                                        {
+                                            fileCtListArr.map(data => {
+                                                return (
+                                                    <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                );
+                                            })
+                                        }
+                                    </Select>
                                 </span>
                             </Col>
                             <Col span={18}>
@@ -437,7 +487,7 @@ class enterArchives extends React.Component {
                         <Row style={{marginTop: '10px'}}>
                             <Col span={6}>
                                 <span>
-                                    <Select className="afp-body-select" style={{width: '300px'}} onChange={this.handleChangeExecutorListArr}>
+                                    <Select className="afp-body-select" style={{width: '300px'}} value={getUserNames} onChange={this.handleChangeExecutorListArr}>
                                         {
                                             executorListArr.map(item => {
                                                 return (

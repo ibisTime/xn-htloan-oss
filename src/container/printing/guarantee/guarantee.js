@@ -60,8 +60,7 @@ class Guarantee extends React.Component {
         }, {
             title: '客户姓名',
             field: 'customerName',
-            search: true,
-            render: (v, d) => d.creditUser ? d.creditUser.userName : ''
+            search: true
         }, {
             title: '贷款银行',
             field: 'loanBankName'

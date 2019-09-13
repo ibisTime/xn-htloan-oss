@@ -5,7 +5,8 @@ import {
     getQueryString,
     findDsct,
     dsctList1,
-    getNowTime
+    getNowTime,
+    dateTimeFormat
 } from 'common/js/util';
 import {Row, Col, Select, Table, Modal, DatePicker} from 'antd';
 import {
@@ -15,7 +16,8 @@ import {
     accountBlankList,
     sendEnterArchivesCm,
     archivesPath,
-    executorList
+    executorList,
+    fileCtList
 } from '../../api/preLoan.js';
 import './../financialAdvance/applicationForPayment.css';
 import add from './add.png';
@@ -72,8 +74,10 @@ class enterArchives extends React.Component {
             missionList: [],
             information: {
                 content: '',
+                contentName: '',
                 count: '',
                 savePp: '',
+                getUserCode: '',
                 time: '',
                 rmk: ''
             },
@@ -86,7 +90,10 @@ class enterArchives extends React.Component {
             archivesPathArr: [],
             executorListArr: [],
             regDate: '',
-            fileLists: []
+            fileLists: [],
+            fileCtListArr: [],
+            getUserNames: '',
+            fileName: ''
         };
         this.count = 1;
         this.selectedRowKeys = [];
@@ -118,6 +125,20 @@ class enterArchives extends React.Component {
         });
         this.getAccessSlipStatus();
         accessSlipDetail(this.code).then(data => {
+            let arr = [];
+            for(let i = 0; i < data.fileList.length; i++) {
+                arr.push({
+                    key: i,
+                    content: data.fileList[i].contentName,
+                    contentCode: data.fileList[i].content,
+                    fileCount: data.fileList[i].fileCount,
+                    operator: data.fileList[i].operatorName,
+                    getUserCode: data.fileList[i].operator,
+                    depositDateTime: dateTimeFormat(data.fileList[i].depositDateTime),
+                    remark: data.fileList[i].remark
+                });
+            }
+            this.arr = arr;
             this.setState({
                 baseInfo: {
                     code: data.code,
@@ -125,13 +146,13 @@ class enterArchives extends React.Component {
                     loanBankName: data.loanBankName,
                     loanAmount: data.loanAmount,
                     bizType: data.bizType === '0' ? '新车' : '二手车',
-                    shopCarGarage: data.carInfo.shopCarGarageName,
+                    shopCarGarage: data.carInfo ? data.carInfo.shopCarGarageName : '',
                     saleGroup: data.saleUserCompanyName + '-' + data.saleUserDepartMentName + '-' + data.saleUserPostName + '-' + data.saleUserName,
                     curNodeCode: data.curNodeCode ? data.curNodeCode : ''
                 },
                 collectBankcard: data.advance.collectBankcard,
                 fileLists: data.fileList,
-                missionList: data.fileList,
+                missionList: [...arr],
                 enterLocationCode: data.enterLocation
             });
         });
@@ -171,6 +192,19 @@ class enterArchives extends React.Component {
                 executorListArr: arr
             });
         });
+        fileCtList(1, 1000).then(data => {
+            console.log('fileCtList', data);
+            let arr = [];
+            for(let i = 0; i < data.list.length; i++) {
+                arr.push({
+                    dkey: data.list[i].id,
+                    dvalue: data.list[i].vname
+                });
+            }
+            this.setState({
+                fileCtListArr: arr
+            });
+        });
     }
     // 以下是关于对话框的相关
     showModal = (type) => {
@@ -205,9 +239,11 @@ class enterArchives extends React.Component {
         const {information, count, regDate} = this.state;
         this.arr.push({
             key: this.count++,
-            content: information.content,
+            content: information.contentName,
+            contentCode: information.content,
             fileCount: information.count,
             operator: information.savePp,
+            getUserCode: information.getUserCode,
             depositDateTime: regDate === '' ? getNowTime() : regDate,
             remark: information.rmk
         });
@@ -293,9 +329,20 @@ class enterArchives extends React.Component {
     // 执行人编号
     handleChangeExecutorListArr = (value, event) => {
         const {information} = this.state;
-        information['savePp'] = value + '-' + event.props.children;
+        information['savePp'] = event.props.children;
+        information['getUserCode'] = value;
         this.setState({
-            information
+            information,
+            getUserNames: event.props.children
+        });
+    }
+    handleChangeFile = (value, event) => {
+        const {information} = this.state;
+        information['contentName'] = event.props.children;
+        information['content'] = value;
+        this.setState({
+            information,
+            fileName: event.props.children
         });
     }
     onChangeTime = (date, dateString) => {
@@ -308,7 +355,7 @@ class enterArchives extends React.Component {
         }
     };
     render() {
-        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, missionList, information, iptInfoArr, archivesPathArr, executorListArr, enterLocationCode} = this.state;
+        const {fileCtListArr, fileName, carBuyingListArrs, baseInfo, accessSlipStatusArr, missionList, information, iptInfoArr, archivesPathArr, executorListArr, enterLocationCode} = this.state;
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">档案入档</span>
@@ -401,7 +448,15 @@ class enterArchives extends React.Component {
                         <Row style={{marginTop: '10px'}}>
                             <Col span={6}>
                                 <span>
-                                  <input value={information.content} ref={input => this.contentIpt = input} onChange={(e) => { this.iupChange(e, 'content'); }} type="text" className="dealer-user-detail-edit-input" />
+                                    <Select className="preLoan-body-select" style={{width: '300px'}} value={fileName} onChange={this.handleChangeFile}>
+                                        {
+                                            fileCtListArr.map(data => {
+                                                return (
+                                                    <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                );
+                                            })
+                                        }
+                                    </Select>
                                 </span>
                             </Col>
                             <Col span={18}>

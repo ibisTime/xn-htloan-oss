@@ -123,7 +123,7 @@ class ToDoList extends React.Component {
                                 code: selectedRows[0].bizCode,
                                 operator: getUserId()
                             };
-                            fetch(632580, param).then(() => {
+                            fetch(632581, param).then(() => {
                                 showSucMsg('操作成功');
                                 setTimeout(() => {
                                     this.props.getPageData();
@@ -134,7 +134,7 @@ class ToDoList extends React.Component {
                                 code: selectedRows[0].bizCode,
                                 operator: getUserId()
                             };
-                            fetch(632581, param).then(() => {
+                            fetch(632580, param).then(() => {
                                 showSucMsg('操作成功');
                                 setTimeout(() => {
                                     this.props.getPageData();

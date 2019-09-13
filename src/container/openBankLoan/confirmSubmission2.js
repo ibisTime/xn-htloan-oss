@@ -61,7 +61,7 @@ class confirmSubmission extends React.Component {
                     loanBankName: data.loanBankName,
                     loanAmount: data.loanAmount,
                     bizType: data.bizType === '0' ? '新车' : '二手车',
-                    shopCarGarage: data.carInfo.shopCarGarageName,
+                    shopCarGarage: data.carInfo ? data.carInfo.shopCarGarageName : '',
                     saleGroup: data.saleUserCompanyName + '-' + data.saleUserDepartMentName + '-' + data.saleUserPostName + '-' + data.saleUserName,
                     curNodeCode: data.curNodeCode ? data.curNodeCode : ''
                 }
@@ -179,7 +179,7 @@ class confirmSubmission extends React.Component {
                 <div className="afp-body-line"></div>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
-                        <span style={{float: 'left'}}>提交时间：</span>
+                        <span style={{float: 'left'}}><span style={{color: 'red'}}>* </span>提交时间：</span>
                         <DatePicker format={'YYYY-MM-DD HH:mm:ss'} defaultValue={moment(new Date(), 'YYYY-MM-DD HH:mm:ss')} style={{width: '220px', float: 'left', marginLeft: '22px'}} onChange={this.onChangeTime}/>
                         <span style={{color: '#999999', marginTop: '5px', display: 'block'}}>（默认当前时间）</span>
                     </Col>
