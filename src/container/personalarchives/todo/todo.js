@@ -53,6 +53,9 @@ class ToDo extends React.Component {
     //     return d.operateRoleName ? d.operateRoleName : '';
     //   }
     }, {
+      title: '执行人',
+      field: 'operaterName'
+    }, {
       title: '推送节点',
       field: 'refNode',
       type: 'select',

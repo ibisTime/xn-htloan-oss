@@ -139,7 +139,7 @@ class orderRecall extends React.Component {
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={8}>
-                        <span>贷款金额：{baseInfo.loanAmount}</span>
+                        <span>贷款金额：{baseInfo.loanAmount / 1000}</span>
                     </Col>
                     <Col span={8}>
                         <span>业务类型：{baseInfo.bizType}</span>

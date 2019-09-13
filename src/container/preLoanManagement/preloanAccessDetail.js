@@ -15,6 +15,7 @@ import {Row, Col} from 'antd';
 import { getDictList } from 'api/dict';
 import './preloanAccessDetail.css';
 import './preloanAccess.css';
+import zanwu from './zanwu.png';
 
 class preloanAccessDetail extends React.Component {
     constructor(props) {
@@ -263,13 +264,13 @@ class preloanAccessDetail extends React.Component {
                                 <div>
                                     <Row style={{marginTop: '28px'}}>
                                         <Col span={4} >
-                                            <img src={PIC_PREFIX + findDsct(attachments, 'id_no_front_gh')} className="preLoan-body-table-content-tab-card" />
+                                            <img src={findDsct(attachments, 'id_no_front_gh') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_front_gh')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
-                                            <img src={PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gh')} className="preLoan-body-table-content-tab-card" />
+                                            <img src={findDsct(attachments, 'id_no_reverse_gh') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gh')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
-                                            <img src={PIC_PREFIX + findDsct(attachments, 'hold_id_card_gh')} className="preLoan-body-table-content-tab-card" />
+                                            <img src={findDsct(attachments, 'hold_id_card_gh') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hold_id_card_gh')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
                                         <Col span={8}></Col>
                                     </Row>
@@ -301,13 +302,13 @@ class preloanAccessDetail extends React.Component {
                                 <div>
                                     <Row style={{marginTop: '28px'}}>
                                         <Col span={4} >
-                                            <img src={PIC_PREFIX + findDsct(attachments, 'id_no_front_gua')} className="preLoan-body-table-content-tab-card" />
+                                            <img src={findDsct(attachments, 'id_no_front_gua') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_front_gua')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
-                                            <img src={PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gua')} className="preLoan-body-table-content-tab-card" />
+                                            <img src={findDsct(attachments, 'id_no_reverse_gua') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gua')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
-                                            <img src={PIC_PREFIX + findDsct(attachments, 'hold_id_card_gua')} className="preLoan-body-table-content-tab-card" />
+                                            <img src={findDsct(attachments, 'hold_id_card_gua') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hold_id_card_gua')} className="preLoan-body-table-content-tab-card" />
                                         </Col>
                                         <Col span={8}></Col>
                                     </Row>
@@ -490,31 +491,31 @@ class preloanAccessDetail extends React.Component {
                     </div>
                     <div className="preLoan-detail-box-content">
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>是否公牌：{carInfo.isPublicCard === 0 ? '否' : '是'}</Col>
-                            <Col span={12}>发动机号：{carInfo.carEngineNo}</Col>
+                            <Col span={12}>是否公牌：{carInfo ? carInfo.isPublicCard === 0 ? '否' : '是' : ''}</Col>
+                            <Col span={12}>发动机号：{carInfo ? carInfo.carEngineNo : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>上牌地：{carInfo.regAddress}</Col>
-                            <Col span={12}>购车车行：{carInfo.shopCarGarage}</Col>
+                            <Col span={12}>上牌地：{carInfo ? carInfo.regAddress : ''}</Col>
+                            <Col span={12}>购车车行：{carInfo ? carInfo.shopCarGarage : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>车辆型号：{carInfo.model}</Col>
-                            <Col span={12}>是否加装GPS：{carInfo.isAzGps === '0' ? '否' : '是'}</Col>
+                            <Col span={12}>车辆型号：{carInfo ? carInfo.model : ''}</Col>
+                            <Col span={12}>是否加装GPS：{carInfo ? carInfo.isAzGps === '0' ? '否' : '是' : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>车辆价格：{carInfo.carPrice}</Col>
-                            <Col span={12}>发票价格：{carInfo.invoicePrice}</Col>
+                            <Col span={12}>车辆价格：{carInfo ? carInfo.carPrice : ''}</Col>
+                            <Col span={12}>发票价格：{carInfo ? carInfo.invoicePrice : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>车架号：{carInfo.carFrameNo}</Col>
-                            <Col span={12}>车牌号：{carInfo.carNumber}</Col>
+                            <Col span={12}>车架号：{carInfo ? carInfo.carFrameNo : ''}</Col>
+                            <Col span={12}>车牌号：{carInfo ? carInfo.carNumber : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>评估价格：{carInfo.evalPrice}</Col>
-                            <Col span={12}>上牌年份：{carInfo.regDate}</Col>
+                            <Col span={12}>评估价格：{carInfo ? carInfo.evalPrice : ''}</Col>
+                            <Col span={12}>上牌年份：{carInfo ? carInfo.regDate : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>行驶里程：{carInfo.mile}公里</Col>
+                            <Col span={12}>行驶里程：{carInfo ? carInfo.mile : ''}公里</Col>
                             <Col span={12}></Col>
                         </Row>
                     </div>
@@ -530,7 +531,7 @@ class preloanAccessDetail extends React.Component {
                             <Col span={6}>
                                 <span>驾驶证</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'drive_card')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'drive_card') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'drive_card')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}></Col>
                             <Col span={6}></Col>
@@ -541,51 +542,51 @@ class preloanAccessDetail extends React.Component {
                             <Col span={6}>
                                 <span>结婚证</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'marry_pdf')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'marry_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'marry_pdf')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>离婚证</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'divorce_pdf')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'divorce_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'divorce_pdf')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>单身证明</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'single_prove')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'single_prove') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'single_prove')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>收入证明</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'income_prove')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'income_prove') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'income_prove')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={6}>
                                 <span>户口本首页</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'hk_book_first_page')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'hk_book_first_page') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hk_book_first_page')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>户口本主页</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'hk_book_home_page')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'hk_book_home_page') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hk_book_home_page')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>户口本本人页</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'hk_book_my_page')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'hk_book_my_page') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hk_book_my_page')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>房产证内容页</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'house_property_card_pdf')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'house_property_card_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'house_property_card_pdf')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={6}>
                                 <span>居住证</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'live_prove_pdf')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'live_prove_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'live_prove_pdf')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}></Col>
                             <Col span={6}></Col>
@@ -596,44 +597,44 @@ class preloanAccessDetail extends React.Component {
                             <Col span={6}>
                                 <span>银行流水首页</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'bank_jour_first_page')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'bank_jour_first_page') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'bank_jour_first_page')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>银行流水结息一季度</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'bank_jour_interest_first')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'bank_jour_interest_first') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'bank_jour_interest_first')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>银行流水结息二季度</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'bank_jour_interest_second')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'bank_jour_interest_second') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'bank_jour_interest_second')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>银行流水结息三季度</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'bank_jour_interest_third')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'bank_jour_interest_third') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'bank_jour_interest_third')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={6}>
                                 <span>银行流水结息四季度</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'bank_jour_interest_fourth')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'bank_jour_interest_fourth') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'bank_jour_interest_fourth')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>银行流水末页</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'bank_jour_last_page')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'bank_jour_last_page') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'bank_jour_last_page')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>支付宝流水</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'zfb_jour')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'zfb_jour') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'zfb_jour')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>微信流水</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'wx_jour')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'wx_jour') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'wx_jour')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                         </Row>
                         <div className="preLoan-detail-row-line"></div>
@@ -641,7 +642,7 @@ class preloanAccessDetail extends React.Component {
                             <Col span={6}>
                                 <span>其他</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'other_pdf')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'other_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'other_pdf')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}></Col>
                             <Col span={6}></Col>
@@ -660,7 +661,7 @@ class preloanAccessDetail extends React.Component {
                             <Col span={6}>
                                 <span>上门照片</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'door_photo')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'door_photo') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'door_photo')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}></Col>
                             <Col span={6}></Col>
@@ -671,7 +672,7 @@ class preloanAccessDetail extends React.Component {
                             <Col span={6}>
                                 <span>合照</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'group_photo')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'group_photo') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'group_photo')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}></Col>
                             <Col span={6}></Col>
@@ -681,7 +682,7 @@ class preloanAccessDetail extends React.Component {
                             <Col span={6}>
                                 <span>家访视频</span>
                                 <br />
-                                <div><a src={PIC_PREFIX + findDsct(attachments, 'house_video')}>点击家访视频</a></div>
+                                <div><a src={findDsct(attachments, 'house_video') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'house_video')}>点击家访视频</a></div>
                             </Col>
                             <Col span={6}></Col>
                             <Col span={6}></Col>
@@ -700,62 +701,62 @@ class preloanAccessDetail extends React.Component {
                             <Col span={6}>
                                 <span>车头</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'car_head')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'car_head') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'car_head')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>铭牌</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'nameplate')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'nameplate') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'nameplate')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>VIN码</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'vin_number')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'vin_number') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'vin_number')} className="preLoan-body-table-content-tab-card" />
 
                             </Col>
                             <Col span={6}>
                                 <span>仪表盘</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'dashboard')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'dashboard') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'dashboard')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={6}>
                                 <span>驾驶室</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'cab')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'cab') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'cab')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>发动机</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'car_engine')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'car_engine') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'car_engine')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>中控</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'central_control')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'central_control') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'central_control')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>天窗</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'skylight')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'skylight') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'skylight')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={6}>
                                 <span>车后座</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'rear_seat')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'rear_seat') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'rear_seat')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>车尾</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'vehicle_tail')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'vehicle_tail') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'vehicle_tail')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>车全身</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'car_body')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'car_body') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'car_body')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}></Col>
                         </Row>
@@ -764,17 +765,17 @@ class preloanAccessDetail extends React.Component {
                             <Col span={6}>
                                 <span>车辆登记证书（首页）</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'car_register_certificate_first')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'car_register_certificate_first') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'car_register_certificate_first')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>车辆登记证书（二页）</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'car_register_certificate_second')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'car_register_certificate_second') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'car_register_certificate_second')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                             <Col span={6}>
                                 <span>车辆登记证书（三页）</span>
                                 <br />
-                                <img src={PIC_PREFIX + findDsct(attachments, 'car_register_certificate_third')} className="preLoan-body-table-content-tab-card" />
+                                <img src={findDsct(attachments, 'car_register_certificate_third') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'car_register_certificate_third')} className="preLoan-body-table-content-tab-card" />
                             </Col>
                         </Row>
                     </div>

@@ -55,7 +55,10 @@ class Circulationlog extends React.Component {
       hidden: true
     }, {
       title: '经办人',
-      field: 'operatorName'
+      field: 'operatorName',
+      render: (v, d) => {
+        return `${v}(${d.operatorMobile})`;
+      }
     }, {
       title: '手机号',
       field: 'operatorMobile'

@@ -155,7 +155,7 @@ class typingOk extends React.Component {
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={8}>
-                        <span>贷款金额：{baseInfo.loanAmount}</span>
+                        <span>贷款金额：{baseInfo.loanAmount / 1000}</span>
                     </Col>
                     <Col span={8}>
                         <span>业务类型：{baseInfo.bizType}</span>
@@ -178,14 +178,14 @@ class typingOk extends React.Component {
                 <div className="afp-body-line"></div>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
-                        <span style={{float: 'left'}}>完成时间：</span>
+                        <span style={{float: 'left'}}><span style={{color: 'red'}}>* </span>完成时间：</span>
                         <DatePicker format={'YYYY-MM-DD HH:mm:ss'} defaultValue={moment(new Date(), 'YYYY-MM-DD HH:mm:ss')} style={{width: '220px', float: 'left', marginLeft: '22px'}} onChange={this.onChangeTime}/>
                         <span style={{color: '#999999', marginTop: '5px', display: 'block'}}>（默认当前时间）</span>
                     </Col>
                     <Col span={12}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={2}>完成说明：</Col>
+                    <Col span={2}><span style={{textIndent: '12px'}}>完成说明：</span></Col>
                     <Col span={22}>
                         <textarea value={iptArr.rmk} ref={input => this.rmkIpt = input} onChange={(e) => { this.iupChange(e, 'rmk'); }} className="afp-body-textarea" />
                     </Col>

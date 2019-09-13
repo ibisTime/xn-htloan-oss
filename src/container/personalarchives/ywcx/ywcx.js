@@ -35,7 +35,8 @@ class ywCx extends React.Component {
             hidden: true
         }, {
             field: 'code',
-            title: '业务编号'
+            title: '业务编号',
+            search: true
         }, {
             field: 'customerName',
             title: '客户姓名',

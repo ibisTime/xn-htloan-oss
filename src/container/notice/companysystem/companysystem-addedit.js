@@ -35,10 +35,6 @@ class companysystemAddedit extends React.Component {
 
     render() {
         const fields = [{
-            field: 'code',
-            title: '编号',
-            required: true
-        }, {
             field: 'title',
             title: '标题',
             required: true
@@ -56,7 +52,8 @@ class companysystemAddedit extends React.Component {
             required: true
         }, {
             title: '创建时间',
-            field: 'createDatetime'
+            field: 'createDatetime',
+            type: 'datetime'
         }];
         return this.props.buildDetail({
             fields,
