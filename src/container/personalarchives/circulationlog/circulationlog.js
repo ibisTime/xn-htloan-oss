@@ -65,7 +65,8 @@ class Circulationlog extends React.Component {
       type: 'select',
       listCode: 630147,
       keyName: 'code',
-      valueName: 'name'
+      valueName: 'name',
+      search: true
     }, {
       title: '开始时间',
       field: 'startDatetime',

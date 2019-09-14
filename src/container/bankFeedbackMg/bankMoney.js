@@ -5,13 +5,14 @@ import {
     moneyFormat,
     dateTimeFormat,
     dsctList1,
-    findDsct
+    findDsct,
+    getRoleCode
 } from 'common/js/util';
 import {Row, Col, Checkbox, Pagination, Select} from 'antd';
-import {Link} from 'react-router-dom';
 import {
     accessSlip,
-    accessSlipStatus
+    accessSlipStatus,
+    showButton
 } from '../../api/preLoan.js';
 import './preloanAccess.css';
 import './preloanAccessList.css';
@@ -29,7 +30,12 @@ class bankMoney extends React.Component {
             customerName: '',
             curNodeCode: '',
             accessSlipStatusArr: [],
-            paginationCurrent: 1
+            paginationCurrent: 1,
+            sub: false,
+            enter: false,
+            certain: false,
+            prepareCollection: false,
+            detail: false
         };
         this.checkBoxGroup = [];
         this.statusName = '';
@@ -37,6 +43,37 @@ class bankMoney extends React.Component {
     componentDidMount(): void {
         this.getAccessSlip(1);
         this.getAccessSlipStatus();
+        let btnArr = {
+            parentCode: 'SM201805291023424289358',
+            roleCode: getRoleCode(),
+            type: '2'
+        };
+        showButton(btnArr).then(data => {
+            console.log('showButton', data);
+            for(let i = 0; i < data.length; i++) {
+                if(data[i].url === '/sub') {
+                    this.setState({
+                        sub: true
+                    });
+                }else if(data[i].url === '/enter') {
+                    this.setState({
+                        enter: true
+                    });
+                }else if(data[i].url === '/certain') {
+                    this.setState({
+                        certain: true
+                    });
+                }else if(data[i].url === '/prepareCollection') {
+                    this.setState({
+                        prepareCollection: true
+                    });
+                }else if(data[i].url === '/detail') {
+                    this.setState({
+                        detail: true
+                    });
+                }
+            }
+        });
     }
 
     // 状态
@@ -203,8 +240,19 @@ class bankMoney extends React.Component {
         }
     }
     render() {
-        const {accessSlipList, total, accessSlipStatusArr, code, customerName, paginationCurrent} = this.state;
-        console.log(accessSlipStatusArr);
+        const {
+            accessSlipList,
+            total,
+            accessSlipStatusArr,
+            code,
+            customerName,
+            paginationCurrent,
+            sub,
+            enter,
+            certain,
+            prepareCollection,
+            detail
+        } = this.state;
         return (
             <div className="preLoan-access-list-global">
                 <Row>
@@ -235,11 +283,31 @@ class bankMoney extends React.Component {
                     <div className="clear"></div>
                 </div>
                 <div className="preLoan-access-list-btn-group">
-                    <span className="preLoan-access-list-btn-gray" onClick={this.openSj} style={{width: '80px'}}>收件</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.openQrtj} style={{marginLeft: '30px', width: '120px'}}>确认提交完成</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.openLrfk} style={{marginLeft: '30px', width: '120px'}}>录入放款信息</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.openQrsk} style={{marginLeft: '30px', width: '80px'}}>确认收款</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginLeft: '30px'}}>详情</span>
+                    {
+                        sub ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.openSj} style={{marginRight: '30px', width: '80px'}}>收件</span>
+                        ) : null
+                    }
+                    {
+                        enter ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.openQrtj} style={{marginRight: '30px', width: '120px'}}>确认提交完成</span>
+                        ) : null
+                    }
+                    {
+                        certain ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.openLrfk} style={{marginRight: '30px', width: '120px'}}>录入放款信息</span>
+                        ) : null
+                    }
+                    {
+                        prepareCollection ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.openQrsk} style={{marginRight: '30px', width: '80px'}}>确认收款</span>
+                        ) : null
+                    }
+                    {
+                        detail ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginRight: '30px'}}>详情</span>
+                        ) : null
+                    }
                     <div className="clear"></div>
                 </div>
                 {

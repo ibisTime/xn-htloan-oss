@@ -15,7 +15,7 @@ import EditPwd from 'component/edit-pwd/edit-pwd';
 // import { getToDoCount } from 'api/biz';
 import ROUTES from 'src/route';
 import './dashboard.css';
-import logo from './xjlogo.png';
+import logo from './logo.png';
 
 const { SubMenu, Item } = Menu;
 const { Header, Content, Sider } = Layout;

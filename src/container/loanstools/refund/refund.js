@@ -57,11 +57,7 @@ class refund extends React.Component {
             }
         }, {
             title: '客户姓名',
-            field: 'ywyUser',
-            type: 'select',
-            render: (v, d) => {
-                return d.creditUser ? d.creditUser.userName : '';
-            },
+            field: 'customerName',
             search: true
         }, {
             title: '贷款银行',
@@ -72,10 +68,7 @@ class refund extends React.Component {
             amount: true
         }, {
             title: '贷款期数',
-            field: 'loanPeriod',
-            render: (v, d) => {
-                return d.loanInfo ? d.loanInfo.periods : '-';
-            }
+            field: 'periods'
         }, {
             title: '业务种类',
             field: 'bizType',
@@ -118,16 +111,25 @@ class refund extends React.Component {
                 userId: getUserId()
             },
             btnEvent: {
-              // 财务确认退款
-              certain: (selectedRowKeys, selectedRows) => {
-                if (!selectedRowKeys.length) {
-                  showWarnMsg('请选择记录');
-                } else if (selectedRowKeys.length > 1) {
-                  showWarnMsg('请选择一条记录');
-                } else {
-                  this.props.history.push(`${this.props.location.pathname}/certain?code=${selectedRowKeys[0]}`);
+                // 财务确认退款
+                certain: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                      showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                      showWarnMsg('请选择一条记录');
+                    } else {
+                      this.props.history.push(`${this.props.location.pathname}/certain?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                detail: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/preLoan/Access/detail?code=${selectedRowKeys[0]}`);
+                    }
                 }
-              }
             }
         });
     }

@@ -303,32 +303,32 @@ class preloanAccessList1 extends React.Component {
                 <div className="preLoan-access-list-btn-group">
                     {
                         tomoney ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.skFor} style={{width: '80px'}}>用款申请</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.skFor} style={{marginRight: '30px', width: '80px'}}>用款申请</span>
                         ) : null
                     }
                     {
                         toexamine ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.skFor1} style={{marginLeft: '30px', width: '80px'}}>用款一审</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.skFor1} style={{marginRight: '30px', width: '80px'}}>用款一审</span>
                         ) : null
                     }
                     {
                         toexamines ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.skFor2} style={{marginLeft: '30px', width: '80px'}}>用款二审</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.skFor2} style={{marginRight: '30px', width: '80px'}}>用款二审</span>
                         ) : null
                     }
                     {
                         zdhl ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.skForBack1} style={{marginLeft: '30px', width: '80px'}}>制单录回</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.skForBack1} style={{marginRight: '30px', width: '80px'}}>制单录回</span>
                         ) : null
                     }
                     {
                         edit ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.skForBack2} style={{marginLeft: '30px', width: '80px'}}>垫资回录</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.skForBack2} style={{marginRight: '30px', width: '80px'}}>垫资回录</span>
                         ) : null
                     }
                     {
                         detail ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginLeft: '30px'}}>详情</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginRight: '30px'}}>详情</span>
                         ) : null
                     }
                     <div className="clear"></div>

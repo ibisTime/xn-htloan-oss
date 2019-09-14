@@ -74,33 +74,35 @@ class CarShape extends React.Component {
     }, {
       title: '车系',
       field: 'seriesName'
-    }, {
-      field: 'level',
-      title: '级别',
-      required: true,
-      type: 'select',
-      data: [{
-        key: '0',
-        value: 'SUV'
-      }, {
-        key: '1',
-        value: '轿车'
-      }, {
-        key: '2',
-        value: 'MPV'
-      }, {
-        key: '3',
-        value: '跑车'
-      }, {
-        key: '4',
-        value: '皮卡'
-      }, {
-        key: '5',
-        value: '房车'
-      }],
-      keyName: 'key',
-      valueName: 'value'
-    }, {
+    },
+    // {
+    //   field: 'level',
+    //   title: '级别',
+    //   required: true,
+    //   type: 'select',
+    //   data: [{
+    //     key: '0',
+    //     value: 'SUV'
+    //   }, {
+    //     key: '1',
+    //     value: '轿车'
+    //   }, {
+    //     key: '2',
+    //     value: 'MPV'
+    //   }, {
+    //     key: '3',
+    //     value: '跑车'
+    //   }, {
+    //     key: '4',
+    //     value: '皮卡'
+    //   }, {
+    //     key: '5',
+    //     value: '房车'
+    //   }],
+    //   keyName: 'key',
+    //   valueName: 'value'
+    // }
+    {
       field: 'version',
       title: '规格',
       required: true,
@@ -124,36 +126,38 @@ class CarShape extends React.Component {
       }],
       keyName: 'key',
       valueName: 'value'
-    }, {
-      field: 'structure',
-      type: 'select',
-      title: '结构',
-      required: true,
-      data: [{
-        key: '1',
-        value: '两厢'
-      }, {
-        key: '2',
-        value: '三厢'
-      }, {
-        key: '3',
-        value: '掀背'
-      }, {
-        key: '4',
-        value: '旅行版'
-      }, {
-        key: '5',
-        value: '硬顶敞篷'
-      }, {
-        key: '6',
-        value: '软顶敞篷 '
-      }, {
-        key: '7',
-        value: '硬顶跑车'
-      }],
-      keyName: 'key',
-      valueName: 'value'
-    }, {
+    },
+    // {
+    //   field: 'structure',
+    //   type: 'select',
+    //   title: '结构',
+    //   required: true,
+    //   data: [{
+    //     key: '1',
+    //     value: '两厢'
+    //   }, {
+    //     key: '2',
+    //     value: '三厢'
+    //   }, {
+    //     key: '3',
+    //     value: '掀背'
+    //   }, {
+    //     key: '4',
+    //     value: '旅行版'
+    //   }, {
+    //     key: '5',
+    //     value: '硬顶敞篷'
+    //   }, {
+    //     key: '6',
+    //     value: '软顶敞篷 '
+    //   }, {
+    //     key: '7',
+    //     value: '硬顶跑车'
+    //   }],
+    //   keyName: 'key',
+    //   valueName: 'value'
+    // },
+    {
       field: 'liter',
       title: '排量'
     }, {

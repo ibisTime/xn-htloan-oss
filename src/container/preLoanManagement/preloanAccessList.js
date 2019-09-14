@@ -235,17 +235,17 @@ class preloanAccessList extends React.Component {
                 <div className="preLoan-access-list-btn-group">
                     {
                         showZrzl ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.sendAddInfoOrChange} style={{width: '80px'}}>准入资料</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendAddInfoOrChange} style={{marginRight: '30px', width: '80px'}}>准入资料</span>
                         ) : null
                     }
                     {
                         showZrsk ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.sendExamine} style={{marginLeft: '30px', width: '80px'}}>准入审核</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendExamine} style={{marginRight: '30px', width: '80px'}}>准入审核</span>
                         ) : null
                     }
                     {
                         showDetail ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginLeft: '30px'}}>详情</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginRight: '30px'}}>详情</span>
                         ) : null
                     }
                     <div className="clear"></div>

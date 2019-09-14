@@ -6,13 +6,15 @@ import {
     dateTimeFormat,
     dsctList1,
     findDsct,
-    getUserId
+    getUserId,
+    getRoleCode
 } from 'common/js/util';
 import {Row, Col, Checkbox, Pagination, Select} from 'antd';
 import fetch from 'common/js/fetch';
 import {
     accessSlipCar,
-    accessSlipStatus
+    accessSlipStatus,
+    showButton
 } from '../../api/preLoan.js';
 import './preloanAccess.css';
 import './preloanAccessList.css';
@@ -30,7 +32,10 @@ class mortgage extends React.Component {
             customerName: '',
             curNodeCode: '',
             accessSlipStatusArr: [],
-            paginationCurrent: 1
+            paginationCurrent: 1,
+            isMortgage: false,
+            sub: false,
+            detail: false
         };
         this.checkBoxGroup = [];
         this.statusName = '';
@@ -38,6 +43,29 @@ class mortgage extends React.Component {
     componentDidMount(): void {
         this.getAccessSlip(1);
         this.getAccessSlipStatus();
+        let btnArr = {
+            parentCode: 'SM201805291024417046938',
+            roleCode: getRoleCode(),
+            type: '2'
+        };
+        showButton(btnArr).then(data => {
+            console.log('showButton', data);
+            for(let i = 0; i < data.length; i++) {
+                if(data[i].url === '/mortgage') {
+                    this.setState({
+                        isMortgage: true
+                    });
+                }else if(data[i].url === '/sub') {
+                    this.setState({
+                        sub: true
+                    });
+                }else if(data[i].url === '/detail') {
+                    this.setState({
+                        detail: true
+                    });
+                }
+            }
+        });
     }
 
     // 状态
@@ -190,8 +218,18 @@ class mortgage extends React.Component {
         }
     }
     render() {
-        const {accessSlipList, total, accessSlipStatusArr, code, customerName, paginationCurrent} = this.state;
-        console.log(accessSlipStatusArr);
+        const {
+            accessSlipList,
+            total,
+            accessSlipStatusArr,
+            code,
+            customerName,
+            paginationCurrent,
+            isMortgage,
+            sub,
+            detail
+        } = this.state;
+
         return (
             <div className="preLoan-access-list-global">
                 <Row>
@@ -222,9 +260,21 @@ class mortgage extends React.Component {
                     <div className="clear"></div>
                 </div>
                 <div className="preLoan-access-list-btn-group">
-                    <span className="preLoan-access-list-btn-gray" onClick={this.sendQrdy} style={{width: '80px'}}>发送抵押</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.sendFsdy} style={{marginLeft: '30px', width: '120px'}}>确认抵押完成</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginLeft: '30px'}}>详情</span>
+                    {
+                        isMortgage ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendQrdy} style={{width: '80px'}}>发送抵押</span>
+                        ) : null
+                    }
+                    {
+                        sub ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendFsdy} style={{marginLeft: '30px', width: '120px'}}>确认抵押完成</span>
+                        ) : null
+                    }
+                    {
+                        detail ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginLeft: '30px'}}>详情</span>
+                        ) : null
+                    }
                     <div className="clear"></div>
                 </div>
                 {

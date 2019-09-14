@@ -13,6 +13,7 @@ import {Row, Col, Select, Upload, Button, Icon, Modal, DatePicker} from 'antd';
 import { getDictList } from 'api/dict';
 import './preloanAccess.css';
 import moment from 'moment';
+import zanwu from './zanwu1.png';
 import {
     sendCreditReportingLs,
     lenderInfoLs,
@@ -572,576 +573,587 @@ class preloanAccess extends React.Component {
         // this.bankCreditResult3Ipt = '';
         this.code = getQueryString('code', this.props.location.search);
         this.typeEdit = getQueryString('type', this.props.location.search);
-        console.log(this.code);
-        if(this.code) {
-            this.setState({
-                accessInfoCode: this.code
-            });
-            accessSlipDetail(this.code).then(data => {
-                console.log('data.carInfo', data.carInfo);
-                this.setState({
-                    loanIptArr: {
-                        mobile: data.creditUserList[0].mobile,
-                        mobile2: data.creditUserList[1].mobile,
-                        mobile3: data.creditUserList[2].mobile,
-                        bankCreditResultRemark: data.creditUserList[0].bankCreditResultRemark,
-                        bankCreditResultRemark2: data.creditUserList[1].bankCreditResultRemark,
-                        bankCreditResultRemark3: data.creditUserList[2].bankCreditResultRemark
-                    },
-                    mainLoanPpIptArr: data.creditUser,
-                    altogetherPpIptArr: data.creditUserList[1],
-                    bkGuaranteePpArr: data.creditUser,
-                    cardZ: data.creditUserList[0],
-                    cardF: data.creditUserList[0],
-                    cardZTwo: data.creditUserList[1],
-                    cardFTwo: data.creditUserList[1],
-                    cardZThree: data.creditUserList[2],
-                    cardFThree: data.creditUserList[2],
-                    fileList1: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_front_apply'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'id_no_front_apply')
-                        }
-                    }],
-                    fileList2: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_reverse_apply'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'id_no_reverse_apply')
-                        }
-
-                    }],
-                    fileList3: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hold_id_card_apply'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'hold_id_card_apply')
-                        }
-                    }],
-                    fileListG1: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_front_gh'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'id_no_front_gh')
-                        }
-                    }],
-                    fileListG2: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_reverse_gh'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'id_no_reverse_gh')
-                        }
-                    }],
-                    fileListG3: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hold_id_card_gh'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'hold_id_card_gh')
-                        }
-                    }],
-                    fileListB1: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_front_gua'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'id_no_front_gua')
-                        }
-                    }],
-                    fileListB2: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_reverse_gua'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'id_no_reverse_gua')
-                        }
-                    }],
-                    fileListB3: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hold_id_card_gua'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'hold_id_card_gua')
-                        }
-                    }],
-                    loanInfoArrIpt: data.bankLoan ? data.bankLoan : {
-                        loanAmount: '',
-                        periods: '',
-                        bankRate: '',
-                        totalRate: '',
-                        rebateRate: '',
-                        fee: '',
-                        discountRate: '',
-                        discountAmount: '',
-                        loanRatio: '',
-                        wanFactor: '',
-                        monthAmount: '',
-                        repayFirstMonthAmount: '',
-                        highCashAmount: '',
-                        totalFee: '',
-                        customerBearRate: '',
-                        surchargeRate: '',
-                        surchargeAmount: ''
-                    },
-                    costSettlementInfoArrIpt: {
-                        fxAmount: data.fxAmount,
-                        lyDeposit: data.lyDeposit,
-                        repointAmount: data.repointAmount,
-                        gpsFee: data.gpsFee,
-                        otherFee: data.otherFee
-                    },
-                    carInfoArrIpt: data.carInfo ? data.carInfo : {
-                        carEngineNo: '',
-                        regAddress: '',
-                        shopCarGarage: '',
-                        model: '',
-                        carPrice: '',
-                        invoicePrice: '',
-                        carFrameNo: '',
-                        carNumber: '',
-                        evalPrice: '',
-                        regDate: '',
-                        mile: ''
-                    },
-                    // 驾驶证
-                    fileListJSZ: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'drive_card'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'drive_card')
-                        }
-                    }],
-                    // 结婚证
-                    fileListJHZ: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'marry_pdf'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'marry_pdf')
-                        }
-                    }],
-                    // 离婚证
-                    fileListLHZ: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'divorce_pdf'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'divorce_pdf')
-                        }
-                    }],
-                    // 单身证明
-                    fileListDSZ: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'single_prove'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'single_prove')
-                        }
-                    }],
-                    // 收入证明
-                    fileListSRZ: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'income_prove'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'income_prove')
-                        }
-                    }],
-                    // 户口本首页
-                    fileListHKBSY: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hk_book_first_page'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'hk_book_first_page')
-                        }
-                    }],
-                    // 户口本主页
-                    fileListHKBZY: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hk_book_home_page'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'hk_book_home_page')
-                        }
-                    }],
-                    // 户口本本人页
-                    fileListHKBRY: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hk_book_my_page'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'hk_book_my_page')
-                        }
-                    }],
-                    // 房产证
-                    fileListFZZ: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'house_property_card_pdf'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'house_property_card_pdf')
-                        }
-                    }],
-                    // 居住证
-                    fileListJZZ: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'live_prove_pdf'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'live_prove_pdf')
-                        }
-                    }],
-                    // 银行流水首页
-                    fileListYHS: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_first_page'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'bank_jour_first_page')
-                        }
-                    }],
-                    // 银行流水结息一季度
-                    fileListLS1: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_first'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_first')
-                        }
-                    }],
-                    // 银行流水结息二季度
-                    fileListLS2: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_second'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_second')
-                        }
-                    }],
-                    // 银行流水结息三季度
-                    fileListLS3: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_third'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_third')
-                        }
-                    }],
-                    // 银行流水结息四季度
-                    fileListLS4: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_fourth'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_fourth')
-                        }
-                    }],
-                    // 银行流水末页
-                    fileListLS5: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_last_page'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'bank_jour_last_page')
-                        }
-                    }],
-                    // 支付宝流水
-                    fileListZFB: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'zfb_jour'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'zfb_jour')
-                        }
-                    }],
-                    // 微信流水
-                    fileListWX: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'wx_jour'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'wx_jour')
-                        }
-                    }],
-                    // 其他
-                    fileListQT: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'other_pdf'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'other_pdf')
-                        }
-                    }],
-                    // 上门照片
-                    fileListSM: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'door_photo'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'door_photo')
-                        }
-                    }],
-                    // 合照
-                    fileListHZ: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'group_photo'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'group_photo')
-                        }
-                    }],
-                    // 家访视频
-                    fileListJF: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'house_video'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'house_video')
-                        }
-                    }],
-                    // 车头
-                    fileListCT: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_head'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'car_head')
-                        }
-                    }],
-                    // 铭牌
-                    fileListCMP: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'nameplate'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'nameplate')
-                        }
-                    }],
-                    // VIN码
-                    fileListVIN: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'vin_number'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'vin_number')
-                        }
-                    }],
-                    // 仪表盘
-                    fileListYBP: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'dashboard'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'dashboard')
-                        }
-                    }],
-                    // 驾驶室
-                    fileListJSS: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'cab'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'cab')
-                        }
-                    }],
-                    // 发动机
-                    fileListFDJ: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_engine'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'car_engine')
-                        }
-                    }],
-                    // 中控
-                    fileListZK: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'central_control'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'central_control')
-                        }
-                    }],
-                    // 天窗
-                    fileListTC: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'skylight'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'skylight')
-                        }
-                    }],
-                    // 车后座
-                    fileListHZC: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'rear_seat'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'rear_seat')
-                        }
-                    }],
-                    // 车尾
-                    fileListCW: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'vehicle_tail'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'vehicle_tail')
-                        }
-                    }],
-                    // 车全身
-                    fileListCQS: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_body'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'car_body')
-                        }
-                    }],
-                    // 车辆登记证书（首页）
-                    fileListDJZS: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_first'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'car_register_certificate_first')
-                        }
-                    }],
-                    // 车辆登记证书（二页）
-                    fileListDJZS2: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_second'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'car_register_certificate_second')
-                        }
-                    }],
-                    // 车辆登记证书（三页）
-                    fileListDJZS3: [{
-                        uid: '-2',
-                        name: 'ot.png',
-                        status: 'done',
-                        url: PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_third'),
-                        response: {
-                            hash: findDsct(dsctImgList(data.attachments), 'car_register_certificate_third')
-                        }
-                    }],
-                    hyzt: data.creditUser.marryState,
-                    zxjgName1: data.creditUserList[0].bankCreditResult === '0' ? '不通过' : '通过',
-                    zxjgName2: data.creditUserList[1].bankCreditResult === '0' ? '不通过' : '通过',
-                    zxjgName3: data.creditUserList[2].bankCreditResult === '0' ? '不通过' : '通过',
-                    jycd: data.creditUser.education,
-                    zflx: data.creditUser.nowHouseType,
-                    czlx: data.creditUser.permanentType,
-                    yzdgx: data.creditUser.emergencyRelation1,
-                    yzdgx2: data.creditUser.emergencyRelation2,
-                    lllx: data.bankLoan ? data.bankLoan.rateType : '',
-                    sfdz: data.bankLoan ? (data.bankLoan.isAdvanceFund === '0' ? '否' : '是') : '',
-                    sftx: data.bankLoan ? (data.bankLoan.isDiscount === '0' ? '否' : '是') : '',
-                    sfgp: data.bankLoan ? (data.bankLoan.isPublicCard === '0' ? '否' : '是') : '',
-                    gcch: data.carInfo ? data.carInfo.shopCarGarageName : '',
-                    sfjzgps: data.bankLoan ? (data.bankLoan.isAzGps === '0' ? '否' : '是') : '',
-                    sendCreditReporting: {
-                        mile: data.mile
-                    },
-                    // 经办银行
-                    jbyh: data.loanBankName,
-                    // 业务发生地点
-                    ywfsdd: data.region,
-                    // 购车途径
-                    gctj: data.bizType,
-                    // 上牌时间
-                    spsj: data.carInfo ? data.carInfo.regDate : '',
-                    // 品牌
-                    pp: data.carInfo ? data.carInfo.carBrand : '',
-                    // 车系
-                    cx1: data.carInfo ? data.carInfo.carSeriesName : '',
-                    // 车型
-                    cx2: data.carInfo ? data.carInfo.carModelName : '',
-                    carUrl: data.carInfo ? data.carInfo.secondCarReport : '',
-                    modelName: data.carInfo ? data.carInfo.carModelName : '',
-                    dkqx: data.periods,
-                    // 基本信息默认code
-                    permanentResidenceCode: data.creditUser.permanentType,
-                    housingTypeCode: data.creditUser.nowHouseType,
-                    marriageStatusCode: data.creditUser.marryState,
-                    edtCode: data.creditUser.education,
-                    emergencyRelationCode1: data.creditUser.emergencyRelation1,
-                    emergencyRelationCode2: data.creditUser.emergencyRelation2,
-                    // 购车行
-                    carLineCode: data.carInfo ? data.carInfo.shopCarGarage : ''
+        // getCityList
+        getCityList(1, 1000).then(async data => {
+            let arr = [];
+            for (let i = 0; i < data.list.length; i++) {
+                arr.push({
+                    dkey: data.list[i].id,
+                    dvalue: data.list[i].cityName
                 });
-                // 购车途径 显示隐藏
-                if(data.bizType === '0') {
-                    this.setState({
-                        isShowCarGroup: false
-                    });
-                }else if(data.bizType === '1') {
-                    this.setState({
-                        isShowCarGroup: true
-                    });
-                }
-                // permanentResidenceCode
-                // housingTypeCode
-                // marriageStatusCode
-                // edtCode
-                // emergencyRelationCode1
-                // emergencyRelationCode2
+            }
+            this.setState({
+                cityList: arr
             });
-        }
-        this.getBankList();
+            if (this.code) {
+                this.setState({
+                    accessInfoCode: this.code
+                });
+                await accessSlipDetail(this.code).then(data => {
+                    this.setState({
+                        loanIptArr: {
+                            mobile: data.creditUserList[0].mobile,
+                            mobile2: data.creditUserList[1].mobile,
+                            mobile3: data.creditUserList[2].mobile,
+                            bankCreditResultRemark: data.creditUserList[0].bankCreditResultRemark,
+                            bankCreditResultRemark2: data.creditUserList[1].bankCreditResultRemark,
+                            bankCreditResultRemark3: data.creditUserList[2].bankCreditResultRemark
+                        },
+                        mainLoanPpIptArr: data.creditUser,
+                        altogetherPpIptArr: data.creditUserList[1],
+                        bkGuaranteePpArr: data.creditUser,
+                        cardZ: data.creditUserList[0],
+                        cardF: data.creditUserList[0],
+                        cardZTwo: data.creditUserList[1],
+                        cardFTwo: data.creditUserList[1],
+                        cardZThree: data.creditUserList[2],
+                        cardFThree: data.creditUserList[2],
+                        fileList1: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'id_no_front_apply') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_front_apply')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'id_no_front_apply')
+                            }
+                        }],
+                        fileList2: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'id_no_reverse_apply') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_reverse_apply')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'id_no_reverse_apply')
+                            }
+
+                        }],
+                        fileList3: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'hold_id_card_apply') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hold_id_card_apply')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'hold_id_card_apply')
+                            }
+                        }],
+                        fileListG1: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'id_no_front_gh') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_front_gh')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'id_no_front_gh')
+                            }
+                        }],
+                        fileListG2: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'id_no_reverse_gh') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_reverse_gh')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'id_no_reverse_gh')
+                            }
+                        }],
+                        fileListG3: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'hold_id_card_gh') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hold_id_card_gh')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'hold_id_card_gh')
+                            }
+                        }],
+                        fileListB1: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'id_no_front_gua') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_front_gua')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'id_no_front_gua')
+                            }
+                        }],
+                        fileListB2: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'id_no_reverse_gua') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'id_no_reverse_gua')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'id_no_reverse_gua')
+                            }
+                        }],
+                        fileListB3: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'hold_id_card_gua') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hold_id_card_gua')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'hold_id_card_gua')
+                            }
+                        }],
+                        loanInfoArrIpt: data.bankLoan ? data.bankLoan : {
+                            loanAmount: '',
+                            periods: '',
+                            bankRate: '',
+                            totalRate: '',
+                            rebateRate: '',
+                            fee: '',
+                            discountRate: '',
+                            discountAmount: '',
+                            loanRatio: '',
+                            wanFactor: '',
+                            monthAmount: '',
+                            repayFirstMonthAmount: '',
+                            highCashAmount: '',
+                            totalFee: '',
+                            customerBearRate: '',
+                            surchargeRate: '',
+                            surchargeAmount: ''
+                        },
+                        costSettlementInfoArrIpt: {
+                            fxAmount: data.fxAmount,
+                            lyDeposit: data.lyDeposit,
+                            repointAmount: data.repointAmount,
+                            gpsFee: data.gpsFee,
+                            otherFee: data.otherFee
+                        },
+                        carInfoArrIpt: data.carInfo ? data.carInfo : {
+                            carEngineNo: '',
+                            regAddress: '',
+                            shopCarGarage: '',
+                            model: '',
+                            carPrice: '',
+                            invoicePrice: '',
+                            carFrameNo: '',
+                            carNumber: '',
+                            evalPrice: '',
+                            regDate: '',
+                            mile: ''
+                        },
+                        // 驾驶证
+                        fileListJSZ: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'drive_card') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'drive_card')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'drive_card')
+                            }
+                        }],
+                        // 结婚证
+                        fileListJHZ: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'marry_pdf') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'marry_pdf')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'marry_pdf')
+                            }
+                        }],
+                        // 离婚证
+                        fileListLHZ: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'divorce_pdf') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'divorce_pdf')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'divorce_pdf')
+                            }
+                        }],
+                        // 单身证明
+                        fileListDSZ: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'single_prove') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'single_prove')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'single_prove')
+                            }
+                        }],
+                        // 收入证明
+                        fileListSRZ: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'income_prove') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'income_prove')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'income_prove')
+                            }
+                        }],
+                        // 户口本首页
+                        fileListHKBSY: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'hk_book_first_page') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hk_book_first_page')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'hk_book_first_page')
+                            }
+                        }],
+                        // 户口本主页
+                        fileListHKBZY: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'hk_book_home_page') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hk_book_home_page')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'hk_book_home_page')
+                            }
+                        }],
+                        // 户口本本人页
+                        fileListHKBRY: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'hk_book_my_page') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hk_book_my_page')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'hk_book_my_page')
+                            }
+                        }],
+                        // 房产证
+                        fileListFZZ: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'house_property_card_pdf') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'house_property_card_pdf')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'house_property_card_pdf')
+                            }
+                        }],
+                        // 居住证
+                        fileListJZZ: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'live_prove_pdf') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'live_prove_pdf')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'live_prove_pdf')
+                            }
+                        }],
+                        // 银行流水首页
+                        fileListYHS: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'bank_jour_first_page') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_first_page')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'bank_jour_first_page')
+                            }
+                        }],
+                        // 银行流水结息一季度
+                        fileListLS1: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_first') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_first')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_first')
+                            }
+                        }],
+                        // 银行流水结息二季度
+                        fileListLS2: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_second') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_second')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_second')
+                            }
+                        }],
+                        // 银行流水结息三季度
+                        fileListLS3: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_third') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_third')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_third')
+                            }
+                        }],
+                        // 银行流水结息四季度
+                        fileListLS4: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_fourth') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_fourth')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_fourth')
+                            }
+                        }],
+                        // 银行流水末页
+                        fileListLS5: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'bank_jour_last_page') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_last_page')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'bank_jour_last_page')
+                            }
+                        }],
+                        // 支付宝流水
+                        fileListZFB: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'zfb_jour') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'zfb_jour')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'zfb_jour')
+                            }
+                        }],
+                        // 微信流水
+                        fileListWX: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'wx_jour') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'wx_jour')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'wx_jour')
+                            }
+                        }],
+                        // 其他
+                        fileListQT: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'other_pdf') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'other_pdf')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'other_pdf')
+                            }
+                        }],
+                        // 上门照片
+                        fileListSM: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'door_photo') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'door_photo')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'door_photo')
+                            }
+                        }],
+                        // 合照
+                        fileListHZ: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'group_photo') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'group_photo')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'group_photo')
+                            }
+                        }],
+                        // 家访视频
+                        fileListJF: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'house_video') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'house_video')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'house_video')
+                            }
+                        }],
+                        // 车头
+                        fileListCT: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'car_head') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_head')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'car_head')
+                            }
+                        }],
+                        // 铭牌
+                        fileListCMP: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'nameplate') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'nameplate')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'nameplate')
+                            }
+                        }],
+                        // VIN码
+                        fileListVIN: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'vin_number') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'vin_number')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'vin_number')
+                            }
+                        }],
+                        // 仪表盘
+                        fileListYBP: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'dashboard') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'dashboard')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'dashboard')
+                            }
+                        }],
+                        // 驾驶室
+                        fileListJSS: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'cab') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'cab')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'cab')
+                            }
+                        }],
+                        // 发动机
+                        fileListFDJ: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'car_engine') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_engine')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'car_engine')
+                            }
+                        }],
+                        // 中控
+                        fileListZK: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'central_control') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'central_control')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'central_control')
+                            }
+                        }],
+                        // 天窗
+                        fileListTC: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'skylight') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'skylight')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'skylight')
+                            }
+                        }],
+                        // 车后座
+                        fileListHZC: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'rear_seat') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'rear_seat')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'rear_seat')
+                            }
+                        }],
+                        // 车尾
+                        fileListCW: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'vehicle_tail') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'vehicle_tail')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'vehicle_tail')
+                            }
+                        }],
+                        // 车全身
+                        fileListCQS: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'car_body') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_body')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'car_body')
+                            }
+                        }],
+                        // 车辆登记证书（首页）
+                        fileListDJZS: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'car_register_certificate_first') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_first')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'car_register_certificate_first')
+                            }
+                        }],
+                        // 车辆登记证书（二页）
+                        fileListDJZS2: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'car_register_certificate_second') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_second')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'car_register_certificate_second')
+                            }
+                        }],
+                        // 车辆登记证书（三页）
+                        fileListDJZS3: [{
+                            uid: '-2',
+                            name: 'ot.png',
+                            status: 'done',
+                            url: findDsct(dsctImgList(data.attachments), 'car_register_certificate_third') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_third')),
+                            response: {
+                                hash: findDsct(dsctImgList(data.attachments), 'car_register_certificate_third')
+                            }
+                        }],
+                        hyzt: data.creditUser.marryState,
+                        zxjgName1: data.creditUserList[0].bankCreditResult === '0' ? '不通过' : '通过',
+                        zxjgName2: data.creditUserList[1].bankCreditResult === '0' ? '不通过' : '通过',
+                        zxjgName3: data.creditUserList[2].bankCreditResult === '0' ? '不通过' : '通过',
+                        jycd: data.creditUser.education,
+                        zflx: data.creditUser.nowHouseType,
+                        czlx: data.creditUser.permanentType,
+                        yzdgx: data.creditUser.emergencyRelation1,
+                        yzdgx2: data.creditUser.emergencyRelation2,
+                        lllx: data.bankLoan ? data.bankLoan.rateType : '',
+                        sfdz: data.bankLoan ? (data.bankLoan.isAdvanceFund === '0' ? '否' : '是') : '',
+                        sftx: data.bankLoan ? (data.bankLoan.isDiscount === '0' ? '否' : '是') : '',
+                        sfgp: data.bankLoan ? (data.bankLoan.isPublicCard === '0' ? '否' : '是') : '',
+                        gcch: data.carInfo ? data.carInfo.shopCarGarageName : '',
+                        sfjzgps: data.bankLoan ? (data.bankLoan.isAzGps === '0' ? '否' : '是') : '',
+                        sendCreditReporting: {
+                            mile: data.mile
+                        },
+                        // 经办银行
+                        jbyh: data.loanBankName,
+                        // 业务发生地点
+                        ywfsdd: findDsct(arr, parseInt(data.region)),
+                        // 购车途径
+                        gctj: data.bizType,
+                        // 上牌时间
+                        spsj: data.carInfo ? data.carInfo.regDate : '',
+                        // 品牌
+                        pp: data.carInfo ? data.carInfo.carBrand : '',
+                        // 车系
+                        cx1: data.carInfo ? data.carInfo.carSeriesName : '',
+                        // 车型
+                        cx2: data.carInfo ? data.carInfo.carModelName : '',
+                        carUrl: data.carInfo ? data.carInfo.secondCarReport : '',
+                        modelName: data.carInfo ? data.carInfo.carModelName : '',
+                        dkqx: data.periods,
+                        // 基本信息默认code
+                        permanentResidenceCode: data.creditUser.permanentType,
+                        housingTypeCode: data.creditUser.nowHouseType,
+                        marriageStatusCode: data.creditUser.marryState,
+                        edtCode: data.creditUser.education,
+                        emergencyRelationCode1: data.creditUser.emergencyRelation1,
+                        emergencyRelationCode2: data.creditUser.emergencyRelation2,
+                        // 购车行
+                        carLineCode: data.carInfo ? data.carInfo.shopCarGarage : ''
+                    });
+                    // 购车途径 显示隐藏
+                    if (data.bizType === '0') {
+                        this.setState({
+                            isShowCarGroup: false
+                        });
+                    } else if (data.bizType === '1') {
+                        this.setState({
+                            isShowCarGroup: true
+                        });
+                    }
+                    // permanentResidenceCode
+                    // housingTypeCode
+                    // marriageStatusCode
+                    // edtCode
+                    // emergencyRelationCode1
+                    // emergencyRelationCode2
+                });
+            }
+            this.getBankList();
+        });
     }
     componentDidMount(): void {
         Promise.all([
@@ -1224,20 +1236,6 @@ class preloanAccess extends React.Component {
             }
             this.setState({
                 carBuyingListArrs: arr
-            });
-        });
-        // getCityList
-        getCityList(1, 1000).then(data => {
-            let arr = [];
-            console.log('getCityList', data);
-            for(let i = 0; i < data.list.length; i++) {
-                arr.push({
-                    dkey: data.list[i].id,
-                    dvalue: data.list[i].cityName
-                });
-            }
-            this.setState({
-                cityList: arr
             });
         });
     }
@@ -1771,77 +1769,81 @@ class preloanAccess extends React.Component {
                 picHashB3 = fileListB3[0].response.hash;
             }
         }
-        let creditUserList = [];
-        for(let i = 1; i <= 3; i++) {
-            if(i === 1) {
-                creditUserList.push({
-                    userName: cardZ.userName,
-                    loanRole: i,
-                    gender: cardZ.gender,
-                    nation: cardZ.nation,
-                    idNo: cardZ.idNo,
-                    customerBirth: cardZ.customerBirth,
-                    birthAddress: cardZ.birthAddress,
-                    authref: cardF.authref,
-                    statdate: cardF.startDate,
-                    startDate: cardF.startDate,
-                    idFront: picHash,
-                    idReverse: picHash2,
-                    holdIdCardPdf: picHash3,
-                    bankCreditResult: zXjg1,
-                    mobile: loanIptArr.mobile,
-                    bankCreditResultRemark: loanIptArr.bankCreditResultRemark
-                });
-            }else if(i === 2) {
-                creditUserList.push({
-                    userName: cardZTwo.userName,
-                    loanRole: i,
-                    gender: cardZTwo.gender,
-                    nation: cardZTwo.nation,
-                    idNo: cardZTwo.idNo,
-                    customerBirth: cardZTwo.customerBirth,
-                    birthAddress: cardZTwo.birthAddress,
-                    authref: cardFTwo.authref,
-                    statdate: cardFTwo.startDate,
-                    startDate: cardFTwo.startDate,
-                    idFront: picHashG,
-                    idReverse: picHashG2,
-                    holdIdCardPdf: picHashG3,
-                    bankCreditResult: zXjg2,
-                    mobile: loanIptArr.mobile2,
-                    bankCreditResultRemark: loanIptArr.bankCreditResultRemark2
-                });
-            }else if(i === 3) {
-                creditUserList.push({
-                    userName: cardZThree.userName,
-                    loanRole: i,
-                    gender: cardZThree.gender,
-                    nation: cardZThree.nation,
-                    idNo: cardZThree.idNo,
-                    customerBirth: cardZThree.customerBirth,
-                    birthAddress: cardZThree.birthAddress,
-                    authref: cardFThree.authref,
-                    statdate: cardFThree.startDate,
-                    startDate: cardFThree.startDate,
-                    idFront: picHashB,
-                    idReverse: picHashB2,
-                    holdIdCardPdf: picHashB3,
-                    bankCreditResult: zXjg3,
-                    mobile: loanIptArr.mobile3,
-                    bankCreditResultRemark: loanIptArr.bankCreditResultRemark3
-                });
+        if(loanIptArr.mobile === '' || loanIptArr.mobile2 === '' || loanIptArr.mobile3 === '' || loanIptArr.bankCreditResultRemark === '' || loanIptArr.bankCreditResultRemark2 === '' || loanIptArr.bankCreditResultRemark3 === '') {
+            showWarnMsg('请将贷款人信息填写完整!');
+        }else {
+            let creditUserList = [];
+            for(let i = 1; i <= 3; i++) {
+                if(i === 1) {
+                    creditUserList.push({
+                        userName: cardZ.userName,
+                        loanRole: i,
+                        gender: cardZ.gender,
+                        nation: cardZ.nation,
+                        idNo: cardZ.idNo,
+                        customerBirth: cardZ.customerBirth,
+                        birthAddress: cardZ.birthAddress,
+                        authref: cardF.authref,
+                        statdate: cardF.startDate,
+                        startDate: cardF.startDate,
+                        idFront: picHash,
+                        idReverse: picHash2,
+                        holdIdCardPdf: picHash3,
+                        bankCreditResult: zXjg1,
+                        mobile: loanIptArr.mobile,
+                        bankCreditResultRemark: loanIptArr.bankCreditResultRemark
+                    });
+                }else if(i === 2) {
+                    creditUserList.push({
+                        userName: cardZTwo.userName,
+                        loanRole: i,
+                        gender: cardZTwo.gender,
+                        nation: cardZTwo.nation,
+                        idNo: cardZTwo.idNo,
+                        customerBirth: cardZTwo.customerBirth,
+                        birthAddress: cardZTwo.birthAddress,
+                        authref: cardFTwo.authref,
+                        statdate: cardFTwo.startDate,
+                        startDate: cardFTwo.startDate,
+                        idFront: picHashG,
+                        idReverse: picHashG2,
+                        holdIdCardPdf: picHashG3,
+                        bankCreditResult: zXjg2,
+                        mobile: loanIptArr.mobile2,
+                        bankCreditResultRemark: loanIptArr.bankCreditResultRemark2
+                    });
+                }else if(i === 3) {
+                    creditUserList.push({
+                        userName: cardZThree.userName,
+                        loanRole: i,
+                        gender: cardZThree.gender,
+                        nation: cardZThree.nation,
+                        idNo: cardZThree.idNo,
+                        customerBirth: cardZThree.customerBirth,
+                        birthAddress: cardZThree.birthAddress,
+                        authref: cardFThree.authref,
+                        statdate: cardFThree.startDate,
+                        startDate: cardFThree.startDate,
+                        idFront: picHashB,
+                        idReverse: picHashB2,
+                        holdIdCardPdf: picHashB3,
+                        bankCreditResult: zXjg3,
+                        mobile: loanIptArr.mobile3,
+                        bankCreditResultRemark: loanIptArr.bankCreditResultRemark3
+                    });
+                }
             }
+            let arr = {
+                code: code,
+                operator: getUserId(),
+                creditUserList: creditUserList
+            };
+            lenderInfoLs(arr).then(data => {
+                if(data.isSuccess) {
+                    showSucMsg('操作成功!');
+                }
+            });
         }
-        let arr = {
-            code: code,
-            operator: getUserId(),
-            creditUserList: creditUserList
-        };
-        lenderInfoLs(arr).then(data => {
-            if(data.isSuccess) {
-                showSucMsg('操作成功!');
-            }
-        });
     }
     // 基本信息
     addBaseInfo = (code) => {
@@ -1892,7 +1894,6 @@ class preloanAccess extends React.Component {
             operator: getUserId(),
             creditUserList: creditUserList
         };
-        console.log('addBaseInfo', arr);
         baseDsInfoLs(arr).then(data => {
             if(data.isSuccess) {
                 showSucMsg('操作成功!');
@@ -3425,7 +3426,6 @@ class preloanAccess extends React.Component {
                 carUrl: data.url,
                 modelName: data.model_name
             });
-            console.log(this.state.modelName, this.state.carUrl);
         });
     }
     render() {
@@ -3748,6 +3748,24 @@ class preloanAccess extends React.Component {
                 <div className="ant-upload-text">Upload</div>
             </div>
         );
+        const uploadButtonZ = (
+            <div>
+                <Icon type="plus" />
+                <div className="ant-upload-text">身份证正面照</div>
+            </div>
+        );
+        const uploadButtonF = (
+            <div>
+                <Icon type="plus" />
+                <div className="ant-upload-text">身份证反面照</div>
+            </div>
+        );
+        const uploadButtonHz = (
+            <div>
+                <Icon type="plus" />
+                <div className="ant-upload-text">身份证与本人合照</div>
+            </div>
+        );
         return (
             <div className="preLoan-body">
                 <span className="preLoan-body-tag">发起征信</span>
@@ -3944,7 +3962,7 @@ class preloanAccess extends React.Component {
                                                                 onPreview={this.handlePreviewCardZ}
                                                                 onChange={this.handleChangeCardZ}
                                                             >
-                                                                {fileList1.length >= 1 ? null : uploadButton}
+                                                                {fileList1.length >= 1 ? null : uploadButtonZ}
                                                             </Upload>
                                                             <Modal visible={previewVisible} footer={null} onCancel={this.handleCancelCardZ}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImage} />
@@ -3962,7 +3980,7 @@ class preloanAccess extends React.Component {
                                                                 onPreview={this.handlePreviewCardF}
                                                                 onChange={this.handleChangeCardF}
                                                             >
-                                                                {fileList2.length >= 1 ? null : uploadButton}
+                                                                {fileList2.length >= 1 ? null : uploadButtonF}
                                                             </Upload>
                                                             <Modal visible={previewVisible2} footer={null} onCancel={this.handleCancelCardF}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImage2} />
@@ -3980,7 +3998,7 @@ class preloanAccess extends React.Component {
                                                                 onPreview={this.handlePreviewCardSC}
                                                                 onChange={this.handleChangeCardSC}
                                                             >
-                                                                {fileList3.length >= 1 ? null : uploadButton}
+                                                                {fileList3.length >= 1 ? null : uploadButtonHz}
                                                             </Upload>
                                                             <Modal visible={previewVisible3} footer={null} onCancel={this.handleCancelCardSC}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImage3} />
@@ -4025,11 +4043,11 @@ class preloanAccess extends React.Component {
                                                     </Col>
                                                 </Row>
                                                 <Row className="preLoan-body-row-top">
-                                                    <Col span={12}>
+                                                    <Col span={20}>
                                                         <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>征信说明：</span>
-                                                        <input type="text" value={loanIptArr.bankCreditResultRemark} ref={input => this.bankCreditResultRemarkIpt = input} onChange={(e) => { this.iptLoanIptArr(e, 'bankCreditResultRemark'); }} className="preLoan-body-input" />
+                                                        <textarea value={loanIptArr.bankCreditResultRemark} ref={input => this.bankCreditResultRemarkIpt = input} onChange={(e) => { this.iptLoanIptArr(e, 'bankCreditResultRemark'); }} className="afp-body-textarea" style={{float: 'left'}}></textarea>
                                                     </Col>
-                                                    <Col span={12}>
+                                                    <Col span={4}>
                                                     </Col>
                                                 </Row>
                                             </div>
@@ -4051,7 +4069,7 @@ class preloanAccess extends React.Component {
                                                                     onPreview={this.handlePreviewCardZG}
                                                                     onChange={this.handleChangeCardZG}
                                                                 >
-                                                                    {fileListG1.length >= 1 ? null : uploadButton}
+                                                                    {fileListG1.length >= 1 ? null : uploadButtonZ}
                                                                 </Upload>
                                                                 <Modal visible={previewVisibleG} footer={null} onCancel={this.handleCancelCardZG}>
                                                                     <img alt="example" style={{ width: '100%' }} src={previewImageG} />
@@ -4069,7 +4087,7 @@ class preloanAccess extends React.Component {
                                                                     onPreview={this.handlePreviewCardFG}
                                                                     onChange={this.handleChangeCardFG}
                                                                 >
-                                                                    {fileListG2.length >= 1 ? null : uploadButton}
+                                                                    {fileListG2.length >= 1 ? null : uploadButtonF}
                                                                 </Upload>
                                                                 <Modal visible={previewVisibleG2} footer={null} onCancel={this.handleCancelCardFG}>
                                                                     <img alt="example" style={{ width: '100%' }} src={previewImageG2} />
@@ -4087,7 +4105,7 @@ class preloanAccess extends React.Component {
                                                                     onPreview={this.handlePreviewCardSCG}
                                                                     onChange={this.handleChangeCardSCG}
                                                                 >
-                                                                    {fileListG3.length >= 1 ? null : uploadButton}
+                                                                    {fileListG3.length >= 1 ? null : uploadButtonHz}
                                                                 </Upload>
                                                                 <Modal visible={previewVisibleG3} footer={null} onCancel={this.handleCancelCardSCG}>
                                                                     <img alt="example" style={{ width: '100%' }} src={previewImageG3} />
@@ -4132,11 +4150,11 @@ class preloanAccess extends React.Component {
                                                         </Col>
                                                     </Row>
                                                     <Row className="preLoan-body-row-top">
-                                                        <Col span={12}>
+                                                        <Col span={20}>
                                                             <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>征信说明：</span>
-                                                            <input type="text" value={loanIptArr.bankCreditResultRemark2} ref={input => this.bankCreditResultRemark2Ipt = input} onChange={(e) => { this.iptLoanIptArr(e, 'bankCreditResultRemark2'); }} className="preLoan-body-input" />
+                                                            <textarea value={loanIptArr.bankCreditResultRemark2} ref={input => this.bankCreditResultRemark2Ipt = input} onChange={(e) => { this.iptLoanIptArr(e, 'bankCreditResultRemark2'); }} className="afp-body-textarea" style={{float: 'left'}}></textarea>
                                                         </Col>
-                                                        <Col span={12}>
+                                                        <Col span={4}>
                                                         </Col>
                                                     </Row>
                                                 </div>
@@ -4158,7 +4176,7 @@ class preloanAccess extends React.Component {
                                                                 onPreview={this.handlePreviewCardZB}
                                                                 onChange={this.handleChangeCardZB}
                                                             >
-                                                                {fileListB1.length >= 1 ? null : uploadButton}
+                                                                {fileListB1.length >= 1 ? null : uploadButtonZ}
                                                             </Upload>
                                                             <Modal visible={previewVisibleB} footer={null} onCancel={this.handleCancelCardZB}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImageB} />
@@ -4176,7 +4194,7 @@ class preloanAccess extends React.Component {
                                                                 onPreview={this.handlePreviewCardFB}
                                                                 onChange={this.handleChangeCardFB}
                                                             >
-                                                                {fileListB2.length >= 1 ? null : uploadButton}
+                                                                {fileListB2.length >= 1 ? null : uploadButtonF}
                                                             </Upload>
                                                             <Modal visible={previewVisibleB2} footer={null} onCancel={this.handleCancelCardFB}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImageB2} />
@@ -4194,7 +4212,7 @@ class preloanAccess extends React.Component {
                                                                 onPreview={this.handlePreviewCardSCB}
                                                                 onChange={this.handleChangeCardSCB}
                                                             >
-                                                                {fileListB3.length >= 1 ? null : uploadButton}
+                                                                {fileListB3.length >= 1 ? null : uploadButtonHz}
                                                             </Upload>
                                                             <Modal visible={previewVisibleB3} footer={null} onCancel={this.handleCancelCardSCB}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImageB3} />
@@ -4239,11 +4257,11 @@ class preloanAccess extends React.Component {
                                                     </Col>
                                                 </Row>
                                                 <Row className="preLoan-body-row-top">
-                                                    <Col span={12}>
+                                                    <Col span={20}>
                                                         <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>征信说明：</span>
-                                                        <input type="text" value={loanIptArr.bankCreditResultRemark3} ref={input => this.bankCreditResultRemark3Ipt = input} onChange={(e) => { this.iptLoanIptArr(e, 'bankCreditResultRemark3'); }} className="preLoan-body-input" />
+                                                        <textarea value={loanIptArr.bankCreditResultRemark3} ref={input => this.bankCreditResultRemark3Ipt = input} onChange={(e) => { this.iptLoanIptArr(e, 'bankCreditResultRemark3'); }} className="afp-body-textarea" style={{float: 'left'}}></textarea>
                                                     </Col>
-                                                    <Col span={12}>
+                                                    <Col span={4}>
                                                     </Col>
                                                 </Row>
                                             </div>

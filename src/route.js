@@ -2141,7 +2141,7 @@ const ROUTES = [
     component: asyncComponent(() => import('container/preLoanManagement/preloanAccessExamine'))
   },
   {
-    path: '/preLoan/Access/list',
+    path: '/preLoan/AccessList',
     component: asyncComponent(() => import('container/preLoanManagement/preloanAccessList'))
   },
   // 财务垫资 -- 用款申请
