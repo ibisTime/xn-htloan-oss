@@ -1,16 +1,16 @@
 import React from 'react';
 import {
-  setTableData,
-  setPagination,
-  setBtnList,
-  setSearchParam,
+  cancelFetching,
   clearSearchParam,
   doFetching,
-  cancelFetching,
-  setSearchData
+  setBtnList,
+  setPagination,
+  setSearchData,
+  setSearchParam,
+  setTableData
 } from '@redux/circulationLog/circulationLog';
-import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, showSucMsg } from 'common/js/util';
+import {listWrapper} from 'common/js/build-list';
+import {showSucMsg, showWarnMsg} from 'common/js/util';
 import {getNodeList} from 'api/menu';
 
 @listWrapper(
@@ -67,6 +67,9 @@ class Circulationlog extends React.Component {
       keyName: 'code',
       valueName: 'name',
       search: true
+    }, {
+      title: '操作说明',
+      field: 'dealNote'
     }, {
       title: '开始时间',
       field: 'startDatetime',
