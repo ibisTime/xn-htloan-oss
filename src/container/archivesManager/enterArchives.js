@@ -82,6 +82,7 @@ class enterArchives extends React.Component {
                 rmk: ''
             },
             visible: false,
+            visibleChange: false,
             iptInfoArr: {
                 code: '',
                 path: ''
@@ -318,12 +319,12 @@ class enterArchives extends React.Component {
             enterLocation: loanBankCode,
             fileList: arr
         };
-        // sendEnterArchives(params).then(data => {
-        //     showSucMsg('操作成功!');
-        //     setTimeout(() => {
-        //         this.props.history.go(-1);
-        //     }, 1000);
-        // });
+        sendEnterArchives(params).then(data => {
+            showSucMsg('操作成功!');
+            setTimeout(() => {
+                this.props.history.go(-1);
+            }, 1000);
+        });
     }
     // 状态
     getAccessSlipStatus = () => {
@@ -592,7 +593,7 @@ class enterArchives extends React.Component {
                     </div>
                 </Modal>
                 <Modal
-                    visible={this.state.changeVisible}
+                    visible={this.state.visibleChange}
                     onOk={type => this.hideModal('changeEdit')}
                     onCancel={type => this.hideModal('changeEdit')}
                     footer={null}
@@ -711,7 +712,7 @@ class enterArchives extends React.Component {
                     <img src={add} />
                     <span style={{color: '#29C456'}} onClick={type => this.showModal('dataEdit')}> 新增</span>
                     <img src={edit} style={{marginLeft: '30px'}} />
-                    <span style={{color: '#999999'}}> 修改</span>
+                    <span style={{color: '#999999'}} onClick={type => this.showModal('dataChange')}> 修改</span>
                     <img src={deletes} style={{marginLeft: '30px'}} />
                     <span style={{color: '#999999'}}> 删除</span>
                 </div>
