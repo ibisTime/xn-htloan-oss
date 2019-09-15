@@ -517,14 +517,6 @@ class enterArchives extends React.Component {
                 <Table
                     className="afp-body-table"
                     style={{width: '900px'}}
-                    onRow={(record) => {
-                        return {
-                            onClick: (e) => {
-                                console.log(e.currentTarget);
-                                e.currentTarget.getElementsByClassName('ant-checkbox-input')[0].click();
-                            }
-                        };
-                    }}
                     dataSource={missionList}
                     rowSelection={this.rowSelection}
                     columns={this.state.columns}

@@ -446,13 +446,6 @@ class applicationForPayment extends React.Component {
                 </Row>
                 <Table
                     className="afp-body-table"
-                    onRow={(record) => {
-                        return {
-                            onClick: (e) => {
-                                e.currentTarget.getElementsByClassName('ant-checkbox-input')[0].click();
-                            }
-                        };
-                    }}
                     dataSource={missionList}
                     rowSelection={this.rowSelection}
                     columns={this.state.columns}
