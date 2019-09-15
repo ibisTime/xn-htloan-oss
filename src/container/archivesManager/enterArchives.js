@@ -605,7 +605,8 @@ class enterArchives extends React.Component {
                         <Row style={{marginTop: '10px'}}>
                             <Col span={6}>
                                 <span>
-                                  <DatePicker format={'YYYY-MM-DD HH:mm:ss'} defaultValue={moment(new Date(), 'YYYY-MM-DD HH:mm:ss')} style={{width: '300px', float: 'left'}} onChange={this.onChangeTime}/>
+                                    {/* defaultValue={moment(new Date(), 'YYYY-MM-DD HH:mm:ss')} */}
+                                  <DatePicker format={'YYYY-MM-DD HH:mm:ss'} style={{width: '300px', float: 'left'}} onChange={this.onChangeTime}/>
                                 </span>
                             </Col>
                             <Col span={18}>
