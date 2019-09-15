@@ -105,8 +105,6 @@ class enterArchives extends React.Component {
             onChange: (selectedRowKeys, selectedRows) => {
                 this.selectedRowKeysArr = selectedRowKeys;
                 this.selectedRows = selectedRows;
-                console.log('selectedRowKeysArr', this.selectedRowKeysArr);
-                console.log('selectedRows', this.selectedRows);
             },
             getCheckboxProps: record => ({
                 disabled: record.name === 'Disabled User',
