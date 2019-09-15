@@ -58,6 +58,11 @@ class Circulationlog extends React.Component {
       search: !this.code,
       listCode: 632517,
       valueName: '{{code.DATA}}',
+      onChange: (v, d) => {
+        this.setState({
+          bizCode: v
+        });
+      },
       keyName: 'code',
       title: '业务编号',
       hidden: true
@@ -92,7 +97,10 @@ class Circulationlog extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 623535
+      pageCode: 623535,
+      searchParams: {
+        bizCode: this.code ? this.code : this.state.bizCode
+      }
     });
   }
 }

@@ -263,7 +263,11 @@ class applicationForPayment extends React.Component {
         }else {
             const {missionList} = this.state;
             let missionListArr = missionList;
-            missionListArr.splice(this.selectedRowKeysArr[0] - 1, 1);
+            missionListArr.forEach((value, index, array) => {
+                if(value.key == this.selectedRowKeysArr[0]) {
+                    array.splice(value, 1);
+                }
+            });
             this.setState({
                 missionList: missionListArr
             });
@@ -293,13 +297,12 @@ class applicationForPayment extends React.Component {
                 isContinueAdvance: isDz,
                 missionList: arr
             };
-            console.log('不通过', params);
-            // examineTwo(params).then(data => {
-            //     showSucMsg('操作成功!');
-            //     setTimeout(() => {
-            //         this.props.history.go(-1);
-            //     }, 1000);
-            // });
+            examineTwo(params).then(data => {
+                showSucMsg('操作成功!');
+                setTimeout(() => {
+                    this.props.history.go(-1);
+                }, 1000);
+            });
         }
     }
     // 通过
@@ -323,13 +326,12 @@ class applicationForPayment extends React.Component {
                 isContinueAdvance: isDz,
                 missionList: arr
             };
-            console.log('通过', params);
-            // examineTwo(params).then(data => {
-            //     showSucMsg('操作成功!');
-            //     setTimeout(() => {
-            //         this.props.history.go(-1);
-            //     }, 1000);
-            // });
+            examineTwo(params).then(data => {
+                showSucMsg('操作成功!');
+                setTimeout(() => {
+                    this.props.history.go(-1);
+                }, 1000);
+            });
         }
     }
     // 状态

@@ -1376,7 +1376,7 @@ const ROUTES = [
   },
   {
     path: '/circulationlog/circulationlogByCode',
-    component: asyncComponent(() => import('container/personalarchives/circulationlog/circulationlog'))
+    component: asyncComponent(() => import('container/personalarchives/circulationlog/circulationlogByCode'))
   },
   //  车贷档案  资源池
   {
