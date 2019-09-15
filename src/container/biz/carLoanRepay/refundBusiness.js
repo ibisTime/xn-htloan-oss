@@ -154,7 +154,7 @@ class refundBusiness extends React.Component {
           } else if (selectedRowKeys.length > 1) {
             showWarnMsg('请选择一条记录');
           } else {
-            this.props.history.push(`/biz/refundBusiness/addedit?code=${selectedRows[0].budgetOrder.code}&v=1`);
+            this.props.history.push(`/biz/refundBusiness/addedit?code=${selectedRows[0].code}&v=1`);
           }
         }
       }

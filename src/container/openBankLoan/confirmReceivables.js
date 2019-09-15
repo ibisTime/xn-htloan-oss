@@ -33,7 +33,7 @@ class confirmReceivables extends React.Component {
             bankObject: {},
             iptArr: {
                 time: '',
-                rmk: ''
+                rationaleNote: ''
             },
             regDate: ''
         };
@@ -208,7 +208,7 @@ class confirmReceivables extends React.Component {
                 <Row style={{marginTop: '20px'}}>
                     <Col span={1}>备注：</Col>
                     <Col span={23}>
-                        <textarea value={iptArr.rmk} ref={input => this.rmkIpt = input} onChange={(e) => { this.iupChange(e, 'rmk'); }} className="afp-body-textarea" />
+                        <textarea value={iptArr.rationaleNote} ref={input => this.rmkIpt = input} onChange={(e) => { this.iupChange(e, 'rationaleNote'); }} className="afp-body-textarea" />
                     </Col>
                 </Row>
                 <div className="afp-body-btn-group">
