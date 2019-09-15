@@ -178,14 +178,20 @@ class enterArchives extends React.Component {
         fileCtList(1, 1000).then(data => {
             console.log('fileCtList', data);
             let arr = [];
+            let countArr = [];
             for(let i = 0; i < data.list.length; i++) {
                 arr.push({
                     dkey: data.list[i].id,
                     dvalue: data.list[i].vname
                 });
+                countArr.push({
+                    dkey: data.list[i].id,
+                    dvalue: data.list[i].number
+                });
             }
             this.setState({
-                fileCtListArr: arr
+                fileCtListArr: arr,
+                countArr: countArr
             });
         });
     }
@@ -365,7 +371,10 @@ class enterArchives extends React.Component {
         });
     }
     handleChangeFile = (value, event) => {
-        const {information} = this.state;
+        const {information, countArr} = this.state;
+        let count = countArr.find(item => item.dkey === value).dvalue;
+        console.log(count);
+        information['count'] = count;
         information['contentName'] = event.props.children;
         information['content'] = value;
         this.setState({
