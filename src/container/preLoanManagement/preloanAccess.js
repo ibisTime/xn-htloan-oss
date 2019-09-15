@@ -3934,7 +3934,7 @@ class preloanAccess extends React.Component {
                             </Row>
                             <Row className="preLoan-body-row-top">
                                 <Col span={12}>
-                                    <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>公里数：</span>
+                                    <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>公里数(万)：</span>
                                     <input type="text" value={sendCreditReporting.mile} ref={input => this.mileIpt = input} onChange={(e) => { this.iptChangeSendCreditReporting(e, 'mile'); }} className="preLoan-body-input" />
                                 </Col>
                                 <Col span={12}>

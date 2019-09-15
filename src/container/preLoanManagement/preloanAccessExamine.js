@@ -198,7 +198,7 @@ class preloanAccessDetail extends React.Component {
                             <Col span={12}>上牌地：{headInfo.regAddress}</Col>
                         </Row>
                         <Row style={{marginTop: '32px'}}>
-                            <Col span={12}>公里数：{headInfo.mile}</Col>
+                            <Col span={12}>公里数（万）：{headInfo.mile}</Col>
                             <Col span={12}></Col>
                         </Row>
                         <Row style={{marginTop: '32px'}}>
