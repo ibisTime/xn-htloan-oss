@@ -502,6 +502,7 @@ class preloanAccess extends React.Component {
             previewVisibleDJZS3: false,
             previewImageDJZS3: '',
             bankList: [],
+            bankRateList: [],
             fileList: [],
             brandList: [],
             carType: [],
@@ -592,16 +593,39 @@ class preloanAccess extends React.Component {
                 await accessSlipDetail(this.code).then(data => {
                     this.setState({
                         loanIptArr: {
-                            mobile: data.creditUserList[0].mobile,
-                            mobile2: data.creditUserList[1].mobile,
-                            mobile3: data.creditUserList[2].mobile,
-                            bankCreditResultRemark: data.creditUserList[0].bankCreditResultRemark,
-                            bankCreditResultRemark2: data.creditUserList[1].bankCreditResultRemark,
-                            bankCreditResultRemark3: data.creditUserList[2].bankCreditResultRemark
+                            mobile: data.creditUserList[0] ? data.creditUserList[0].mobile : '',
+                            mobile2: data.creditUserList[1] ? data.creditUserList[1].mobile : '',
+                            mobile3: data.creditUserList[2] ? data.creditUserList[2].mobile : '',
+                            bankCreditResultRemark: data.creditUserList[0] ? data.creditUserList[0].bankCreditResultRemark : '',
+                            bankCreditResultRemark2: data.creditUserList[1] ? data.creditUserList[1].bankCreditResultRemark : '',
+                            bankCreditResultRemark3: data.creditUserList[2] ? data.creditUserList[2].bankCreditResultRemark : ''
                         },
-                        mainLoanPpIptArr: data.creditUser,
-                        altogetherPpIptArr: data.creditUserList[1],
-                        bkGuaranteePpArr: data.creditUser,
+                        mainLoanPpIptArr: data.creditUser ? data.creditUser : {
+                            emergencyMobile2: '',
+                            emergencyRelation2: '',
+                            emergencyName2: '',
+                            emergencyMobile1: '',
+                            emergencyRelation1: '',
+                            emergencyName1: '',
+                            presentJobYears: '',
+                            yearIncome: '',
+                            position: '',
+                            companyAddress: '',
+                            companyName: '',
+                            nowAddress: ''
+                        },
+                        altogetherPpIptArr: data.creditUserList[1] ? data.creditUserList[1] : {
+                            companyName: '',
+                            position: '',
+                            nowAddress: '',
+                            companyAddress: ''
+                        },
+                        bkGuaranteePpArr: data.creditUser ? data.creditUser : {
+                            companyName: '',
+                            position: '',
+                            nowAddress: '',
+                            companyAddress: ''
+                        },
                         cardZ: data.creditUserList[0],
                         cardF: data.creditUserList[0],
                         cardZTwo: data.creditUserList[1],
@@ -1089,15 +1113,15 @@ class preloanAccess extends React.Component {
                                 hash: findDsct(dsctImgList(data.attachments), 'car_register_certificate_third')
                             }
                         }],
-                        hyzt: data.creditUser.marryState,
-                        zxjgName1: data.creditUserList[0].bankCreditResult === '0' ? '不通过' : '通过',
-                        zxjgName2: data.creditUserList[1].bankCreditResult === '0' ? '不通过' : '通过',
-                        zxjgName3: data.creditUserList[2].bankCreditResult === '0' ? '不通过' : '通过',
-                        jycd: data.creditUser.education,
-                        zflx: data.creditUser.nowHouseType,
-                        czlx: data.creditUser.permanentType,
-                        yzdgx: data.creditUser.emergencyRelation1,
-                        yzdgx2: data.creditUser.emergencyRelation2,
+                        hyzt: data.creditUser ? data.creditUser.marryState : '',
+                        zxjgName1: data.creditUserList[0] ? (data.creditUserList[0].bankCreditResult === '0' ? '不通过' : '通过') : '',
+                        zxjgName2: data.creditUserList[1] ? (data.creditUserList[1].bankCreditResult === '0' ? '不通过' : '通过') : '',
+                        zxjgName3: data.creditUserList[2] ? (data.creditUserList[2].bankCreditResult === '0' ? '不通过' : '通过') : '',
+                        jycd: data.creditUser ? data.creditUser.education : '',
+                        zflx: data.creditUser ? data.creditUser.nowHouseType : '',
+                        czlx: data.creditUser ? data.creditUser.permanentType : '',
+                        yzdgx: data.creditUser ? data.creditUser.emergencyRelation1 : '',
+                        yzdgx2: data.creditUser ? data.creditUser.emergencyRelation2 : '',
                         lllx: data.bankLoan ? data.bankLoan.rateType : '',
                         sfdz: data.bankLoan ? (data.bankLoan.isAdvanceFund === '0' ? '否' : '是') : '',
                         sftx: data.bankLoan ? (data.bankLoan.isDiscount === '0' ? '否' : '是') : '',
@@ -1109,6 +1133,7 @@ class preloanAccess extends React.Component {
                         },
                         // 经办银行
                         jbyh: data.loanBankName,
+                        loanBankCode: data.loanBank,
                         // 业务发生地点
                         ywfsdd: findDsct(arr, parseInt(data.region)),
                         // 购车途径
@@ -1125,12 +1150,12 @@ class preloanAccess extends React.Component {
                         modelName: data.carInfo ? data.carInfo.carModelName : '',
                         dkqx: data.periods,
                         // 基本信息默认code
-                        permanentResidenceCode: data.creditUser.permanentType,
-                        housingTypeCode: data.creditUser.nowHouseType,
-                        marriageStatusCode: data.creditUser.marryState,
-                        edtCode: data.creditUser.education,
-                        emergencyRelationCode1: data.creditUser.emergencyRelation1,
-                        emergencyRelationCode2: data.creditUser.emergencyRelation2,
+                        permanentResidenceCode: data.creditUser ? data.creditUser.permanentType : '',
+                        housingTypeCode: data.creditUser ? data.creditUser.nowHouseType : '',
+                        marriageStatusCode: data.creditUser ? data.creditUser.marryState : '',
+                        edtCode: data.creditUser ? data.creditUser.education : '',
+                        emergencyRelationCode1: data.creditUser ? data.creditUser.emergencyRelation1 : '',
+                        emergencyRelationCode2: data.creditUser ? data.creditUser.emergencyRelation2 : '',
                         // 购车行
                         carLineCode: data.carInfo ? data.carInfo.shopCarGarage : ''
                     });
@@ -1273,9 +1298,28 @@ class preloanAccess extends React.Component {
     }
     // 贷款期限 code
     handleChangeLoanPeriod = (value, event) => {
+        const {bankRateList, loanBankCode, loanInfoArrIpt} = this.state;
+        let rateValue = '';
+        switch (value) {
+            case '12':
+                rateValue = bankRateList.find(item => item.code === loanBankCode).rate12;
+                break;
+            case '18':
+                rateValue = bankRateList.find(item => item.code === loanBankCode).rate18;
+                break;
+            case '24':
+                rateValue = bankRateList.find(item => item.code === loanBankCode).rate24;
+                break;
+            case '36':
+                rateValue = bankRateList.find(item => item.code === loanBankCode).rate36;
+                break;
+        }
+        loanInfoArrIpt['bankRate'] = rateValue;
+        console.log(bankRateList.find(item => item.code === loanBankCode).rate12);
         this.setState({
             dkqx: event.props.children,
-            loanPeriodCode: value
+            loanPeriodCode: value,
+            loanInfoArrIpt
         });
     }
     // 获取学历code
@@ -1459,6 +1503,14 @@ class preloanAccess extends React.Component {
                 });
                 break;
             case 'costSettlement':
+                // 计算返点金额
+                const {loanInfoArrIpt, costSettlementInfoArrIpt} = this.state;
+                let amount = 0;
+                amount = loanInfoArrIpt.loanAmount * loanInfoArrIpt.rebateRate;
+                costSettlementInfoArrIpt['repointAmount'] = amount;
+                this.setState({
+                    costSettlementInfoArrIpt
+                });
                 this.setState({
                     isLoanPpInfo: false,
                     isBaseInfo: false,
@@ -1769,8 +1821,8 @@ class preloanAccess extends React.Component {
                 picHashB3 = fileListB3[0].response.hash;
             }
         }
-        if(loanIptArr.mobile === '' || loanIptArr.mobile2 === '' || loanIptArr.mobile3 === '' || loanIptArr.bankCreditResultRemark === '' || loanIptArr.bankCreditResultRemark2 === '' || loanIptArr.bankCreditResultRemark3 === '') {
-            showWarnMsg('请将贷款人信息填写完整!');
+        if(loanIptArr.mobile === '' || loanIptArr.bankCreditResultRemark === '') {
+            showWarnMsg('请将主贷人信息填写完整!');
         }else {
             let creditUserList = [];
             for(let i = 1; i <= 3; i++) {
@@ -1795,41 +1847,41 @@ class preloanAccess extends React.Component {
                     });
                 }else if(i === 2) {
                     creditUserList.push({
-                        userName: cardZTwo.userName,
+                        userName: cardZTwo ? cardZTwo.userName : '',
                         loanRole: i,
-                        gender: cardZTwo.gender,
-                        nation: cardZTwo.nation,
-                        idNo: cardZTwo.idNo,
-                        customerBirth: cardZTwo.customerBirth,
-                        birthAddress: cardZTwo.birthAddress,
-                        authref: cardFTwo.authref,
-                        statdate: cardFTwo.startDate,
-                        startDate: cardFTwo.startDate,
+                        gender: cardZTwo ? cardZTwo.gender : '',
+                        nation: cardZTwo ? cardZTwo.nation : '',
+                        idNo: cardZTwo ? cardZTwo.idNo : '',
+                        customerBirth: cardZTwo ? cardZTwo.customerBirth : '',
+                        birthAddress: cardZTwo ? cardZTwo.birthAddress : '',
+                        authref: cardFTwo ? cardFTwo.authref : '',
+                        statdate: cardFTwo ? cardFTwo.startDate : '',
+                        startDate: cardFTwo ? cardFTwo.startDate : '',
                         idFront: picHashG,
                         idReverse: picHashG2,
                         holdIdCardPdf: picHashG3,
                         bankCreditResult: zXjg2,
-                        mobile: loanIptArr.mobile2,
-                        bankCreditResultRemark: loanIptArr.bankCreditResultRemark2
+                        mobile: loanIptArr ? loanIptArr.mobile2 : '',
+                        bankCreditResultRemark: loanIptArr ? loanIptArr.bankCreditResultRemark2 : ''
                     });
                 }else if(i === 3) {
                     creditUserList.push({
-                        userName: cardZThree.userName,
+                        userName: cardZThree ? cardZThree.userName : '',
                         loanRole: i,
-                        gender: cardZThree.gender,
-                        nation: cardZThree.nation,
-                        idNo: cardZThree.idNo,
-                        customerBirth: cardZThree.customerBirth,
-                        birthAddress: cardZThree.birthAddress,
-                        authref: cardFThree.authref,
-                        statdate: cardFThree.startDate,
-                        startDate: cardFThree.startDate,
+                        gender: cardZThree ? cardZThree.gender : '',
+                        nation: cardZThree ? cardZThree.nation : '',
+                        idNo: cardZThree ? cardZThree.idNo : '',
+                        customerBirth: cardZThree ? cardZThree.customerBirth : '',
+                        birthAddress: cardZThree ? cardZThree.birthAddress : '',
+                        authref: cardFThree ? cardFThree.authref : '',
+                        statdate: cardFThree ? cardFThree.startDate : '',
+                        startDate: cardFThree ? cardFThree.startDate : '',
                         idFront: picHashB,
                         idReverse: picHashB2,
                         holdIdCardPdf: picHashB3,
                         bankCreditResult: zXjg3,
-                        mobile: loanIptArr.mobile3,
-                        bankCreditResultRemark: loanIptArr.bankCreditResultRemark3
+                        mobile: loanIptArr ? loanIptArr.mobile3 : '',
+                        bankCreditResultRemark: loanIptArr ? loanIptArr.bankCreditResultRemark3 : ''
                     });
                 }
             }
@@ -1937,7 +1989,7 @@ class preloanAccess extends React.Component {
     // 费用结算
     addCostSettlementInfo = (code) => {
         const {costSettlementInfoArrIpt} = this.state;
-        if(costSettlementInfoArrIpt.fxAmount === '' || costSettlementInfoArrIpt.lyDeposit === '' || costSettlementInfoArrIpt.repointAmount === '' || costSettlementInfoArrIpt.gpsFee === '' || costSettlementInfoArrIpt.otherFee === '') {
+        if(costSettlementInfoArrIpt.lyDeposit === '') {
             showWarnMsg('请将费用结算信息填写完整');
         }else {
             let arr = {
@@ -2493,8 +2545,19 @@ class preloanAccess extends React.Component {
                     name: data[i].bankName
                 });
             }
+            let rateArr = [];
+            for(let i = 0; i < data.length; i++) {
+                rateArr.push({
+                    code: data[i].code,
+                    rate12: data[i].rate12,
+                    rate18: data[i].rate18,
+                    rate24: data[i].rate24,
+                    rate36: data[i].rate36
+                });
+            }
             this.setState({
-                bankList: arr
+                bankList: arr,
+                bankRateList: rateArr
             });
         });
     }
@@ -4008,20 +4071,20 @@ class preloanAccess extends React.Component {
                                                     <Col span={8}></Col>
                                                 </Row>
                                                 <Row style={{marginTop: '34px'}}>
-                                                    <Col span={12}>姓名：{cardZ.userName}</Col>
-                                                    <Col span={12}>性别：{cardZ.gender}</Col>
+                                                    <Col span={12}>姓名：{cardZ ? cardZ.userName : ''}</Col>
+                                                    <Col span={12}>性别：{cardZ ? cardZ.gender : ''}</Col>
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
-                                                    <Col span={12}>民族：{cardZ.nation}</Col>
-                                                    <Col span={12}>出生日期：{cardZ.customerBirth}</Col>
+                                                    <Col span={12}>民族：{cardZ ? cardZ.nation : ''}</Col>
+                                                    <Col span={12}>出生日期：{cardZ ? cardZ.customerBirth : ''}</Col>
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
-                                                    <Col span={12}>签证机关：{cardF.authref}</Col>
-                                                    <Col span={12}>户籍地：{cardZ.birthAddress}</Col>
+                                                    <Col span={12}>签证机关：{cardF ? cardF.authref : ''}</Col>
+                                                    <Col span={12}>户籍地：{cardZ ? cardZ.birthAddress : ''}</Col>
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
-                                                    <Col span={12}>有效截止日：{cardF.startDate} - {cardF.statdate}<span style={{color: '#F75151'}}>（有效期不能小于60天）</span></Col>
-                                                    <Col span={12}>身份证号：{cardZ.idNo}</Col>
+                                                    <Col span={12}>有效截止日：{cardF ? cardF.startDate : ''} - {cardF ? cardF.statdate : ''}<span style={{color: '#F75151'}}>（有效期不能小于60天）</span></Col>
+                                                    <Col span={12}>身份证号：{cardZ ? cardZ.idNo : ''}</Col>
                                                 </Row>
                                                 <Row className="preLoan-body-row-top">
                                                     <Col span={12}>
@@ -4115,24 +4178,24 @@ class preloanAccess extends React.Component {
                                                         <Col span={8}></Col>
                                                     </Row>
                                                     <Row style={{marginTop: '34px'}}>
-                                                        <Col span={12}>姓名：{cardZTwo.userName}</Col>
-                                                        <Col span={12}>性别：{cardZTwo.gender}</Col>
+                                                        <Col span={12}>姓名：{cardZTwo ? cardZTwo.userName : ''}</Col>
+                                                        <Col span={12}>性别：{cardZTwo ? cardZTwo.gender : ''}</Col>
                                                     </Row>
                                                     <Row style={{marginTop: '16px'}}>
-                                                        <Col span={12}>民族：{cardZTwo.nation}</Col>
-                                                        <Col span={12}>出生日期：{cardZTwo.customerBirth}</Col>
+                                                        <Col span={12}>民族：{cardZTwo ? cardZTwo.nation : ''}</Col>
+                                                        <Col span={12}>出生日期：{cardZTwo ? cardZTwo.customerBirth : ''}</Col>
                                                     </Row>
                                                     <Row style={{marginTop: '16px'}}>
-                                                        <Col span={12}>签证机关：{cardFTwo.authref}</Col>
-                                                        <Col span={12}>户籍地：{cardZTwo.birthAddress}</Col>
+                                                        <Col span={12}>签证机关：{cardFTwo ? cardFTwo.authref : ''}</Col>
+                                                        <Col span={12}>户籍地：{cardZTwo ? cardZTwo.birthAddress : ''}</Col>
                                                     </Row>
                                                     <Row style={{marginTop: '16px'}}>
-                                                        <Col span={12}>有效截止日：{cardFTwo.startDate} - {cardFTwo.statdate}<span style={{color: '#F75151'}}>（有效期不能小于60天）</span></Col>
-                                                        <Col span={12}>身份证号：{cardZTwo.idNo}</Col>
+                                                        <Col span={12}>有效截止日：{cardFTwo ? cardFTwo.startDate : ''} - {cardFTwo ? cardFTwo.statdate : ''}<span style={{color: '#F75151'}}>（有效期不能小于60天）</span></Col>
+                                                        <Col span={12}>身份证号：{cardZTwo ? cardZTwo.idNo : ''}</Col>
                                                     </Row>
                                                     <Row className="preLoan-body-row-top">
                                                         <Col span={12}>
-                                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>手机号：</span>
+                                                            <span className="preLoan-body-title" style={{width: '100px'}}>手机号：</span>
                                                             <input type="text" value={loanIptArr.mobile2} ref={input => this.mobile2Ipt = input} onChange={(e) => { this.iptLoanIptArr(e, 'mobile2'); }} className="preLoan-body-input" />
                                                         </Col>
                                                         <Col span={12}>
@@ -4140,7 +4203,7 @@ class preloanAccess extends React.Component {
                                                     </Row>
                                                     <Row className="preLoan-body-row-top">
                                                         <Col span={12}>
-                                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>征信结果：</span>
+                                                            <span className="preLoan-body-title" style={{width: '100px'}}>征信结果：</span>
                                                             <Select style={{ width: '220px' }} value={zxjgName2} onChange={this.handleChangeSearchZXJG2}>
                                                                 <Option value="0">不通过</Option>
                                                                 <Option value="1">通过</Option>
@@ -4151,7 +4214,7 @@ class preloanAccess extends React.Component {
                                                     </Row>
                                                     <Row className="preLoan-body-row-top">
                                                         <Col span={20}>
-                                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>征信说明：</span>
+                                                            <span className="preLoan-body-title" style={{width: '100px'}}>征信说明：</span>
                                                             <textarea value={loanIptArr.bankCreditResultRemark2} ref={input => this.bankCreditResultRemark2Ipt = input} onChange={(e) => { this.iptLoanIptArr(e, 'bankCreditResultRemark2'); }} className="afp-body-textarea" style={{float: 'left'}}></textarea>
                                                         </Col>
                                                         <Col span={4}>
@@ -4222,24 +4285,24 @@ class preloanAccess extends React.Component {
                                                     <Col span={8}></Col>
                                                 </Row>
                                                 <Row style={{marginTop: '34px'}}>
-                                                    <Col span={12}>姓名：{cardZThree.userName}</Col>
-                                                    <Col span={12}>性别：{cardZThree.gender}</Col>
+                                                    <Col span={12}>姓名：{cardZThree ? cardZThree.userName : ''}</Col>
+                                                    <Col span={12}>性别：{cardZThree ? cardZThree.gender : ''}</Col>
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
-                                                    <Col span={12}>民族：{cardZThree.nation}</Col>
-                                                    <Col span={12}>出生日期：{cardZThree.customerBirth}</Col>
+                                                    <Col span={12}>民族：{cardZThree ? cardZThree.nation : ''}</Col>
+                                                    <Col span={12}>出生日期：{cardZThree ? cardZThree.customerBirth : ''}</Col>
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
-                                                    <Col span={12}>签证机关：{cardFThree.authref}</Col>
-                                                    <Col span={12}>户籍地：{cardZThree.birthAddress}</Col>
+                                                    <Col span={12}>签证机关：{cardFThree ? cardFThree.authref : ''}</Col>
+                                                    <Col span={12}>户籍地：{cardZThree ? cardZThree.birthAddress : ''}</Col>
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
-                                                    <Col span={12}>有效截止日：{cardFThree.startDate} - {cardFThree.statdate}<span style={{color: '#F75151'}}>（有效期不能小于60天）</span></Col>
-                                                    <Col span={12}>身份证号：{cardZThree.idNo}</Col>
+                                                    <Col span={12}>有效截止日：{cardFThree ? cardFThree.startDate : ''} - {cardFThree ? cardFThree.statdate : ''}<span style={{color: '#F75151'}}>（有效期不能小于60天）</span></Col>
+                                                    <Col span={12}>身份证号：{cardZThree ? cardZThree.idNo : ''}</Col>
                                                 </Row>
                                                 <Row className="preLoan-body-row-top">
                                                     <Col span={12}>
-                                                        <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>手机号：</span>
+                                                        <span className="preLoan-body-title" style={{width: '100px'}}>手机号：</span>
                                                         <input type="text" value={loanIptArr.mobile3} ref={input => this.mobile3Ipt = input} onChange={(e) => { this.iptLoanIptArr(e, 'mobile3'); }} className="preLoan-body-input" />
                                                     </Col>
                                                     <Col span={12}>
@@ -4247,7 +4310,7 @@ class preloanAccess extends React.Component {
                                                 </Row>
                                                 <Row className="preLoan-body-row-top">
                                                     <Col span={12}>
-                                                        <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>征信结果：</span>
+                                                        <span className="preLoan-body-title" style={{width: '100px'}}>征信结果：</span>
                                                         <Select style={{ width: '220px' }} value={zxjgName3} onChange={this.handleChangeSearchZXJG3}>
                                                             <Option value="0">不通过</Option>
                                                             <Option value="1">通过</Option>
@@ -4258,7 +4321,7 @@ class preloanAccess extends React.Component {
                                                 </Row>
                                                 <Row className="preLoan-body-row-top">
                                                     <Col span={20}>
-                                                        <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>征信说明：</span>
+                                                        <span className="preLoan-body-title" style={{width: '100px'}}>征信说明：</span>
                                                         <textarea value={loanIptArr.bankCreditResultRemark3} ref={input => this.bankCreditResultRemark3Ipt = input} onChange={(e) => { this.iptLoanIptArr(e, 'bankCreditResultRemark3'); }} className="afp-body-textarea" style={{float: 'left'}}></textarea>
                                                     </Col>
                                                     <Col span={4}>
@@ -4354,7 +4417,7 @@ class preloanAccess extends React.Component {
                                     </Row>
                                     <div className="preLoan-body-row-line"></div>
                                     <span className="preLoan-body-tag">共还人</span>
-                                    <div style={{marginTop: '24px'}}><span>姓名：{cardZTwo.userName === '' ? '暂无人员信息' : cardZTwo.userName}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr.mobile2 === '' ? '暂无手机号信息' : loanIptArr.mobile2}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZTwo.idNo === '' ? '暂无身份证号信息' : cardZTwo.idNo }</span></div>
+                                    <div style={{marginTop: '24px'}}><span>姓名：{cardZTwo ? (cardZTwo.userName === '' ? '暂无人员信息' : cardZTwo.userName) : ''}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr ? (loanIptArr.mobile2 === '' ? '暂无手机号信息' : loanIptArr.mobile2) : ''}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZTwo ? (cardZTwo.idNo === '' ? '暂无身份证号信息' : cardZTwo.idNo) : ''}</span></div>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">工作单位：</span>
@@ -4377,7 +4440,7 @@ class preloanAccess extends React.Component {
                                     </Row>
                                     <div className="preLoan-body-row-line"></div>
                                     <span className="preLoan-body-tag">反担保人信息</span>
-                                    <div style={{marginTop: '24px'}}><span>姓名：{cardZThree.userName === '' ? '暂无人员信息' : cardZThree.userName}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr.mobile3 === '' ? '暂无手机号信息' : loanIptArr.mobile3}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZThree.idNo === '' ? '暂无身份证号信息' : cardZThree.idNo }</span></div>
+                                    <div style={{marginTop: '24px'}}><span>姓名：{cardZThree ? (cardZThree.userName === '' ? '暂无人员信息' : cardZThree.userName) : cardZThree}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr ? (loanIptArr.mobile3 === '' ? '暂无手机号信息' : loanIptArr.mobile3) : ''}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZThree ? (cardZThree.idNo === '' ? '暂无身份证号信息' : cardZThree.idNo) : ''}</span></div>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">工作单位：</span>
@@ -4484,7 +4547,7 @@ class preloanAccess extends React.Component {
                                         <Col span={6}>
                                             <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>银行利率：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.bankRate} ref={input => this.bankRateIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'bankRate'); }} className="preLoan-body-input" />
+                                            <input type="text" readonly="readonly" value={loanInfoArrIpt.bankRate} ref={input => this.totalRateIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'totalRate'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
                                             <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>总利率：</span>
@@ -4611,7 +4674,7 @@ class preloanAccess extends React.Component {
                                         <Col span={6}>
                                             <span className="preLoan-body-title">返点金额：</span>
                                             <br />
-                                            <input type="text" value={costSettlementInfoArrIpt.repointAmount} ref={input => this.repointAmountIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'repointAmount'); }} className="preLoan-body-input" />
+                                            <input type="text" readonly="readonly" value={costSettlementInfoArrIpt.repointAmount} ref={input => this.repointAmountIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'repointAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
                                             <span className="preLoan-body-title">GPS费：</span>

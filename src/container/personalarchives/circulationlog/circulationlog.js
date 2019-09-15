@@ -10,7 +10,7 @@ import {
   setSearchData
 } from '@redux/circulationLog/circulationLog';
 import { listWrapper } from 'common/js/build-list';
-import { showWarnMsg, showSucMsg } from 'common/js/util';
+import { showWarnMsg, showSucMsg, getQueryString } from 'common/js/util';
 import {getNodeList} from 'api/menu';
 
 @listWrapper(
@@ -26,9 +26,16 @@ import {getNodeList} from 'api/menu';
 class Circulationlog extends React.Component {
   constructor(props) {
     super(props);
+    this.code = getQueryString('code', this.props.location.search);
     this.state = {
       nodeDict: null
     };
+    this.buttons = [{
+      name: '返回',
+      handler: () => {
+        this.props.history.go(-1);
+      }
+    }];
   }
 
   componentDidMount() {
@@ -47,7 +54,7 @@ class Circulationlog extends React.Component {
     }, {
       field: 'bizCode',
       type: 'select',
-      search: true,
+      search: !this.code,
       listCode: 632517,
       valueName: '{{code.DATA}}',
       keyName: 'code',
@@ -81,7 +88,10 @@ class Circulationlog extends React.Component {
     }];
     return this.props.buildList({
       fields,
-      pageCode: 623535
+      pageCode: 623535,
+      searchParams: {
+        bizCode: this.code ? this.code : ''
+      }
     });
   }
 }

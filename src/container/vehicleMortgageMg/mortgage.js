@@ -9,7 +9,7 @@ import {
     getUserId,
     getRoleCode
 } from 'common/js/util';
-import {Row, Col, Checkbox, Pagination, Select} from 'antd';
+import {Row, Col, Checkbox, Pagination, Select, Modal} from 'antd';
 import fetch from 'common/js/fetch';
 import {
     accessSlipCar,
@@ -190,13 +190,20 @@ class mortgage extends React.Component {
         }else if(this.checkBoxGroup.length >= 2) {
             showWarnMsg('请选择不大于一条记录');
         }else {
-            let param = {
-                code: this.checkBoxGroup[0].split('|')[0],
-                operator: getUserId()
-            };
-            fetch(632580, param).then(() => {
-                showSucMsg('操作成功');
-                this.getAccessSlip(1);
+            Modal.confirm({
+                okText: '确定',
+                cancelText: '取消',
+                content: '确定抵押？',
+                onOk: () => {
+                    let param = {
+                        code: this.checkBoxGroup[0].split('|')[0],
+                        operator: getUserId()
+                    };
+                    fetch(632580, param).then(() => {
+                        showSucMsg('操作成功');
+                        this.getAccessSlip(1);
+                    });
+                }
             });
         }
     }
@@ -207,13 +214,20 @@ class mortgage extends React.Component {
         }else if(this.checkBoxGroup.length >= 2) {
             showWarnMsg('请选择不大于一条记录');
         }else {
-            let param = {
-                code: this.checkBoxGroup[0].split('|')[0],
-                operator: getUserId()
-            };
-            fetch(632581, param).then(() => {
-                showSucMsg('操作成功');
-                this.getAccessSlip(1);
+            Modal.confirm({
+                okText: '确定',
+                cancelText: '取消',
+                content: '发送抵押？',
+                onOk: () => {
+                    let param = {
+                        code: this.checkBoxGroup[0].split('|')[0],
+                        operator: getUserId()
+                    };
+                    fetch(632581, param).then(() => {
+                        showSucMsg('操作成功');
+                        this.getAccessSlip(1);
+                    });
+                }
             });
         }
     }

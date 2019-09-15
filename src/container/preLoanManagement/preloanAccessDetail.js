@@ -8,7 +8,8 @@ import {
     dsctList
 } from 'common/js/util';
 import {
-    accessSlipDetail
+    accessSlipDetail,
+    getCityList
 } from '../../api/preLoan.js';
 import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
 import {Row, Col} from 'antd';
@@ -41,10 +42,23 @@ class preloanAccessDetail extends React.Component {
             // 基本信息
             creditUser: {},
             // 费用结算
-            costSettlement: {}
+            costSettlement: {},
+            cityList: []
         };
     }
     componentDidMount(): void {
+        getCityList(1, 1000).then(async data => {
+            let arr = [];
+            for (let i = 0; i < data.list.length; i++) {
+                arr.push({
+                    dkey: data.list[i].id,
+                    dvalue: data.list[i].cityName
+                });
+            }
+            this.setState({
+                cityList: arr
+            });
+        });
         accessSlipDetail(this.code).then(data => {
             this.setState({
                 creditUserList1: data.creditUserList[0],
@@ -171,7 +185,8 @@ class preloanAccessDetail extends React.Component {
             bankLoan,
             costSettlement,
             carInfo,
-            education
+            education,
+            cityList
         } = this.state;
         return (
             <div>
@@ -188,7 +203,7 @@ class preloanAccessDetail extends React.Component {
                     <div className="preLoan-detail-box-content">
                         <Row>
                             <Col span={12}>经办银行：{headInfo.loanBankName}</Col>
-                            <Col span={12}>业务发生地：{headInfo.region}</Col>
+                            <Col span={12}>业务发生地：{findDsct(cityList, parseInt(headInfo.region))}</Col>
                         </Row>
                         <Row style={{marginTop: '32px'}}>
                             <Col span={12}>购车途径：{headInfo.bizType}</Col>
@@ -237,24 +252,24 @@ class preloanAccessDetail extends React.Component {
                                         <Col span={8}></Col>
                                     </Row>
                                     <Row style={{marginTop: '34px'}}>
-                                        <Col span={12}>姓名：{creditUserList1.userName}</Col>
-                                        <Col span={12}>性别：{creditUserList1.gender}</Col>
+                                        <Col span={12}>姓名：{creditUserList1 ? creditUserList1.userName : ''}</Col>
+                                        <Col span={12}>性别：{creditUserList1 ? creditUserList1.gender : ''}</Col>
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
-                                        <Col span={12}>民族：{creditUserList1.nation}</Col>
-                                        <Col span={12}>出生日期：{creditUserList1.customerBirth}</Col>
+                                        <Col span={12}>民族：{creditUserList1 ? creditUserList1.nation : ''}</Col>
+                                        <Col span={12}>出生日期：{creditUserList1 ? creditUserList1.customerBirth : ''}</Col>
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
-                                        <Col span={12}>签证机关：{creditUserList1.authref}</Col>
-                                        <Col span={12}>户籍地：{creditUserList1.birthAddress}</Col>
+                                        <Col span={12}>签证机关：{creditUserList1 ? creditUserList1.authref : ''}</Col>
+                                        <Col span={12}>户籍地：{creditUserList1 ? creditUserList1.birthAddress : ''}</Col>
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
-                                        <Col span={12}>有效截止日：{creditUserList1.startDate}至{creditUserList1.statdate}</Col>
-                                        <Col span={12}>身份证号：{creditUserList1.idNo}</Col>
+                                        <Col span={12}>有效截止日：{creditUserList1 ? creditUserList1.startDate : ''}至{creditUserList1 ? creditUserList1.statdate : ''}</Col>
+                                        <Col span={12}>身份证号：{creditUserList1 ? creditUserList1.idNo : ''}</Col>
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
-                                        <Col span={12}>手机号：{creditUserList1.mobile}</Col>
-                                        <Col span={12}>征信结果：{creditUserList1.bankCreditResult === '0' ? '不通过' : '通过'}</Col>
+                                        <Col span={12}>手机号：{creditUserList1 ? creditUserList1.mobile : ''}</Col>
+                                        <Col span={12}>征信结果：{creditUserList1 ? (creditUserList1.bankCreditResult === '0' ? '不通过' : '通过') : ''}</Col>
                                     </Row>
                                 </div>
                             ) : null
@@ -275,24 +290,24 @@ class preloanAccessDetail extends React.Component {
                                         <Col span={8}></Col>
                                     </Row>
                                     <Row style={{marginTop: '34px'}}>
-                                        <Col span={12}>姓名：{creditUserList2.userName}</Col>
-                                        <Col span={12}>性别：{creditUserList2.gender}</Col>
+                                        <Col span={12}>姓名：{creditUserList2 ? creditUserList2.userName : ''}</Col>
+                                        <Col span={12}>性别：{creditUserList2 ? creditUserList2.gender : ''}</Col>
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
-                                        <Col span={12}>民族：{creditUserList2.nation}</Col>
-                                        <Col span={12}>出生日期：{creditUserList2.customerBirth}</Col>
+                                        <Col span={12}>民族：{creditUserList2 ? creditUserList2.nation : ''}</Col>
+                                        <Col span={12}>出生日期：{creditUserList2 ? creditUserList2.customerBirth : ''}</Col>
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
-                                        <Col span={12}>签证机关：{creditUserList2.authref}</Col>
-                                        <Col span={12}>户籍地：{creditUserList2.birthAddress}</Col>
+                                        <Col span={12}>签证机关：{creditUserList2 ? creditUserList2.authref : ''}</Col>
+                                        <Col span={12}>户籍地：{creditUserList2 ? creditUserList2.birthAddress : ''}</Col>
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
-                                        <Col span={12}>有效截止日：{creditUserList2.startDate}至{creditUserList2.statdate}</Col>
-                                        <Col span={12}>身份证号：{creditUserList2.idNo}</Col>
+                                        <Col span={12}>有效截止日：{creditUserList2 ? creditUserList2.startDate : ''}至{creditUserList2 ? creditUserList2.statdate : ''}</Col>
+                                        <Col span={12}>身份证号：{creditUserList2 ? creditUserList2.idNo : ''}</Col>
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
-                                        <Col span={12}>手机号：{creditUserList2.mobile}</Col>
-                                        <Col span={12}>征信结果：{creditUserList2.bankCreditResult === '0' ? '不通过' : '通过'}</Col>
+                                        <Col span={12}>手机号：{creditUserList2 ? creditUserList2.mobile : ''}</Col>
+                                        <Col span={12}>征信结果：{creditUserList2 ? (creditUserList2.bankCreditResult === '0' ? '不通过' : '通过') : ''}</Col>
                                     </Row>
                                 </div>
                             ) : null
@@ -313,24 +328,24 @@ class preloanAccessDetail extends React.Component {
                                         <Col span={8}></Col>
                                     </Row>
                                     <Row style={{marginTop: '34px'}}>
-                                        <Col span={12}>姓名：{creditUserList3.userName}</Col>
-                                        <Col span={12}>性别：{creditUserList3.gender}</Col>
+                                        <Col span={12}>姓名：{creditUserList3 ? creditUserList3.userName : ''}</Col>
+                                        <Col span={12}>性别：{creditUserList3 ? creditUserList3.gender : ''}</Col>
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
-                                        <Col span={12}>民族：{creditUserList3.nation}</Col>
+                                        <Col span={12}>民族：{creditUserList3 ? creditUserList3.nation : ''}</Col>
                                         <Col span={12}>出生日期：{creditUserList3.customerBirth}</Col>
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
-                                        <Col span={12}>签证机关：{creditUserList3.authref}</Col>
-                                        <Col span={12}>户籍地：{creditUserList3.birthAddress}</Col>
+                                        <Col span={12}>签证机关：{creditUserList3 ? creditUserList3.authref : ''}</Col>
+                                        <Col span={12}>户籍地：{creditUserList3 ? creditUserList3.birthAddress : ''}</Col>
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
-                                        <Col span={12}>有效截止日：{creditUserList3.startDate}至{creditUserList3.statdate}</Col>
-                                        <Col span={12}>身份证号：{creditUserList3.idNo}</Col>
+                                        <Col span={12}>有效截止日：{creditUserList3 ? creditUserList3.startDate : ''}至{creditUserList3 ? creditUserList3.statdate : ''}</Col>
+                                        <Col span={12}>身份证号：{creditUserList3 ? creditUserList3.idNo : ''}</Col>
                                     </Row>
                                     <Row style={{marginTop: '16px'}}>
-                                        <Col span={12}>手机号：{creditUserList3.mobile}</Col>
-                                        <Col span={12}>征信结果：{creditUserList3.bankCreditResult === '0' ? '不通过' : '通过'}</Col>
+                                        <Col span={12}>手机号：{creditUserList3 ? creditUserList3.mobile : ''}</Col>
+                                        <Col span={12}>征信结果：{creditUserList3 ? (creditUserList3.bankCreditResult === '0' ? '不通过' : '通过') : ''}</Col>
                                     </Row>
                                 </div>
                             ) : null
@@ -346,79 +361,79 @@ class preloanAccessDetail extends React.Component {
                     <div className="preLoan-detail-box-content">
                         <span className="preLoan-body-tag">主贷人</span>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>教育程度：{creditUserList1.educationeName}</Col>
-                            <Col span={12}>现住地址：{creditUser.nowAddress}</Col>
+                            <Col span={12}>教育程度：{creditUserList1 ? creditUserList1.educationeName : ''}</Col>
+                            <Col span={12}>现住地址：{creditUser ? creditUser.nowAddress : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
-                            <Col span={12}>婚姻状态：{creditUserList1.marryStateName}</Col>
-                            <Col span={12}>住房类型：{creditUserList1.nowHouseTypeName}</Col>
+                            <Col span={12}>婚姻状态：{creditUserList1 ? creditUserList1.marryStateName : ''}</Col>
+                            <Col span={12}>住房类型：{creditUserList1 ? creditUserList1.nowHouseTypeName : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
-                            <Col span={12}>工作单位：{creditUser.companyName}</Col>
-                            <Col span={12}>单位地址：{creditUser.companyAddress}</Col>
+                            <Col span={12}>工作单位：{creditUser ? creditUser.companyName : ''}</Col>
+                            <Col span={12}>单位地址：{creditUser ? creditUser.companyAddress : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
-                            <Col span={12}>职业：{creditUser.position}</Col>
-                            <Col span={12}>年收入：{creditUser.yearIncome ? creditUser.yearIncome : ''}</Col>
+                            <Col span={12}>职业：{creditUser ? creditUser.position : ''}</Col>
+                            <Col span={12}>年收入：{creditUser ? (creditUser.yearIncome ? creditUser.yearIncome : '') : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
-                            <Col span={12}>现职年数：{creditUser.presentJobYears}年</Col>
-                            <Col span={12}>常住类型：{creditUserList1.permanentTypeName}</Col>
+                            <Col span={12}>现职年数：{creditUser ? creditUser.presentJobYears : ''}年</Col>
+                            <Col span={12}>常住类型：{creditUserList1 ? creditUserList1.permanentTypeName : ''}</Col>
                         </Row>
                         <div className="preLoan-detail-row-line"></div>
                         <span className="preLoan-body-tag">共还人信息</span>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>姓名：{creditUserList2.userName}</Col>
-                            <Col span={12}>身份证号：{creditUserList2.idNo}</Col>
+                            <Col span={12}>姓名：{creditUserList2 ? creditUserList2.userName : ''}</Col>
+                            <Col span={12}>身份证号：{creditUserList2 ? creditUserList2.idNo : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
-                            <Col span={12}>手机号：{creditUserList2.mobile}</Col>
-                            <Col span={12}>职业：{creditUserList2.position}</Col>
+                            <Col span={12}>手机号：{creditUserList2 ? creditUserList2.mobile : ''}</Col>
+                            <Col span={12}>职业：{creditUserList2 ? creditUserList2.position : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
-                            <Col span={12}>工作单位：{creditUserList2.companyName}</Col>
-                            <Col span={12}>单位地址：{creditUserList2.companyAddress}</Col>
+                            <Col span={12}>工作单位：{creditUserList2 ? creditUserList2.companyName : ''}</Col>
+                            <Col span={12}>单位地址：{creditUserList2 ? creditUserList2.companyAddress : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
-                            <Col span={12}>现住地址：{creditUserList2.nowAddress}</Col>
+                            <Col span={12}>现住地址：{creditUserList2 ? creditUserList2.nowAddress : ''}</Col>
                             <Col span={12}></Col>
                         </Row>
                         <div className="preLoan-detail-row-line"></div>
                         <span className="preLoan-body-tag">反担保人信息</span>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>姓名：{creditUserList3.userName}</Col>
-                            <Col span={12}>身份证号：{creditUserList3.idNo}</Col>
+                            <Col span={12}>姓名：{creditUserList3 ? creditUserList3.userName : ''}</Col>
+                            <Col span={12}>身份证号：{creditUserList3 ? creditUserList3.idNo : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
-                            <Col span={12}>手机号：{creditUserList3.mobile}</Col>
-                            <Col span={12}>职业：{creditUserList3.position}</Col>
+                            <Col span={12}>手机号：{creditUserList3 ? creditUserList3.mobile : ''}</Col>
+                            <Col span={12}>职业：{creditUserList3 ? creditUserList3.position : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
-                            <Col span={12}>工作单位：{creditUserList3.companyName}</Col>
-                            <Col span={12}>单位地址：{creditUserList3.companyAddress}</Col>
+                            <Col span={12}>工作单位：{creditUserList3 ? creditUserList3.companyName : ''}</Col>
+                            <Col span={12}>单位地址：{creditUserList3 ? creditUserList3.companyAddress : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
-                            <Col span={12}>现住地址：{creditUserList3.nowAddress}</Col>
+                            <Col span={12}>现住地址：{creditUserList3 ? creditUserList3.nowAddress : ''}</Col>
                             <Col span={12}></Col>
                         </Row>
                         <div className="preLoan-detail-row-line"></div>
                         <span className="preLoan-body-tag">紧急联系人</span>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>姓名：{creditUser.emergencyName1}</Col>
-                            <Col span={12}>与主贷人关系：{creditUserList1.setEmergencyRelation1Name}</Col>
+                            <Col span={12}>姓名：{creditUser ? creditUser.emergencyName1 : ''}</Col>
+                            <Col span={12}>与主贷人关系：{creditUserList1 ? creditUserList1.setEmergencyRelation1Name : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
-                            <Col span={12}>联系电话：{creditUser.emergencyMobile1}</Col>
+                            <Col span={12}>联系电话：{creditUser ? creditUser.emergencyMobile1 : ''}</Col>
                             <Col span={12}></Col>
                         </Row>
                         <div className="preLoan-detail-row-line"></div>
                         <span className="preLoan-body-tag">紧急联系人</span>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>姓名：{creditUser.emergencyName2}</Col>
-                            <Col span={12}>与主贷人关系：{creditUserList1.setEmergencyRelation2Name}</Col>
+                            <Col span={12}>姓名：{creditUser ? creditUser.emergencyName2 : ''}</Col>
+                            <Col span={12}>与主贷人关系：{creditUserList1 ? creditUserList1.setEmergencyRelation2Name : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
-                            <Col span={12}>联系电话：{creditUser.emergencyMobile2}</Col>
+                            <Col span={12}>联系电话：{creditUser ? creditUser.emergencyMobile2 : ''}</Col>
                             <Col span={12}></Col>
                         </Row>
                     </div>

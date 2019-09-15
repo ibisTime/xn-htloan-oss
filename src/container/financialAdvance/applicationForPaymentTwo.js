@@ -40,7 +40,7 @@ class applicationForPayment extends React.Component {
                     align: 'center'
                 },
                 {
-                    title: '任务时效',
+                    title: '任务时效(h)',
                     dataIndex: 'time',
                     width: '30%',
                     align: 'center'
@@ -57,6 +57,7 @@ class applicationForPayment extends React.Component {
             isDz: '',
             missionList: [],
             information: {
+                key: '',
                 name: '',
                 time: '',
                 getUser: '',
@@ -72,8 +73,10 @@ class applicationForPayment extends React.Component {
         this.selectedRowKeys = [];
         this.selectedRowKeysArr = [];
         this.rowSelection = {
+            type: 'radio',
             onChange: (selectedRowKeys, selectedRows) => {
                 this.selectedRowKeysArr = selectedRowKeys;
+                console.log(this.selectedRowKeysArr);
                 this.selectedRows = selectedRows;
             },
             getCheckboxProps: record => ({
@@ -99,7 +102,6 @@ class applicationForPayment extends React.Component {
         });
         this.getAccessSlipStatus();
         accessSlipDetail(this.code).then(data => {
-            console.log('accessSlipDetail', data);
             this.setState({
                 baseInfo: {
                     code: data.code,
@@ -137,7 +139,6 @@ class applicationForPayment extends React.Component {
             this.setState({
                 executorListArr: arr
             });
-            console.log('executorListArr', this.state.executorListArr);
         });
     }
     // 以下是关于对话框的相关
@@ -168,6 +169,7 @@ class applicationForPayment extends React.Component {
             this.setState({
                 visible: false,
                 information: {
+                    key: '',
                     name: '',
                     time: '',
                     getUser: '',
@@ -179,6 +181,7 @@ class applicationForPayment extends React.Component {
             this.setState({
                 visibleEdit: false,
                 information: {
+                    key: '',
                     name: '',
                     time: '',
                     getUser: '',
@@ -214,6 +217,7 @@ class applicationForPayment extends React.Component {
         console.log('selectedRows', this.selectedRows);
         this.setState({
             information: {
+                key: this.selectedRows[0].key,
                 name: this.selectedRows[0].name,
                 time: this.selectedRows[0].time,
                 getUser: this.selectedRows[0].getUser,
@@ -221,35 +225,52 @@ class applicationForPayment extends React.Component {
             },
             getUserNames: this.selectedRows[0].getUser
         });
-    }
-    // 点击修改
-    sendEdit = () => {
-        const {information, missionList} = this.state;
-        let arr = {
-            key: this.selectedRowKeysArr[0],
-            name: information.name,
-            time: information.time,
-            getUser: information.getUser,
-            getUserCode: information.getUserCode
-        };
-        let missionListArr = missionList;
-        missionListArr.splice(this.selectedRowKeysArr[0] - 1, 2, arr);
-        this.setState({
-            missionList: missionListArr
-        });
-        this.hideModal('dataChange');
-    }
-    // missionList删除
-    deleteMission = () => {
-        const {missionList} = this.state;
-        let missionListArr = missionList;
-        missionListArr.splice(this.selectedRowKeysArr[0] - 1, 1);
-        this.setState({
-            missionList: missionListArr
-        });
         this.selectedRows = [];
         this.selectedRowKeys = [];
         this.selectedRowKeysArr = [];
+    }
+    // 点击修改
+    sendEdit = () => {
+        if(this.selectedRowKeysArr.length < 0) {
+            showWarnMsg('请选择记录');
+        }else {
+            const {information, missionList} = this.state;
+            // 新数据
+            let arr = {
+                key: information.key,
+                name: information.name,
+                time: information.time,
+                getUser: information.getUser,
+                getUserCode: information.getUserCode
+            };
+            // 源数据
+            let missionListArr = missionList;
+            for (let i = 0, len = missionListArr.length; i < len; i++) {
+                if (missionListArr[i].key === arr.key) {
+                    missionListArr[i] = arr;
+                }
+            }
+            this.setState({
+                missionList: missionListArr
+            });
+            this.hideModal('dataChange');
+        }
+    }
+    // missionList删除
+    deleteMission = () => {
+        if(this.selectedRowKeysArr.length < 0) {
+            showWarnMsg('请选择记录');
+        }else {
+            const {missionList} = this.state;
+            let missionListArr = missionList;
+            missionListArr.splice(this.selectedRowKeysArr[0] - 1, 1);
+            this.setState({
+                missionList: missionListArr
+            });
+            this.selectedRows = [];
+            this.selectedRowKeys = [];
+            this.selectedRowKeysArr = [];
+        }
     }
     // 不通过
     notAdopt = () => {
@@ -272,12 +293,13 @@ class applicationForPayment extends React.Component {
                 isContinueAdvance: isDz,
                 missionList: arr
             };
-            examineTwo(params).then(data => {
-                showSucMsg('操作成功!');
-                setTimeout(() => {
-                    this.props.history.go(-1);
-                }, 1000);
-            });
+            console.log('不通过', params);
+            // examineTwo(params).then(data => {
+            //     showSucMsg('操作成功!');
+            //     setTimeout(() => {
+            //         this.props.history.go(-1);
+            //     }, 1000);
+            // });
         }
     }
     // 通过
@@ -301,12 +323,13 @@ class applicationForPayment extends React.Component {
                 isContinueAdvance: isDz,
                 missionList: arr
             };
-            examineTwo(params).then(data => {
-                showSucMsg('操作成功!');
-                setTimeout(() => {
-                    this.props.history.go(-1);
-                }, 1000);
-            });
+            console.log('通过', params);
+            // examineTwo(params).then(data => {
+            //     showSucMsg('操作成功!');
+            //     setTimeout(() => {
+            //         this.props.history.go(-1);
+            //     }, 1000);
+            // });
         }
     }
     // 状态
@@ -400,7 +423,8 @@ class applicationForPayment extends React.Component {
                     </Col>
                 </Row>
                 <div className="afp-body-line"></div>
-                <Row>
+                <span style={{color: '#1791FF'}}><a target="_blank" href={`/circulationlog/circulationlogByCode?code=${this.code}`}>审核日志详情</a></span>
+                <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>是否继续垫资：</span>
                         <Select className="afp-body-select" onChange={this.handleChange}>
@@ -421,7 +445,6 @@ class applicationForPayment extends React.Component {
                     onRow={(record) => {
                         return {
                             onClick: (e) => {
-                                console.log(e.currentTarget);
                                 e.currentTarget.getElementsByClassName('ant-checkbox-input')[0].click();
                             }
                         };
@@ -457,10 +480,10 @@ class applicationForPayment extends React.Component {
                             </Col>
                         </Row>
                         <Row style={{marginTop: '30px'}}>
-                            <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>任务时效：</span>
+                            <Col span={10}>
+                                <span><span className="dealer-color-read-must-fill" style={{width: '120px'}}>* </span>任务时效(h)：</span>
                             </Col>
-                            <Col span={18}>
+                            <Col span={14}>
                             </Col>
                         </Row>
                         <Row style={{marginTop: '10px'}}>
@@ -534,10 +557,10 @@ class applicationForPayment extends React.Component {
                             </Col>
                         </Row>
                         <Row style={{marginTop: '30px'}}>
-                            <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>任务时效：</span>
+                            <Col span={10}>
+                                <span><span className="dealer-color-read-must-fill">* </span>任务时效(h)：</span>
                             </Col>
-                            <Col span={18}>
+                            <Col span={14}>
                             </Col>
                         </Row>
                         <Row style={{marginTop: '10px'}}>

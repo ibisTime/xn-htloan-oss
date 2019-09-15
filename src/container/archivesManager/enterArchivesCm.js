@@ -394,6 +394,7 @@ class enterArchives extends React.Component {
                     </Col>
                 </Row>
                 <div className="afp-body-line"></div>
+                <span style={{color: '#1791FF'}}><a target="_blank" href={`/circulationlog/circulationlogByCode?code=${this.code}`}>审核日志详情</a></span>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>档案存放位置：</span>

@@ -194,6 +194,7 @@ class confirmReceivables extends React.Component {
                     </Col>
                 </Row>
                 <div className="afp-body-line"></div>
+                <span style={{color: '#1791FF'}}><a target="_blank" href={`/circulationlog/circulationlogByCode?code=${this.code}`}>审核日志详情</a></span>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span style={{float: 'left'}}><span style={{color: 'red'}}>* </span>放款日期：</span>

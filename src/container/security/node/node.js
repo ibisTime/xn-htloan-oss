@@ -1,4 +1,5 @@
 import React from 'react';
+import {Modal} from 'antd';
 import {
     setTableData,
     setPagination,
@@ -15,6 +16,7 @@ import {
     showWarnMsg,
     showSucMsg
 } from 'common/js/util';
+import fetch from 'common/js/fetch';
 
 @listWrapper(
     state => ({
@@ -88,6 +90,56 @@ class node extends React.Component {
                 },
                 clqd: (selectedRowKeys, selectedRows) => {
                         this.props.history.push(`/system/clqd`);
+                },
+                adds: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        console.log(selectedRows[0].id);
+                        Modal.confirm({
+                            okText: '确定',
+                            cancelText: '取消',
+                            content: '确定加入可作废节点？',
+                            onOk: () => {
+                                this.props.doFetching();
+                                return fetch(630143, {
+                                    id: selectedRows[0].id
+                                }).then(() => {
+                                    this.props.getPageData();
+                                    showSucMsg('操作成功');
+                                }).catch(() => {
+                                    this.props.cancelFetching();
+                                });
+                            }
+                        });
+                    }
+                },
+                del: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        console.log(selectedRows[0].id);
+                        Modal.confirm({
+                            okText: '确定',
+                            cancelText: '取消',
+                            content: '确定移除可作废节点？',
+                            onOk: () => {
+                                this.props.doFetching();
+                                return fetch(630144, {
+                                    id: selectedRows[0].id
+                                }).then(() => {
+                                    this.props.getPageData();
+                                    showSucMsg('操作成功');
+                                }).catch(() => {
+                                    this.props.cancelFetching();
+                                });
+                            }
+                        });
+                    }
                 }
             }
         }) : null;

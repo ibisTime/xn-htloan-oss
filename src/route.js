@@ -1374,6 +1374,10 @@ const ROUTES = [
     path: '/circulationlog/circulationlog',
     component: asyncComponent(() => import('container/personalarchives/circulationlog/circulationlog'))
   },
+  {
+    path: '/circulationlog/circulationlogByCode',
+    component: asyncComponent(() => import('container/personalarchives/circulationlog/circulationlog'))
+  },
   //  车贷档案  资源池
   {
     path: '/personalarchives/accessorypool',

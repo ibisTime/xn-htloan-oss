@@ -104,7 +104,7 @@ class pointreturnReturn extends React.Component {
                         type: '3'
                     },
                     keyName: 'code',
-                    valueName: '{{bankName.DATA}}-{{bankcardNumber.DATA}}',
+                    valueName: '{{bankName.DATA}}-{{bankcardNumber.DATA}}-{{companyName.DATA}}',
                     required: true,
                     onChange: (v, d) => {
                         this.setState({

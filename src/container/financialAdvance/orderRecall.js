@@ -66,7 +66,7 @@ class orderRecall extends React.Component {
             for(let i = 0; i < data.list.length; i++) {
                 arr.push({
                     dkey: data.list[i].code,
-                    dvalue: data.list[i].bankName
+                    dvalue: data.list[i].companyName + '-' + data.list[i].bankName
                 });
             }
             this.setState({
@@ -173,8 +173,9 @@ class orderRecall extends React.Component {
                     </Col>
                 </Row>
                 <div className="afp-body-line"></div>
-                <Row>
-                    <Col span={12}>
+                <span style={{color: '#1791FF'}}><a target="_blank" href={`/circulationlog/circulationlogByCode?code=${this.code}`}>审核日志详情</a></span>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={20}>
                         <span className="afp-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>收款账号：</span>
                         <Select className="afp-body-select" onChange={this.handleChange}>
                             {
@@ -185,9 +186,10 @@ class orderRecall extends React.Component {
                                 })
                             }
                         </Select>
+                        <span style={{color: 'red', marginTop: '5px', display: 'block'}}>（选择后将覆盖原收款账号）</span>
                         <div className="clear"></div>
                     </Col>
-                    <Col span={12}></Col>
+                    <Col span={4}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>收款账户户名：{bankObject ? bankObject.companyName : ''}</Col>

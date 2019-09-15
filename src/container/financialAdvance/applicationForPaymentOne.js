@@ -198,7 +198,8 @@ class applicationForPayment extends React.Component {
                     </Col>
                 </Row>
                 <div className="afp-body-line"></div>
-                <Row>
+                <span style={{color: '#1791FF'}}><a target="_blank" href={`/circulationlog/circulationlogByCode?code=${this.code}`}>审核日志详情</a></span>
+                <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span className="afp-body-title">审核意见：</span>
                         <textarea value={rmkText} ref={input => this.inputRmk = input} onChange={(e) => { this.iptChange(e); }} className="afp-body-textarea"></textarea>

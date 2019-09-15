@@ -64,7 +64,7 @@ class applicationForPayment extends React.Component {
             for(let i = 0; i < data.list.length; i++) {
                 arr.push({
                     dkey: data.list[i].code,
-                    dvalue: data.list[i].bankName
+                    dvalue: data.list[i].companyName + '-' + data.list[i].bankName
                 });
             }
             this.setState({
@@ -159,7 +159,8 @@ class applicationForPayment extends React.Component {
                     </Col>
                 </Row>
                 <div className="afp-body-line"></div>
-                <Row>
+                <span style={{color: '#1791FF'}}><a target="_blank" href={`/circulationlog/circulationlogByCode?code=${this.code}`}>审核日志详情</a></span>
+                <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span className="afp-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>收款账号：</span>
                         <Select className="afp-body-select" onChange={this.handleChange}>
