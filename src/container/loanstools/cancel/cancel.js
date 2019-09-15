@@ -1,28 +1,22 @@
 import React from 'react';
 import {
-    setTableData,
-    setPagination,
-    setBtnList,
-    setSearchParam,
+    cancelFetching,
     clearSearchParam,
     doFetching,
-    cancelFetching,
-    setSearchData
+    setBtnList,
+    setPagination,
+    setSearchData,
+    setSearchParam,
+    setTableData
 } from '@redux/loanstools/cancel';
 import {
-    showWarnMsg,
-    showSucMsg,
     dateTimeFormat,
-    getUserId
+    getUserId,
+    showSucMsg,
+    showWarnMsg
 } from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    lowerFrame,
-    onShelf,
-    sendMsg
-} from 'api/biz';
+import {listWrapper} from 'common/js/build-list';
+import {lowerFrame, onShelf, sendMsg} from 'api/biz';
 
 @listWrapper(
     state => ({
@@ -114,7 +108,8 @@ class cancel extends React.Component {
             pageCode: 632515,
             searchParams: {
                 cancelNodeCodeList: ['i1', 'i2', 'i3'],
-                userId: getUserId()
+                userId: getUserId(),
+                isCancel: '1'
             },
             btnEvent: {
                 apply: (selectedRowKeys, selectedRows) => {

@@ -75,6 +75,9 @@ class Circulationlog extends React.Component {
       valueName: 'name',
       search: true
     }, {
+      title: '操作说明',
+      field: 'dealNote'
+    }, {
       title: '开始时间',
       field: 'startDatetime',
       type: 'datetime'
