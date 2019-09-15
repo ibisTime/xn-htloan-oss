@@ -631,6 +631,7 @@ import { printingRelieveMake } from './redux/printing/relieve-make';
 
 // 理件打件
 import { rationale } from './redux/rationale/rationale';
+import {lala} from './redux/circulationLog/lala';
 
 export default combineReducers({
     accessorypool,
@@ -1003,5 +1004,6 @@ export default combineReducers({
     wdYw,
     wdywAddedit,
     bizTdunzhengxing,
-    rationale
+    rationale,
+    lala
 });

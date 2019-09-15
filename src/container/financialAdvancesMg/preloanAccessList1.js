@@ -318,7 +318,7 @@ class preloanAccessList1 extends React.Component {
                     }
                     {
                         zdhl ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.skForBack1} style={{marginRight: '30px', width: '80px'}}>制单录回</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.skForBack1} style={{marginRight: '30px', width: '80px'}}>制单回录</span>
                         ) : null
                     }
                     {

@@ -8,6 +8,7 @@ import {
     getNowTime
 } from 'common/js/util';
 import {Row, Col, Select, DatePicker} from 'antd';
+import { Link } from 'react-router-dom';
 import {
     accessSlipStatus,
     accessSlipDetail,
@@ -194,7 +195,8 @@ class confirmReceivables extends React.Component {
                     </Col>
                 </Row>
                 <div className="afp-body-line"></div>
-                <span style={{color: '#1791FF'}}><a target="_blank" href={`/circulationlog/circulationlogByCode?code=${this.code}`}>审核日志详情</a></span>
+                <span style={{color: '#1791FF'}}><Link to={`/circulationlog/circulationlogByCode?code=${this.code}`}>审核日志详情</Link></span>
+                <div className="afp-body-line"></div>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span style={{float: 'left'}}><span style={{color: 'red'}}>* </span>放款日期：</span>

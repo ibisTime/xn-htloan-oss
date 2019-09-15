@@ -7,6 +7,7 @@ import {
     dsctList1
 } from 'common/js/util';
 import {Row, Col, Select} from 'antd';
+import { Link } from 'react-router-dom';
 import {
     accessSlipStatus,
     accessSlipDetail,
@@ -173,7 +174,8 @@ class orderRecall extends React.Component {
                     </Col>
                 </Row>
                 <div className="afp-body-line"></div>
-                <span style={{color: '#1791FF'}}><a target="_blank" href={`/circulationlog/circulationlogByCode?code=${this.code}`}>审核日志详情</a></span>
+                <span style={{color: '#1791FF'}}><Link to={`/circulationlog/circulationlogByCode?code=${this.code}`}>审核日志详情</Link></span>
+                <div className="afp-body-line"></div>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={20}>
                         <span className="afp-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>收款账号：</span>

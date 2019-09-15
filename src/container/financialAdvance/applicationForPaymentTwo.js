@@ -7,6 +7,7 @@ import {
     dsctList1
 } from 'common/js/util';
 import {Row, Col, Select, Table, Modal} from 'antd';
+import { Link } from 'react-router-dom';
 import {
     accessSlipStatus,
     accessSlipDetail,
@@ -264,7 +265,7 @@ class applicationForPayment extends React.Component {
             const {missionList} = this.state;
             let missionListArr = missionList;
             missionListArr.forEach((value, index, array) => {
-                if(value.key == this.selectedRowKeysArr[0]) {
+                if(value.key == this.selectedRows[0].key) {
                     array.splice(value, 1);
                 }
             });
@@ -425,7 +426,8 @@ class applicationForPayment extends React.Component {
                     </Col>
                 </Row>
                 <div className="afp-body-line"></div>
-                <span style={{color: '#1791FF'}}><a target="_blank" href={`/circulationlog/circulationlogByCode?code=${this.code}`}>审核日志详情</a></span>
+                <span style={{color: '#1791FF'}}><Link to={`/circulationlog/circulationlogByCode?code=${this.code}`}>审核日志详情</Link></span>
+                <div className="afp-body-line"></div>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>是否继续垫资：</span>

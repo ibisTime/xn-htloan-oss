@@ -34,13 +34,8 @@ class Pointreturn extends React.Component {
             field: 'bizCode',
             search: true
         }, {
-            title: '业务团队队长',
-            field: 'captain',
-            type: 'select',
-            listCode: 630207,
-            keyName: 'userId',
-            search: true,
-            valueName: 'realName'
+            title: '业务团队长',
+            field: 'captainName'
         }, {
             title: '返还金额',
             field: 'shouldAmount',

@@ -8,14 +8,14 @@ import {
   doFetching,
   cancelFetching,
   setSearchData
-} from '@redux/circulationLog/circulationLog';
+} from '@redux/circulationLog/lala';
 import { listWrapper } from 'common/js/build-list';
 import { showWarnMsg, showSucMsg, getQueryString } from 'common/js/util';
 import {getNodeList} from 'api/menu';
 
 @listWrapper(
   state => ({
-    ...state.circulationLog,
+    ...state.lala,
     parentCode: state.menu.subMenuCode
   }),
   {
@@ -47,26 +47,6 @@ class Circulationlog extends React.Component {
   render() {
     const {nodeDict} = this.state;
     const fields = [{
-      field: 'bizCode1',
-      title: '业务编号',
-      render: (value, data) => {
-        return data.bizCode;
-      }
-    }, {
-      field: 'bizCode',
-      type: 'select',
-      search: !this.code,
-      listCode: 632517,
-      valueName: '{{code.DATA}}',
-      onChange: (v, d) => {
-        this.setState({
-          bizCode: v
-        });
-      },
-      keyName: 'code',
-      title: '业务编号',
-      hidden: true
-    }, {
       title: '经办人',
       field: 'operatorName',
       render: (v, d) => {
@@ -78,8 +58,7 @@ class Circulationlog extends React.Component {
       type: 'select',
       listCode: 630147,
       keyName: 'code',
-      valueName: 'name',
-      search: true
+      valueName: 'name'
     }, {
       title: '操作说明',
       field: 'dealNote'
@@ -100,7 +79,8 @@ class Circulationlog extends React.Component {
       pageCode: 623535,
       searchParams: {
         bizCode: this.code ? this.code : this.state.bizCode
-      }
+      },
+      buttons: this.buttons
     });
   }
 }

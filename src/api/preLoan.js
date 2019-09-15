@@ -138,7 +138,7 @@ export function sendApplicationForPaymentBack(params) {
 
 // 收款账号列表
 export function accountBlankList(start, limit, code) {
-    return fetch(632005, {start, limit, code});
+    return fetch(632005, {start, limit, code, type: '2'});
 }
 
 // 购车车行

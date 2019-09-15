@@ -8,6 +8,7 @@ import {
     getNowTime
 } from 'common/js/util';
 import {Row, Col, Select, Table, Modal, DatePicker} from 'antd';
+import { Link } from 'react-router-dom';
 import {
     accessSlipStatus,
     accessSlipDetail,
@@ -73,6 +74,7 @@ class enterArchives extends React.Component {
             isDz: '',
             missionList: [],
             information: {
+                key: '',
                 content: '',
                 contentName: '',
                 count: '',
@@ -97,9 +99,14 @@ class enterArchives extends React.Component {
         this.count = 1;
         this.selectedRowKeys = [];
         this.selectedRowKeysArr = [];
+        this.selectedRows = [];
         this.rowSelection = {
+            type: 'radio',
             onChange: (selectedRowKeys, selectedRows) => {
                 this.selectedRowKeysArr = selectedRowKeys;
+                this.selectedRows = selectedRows;
+                console.log('selectedRowKeysArr', this.selectedRowKeysArr);
+                console.log('selectedRows', this.selectedRows);
             },
             getCheckboxProps: record => ({
                 disabled: record.name === 'Disabled User',
@@ -206,9 +213,14 @@ class enterArchives extends React.Component {
                 visibleDetail: true
             });
         }else if(type === 'dataChange') {
-            this.setState({
-                visibleChange: true
-            });
+            if(this.selectedRowKeysArr.length < 0) {
+                showWarnMsg('请选择记录');
+            }else {
+                this.setState({
+                    visibleChange: true
+                });
+                this.editMission();
+            }
         }
     };
     hideModal = (type) => {
@@ -216,6 +228,22 @@ class enterArchives extends React.Component {
             this.setState({
                 visible: false,
                 information: {
+                    content: '',
+                    contentName: '',
+                    count: '',
+                    savePp: '',
+                    getUserCode: '',
+                    time: '',
+                    rmk: ''
+                },
+                getUserNames: '',
+                fileName: ''
+            });
+        }else if(type === 'dataChange') {
+            this.setState({
+                visibleChange: false,
+                information: {
+                    key: '',
                     content: '',
                     contentName: '',
                     count: '',
@@ -254,27 +282,42 @@ class enterArchives extends React.Component {
     }
     // missionList修改
     editMission = () => {
-        const {regDate, information} = this.state;
+        const {regDate} = this.state;
+        console.log(this.selectedRows[0]);
         this.setState({
             information: {
                 key: this.selectedRows[0].key,
-                content: information.contentName,
-                contentCode: information.content,
-                fileCount: information.count,
-                operator: information.savePp,
-                getUserCode: information.getUserCode,
-                depositDateTime: regDate === '' ? getNowTime() : regDate,
-                remark: information.rmk
+                content: this.selectedRows[0].contentCode,
+                contentName: this.selectedRows[0].content,
+                count: this.selectedRows[0].fileCount,
+                savePp: this.selectedRows[0].operator,
+                getUserCode: this.selectedRows[0].getUserCode,
+                time: this.selectedRows[0].depositDateTime,
+                rmk: this.selectedRows[0].remark
             },
-            getUserNames: this.selectedRows[0].getUser
+            getUserNames: this.selectedRows[0].operator,
+            fileName: this.selectedRows[0].content
         });
-        this.selectedRows = [];
-        this.selectedRowKeys = [];
-        this.selectedRowKeysArr = [];
     }
     // missionList删除
     deleteMission = () => {
-
+        if(this.selectedRowKeysArr.length < 0) {
+            showWarnMsg('请选择记录');
+        }else {
+            const {missionList} = this.state;
+            let missionListArr = missionList;
+            missionListArr.forEach((value, index, array) => {
+                if(value.key == this.selectedRows[0].key) {
+                    array.splice(value, 1);
+                }
+            });
+            this.setState({
+                missionList: missionListArr
+            });
+            this.selectedRows = [];
+            this.selectedRowKeys = [];
+            this.selectedRowKeysArr = [];
+        }
     }
     // 点击修改
     sendEdit = () => {
@@ -443,7 +486,8 @@ class enterArchives extends React.Component {
                     </Col>
                 </Row>
                 <div className="afp-body-line"></div>
-                <span style={{color: '#1791FF'}}><a target="_blank" href={`/circulationlog/circulationlogByCode?code=${this.code}`}>审核日志详情</a></span>
+                <span style={{color: '#1791FF'}}><Link to={`/circulationlog/circulationlogByCode?code=${this.code}`}>审核日志详情</Link></span>
+                <div className="afp-body-line"></div>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>档案编号：</span>
@@ -569,7 +613,7 @@ class enterArchives extends React.Component {
                         <Row style={{marginTop: '10px'}}>
                             <Col span={6}>
                                 <span>
-                                  <DatePicker format={'YYYY-MM-DD HH:mm:ss'} style={{width: '300px', float: 'left'}} onChange={this.onChangeTime}/>
+                                  <DatePicker format={'YYYY-MM-DD HH:mm:ss'} defaultValue={moment(new Date(), 'YYYY-MM-DD HH:mm:ss')} style={{width: '300px', float: 'left'}} onChange={this.onChangeTime}/>
                                 </span>
                             </Col>
                             <Col span={18}>
@@ -603,8 +647,8 @@ class enterArchives extends React.Component {
                 </Modal>
                 <Modal
                     visible={this.state.visibleChange}
-                    onOk={type => this.hideModal('changeEdit')}
-                    onCancel={type => this.hideModal('changeEdit')}
+                    onOk={type => this.hideModal('dataChange')}
+                    onCancel={type => this.hideModal('dataChange')}
                     footer={null}
                     width={400}
                     style={{ top: 60 }}
@@ -710,7 +754,7 @@ class enterArchives extends React.Component {
                         <Row>
                             <Col span={2}></Col>
                             <Col span={20}>
-                                <span className="editBtnBack" onClick={type => this.hideModal('dataEdit')}>返回</span>
+                                <span className="editBtnBack" onClick={type => this.hideModal('dataChange')}>返回</span>
                                 <span className="editDefine" onClick={this.sendEdit}>修改</span>
                             </Col>
                             <Col span={2}></Col>
@@ -723,7 +767,7 @@ class enterArchives extends React.Component {
                     <img src={edit} style={{marginLeft: '30px'}} />
                     <span style={{color: '#999999'}} onClick={type => this.showModal('dataChange')}> 修改</span>
                     <img src={deletes} style={{marginLeft: '30px'}} />
-                    <span style={{color: '#999999'}}> 删除</span>
+                    <span style={{color: '#999999'}} onClick={this.deleteMission}> 删除</span>
                 </div>
                 <div className="afp-body-btn-group">
                     <span className="afp-body-btn-gray" onClick={this.goBack} style={{width: '72px'}}>返回</span>

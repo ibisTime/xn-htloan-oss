@@ -70,13 +70,8 @@ class pointreturnReturn extends React.Component {
     }
     render() {
         const fields = [{
-            title: '业务团队队长',
-            field: 'captain',
-            formatter: (v, d) => {
-                if (d.user) {
-                    return d.user.realName;
-                }
-            },
+            title: '业务团队长',
+            field: 'captainName',
             readonly: true
         }, {
             title: '业务编号',
