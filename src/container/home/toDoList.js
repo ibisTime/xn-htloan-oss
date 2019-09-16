@@ -96,7 +96,11 @@ class ToDoList extends React.Component {
                     } else if (selectedRowKeys.length > 1) {
                         showWarnMsg('请选择一条记录');
                     } else {
-                        if(selectedRows[0].refNode === 'c1') { // 理件打件
+                        if(selectedRows[0].refNode === 'a2') {
+                            this.props.history.push(`/preLoan/Access/examine?code=${selectedRows[0].bizCode}`);
+                        }else if(selectedRows[0].refNode === 'a1x') {
+                            this.props.history.push(`/preLoan/Access?code=${selectedRows[0].bizCode}&type=edit`);
+                        }else if(selectedRows[0].refNode === 'c1') { // 理件打件
                             this.props.history.push(`/rationale/list/rationaleOk?code=${selectedRows[0].bizCode}`);
                         }else if(selectedRows[0].refNode === 'c2') {
                             this.props.history.push(`/rationale/list/typingOk?code=${selectedRows[0].bizCode}`);
