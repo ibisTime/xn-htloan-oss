@@ -90,6 +90,12 @@ class Dealer extends React.Component {
             keyName: 'code',
             valueName: 'name'
         }, {
+            title: '返点利率(%)',
+            field: 'rebateRate',
+            render(v) {
+                return v && +v * 100;
+            }
+        }, {
             title: '更新时间',
             field: 'updateDatetime',
             type: 'datetime'

@@ -8,7 +8,7 @@ import {
     findDsct,
     getRoleCode
 } from 'common/js/util';
-import {Row, Col, Checkbox, Pagination, Select} from 'antd';
+import {Row, Col, Checkbox, Pagination, Select, message} from 'antd';
 import {
     accessSlip,
     accessSlipStatus,
@@ -38,7 +38,7 @@ class preloanAccessList extends React.Component {
         this.checkBoxGroup = [];
         this.statusName = '';
     }
-    componentDidMount(): void {
+    componentDidMount() {
         this.getAccessSlip(1);
         this.getAccessSlipStatus();
         let btnArr = {
@@ -78,8 +78,10 @@ class preloanAccessList extends React.Component {
 
     // 分页接口
     getAccessSlip = (pageNumber) => {
+        const hasMsg = message.loading('', 100);
         const {code, customerName, curNodeCode} = this.state;
         accessSlip(pageNumber, 4, code === '' ? '' : code, customerName === '' ? '' : customerName, curNodeCode === '' ? '' : curNodeCode, ['a1', 'a2', 'a1x']).then(data => {
+            hasMsg();
             let arr = [];
             for(let i = 0; i < data.list.length; i++) {
                 arr.push({
@@ -110,7 +112,7 @@ class preloanAccessList extends React.Component {
                 accessSlipList: [...arr],
                 total: data.totalCount
             });
-        });
+        }).catch(hasMsg);
     }
     handleChangeSearchByCode = (e) => {
         this.setState({
@@ -228,24 +230,24 @@ class preloanAccessList extends React.Component {
                     </Col>
                 </Row>
                 <div className="preLoan-access-list-btn-group">
-                    <span className="preLoan-access-list-btn-gray" onClick={this.searchSend}>查询</span>
-                    <span className="preLoan-access-list-btn-gray" onClick={this.resetOn} style={{marginLeft: '50px'}}>重置</span>
+                    <span className="preLoan-access-list-btn-gray" style={{'cursor': 'pointer'}} onClick={this.searchSend}>查询</span>
+                    <span className="preLoan-access-list-btn-gray" onClick={this.resetOn} style={{marginLeft: '50px', 'cursor': 'pointer'}}>重置</span>
                     <div className="clear"></div>
                 </div>
                 <div className="preLoan-access-list-btn-group">
                     {
                         showZrzl ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.sendAddInfoOrChange} style={{marginRight: '30px', width: '80px'}}>准入资料</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendAddInfoOrChange} style={{marginRight: '30px', width: '80px', 'cursor': 'pointer'}}>准入资料</span>
                         ) : null
                     }
                     {
                         showZrsk ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.sendExamine} style={{marginRight: '30px', width: '80px'}}>准入审核</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendExamine} style={{marginRight: '30px', width: '80px', 'cursor': 'pointer'}}>准入审核</span>
                         ) : null
                     }
                     {
                         showDetail ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginRight: '30px'}}>详情</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginRight: '30px', 'cursor': 'pointer'}}>详情</span>
                         ) : null
                     }
                     <div className="clear"></div>
@@ -259,7 +261,7 @@ class preloanAccessList extends React.Component {
                         : accessSlipList.map(d => {
                             return (<Row className="preLoan-access-list-item">
                                 <Col span={1} style={{lineHeight: '130px'}}>
-                                    <Checkbox value={d.code + '|' + d.curNodeCode} onChange={this.onChange} />
+                                    <Checkbox value={d.code + '|' + d.curNodeCode} onChange={this.onChange}/>
                                 </Col>
                                 <Col span={23}>
                                     <Row>

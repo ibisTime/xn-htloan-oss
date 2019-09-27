@@ -122,6 +122,14 @@ class BankTypeAddedit extends React.Component {
             required: true,
             field: 'businessArea'
         }, {
+            title: '返点利率(%)',
+            required: true,
+            field: 'rebateRate',
+            type: 'number',
+            formatter(v) {
+                return v && +v * 100;
+            }
+        }, {
             title: '合作协议',
             field: 'agreementPic',
             required: true,
@@ -146,7 +154,11 @@ class BankTypeAddedit extends React.Component {
             view: this.view,
             addCode: 632060,
             editCode: 632062,
-            detailCode: 632066
+            detailCode: 632066,
+            beforeSubmit(params) {
+                params.rebateRate = params.rebateRate / 100;
+                return params;
+            }
         });
     }
 }
