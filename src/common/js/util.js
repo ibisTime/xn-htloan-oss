@@ -753,10 +753,13 @@ export function dsctList(array) {
 export function dsctImgList(array) {
   let arr = [];
   for(let i = 0; i < array.length; i++) {
-    arr.push({
-      dkey: array[i].kname,
-      dvalue: array[i].url
-    });
+    if(array[i].url) {
+        arr.push({
+            dkey: array[i].kname,
+            dvalue: array[i].url,
+            vname: array[i].vname
+        });
+    }
   }
   return arr;
 }

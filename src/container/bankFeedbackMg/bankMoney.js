@@ -40,7 +40,7 @@ class bankMoney extends React.Component {
         this.checkBoxGroup = [];
         this.statusName = '';
     }
-    componentDidMount(): void {
+    componentDidMount() {
         this.getAccessSlip(1);
         this.getAccessSlipStatus();
         let btnArr = {

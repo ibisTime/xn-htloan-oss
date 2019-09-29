@@ -1268,6 +1268,15 @@ const ROUTES = [
     path: '/postloantools/import/dispose',
     component: asyncComponent(() => import('container/postloantools/import/import-dispose'))
   },
+  //  导入银行合同信息
+  {
+      path: '/postloantools/importContract',
+      component: asyncComponent(() => import('container/postloantools/importContract/importContract'))
+  },
+  {
+      path: '/postloantools/importContract/import',
+      component: asyncComponent(() => import('container/postloantools/importContract/importContract-import'))
+  },
     //  工行征信
     {
         path: '/postloantools/banks',

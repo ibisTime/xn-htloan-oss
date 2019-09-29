@@ -35,7 +35,11 @@ import {
     carBuyingList,
     getCityList,
     sendPjPost,
-    accessSlipDetail
+    accessSlipDetail,
+    calculateMonthly,
+    installationGps,
+    getGps,
+    queryGps
 } from '../../api/preLoan.js';
 import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
 const { Option } = Select;
@@ -71,6 +75,8 @@ class preloanAccess extends React.Component {
             isCarImg: false,
             // 是否显示品牌、车系、车型
             isShowCarGroup: false,
+            gpsList: [],
+            gpsAzList: [],
             // 发起征信
             sendCreditReporting: {
                 operator: getUserId(),
@@ -237,6 +243,7 @@ class preloanAccess extends React.Component {
                 wanFactor: '',
                 monthAmount: '',
                 repayFirstMonthAmount: '',
+                openCardAmount: '',
                 highCashAmount: '',
                 totalFee: '',
                 customerBearRate: '',
@@ -253,6 +260,9 @@ class preloanAccess extends React.Component {
                 bankCreditResultRemark: '',
                 bankCreditResultRemark2: '',
                 bankCreditResultRemark3: ''
+            },
+            errorInfo: {
+                mobile: '格式错误'
             },
             // 主贷人选择框信息
             permanentResidenceCode: '',
@@ -279,7 +289,19 @@ class preloanAccess extends React.Component {
                 nowAddress: '',
                 companyAddress: ''
             },
+            altogetherPpIptArr02: {
+                companyName: '',
+                position: '',
+                nowAddress: '',
+                companyAddress: ''
+            },
             bkGuaranteePpArr: {
+                companyName: '',
+                position: '',
+                nowAddress: '',
+                companyAddress: ''
+            },
+            bkGuaranteePpArr02: {
                 companyName: '',
                 position: '',
                 nowAddress: '',
@@ -358,7 +380,9 @@ class preloanAccess extends React.Component {
             // 驾驶证
             fileListJSZ: [],
             previewVisibleJSZ: false,
+            previewVisibleGPS: false,
             previewImageJSZ: '',
+            previewImageGPS: '',
             // 结婚证
             fileListJHZ: [],
             previewVisibleJHZ: false,
@@ -586,9 +610,9 @@ class preloanAccess extends React.Component {
             // 是否贴息
             sftx: '',
             // 是否工牌
-            sfgp: '',
+            carInfoIsNotCommonCdCode: '0',
             // 是否加装
-            sfjzgps: '',
+            carInfoIsNotGPSCode: '',
             // 利率
             rebateRate: '',
             // 汽车经销商
@@ -607,7 +631,7 @@ class preloanAccess extends React.Component {
             let arr = [];
             for (let i = 0; i < data.list.length; i++) {
                 arr.push({
-                    dkey: data.list[i].id,
+                    dkey: (data.list[i].id).toString(),
                     dvalue: data.list[i].cityName
                 });
             }
@@ -621,9 +645,23 @@ class preloanAccess extends React.Component {
                 await accessSlipDetail(this.code).then(data => {
                     const card = data.creditUserList.filter(item => item.loanRole === '1');
                     const cardZTwo01 = data.creditUserList.filter(item => item.loanRole === '2');
-                    const cardZTwo02 = data.creditUserList.filter(item => item.loanRole === '4');
+                    const cardZTwo02 = data.creditUserList.filter(item => item.loanRole === '5');
                     const cardZThree01 = data.creditUserList.filter(item => item.loanRole === '3');
-                    const cardZThree02 = data.creditUserList.filter(item => item.loanRole === '5');
+                    const cardZThree02 = data.creditUserList.filter(item => item.loanRole === '4');
+                    const fileListHKBSY = findDsct(dsctImgList(data.attachments), 'hk_book_first_page');
+                    const fileListZFB = findDsct(dsctImgList(data.attachments), 'zfb_jour');
+                    const fileListWX = findDsct(dsctImgList(data.attachments), 'wx_jour');
+                    const fileListYHS = findDsct(dsctImgList(data.attachments), 'bank_jour_first_page');
+                    const fileListQT = findDsct(dsctImgList(data.attachments), 'other_pdf');
+                    const fileListCT = findDsct(dsctImgList(data.attachments), 'car_head');
+                    const fileListDJZS = findDsct(dsctImgList(data.attachments), 'car_register_certificate_first');
+                    const fileList = this.dealWithPic(fileListHKBSY);
+                    const fileListZfb = this.dealWithPic(fileListZFB, 'zfb');
+                    const fileListWx = this.dealWithPic(fileListWX, 'wx');
+                    const fileListQt = this.dealWithPic(fileListQT, 'qt');
+                    const fileListCt = this.dealWithPic(fileListCT, 'ct');
+                    const fileListDjzs = this.dealWithPic(fileListDJZS, 'djzs');
+                    const fileListYhs = this.dealWithPic(fileListYHS, 'yhs');
                     this.setState({
                         isCommon02Vis: cardZTwo02.length > 0,
                         isBack02Vis: cardZThree02.length > 0,
@@ -659,7 +697,19 @@ class preloanAccess extends React.Component {
                             nowAddress: '',
                             companyAddress: ''
                         },
-                        bkGuaranteePpArr: data.creditUser ? data.creditUser : {
+                        altogetherPpIptArr02: cardZTwo02.length > 0 ? cardZTwo02[0] : {
+                            companyName: '',
+                            position: '',
+                            nowAddress: '',
+                            companyAddress: ''
+                        },
+                        bkGuaranteePpArr: cardZThree01.length > 0 ? cardZThree01[0] : {
+                            companyName: '',
+                            position: '',
+                            nowAddress: '',
+                            companyAddress: ''
+                        },
+                        bkGuaranteePpArr02: cardZThree02.length > 0 ? cardZThree02[0] : {
                             companyName: '',
                             position: '',
                             nowAddress: '',
@@ -813,7 +863,21 @@ class preloanAccess extends React.Component {
                         }],
                         loanInfoArrIpt: data.bankLoan ? {
                             ...data.bankLoan,
-                            rebateRate: data.bankLoan.rebateRate ? data.bankLoan.rebateRate * 100 : ''
+                            rebateRate: data.bankLoan.rebateRate ? (Math.floor(data.bankLoan.rebateRate * 10e6) / 10e4).toFixed(4) : '',
+                            bankRate: data.bankLoan.bankRate ? (Math.floor(data.bankLoan.bankRate * 10e6) / 10e4).toFixed(4) : '0',
+                            totalRate: data.bankLoan.totalRate ? (Math.floor(data.bankLoan.totalRate * 10e6) / 10e4).toFixed(4) : '',
+                            discountRate: data.bankLoan.discountRate ? (Math.floor(data.bankLoan.discountRate * 10e6) / 10e4).toFixed(4) : '',
+                            customerBearRate: data.bankLoan.customerBearRate ? (Math.floor(data.bankLoan.customerBearRate * 10e6) / 10e4).toFixed(4) : '',
+                            surchargeRate: data.bankLoan.surchargeRate ? (Math.floor(data.bankLoan.surchargeRate * 10e6) / 10e4).toFixed(4) : '',
+                            loanAmount: data.bankLoan.loanAmount ? data.bankLoan.loanAmount / 1000 : '',
+                            monthAmount: data.bankLoan.monthAmount ? data.bankLoan.monthAmount / 1000 : '',
+                            repayFirstMonthAmount: data.bankLoan.repayFirstMonthAmount ? data.bankLoan.repayFirstMonthAmount / 1000 : '',
+                            openCardAmount: data.bankLoan.openCardAmount ? data.bankLoan.openCardAmount / 1000 : '',
+                            highCashAmount: data.bankLoan.highCashAmount ? data.bankLoan.highCashAmount / 1000 : '',
+                            fee: data.bankLoan.fee ? data.bankLoan.fee / 1000 : '',
+                            totalFee: data.bankLoan.totalFee ? data.bankLoan.totalFee / 1000 : '',
+                            discountAmount: data.bankLoan.discountAmount ? data.bankLoan.discountAmount / 1000 : '',
+                            surchargeAmount: data.bankLoan.surchargeAmount ? data.bankLoan.surchargeAmount / 1000 : ''
                         } : {
                             loanAmount: '',
                             periods: '',
@@ -827,6 +891,7 @@ class preloanAccess extends React.Component {
                             wanFactor: '',
                             monthAmount: '',
                             repayFirstMonthAmount: '',
+                            openCardAmount: '',
                             highCashAmount: '',
                             totalFee: '',
                             customerBearRate: '',
@@ -903,15 +968,7 @@ class preloanAccess extends React.Component {
                             }
                         }],
                         // 户口本首页
-                        fileListHKBSY: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'hk_book_first_page') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'hk_book_first_page')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'hk_book_first_page')
-                            }
-                        }],
+                        fileListHKBSY: fileList,
                         // 户口本主页
                         fileListHKBZY: [{
                             uid: '-2',
@@ -953,95 +1010,13 @@ class preloanAccess extends React.Component {
                             }
                         }],
                         // 银行流水首页
-                        fileListYHS: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'bank_jour_first_page') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_first_page')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'bank_jour_first_page')
-                            }
-                        }],
-                        // 银行流水结息一季度
-                        fileListLS1: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_first') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_first')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_first')
-                            }
-                        }],
-                        // 银行流水结息二季度
-                        fileListLS2: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_second') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_second')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_second')
-                            }
-                        }],
-                        // 银行流水结息三季度
-                        fileListLS3: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_third') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_third')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_third')
-                            }
-                        }],
-                        // 银行流水结息四季度
-                        fileListLS4: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_fourth') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_interest_fourth')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'bank_jour_interest_fourth')
-                            }
-                        }],
-                        // 银行流水末页
-                        fileListLS5: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'bank_jour_last_page') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'bank_jour_last_page')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'bank_jour_last_page')
-                            }
-                        }],
+                        fileListYHS: fileListYhs,
                         // 支付宝流水
-                        fileListZFB: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'zfb_jour') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'zfb_jour')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'zfb_jour')
-                            }
-                        }],
+                        fileListZFB: fileListZfb,
                         // 微信流水
-                        fileListWX: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'wx_jour') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'wx_jour')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'wx_jour')
-                            }
-                        }],
+                        fileListWX: fileListWx,
                         // 其他
-                        fileListQT: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'other_pdf') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'other_pdf')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'other_pdf')
-                            }
-                        }],
+                        fileListQT: fileListQt,
                         // 上门照片
                         fileListSM: [{
                             uid: '-2',
@@ -1073,145 +1048,9 @@ class preloanAccess extends React.Component {
                             }
                         }],
                         // 车头
-                        fileListCT: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'car_head') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_head')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'car_head')
-                            }
-                        }],
-                        // 铭牌
-                        fileListCMP: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'nameplate') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'nameplate')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'nameplate')
-                            }
-                        }],
-                        // VIN码
-                        fileListVIN: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'vin_number') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'vin_number')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'vin_number')
-                            }
-                        }],
-                        // 仪表盘
-                        fileListYBP: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'dashboard') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'dashboard')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'dashboard')
-                            }
-                        }],
-                        // 驾驶室
-                        fileListJSS: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'cab') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'cab')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'cab')
-                            }
-                        }],
-                        // 发动机
-                        fileListFDJ: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'car_engine') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_engine')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'car_engine')
-                            }
-                        }],
-                        // 中控
-                        fileListZK: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'central_control') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'central_control')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'central_control')
-                            }
-                        }],
-                        // 天窗
-                        fileListTC: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'skylight') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'skylight')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'skylight')
-                            }
-                        }],
-                        // 车后座
-                        fileListHZC: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'rear_seat') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'rear_seat')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'rear_seat')
-                            }
-                        }],
-                        // 车尾
-                        fileListCW: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'vehicle_tail') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'vehicle_tail')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'vehicle_tail')
-                            }
-                        }],
-                        // 车全身
-                        fileListCQS: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'car_body') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_body')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'car_body')
-                            }
-                        }],
+                        fileListCT: fileListCt,
                         // 车辆登记证书（首页）
-                        fileListDJZS: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'car_register_certificate_first') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_first')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'car_register_certificate_first')
-                            }
-                        }],
-                        // 车辆登记证书（二页）
-                        fileListDJZS2: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'car_register_certificate_second') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_second')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'car_register_certificate_second')
-                            }
-                        }],
-                        // 车辆登记证书（三页）
-                        fileListDJZS3: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'car_register_certificate_third') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'car_register_certificate_third')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'car_register_certificate_third')
-                            }
-                        }],
+                        fileListDJZS: fileListDjzs,
                         hyzt: data.creditUser ? data.creditUser.marryState : '',
                         zxjgName1: card.length > 0 ? (card[0].bankCreditResult === '0' ? '不通过' : '通过') : '',
                         zxjgName2: cardZTwo01.length > 0 ? (cardZTwo01[0].bankCreditResult === '0' ? '不通过' : '通过') : '',
@@ -1223,34 +1062,33 @@ class preloanAccess extends React.Component {
                         czlx: data.creditUser ? data.creditUser.permanentType : '',
                         yzdgx: data.creditUser ? data.creditUser.emergencyRelation1 : '',
                         yzdgx2: data.creditUser ? data.creditUser.emergencyRelation2 : '',
-                        lllx: data.bankLoan ? data.bankLoan.rateType : '',
+                        loanInfoRateTypeCode: data.bankLoan ? data.bankLoan.rateType : '',
                         sfdz: data.bankLoan ? (data.bankLoan.isAdvanceFund === '0' ? '否' : '是') : '',
                         sftx: data.bankLoan ? (data.bankLoan.isDiscount === '0' ? '否' : '是') : '',
-                        sfgp: data.bankLoan ? (data.bankLoan.isPublicCard === '0' ? '否' : '是') : '',
-                        sfjzgps: data.bankLoan ? (data.bankLoan.isAzGps === '0' ? '否' : '是') : '',
+                        carInfoIsNotCommonCdCode: data.carInfo ? data.carInfo.isPublicCard ? data.carInfo.isPublicCard : '0' : '0',
+                        carInfoIsNotGPSCode: data.carInfo ? data.carInfo.isAzGps ? data.carInfo.isAzGps : '' : '',
                         sendCreditReporting: {
                             mile: data.mile
                         },
                         // 经办银行
-                        jbyh: data.loanBankName,
                         loanBankCode: data.loanBank,
                         // 业务发生地点
-                        ywfsdd: findDsct(arr, parseInt(data.region)),
+                        nowAddressCode: data.region,
                         // 汽车经销商
-                        shopCarGarage: data.shopCarGarage,
+                        shopCarGarage: data.carInfo ? data.carInfo.shopCarGarage : '',
                         // 购车途径
-                        gctj: data.bizType,
+                        bizType: data.bizType,
                         // 上牌时间
-                        spsj: data.carInfo ? data.carInfo.regDate : '',
+                        regDate: data.carInfo ? data.carInfo.regDate : '',
                         // 品牌
-                        pp: data.carInfo ? data.carInfo.carBrand : '',
+                        brandCode: data.carInfo ? data.carInfo.carBrand : '',
                         // 车系
-                        cx1: data.carInfo ? data.carInfo.carSeriesName : '',
+                        seriesCode: data.carInfo ? data.carInfo.carSeries : '',
                         // 车型
-                        cx2: data.carInfo ? data.carInfo.carModelName : '',
+                        carCode: data.carInfo ? data.carInfo.carModel : '',
                         carUrl: data.carInfo ? data.carInfo.secondCarReport : '',
                         modelName: data.carInfo ? data.carInfo.carModelName : '',
-                        dkqx: data.periods,
+                        loanPeriodCode: data.periods,
                         // 基本信息默认code
                         permanentResidenceCode: data.creditUser ? data.creditUser.permanentType : '',
                         housingTypeCode: data.creditUser ? data.creditUser.nowHouseType : '',
@@ -1258,6 +1096,13 @@ class preloanAccess extends React.Component {
                         edtCode: data.creditUser ? data.creditUser.education : '',
                         emergencyRelationCode1: data.creditUser ? data.creditUser.emergencyRelation1 : '',
                         emergencyRelationCode2: data.creditUser ? data.creditUser.emergencyRelation2 : ''
+                    }, () => {
+                        if(this.state.brandCode) {
+                            this.fandCarTypeMng(this.state.brandCode, true);
+                        }
+                        if(this.state.seriesCode) {
+                            this.findCarTypeFn(this.state.seriesCode, true);
+                        }
                     });
                     // 购车途径 显示隐藏
                     if (data.bizType === '0') {
@@ -1280,6 +1125,44 @@ class preloanAccess extends React.Component {
             this.getBankList();
         });
     }
+    dealWithPic = (fileListPic, type = '') => {
+        let fileList = [];
+        if(fileListPic === '') {
+            fileList.push({
+                uid: `${type}-2`,
+                name: 'ot.png',
+                status: 'done',
+                url: zanwu,
+                response: {
+                    hash: ''
+                }
+            });
+        } else if(fileListPic.indexOf('||') !== -1) {
+            const picList = fileListPic.split('||');
+            picList.forEach((item, index) => {
+                fileList.push({
+                    uid: `${type}_ot_${index}`,
+                    name: 'ot.png',
+                    status: 'done',
+                    url: PIC_PREFIX + item,
+                    response: {
+                        hash: item
+                    }
+                });
+            });
+        } else {
+            fileList.push({
+                uid: `${type}_ot_0`,
+                name: 'ot.png',
+                status: 'done',
+                url: PIC_PREFIX + fileListPic,
+                response: {
+                    hash: fileListPic
+                }
+            });
+        }
+        return fileList;
+    };
     componentDidMount() {
         const hasMsg = message.loading('', 100);
         Promise.all([
@@ -1340,6 +1223,22 @@ class preloanAccess extends React.Component {
                 creditUserRelation: dsctList(creditUserRelation)
             });
         }).catch(hasMsg);
+        getGps().then(data => {
+            if(Array.isArray(data)) {
+                const gpsList = data.map(item => ({
+                    dkey: item.code,
+                    dvalue: item.gpsDevNo
+                }));
+                this.setState({
+                    gpsList
+                });
+            };
+        });
+        if(this.code) {
+            queryGps(this.code).then(data => {
+                console.log(data);
+            });
+        }
         getQiNiu().then(data => {
             this.setState({
                 uploadToken: data.uploadToken
@@ -1372,19 +1271,41 @@ class preloanAccess extends React.Component {
             showWarnMsg('请选择小于今天的日期');
         }else {
             this.setState({
-                regDate: dateString,
-                spsj: dateString === '' ? getNowTime() : dateString
+                regDate: dateString === '' ? getNowTime() : dateString
+            });
+        }
+    };
+    computedMonthly = () => {
+        const {loanInfoArrIpt, loanPeriodCode, loanBankCode} = this.state;
+        if(loanBankCode && loanInfoArrIpt.loanAmount && loanPeriodCode && (loanInfoArrIpt.bankRate || loanInfoArrIpt.bankRate === 0) && loanInfoArrIpt.totalRate) {
+            calculateMonthly({
+                loanBankCode,
+                loanPeriods: loanPeriodCode,
+                loanAmount: loanInfoArrIpt.loanAmount * 1000,
+                bankRate: loanInfoArrIpt.bankRate / 100,
+                totalRate: loanInfoArrIpt.totalRate / 100
+            }).then(data => {
+                this.setState({
+                    loanInfoArrIpt: {
+                        ...this.state.loanInfoArrIpt,
+                        repayFirstMonthAmount: +data.initialAmount / 1000,
+                        monthAmount: +data.annualAmount / 1000,
+                        openCardAmount: +data.openCardAmount / 1000,
+                        fee: +data.poundage / 1000
+                    }
+                });
             });
         }
     };
     // 获取code
     // 获取银行code
-    handleChangeBank = (value, event) => {
+    handleChangeBank = (value) => {
         this.setState({
-            jbyh: event.props.children,
             loanBankCode: value
+        }, () => {
+            this.computedMonthly();
         });
-    }
+    };
     // 获取主贷人关系1 Code emergencyRelation1code
     handleChangeEmergency = (value, event) => {
         this.setState({
@@ -1419,9 +1340,10 @@ class preloanAccess extends React.Component {
         }
         loanInfoArrIpt['bankRate'] = rateValue;
         this.setState({
-            dkqx: event.props.children,
             loanPeriodCode: value,
             loanInfoArrIpt
+        }, () => {
+            this.computedMonthly();
         });
     }
     // 获取学历code
@@ -1455,7 +1377,6 @@ class preloanAccess extends React.Component {
     // 获取利率类型
     handleChangeLoanInfoRateType = (value, event) => {
         this.setState({
-            lllx: event.props.children,
             loanInfoRateTypeCode: value
         });
     }
@@ -1476,22 +1397,32 @@ class preloanAccess extends React.Component {
     // 获取是否公牌
     handleChangecarInfoIsNotCommonCd = (value, event) => {
         this.setState({
-            sfgp: event.props.children,
             carInfoIsNotCommonCdCode: value
         });
     }
     // 获取是否GPS
-    handleChangecarInfoIsNotGPS = (value, event) => {
+    handleChangecarInfoIsNotGPS = (value) => {
+        if(value === '1') {
+            this.setState({
+                gpsAzList: [
+                    ...this.state.gpsAzList,
+                    {
+                        code: '',
+                        azPhotos: '',
+                        fileListGPS: []
+                    }
+                ]
+            });
+        }else {
+            this.setState({
+                gpsAzList: []
+            });
+        }
         this.setState({
-            carInfoIsNotGPSCode: value,
-            sfjzgps: event.props.children
+            carInfoIsNotGPSCode: value
         });
-    }
-    handleChangeCarType1 = (value, event) => {
-        this.setState({
-            changeBrandName: event.props.children,
-            pp: event.props.children
-        });
+    };
+    fandCarTypeMng = (value, isFirst = false) => {
         carTypeMng(value, 1, 1, 100).then(data => {
             let arr = [];
             for(let i = 0; i < data.list.length; i++) {
@@ -1500,17 +1431,24 @@ class preloanAccess extends React.Component {
                     code: data.list[i].code
                 });
             }
-            this.setState({
-                carType: [...arr],
-                brandCode: value
-            });
+            if(!isFirst) {
+                this.setState({
+                    carType: [...arr],
+                    brandCode: value,
+                    seriesCode: '',
+                    carCode: ''
+                });
+            }else {
+                this.setState({
+                    carType: [...arr]
+                });
+            }
         });
-    }
-    handleChangeCarType = (value, event) => {
-        this.setState({
-            seriesCode: value,
-            cx1: event.props.children
-        });
+    };
+    handleChangeCarType1 = (value, event) => {
+        this.fandCarTypeMng(value);
+    };
+    findCarTypeFn = (value, isFirst) => {
         findCarType(1, 100, value).then(data => {
             let arr = [];
             for(let i = 0; i < data.list.length; i++) {
@@ -1519,16 +1457,25 @@ class preloanAccess extends React.Component {
                     code: data.list[i].code
                 });
             }
-            this.setState({
-                carType3: [...arr]
-            });
+            if(!isFirst) {
+                this.setState({
+                    carType3: [...arr],
+                    seriesCode: value,
+                    carCode: ''
+                });
+            }else {
+                this.setState({
+                    carType3: [...arr]
+                });
+            }
         });
+    };
+    handleChangeCarType = (value, event) => {
+        this.findCarTypeFn(value);
     }
     handleChangeCar3Type = (value, event) => {
         this.setState({
-            carCode: value,
-            changeCarName: event.props.children,
-            cx2: event.props.children
+            carCode: value
         });
     }
     // 发起征信文件上传
@@ -1551,8 +1498,8 @@ class preloanAccess extends React.Component {
         this.setState({ fileList });
     };
     handleChangeCarBuying = (value, event) => {
+        console.log(value);
         this.setState({
-            gctj: event.props.children,
             bizType: value
         });
         if(value === '0') {
@@ -1834,67 +1781,45 @@ class preloanAccess extends React.Component {
                 secondCarReport: carUrl,
                 carBrand: brandCode,
                 carSeries: seriesCode,
-                carModel: carCode
+                carModel: carCode,
+                code: accessInfoCode
             };
-            if(accessInfoCode === '') {
-                sendCreditReportingLs(arr).then(data => {
-                    this.setState({
-                        accessInfoCode: data
-                    });
-                    if(isLoanPpInfo) {
-                        // 贷款人信息
-                        this.addLenderInfo(data);
-                    }else if(isBaseInfo) {
-                        // 基本信息
-                        this.addBaseInfo(data);
-                    }else if(isLoanInfo) {
-                        // 贷款信息
-                        this.addLoanInfo(data);
-                    }else if(isCostSettlement) {
-                        // 费用结算
-                        this.addCostSettlementInfo(data);
-                    }else if(isCarInfo) {
-                        // 车辆信息
-                        this.addCarDsInfoLs(data);
-                    }else if(isMaterialInfo) {
-                        // 贷款材料图
-                        this.addMaterialDsInfoLs(data);
-                    }else if(isInvestigation) {
-                        // 上门调查照片
-                        this.addInvestigationImgInfoLs(data);
-                    }else if(isCarImg) {
-                        // 车辆图
-                        this.addCarImgInfoLs(data);
-                    }
-                });
-            }else {
-                if(isLoanPpInfo) {
-                    // 贷款人信息
-                    this.addLenderInfo(accessInfoCode);
-                }else if(isBaseInfo) {
-                    // 基本信息
-                    this.addBaseInfo(accessInfoCode);
-                }else if(isLoanInfo) {
-                    // 贷款信息
-                    this.addLoanInfo(accessInfoCode);
-                }else if(isCostSettlement) {
-                    // 费用结算
-                    this.addCostSettlementInfo(accessInfoCode);
-                }else if(isCarInfo) {
-                    // 车辆信息
-                    this.addCarDsInfoLs(accessInfoCode);
-                }else if(isMaterialInfo) {
-                    // 贷款材料图
-                    this.addMaterialDsInfoLs(accessInfoCode);
-                }else if(isInvestigation) {
-                    // 上门调查照片
-                    this.addInvestigationImgInfoLs(accessInfoCode);
-                }else if(isCarImg) {
-                    // 车辆图
-                    this.addCarImgInfoLs(accessInfoCode);
-                }
+        sendCreditReportingLs(arr).then(data => {
+            this.setState({
+                accessInfoCode: data
+            });
+            installationGps({
+                gpsAzList: this.state.gpsAzList,
+                code: data,
+                operator: getUserId()
+            });
+            if(isLoanPpInfo) {
+                // 贷款人信息
+                this.addLenderInfo(data);
+            }else if(isBaseInfo) {
+                // 基本信息
+                this.addBaseInfo(data);
+            }else if(isLoanInfo) {
+                // 贷款信息
+                this.addLoanInfo(data);
+            }else if(isCostSettlement) {
+                // 费用结算
+                this.addCostSettlementInfo(data);
+            }else if(isCarInfo) {
+                // 车辆信息
+                this.addCarDsInfoLs(data);
+            }else if(isMaterialInfo) {
+                // 贷款材料图
+                this.addMaterialDsInfoLs(data);
+            }else if(isInvestigation) {
+                // 上门调查照片
+                this.addInvestigationImgInfoLs(data);
+            }else if(isCarImg) {
+                // 车辆图
+                this.addCarImgInfoLs(data);
             }
-    }
+        });
+    };
     // 贷款人信息
     addLenderInfo = (code) => {
         // code
@@ -2061,6 +1986,10 @@ class preloanAccess extends React.Component {
             for(let i = 1; i <= 5; i++) {
                 if(i === 1) {
                     if(picHash) {
+                        if(this.hasMobileError(loanIptArr.mobile)) {
+                            message.warning('手机号格式错误', 1.5);
+                            return;
+                        }
                         creditUserList.push({
                             userName: cardZ.userName,
                             loanRole: i,
@@ -2082,6 +2011,10 @@ class preloanAccess extends React.Component {
                     }
                 }else if(i === 2) {
                     if(picHashG) {
+                        if(this.hasMobileError(loanIptArr.mobile2)) {
+                            message.warning('手机号格式错误', 1.5);
+                            return;
+                        }
                         creditUserList.push({
                             userName: cardZTwo ? cardZTwo.userName : '',
                             loanRole: i,
@@ -2103,6 +2036,10 @@ class preloanAccess extends React.Component {
                     }
                 }else if(i === 3) {
                     if(picHashB) {
+                        if(this.hasMobileError(loanIptArr.mobile3)) {
+                            message.warning('手机号格式错误', 1.5);
+                            return;
+                        }
                         creditUserList.push({
                             userName: cardZThree ? cardZThree.userName : '',
                             loanRole: i,
@@ -2124,6 +2061,10 @@ class preloanAccess extends React.Component {
                     }
                 }else if(i === 4) {
                     if(picHashB02) {
+                        if(this.hasMobileError(loanIptArr.mobile302)) {
+                            message.warning('手机号格式错误', 1.5);
+                            return;
+                        }
                         creditUserList.push({
                             userName: cardZThree02 ? cardZThree02.userName : '',
                             loanRole: i,
@@ -2145,6 +2086,10 @@ class preloanAccess extends React.Component {
                     }
                 }else if(i === 5) {
                     if(picHashG02) {
+                        if(this.hasMobileError(loanIptArr.mobile202)) {
+                            message.warning('手机号格式错误', 1.5);
+                            return;
+                        }
                         creditUserList.push({
                             userName: cardZTwo02 ? cardZTwo02.userName : '',
                             loanRole: i,
@@ -2180,10 +2125,14 @@ class preloanAccess extends React.Component {
     }
     // 基本信息
     addBaseInfo = (code) => {
-        const {permanentResidenceCode, housingTypeCode, marriageStatusCode, edtCode, mainLoanPpIptArr, altogetherPpIptArr, bkGuaranteePpArr, emergencyRelationCode1, emergencyRelationCode2} = this.state;
+        const {permanentResidenceCode, housingTypeCode, marriageStatusCode, edtCode, mainLoanPpIptArr, altogetherPpIptArr, altogetherPpIptArr02, bkGuaranteePpArr, bkGuaranteePpArr02, emergencyRelationCode1, emergencyRelationCode2} = this.state;
         let creditUserList = [];
-        for(let i = 1; i <= 3; i++) {
+        for(let i = 1; i <= 5; i++) {
             if(i === 1) {
+                if(this.hasMobileError(mainLoanPpIptArr.emergencyMobile1) || this.hasMobileError(mainLoanPpIptArr.emergencyMobile2)) {
+                    message.warning('手机号格式错误', 1.5);
+                    return;
+                }
                 creditUserList.push({
                     loanRole: i,
                     education: edtCode,
@@ -2220,6 +2169,22 @@ class preloanAccess extends React.Component {
                     nowAddress: bkGuaranteePpArr.nowAddress,
                     companyAddress: bkGuaranteePpArr.companyAddress
                 });
+            }else if(i === 4) {
+                creditUserList.push({
+                    loanRole: i,
+                    companyName: bkGuaranteePpArr02.companyName,
+                    position: bkGuaranteePpArr02.position,
+                    nowAddress: bkGuaranteePpArr02.nowAddress,
+                    companyAddress: bkGuaranteePpArr02.companyAddress
+                });
+            }else if(i === 5) {
+                creditUserList.push({
+                    loanRole: i,
+                    companyName: altogetherPpIptArr02.companyName,
+                    position: altogetherPpIptArr02.position,
+                    nowAddress: altogetherPpIptArr02.nowAddress,
+                    companyAddress: altogetherPpIptArr02.companyAddress
+                });
             }
         }
         let arr = {
@@ -2241,20 +2206,21 @@ class preloanAccess extends React.Component {
             operator: getUserId(),
             loanAmount: loanInfoArrIpt.loanAmount * 1000,
             periods: loanPeriodCode,
-            bankRate: loanInfoArrIpt.bankRate,
-            totalRate: loanInfoArrIpt.totalRate,
-            rebateRate: loanInfoArrIpt.rebateRate / 100,
+            bankRate: loanInfoArrIpt.bankRate ? loanInfoArrIpt.bankRate / 100 : '0',
+            totalRate: loanInfoArrIpt.totalRate ? loanInfoArrIpt.totalRate / 100 : '0',
+            rebateRate: loanInfoArrIpt.rebateRate ? loanInfoArrIpt.rebateRate / 100 : '0',
             fee: loanInfoArrIpt.fee * 1000,
-            discountRate: loanInfoArrIpt.discountRate,
+            discountRate: loanInfoArrIpt.discountRate ? loanInfoArrIpt.discountRate / 100 : '0',
             discountAmount: loanInfoArrIpt.discountAmount * 1000,
             loanRatio: loanInfoArrIpt.loanRatio,
             wanFactor: loanInfoArrIpt.wanFactor,
             monthAmount: loanInfoArrIpt.monthAmount * 1000,
             repayFirstMonthAmount: loanInfoArrIpt.repayFirstMonthAmount * 1000,
+            openCardAmount: loanInfoArrIpt.openCardAmount * 1000,
             highCashAmount: loanInfoArrIpt.highCashAmount * 1000,
             totalFee: loanInfoArrIpt.totalFee * 1000,
-            customerBearRate: loanInfoArrIpt.customerBearRate,
-            surchargeRate: loanInfoArrIpt.surchargeRate,
+            customerBearRate: loanInfoArrIpt.customerBearRate ? loanInfoArrIpt.customerBearRate / 100 : '',
+            surchargeRate: loanInfoArrIpt.surchargeRate ? loanInfoArrIpt.surchargeRate / 100 : '',
             surchargeAmount: loanInfoArrIpt.surchargeAmount * 1000,
             rateType: loanInfoRateTypeCode,
             isAdvanceFund: loanInfoIsNotAdvanceCode,
@@ -2327,26 +2293,12 @@ class preloanAccess extends React.Component {
             fileListSRZ,
             // 户口本首页
             fileListHKBSY,
-            // 户口本主页
-            fileListHKBZY,
-            // 户口本本人页
-            fileListHKBRY,
             // 房产证
             fileListFZZ,
             // 居住证
             fileListJZZ,
             // 银行流水首页
             fileListYHS,
-            // 银行流水结息一季度
-            fileListLS1,
-            // 银行流水结息二季度
-            fileListLS2,
-            // 银行流水结息三季度
-            fileListLS3,
-            // 银行流水结息四季度
-            fileListLS4,
-            // 银行流水末页
-            fileListLS5,
             // 支付宝流水
             fileListZFB,
             // 微信流水
@@ -2406,30 +2358,16 @@ class preloanAccess extends React.Component {
             if (fileListHKBSY[0] === undefined || fileListHKBSY[0] === '') {
                 picHashHKBSY = '';
             } else {
-                picHashHKBSY = fileListHKBSY[0].response.hash;
+                let len = fileListHKBSY.length;
+                fileListHKBSY.forEach((item, index) => {
+                    if(index === len - 1) {
+                        picHashHKBSY += item.response.hash;
+                    }else {
+                        picHashHKBSY += item.response.hash + '||';
+                    }
+                });
             }
         }
-
-        // 户口本主页
-        let picHashHKBZY = '';
-        if(fileListHKBZY) {
-            if (fileListHKBZY[0] === undefined || fileListHKBZY[0] === '') {
-                picHashHKBZY = '';
-            } else {
-                picHashHKBZY = fileListHKBZY[0].response.hash;
-            }
-        }
-
-        // 户口本本人页
-        let picHashHKBRY = '';
-        if(fileListHKBRY) {
-            if (fileListHKBRY[0] === undefined || fileListHKBRY[0] === '') {
-                picHashHKBRY = '';
-            } else {
-                picHashHKBRY = fileListHKBRY[0].response.hash;
-            }
-        }
-
         // 房产证 fileListFZZ
         let picHashFZZ = '';
         if(fileListFZZ) {
@@ -2456,57 +2394,14 @@ class preloanAccess extends React.Component {
             if (fileListYHS[0] === undefined || fileListYHS[0] === '') {
                 picHashYHS = '';
             } else {
-                picHashYHS = fileListYHS[0].response.hash;
-            }
-        }
-
-        // 银行流水结息一季度
-        let picHashLS1 = '';
-        if(fileListLS1) {
-            if (fileListLS1[0] === undefined || fileListLS1[0] === '') {
-                picHashLS1 = '';
-            } else {
-                picHashLS1 = fileListLS1[0].response.hash;
-            }
-        }
-
-        // 银行流水结息二季度
-        let picHashLS2 = '';
-        if(fileListLS2) {
-            if (fileListLS2[0] === undefined || fileListLS2[0] === '') {
-                picHashLS2 = '';
-            } else {
-                picHashLS2 = fileListLS2[0].response.hash;
-            }
-        }
-
-        // 银行流水结息三季度
-        let picHashLS3 = '';
-        if(fileListLS3) {
-            if (fileListLS3[0] === undefined || fileListLS3[0] === '') {
-                picHashLS3 = '';
-            } else {
-                picHashLS3 = fileListLS3[0].response.hash;
-            }
-        }
-
-        // 银行流水结息四季度
-        let picHashLS4 = '';
-        if(fileListLS4) {
-            if (fileListLS4[0] === undefined || fileListLS4[0] === '') {
-                picHashLS4 = '';
-            } else {
-                picHashLS4 = fileListLS4[0].response.hash;
-            }
-        }
-
-        // 银行流水末页
-        let picHashLS5 = '';
-        if(fileListLS5) {
-            if (fileListLS5[0] === undefined || fileListLS5[0] === '') {
-                picHashLS5 = '';
-            } else {
-                picHashLS5 = fileListLS5[0].response.hash;
+                let len = fileListYHS.length;
+                fileListYHS.forEach((item, index) => {
+                    if(index === len - 1) {
+                        picHashYHS += item.response.hash;
+                    }else {
+                        picHashYHS += item.response.hash + '||';
+                    }
+                });
             }
         }
 
@@ -2516,7 +2411,14 @@ class preloanAccess extends React.Component {
             if (fileListZFB[0] === undefined || fileListZFB[0] === '') {
                 picHashZFB = '';
             } else {
-                picHashZFB = fileListZFB[0].response.hash;
+                let len = fileListZFB.length;
+                fileListZFB.forEach((item, index) => {
+                    if(index === len - 1) {
+                        picHashZFB += item.response.hash;
+                    }else {
+                        picHashZFB += item.response.hash + '||';
+                    }
+                });
             }
         }
 
@@ -2526,7 +2428,14 @@ class preloanAccess extends React.Component {
             if (fileListWX[0] === undefined || fileListWX[0] === '') {
                 picHashWX = '';
             } else {
-                picHashWX = fileListWX[0].response.hash;
+                let len = fileListWX.length;
+                fileListWX.forEach((item, index) => {
+                    if(index === len - 1) {
+                        picHashWX += item.response.hash;
+                    }else {
+                        picHashWX += item.response.hash + '||';
+                    }
+                });
             }
         }
 
@@ -2536,7 +2445,14 @@ class preloanAccess extends React.Component {
             if (fileListQT[0] === undefined || fileListQT[0] === '') {
                 picHashQt = '';
             } else {
-                picHashQt = fileListQT[0].response.hash;
+                let len = fileListQT.length;
+                fileListQT.forEach((item, index) => {
+                    if(index === len - 1) {
+                        picHashQt += item.response.hash;
+                    }else {
+                        picHashQt += item.response.hash + '||';
+                    }
+                });
             }
         }
         let arr = {
@@ -2548,16 +2464,9 @@ class preloanAccess extends React.Component {
             singleProve: picHashDSZ,
             incomeProve: picHashSRZ,
             hkBookFirstPage: picHashHKBSY,
-            hkBookHomePage: picHashHKBZY,
-            hkBookMyPage: picHashHKBRY,
             housePropertyCardPdf: picHashFZZ,
             liveProvePdf: picHashJZZ,
             bankJourFirstPage: picHashYHS,
-            bankJourInterestFirst: picHashLS1,
-            bankJourInterestSecond: picHashLS2,
-            bankJourInterestThird: picHashLS3,
-            bankJourInterestFourth: picHashLS4,
-            bankJourLastPage: picHashLS5,
             zfbJour: picHashZFB,
             wxJour: picHashWX,
             otherPdf: picHashQt
@@ -2658,7 +2567,14 @@ class preloanAccess extends React.Component {
             if (fileListCT[0] === undefined || fileListCT[0] === '') {
                 picHashCT = '';
             } else {
-                picHashCT = fileListCT[0].response.hash;
+                let len = fileListCT.length;
+                fileListCT.forEach((item, index) => {
+                    if(index === len - 1) {
+                        picHashCT += item.response.hash;
+                    }else {
+                        picHashCT += item.response.hash + '||';
+                    }
+                });
             }
         }
 
@@ -2768,7 +2684,14 @@ class preloanAccess extends React.Component {
             if (fileListDJZS[0] === undefined || fileListDJZS[0] === '') {
                 picHashDJZS = '';
             } else {
-                picHashDJZS = fileListDJZS[0].response.hash;
+                let len = fileListDJZS.length;
+                fileListDJZS.forEach((item, index) => {
+                    if(index === len - 1) {
+                        picHashDJZS += item.response.hash;
+                    }else {
+                        picHashDJZS += item.response.hash + '||';
+                    }
+                });
             }
         }
 
@@ -2848,36 +2771,7 @@ class preloanAccess extends React.Component {
     }
     // 保存
     openSave = () => {
-        const {accessInfoCode, isLoanPpInfo, isBaseInfo, isLoanInfo, isCostSettlement, isCarInfo, isMaterialInfo, isInvestigation, isCarImg} = this.state;
-        if(this.typeEdit === 'edit') {
-            if(isLoanPpInfo) {
-                // 贷款人信息
-                this.addLenderInfo(this.code);
-            }else if(isBaseInfo) {
-                // 基本信息
-                this.addBaseInfo(this.code);
-            }else if(isLoanInfo) {
-                // 贷款信息
-                this.addLoanInfo(this.code);
-            }else if(isCostSettlement) {
-                // 费用结算
-                this.addCostSettlementInfo(this.code);
-            }else if(isCarInfo) {
-                // 车辆信息
-                this.addCarDsInfoLs(this.code);
-            }else if(isMaterialInfo) {
-                // 贷款材料图
-                this.addMaterialDsInfoLs(this.code);
-            }else if(isInvestigation) {
-                // 上门调查照片
-                this.addInvestigationImgInfoLs(this.code);
-            }else if(isCarImg) {
-                // 车辆图
-                this.addCarImgInfoLs(this.code);
-            }
-        }else {
-            this.addSendCreditReporting();
-        }
+        this.addSendCreditReporting();
     }
     accessInfoUp = () => {
         const {accessInfoCode} = this.state;
@@ -2968,7 +2862,15 @@ class preloanAccess extends React.Component {
         this.setState({
             altogetherPpIptArr
         });
-    }
+    };
+    // 共还人2信息数组
+    iptaltogetherPp02 = (e, name) => {
+        const {altogetherPpIptArr02} = this.state;
+        altogetherPpIptArr02[name] = e.target.value;
+        this.setState({
+            altogetherPpIptArr02
+        });
+    };
     // 反担保人信息数组
     iptBkGtPp = (e, name) => {
         const {bkGuaranteePpArr} = this.state;
@@ -2976,13 +2878,31 @@ class preloanAccess extends React.Component {
         this.setState({
             bkGuaranteePpArr
         });
-    }
+    };
+    // 反担保人2信息数组
+    iptBkGtPp02 = (e, name) => {
+        const {bkGuaranteePpArr02} = this.state;
+        bkGuaranteePpArr02[name] = e.target.value;
+        this.setState({
+            bkGuaranteePpArr02
+        });
+    };
     // 贷款信息数组
+    iptLoanInfoPpTime = null;
     iptLoanInfoPp = (e, name) => {
         const {loanInfoArrIpt} = this.state;
         loanInfoArrIpt[name] = e.target.value;
         this.setState({
             loanInfoArrIpt
+        }, () => {
+            if(this.iptLoanInfoPpTime) {
+                clearTimeout(this.iptLoanInfoPpTime);
+            }
+            this.iptLoanInfoPpTime = setTimeout(() => {
+                if(name === 'loanAmount' || name === 'bankRate' || name === 'totalRate') {
+                    this.computedMonthly();
+                }
+            }, 500);
         });
     }
     // 费用结算数组
@@ -3000,7 +2920,18 @@ class preloanAccess extends React.Component {
         this.setState({
             carInfoArrIpt
         });
-    }
+    };
+    addGps = () => {
+        const {gpsAzList} = this.state;
+        gpsAzList.push({
+            code: '',
+            azPhotos: '',
+            fileListGPS: []
+        });
+        this.setState({
+            gpsAzList
+        });
+    };
     // 图片上传相关
     // 申请人 正
     handleCancelCardZ = () => this.setState({ previewVisible: false });
@@ -3304,6 +3235,34 @@ class preloanAccess extends React.Component {
             fileListJSZ: fileList
         });
     };
+    handleCancelCardGPS = () => this.setState({ previewVisibleGPS: false });
+    handlePreviewCardGPS = async file => {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+        this.setState({
+            previewImageGPS: file.url || file.preview,
+            previewVisibleGPS: true
+        });
+    };
+    handleChangeCardGPS = ({ fileList }) => {
+        const hash = fileList[0] ? fileList[0].response ? fileList[0].response.hash : '' : '';
+        const {gpsAzList} = this.state;
+        gpsAzList.forEach(item => {
+            if(item.azPhotos === '') {
+                item.azPhotos = hash;
+                item.fileListGPS = fileList;
+            }else if(item.azPhotos) {
+                if(item.azPhotos !== hash) {
+                    item.azPhotos = hash;
+                    item.fileListGPS = fileList;
+                }
+            }
+        });
+        this.setState({
+            gpsAzList
+        });
+    };
     // 结婚证
     handleCancelCardJHZ = () => this.setState({ previewVisibleJHZ: false });
     handlePreviewCardJHZ = async file => {
@@ -3382,38 +3341,6 @@ class preloanAccess extends React.Component {
     handleChangeCardHKBSY = ({ fileList }) => {
         this.setState({
             fileListHKBSY: fileList
-        });
-    };
-    // 户口本主页
-    handleCancelCardHKBZY = () => this.setState({ previewVisibleHKBZY: false });
-    handlePreviewCardHKBZY = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        this.setState({
-            previewImageHKBZY: file.url || file.preview,
-            previewVisibleHKBZY: true
-        });
-    };
-    handleChangeCardHKBZY = ({ fileList }) => {
-        this.setState({
-            fileListHKBZY: fileList
-        });
-    };
-    // 户口本本人页
-    handleCancelCardHKBRY = () => this.setState({ previewVisibleHKBRY: false });
-    handlePreviewCardHKBRY = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        this.setState({
-            previewImageHKBRY: file.url || file.preview,
-            previewVisibleHKBRY: true
-        });
-    };
-    handleChangeCardHKBRY = ({ fileList }) => {
-        this.setState({
-            fileListHKBRY: fileList
         });
     };
     // 房产证内容页
@@ -3654,166 +3581,6 @@ class preloanAccess extends React.Component {
             fileListCT: fileList
         });
     };
-    // 铭牌
-    handleCancelCardCMP = () => this.setState({ previewVisibleCMP: false });
-    handlePreviewCardCMP = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        this.setState({
-            previewImageCMP: file.url || file.preview,
-            previewVisibleCMP: true
-        });
-    };
-    handleChangeCardCMP = ({ fileList }) => {
-        this.setState({
-            fileListCMP: fileList
-        });
-    };
-    // VIN码
-    handleCancelCardVIN = () => this.setState({ previewVisibleVIN: false });
-    handlePreviewCardVIN = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        this.setState({
-            previewImageVIN: file.url || file.preview,
-            previewVisibleVIN: true
-        });
-    };
-    handleChangeCardVIN = ({ fileList }) => {
-        this.setState({
-            fileListVIN: fileList
-        });
-    };
-    // 仪表盘
-    handleCancelCardYBP = () => this.setState({ previewVisibleYBP: false });
-    handlePreviewCardYBP = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        this.setState({
-            previewImageYBP: file.url || file.preview,
-            previewVisibleYBP: true
-        });
-    };
-    handleChangeCardYBP = ({ fileList }) => {
-        this.setState({
-            fileListYBP: fileList
-        });
-    };
-    // 驾驶室
-    handleCancelCardJSS = () => this.setState({ previewVisibleJSS: false });
-    handlePreviewCardJSS = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        this.setState({
-            previewImageJSS: file.url || file.preview,
-            previewVisibleJSS: true
-        });
-    };
-    handleChangeCardJSS = ({ fileList }) => {
-        this.setState({
-            fileListJSS: fileList
-        });
-    };
-    // 发动机
-    handleCancelCardFDJ = () => this.setState({ previewVisibleFDJ: false });
-    handlePreviewCardFDJ = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        this.setState({
-            previewImageFDJ: file.url || file.preview,
-            previewVisibleFDJ: true
-        });
-    };
-    handleChangeCardFDJ = ({ fileList }) => {
-        this.setState({
-            fileListFDJ: fileList
-        });
-    };
-    // 中控
-    handleCancelCardZK = () => this.setState({ previewVisibleZK: false });
-    handlePreviewCardZK = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        this.setState({
-            previewImageZK: file.url || file.preview,
-            previewVisibleZK: true
-        });
-    };
-    handleChangeCardZK = ({ fileList }) => {
-        this.setState({
-            fileListZK: fileList
-        });
-    };
-    // 天窗
-    handleCancelCardTC = () => this.setState({ previewVisibleTC: false });
-    handlePreviewCardTC = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        this.setState({
-            previewImageTC: file.url || file.preview,
-            previewVisibleTC: true
-        });
-    };
-    handleChangeCardTC = ({ fileList }) => {
-        this.setState({
-            fileListTC: fileList
-        });
-    };
-    // 车后座
-    handleCancelCardHZC = () => this.setState({ previewVisibleHZC: false });
-    handlePreviewCardHZC = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        this.setState({
-            previewImageHZC: file.url || file.preview,
-            previewVisibleHZC: true
-        });
-    };
-    handleChangeCardHZC = ({ fileList }) => {
-        this.setState({
-            fileListHZC: fileList
-        });
-    };
-    // 车尾
-    handleCancelCardCW = () => this.setState({ previewVisibleCW: false });
-    handlePreviewCardCW = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        this.setState({
-            previewImageCW: file.url || file.preview,
-            previewVisibleCW: true
-        });
-    };
-    handleChangeCardCW = ({ fileList }) => {
-        this.setState({
-            fileListCW: fileList
-        });
-    };
-    // 车全身
-    handleCancelCardCQS = () => this.setState({ previewVisibleCQS: false });
-    handlePreviewCardCQS = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        this.setState({
-            previewImageCQS: file.url || file.preview,
-            previewVisibleCQS: true
-        });
-    };
-    handleChangeCardCQS = ({ fileList }) => {
-        this.setState({
-            fileListCQS: fileList
-        });
-    };
     // 车辆登记证书（首页）
     handleCancelCardDJZS = () => this.setState({ previewVisibleDJZS: false });
     handlePreviewCardDJZS = async file => {
@@ -3830,48 +3597,27 @@ class preloanAccess extends React.Component {
             fileListDJZS: fileList
         });
     };
-    // 车辆登记证书（二页）
-    handleCancelCardDJZS2 = () => this.setState({ previewVisibleDJZS2: false });
-    handlePreviewCardDJZS2 = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        this.setState({
-            previewImageDJZS2: file.url || file.preview,
-            previewVisibleDJZS2: true
+    handleChangeGPS = (v) => {
+        const {gpsAzList} = this.state;
+        gpsAzList.forEach(item => {
+            if(item.code !== v) {
+                item.code = v;
+            }
         });
-    };
-    handleChangeCardDJZS2 = ({ fileList }) => {
         this.setState({
-            fileListDJZS2: fileList
-        });
-    };
-    // 车辆登记证书（三页）
-    handleCancelCardDJZS3 = () => this.setState({ previewVisibleDJZS3: false });
-    handlePreviewCardDJZS3 = async file => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        this.setState({
-            previewImageDJZS3: file.url || file.preview,
-            previewVisibleDJZS3: true
-        });
-    };
-    handleChangeCardDJZS3 = ({ fileList }) => {
-        this.setState({
-            fileListDJZS3: fileList
+            gpsAzList
         });
     };
     // 返回
     toBack = () => {
         this.props.history.go(-1);
-    }
+    };
     handleChangeSearchZXJG1 = (value, event) => {
         this.setState({
             zxjgName1: event.props.children,
             zXjg1: value
         });
-    }
+    };
     handleChangeSearchZXJG2 = (value, event) => {
         this.setState({
             zxjgName2: event.props.children,
@@ -3895,14 +3641,53 @@ class preloanAccess extends React.Component {
             zxjgName302: event.props.children,
             zXjg302: value
         });
-    }
+    };
     // 业务发生地点
     handleChangeAddress = (value, event) => {
         this.setState({
-            ywfsdd: event.props.children,
             nowAddressCode: value
         });
-    }
+    };
+    handleChangeIptBaseInfoMainLoanPp = (value) => {
+        this.setState({
+            mainLoanPpIptArr: {
+                ...this.state.mainLoanPpIptArr,
+                position: value
+            }
+        });
+    };
+    handleChangeAltogetherPpIptArr = (value) => {
+        this.setState({
+            altogetherPpIptArr: {
+                ...this.state.altogetherPpIptArr,
+                position: value
+            }
+        });
+    };
+    handleChangeAltogetherPpIptArr02 = (value) => {
+        this.setState({
+            altogetherPpIptArr02: {
+                ...this.state.altogetherPpIptArr02,
+                position: value
+            }
+        });
+    };
+    handleChangeBkGuaranteePpArr = (value) => {
+        this.setState({
+            bkGuaranteePpArr: {
+                ...this.state.bkGuaranteePpArr,
+                position: value
+            }
+        });
+    };
+    handleChangeBkGuaranteePpArr02 = (value) => {
+        this.setState({
+            bkGuaranteePpArr02: {
+                ...this.state.bkGuaranteePpArr02,
+                position: value
+            }
+        });
+    };
     // 生成评估报告
     sendAssessment = () => {
         const {carCode, regDate, nowAddressCode} = this.state;
@@ -3926,9 +3711,15 @@ class preloanAccess extends React.Component {
             shopCarGarage: v,
             loanInfoArrIpt: {
                 ...this.state.loanInfoArrIpt,
-                rebateRate: rebateRate ? rebateRate * 100 : ''
+                rebateRate: rebateRate ? (Math.floor(rebateRate * 10e6) / 10e4).toFixed(4) : ''
             }
         });
+    };
+    hasMobileError = (mobile) => {
+        if(mobile && !(/^1[3456789]\d{9}$/.test(mobile))) {
+            return true;
+        }
+        return false;
     };
     render() {
         const {
@@ -3959,6 +3750,7 @@ class preloanAccess extends React.Component {
             // 贷款信息人
             // 贷款输入数组
             loanIptArr,
+            errorInfo,
             // 正身份证
             fileList1,
             previewVisible,
@@ -4029,8 +3821,12 @@ class preloanAccess extends React.Component {
             mainLoanPpIptArr,
             // 共还人输入数组
             altogetherPpIptArr,
+            // 共还人2输入数组
+            altogetherPpIptArr02,
             // 反担保人输入数组
             bkGuaranteePpArr,
+            // 反担保人02输入数组
+            bkGuaranteePpArr02,
             // 贷款信息输入数组
             loanInfoArrIpt,
             // 费用结算输入数组
@@ -4042,6 +3838,8 @@ class preloanAccess extends React.Component {
             fileListJSZ,
             previewVisibleJSZ,
             previewImageJSZ,
+            previewVisibleGPS,
+            previewImageGPS,
             // 贷款材料图
             // 结婚证
             fileListJHZ,
@@ -4068,16 +3866,6 @@ class preloanAccess extends React.Component {
             previewVisibleHKBSY,
             previewImageHKBSY,
             // 贷款材料图
-            // 户口本主页
-            fileListHKBZY,
-            previewVisibleHKBZY,
-            previewImageHKBZY,
-            // 贷款材料图
-            // 户口本本人页
-            fileListHKBRY,
-            previewVisibleHKBRY,
-            previewImageHKBRY,
-            // 贷款材料图
             // 房产证
             fileListFZZ,
             previewVisibleFZZ,
@@ -4092,31 +3880,6 @@ class preloanAccess extends React.Component {
             fileListYHS,
             previewVisibleYHS,
             previewImageYHS,
-            // 贷款材料图
-            // 银行流水结息一季度
-            fileListLS1,
-            previewVisibleLS1,
-            previewImageLS1,
-            // 贷款材料图
-            // 银行流水结息二季度
-            fileListLS2,
-            previewVisibleLS2,
-            previewImageLS2,
-            // 贷款材料图
-            // 银行流水结息三季度
-            fileListLS3,
-            previewVisibleLS3,
-            previewImageLS3,
-            // 贷款材料图
-            // 银行流水结息四季度
-            fileListLS4,
-            previewVisibleLS4,
-            previewImageLS4,
-            // 贷款材料图
-            // 银行流水末页
-            fileListLS5,
-            previewVisibleLS5,
-            previewImageLS5,
             // 贷款材料图
             // 支付宝流水
             fileListZFB,
@@ -4210,6 +3973,7 @@ class preloanAccess extends React.Component {
             permanentType,
             creditUserRelation,
             cityList,
+            workProfession,
             carUrl,
             modelName,
             // 修改选择框填充
@@ -4231,42 +3995,39 @@ class preloanAccess extends React.Component {
             // 与主贷关系
             yzdgx2,
             // 利率类型
-            lllx,
+            loanInfoRateTypeCode,
             // 是否垫资
             sfdz,
             // 是否贴息
             sftx,
             // 是否工牌
-            sfgp,
+            carInfoIsNotCommonCdCode,
             // 是否加装
-            sfjzgps,
+            carInfoIsNotGPSCode,
             // 经办银行
-            jbyh,
+            loanBankCode,
             // 业务发生地点
-            ywfsdd,
+            nowAddressCode,
             // 购车途径
-            gctj,
+            bizType,
             // 上牌时间
-            spsj,
+            regDate,
             // 品牌
-            pp,
+            brandCode,
             // 车系
-            cx1,
+            seriesCode,
             // 车型
-            cx2,
+            carCode,
             // 公里
             gl,
             loanPeriod,
             // 贷款期限
-            dkqx,
+            loanPeriodCode,
             // 汽车经销商
-            shopCarGarage
+            shopCarGarage,
+            gpsList,
+            gpsAzList
         } = this.state;
-        const props = {
-            action: UPLOAD_URL,
-            onChange: this.handleChangeUpload,
-            multiple: true
-        };
         const propsJF = {
             action: UPLOAD_URL,
             onChange: this.handleChangeUploadJF,
@@ -4302,7 +4063,7 @@ class preloanAccess extends React.Component {
                 <Row className="preLoan-body-row-top-one">
                     <Col span={12}>
                         <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>经办银行：</span>
-                        <Select className="preLoan-body-select" style={{width: '220px'}} value={jbyh} onChange={this.handleChangeBank}>
+                        <Select className="preLoan-body-select" style={{width: '220px'}} value={loanBankCode} onChange={this.handleChangeBank}>
                             {
                                 bankList.map(data => {
                                     return (
@@ -4315,7 +4076,7 @@ class preloanAccess extends React.Component {
                     </Col>
                     <Col span={12}>
                         <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>业务发生地点：</span>
-                        <Select style={{ width: '220px' }} value={ywfsdd} onChange={this.handleChangeAddress}>
+                        <Select style={{ width: '220px' }} value={nowAddressCode} onChange={this.handleChangeAddress}>
                             {
                                 cityList.map(item => {
                                     return (
@@ -4342,8 +4103,8 @@ class preloanAccess extends React.Component {
                     </Col>
                     <Col span={12}>
                         <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>购车途径：</span>
-                        <Select className="preLoan-body-select" style={{width: '220px'}} value={gctj} onChange={this.handleChangeCarBuying}>
-                            <Option value="0">新车</Option>
+                        <Select className="preLoan-body-select" style={{width: '220px'}} value={bizType} onChange={this.handleChangeCarBuying}>
+                            <Option key="2" value="0">新车</Option>
                             <Option value="1">二手车</Option>
                         </Select>
                     </Col>
@@ -4354,12 +4115,12 @@ class preloanAccess extends React.Component {
                             <Row className="preLoan-body-row-top">
                                 <Col span={12}>
                                     <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>上牌时间：</span>
-                                    <MonthPicker format={'YYYY-MM'} style={{width: '220px', float: 'left'}} defaultValue={moment(spsj === '' ? new Date() : spsj)} onChange={this.onChangeTime}/>
+                                    <MonthPicker format={'YYYY-MM'} style={{width: '220px', float: 'left'}} defaultValue={moment(regDate === '' ? new Date() : regDate)} onChange={this.onChangeTime}/>
                                     <div className="clear"></div>
                                 </Col>
                                 <Col span={12}>
                                     <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>品牌：</span>
-                                    <Select placeholder="请选择品牌" className="preLoan-body-select" style={{width: '220px'}} value={pp} onChange={this.handleChangeCarType1}>
+                                    <Select placeholder="请选择品牌" className="preLoan-body-select" style={{width: '220px'}} value={brandCode} onChange={this.handleChangeCarType1}>
                                         {
                                             brandList.map(data => {
                                                 return (
@@ -4374,7 +4135,7 @@ class preloanAccess extends React.Component {
                             <Row className="preLoan-body-row-top">
                                 <Col span={12}>
                                     <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>车系：</span>
-                                    <Select placeholder="请选择车系" value={cx1} className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCarType}>
+                                    <Select placeholder="请选择车系" value={seriesCode} className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCarType}>
                                         {
                                             carType.map(data => {
                                                 return (
@@ -4387,7 +4148,7 @@ class preloanAccess extends React.Component {
                                 </Col>
                                 <Col span={12}>
                                     <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>车型：</span>
-                                    <Select placeholder="请选择车型" value={cx2} className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCar3Type}>
+                                    <Select placeholder="请选择车型" value={carCode} className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCar3Type}>
                                         {
                                             carType3.map(data => {
                                                 return (
@@ -4472,11 +4233,11 @@ class preloanAccess extends React.Component {
                             isLoanPpInfo ? (
                                 <div>
                                     <Row>
-                                        <Col span={2} className={isMain ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'} onClick={value => this.getTag('main')}>主贷人信息</Col>
-                                        <Col span={2} className={isCommon ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'} style={{marginLeft: '20px'}} onClick={value => this.getTag('common')}>共还人1</Col>
-                                        <Col span={2} className={isCommon02 ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'} style={{marginLeft: '20px', display: isCommon02Vis ? '' : 'none'}} onClick={value => this.getTag('common02')}>共还人2</Col>
-                                        <Col span={4} className={isBack ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'} style={{marginLeft: '20px'}} onClick={value => this.getTag('back')}>反担保人1</Col>
-                                        <Col span={4} className={isBack02 ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'} style={{marginLeft: '20px', display: isBack02Vis ? '' : 'none'}} onClick={value => this.getTag('back02')}>反担保人2</Col>
+                                        <Col span={2} style={{cursor: 'pointer'}} className={isMain ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'} onClick={value => this.getTag('main')}>主贷人信息</Col>
+                                        <Col span={2} className={isCommon ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'} style={{marginLeft: '20px', cursor: 'pointer'}} onClick={value => this.getTag('common')}>共还人1</Col>
+                                        <Col span={2} className={isCommon02 ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'} style={{marginLeft: '20px', cursor: 'pointer', display: isCommon02Vis ? '' : 'none'}} onClick={value => this.getTag('common02')}>共还人2</Col>
+                                        <Col span={4} className={isBack ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'} style={{marginLeft: '20px', cursor: 'pointer'}} onClick={value => this.getTag('back')}>反担保人1</Col>
+                                        <Col span={4} className={isBack02 ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'} style={{marginLeft: '20px', cursor: 'pointer', display: isBack02Vis ? '' : 'none'}} onClick={value => this.getTag('back02')}>反担保人2</Col>
                                         <Col span={10}></Col>
                                     </Row>
                                     {
@@ -4552,13 +4313,19 @@ class preloanAccess extends React.Component {
                                                     <Col span={12}>户籍地：<Input style={{width: '50%'}} value={cardZ ? cardZ.birthAddress : ''} onChange={(e) => { this.changeUserName(e, 'birthAddress'); }}/></Col>
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
-                                                    <Col span={12}>有效截止日：{cardF ? cardF.startDate : ''} - {cardF ? cardF.statdate : ''}<span style={{color: '#F75151'}}>（有效期不能小于60天）</span></Col>
+                                                    <Col span={12}>有效截止日：
+                                                        <Input style={{width: '24%'}} value={cardF ? cardF.startDate : ''} onChange={(e) => { this.changeUserName(e, 'startDate'); }}/>
+                                                        -
+                                                        <Input style={{width: '24%'}} value={cardF ? cardF.statdate : ''} onChange={(e) => { this.changeUserName(e, 'statdate'); }}/>
+                                                        <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
+                                                    </Col>
                                                     <Col span={12}>身份证号：<Input style={{width: '50%'}} value={cardZ ? cardZ.idNo : ''} onChange={(e) => { this.changeUserName(e, 'idNo'); }}/></Col>
                                                 </Row>
                                                 <Row className="preLoan-body-row-top">
                                                     <Col span={12}>
                                                         <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>手机号：</span>
-                                                        <input type="text" value={loanIptArr.mobile} ref={input => this.mobileIpt = input} onChange={(e) => { this.iptLoanIptArr(e, 'mobile'); }} className="preLoan-body-input" />
+                                                        <input type="text" value={loanIptArr.mobile} onChange={(e) => { this.iptLoanIptArr(e, 'mobile'); }} className="preLoan-body-input" />
+                                                        <span style={{color: 'red', marginLeft: '10px', display: this.hasMobileError(loanIptArr.mobile) ? '' : 'none'}}>{errorInfo.mobile}</span>
                                                     </Col>
                                                     <Col span={12}>
                                                     </Col>
@@ -4669,7 +4436,12 @@ class preloanAccess extends React.Component {
                                                         </Col>
                                                     </Row>
                                                     <Row style={{marginTop: '16px'}}>
-                                                        <Col span={12}>有效截止日：{cardFTwo ? cardFTwo.startDate : ''} - {cardFTwo ? cardFTwo.statdate : ''}<span style={{color: '#F75151'}}>（有效期不能小于60天）</span></Col>
+                                                        <Col span={12}>有效截止日：
+                                                            <Input style={{width: '24%'}} value={cardFTwo ? cardFTwo.startDate : ''} onChange={(e) => { this.changeCardZTwo(e, 'startDate'); }}/>
+                                                            -
+                                                            <Input style={{width: '24%'}} value={cardFTwo ? cardFTwo.statdate : ''} onChange={(e) => { this.changeCardZTwo(e, 'statdate'); }}/>
+                                                            <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
+                                                        </Col>
                                                         <Col span={12}>身份证号：
                                                             <Input style={{width: '50%'}} value={cardZTwo ? cardZTwo.idNo : ''} onChange={(e) => { this.changeCardZTwo(e, 'idNo'); }}/>
                                                         </Col>
@@ -4677,7 +4449,8 @@ class preloanAccess extends React.Component {
                                                     <Row className="preLoan-body-row-top">
                                                         <Col span={12}>
                                                             <span className="preLoan-body-title" style={{width: '100px'}}>手机号：</span>
-                                                            <input type="text" value={loanIptArr.mobile2} ref={input => this.mobile2Ipt = input} onChange={(e) => { this.iptLoanIptArr(e, 'mobile2'); }} className="preLoan-body-input" />
+                                                            <input type="text" value={loanIptArr.mobile2} onChange={(e) => { this.iptLoanIptArr(e, 'mobile2'); }} className="preLoan-body-input" />
+                                                            <span style={{color: 'red', marginLeft: '10px', display: this.hasMobileError(loanIptArr.mobile2) ? '' : 'none'}}>{errorInfo.mobile}</span>
                                                         </Col>
                                                         <Col span={12}>
                                                         </Col>
@@ -4701,7 +4474,7 @@ class preloanAccess extends React.Component {
                                                         <Col span={4}>
                                                         </Col>
                                                     </Row>
-                                                    <Row className="preLoan-body-row-top" style={{display: isCommon02 ? 'none' : ''}}>
+                                                    <Row className="preLoan-body-row-top" style={{display: isCommon02Vis ? 'none' : ''}}>
                                                         <Col span={5} style={{cursor: 'pointer'}} onClick={this.addCommon}>
                                                             <span style={{
                                                                 display: 'inline-block',
@@ -4809,7 +4582,12 @@ class preloanAccess extends React.Component {
                                                         </Col>
                                                     </Row>
                                                     <Row style={{marginTop: '16px'}}>
-                                                        <Col span={12}>有效截止日：{cardFTwo02 ? cardFTwo02.startDate : ''} - {cardFTwo02 ? cardFTwo02.statdate : ''}<span style={{color: '#F75151'}}>（有效期不能小于60天）</span></Col>
+                                                        <Col span={12}>有效截止日：
+                                                            <Input style={{width: '24%'}} value={cardFTwo02 ? cardFTwo02.startDate : ''} onChange={(e) => { this.changeCardZTwo02(e, 'startDate'); }}/>
+                                                            -
+                                                            <Input style={{width: '24%'}} value={cardFTwo02 ? cardFTwo02.statdate : ''} onChange={(e) => { this.changeCardZTwo02(e, 'statdate'); }}/>
+                                                            <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
+                                                        </Col>
                                                         <Col span={12}>身份证号：
                                                             <Input style={{width: '50%'}} value={cardZTwo02 ? cardZTwo02.idNo : ''} onChange={(e) => { this.changeCardZTwo02(e, 'idNo'); }}/>
                                                         </Col>
@@ -4817,7 +4595,8 @@ class preloanAccess extends React.Component {
                                                     <Row className="preLoan-body-row-top">
                                                         <Col span={12}>
                                                             <span className="preLoan-body-title" style={{width: '100px'}}>手机号：</span>
-                                                            <input type="text" value={loanIptArr.mobile202} ref={input => this.mobile2Ipt = input} onChange={(e) => { this.iptLoanIptArr(e, 'mobile202'); }} className="preLoan-body-input" />
+                                                            <input type="text" value={loanIptArr.mobile202} onChange={(e) => { this.iptLoanIptArr(e, 'mobile202'); }} className="preLoan-body-input" />
+                                                            <span style={{color: 'red', marginLeft: '10px', display: this.hasMobileError(loanIptArr.mobile202) ? '' : 'none'}}>{errorInfo.mobile}</span>
                                                         </Col>
                                                         <Col span={12}>
                                                         </Col>
@@ -4930,15 +4709,21 @@ class preloanAccess extends React.Component {
                                                     </Col>
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
-                                                    <Col span={12}>有效截止日：{cardFThree ? cardFThree.startDate : ''} - {cardFThree ? cardFThree.statdate : ''}<span style={{color: '#F75151'}}>（有效期不能小于60天）</span></Col>
+                                                    <Col span={12}>有效截止日：
+                                                        <Input style={{width: '24%'}} value={cardFThree ? cardFThree.startDate : ''} onChange={(e) => { this.changeCardZThree(e, 'startDate'); }}/>
+                                                        -
+                                                        <Input style={{width: '24%'}} value={cardFThree ? cardFThree.statdate : ''} onChange={(e) => { this.changeCardZThree(e, 'statdate'); }}/>
+                                                        <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
+                                                    </Col>
                                                     <Col span={12}>身份证号：
                                                         <Input style={{width: '50%'}} value={cardZThree ? cardZThree.idNo : ''} onChange={(e) => { this.changeCardZThree(e, 'idNo'); }}/>
                                                     </Col>
                                                 </Row>
                                                 <Row className="preLoan-body-row-top">
-                                                    <Col span={12}>
+                                                    <Col span={12} style={{position: 'relative'}}>
                                                         <span className="preLoan-body-title" style={{width: '100px'}}>手机号：</span>
-                                                        <input type="text" value={loanIptArr.mobile3} ref={input => this.mobile3Ipt = input} onChange={(e) => { this.iptLoanIptArr(e, 'mobile3'); }} className="preLoan-body-input" />
+                                                        <input type="text" value={loanIptArr.mobile3} onChange={(e) => { this.iptLoanIptArr(e, 'mobile3'); }} className="preLoan-body-input" />
+                                                        <span style={{color: 'red', marginLeft: '10px', display: this.hasMobileError(loanIptArr.mobile3) ? '' : 'none'}}>{errorInfo.mobile}</span>
                                                     </Col>
                                                     <Col span={12}>
                                                     </Col>
@@ -4962,7 +4747,7 @@ class preloanAccess extends React.Component {
                                                     <Col span={4}>
                                                     </Col>
                                                 </Row>
-                                                <Row className="preLoan-body-row-top" style={{display: isBack02 ? 'none' : ''}}>
+                                                <Row className="preLoan-body-row-top" style={{display: isBack02Vis ? 'none' : ''}}>
                                                     <Col span={5} style={{cursor: 'pointer'}} onClick={this.addBack02}>
                                                             <span style={{
                                                                 display: 'inline-block',
@@ -5068,7 +4853,12 @@ class preloanAccess extends React.Component {
                                                     </Col>
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
-                                                    <Col span={12}>有效截止日：{cardFThree02 ? cardFThree02.startDate : ''} - {cardFThree02 ? cardFThree02.statdate : ''}<span style={{color: '#F75151'}}>（有效期不能小于60天）</span></Col>
+                                                    <Col span={12}>有效截止日：
+                                                        <Input style={{width: '24%'}} value={cardFThree02 ? cardFThree02.startDate : ''} onChange={(e) => { this.changeCardZThree02(e, 'startDate'); }}/>
+                                                        -
+                                                        <Input style={{width: '24%'}} value={cardFThree02 ? cardFThree02.statdate : ''} onChange={(e) => { this.changeCardZThree02(e, 'statdate'); }}/>
+                                                        <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
+                                                    </Col>
                                                     <Col span={12}>身份证号：
                                                         <Input style={{width: '50%'}} value={cardZThree02 ? cardZThree02.idNo : ''} onChange={(e) => { this.changeCardZThree02(e, 'idNo'); }}/>
                                                     </Col>
@@ -5076,7 +4866,8 @@ class preloanAccess extends React.Component {
                                                 <Row className="preLoan-body-row-top">
                                                     <Col span={12}>
                                                         <span className="preLoan-body-title" style={{width: '100px'}}>手机号：</span>
-                                                        <input type="text" value={loanIptArr.mobile302} ref={input => this.mobile3Ipt = input} onChange={(e) => { this.iptLoanIptArr(e, 'mobile302'); }} className="preLoan-body-input" />
+                                                        <input type="text" value={loanIptArr.mobile302} onChange={(e) => { this.iptLoanIptArr(e, 'mobile302'); }} className="preLoan-body-input" />
+                                                        <span style={{color: 'red', marginLeft: '10px', display: this.hasMobileError(loanIptArr.mobile302) ? '' : 'none'}}>{errorInfo.mobile}</span>
                                                     </Col>
                                                     <Col span={12}>
                                                     </Col>
@@ -5153,20 +4944,28 @@ class preloanAccess extends React.Component {
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">工作单位：</span>
-                                            <input type="text" value={mainLoanPpIptArr.companyName} ref={input => this.companyNameIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'companyName'); }} className="preLoan-body-input" />
+                                            <input type="text" value={mainLoanPpIptArr.companyName} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'companyName'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title">单位地址：</span>
-                                            <input type="text" value={mainLoanPpIptArr.companyAddress} ref={input => this.companyAddressIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'companyAddress'); }} className="preLoan-body-input" />
+                                            <input type="text" value={mainLoanPpIptArr.companyAddress} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'companyAddress'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">职业：</span>
-                                            <input type="text" value={mainLoanPpIptArr.position} ref={input => this.positionIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'position'); }} className="preLoan-body-input" />
+                                            <Select className="preLoan-body-select" style={{width: '220px'}} value={mainLoanPpIptArr.position} onChange={this.handleChangeIptBaseInfoMainLoanPp}>
+                                                {
+                                                    workProfession.map(data => {
+                                                        return (
+                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                        );
+                                                    })
+                                                }
+                                            </Select>
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title">年收入：</span>
+                                            <span className="preLoan-body-title">月收入：</span>
                                             <input type="text" value={mainLoanPpIptArr.yearIncome} ref={input => this.yearIncomeIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'yearIncome'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
@@ -5194,34 +4993,81 @@ class preloanAccess extends React.Component {
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">工作单位：</span>
-                                            <input type="text" value={altogetherPpIptArr.companyName} ref={input => this.aPACompanyNameIpt = input} onChange={(e) => { this.iptaltogetherPp(e, 'companyName'); }} className="preLoan-body-input" />
+                                            <input type="text" value={altogetherPpIptArr.companyName} onChange={(e) => { this.iptaltogetherPp(e, 'companyName'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title">职业：</span>
-                                            <input type="text" value={altogetherPpIptArr.position} ref={input => this.aPAPositionIpt = input} onChange={(e) => { this.iptaltogetherPp(e, 'position'); }} className="preLoan-body-input" />
+                                            <Select className="preLoan-body-select" style={{width: '220px'}} value={altogetherPpIptArr.position} onChange={this.handleChangeAltogetherPpIptArr}>
+                                                {
+                                                    workProfession.map(data => {
+                                                        return (
+                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                        );
+                                                    })
+                                                }
+                                            </Select>
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">现住地址：</span>
-                                            <input type="text" value={altogetherPpIptArr.nowAddress} ref={input => this.aPANowAddressIpt = input} onChange={(e) => { this.iptaltogetherPp(e, 'nowAddress'); }} className="preLoan-body-input" />
+                                            <input type="text" value={altogetherPpIptArr.nowAddress} onChange={(e) => { this.iptaltogetherPp(e, 'nowAddress'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title">单位地址：</span>
-                                            <input type="text" value={altogetherPpIptArr.companyAddress} ref={input => this.aPACompanyAddressIpt = input} onChange={(e) => { this.iptaltogetherPp(e, 'companyAddress'); }} className="preLoan-body-input" />
+                                            <input type="text" value={altogetherPpIptArr.companyAddress} onChange={(e) => { this.iptaltogetherPp(e, 'companyAddress'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
                                     <div className="preLoan-body-row-line"></div>
-                                    <span className="preLoan-body-tag">反担保人信息</span>
+                                    <span className="preLoan-body-tag">共还人2</span>
+                                    <div style={{marginTop: '24px'}}><span>姓名：{cardZTwo02 ? (cardZTwo02.userName === '' ? '暂无人员信息' : cardZTwo02.userName) : ''}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr ? (loanIptArr.mobile202 === '' ? '暂无手机号信息' : loanIptArr.mobile202) : ''}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZTwo02 ? (cardZTwo02.idNo === '' ? '暂无身份证号信息' : cardZTwo02.idNo) : ''}</span></div>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">工作单位：</span>
+                                            <input type="text" value={altogetherPpIptArr02.companyName} onChange={(e) => { this.iptaltogetherPp02(e, 'companyName'); }} className="preLoan-body-input" />
+                                        </Col>
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">职业：</span>
+                                            <Select className="preLoan-body-select" style={{width: '220px'}} value={altogetherPpIptArr02.position} onChange={this.handleChangeAltogetherPpIptArr02}>
+                                                {
+                                                    workProfession.map(data => {
+                                                        return (
+                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                        );
+                                                    })
+                                                }
+                                            </Select>
+                                        </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">现住地址：</span>
+                                            <input type="text" value={altogetherPpIptArr02.nowAddress} onChange={(e) => { this.iptaltogetherPp02(e, 'nowAddress'); }} className="preLoan-body-input" />
+                                        </Col>
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">单位地址：</span>
+                                            <input type="text" value={altogetherPpIptArr02.companyAddress} onChange={(e) => { this.iptaltogetherPp02(e, 'companyAddress'); }} className="preLoan-body-input" />
+                                        </Col>
+                                    </Row>
+                                    <div className="preLoan-body-row-line"></div>
+                                    <span className="preLoan-body-tag">反担保人1</span>
                                     <div style={{marginTop: '24px'}}><span>姓名：{cardZThree ? (cardZThree.userName === '' ? '暂无人员信息' : cardZThree.userName) : cardZThree}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr ? (loanIptArr.mobile3 === '' ? '暂无手机号信息' : loanIptArr.mobile3) : ''}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZThree ? (cardZThree.idNo === '' ? '暂无身份证号信息' : cardZThree.idNo) : ''}</span></div>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">工作单位：</span>
-                                            <input type="text" value={bkGuaranteePpArr.companyName} ref={input => this.bkGtPompanyNameIpt = input} onChange={(e) => { this.iptBkGtPp(e, 'companyName'); }} className="preLoan-body-input" />
+                                            <input type="text" value={bkGuaranteePpArr.companyName} onChange={(e) => { this.iptBkGtPp(e, 'companyName'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title">职业：</span>
-                                            <input type="text" value={bkGuaranteePpArr.position} ref={input => this.bkGtPositionIpt = input} onChange={(e) => { this.iptBkGtPp(e, 'position'); }} className="preLoan-body-input" />
+                                            <Select className="preLoan-body-select" style={{width: '220px'}} value={bkGuaranteePpArr.position} onChange={this.handleChangeBkGuaranteePpArr}>
+                                                {
+                                                    workProfession.map(data => {
+                                                        return (
+                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                        );
+                                                    })
+                                                }
+                                            </Select>
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
@@ -5232,6 +5078,37 @@ class preloanAccess extends React.Component {
                                         <Col span={12}>
                                             <span className="preLoan-body-title">单位地址：</span>
                                             <input type="text" value={bkGuaranteePpArr.companyAddress} ref={input => this.bkGtCompanyAddressIpt = input} onChange={(e) => { this.iptBkGtPp(e, 'companyAddress'); }} className="preLoan-body-input" />
+                                        </Col>
+                                    </Row>
+                                    <div className="preLoan-body-row-line"></div>
+                                    <span className="preLoan-body-tag">反担保人2</span>
+                                    <div style={{marginTop: '24px'}}><span>姓名：{cardZThree02 ? (cardZThree02.userName === '' ? '暂无人员信息' : cardZThree02.userName) : ''}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr ? (loanIptArr.mobile302 === '' ? '暂无手机号信息' : loanIptArr.mobile302) : ''}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZThree02 ? (cardZThree02.idNo === '' ? '暂无身份证号信息' : cardZThree02.idNo) : ''}</span></div>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">工作单位：</span>
+                                            <input type="text" value={bkGuaranteePpArr02.companyName} onChange={(e) => { this.iptBkGtPp02(e, 'companyName'); }} className="preLoan-body-input" />
+                                        </Col>
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">职业：</span>
+                                            <Select className="preLoan-body-select" style={{width: '220px'}} value={bkGuaranteePpArr02.position} onChange={this.handleChangeBkGuaranteePpArr02}>
+                                                {
+                                                    workProfession.map(data => {
+                                                        return (
+                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                        );
+                                                    })
+                                                }
+                                            </Select>
+                                        </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">现住地址：</span>
+                                            <input type="text" value={bkGuaranteePpArr02.nowAddress} onChange={(e) => { this.iptBkGtPp02(e, 'nowAddress'); }} className="preLoan-body-input" />
+                                        </Col>
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">单位地址：</span>
+                                            <input type="text" value={bkGuaranteePpArr02.companyAddress} onChange={(e) => { this.iptBkGtPp02(e, 'companyAddress'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
                                     <div className="preLoan-body-row-line"></div>
@@ -5257,7 +5134,8 @@ class preloanAccess extends React.Component {
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title"><span style={{color: 'red'}}>* </span>手机号：</span>
-                                            <input type="text" value={mainLoanPpIptArr.emergencyMobile1} ref={input => this.emergencyMobile1Ipt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'emergencyMobile1'); }} className="preLoan-body-input" />
+                                            <input type="text" value={mainLoanPpIptArr.emergencyMobile1} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'emergencyMobile1'); }} className="preLoan-body-input" />
+                                            <span style={{color: 'red', marginLeft: '10px', display: this.hasMobileError(mainLoanPpIptArr.emergencyMobile1) ? '' : 'none'}}>{errorInfo.mobile}</span>
                                         </Col>
                                         <Col span={12}>
                                         </Col>
@@ -5267,7 +5145,7 @@ class preloanAccess extends React.Component {
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title"><span style={{color: 'red'}}>* </span>姓名：</span>
-                                            <input type="text" value={mainLoanPpIptArr.emergencyName2} ref={input => this.emergencyName2Ipt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'emergencyName2'); }} className="preLoan-body-input" />
+                                            <input type="text" value={mainLoanPpIptArr.emergencyName2} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'emergencyName2'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>与主贷人关系：</span>
@@ -5285,7 +5163,8 @@ class preloanAccess extends React.Component {
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title"><span style={{color: 'red'}}>* </span>手机号：</span>
-                                            <input type="text" value={mainLoanPpIptArr.emergencyMobile2} ref={input => this.emergencyMobile2Ipt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'emergencyMobile2'); }} className="preLoan-body-input" />
+                                            <input type="text" value={mainLoanPpIptArr.emergencyMobile2} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'emergencyMobile2'); }} className="preLoan-body-input" />
+                                            <span style={{color: 'red', marginLeft: '10px', display: this.hasMobileError(mainLoanPpIptArr.emergencyMobile2) ? '' : 'none'}}>{errorInfo.mobile}</span>
                                         </Col>
                                         <Col span={12}>
                                         </Col>
@@ -5302,12 +5181,17 @@ class preloanAccess extends React.Component {
                                         <Col span={6}>
                                             <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>贷款本金：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.loanAmount} ref={input => this.loanAmountIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'loanAmount'); }} className="preLoan-body-input" />
+                                            <input
+                                                type="number"
+                                                value={loanInfoArrIpt.loanAmount}
+                                                onChange={(e) => { this.iptLoanInfoPp(e, 'loanAmount'); }}
+                                                className="preLoan-body-input"
+                                            />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>贷款期限：</span>
+                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>贷款期数：</span>
                                             <br />
-                                            <Select className="preLoan-body-select" value={dkqx} style={{width: '220px'}} onChange={this.handleChangeLoanPeriod}>
+                                            <Select className="preLoan-body-select" value={loanPeriodCode} style={{width: '220px'}} onChange={this.handleChangeLoanPeriod}>
                                                 {
                                                     loanPeriod.map(data => {
                                                         return (
@@ -5318,31 +5202,31 @@ class preloanAccess extends React.Component {
                                             </Select>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>银行利率：</span>
+                                            <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>银行利率(%)：</span>
                                             <br />
-                                            <input type="text" readonly="readonly" value={loanInfoArrIpt.bankRate} ref={input => this.totalRateIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'totalRate'); }} className="preLoan-body-input" />
+                                            <input type="number" readOnly="readonly" value={loanInfoArrIpt.bankRate} onChange={(e) => { this.iptLoanInfoPp(e, 'bankRate'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>总利率：</span>
+                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>总利率(%)：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.totalRate} ref={input => this.totalRateIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'totalRate'); }} className="preLoan-body-input" />
+                                            <input type="number" value={loanInfoArrIpt.totalRate} onChange={(e) => { this.iptLoanInfoPp(e, 'totalRate'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
                                             <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>返点利率(%)：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.rebateRate} ref={input => this.rebateRateIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'rebateRate'); }} className="preLoan-body-input" />
+                                            <input type="number" value={loanInfoArrIpt.rebateRate} onChange={(e) => { this.iptLoanInfoPp(e, 'rebateRate'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
                                             <span className="preLoan-body-title" style={{width: '100px'}}>服务费：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.fee} ref={input => this.feeIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'fee'); }} className="preLoan-body-input" />
+                                            <input type="number" value={loanInfoArrIpt.fee} onChange={(e) => { this.iptLoanInfoPp(e, 'fee'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
                                             <span className="preLoan-body-title">利率类型：</span>
                                             <br />
-                                            <Select className="preLoan-body-select" value={lllx} style={{width: '220px'}} onChange={this.handleChangeLoanInfoRateType}>
+                                            <Select className="preLoan-body-select" value={loanInfoRateTypeCode} style={{width: '220px'}} onChange={this.handleChangeLoanInfoRateType}>
                                                 <Option value="1">传统</Option>
                                                 <Option value="2">直客</Option>
                                             </Select>
@@ -5366,63 +5250,70 @@ class preloanAccess extends React.Component {
                                             </Select>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">贴息利率：</span>
+                                            <span className="preLoan-body-title">贴息利率(%)：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.discountRate} ref={input => this.discountRateIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'discountRate'); }} className="preLoan-body-input" />
+                                            <input type="number" value={loanInfoArrIpt.discountRate} onChange={(e) => { this.iptLoanInfoPp(e, 'discountRate'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
                                             <span className="preLoan-body-title">贴息金额：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.discountAmount} ref={input => this.discountAmountIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'discountAmount'); }} className="preLoan-body-input" />
+                                            <input type="number" value={loanInfoArrIpt.discountAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'discountAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
                                             <span className="preLoan-body-title">贷款成数：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.loanRatio} ref={input => this.loanRatioIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'loanRatio'); }} className="preLoan-body-input" />
+                                            <input type="number" value={loanInfoArrIpt.loanRatio} onChange={(e) => { this.iptLoanInfoPp(e, 'loanRatio'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
                                             <span className="preLoan-body-title">万元系数：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.wanFactor} ref={input => this.wanFactorIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'wanFactor'); }} className="preLoan-body-input" />
+                                            <input type="text" value={loanInfoArrIpt.wanFactor} onChange={(e) => { this.iptLoanInfoPp(e, 'wanFactor'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
                                             <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>月供：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.monthAmount} ref={input => this.monthAmountIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'monthAmount'); }} className="preLoan-body-input" />
+                                            <input type="number" value={loanInfoArrIpt.monthAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'monthAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
                                             <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>首月还款额：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.repayFirstMonthAmount} ref={input => this.firstRepayAmountIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'repayFirstMonthAmount'); }} className="preLoan-body-input" />
+                                            <input type="number" value={loanInfoArrIpt.repayFirstMonthAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'repayFirstMonthAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">高抛金额：</span>
+                                            <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>开卡金额：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.highCashAmount} ref={input => this.highCashAmountIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'highCashAmount'); }} className="preLoan-body-input" />
+                                            <input type="number" value={loanInfoArrIpt.openCardAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'openCardAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
+                                            <span className="preLoan-body-title">高抛金额：</span>
+                                            <br />
+                                            <input type="number" value={loanInfoArrIpt.highCashAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'highCashAmount'); }} className="preLoan-body-input" />
+                                        </Col>
+                                        <Col span={6}>
                                             <span className="preLoan-body-title">费用总额：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.totalFee} ref={input => this.totalFeeIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'totalFee'); }} className="preLoan-body-input" />
+                                            <input type="number" value={loanInfoArrIpt.totalFee} onChange={(e) => { this.iptLoanInfoPp(e, 'totalFee'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}>客户承担利率：</span>
+                                            <span className="preLoan-body-title" style={{width: '140px'}}>客户承担利率(%)：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.customerBearRate} ref={input => this.customerBearRateIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'customerBearRate'); }} className="preLoan-body-input" />
+                                            <input type="number" value={loanInfoArrIpt.customerBearRate} onChange={(e) => { this.iptLoanInfoPp(e, 'customerBearRate'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}>附加费费率：</span>
+                                            <span className="preLoan-body-title" style={{width: '120px'}}>附加费费率(%)：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.surchargeRate} ref={input => this.surchargeRateIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'surchargeRate'); }} className="preLoan-body-input" />
+                                            <input type="number" value={loanInfoArrIpt.surchargeRate} onChange={(e) => { this.iptLoanInfoPp(e, 'surchargeRate'); }} className="preLoan-body-input" />
                                         </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
                                         <Col span={6}>
                                             <span className="preLoan-body-title">附加费：</span>
                                             <br />
-                                            <input type="text" value={loanInfoArrIpt.surchargeAmount} ref={input => this.surchargeAmountIpt = input} onChange={(e) => { this.iptLoanInfoPp(e, 'surchargeAmount'); }} className="preLoan-body-input" />
+                                            <input type="number" value={loanInfoArrIpt.surchargeAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'surchargeAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
                                 </div>
@@ -5440,17 +5331,17 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={costSettlementInfoArrIpt.fxAmount} ref={input => this.fxAmountIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'fxAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>履约押金：</span>
+                                            <span className="preLoan-body-title" style={{width: '120px'}}>履约押金：</span>
                                             <br />
                                             <input type="text" value={costSettlementInfoArrIpt.lyDeposit} ref={input => this.lyDepositIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'lyDeposit'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
                                             <span className="preLoan-body-title">返点金额：</span>
                                             <br />
-                                            <input type="text" readonly="readonly" value={costSettlementInfoArrIpt.repointAmount} ref={input => this.repointAmountIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'repointAmount'); }} className="preLoan-body-input" />
+                                            <input type="text" readOnly="readonly" value={costSettlementInfoArrIpt.repointAmount} ref={input => this.repointAmountIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'repointAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">GPS费：</span>
+                                            <span className="preLoan-body-title"><span style={{color: 'red'}}>* </span>GPS费：</span>
                                             <br />
                                             <input type="text" value={costSettlementInfoArrIpt.gpsFee} ref={input => this.gpsFeeIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'gpsFee'); }} className="preLoan-body-input" />
                                         </Col>
@@ -5479,69 +5370,128 @@ class preloanAccess extends React.Component {
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">是否公牌：</span>
-                                            <Select className="preLoan-body-select" value={sfgp} style={{width: '220px'}} onChange={this.handleChangecarInfoIsNotCommonCd}>
+                                            <Select className="preLoan-body-select" value={carInfoIsNotCommonCdCode} style={{width: '220px'}} onChange={this.handleChangecarInfoIsNotCommonCd}>
                                                 <Option value="0">否</Option>
                                                 <Option value="1">是</Option>
                                             </Select>
                                         </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title">发动机号：</span>
-                                            <input type="text" value={carInfoArrIpt.carEngineNo} ref={input => this.carEngineNoIpt = input} onChange={(e) => { this.iptCarInfoArr(e, 'carEngineNo'); }} className="preLoan-body-input" />
+                                            <input type="text" value={carInfoArrIpt.carEngineNo} onChange={(e) => { this.iptCarInfoArr(e, 'carEngineNo'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">车辆型号：</span>
-                                            <input type="text" value={carInfoArrIpt.model} ref={input => this.modelIpt = input} onChange={(e) => { this.iptCarInfoArr(e, 'model'); }} className="preLoan-body-input" />
+                                            <input type="text" value={carInfoArrIpt.model} onChange={(e) => { this.iptCarInfoArr(e, 'model'); }} className="preLoan-body-input" />
+                                        </Col>
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">车辆价格：</span>
+                                            <input type="text" value={carInfoArrIpt.carPrice} onChange={(e) => { this.iptCarInfoArr(e, 'carPrice'); }} className="preLoan-body-input" />
+                                        </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">发票价格：</span>
+                                            <input type="text" value={carInfoArrIpt.invoicePrice} onChange={(e) => { this.iptCarInfoArr(e, 'invoicePrice'); }} className="preLoan-body-input" />
+                                        </Col>
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">车架号：</span>
+                                            <input type="text" value={carInfoArrIpt.carFrameNo} onChange={(e) => { this.iptCarInfoArr(e, 'carFrameNo'); }} className="preLoan-body-input" />
+                                        </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">车牌号：</span>
+                                            <input type="text" value={carInfoArrIpt.carNumber} onChange={(e) => { this.iptCarInfoArr(e, 'carNumber'); }} className="preLoan-body-input" />
+                                        </Col>
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">评估价格：</span>
+                                            <input type="text" value={carInfoArrIpt.evalPrice} onChange={(e) => { this.iptCarInfoArr(e, 'evalPrice'); }} className="preLoan-body-input" />
+                                        </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">上牌年份：</span>
+                                            <input type="text" value={carInfoArrIpt.regDate} onChange={(e) => { this.iptCarInfoArr(e, 'regDate'); }} className="preLoan-body-input" />
+                                        </Col>
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">上牌地：</span>
+                                            <input type="text" value={carInfoArrIpt.regAddress} onChange={(e) => { this.iptCarInfoArr(e, 'regAddress'); }} className="preLoan-body-input" />
+                                        </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">行驶里程：</span>
+                                            <input type="text" value={carInfoArrIpt.mile} onChange={(e) => { this.iptCarInfoArr(e, 'mile'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title" style={{width: '100px'}}>是否加装GPS：</span>
-                                            <Select className="preLoan-body-select" value={sfjzgps} style={{width: '220px'}} onChange={this.handleChangecarInfoIsNotGPS}>
+                                            <Select className="preLoan-body-select" value={carInfoIsNotGPSCode} style={{width: '220px'}} onChange={this.handleChangecarInfoIsNotGPS}>
                                                 <Option value="0">否</Option>
                                                 <Option value="1">是</Option>
                                             </Select>
                                         </Col>
                                     </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">车辆价格：</span>
-                                            <input type="text" value={carInfoArrIpt.carPrice} ref={input => this.carPriceIpt = input} onChange={(e) => { this.iptCarInfoArr(e, 'carPrice'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">发票价格：</span>
-                                            <input type="text" value={carInfoArrIpt.invoicePrice} ref={input => this.invoicePriceIpt = input} onChange={(e) => { this.iptCarInfoArr(e, 'invoicePrice'); }} className="preLoan-body-input" />
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">车架号：</span>
-                                            <input type="text" value={carInfoArrIpt.carFrameNo} ref={input => this.carFrameNoIpt = input} onChange={(e) => { this.iptCarInfoArr(e, 'carFrameNo'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">车牌号：</span>
-                                            <input type="text" value={carInfoArrIpt.carNumber} ref={input => this.numberIpt = input} onChange={(e) => { this.iptCarInfoArr(e, 'carNumber'); }} className="preLoan-body-input" />
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">评估价格：</span>
-                                            <input type="text" value={carInfoArrIpt.evalPrice} ref={input => this.evalPriceIpt = input} onChange={(e) => { this.iptCarInfoArr(e, 'evalPrice'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">上牌年份：</span>
-                                            <input type="text" value={carInfoArrIpt.regDate} ref={input => this.regDateIpt = input} onChange={(e) => { this.iptCarInfoArr(e, 'regDate'); }} className="preLoan-body-input" />
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">上牌地：</span>
-                                            <input type="text" value={carInfoArrIpt.regAddress} ref={input => this.regAddressIpt = input} onChange={(e) => { this.iptCarInfoArr(e, 'regAddress'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">行驶里程：</span>
-                                            <input type="text" value={carInfoArrIpt.mile} ref={input => this.carInfoMileIpt = input} onChange={(e) => { this.iptCarInfoArr(e, 'mile'); }} className="preLoan-body-input" />
-                                        </Col>
-                                    </Row>
+                                    {
+                                        gpsAzList.map((gpsItem, index) => (
+                                            <Row className="preLoan-body-row-top" style={{marginBottom: '30px', 'position': 'relative'}} key={`gps_${index}`}>
+                                                <Col span={12}>
+                                                    <span className="preLoan-body-title">GPS：</span>
+                                                    <Select
+                                                        className="preLoan-body-select"
+                                                        value={gpsItem.code} style={{width: '220px'}}
+                                                        onChange={
+                                                            (ev) => {
+                                                                this.handleChangeGPS(ev);
+                                                            }
+                                                        }
+                                                    >
+                                                        {
+                                                            gpsList.map(item => (
+                                                                <Option key={item.dkey} value={item.dkey}>{item.dvalue}</Option>
+                                                            ))
+                                                        }
+                                                    </Select>
+                                                </Col>
+                                                <Col span={12} style={{display: 'flex'}}>
+                                                    <span className="preLoan-body-title" style={{width: '100px'}}>GPS图片：</span>
+                                                    <div className="preLoan-body-table-content-tab-card">
+                                                        <Upload
+                                                            style={{height: '113px'}}
+                                                            listType="picture-card"
+                                                            data={{token: uploadToken}}
+                                                            fileList={gpsItem.fileListGPS}
+                                                            action={UPLOAD_URL}
+                                                            onPreview={this.handlePreviewCardGPS}
+                                                            onChange={this.handleChangeCardGPS}
+                                                        >
+                                                            {gpsItem.fileListGPS.length >= 1 ? null : uploadButton}
+                                                        </Upload>
+                                                        <Modal visible={previewVisibleGPS} footer={null} onCancel={this.handleCancelCardGPS}>
+                                                            <img alt="example" style={{ width: '100%' }} src={previewImageGPS} />
+                                                        </Modal>
+                                                    </div>
+                                                </Col>
+                                                <div style={{cursor: 'pointer', position: 'absolute', bottom: '0', display: (gpsAzList.length === index + 1) ? '' : 'none'}} onClick={this.addGps}>
+                                            <span style={{
+                                                display: 'inline-block',
+                                                height: '20px',
+                                                width: '20px',
+                                                textAlign: 'center',
+                                                lineHeight: '16px',
+                                                marginRight: '5px',
+                                                borderRadius: '100%',
+                                                'backgroundColor': '#42b983',
+                                                'color': '#fff',
+                                                fontSize: '24px',
+                                                fontWeight: 600
+                                            }}>+</span>
+                                                    <span>添加共还人</span>
+                                                </div>
+                                            </Row>
+                                        ))
+                                    }
                                 </div>
                             ) : null
                         }
@@ -5661,62 +5611,22 @@ class preloanAccess extends React.Component {
                                     <div className="preLoan-body-row-line"></div>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
-                                            <span>户口本首页</span>
+                                            <span>居住证</span>
                                             <br />
                                             <div className="preLoan-body-table-content-tab-card">
                                                 <Upload
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListHKBSY}
+                                                    fileList={fileListJZZ}
                                                     action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardHKBSY}
-                                                    onChange={this.handleChangeCardHKBSY}
+                                                    onPreview={this.handlePreviewCardJZZ}
+                                                    onChange={this.handleChangeCardJZZ}
                                                 >
-                                                    {fileListHKBSY.length >= 1 ? null : uploadButton}
+                                                    {fileListJZZ.length >= 1 ? null : uploadButton}
                                                 </Upload>
-                                                <Modal visible={previewVisibleHKBSY} footer={null} onCancel={this.handleCancelCardHKBSY}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageHKBSY} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span>户口本主页</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListHKBZY}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardHKBZY}
-                                                    onChange={this.handleChangeCardHKBZY}
-                                                >
-                                                    {fileListHKBZY.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleHKBZY} footer={null} onCancel={this.handleCancelCardHKBZY}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageHKBZY} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span>户口本本人页</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListHKBRY}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardHKBRY}
-                                                    onChange={this.handleChangeCardHKBRY}
-                                                >
-                                                    {fileListHKBRY.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleHKBRY} footer={null} onCancel={this.handleCancelCardHKBRY}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageHKBRY} />
+                                                <Modal visible={previewVisibleJZZ} footer={null} onCancel={this.handleCancelCardJZZ}>
+                                                    <img alt="example" style={{ width: '100%' }} src={previewImageJZZ} />
                                                 </Modal>
                                             </div>
                                         </Col>
@@ -5742,189 +5652,93 @@ class preloanAccess extends React.Component {
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
-                                        <Col span={6}>
-                                            <span>居住证</span>
+                                        <Col span={24}>
+                                            <span>户口本(多选)</span>
                                             <br />
-                                            <div className="preLoan-body-table-content-tab-card">
+                                            <div className="preLoan-body-table-content-tab-card" style={{display: 'inline'}}>
                                                 <Upload
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListJZZ}
+                                                    fileList={fileListHKBSY}
                                                     action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardJZZ}
-                                                    onChange={this.handleChangeCardJZZ}
+                                                    multiple={true}
+                                                    onPreview={this.handlePreviewCardHKBSY}
+                                                    onChange={this.handleChangeCardHKBSY}
                                                 >
-                                                    {fileListJZZ.length >= 1 ? null : uploadButton}
+                                                    { (fileListHKBSY.length > 0 && fileListHKBSY[0].uid === '-2') ? null : uploadButton }
                                                 </Upload>
-                                                <Modal visible={previewVisibleJZZ} footer={null} onCancel={this.handleCancelCardJZZ}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageJZZ} />
+                                                <Modal visible={previewVisibleHKBSY} footer={null} onCancel={this.handleCancelCardHKBSY}>
+                                                    <img alt="example" style={{ width: '100%' }} src={previewImageHKBSY} />
                                                 </Modal>
                                             </div>
                                         </Col>
-                                        <Col span={6}></Col>
-                                        <Col span={6}></Col>
-                                        <Col span={6}></Col>
                                     </Row>
                                     <div className="preLoan-body-row-line"></div>
                                     <Row className="preLoan-body-row-top">
-                                        <Col span={6}>
-                                            <span>银行流水首页</span>
+                                        <Col span={24}>
+                                            <span>银行流水(多选)</span>
                                             <br />
-                                            <div className="preLoan-body-table-content-tab-card">
+                                            <div className="preLoan-body-table-content-tab-card" style={{display: 'inline'}}>
                                                 <Upload
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
                                                     fileList={fileListYHS}
                                                     action={UPLOAD_URL}
+                                                    multiple={true}
                                                     onPreview={this.handlePreviewCardYHS}
                                                     onChange={this.handleChangeCardYHS}
                                                 >
-                                                    {fileListYHS.length >= 1 ? null : uploadButton}
+                                                    {fileListYHS.length >= 1 && fileListYHS[0].uid === 'yhs-2' ? null : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleYHS} footer={null} onCancel={this.handleCancelCardYHS}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageYHS} />
                                                 </Modal>
                                             </div>
                                         </Col>
-                                        <Col span={6}>
-                                            <span>银行流水结息一季度</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListLS1}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardLS1}
-                                                    onChange={this.handleChangeCardLS1}
-                                                >
-                                                    {fileListLS1.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleLS1} footer={null} onCancel={this.handleCancelCardLS1}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageLS1} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span>银行流水结息二季度</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListLS2}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardLS2}
-                                                    onChange={this.handleChangeCardLS2}
-                                                >
-                                                    {fileListLS2.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleLS2} footer={null} onCancel={this.handleCancelCardLS2}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageLS2} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span>银行流水结息三季度</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListLS3}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardLS3}
-                                                    onChange={this.handleChangeCardLS3}
-                                                >
-                                                    {fileListLS3.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleLS3} footer={null} onCancel={this.handleCancelCardLS3}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageLS3} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
                                     </Row>
                                     <div className="preLoan-body-row-line"></div>
                                     <Row className="preLoan-body-row-top">
-                                        <Col span={6}>
-                                            <span>银行流水结息四季度</span>
+                                        <Col span={24}>
+                                            <span>支付宝流水(多选)</span>
                                             <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListLS4}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardLS4}
-                                                    onChange={this.handleChangeCardLS4}
-                                                >
-                                                    {fileListLS4.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleLS4} footer={null} onCancel={this.handleCancelCardLS4}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageLS4} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span>银行流水末页</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListLS5}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardLS5}
-                                                    onChange={this.handleChangeCardLS5}
-                                                >
-                                                    {fileListLS5.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleLS5} footer={null} onCancel={this.handleCancelCardLS5}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageLS5} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span>支付宝流水</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
+                                            <div className="preLoan-body-table-content-tab-card" style={{display: 'inline'}}>
                                                 <Upload
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
                                                     fileList={fileListZFB}
+                                                    multiple={true}
                                                     action={UPLOAD_URL}
                                                     onPreview={this.handlePreviewCardZFB}
                                                     onChange={this.handleChangeCardZFB}
                                                 >
-                                                    {fileListZFB.length >= 1 ? null : uploadButton}
+                                                    {(fileListZFB.length >= 1 && fileListZFB[0].uid === 'zfb-2') ? null : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleZFB} footer={null} onCancel={this.handleCancelCardZFB}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageZFB} />
                                                 </Modal>
                                             </div>
                                         </Col>
-                                        <Col span={6}>
-                                            <span>微信流水</span>
+                                    </Row>
+                                    <div className="preLoan-body-row-line"></div>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={24}>
+                                            <span>微信流水(多选)</span>
                                             <br />
-                                            <div className="preLoan-body-table-content-tab-card">
+                                            <div className="preLoan-body-table-content-tab-card" style={{display: 'inline'}}>
                                                 <Upload
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
                                                     fileList={fileListWX}
+                                                    multiple={true}
                                                     action={UPLOAD_URL}
                                                     onPreview={this.handlePreviewCardWX}
                                                     onChange={this.handleChangeCardWX}
                                                 >
-                                                    {fileListWX.length >= 1 ? null : uploadButton}
+                                                    {(fileListWX.length > 0 && fileListWX[0].uid === 'wx-2') ? null : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleWX} footer={null} onCancel={this.handleCancelCardWX}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageWX} />
@@ -5934,20 +5748,21 @@ class preloanAccess extends React.Component {
                                     </Row>
                                     <div className="preLoan-body-row-line"></div>
                                     <Row className="preLoan-body-row-top">
-                                        <Col span={6}>
-                                            <span>其他</span>
+                                        <Col span={24}>
+                                            <span>其他(多选)</span>
                                             <br />
-                                            <div className="preLoan-body-table-content-tab-card">
+                                            <div className="preLoan-body-table-content-tab-card" style={{display: 'inline'}}>
                                                 <Upload
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
                                                     fileList={fileListQT}
                                                     action={UPLOAD_URL}
+                                                    multiple={true}
                                                     onPreview={this.handlePreviewCardQT}
                                                     onChange={this.handleChangeCardQT}
                                                 >
-                                                    {fileListQT.length >= 1 ? null : uploadButton}
+                                                    {(fileListQT.length > 0 && fileListQT[0].uid === 'qt-2') ? null : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleQT} footer={null} onCancel={this.handleCancelCardQT}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageQT} />
@@ -6039,297 +5854,51 @@ class preloanAccess extends React.Component {
                         {
                             isCarImg ? (
                                 <div>
-                                    <span className="preLoan-body-tag">车辆图</span>
+                                    <span className="preLoan-body-tag">车辆图(多选)</span>
                                     <Row className="preLoan-body-row-top">
-                                        <Col span={6}>
-                                            <span>车头</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
+                                        <Col span={24}>
+                                            <div className="preLoan-body-table-content-tab-card" style={{display: 'inline'}}>
                                                 <Upload
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
                                                     fileList={fileListCT}
                                                     action={UPLOAD_URL}
+                                                    multiple={true}
                                                     onPreview={this.handlePreviewCardCT}
                                                     onChange={this.handleChangeCardCT}
                                                 >
-                                                    {fileListCT.length >= 1 ? null : uploadButton}
+                                                    {(fileListCT.length >= 1 && fileListCT[0].uid === 'ct-2') ? null : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleCT} footer={null} onCancel={this.handleCancelCardCT}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageCT} />
                                                 </Modal>
                                             </div>
                                         </Col>
-                                        <Col span={6}>
-                                            <span>铭牌</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListCMP}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardCMP}
-                                                    onChange={this.handleChangeCardCMP}
-                                                >
-                                                    {fileListCMP.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleCMP} footer={null} onCancel={this.handleCancelCardCMP}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageCMP} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span>VIN码</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListVIN}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardVIN}
-                                                    onChange={this.handleChangeCardVIN}
-                                                >
-                                                    {fileListVIN.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleVIN} footer={null} onCancel={this.handleCancelCardVIN}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageVIN} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span>仪表盘</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListYBP}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardYBP}
-                                                    onChange={this.handleChangeCardYBP}
-                                                >
-                                                    {fileListYBP.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleYBP} footer={null} onCancel={this.handleCancelCardYBP}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageYBP} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={6}>
-                                            <span>驾驶室</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListJSS}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardJSS}
-                                                    onChange={this.handleChangeCardJSS}
-                                                >
-                                                    {fileListJSS.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleJSS} footer={null} onCancel={this.handleCancelCardJSS}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageJSS} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span>发动机</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListFDJ}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardFDJ}
-                                                    onChange={this.handleChangeCardFDJ}
-                                                >
-                                                    {fileListFDJ.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleFDJ} footer={null} onCancel={this.handleCancelCardFDJ}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageFDJ} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span>中控</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListZK}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardZK}
-                                                    onChange={this.handleChangeCardZK}
-                                                >
-                                                    {fileListZK.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleZK} footer={null} onCancel={this.handleCancelCardZK}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageZK} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span>天窗</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListTC}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardTC}
-                                                    onChange={this.handleChangeCardTC}
-                                                >
-                                                    {fileListTC.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleTC} footer={null} onCancel={this.handleCancelCardTC}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageTC} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={6}>
-                                            <span>车后座</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListHZC}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardHZC}
-                                                    onChange={this.handleChangeCardHZC}
-                                                >
-                                                    {fileListHZC.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleHZC} footer={null} onCancel={this.handleCancelCardHZC}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageHZC} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span>车尾</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListCW}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardCW}
-                                                    onChange={this.handleChangeCardCW}
-                                                >
-                                                    {fileListCW.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleCW} footer={null} onCancel={this.handleCancelCardCW}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageCW} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span>车全身</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListCQS}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardCQS}
-                                                    onChange={this.handleChangeCardCQS}
-                                                >
-                                                    {fileListCQS.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleCQS} footer={null} onCancel={this.handleCancelCardCQS}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageCQS} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}></Col>
                                     </Row>
                                     <div className="preLoan-body-row-line"></div>
                                     <Row className="preLoan-body-row-top">
-                                        <Col span={6}>
-                                            <span>车辆登记证书（首页）</span>
+                                        <Col span={24}>
+                                            <span>车辆登记证书(多选)</span>
                                             <br />
-                                            <div className="preLoan-body-table-content-tab-card">
+                                            <div className="preLoan-body-table-content-tab-card" style={{display: 'inline'}}>
                                                 <Upload
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
                                                     fileList={fileListDJZS}
                                                     action={UPLOAD_URL}
+                                                    multiple={true}
                                                     onPreview={this.handlePreviewCardDJZS}
                                                     onChange={this.handleChangeCardDJZS}
                                                 >
-                                                    {fileListDJZS.length >= 1 ? null : uploadButton}
+                                                    {(fileListDJZS.length >= 1 && fileListDJZS[0].uid === 'djzs-2') ? null : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleDJZS} footer={null} onCancel={this.handleCancelCardDJZS}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageDJZS} />
                                                 </Modal>
                                             </div>
                                         </Col>
-                                        <Col span={6}>
-                                            <span>车辆登记证书（二页）</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListDJZS2}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardDJZS2}
-                                                    onChange={this.handleChangeCardDJZS2}
-                                                >
-                                                    {fileListDJZS2.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleDJZS2} footer={null} onCancel={this.handleCancelCardDJZS2}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageDJZS2} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span>车辆登记证书（三页）</span>
-                                            <br />
-                                            <div className="preLoan-body-table-content-tab-card">
-                                                <Upload
-                                                    style={{height: '113px'}}
-                                                    listType="picture-card"
-                                                    data={{token: uploadToken}}
-                                                    fileList={fileListDJZS3}
-                                                    action={UPLOAD_URL}
-                                                    onPreview={this.handlePreviewCardDJZS3}
-                                                    onChange={this.handleChangeCardDJZS3}
-                                                >
-                                                    {fileListDJZS3.length >= 1 ? null : uploadButton}
-                                                </Upload>
-                                                <Modal visible={previewVisibleDJZS3} footer={null} onCancel={this.handleCancelCardDJZS3}>
-                                                    <img alt="example" style={{ width: '100%' }} src={previewImageDJZS3} />
-                                                </Modal>
-                                            </div>
-                                        </Col>
-                                        <Col span={6}></Col>
                                     </Row>
                                 </div>
                             ) : null

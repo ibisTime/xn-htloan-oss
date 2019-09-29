@@ -338,6 +338,9 @@ import {postloantoolsApplyGpsCheck} from './redux/postloantools/applyGps-check';
 import {postloantoolsManageGps} from './redux/postloantools/manageGps';
 import {postloantoolsManageGpsAddedit} from './redux/postloantools/manageGps-addedit';
 
+import {postloantoolsImportContract} from './redux/postloantools/importContract';
+import {postloantoolsImportContractImport} from './redux/postloantools/importContract-import';
+
 //  导入逾期名单 + 详情 + 导入 + 处理
 import {postloantoolsImport} from './redux/postloantools/import';
 import {postloantoolsImportAddedit} from './redux/postloantools/import-addedit';
@@ -633,6 +636,8 @@ import { printingRelieveMake } from './redux/printing/relieve-make';
 import { rationale } from './redux/rationale/rationale';
 import {lala} from './redux/circulationLog/lala';
 
+import {openBankLoanEnterBankInfo} from './redux/openBankLoan/enterBankInfo';
+
 export default combineReducers({
     accessorypool,
     user,
@@ -828,6 +833,8 @@ export default combineReducers({
     postloantoolsImportAddedit,
     postloantoolsImportImport,
     postloantoolsImportDispose,
+    postloantoolsImportContract,
+    postloantoolsImportContractImport,
     mortgages,
     mortgagesAddEdit,
     mortgagesRelieve,
@@ -1005,5 +1012,6 @@ export default combineReducers({
     wdywAddedit,
     bizTdunzhengxing,
     rationale,
-    lala
+    lala,
+    openBankLoanEnterBankInfo
 });

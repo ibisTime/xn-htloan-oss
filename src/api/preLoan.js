@@ -263,3 +263,27 @@ export function fileCtList(start, limit) {
 export function showButton(params) {
     return fetch(630025, {...params});
 }
+
+// 计算月供
+export function calculateMonthly(params) {
+    return fetch(632541, params);
+}
+
+// 安装GPS
+export function installationGps(params) {
+    return fetch(632126, params);
+}
+
+// 获取GPS
+export function getGps() {
+    return fetch(632707, {
+        applyStatus: '1',
+        applyUser: getUserId(),
+        useStatus: '0'
+    });
+}
+
+// 查询GPS
+export function queryGps(code) {
+    return fetch(632542, {code});
+}

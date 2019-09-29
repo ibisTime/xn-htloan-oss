@@ -240,6 +240,7 @@ export default class ListComponent extends React.Component {
       selectedRowKeys,
       selectedRows
     });
+    this.options.rowKeysFn && this.options.rowKeysFn(selectedRowKeys, selectedRows);
   }
   handleReset = () => {
     this.props.form.resetFields();

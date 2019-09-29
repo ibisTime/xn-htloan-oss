@@ -13,6 +13,7 @@ import {
 } from '../../api/preLoan.js';
 import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
 import {Row, Col} from 'antd';
+import CarouselComponent from 'component/CarouselComponent/CarouselComponent';
 import './preloanAccessDetail.css';
 import './preloanAccess.css';
 import zanwu from './zanwu.png';
@@ -25,7 +26,9 @@ class preloanAccessDetail extends React.Component {
             // 贷款人信息Tab状态
             isMain: true,
             isCommon: false,
+            isCommon02: false,
             isBack: false,
+            isBack02: false,
             // 征信人列表
             creditUserList1: {},
             creditUserList2: {},
@@ -43,10 +46,40 @@ class preloanAccessDetail extends React.Component {
             // 费用结算
             costSettlement: {},
             rmkText: '',
-            cityList: []
+            cityList: [],
+            hkBookFirstPage: [],
+            bankJourFirstPage: [],
+            zfbJour: [],
+            wxJour: [],
+            otherPdf: [],
+            carHead: [],
+            carRegisterCertificateFirst: [],
+            visibleCarouse: false,
+            carousePic: ''
         };
     }
-    componentDidMount(): void {
+    dealWithPic = (fileListPic, type = '') => {
+        let fileList = [];
+        if (fileListPic === '') {
+            fileList.push({
+                url: zanwu
+            });
+        } else if (fileListPic.indexOf('||') !== -1) {
+            const picList = fileListPic.split('||');
+            picList.forEach((item) => {
+                fileList.push({
+                    url: PIC_PREFIX + item,
+                    dkey: item
+                });
+            });
+        } else {
+            fileList.push({
+                url: PIC_PREFIX + fileListPic
+            });
+        }
+        return fileList;
+    };
+    componentDidMount() {
         getCityList(1, 1000).then(async data => {
             let arr = [];
             for (let i = 0; i < data.list.length; i++) {
@@ -60,10 +93,24 @@ class preloanAccessDetail extends React.Component {
             });
         });
         accessSlipDetail(this.code).then(data => {
+            const card = data.creditUserList.filter(item => item.loanRole === '1');
+            const cardZTwo01 = data.creditUserList.filter(item => item.loanRole === '2');
+            const cardZTwo02 = data.creditUserList.filter(item => item.loanRole === '5');
+            const cardZThree01 = data.creditUserList.filter(item => item.loanRole === '3');
+            const cardZThree02 = data.creditUserList.filter(item => item.loanRole === '4');
+            const hkBookFirstPage = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'hk_book_first_page'), 'hk');
+            const bankJourFirstPage = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'bank_jour_first_page'), 'bj');
+            const zfbJour = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'zfb_jour'), 'zfb');
+            const wxJour = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'wx_jour'), 'wx');
+            const otherPdf = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'other_pdf'), 'other');
+            const carHead = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'car_head'), 'ch');
+            const carRegisterCertificateFirst = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'car_register_certificate_first'), 'crc');
             this.setState({
-                creditUserList1: data.creditUserList[0],
-                creditUserList2: data.creditUserList[1],
-                creditUserList3: data.creditUserList[2],
+                creditUserList1: card.length > 0 ? card[0] : {},
+                creditUserList2: cardZTwo01.length > 0 ? cardZTwo01[0] : {},
+                creditUserList202: cardZTwo02.length > 0 ? cardZTwo02[0] : {},
+                creditUserList3: cardZThree01.length > 0 ? cardZThree01[0] : {},
+                creditUserList302: cardZThree02.length > 0 ? cardZThree02[0] : {},
                 bankLoan: data.bankLoan,
                 carInfo: data.carInfo,
                 headInfo: {
@@ -82,42 +129,79 @@ class preloanAccessDetail extends React.Component {
                     repointAmount: data.repointAmount,
                     gpsFee: data.gpsFee,
                     otherFee: data.otherFee
-                }
+                },
+                hkBookFirstPage,
+                bankJourFirstPage,
+                zfbJour,
+                wxJour,
+                otherPdf,
+                carHead,
+                carRegisterCertificateFirst
             });
         });
     }
 
     // 贷款人信息Tab效果
     getTag = (value) => {
-        if(value === 'main') {
+        if (value === 'main') {
             this.setState({
                 isMain: true,
                 isCommon: false,
-                isBack: false
+                isCommon02: false,
+                isBack: false,
+                isBack02: false
             });
-        }else if(value === 'common') {
+        } else if (value === 'common') {
             this.setState({
                 isMain: false,
                 isCommon: true,
-                isBack: false
+                isCommon02: false,
+                isBack: false,
+                isBack02: false
             });
-        }else if(value === 'back') {
+        } else if (value === 'back') {
             this.setState({
                 isMain: false,
                 isCommon: false,
-                isBack: true
+                isCommon02: false,
+                isBack: true,
+                isBack02: false
+            });
+        } else if (value === 'common02') {
+            this.setState({
+                isMain: false,
+                isCommon: false,
+                isCommon02: true,
+                isBack: false,
+                isBack02: false
+            });
+        } else if (value === 'back02') {
+            this.setState({
+                isMain: false,
+                isCommon: false,
+                isCommon02: false,
+                isBack: false,
+                isBack02: true
             });
         }
     }
     // 返回
     goBack = () => {
         this.props.history.go(-1);
-    }
+    };
     iptChange = (e) => {
         this.setState({
             rmkText: e.target.value
         });
-    }
+    };
+    showCarousePic = (carousePic) => {
+        if(carousePic) {
+            this.setState({
+                visibleCarouse: !this.state.visibleCarouse,
+                carousePic
+            });
+        }
+    };
     // 不通过
     notAdopt = () => {
         const {rmkText} = this.state;
@@ -160,18 +244,31 @@ class preloanAccessDetail extends React.Component {
         const {
             isMain,
             isCommon,
+            isCommon02,
             isBack,
+            isBack02,
             headInfo,
             creditUserList1,
             creditUserList2,
             creditUserList3,
+            creditUserList202,
+            creditUserList302,
             attachments,
             creditUser,
             bankLoan,
             costSettlement,
             carInfo,
             rmkText,
-            cityList
+            cityList,
+            hkBookFirstPage,
+            bankJourFirstPage,
+            zfbJour,
+            wxJour,
+            otherPdf,
+            carHead,
+            carRegisterCertificateFirst,
+            visibleCarouse,
+            carousePic
         } = this.state;
         return (
             <div>
@@ -219,23 +316,51 @@ class preloanAccessDetail extends React.Component {
                     </div>
                     <div className="preLoan-detail-box-content">
                         <Row>
-                            <Col span={2} className={isMain ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'} onClick={value => this.getTag('main')}>主贷人信息</Col>
-                            <Col span={2} className={isCommon ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'} style={{marginLeft: '20px'}} onClick={value => this.getTag('common')}>共还人信息</Col>
-                            <Col span={2} className={isBack ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'} style={{marginLeft: '20px'}} onClick={value => this.getTag('back')}>反担保人信息</Col>
-                            <Col span={18}></Col>
+                            <Row>
+                                <Col span={2}
+                                     className={isMain ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'}
+                                     onClick={() => this.getTag('main')}>主贷人信息</Col>
+                                <Col span={2}
+                                     className={isCommon ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'}
+                                     style={{marginLeft: '20px'}} onClick={() => this.getTag('common')}>共还人1</Col>
+                                <Col span={2}
+                                     className={isCommon02 ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'}
+                                     style={{marginLeft: '20px'}} onClick={() => this.getTag('common02')}>共还人2</Col>
+                                <Col span={2}
+                                     className={isBack ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'}
+                                     style={{marginLeft: '20px'}} onClick={() => this.getTag('back')}>反担保人1</Col>
+                                <Col span={2}
+                                     className={isBack02 ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'}
+                                     style={{marginLeft: '20px'}} onClick={() => this.getTag('back02')}>反担保人2</Col>
+                            </Row>
                         </Row>
                         {
                             isMain ? (
                                 <div>
                                     <Row style={{marginTop: '28px'}}>
-                                        <Col span={4} >
-                                            <img src={PIC_PREFIX + findDsct(attachments, 'id_no_front_apply')} className="preLoan-body-table-content-tab-card" />
+                                        <Col span={4}>
+                                            <img src={PIC_PREFIX + findDsct(attachments, 'id_no_front_apply')}
+                                                 className="preLoan-body-table-content-tab-card"
+                                                 onClick={() => {
+                                                     this.showCarousePic(findDsct(attachments, 'id_no_front_apply'));
+                                                 }}
+                                            />
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
-                                            <img src={PIC_PREFIX + findDsct(attachments, 'id_no_reverse_apply')} className="preLoan-body-table-content-tab-card" />
+                                            <img src={PIC_PREFIX + findDsct(attachments, 'id_no_reverse_apply')}
+                                                 className="preLoan-body-table-content-tab-card"
+                                                 onClick={() => {
+                                                     this.showCarousePic(findDsct(attachments, 'id_no_reverse_apply'));
+                                                 }}
+                                            />
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
-                                            <img src={PIC_PREFIX + findDsct(attachments, 'hold_id_card_apply')} className="preLoan-body-table-content-tab-card" />
+                                            <img src={PIC_PREFIX + findDsct(attachments, 'hold_id_card_apply')}
+                                                 className="preLoan-body-table-content-tab-card"
+                                                 onClick={() => {
+                                                     this.showCarousePic(findDsct(attachments, 'hold_id_card_apply'));
+                                                 }}
+                                            />
                                         </Col>
                                         <Col span={8}></Col>
                                     </Row>
@@ -267,13 +392,31 @@ class preloanAccessDetail extends React.Component {
                                 <div>
                                     <Row style={{marginTop: '28px'}}>
                                         <Col span={4} >
-                                            <img src={findDsct(attachments, 'id_no_front_gh') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_front_gh')} className="preLoan-body-table-content-tab-card" />
+                                            <img
+                                                src={findDsct(attachments, 'id_no_front_gh') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_front_gh')}
+                                                className="preLoan-body-table-content-tab-card"
+                                                onClick={() => {
+                                                    this.showCarousePic(findDsct(attachments, 'id_no_front_gh'));
+                                                }}
+                                            />
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
-                                            <img src={findDsct(attachments, 'id_no_reverse_gh') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gh')} className="preLoan-body-table-content-tab-card" />
+                                            <img
+                                                src={findDsct(attachments, 'id_no_reverse_gh') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gh')}
+                                                className="preLoan-body-table-content-tab-card"
+                                                onClick={() => {
+                                                    this.showCarousePic(findDsct(attachments, 'id_no_reverse_gh'));
+                                                }}
+                                            />
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
-                                            <img src={findDsct(attachments, 'hold_id_card_gh') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hold_id_card_gh')} className="preLoan-body-table-content-tab-card" />
+                                            <img
+                                                src={findDsct(attachments, 'hold_id_card_gh') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hold_id_card_gh')}
+                                                className="preLoan-body-table-content-tab-card"
+                                                onClick={() => {
+                                                    this.showCarousePic(findDsct(attachments, 'hold_id_card_gh'));
+                                                }}
+                                            />
                                         </Col>
                                         <Col span={8}></Col>
                                     </Row>
@@ -301,17 +444,95 @@ class preloanAccessDetail extends React.Component {
                             ) : null
                         }
                         {
+                            isCommon02 ? (
+                                <div>
+                                    <Row style={{marginTop: '28px'}}>
+                                        <Col span={4}>
+                                            <img
+                                                src={findDsct(attachments, 'id_no_front_gh1') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_front_gh1')}
+                                                className="preLoan-body-table-content-tab-card"
+                                                onClick={() => {
+                                                    this.showCarousePic(findDsct(attachments, 'id_no_front_gh1'));
+                                                }}
+                                            />
+                                        </Col>
+                                        <Col span={4} style={{marginLeft: '60px'}}>
+                                            <img
+                                                src={findDsct(attachments, 'id_no_reverse_gh1') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gh1')}
+                                                className="preLoan-body-table-content-tab-card"
+                                                onClick={() => {
+                                                    this.showCarousePic(findDsct(attachments, 'id_no_reverse_gh1'));
+                                                }}
+                                            />
+                                        </Col>
+                                        <Col span={4} style={{marginLeft: '60px'}}>
+                                            <img
+                                                src={findDsct(attachments, 'hold_id_card_gh1') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hold_id_card_gh1')}
+                                                className="preLoan-body-table-content-tab-card"
+                                                onClick={() => {
+                                                    this.showCarousePic(findDsct(attachments, 'hold_id_card_gh1'));
+                                                }}
+                                            />
+                                        </Col>
+                                        <Col span={8}></Col>
+                                    </Row>
+                                    <Row style={{marginTop: '34px'}}>
+                                        <Col span={12}>姓名：{creditUserList202 ? creditUserList202.userName : ''}</Col>
+                                        <Col span={12}>性别：{creditUserList202 ? creditUserList202.gender : ''}</Col>
+                                    </Row>
+                                    <Row style={{marginTop: '16px'}}>
+                                        <Col span={12}>民族：{creditUserList202 ? creditUserList202.nation : ''}</Col>
+                                        <Col
+                                            span={12}>出生日期：{creditUserList202 ? creditUserList202.customerBirth : ''}</Col>
+                                    </Row>
+                                    <Row style={{marginTop: '16px'}}>
+                                        <Col span={12}>签证机关：{creditUserList202 ? creditUserList202.authref : ''}</Col>
+                                        <Col
+                                            span={12}>户籍地：{creditUserList202 ? creditUserList202.birthAddress : ''}</Col>
+                                    </Row>
+                                    <Row style={{marginTop: '16px'}}>
+                                        <Col
+                                            span={12}>有效截止日：{creditUserList202 ? creditUserList202.startDate : ''}至{creditUserList202 ? creditUserList202.statdate : ''}</Col>
+                                        <Col span={12}>身份证号：{creditUserList202 ? creditUserList202.idNo : ''}</Col>
+                                    </Row>
+                                    <Row style={{marginTop: '16px'}}>
+                                        <Col span={12}>手机号：{creditUserList202 ? creditUserList202.mobile : ''}</Col>
+                                        <Col
+                                            span={12}>征信结果：{creditUserList202 ? (creditUserList202.bankCreditResult === '0' ? '不通过' : '通过') : ''}</Col>
+                                    </Row>
+                                </div>
+                            ) : null
+                        }
+                        {
                             isBack ? (
                                 <div>
                                     <Row style={{marginTop: '28px'}}>
                                         <Col span={4} >
-                                            <img src={findDsct(attachments, 'id_no_front_gua') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_front_gua')} className="preLoan-body-table-content-tab-card" />
+                                            <img
+                                                src={findDsct(attachments, 'id_no_front_gua') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_front_gua')}
+                                                className="preLoan-body-table-content-tab-card"
+                                                onClick={() => {
+                                                    this.showCarousePic(findDsct(attachments, 'id_no_front_gua'));
+                                                }}
+                                            />
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
-                                            <img src={findDsct(attachments, 'id_no_reverse_gua') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gua')} className="preLoan-body-table-content-tab-card" />
+                                            <img
+                                                src={findDsct(attachments, 'id_no_reverse_gua') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gua')}
+                                                className="preLoan-body-table-content-tab-card"
+                                                onClick={() => {
+                                                    this.showCarousePic(findDsct(attachments, 'id_no_reverse_gua'));
+                                                }}
+                                            />
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
-                                            <img src={findDsct(attachments, 'hold_id_card_gua') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hold_id_card_gua')} className="preLoan-body-table-content-tab-card" />
+                                            <img
+                                                src={findDsct(attachments, 'hold_id_card_gua') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hold_id_card_gua')}
+                                                className="preLoan-body-table-content-tab-card"
+                                                onClick={() => {
+                                                    this.showCarousePic(findDsct(attachments, 'hold_id_card_gua'));
+                                                }}
+                                            />
                                         </Col>
                                         <Col span={8}></Col>
                                     </Row>
@@ -334,6 +555,66 @@ class preloanAccessDetail extends React.Component {
                                     <Row style={{marginTop: '16px'}}>
                                         <Col span={12}>手机号：{creditUserList3 ? creditUserList3.mobile : ''}</Col>
                                         <Col span={12}>征信结果：{creditUserList3 ? (creditUserList3.bankCreditResult === '0' ? '不通过' : '通过') : ''}</Col>
+                                    </Row>
+                                </div>
+                            ) : null
+                        }
+                        {
+                            isBack02 ? (
+                                <div>
+                                    <Row style={{marginTop: '28px'}}>
+                                        <Col span={4}>
+                                            <img
+                                                src={findDsct(attachments, 'id_no_front_gua1') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_front_gua1')}
+                                                className="preLoan-body-table-content-tab-card"
+                                                onClick={() => {
+                                                    this.showCarousePic(findDsct(attachments, 'id_no_front_gua1'));
+                                                }}
+                                            />
+                                        </Col>
+                                        <Col span={4} style={{marginLeft: '60px'}}>
+                                            <img
+                                                src={findDsct(attachments, 'id_no_reverse_gua1') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gua1')}
+                                                className="preLoan-body-table-content-tab-card"
+                                                onClick={() => {
+                                                    this.showCarousePic(findDsct(attachments, 'id_no_reverse_gua1'));
+                                                }}
+                                            />
+                                        </Col>
+                                        <Col span={4} style={{marginLeft: '60px'}}>
+                                            <img
+                                                src={findDsct(attachments, 'hold_id_card_gua1') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hold_id_card_gua1')}
+                                                className="preLoan-body-table-content-tab-card"
+                                                onClick={() => {
+                                                    this.showCarousePic(findDsct(attachments, 'hold_id_card_gua1'));
+                                                }}
+                                            />
+                                        </Col>
+                                        <Col span={8}></Col>
+                                    </Row>
+                                    <Row style={{marginTop: '34px'}}>
+                                        <Col span={12}>姓名：{creditUserList302 ? creditUserList302.userName : ''}</Col>
+                                        <Col span={12}>性别：{creditUserList302 ? creditUserList302.gender : ''}</Col>
+                                    </Row>
+                                    <Row style={{marginTop: '16px'}}>
+                                        <Col span={12}>民族：{creditUserList302 ? creditUserList302.nation : ''}</Col>
+                                        <Col
+                                            span={12}>出生日期：{creditUserList302 ? creditUserList302.customerBirth : ''}</Col>
+                                    </Row>
+                                    <Row style={{marginTop: '16px'}}>
+                                        <Col span={12}>签证机关：{creditUserList302 ? creditUserList302.authref : ''}</Col>
+                                        <Col
+                                            span={12}>户籍地：{creditUserList302 ? creditUserList302.birthAddress : ''}</Col>
+                                    </Row>
+                                    <Row style={{marginTop: '16px'}}>
+                                        <Col
+                                            span={12}>有效截止日：{creditUserList302 ? creditUserList302.startDate : ''}至{creditUserList302 ? creditUserList302.statdate : ''}</Col>
+                                        <Col span={12}>身份证号：{creditUserList302 ? creditUserList302.idNo : ''}</Col>
+                                    </Row>
+                                    <Row style={{marginTop: '16px'}}>
+                                        <Col span={12}>手机号：{creditUserList302 ? creditUserList302.mobile : ''}</Col>
+                                        <Col
+                                            span={12}>征信结果：{creditUserList302 ? (creditUserList302.bankCreditResult === '0' ? '不通过' : '通过') : ''}</Col>
                                     </Row>
                                 </div>
                             ) : null
@@ -534,7 +815,13 @@ class preloanAccessDetail extends React.Component {
                             <Col span={6}>
                                 <span>驾驶证</span>
                                 <br />
-                                <img src={findDsct(attachments, 'drive_card') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'drive_card')} className="preLoan-body-table-content-tab-card" />
+                                <img
+                                    src={findDsct(attachments, 'drive_card') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'drive_card')}
+                                    className="preLoan-body-table-content-tab-card"
+                                    onClick={() => {
+                                        this.showCarousePic(findDsct(attachments, 'drive_card'));
+                                    }}
+                                />
                             </Col>
                             <Col span={6}></Col>
                             <Col span={6}></Col>
@@ -545,51 +832,77 @@ class preloanAccessDetail extends React.Component {
                             <Col span={6}>
                                 <span>结婚证</span>
                                 <br />
-                                <img src={findDsct(attachments, 'marry_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'marry_pdf')} className="preLoan-body-table-content-tab-card" />
+                                <img
+                                    src={findDsct(attachments, 'marry_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'marry_pdf')}
+                                    className="preLoan-body-table-content-tab-card"
+                                    onClick={() => {
+                                        this.showCarousePic(findDsct(attachments, 'marry_pdf'));
+                                    }}
+                                />
                             </Col>
                             <Col span={6}>
                                 <span>离婚证</span>
                                 <br />
-                                <img src={findDsct(attachments, 'divorce_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'divorce_pdf')} className="preLoan-body-table-content-tab-card" />
+                                <img
+                                    src={findDsct(attachments, 'divorce_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'divorce_pdf')}
+                                    className="preLoan-body-table-content-tab-card"
+                                    onClick={() => {
+                                        this.showCarousePic(findDsct(attachments, 'divorce_pdf'));
+                                    }}
+                                />
                             </Col>
                             <Col span={6}>
                                 <span>单身证明</span>
                                 <br />
-                                <img src={findDsct(attachments, 'single_prove') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'single_prove')} className="preLoan-body-table-content-tab-card" />
+                                <img
+                                    src={findDsct(attachments, 'single_prove') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'single_prove')}
+                                    className="preLoan-body-table-content-tab-card"
+                                    onClick={() => {
+                                        this.showCarousePic(findDsct(attachments, 'single_prove'));
+                                    }}
+                                />
                             </Col>
                             <Col span={6}>
                                 <span>收入证明</span>
                                 <br />
-                                <img src={findDsct(attachments, 'income_prove') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'income_prove')} className="preLoan-body-table-content-tab-card" />
+                                <img
+                                    src={findDsct(attachments, 'income_prove') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'income_prove')}
+                                    className="preLoan-body-table-content-tab-card"
+                                    onClick={() => {
+                                        this.showCarousePic(findDsct(attachments, 'income_prove'));
+                                    }}
+                                />
                             </Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={6}>
-                                <span>户口本首页</span>
+                            <Col span={24}>
+                                <span>户口本</span>
                                 <br />
-                                <img src={findDsct(attachments, 'hk_book_first_page') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hk_book_first_page')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>户口本主页</span>
-                                <br />
-                                <img src={findDsct(attachments, 'hk_book_home_page') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hk_book_home_page')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>户口本本人页</span>
-                                <br />
-                                <img src={findDsct(attachments, 'hk_book_my_page') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hk_book_my_page')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>房产证内容页</span>
-                                <br />
-                                <img src={findDsct(attachments, 'house_property_card_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'house_property_card_pdf')} className="preLoan-body-table-content-tab-card" />
+                                {
+                                    hkBookFirstPage.map(item => (
+                                        <img
+                                            key={item.url}
+                                            src={item.url}
+                                            className="preLoan-body-table-content-tab-card" style={{marginRight: '20px', 'marginBottom': '20px'}}
+                                            onClick={() => {
+                                                this.showCarousePic(item.dkey);
+                                            }}
+                                        />
+                                    ))
+                                }
                             </Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={6}>
                                 <span>居住证</span>
                                 <br />
-                                <img src={findDsct(attachments, 'live_prove_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'live_prove_pdf')} className="preLoan-body-table-content-tab-card" />
+                                <img
+                                    src={findDsct(attachments, 'live_prove_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'live_prove_pdf')}
+                                    className="preLoan-body-table-content-tab-card"
+                                    onClick={() => {
+                                        this.showCarousePic(findDsct(attachments, 'live_prove_pdf'));
+                                    }}
+                                />
                             </Col>
                             <Col span={6}></Col>
                             <Col span={6}></Col>
@@ -597,59 +910,83 @@ class preloanAccessDetail extends React.Component {
                         </Row>
                         <div className="preLoan-detail-row-line"></div>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={6}>
-                                <span>银行流水首页</span>
+                            <Col span={24}>
+                                <span>银行流水</span>
                                 <br />
-                                <img src={findDsct(attachments, 'bank_jour_first_page') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'bank_jour_first_page')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>银行流水结息一季度</span>
-                                <br />
-                                <img src={findDsct(attachments, 'bank_jour_interest_first') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'bank_jour_interest_first')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>银行流水结息二季度</span>
-                                <br />
-                                <img src={findDsct(attachments, 'bank_jour_interest_second') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'bank_jour_interest_second')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>银行流水结息三季度</span>
-                                <br />
-                                <img src={findDsct(attachments, 'bank_jour_interest_third') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'bank_jour_interest_third')} className="preLoan-body-table-content-tab-card" />
+                                {
+                                    bankJourFirstPage.map(item => (
+                                        <img
+                                            key={item.url}
+                                            src={item.url}
+                                            className="preLoan-body-table-content-tab-card"
+                                            style={{marginRight: '20px', 'marginBottom': '20px'}}
+                                            onClick={() => {
+                                                this.showCarousePic(item.dkey);
+                                            }}
+                                        />
+                                    ))
+                                }
                             </Col>
                         </Row>
+                        <div className="preLoan-detail-row-line"></div>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={6}>
-                                <span>银行流水结息四季度</span>
-                                <br />
-                                <img src={findDsct(attachments, 'bank_jour_interest_fourth') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'bank_jour_interest_fourth')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>银行流水末页</span>
-                                <br />
-                                <img src={findDsct(attachments, 'bank_jour_last_page') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'bank_jour_last_page')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
+                            <Col span={24}>
                                 <span>支付宝流水</span>
-                                <br />
-                                <img src={findDsct(attachments, 'zfb_jour') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'zfb_jour')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>微信流水</span>
-                                <br />
-                                <img src={findDsct(attachments, 'wx_jour') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'wx_jour')} className="preLoan-body-table-content-tab-card" />
+                                <br/>
+                                {
+                                    zfbJour.map(item => (
+                                        <img
+                                            key={item.url}
+                                            src={item.url}
+                                            className="preLoan-body-table-content-tab-card"
+                                            style={{marginRight: '20px', 'marginBottom': '20px'}}
+                                            onClick={() => {
+                                                this.showCarousePic(item.dkey);
+                                            }}
+                                        />
+                                    ))
+                                }
                             </Col>
                         </Row>
                         <div className="preLoan-detail-row-line"></div>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={6}>
+                            <Col span={24}>
+                                <span>微信流水</span>
+                                <br/>
+                                {
+                                    wxJour.map(item => (
+                                        <img
+                                            key={item.url}
+                                            src={item.url}
+                                            className="preLoan-body-table-content-tab-card"
+                                            style={{marginRight: '20px', 'marginBottom': '20px'}}
+                                            onClick={() => {
+                                                this.showCarousePic(item.dkey);
+                                            }}
+                                        />
+                                    ))
+                                }
+                            </Col>
+                        </Row>
+                        <div className="preLoan-detail-row-line"></div>
+                        <Row style={{marginTop: '34px'}}>
+                            <Col span={24}>
                                 <span>其他</span>
                                 <br />
-                                <img src={findDsct(attachments, 'other_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'other_pdf')} className="preLoan-body-table-content-tab-card" />
+                                {
+                                    otherPdf.map(item => (
+                                        <img
+                                            key={item.url}
+                                            src={item.url}
+                                            className="preLoan-body-table-content-tab-card"
+                                            style={{marginRight: '20px', 'marginBottom': '20px'}}
+                                            onClick={() => {
+                                                this.showCarousePic(item.dkey);
+                                            }}
+                                        />
+                                    ))
+                                }
                             </Col>
-                            <Col span={6}></Col>
-                            <Col span={6}></Col>
-                            <Col span={6}></Col>
                         </Row>
                     </div>
                 </div>
@@ -664,7 +1001,13 @@ class preloanAccessDetail extends React.Component {
                             <Col span={6}>
                                 <span>上门照片</span>
                                 <br />
-                                <img src={findDsct(attachments, 'door_photo') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'door_photo')} className="preLoan-body-table-content-tab-card" />
+                                <img
+                                    src={findDsct(attachments, 'door_photo') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'door_photo')}
+                                    className="preLoan-body-table-content-tab-card"
+                                    onClick={() => {
+                                        this.showCarousePic(findDsct(attachments, 'door_photo'));
+                                    }}
+                                />
                             </Col>
                             <Col span={6}></Col>
                             <Col span={6}></Col>
@@ -675,7 +1018,13 @@ class preloanAccessDetail extends React.Component {
                             <Col span={6}>
                                 <span>合照</span>
                                 <br />
-                                <img src={findDsct(attachments, 'group_photo') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'group_photo')} className="preLoan-body-table-content-tab-card" />
+                                <img
+                                    src={findDsct(attachments, 'group_photo') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'group_photo')}
+                                    className="preLoan-body-table-content-tab-card"
+                                    onClick={() => {
+                                        this.showCarousePic(findDsct(attachments, 'group_photo'));
+                                    }}
+                                />
                             </Col>
                             <Col span={6}></Col>
                             <Col span={6}></Col>
@@ -701,88 +1050,45 @@ class preloanAccessDetail extends React.Component {
                     </div>
                     <div className="preLoan-detail-box-content">
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={6}>
-                                <span>车头</span>
-                                <br />
-                                <img src={findDsct(attachments, 'car_head') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'car_head')} className="preLoan-body-table-content-tab-card" />
+                            <Col span={24}>
+                                {
+                                    carHead.map(item => (
+                                        <img
+                                            key={item.url}
+                                            src={item.url}
+                                            className="preLoan-body-table-content-tab-card"
+                                            style={{marginRight: '20px', 'marginBottom': '20px'}}
+                                            onClick={() => {
+                                                this.showCarousePic(item.dkey);
+                                            }}
+                                        />
+                                    ))
+                                }
                             </Col>
-                            <Col span={6}>
-                                <span>铭牌</span>
-                                <br />
-                                <img src={findDsct(attachments, 'nameplate') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'nameplate')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>VIN码</span>
-                                <br />
-                                <img src={findDsct(attachments, 'vin_number') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'vin_number')} className="preLoan-body-table-content-tab-card" />
-
-                            </Col>
-                            <Col span={6}>
-                                <span>仪表盘</span>
-                                <br />
-                                <img src={findDsct(attachments, 'dashboard') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'dashboard')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '34px'}}>
-                            <Col span={6}>
-                                <span>驾驶室</span>
-                                <br />
-                                <img src={findDsct(attachments, 'cab') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'cab')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>发动机</span>
-                                <br />
-                                <img src={findDsct(attachments, 'car_engine') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'car_engine')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>中控</span>
-                                <br />
-                                <img src={findDsct(attachments, 'central_control') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'central_control')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>天窗</span>
-                                <br />
-                                <img src={findDsct(attachments, 'skylight') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'skylight')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '34px'}}>
-                            <Col span={6}>
-                                <span>车后座</span>
-                                <br />
-                                <img src={findDsct(attachments, 'rear_seat') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'rear_seat')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>车尾</span>
-                                <br />
-                                <img src={findDsct(attachments, 'vehicle_tail') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'vehicle_tail')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>车全身</span>
-                                <br />
-                                <img src={findDsct(attachments, 'car_body') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'car_body')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}></Col>
                         </Row>
                         <div className="preLoan-detail-row-line"></div>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={6}>
-                                <span>车辆登记证书（首页）</span>
+                            <Col span={24}>
+                                <span>车辆登记证书</span>
                                 <br />
-                                <img src={findDsct(attachments, 'car_register_certificate_first') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'car_register_certificate_first')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>车辆登记证书（二页）</span>
-                                <br />
-                                <img src={findDsct(attachments, 'car_register_certificate_second') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'car_register_certificate_second')} className="preLoan-body-table-content-tab-card" />
-                            </Col>
-                            <Col span={6}>
-                                <span>车辆登记证书（三页）</span>
-                                <br />
-                                <img src={findDsct(attachments, 'car_register_certificate_third') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'car_register_certificate_third')} className="preLoan-body-table-content-tab-card" />
+                                {
+                                    carRegisterCertificateFirst.map(item => (
+                                        <img
+                                            key={item.url}
+                                            src={item.url}
+                                            className="preLoan-body-table-content-tab-card"
+                                            style={{marginRight: '20px', 'marginBottom': '20px'}}
+                                            onClick={() => {
+                                                this.showCarousePic(item.dkey);
+                                            }}
+                                        />
+                                    ))
+                                }
                             </Col>
                         </Row>
                     </div>
                 </div>
+                <CarouselComponent attachments={attachments} visibleCarouse={visibleCarouse} carousePic={carousePic}/>
             </div>
         );
     }
