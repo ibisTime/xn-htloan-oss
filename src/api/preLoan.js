@@ -283,6 +283,11 @@ export function getGps() {
     });
 }
 
+// 获取全部的GPS
+export function getGpsAll() {
+    return fetch(632707);
+}
+
 // 查询GPS
 export function queryGps(code) {
     return fetch(632542, {code});
