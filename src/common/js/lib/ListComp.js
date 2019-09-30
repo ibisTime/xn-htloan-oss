@@ -199,8 +199,9 @@ export default class ListComponent extends React.Component {
     }).catch(this.props.cancelFetching);
   }
   onSelectChange = (selectedRowKeys, selectedRows) => {
-    this.setState({ selectedRowKeys, selectedRows });
-  }
+      this.setState({ selectedRowKeys, selectedRows });
+      this.options.rowKeysFn && this.options.rowKeysFn(selectedRowKeys, selectedRows);
+  };
   searchSelectChange(key, item, start = 1, limit = 20) {
     if (this.timeout) {
       clearTimeout(this.timeout);
