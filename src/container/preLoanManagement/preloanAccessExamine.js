@@ -10,7 +10,7 @@ import {
     accessSlipDetail,
     accessExamine,
     getCityList,
-    getGps,
+    getGpsAll,
     queryGps
 } from '../../api/preLoan.js';
 import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
@@ -145,7 +145,7 @@ class preloanAccessDetail extends React.Component {
                 carRegisterCertificateFirst
             });
         });
-        getGps().then(data => {
+        getGpsAll().then(data => {
             if(Array.isArray(data)) {
                 let gpsObj = {};
                 data.forEach(item => {
