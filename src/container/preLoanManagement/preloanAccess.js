@@ -57,6 +57,7 @@ class preloanAccess extends React.Component {
         super(props);
         this.state = {
             // 贷款人信息Tab状态
+            isHideGpsAz: false,
             isMain: true,
             isCommon: false,
             isCommon02: false,
@@ -1067,6 +1068,7 @@ class preloanAccess extends React.Component {
                         sftx: data.bankLoan ? (data.bankLoan.isDiscount === '0' ? '否' : '是') : '',
                         carInfoIsNotCommonCdCode: data.carInfo ? data.carInfo.isPublicCard ? data.carInfo.isPublicCard : '0' : '0',
                         carInfoIsNotGPSCode: data.carInfo ? data.carInfo.isAzGps ? data.carInfo.isAzGps : '' : '',
+                        isHideGpsAz: !!(data.carInfo ? data.carInfo.isAzGps ? +data.carInfo.isAzGps : '' : ''),
                         sendCreditReporting: {
                             mile: data.mile
                         },
@@ -1236,7 +1238,23 @@ class preloanAccess extends React.Component {
         });
         if(this.code) {
             queryGps(this.code).then(data => {
-                console.log(data);
+                // gpsAzList
+                const gpsAzList = data.map(item => ({
+                    code: item.code,
+                    azPhotos: item.azPhotos,
+                    fileListGPS: [{
+                        uid: '-2',
+                        name: 'ot.png',
+                        status: 'done',
+                        url: PIC_PREFIX + item.azPhotos,
+                        response: {
+                            hash: PIC_PREFIX + item.azPhotos
+                        }
+                    }]
+                }));
+                this.setState({
+                    gpsAzList
+                });
             });
         }
         getQiNiu().then(data => {
@@ -1403,19 +1421,29 @@ class preloanAccess extends React.Component {
     // 获取是否GPS
     handleChangecarInfoIsNotGPS = (value) => {
         if(value === '1') {
-            this.setState({
-                gpsAzList: [
-                    ...this.state.gpsAzList,
-                    {
-                        code: '',
-                        azPhotos: '',
-                        fileListGPS: []
-                    }
-                ]
-            });
+            const {gpsAzList} = this.state;
+            if(gpsAzList.length === 0) {
+                this.setState({
+                    gpsAzList: [
+                        {
+                            code: '',
+                            azPhotos: '',
+                            fileListGPS: []
+                        }
+                    ],
+                    isHideGpsAz: true
+                });
+            }else {
+                this.setState({
+                    gpsAzList: [
+                        ...gpsAzList
+                    ],
+                    isHideGpsAz: true
+                });
+            }
         }else {
             this.setState({
-                gpsAzList: []
+                isHideGpsAz: false
             });
         }
         this.setState({
@@ -1498,7 +1526,6 @@ class preloanAccess extends React.Component {
         this.setState({ fileList });
     };
     handleChangeCarBuying = (value, event) => {
-        console.log(value);
         this.setState({
             bizType: value
         });
@@ -3245,18 +3272,13 @@ class preloanAccess extends React.Component {
             previewVisibleGPS: true
         });
     };
-    handleChangeCardGPS = ({ fileList }) => {
+    handleChangeCardGPS = ({ fileList }, gpsIndex) => {
         const hash = fileList[0] ? fileList[0].response ? fileList[0].response.hash : '' : '';
         const {gpsAzList} = this.state;
-        gpsAzList.forEach(item => {
-            if(item.azPhotos === '') {
+        gpsAzList.forEach((item, index) => {
+            if(index === gpsIndex) {
                 item.azPhotos = hash;
                 item.fileListGPS = fileList;
-            }else if(item.azPhotos) {
-                if(item.azPhotos !== hash) {
-                    item.azPhotos = hash;
-                    item.fileListGPS = fileList;
-                }
             }
         });
         this.setState({
@@ -3597,10 +3619,10 @@ class preloanAccess extends React.Component {
             fileListDJZS: fileList
         });
     };
-    handleChangeGPS = (v) => {
+    handleChangeGPS = (v, gpsIndex) => {
         const {gpsAzList} = this.state;
-        gpsAzList.forEach(item => {
-            if(item.code !== v) {
+        gpsAzList.forEach((item, index) => {
+            if(index === gpsIndex) {
                 item.code = v;
             }
         });
@@ -4026,7 +4048,8 @@ class preloanAccess extends React.Component {
             // 汽车经销商
             shopCarGarage,
             gpsList,
-            gpsAzList
+            gpsAzList,
+            isHideGpsAz
         } = this.state;
         const propsJF = {
             action: UPLOAD_URL,
@@ -5434,7 +5457,7 @@ class preloanAccess extends React.Component {
                                         </Col>
                                     </Row>
                                     {
-                                        gpsAzList.map((gpsItem, index) => (
+                                        isHideGpsAz && gpsAzList.map((gpsItem, index) => (
                                             <Row className="preLoan-body-row-top" style={{marginBottom: '30px', 'position': 'relative'}} key={`gps_${index}`}>
                                                 <Col span={12}>
                                                     <span className="preLoan-body-title">GPS：</span>
@@ -5443,7 +5466,7 @@ class preloanAccess extends React.Component {
                                                         value={gpsItem.code} style={{width: '220px'}}
                                                         onChange={
                                                             (ev) => {
-                                                                this.handleChangeGPS(ev);
+                                                                this.handleChangeGPS(ev, index);
                                                             }
                                                         }
                                                     >
@@ -5464,7 +5487,9 @@ class preloanAccess extends React.Component {
                                                             fileList={gpsItem.fileListGPS}
                                                             action={UPLOAD_URL}
                                                             onPreview={this.handlePreviewCardGPS}
-                                                            onChange={this.handleChangeCardGPS}
+                                                            onChange={(ev) => {
+                                                                this.handleChangeCardGPS(ev, index);
+                                                            }}
                                                         >
                                                             {gpsItem.fileListGPS.length >= 1 ? null : uploadButton}
                                                         </Upload>
@@ -5487,7 +5512,7 @@ class preloanAccess extends React.Component {
                                                 fontSize: '24px',
                                                 fontWeight: 600
                                             }}>+</span>
-                                                    <span>添加共还人</span>
+                                                    <span>添加GPS</span>
                                                 </div>
                                             </Row>
                                         ))

@@ -16,9 +16,8 @@ const styles = {
         left: '50%',
         top: '60%',
         margin: '-85px 0 0 -18px',
-        width: '40px',
-        height: '72px',
-        color: '#a5a5a5',
+        width: '30px',
+        height: '60px',
         cursor: 'pointer'
     },
     rightBox: {
@@ -32,10 +31,9 @@ const styles = {
         position: 'absolute',
         right: '50%',
         top: '60%',
-        margin: '-85px 0 0 -18px',
-        width: '40px',
-        height: '72px',
-        color: '#a5a5a5',
+        margin: '-85px 18px 0 0',
+        width: '30px',
+        height: '60px',
         cursor: 'pointer'
     }
 };
@@ -84,9 +82,13 @@ export default class CarouselComponent extends React.Component {
                         }
                     });
                 }
+                console.log(attachmentsList);
                 attachmentsList.forEach((item, index) => {
                     if(item.dvalue === this.state.carousePic) {
                         setTimeout(() => {
+                            this.setState({
+                                title: attachmentsList[index].vname
+                            });
                             this.welcome.goTo(index);
                         }, 100);
                     }
@@ -129,14 +131,14 @@ export default class CarouselComponent extends React.Component {
                     )
                 }
                 <div style={styles.leftBox}>
-                    <span style={styles.toLeft} onClick={() => {
+                    <img src={require('./left.png')} style={styles.toLeft} onClick={() => {
                         this.welcome.prev();
-                    }}> &lt; </span>
+                    }}/>
                 </div>
                 <div style={styles.rightBox}>
-                    <span style={styles.toRight} onClick={() => {
+                    <img src={require('./right.png')} style={styles.toRight} onClick={() => {
                         this.welcome.next();
-                    }}>&gt;</span>
+                    }}/>
                 </div>
             </Modal>
         );

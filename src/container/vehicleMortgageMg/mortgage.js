@@ -49,7 +49,6 @@ class mortgage extends React.Component {
             type: '2'
         };
         showButton(btnArr).then(data => {
-            console.log('showButton', data);
             for(let i = 0; i < data.length; i++) {
                 if(data[i].url === '/mortgage') {
                     this.setState({

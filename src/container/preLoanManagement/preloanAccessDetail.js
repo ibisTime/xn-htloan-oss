@@ -9,7 +9,9 @@ import {
 } from 'common/js/util';
 import {
     accessSlipDetail,
-    getCityList
+    getCityList,
+    getGps,
+    queryGps
 } from '../../api/preLoan.js';
 import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
 import {Row, Col} from 'antd';
@@ -52,7 +54,8 @@ class preloanAccessDetail extends React.Component {
             wxJour: [],
             otherPdf: [],
             carHead: [],
-            carRegisterCertificateFirst: []
+            carRegisterCertificateFirst: [],
+            gpsAzList: []
         };
     }
     dealWithPic = (fileListPic, type = '') => {
@@ -192,6 +195,25 @@ class preloanAccessDetail extends React.Component {
                 creditUserRelation: dsctList(creditUserRelation)
             });
         });
+        getGps().then(data => {
+            if(Array.isArray(data)) {
+                let gpsObj = {};
+                data.forEach(item => {
+                    gpsObj[item.code] = item.gpsDevNo;
+                });
+                queryGps(this.code).then(data => {
+                    // gpsAzList
+                    const gpsAzList = data.map(item => ({
+                        code: item.code,
+                        name: gpsObj[item.code],
+                        azPhotos: PIC_PREFIX + item.azPhotos
+                    }));
+                    this.setState({
+                        gpsAzList
+                    });
+                });
+            };
+        });
     }
     // 贷款人信息Tab效果
     getTag = (value) => {
@@ -267,7 +289,8 @@ class preloanAccessDetail extends React.Component {
             wxJour,
             otherPdf,
             carHead,
-            carRegisterCertificateFirst
+            carRegisterCertificateFirst,
+            gpsAzList
         } = this.state;
         return (
             <div>
@@ -769,24 +792,36 @@ class preloanAccessDetail extends React.Component {
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={12}>车辆型号：{carInfo ? carInfo.model : ''}</Col>
+                            <Col span={12}>车辆价格：{carInfo ? carInfo.carPrice : ''}</Col>
+                        </Row>
+                        <Row style={{marginTop: '34px'}}>
+                            <Col span={12}>发票价格：{carInfo ? carInfo.invoicePrice : ''}</Col>
+                            <Col span={12}>车架号：{carInfo ? carInfo.carFrameNo : ''}</Col>
+                        </Row>
+                        <Row style={{marginTop: '34px'}}>
+                            <Col span={12}>车牌号：{carInfo ? carInfo.carNumber : ''}</Col>
+                            <Col span={12}>评估价格：{carInfo ? carInfo.evalPrice : ''}</Col>
+                        </Row>
+                        <Row style={{marginTop: '34px'}}>
+                            <Col span={12}>上牌年份：{carInfo ? carInfo.regDate : ''}</Col>
+                            <Col span={12}>行驶里程：{carInfo ? carInfo.mile : ''}公里</Col>
+                        </Row>
+                        <Row style={{marginTop: '34px'}}>
                             <Col span={12}>是否加装GPS：{carInfo ? carInfo.isAzGps === '0' ? '否' : '是' : ''}</Col>
                         </Row>
-                        <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>车辆价格：{carInfo ? carInfo.carPrice : ''}</Col>
-                            <Col span={12}>发票价格：{carInfo ? carInfo.invoicePrice : ''}</Col>
-                        </Row>
-                        <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>车架号：{carInfo ? carInfo.carFrameNo : ''}</Col>
-                            <Col span={12}>车牌号：{carInfo ? carInfo.carNumber : ''}</Col>
-                        </Row>
-                        <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>评估价格：{carInfo ? carInfo.evalPrice : ''}</Col>
-                            <Col span={12}>上牌年份：{carInfo ? carInfo.regDate : ''}</Col>
-                        </Row>
-                        <Row style={{marginTop: '34px'}}>
-                            <Col span={12}>行驶里程：{carInfo ? carInfo.mile : ''}公里</Col>
-                            <Col span={12}></Col>
-                        </Row>
+                        {
+                            carInfo && carInfo.isAzGps === '1' && gpsAzList.map(item => (
+                                <Row key={item.code} style={{marginTop: '34px'}}>
+                                    <Col span={12}>GPS：{item.name}</Col>
+                                    <Col span={12}>
+                                        GPS图片：
+                                        <img
+                                            src={item.azPhotos}
+                                            className="preLoan-body-table-content-tab-card"/>
+                                    </Col>
+                                </Row>
+                            ))
+                        }
                     </div>
                 </div>
                 <div className="preLoan-detail-empty"></div>
