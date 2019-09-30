@@ -1,47 +1,59 @@
 import React from 'react';
 import {
-    showWarnMsg,
-    showSucMsg,
-    getUserId,
-    findDsct,
-    dsctList,
     dsctImgList,
+    dsctList,
+    findDsct,
+    getNowTime,
     getQueryString,
-    getNowTime
+    getUserId,
+    showSucMsg,
+    showWarnMsg
 } from 'common/js/util';
-import {Row, Col, Select, Upload, Button, Icon, Modal, DatePicker, message, Input} from 'antd';
-import { getDictList } from 'api/dict';
+import {
+    Button,
+    Col,
+    DatePicker,
+    Icon,
+    Input,
+    message,
+    Modal,
+    Row,
+    Select,
+    Upload
+} from 'antd';
+import {getDictList} from 'api/dict';
 import './preloanAccess.css';
 import moment from 'moment';
 import zanwu from './zanwu1.png';
 import {
-    sendCreditReportingLs,
-    lenderInfoLs,
+    accessInfoSend,
+    accessSlipDetail,
     baseDsInfoLs,
-    preLoanInfoLs,
-    costSettlementInfoLs,
-    carDsInfoLs,
-    materialDsInfoLs,
-    investigationImgInfoLs,
-    carImgInfoLs,
+    brandMng,
+    calculateMonthly,
+    carBuyingList,
     cardPositiveLs,
     cardReverseSideLs,
-    loanBanksList,
-    getQiNiu,
-    brandMng,
+    carDsInfoLs,
+    carImgInfoLs,
     carTypeMng,
+    costSettlementInfoLs,
     findCarType,
-    accessInfoSend,
-    carBuyingList,
     getCityList,
-    sendPjPost,
-    accessSlipDetail,
-    calculateMonthly,
-    installationGps,
     getGps,
-    queryGps
+    getQiNiu,
+    installationGps,
+    investigationImgInfoLs,
+    lenderInfoLs,
+    loanBanksList,
+    materialDsInfoLs,
+    preLoanInfoLs,
+    queryGps,
+    sendCreditReportingLs,
+    sendPjPost
 } from '../../api/preLoan.js';
-import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
+import {PIC_PREFIX, UPLOAD_URL} from '../../common/js/config.js';
+
 const { Option } = Select;
 const { MonthPicker } = DatePicker;
 function getBase64(file) {
@@ -2263,7 +2275,7 @@ class preloanAccess extends React.Component {
     // 费用结算
     addCostSettlementInfo = (code) => {
         const {costSettlementInfoArrIpt} = this.state;
-        if(costSettlementInfoArrIpt.lyDeposit === '') {
+        if (costSettlementInfoArrIpt.gpsFee === '') {
             showWarnMsg('请将费用结算信息填写完整');
         }else {
             let arr = {
