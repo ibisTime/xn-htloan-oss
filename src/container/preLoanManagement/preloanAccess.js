@@ -1815,11 +1815,6 @@ class preloanAccess extends React.Component {
             this.setState({
                 accessInfoCode: data
             });
-            installationGps({
-                gpsAzList: this.state.gpsAzList,
-                code: data,
-                operator: getUserId()
-            });
             if(isLoanPpInfo) {
                 // 贷款人信息
                 this.addLenderInfo(data);
@@ -1833,6 +1828,11 @@ class preloanAccess extends React.Component {
                 // 费用结算
                 this.addCostSettlementInfo(data);
             }else if(isCarInfo) {
+                installationGps({
+                    gpsAzList: this.state.gpsAzList,
+                    code: data,
+                    operator: getUserId()
+                });
                 // 车辆信息
                 this.addCarDsInfoLs(data);
             }else if(isMaterialInfo) {
