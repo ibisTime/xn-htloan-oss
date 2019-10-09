@@ -1,29 +1,23 @@
 import React from 'react';
 import {
-    setTableData,
-    setPagination,
-    setBtnList,
-    setSearchParam,
+    cancelFetching,
     clearSearchParam,
     doFetching,
-    cancelFetching,
-    setSearchData
+    setBtnList,
+    setPagination,
+    setSearchData,
+    setSearchParam,
+    setTableData
 } from '@redux/printing/guarantee';
 import {
-    showWarnMsg,
-    showSucMsg,
+    formatDate,
     getRoleCode,
     getUserId,
-    formatDate
+    showSucMsg,
+    showWarnMsg
 } from 'common/js/util';
-import {
-    listWrapper
-} from 'common/js/build-list';
-import {
-    lowerFrame,
-    onShelf,
-    sendMsg
-} from 'api/biz';
+import {listWrapper} from 'common/js/build-list';
+import {lowerFrame, onShelf, sendMsg} from 'api/biz';
 
 @listWrapper(
     state => ({
@@ -61,7 +55,7 @@ class Guarantee extends React.Component {
             title: '客户姓名',
             field: 'customerName',
             render: (v, d) => (
-                (d && d.creditUser && d.creditUser.userName) || '-'
+                (d && d.customerName) || '-'
             ),
             search: true
         }, {
