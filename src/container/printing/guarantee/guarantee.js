@@ -60,6 +60,9 @@ class Guarantee extends React.Component {
         }, {
             title: '客户姓名',
             field: 'customerName',
+            render: (v, d) => (
+                (d && d.creditUser && d.creditUser.userName) || '-'
+            ),
             search: true
         }, {
             title: '贷款银行',
@@ -69,24 +72,58 @@ class Guarantee extends React.Component {
             field: 'loanAmount',
             amount: true
         }, {
-            title: '利率',
-            field: 'bankRate'
+            title: '贷款期数',
+            field: 'periods',
+            render: (v, d) => {
+                return d.loanInfo ? d.loanInfo.periods : '-';
+            }
         }, {
-            title: '服务费',
-            field: 'fee',
-            amount: true
+            title: '业务种类',
+            field: 'bizType',
+            type: 'select',
+            key: 'budget_orde_biz_typer'
         }, {
-            title: '品牌型号',
-            field: 'carModel'
+            title: '是否垫资',
+            field: 'isAdvanceFund',
+            type: 'select',
+            data: [{
+                key: '1',
+                value: '是'
+            }, {
+                key: '0',
+                value: '否'
+            }],
+            keyName: 'key',
+            valueName: 'value'
         }, {
-            title: '打件日期',
-            field: 'guarantPrintDatetime'
+            title: '业务公司',
+            field: 'companyCode',
+            listCode: 630106,
+            params: {
+                typeList: [1],
+                status: '1'
+            },
+            type: 'select',
+            keyName: 'code',
+            valueName: 'name'
         }, {
-            title: '打件人',
-            field: 'guarantPrintName'
+            title: '业务团队',
+            field: 'teamName'
         }, {
-            title: '业务员名称',
-            field: 'saleUserName'
+            title: '业务员',
+            field: 'saleUserId',
+            type: 'select',
+            pageCode: 630065,
+            params: {
+                type: 'P',
+                roleCodeList: ['SR201800000000000000YWY', 'SR20180000000000000NQZY']
+            },
+            keyName: 'userId',
+            valueName: '{{companyName.DATA}}-{{realName.DATA}}',
+            searchName: 'realName',
+            render: (v, d) => {
+                return d.saleUserName;
+            }
         }, {
             title: '当前节点',
             field: 'curNodeCode',
@@ -103,6 +140,7 @@ class Guarantee extends React.Component {
               roleCode: getRoleCode()
             },
             btnEvent: {
+                // 担保合同打印
                 make: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -110,6 +148,26 @@ class Guarantee extends React.Component {
                         showWarnMsg('请选择一条记录');
                     } else {
                         this.props.history.push(`/printing/guarantee/make?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                // 抵押合同打印
+                makes: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/printing/mortgage/make?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                // 解抵合同打印
+                makepring: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/printing/relieve/make?code=${selectedRowKeys[0]}`);
                     }
                 }
             }

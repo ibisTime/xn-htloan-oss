@@ -128,7 +128,7 @@ class Dashboard extends React.Component {
         <Menu
           theme="dark"
           mode="horizontal"
-          style={{ lineHeight: '64px' }}
+          style={{ lineHeight: '64px', overflow: 'hidden' }}
           onClick={this.handleTopMenuClick}
           selectedKeys={[topMenuCode]}
         >

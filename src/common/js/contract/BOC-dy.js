@@ -19,25 +19,28 @@ export function exportBOCDy(data) {
 }
 // 内容
 function createData(wb, data) {
-  let year = data.customerBirth.substr(0, 4);
-  let month = data.customerBirth.substr(4, 2) - 0;
-  let day = data.customerBirth.substr(6, 2) - 0;
+  let year = data.creditUser.customerBirth.substr(0, 4);
+  let month = data.creditUser.customerBirth.substr(4, 2) - 0;
+  let day = data.creditUser.customerBirth.substr(6, 2) - 0;
+  let nowAddress = (data.creditUser.nowAddressProvince || '') + (data.creditUser.nowAddressArea || '') + (data.creditUser.nowAddress || '');
+  let mateNowAddress = (data.mateUser.nowAddressProvince || '') + (data.mateUser.nowAddressArea || '') + (data.mateUser.nowAddress || '');
+  let dbNowAddress = (data.dbUser1.nowAddressProvince || '') + (data.dbUser1.nowAddressArea || '') + (data.dbUser1.nowAddress || '');
   let arr01 = ['', '普通', '白金'];
   let arr = [
-    ['公司名称', data.customerName],
-    ['组织机构代码证', data.customerName],
-    ['代码证上的地址', data.customerName],
-    ['主贷人姓名', data.customerName],
-    ['主贷人身份证地址', data.applyBirthAddress],
-    ['身份证件号码', data.idNo],
-    ['手机号码', data.mobile],
-    ['配偶姓名', data.ghRealName],
-    ['身份证件号码', data.ghIdNo],
-    ['家庭住址', data.applyNowAddress],
-    ['合同编号', data.bankContractCode],
-    ['车牌号', data.carNumber],
-    ['车架号', data.frameNo],
-    ['发动机号', data.engineNo],
+    ['公司名称', data.creditUser.companyName],
+    ['组织机构代码证', '组织机构代码证'],
+    ['代码证上的地址', '代码证上的地址'],
+    ['主贷人姓名', data.creditUser.userName],
+    ['主贷人身份证地址', data.creditUser.birthAddress],
+    ['身份证件号码', data.creditUser.idNo],
+    ['手机号码', data.creditUser.mobile],
+    ['配偶姓名', data.mateUser.ghRealName],
+    ['身份证件号码', data.mateUser.ghIdNo],
+    ['家庭住址', nowAddress],
+    ['合同编号', data.code],
+    ['车牌号', data.carInfo.carNumber],
+    ['车架号', data.carInfo.carFrameNo],
+    ['发动机号', data.carInfo.carEngineNo],
     ['贷款额（大写）', ''],
     ['贷款额（小写）', moneyReplaceComma(moneyFormat2(data.loanAmount))],
     ['履约保证金（大写）', ''],
@@ -45,7 +48,7 @@ function createData(wb, data) {
     ['年份', year],
     ['月', month],
     ['日', day],
-    ['贷款期限（年）', data.loanPeriods / 12],
+    ['贷款期限（年）', data.bankLoan.periods / 12],
     ['银行委托人', ''],
     ['银行名称', ''],
     ['银行地址', ''],
