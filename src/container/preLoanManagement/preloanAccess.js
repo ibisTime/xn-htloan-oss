@@ -2851,40 +2851,80 @@ class preloanAccess extends React.Component {
             loanIptArr
         });
     };
-    changeUserName = (e, name) => {
-        const {cardZ} = this.state;
-        cardZ[name] = e.target.value;
-        this.setState({
-            cardZ
-        });
+    changeUserName = (e, name, isF = false) => {
+        if (isF) {
+            const {cardF} = this.state;
+            cardF[name] = e.target.value;
+            this.setState({
+                cardF
+            });
+        } else {
+            const {cardZ} = this.state;
+            cardZ[name] = e.target.value;
+            this.setState({
+                cardZ
+            });
+        }
     };
-    changeCardZTwo = (e, name) => {
-        const {cardZTwo} = this.state;
-        cardZTwo[name] = e.target.value;
-        this.setState({
-            cardZTwo
-        });
+    changeCardZTwo = (e, name, isF = false) => {
+        if (isF) {
+            const {cardFTwo} = this.state;
+            cardFTwo[name] = e.target.value;
+            this.setState({
+                cardFTwo
+            });
+        } else {
+            const {cardZTwo} = this.state;
+            cardZTwo[name] = e.target.value;
+            this.setState({
+                cardZTwo
+            });
+        }
     };
-    changeCardZTwo02 = (e, name) => {
-        const {cardZTwo02} = this.state;
-        cardZTwo02[name] = e.target.value;
-        this.setState({
-            cardZTwo02
-        });
+    changeCardZTwo02 = (e, name, isF = false) => {
+        if (isF) {
+            const {cardFTwo02} = this.state;
+            cardFTwo02[name] = e.target.value;
+            this.setState({
+                cardFTwo02
+            });
+        } else {
+            const {cardZTwo02} = this.state;
+            cardZTwo02[name] = e.target.value;
+            this.setState({
+                cardZTwo02
+            });
+        }
     };
-    changeCardZThree = (e, name) => {
-        const {cardZThree} = this.state;
-        cardZThree[name] = e.target.value;
-        this.setState({
-            cardZThree
-        });
+    changeCardZThree = (e, name, isF = false) => {
+        if (isF) {
+            const {cardFThree} = this.state;
+            cardFThree[name] = e.target.value;
+            this.setState({
+                cardFThree
+            });
+        } else {
+            const {cardZThree} = this.state;
+            cardZThree[name] = e.target.value;
+            this.setState({
+                cardZThree
+            });
+        }
     };
-    changeCardZThree02 = (e, name) => {
-        const {cardZThree02} = this.state;
-        cardZThree02[name] = e.target.value;
-        this.setState({
-            cardZThree02
-        });
+    changeCardZThree02 = (e, name, isF = false) => {
+        if (isF) {
+            const {cardFThree02} = this.state;
+            cardFThree02[name] = e.target.value;
+            this.setState({
+                cardFThree02
+            });
+        } else {
+            const {cardZThree02} = this.state;
+            cardZThree02[name] = e.target.value;
+            this.setState({
+                cardZThree02
+            });
+        }
     };
     // 主贷人信息数组
     iptBaseInfoMainLoanPp = (e, name) => {
@@ -4344,14 +4384,43 @@ class preloanAccess extends React.Component {
                                                     <Col span={12}>出生日期：<Input style={{width: '50%'}} value={cardZ ? cardZ.customerBirth : ''} onChange={(e) => { this.changeUserName(e, 'customerBirth'); }}/></Col>
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
-                                                    <Col span={12}>签证机关：<Input style={{width: '50%'}} value={cardF ? cardF.authref : ''} onChange={(e) => { this.changeUserName(e, 'authref'); }}/></Col>
+                                                    <Col span={12}>签证机关：<Input
+                                                        style={{width: '50%'}}
+                                                        value={cardF
+                                                            ? cardF.authref
+                                                            : ''}
+                                                        onChange={(e) => {
+                                                            this.changeUserName(
+                                                                e, 'authref',
+                                                                true);
+                                                        }}/></Col>
                                                     <Col span={12}>户籍地：<Input style={{width: '50%'}} value={cardZ ? cardZ.birthAddress : ''} onChange={(e) => { this.changeUserName(e, 'birthAddress'); }}/></Col>
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
                                                     <Col span={12}>有效截止日：
-                                                        <Input style={{width: '24%'}} value={cardF ? cardF.startDate : ''} onChange={(e) => { this.changeUserName(e, 'startDate'); }}/>
+                                                        <Input
+                                                            style={{width: '24%'}}
+                                                            value={cardF
+                                                                ? cardF.startDate
+                                                                : ''}
+                                                            onChange={(e) => {
+                                                                this.changeUserName(
+                                                                    e,
+                                                                    'startDate',
+                                                                    true);
+                                                            }}/>
                                                         -
-                                                        <Input style={{width: '24%'}} value={cardF ? cardF.statdate : ''} onChange={(e) => { this.changeUserName(e, 'statdate'); }}/>
+                                                        <Input
+                                                            style={{width: '24%'}}
+                                                            value={cardF
+                                                                ? cardF.statdate
+                                                                : ''}
+                                                            onChange={(e) => {
+                                                                this.changeUserName(
+                                                                    e,
+                                                                    'statdate',
+                                                                    true);
+                                                            }}/>
                                                         <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
                                                     </Col>
                                                     <Col span={12}>身份证号：<Input style={{width: '50%'}} value={cardZ ? cardZ.idNo : ''} onChange={(e) => { this.changeUserName(e, 'idNo'); }}/></Col>
@@ -4464,7 +4533,17 @@ class preloanAccess extends React.Component {
                                                     </Row>
                                                     <Row style={{marginTop: '16px'}}>
                                                         <Col span={12}>签证机关：
-                                                            <Input style={{width: '50%'}} value={cardFTwo ? cardFTwo.authref : ''} onChange={(e) => { this.changeCardZTwo(e, 'authref'); }}/>
+                                                            <Input
+                                                                style={{width: '50%'}}
+                                                                value={cardFTwo
+                                                                    ? cardFTwo.authref
+                                                                    : ''}
+                                                                onChange={(e) => {
+                                                                    this.changeCardZTwo(
+                                                                        e,
+                                                                        'authref',
+                                                                        true);
+                                                                }}/>
                                                         </Col>
                                                         <Col span={12}>户籍地：
                                                             <Input style={{width: '50%'}} value={cardZTwo ? cardZTwo.birthAddress : ''} onChange={(e) => { this.changeCardZTwo(e, 'birthAddress'); }}/>
@@ -4472,9 +4551,29 @@ class preloanAccess extends React.Component {
                                                     </Row>
                                                     <Row style={{marginTop: '16px'}}>
                                                         <Col span={12}>有效截止日：
-                                                            <Input style={{width: '24%'}} value={cardFTwo ? cardFTwo.startDate : ''} onChange={(e) => { this.changeCardZTwo(e, 'startDate'); }}/>
+                                                            <Input
+                                                                style={{width: '24%'}}
+                                                                value={cardFTwo
+                                                                    ? cardFTwo.startDate
+                                                                    : ''}
+                                                                onChange={(e) => {
+                                                                    this.changeCardZTwo(
+                                                                        e,
+                                                                        'startDate',
+                                                                        true);
+                                                                }}/>
                                                             -
-                                                            <Input style={{width: '24%'}} value={cardFTwo ? cardFTwo.statdate : ''} onChange={(e) => { this.changeCardZTwo(e, 'statdate'); }}/>
+                                                            <Input
+                                                                style={{width: '24%'}}
+                                                                value={cardFTwo
+                                                                    ? cardFTwo.statdate
+                                                                    : ''}
+                                                                onChange={(e) => {
+                                                                    this.changeCardZTwo(
+                                                                        e,
+                                                                        'statdate',
+                                                                        true);
+                                                                }}/>
                                                             <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
                                                         </Col>
                                                         <Col span={12}>身份证号：
@@ -4610,7 +4709,17 @@ class preloanAccess extends React.Component {
                                                     </Row>
                                                     <Row style={{marginTop: '16px'}}>
                                                         <Col span={12}>签证机关：
-                                                            <Input style={{width: '50%'}} value={cardZTwo02 ? cardZTwo02.authref : ''} onChange={(e) => { this.changeCardZTwo02(e, 'authref'); }}/>
+                                                            <Input
+                                                                style={{width: '50%'}}
+                                                                value={cardFTwo02
+                                                                    ? cardFTwo02.authref
+                                                                    : ''}
+                                                                onChange={(e) => {
+                                                                    this.changeCardZTwo02(
+                                                                        e,
+                                                                        'authref',
+                                                                        true);
+                                                                }}/>
                                                         </Col>
                                                         <Col span={12}>户籍地：
                                                             <Input style={{width: '50%'}} value={cardZTwo02 ? cardZTwo02.birthAddress : ''} onChange={(e) => { this.changeCardZTwo02(e, 'birthAddress'); }}/>
@@ -4618,9 +4727,29 @@ class preloanAccess extends React.Component {
                                                     </Row>
                                                     <Row style={{marginTop: '16px'}}>
                                                         <Col span={12}>有效截止日：
-                                                            <Input style={{width: '24%'}} value={cardFTwo02 ? cardFTwo02.startDate : ''} onChange={(e) => { this.changeCardZTwo02(e, 'startDate'); }}/>
+                                                            <Input
+                                                                style={{width: '24%'}}
+                                                                value={cardFTwo02
+                                                                    ? cardFTwo02.startDate
+                                                                    : ''}
+                                                                onChange={(e) => {
+                                                                    this.changeCardZTwo02(
+                                                                        e,
+                                                                        'startDate',
+                                                                        true);
+                                                                }}/>
                                                             -
-                                                            <Input style={{width: '24%'}} value={cardFTwo02 ? cardFTwo02.statdate : ''} onChange={(e) => { this.changeCardZTwo02(e, 'statdate'); }}/>
+                                                            <Input
+                                                                style={{width: '24%'}}
+                                                                value={cardFTwo02
+                                                                    ? cardFTwo02.statdate
+                                                                    : ''}
+                                                                onChange={(e) => {
+                                                                    this.changeCardZTwo02(
+                                                                        e,
+                                                                        'statdate',
+                                                                        true);
+                                                                }}/>
                                                             <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
                                                         </Col>
                                                         <Col span={12}>身份证号：
@@ -4737,7 +4866,17 @@ class preloanAccess extends React.Component {
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
                                                     <Col span={12}>签证机关：
-                                                        <Input style={{width: '50%'}} value={cardZThree ? cardZThree.authref : ''} onChange={(e) => { this.changeCardZThree(e, 'authref'); }}/>
+                                                        <Input
+                                                            style={{width: '50%'}}
+                                                            value={cardFThree
+                                                                ? cardFThree.authref
+                                                                : ''}
+                                                            onChange={(e) => {
+                                                                this.changeCardZThree(
+                                                                    e,
+                                                                    'authref',
+                                                                    true);
+                                                            }}/>
                                                     </Col>
                                                     <Col span={12}>户籍地：
                                                         <Input style={{width: '50%'}} value={cardZThree ? cardZThree.birthAddress : ''} onChange={(e) => { this.changeCardZThree(e, 'birthAddress'); }}/>
@@ -4745,9 +4884,29 @@ class preloanAccess extends React.Component {
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
                                                     <Col span={12}>有效截止日：
-                                                        <Input style={{width: '24%'}} value={cardFThree ? cardFThree.startDate : ''} onChange={(e) => { this.changeCardZThree(e, 'startDate'); }}/>
+                                                        <Input
+                                                            style={{width: '24%'}}
+                                                            value={cardFThree
+                                                                ? cardFThree.startDate
+                                                                : ''}
+                                                            onChange={(e) => {
+                                                                this.changeCardZThree(
+                                                                    e,
+                                                                    'startDate',
+                                                                    true);
+                                                            }}/>
                                                         -
-                                                        <Input style={{width: '24%'}} value={cardFThree ? cardFThree.statdate : ''} onChange={(e) => { this.changeCardZThree(e, 'statdate'); }}/>
+                                                        <Input
+                                                            style={{width: '24%'}}
+                                                            value={cardFThree
+                                                                ? cardFThree.statdate
+                                                                : ''}
+                                                            onChange={(e) => {
+                                                                this.changeCardZThree(
+                                                                    e,
+                                                                    'statdate',
+                                                                    true);
+                                                            }}/>
                                                         <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
                                                     </Col>
                                                     <Col span={12}>身份证号：
@@ -4881,7 +5040,17 @@ class preloanAccess extends React.Component {
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
                                                     <Col span={12}>签证机关：
-                                                        <Input style={{width: '50%'}} value={cardZThree02 ? cardZThree02.authref : ''} onChange={(e) => { this.changeCardZThree02(e, 'authref'); }}/>
+                                                        <Input
+                                                            style={{width: '50%'}}
+                                                            value={cardFThree02
+                                                                ? cardFThree02.authref
+                                                                : ''}
+                                                            onChange={(e) => {
+                                                                this.changeCardZThree02(
+                                                                    e,
+                                                                    'authref',
+                                                                    true);
+                                                            }}/>
                                                     </Col>
                                                     <Col span={12}>户籍地：
                                                         <Input style={{width: '50%'}} value={cardZThree02 ? cardZThree02.birthAddress : ''} onChange={(e) => { this.changeCardZThree02(e, 'birthAddress'); }}/>
@@ -4889,9 +5058,29 @@ class preloanAccess extends React.Component {
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
                                                     <Col span={12}>有效截止日：
-                                                        <Input style={{width: '24%'}} value={cardFThree02 ? cardFThree02.startDate : ''} onChange={(e) => { this.changeCardZThree02(e, 'startDate'); }}/>
+                                                        <Input
+                                                            style={{width: '24%'}}
+                                                            value={cardFThree02
+                                                                ? cardFThree02.startDate
+                                                                : ''}
+                                                            onChange={(e) => {
+                                                                this.changeCardZThree02(
+                                                                    e,
+                                                                    'startDate',
+                                                                    true);
+                                                            }}/>
                                                         -
-                                                        <Input style={{width: '24%'}} value={cardFThree02 ? cardFThree02.statdate : ''} onChange={(e) => { this.changeCardZThree02(e, 'statdate'); }}/>
+                                                        <Input
+                                                            style={{width: '24%'}}
+                                                            value={cardFThree02
+                                                                ? cardFThree02.statdate
+                                                                : ''}
+                                                            onChange={(e) => {
+                                                                this.changeCardZThree02(
+                                                                    e,
+                                                                    'statdate',
+                                                                    true);
+                                                            }}/>
                                                         <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
                                                     </Col>
                                                     <Col span={12}>身份证号：
