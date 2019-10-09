@@ -1,10 +1,10 @@
 import {
     getWorkbook
-} from 'common/js/xlsx-util';
+} from '../xlsx-util';
 import {
     moneyFormat,
     moneyReplaceComma
-} from 'common/js/util';
+} from '../util';
 // 生成担保合同
 export function createHt(data) {
     const wb = getWorkbook();
@@ -36,52 +36,54 @@ export function createHt(data) {
 }
 // 数据
 function createData(wb, data) {
-    let year = data.customerBirth.substr(0, 4);
-    let month = data.customerBirth.substr(4, 2) - 0;
+    let year = data.creditUser.customerBirth.substr(0, 4);
+    let month = data.creditUser.customerBirth.substr(4, 2) - 0;
+    let nowAddress = (data.creditUser.nowAddressProvince || '') + (data.creditUser.nowAddressArea || '') + (data.creditUser.nowAddress || '');
+    let dbNowAddress = (data.dbUser1.nowAddressProvince || '') + (data.dbUser1.nowAddressArea || '') + (data.dbUser1.nowAddress || '');
     let arr = [
-        ['工行姓名', data.customerName],
+        ['工行姓名', data.creditUser.userName],
         ['出生年月', year + '.' + month],
-        ['性别', data.customerSex],
-        ['身份证号码', data.idNo],
-        ['手机号码', data.mobile],
-        ['工作单位', data.applyUserCompany],
-        ['现住址', data.applyNowAddress],
-        ['配偶姓名', data.ghRealName],
-        ['身份证号码', data.ghIdNo],
-        ['工作单位', data.ghCompanyName],
-        ['手机号码', data.ghMobile],
-        ['费利率（银行利率）', (data.bankRate * 100).toFixed(4)],
+        ['性别', data.creditUser.gender],
+        ['身份证号码', data.creditUser.idNo],
+        ['手机号码', data.creditUser.mobile],
+        ['工作单位', data.creditUser.applyUserCompany],
+        ['现住址', nowAddress],
+        ['配偶姓名', data.mateUser.userName],
+        ['身份证号码', data.mateUser.idNo],
+        ['工作单位', data.mateUser.applyUserCompany],
+        ['手机号码', data.mateUser.mobile],
+        ['费利率（银行利率）', (data.bankLoan.bankRate * 100).toFixed(4)],
         ['贷款额', moneyFormat(data.loanAmount)],
-        ['服务费', moneyReplaceComma(moneyFormat(data.fee))],
+        ['服务费', moneyReplaceComma(moneyFormat(data.bankLoan.fee))],
         ['总贷款额（包含服务费）', ''],
         ['贷款额（大写无元）', ''],
         ['服务费（大写无元）', ''],
         ['总贷款额（大写无元）', ''],
-        ['分期期数', data.loanPeriods],
+        ['分期期数', data.bankLoan.periods || ''],
         ['分期期数大写', ''],
         ['手续费总额', ''],
         ['手续费总额大写', ''],
         ['月还款额', ''],
         ['总贷款额和手续费总额', ''],
-        ['车辆总价', moneyReplaceComma(moneyFormat(data.originalPrice))],
+        ['车辆总价', moneyReplaceComma(moneyFormat(data.carInfo.originalPrice))],
         ['车辆总价大写不带元', ''],
         ['车辆总价大写带元整', ''],
         ['首付额', ''],
         ['首付额（大写无元）', ''],
-        ['车辆品牌', data.carBrand],
-        ['经销商', data.carDealerName],
-        ['发动机号', data.engineNo],
-        ['车架号', data.frameNo],
-        ['品牌型号', data.carModel],
-        ['担保人姓名', data.guarantor1IdNo],
-        ['性别', data.guarantor1Sex],
-        ['身份证号码', data.guarantor1IdNo],
-        ['手机号码', data.guarantor1Mobile],
-        ['现住址', data.guarantorNowAddress],
-        ['工作单位', data.guarantorCompanyName],
+        ['车辆品牌', data.carInfo.carBrandName],
+        ['经销商', data.carInfo.shopCarGarageName],
+        ['发动机号', data.carInfo.carEngineNo],
+        ['车架号', data.carInfo.carFrameNo],
+        ['品牌型号', data.carInfo.carModelName],
+        ['担保人姓名', data.dbUser1.userName],
+        ['性别', data.dbUser1.gender],
+        ['身份证号码', data.dbUser1.idNo],
+        ['手机号码', data.dbUser1.mobile],
+        ['现住址', dbNowAddress],
+        ['工作单位', data.dbUser1.applyUserCompany],
         ['总的首期还款金额', ''],
         ['总的每期还款金额', ''],
-        ['原车发票价格', moneyReplaceComma(moneyFormat(data.invoicePrice))],
+        ['原车发票价格', moneyReplaceComma(moneyFormat(data.carInfo.invoicePrice))],
         ['原车发票价格大写', '']
     ];
 

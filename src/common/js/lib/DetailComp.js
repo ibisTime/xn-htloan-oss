@@ -374,6 +374,9 @@ export default class DetailComponent extends React.Component {
           pageData[key] = this.o2mDataTmpls[key];
         }
       }
+      if (this.options.beforeSetDetail) {
+        data = this.options.beforeSetDetail(data);
+      }
       this.props.setPageData({
         ...data,
         ...pageData
@@ -1453,7 +1456,10 @@ export default class DetailComponent extends React.Component {
         item._keys.forEach(key => {
             _value = isUndefined(_value[key]) ? emptyObj : _value[key];
         });
-        return (item.type === 'img' || item.type === 'file') && _value === emptyObj ? '' : _value;
+        return _value === emptyObj
+            ? (item.type === 'checkbox' || item.type === 'citySelect' || item.type === 'o2m')
+                ? [] : ''
+            : _value;
     }
 
     getUploadBtn(item, isImg) {

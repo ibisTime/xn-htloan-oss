@@ -23,11 +23,11 @@ let B86 = 0;
 export function exportBOCZdzfjf(data) {
   B13 = moneyReplaceComma(moneyFormat(data.loanAmount));
   B14 = 6000;
-  B18 = data.loanPeriods;
-  B25 = moneyReplaceComma(moneyFormat(data.invoicePrice));
+  B18 = data.bankLoan.periods;
+  B25 = moneyReplaceComma(moneyFormat(data.carInfo.invoicePrice));
   B81 = 21.85;
   B82 = 19.09;
-  B15 = (data.bankRate * 100).toFixed(2);
+  B15 = (data.bankLoan.bankRate * 100).toFixed(2);
   B16 = B13 * B15 / 100;
   B17 = B14 * 0.115;
   B50 = B13 + B14;
@@ -69,47 +69,50 @@ export function exportBOCZdzfjf(data) {
 }
 // 数据
 function createData(wb, data) {
-  let year = data.customerBirth.substr(0, 4);
-  let month = data.customerBirth.substr(4, 2) - 0;
+  let year = data.creditUser.customerBirth.substr(0, 4);
+  let month = data.creditUser.customerBirth.substr(4, 2) - 0;
+  let nowAddress = (data.creditUser.nowAddressProvince || '') + (data.creditUser.nowAddressArea || '') + (data.creditUser.nowAddress || '');
+  let mateAddress = (data.mateUser.nowAddressProvince || '') + (data.mateUser.nowAddressArea || '') + (data.mateUser.nowAddress || '');
+  let dbNowAddress = (data.dbUser1.nowAddressProvince || '') + (data.dbUser1.nowAddressArea || '') + (data.dbUser1.nowAddress || '');
   let arr = [
-    ['中银信用卡持卡人（甲方）', data.customerName],
-    ['身份证件号码', data.idNo],
-    ['住所', data.applyNowAddress],
+    ['中银信用卡持卡人（甲方）', data.creditUser.userName],
+    ['身份证件号码', data.creditUser.idNo],
+    ['住所', nowAddress],
     ['出生年月', year + '.' + month],
-    ['家庭电话', data.familyPhone],
-    ['电话', data.mobile],
-    ['配偶姓名', data.ghRealName],
-    ['身份证件号码', data.ghIdNo],
-    ['电话', data.ghMobile],
-    ['住址', ''],
+    ['家庭电话', data.creditUser.familyPhone],
+    ['电话', data.creditUser.mobile],
+    ['配偶姓名', data.mateUser.userName],
+    ['身份证件号码', data.mateUser.idNo],
+    ['电话', data.mateUser.mobile],
+    ['住址', mateAddress],
     ['贷款额（大写）', ''],
     ['贷款额（大写）', ''],
     ['贷款额（小写）', moneyReplaceComma(moneyFormat(data.loanAmount))],
     ['附加费（小写）', '附加费（小写）'],
-    ['利率', (data.bankRate * 100).toFixed(4)],
+    ['利率', (data.bankLoan.bankRate * 100).toFixed(4)],
     ['总手续费（小写合同）', ''],
     ['附加费手续费（小写合同/11.5）', ''],
-    ['分期', data.loanPeriods],
-    ['附加费（大写）', data.loanPeriods],
+    ['分期', data.bankLoan.periods],
+    ['附加费（大写）', data.bankLoan.periods],
     ['总手续费（大写合同）', ''],
     ['抵押物名称', '汽车'],
-    ['车辆颜色', data.carColor],
-    ['车架号码', data.frameNo],
-    ['发动机号码', data.engineNo],
-    ['汽车发票价', moneyReplaceComma(moneyFormat(data.invoicePrice))],
-    ['工作单位', data.applyUserCompany],
-    ['单位地址', '单位地址'],
-    ['配偶（担保人）工作单位', data.ghCompanyName],
-    ['单位地址', '单位地址'],
-    ['汽车经销商名称', data.carDealerName],
-    ['汽车经销商账号', data.carDealer.jxsCollectBankcardList[0].bankcardNumber],
-    ['汽车经销商开户行', data.carDealer.jxsCollectBankcardList[0].bankName],
+    ['车辆颜色', data.carInfo.carColor],
+    ['车架号码', data.carInfo.carFrameNo],
+    ['发动机号码', data.carInfo.carEngineNo],
+    ['汽车发票价', moneyReplaceComma(moneyFormat(data.carInfo.invoicePrice))],
+    ['工作单位', data.creditUser.companyName],
+    ['单位地址', data.creditUser.companyAddress],
+    ['配偶（担保人）工作单位', data.mateUser.companyName],
+    ['单位地址', data.mateUser.companyAddress],
+    ['汽车经销商名称', data.carInfo.shopCarGarageName],
+    ['汽车经销商账号', ''],
+    ['汽车经销商开户行', ''],
     ['首付金额', ''],
-    ['承保公司', data.insuranceCompany],
+    ['承保公司', ''],
     ['年限', ''],
     ['期限', ''],
     ['职务', data.applyUserDuty],
-    ['车辆型号', data.carBrand + ' ' + data.carModel],
+    ['车辆型号', data.carInfo.carBrandName + ' ' + data.carInfo.carModelName],
     ['申请人性别', ''],
     ['共同还款人性别', ''],
     ['跟申请人关系', '夫妻'],
@@ -125,14 +128,14 @@ function createData(wb, data) {
     ['贷款额+附加费（大写保证协议1）', ''],
     ['', ''],
     ['', ''],
-    ['担保人姓名', data.guarantor1Name],
-    ['性别', data.guarantor1Sex],
-    ['身份证号码', data.guarantor1IdNo],
-    ['联系电话', data.guarantor1Mobile],
-    ['单位名称', data.guarantorCompanyName],
-    ['单位地址', data.guarantorCompanyAddress],
-    ['单位电话', data.guarantorCompanyPhone],
-    ['住所', data.guarantorNowAddress],
+    ['担保人姓名', data.dbUser1.userName],
+    ['性别', data.dbUser1.gender],
+    ['身份证号码', data.dbUser1.idNo],
+    ['联系电话', data.dbUser1.mobile],
+    ['单位名称', data.dbUser1.companyName],
+    ['单位地址', data.dbUser1.companyAddress],
+    ['单位电话', data.dbUser1.companyContactNo],
+    ['住所', dbNowAddress],
     ['汽车发票价大写', ''],
     ['首期还款', ''],
     ['每期还款', ''],

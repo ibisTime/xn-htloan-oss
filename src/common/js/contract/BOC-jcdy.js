@@ -12,8 +12,8 @@ export function exportBOCJcdy(data) {
 // 数据
 function createData(wb, data) {
   let arr = [
-    ['主贷人姓名', data.customerName],
-    ['车牌号', data.carNumber]
+    ['主贷人姓名', data.creditUser.userName],
+    ['车牌号', data.carInfo.carNumber]
   ];
   var ws = wb.getSheet(arr, '数据');
   ws['!cols'] = [{
