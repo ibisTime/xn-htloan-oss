@@ -156,7 +156,7 @@ export default class CarouselComponent extends React.Component {
                             {
                                 Array.isArray(attachmentsList) && attachmentsList.map((item, index) => (
                                     <div key={`attac_${index}`}>
-                                        <img src={PIC_PREFIX + item.dvalue} alt="" style={{width: '100%', height: '400px'}}/>
+                                        <img src={PIC_PREFIX + item.dvalue} alt="" style={{maxWidth: '100%', height: '550px', margin: '0 auto'}}/>
                                     </div>
                                 ))
                             }
