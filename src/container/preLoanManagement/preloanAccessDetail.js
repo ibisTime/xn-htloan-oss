@@ -311,16 +311,20 @@ class preloanAccessDetail extends React.Component {
                         </Row>
                         <Row style={{marginTop: '32px'}}>
                             <Col span={12}>购车途径：{headInfo.bizType}</Col>
-                            <Col span={12}>上牌地：{headInfo.regAddress}</Col>
+                            <Col span={12}>品牌：{carInfo.carBrandName}</Col>
                         </Row>
                         <Row style={{marginTop: '32px'}}>
+                            <Col span={12}>车系：{carInfo.carSeriesName}</Col>
+                            <Col span={12}>车型：{carInfo.carModelName}</Col>
+                        </Row>
+                        <Row style={{marginTop: '32px'}}>
+                            <Col span={12}>上牌地：{headInfo.regAddress}</Col>
                             <Col span={12}>公里数（万）：{headInfo.mile}</Col>
-                            <Col span={12}></Col>
                         </Row>
                         <Row style={{marginTop: '32px'}}>
                             <Col span={12}>
-                                <span className="preLoan-body-title" style={{width: '300px'}}>评估报告：<a target="_blank"
-                                                                                                      href={headInfo.secondCarReport}>点击进入评估报告</a></span>
+                                <span className="preLoan-body-title" style={{width: '300px'}}>评估报告：<a target="_blank" href={headInfo.secondCarReport}>点击进入评估报告</a></span>
+                                {/* <div className="preLoan-body-presentation-upload"></div> */}
                             </Col>
                             <Col span={12}>
                             </Col>
