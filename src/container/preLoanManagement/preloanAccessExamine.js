@@ -759,11 +759,11 @@ class preloanAccessDetail extends React.Component {
                         <Row style={{marginTop: '34px'}}>
                             <Col span={8}>贷款本金：{bankLoan ? bankLoan.loanAmount / 1000 : ''}</Col>
                             <Col span={8}>贷款期限：{bankLoan ? bankLoan.periods : ''}期</Col>
-                            <Col span={8}>银行利率（%）：{bankLoan ? bankLoan.bankRate : ''}%</Col>
+                            <Col span={8}>银行利率：{bankLoan ? (Math.floor(bankLoan.bankRate * 10e6) / 10e4).toFixed(4) : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={8}>总利率：{bankLoan ? bankLoan.totalRate : ''}%</Col>
-                            <Col span={8}>返点利率：{bankLoan ? bankLoan.rebateRate : ''}%</Col>
+                            <Col span={8}>总利率：{bankLoan ? (Math.floor(bankLoan.totalRate * 10e6) / 10e4).toFixed(4) : ''}</Col>
+                            <Col span={8}>返点利率：{bankLoan ? (Math.floor(bankLoan.rebateRate * 10e6) / 10e4).toFixed(4) : ''}</Col>
                             <Col span={8}>服务费：{bankLoan ? bankLoan.fee / 1000 : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
@@ -772,9 +772,9 @@ class preloanAccessDetail extends React.Component {
                             <Col span={8}>是否贴息：{bankLoan ? (bankLoan.isDiscount === '0' ? '否' : '是') : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={8}>贴息利率：{bankLoan ? bankLoan.discountRate : ''}%</Col>
+                            <Col span={8}>贴息利率：{bankLoan ? (Math.floor(bankLoan.discountRate * 10e6) / 10e4).toFixed(4) : ''}</Col>
                             <Col span={8}>贴息金额：{bankLoan ? bankLoan.discountAmount / 1000 : ''}</Col>
-                            <Col span={8}>贷款成数：{bankLoan ? bankLoan.loanRatio : ''}%</Col>
+                            <Col span={8}>贷款成数：{bankLoan ? bankLoan.loanRatio : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={8}>万元系数：{bankLoan ? bankLoan.wanFactor : ''}</Col>
@@ -796,13 +796,13 @@ class preloanAccessDetail extends React.Component {
                     </div>
                     <div className="preLoan-detail-box-content">
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={8}>担保风险金：{costSettlement ? costSettlement.fxAmount / 1000 : ''}</Col>
-                            <Col span={8}>履约押金：{costSettlement ? costSettlement.lyDeposit / 1000 : ''}</Col>
-                            <Col span={8}>返点金额：{costSettlement ? costSettlement.repointAmount / 1000 : ''}</Col>
+                            <Col span={8}>担保风险金：{costSettlement.fxAmount ? costSettlement.fxAmount / 1000 : ''}</Col>
+                            <Col span={8}>履约押金：{costSettlement.lyDeposit ? costSettlement.lyDeposit / 1000 : ''}</Col>
+                            <Col span={8}>返点金额：{costSettlement.repointAmount ? costSettlement.repointAmount / 1000 : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={8}>GPS费：{costSettlement ? costSettlement.gpsFee / 1000 : ''}</Col>
-                            <Col span={8}>其他费用：{costSettlement ? costSettlement.otherFee / 1000 : ''}</Col>
+                            <Col span={8}>GPS费：{costSettlement.gpsFee ? costSettlement.gpsFee / 1000 : ''}</Col>
+                            <Col span={8}>其他费用：{costSettlement.otherFee ? costSettlement.otherFee / 1000 : ''}</Col>
                             <Col span={8}></Col>
                         </Row>
                     </div>

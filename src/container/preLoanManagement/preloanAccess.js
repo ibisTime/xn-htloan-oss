@@ -1364,16 +1364,16 @@ class preloanAccess extends React.Component {
         let rateValue = '';
         switch (value) {
             case '12':
-                rateValue = bankRateList.find(item => item.code === loanBankCode).rate12;
+                rateValue = bankRateList.find(item => item.code === loanBankCode).rate12 * 100;
                 break;
             case '18':
-                rateValue = bankRateList.find(item => item.code === loanBankCode).rate18;
+                rateValue = bankRateList.find(item => item.code === loanBankCode).rate18 * 100;
                 break;
             case '24':
-                rateValue = bankRateList.find(item => item.code === loanBankCode).rate24;
+                rateValue = bankRateList.find(item => item.code === loanBankCode).rate24 * 100;
                 break;
             case '36':
-                rateValue = bankRateList.find(item => item.code === loanBankCode).rate36;
+                rateValue = bankRateList.find(item => item.code === loanBankCode).rate36 * 100;
                 break;
         }
         loanInfoArrIpt['bankRate'] = rateValue;
