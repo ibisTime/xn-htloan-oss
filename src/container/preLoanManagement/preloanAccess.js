@@ -1301,20 +1301,28 @@ class preloanAccess extends React.Component {
             showWarnMsg('请选择小于今天的日期');
         }else {
             this.setState({
-                regDate: dateString === '' ? getNowTime() : dateString
+                regDate: dateString === '' ? getNowTime() : dateString,
+                carInfoArrIpt: {
+                    ...this.state.carInfoArrIpt,
+                    regDate: dateString === '' ? getNowTime() : dateString
+                }
             });
         }
     };
-    computedMonthly = () => {
-        const {loanInfoArrIpt, loanPeriodCode, loanBankCode} = this.state;
+    computedMonthly = (isInvoicePrice = false) => {
+        const {loanInfoArrIpt, loanPeriodCode, loanBankCode, carInfoArrIpt} = this.state;
         if(loanBankCode && loanInfoArrIpt.loanAmount && loanPeriodCode && (loanInfoArrIpt.bankRate || loanInfoArrIpt.bankRate === 0) && loanInfoArrIpt.totalRate) {
             calculateMonthly({
                 loanBankCode,
                 loanPeriods: loanPeriodCode,
                 loanAmount: loanInfoArrIpt.loanAmount * 1000,
                 bankRate: loanInfoArrIpt.bankRate / 100,
-                totalRate: loanInfoArrIpt.totalRate / 100
+                totalRate: loanInfoArrIpt.totalRate / 100,
+                invoicePrice: isInvoicePrice ? carInfoArrIpt.invoicePrice * 1000 : ''
             }).then(data => {
+                if(isInvoicePrice) {
+                    this.state.loanInfoArrIpt.loanRatio = data.loanRatio;
+                }
                 this.setState({
                     loanInfoArrIpt: {
                         ...this.state.loanInfoArrIpt,
@@ -1543,11 +1551,19 @@ class preloanAccess extends React.Component {
         });
         if(value === '0') {
             this.setState({
-                isShowCarGroup: false
+                isShowCarGroup: false,
+                carInfoArrIpt: {
+                    ...this.state.carInfoArrIpt,
+                    regDate: ''
+                }
             });
         }else if(value === '1') {
             this.setState({
-                isShowCarGroup: true
+                isShowCarGroup: true,
+                carInfoArrIpt: {
+                    ...this.state.carInfoArrIpt,
+                    regDate: new Date().getFullYear()
+                }
             });
         }
     }
@@ -2866,6 +2882,13 @@ class preloanAccess extends React.Component {
             });
         }
     };
+    changePicker = (v, cardObj, cardName) => {
+        const time = moment(v).format('YYYY-MM-DD');
+        this.state[cardObj][cardName] = time;
+        this.setState({
+            [cardObj]: this.state[cardObj]
+        });
+    };
     changeCardZTwo = (e, name, isF = false) => {
         if (isF) {
             const {cardFTwo} = this.state;
@@ -2993,7 +3016,16 @@ class preloanAccess extends React.Component {
         });
     }
     // 车辆信息数组
+    iptTimer = null;
     iptCarInfoArr = (e, name) => {
+        if(name === 'invoicePrice') {
+            if(this.iptTimer) {
+                clearTimeout(this.iptTimer);
+            }
+            this.iptTimer = setTimeout(() => {
+                this.computedMonthly(true);
+            }, 300);
+        }
         const {carInfoArrIpt} = this.state;
         carInfoArrIpt[name] = e.target.value;
         this.setState({
@@ -3987,46 +4019,6 @@ class preloanAccess extends React.Component {
             fileListCT,
             previewVisibleCT,
             previewImageCT,
-            // 铭牌
-            fileListCMP,
-            previewVisibleCMP,
-            previewImageCMP,
-            // VIN码
-            fileListVIN,
-            previewVisibleVIN,
-            previewImageVIN,
-            // 仪表盘
-            fileListYBP,
-            previewVisibleYBP,
-            previewImageYBP,
-            // 驾驶室
-            fileListJSS,
-            previewVisibleJSS,
-            previewImageJSS,
-            // 发动机
-            fileListFDJ,
-            previewVisibleFDJ,
-            previewImageFDJ,
-            // 中控
-            fileListZK,
-            previewVisibleZK,
-            previewImageZK,
-            // 天窗
-            fileListTC,
-            previewVisibleTC,
-            previewImageTC,
-            // 车后座
-            fileListHZC,
-            previewVisibleHZC,
-            previewImageHZC,
-            // 车尾
-            fileListCW,
-            previewVisibleCW,
-            previewImageCW,
-            // 车全身
-            fileListCQS,
-            previewVisibleCQS,
-            previewImageCQS,
             // 车辆登记证书（首页）
             fileListDJZS,
             previewVisibleDJZS,
@@ -4184,57 +4176,61 @@ class preloanAccess extends React.Component {
                         </Select>
                     </Col>
                 </Row>
+                <Row className="preLoan-body-row-top">
+                    <Col span={12}>
+                        <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>品牌：</span>
+                        <Select placeholder="请选择品牌" className="preLoan-body-select" style={{width: '220px'}} value={brandCode} onChange={this.handleChangeCarType1}>
+                            {
+                                brandList.map(data => {
+                                    return (
+                                        <Option key={data.code} value={data.code}>{data.name}</Option>
+                                    );
+                                })
+                            }
+                        </Select>
+                        <div className="clear"></div>
+                    </Col>
+                    <Col span={12}>
+                        <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>车系：</span>
+                        <Select placeholder="请选择车系" value={seriesCode} className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCarType}>
+                            {
+                                carType.map(data => {
+                                    return (
+                                        <Option key={data.code} value={data.code}>{data.name}</Option>
+                                    );
+                                })
+                            }
+                        </Select>
+                        <div className="clear"></div>
+                    </Col>
+                </Row>
+                <Row className="preLoan-body-row-top">
+                    <Col span={12}>
+                        <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>车型：</span>
+                        <Select placeholder="请选择车型" value={carCode} className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCar3Type}>
+                            {
+                                carType3.map(data => {
+                                    return (
+                                        <Option key={data.code} value={data.code}>{data.name}</Option>
+                                    );
+                                })
+                            }
+                        </Select>
+                        <div className="clear"></div>
+                    </Col>
+                    {
+                        isShowCarGroup ? (
+                            <Col span={12}>
+                                <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>上牌时间：</span>
+                                <MonthPicker format={'YYYY-MM'} style={{width: '220px', float: 'left'}} defaultValue={moment(regDate === '' ? new Date() : regDate)} onChange={this.onChangeTime}/>
+                                <div className="clear"></div>
+                            </Col>
+                        ) : null
+                    }
+                </Row>
                 {
                     isShowCarGroup ? (
                         <div>
-                            <Row className="preLoan-body-row-top">
-                                <Col span={12}>
-                                    <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>上牌时间：</span>
-                                    <MonthPicker format={'YYYY-MM'} style={{width: '220px', float: 'left'}} defaultValue={moment(regDate === '' ? new Date() : regDate)} onChange={this.onChangeTime}/>
-                                    <div className="clear"></div>
-                                </Col>
-                                <Col span={12}>
-                                    <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>品牌：</span>
-                                    <Select placeholder="请选择品牌" className="preLoan-body-select" style={{width: '220px'}} value={brandCode} onChange={this.handleChangeCarType1}>
-                                        {
-                                            brandList.map(data => {
-                                                return (
-                                                    <Option key={data.code} value={data.code}>{data.name}</Option>
-                                                );
-                                            })
-                                        }
-                                    </Select>
-                                    <div className="clear"></div>
-                                </Col>
-                            </Row>
-                            <Row className="preLoan-body-row-top">
-                                <Col span={12}>
-                                    <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>车系：</span>
-                                    <Select placeholder="请选择车系" value={seriesCode} className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCarType}>
-                                        {
-                                            carType.map(data => {
-                                                return (
-                                                    <Option key={data.code} value={data.code}>{data.name}</Option>
-                                                );
-                                            })
-                                        }
-                                    </Select>
-                                    <div className="clear"></div>
-                                </Col>
-                                <Col span={12}>
-                                    <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>车型：</span>
-                                    <Select placeholder="请选择车型" value={carCode} className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCar3Type}>
-                                        {
-                                            carType3.map(data => {
-                                                return (
-                                                    <Option key={data.code} value={data.code}>{data.name}</Option>
-                                                );
-                                            })
-                                        }
-                                    </Select>
-                                    <div className="clear"></div>
-                                </Col>
-                            </Row>
                             <Row className="preLoan-body-row-top">
                                 <Col span={12}>
                                     <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>公里数(万)：</span>
@@ -4398,29 +4394,21 @@ class preloanAccess extends React.Component {
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
                                                     <Col span={12}>有效截止日：
-                                                        <Input
-                                                            style={{width: '24%'}}
-                                                            value={cardF
-                                                                ? cardF.startDate
-                                                                : ''}
-                                                            onChange={(e) => {
-                                                                this.changeUserName(
-                                                                    e,
-                                                                    'startDate',
-                                                                    true);
-                                                            }}/>
+                                                        <DatePicker
+                                                            style={{width: '25%'}}
+                                                            value={cardF.startDate ? moment(cardF.startDate, 'YYYY-MM-DD') : null}
+                                                            format='YYYY-MM-DD'
+                                                            onChange={(val) => this.changePicker(val, 'cardF', 'startDate')}
+                                                            placeholder='请选择日期'
+                                                        />
                                                         -
-                                                        <Input
-                                                            style={{width: '24%'}}
-                                                            value={cardF
-                                                                ? cardF.statdate
-                                                                : ''}
-                                                            onChange={(e) => {
-                                                                this.changeUserName(
-                                                                    e,
-                                                                    'statdate',
-                                                                    true);
-                                                            }}/>
+                                                        <DatePicker
+                                                            style={{width: '25%'}}
+                                                            value={cardF.statdate ? moment(cardF.statdate, 'YYYY-MM-DD') : null}
+                                                            format='YYYY-MM-DD'
+                                                            onChange={(val) => this.changePicker(val, 'cardF', 'statdate')}
+                                                            placeholder='请选择日期'
+                                                        />
                                                         <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
                                                     </Col>
                                                     <Col span={12}>身份证号：<Input style={{width: '50%'}} value={cardZ ? cardZ.idNo : ''} onChange={(e) => { this.changeUserName(e, 'idNo'); }}/></Col>
@@ -4551,29 +4539,21 @@ class preloanAccess extends React.Component {
                                                     </Row>
                                                     <Row style={{marginTop: '16px'}}>
                                                         <Col span={12}>有效截止日：
-                                                            <Input
-                                                                style={{width: '24%'}}
-                                                                value={cardFTwo
-                                                                    ? cardFTwo.startDate
-                                                                    : ''}
-                                                                onChange={(e) => {
-                                                                    this.changeCardZTwo(
-                                                                        e,
-                                                                        'startDate',
-                                                                        true);
-                                                                }}/>
+                                                            <DatePicker
+                                                                style={{width: '25%'}}
+                                                                value={cardFTwo.startDate ? moment(cardFTwo.startDate, 'YYYY-MM-DD') : null}
+                                                                format='YYYY-MM-DD'
+                                                                onChange={(val) => this.changePicker(val, 'cardFTwo', 'startDate')}
+                                                                placeholder='请选择日期'
+                                                            />
                                                             -
-                                                            <Input
-                                                                style={{width: '24%'}}
-                                                                value={cardFTwo
-                                                                    ? cardFTwo.statdate
-                                                                    : ''}
-                                                                onChange={(e) => {
-                                                                    this.changeCardZTwo(
-                                                                        e,
-                                                                        'statdate',
-                                                                        true);
-                                                                }}/>
+                                                            <DatePicker
+                                                                style={{width: '25%'}}
+                                                                value={cardFTwo.statdate ? moment(cardFTwo.statdate, 'YYYY-MM-DD') : null}
+                                                                format='YYYY-MM-DD'
+                                                                onChange={(val) => this.changePicker(val, 'cardFTwo', 'statdate')}
+                                                                placeholder='请选择日期'
+                                                            />
                                                             <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
                                                         </Col>
                                                         <Col span={12}>身份证号：
@@ -4727,29 +4707,21 @@ class preloanAccess extends React.Component {
                                                     </Row>
                                                     <Row style={{marginTop: '16px'}}>
                                                         <Col span={12}>有效截止日：
-                                                            <Input
-                                                                style={{width: '24%'}}
-                                                                value={cardFTwo02
-                                                                    ? cardFTwo02.startDate
-                                                                    : ''}
-                                                                onChange={(e) => {
-                                                                    this.changeCardZTwo02(
-                                                                        e,
-                                                                        'startDate',
-                                                                        true);
-                                                                }}/>
+                                                            <DatePicker
+                                                                style={{width: '25%'}}
+                                                                value={cardFTwo02.startDate ? moment(cardFTwo02.startDate, 'YYYY-MM-DD') : null}
+                                                                format='YYYY-MM-DD'
+                                                                onChange={(val) => this.changePicker(val, 'cardFTwo02', 'startDate')}
+                                                                placeholder='请选择日期'
+                                                            />
                                                             -
-                                                            <Input
-                                                                style={{width: '24%'}}
-                                                                value={cardFTwo02
-                                                                    ? cardFTwo02.statdate
-                                                                    : ''}
-                                                                onChange={(e) => {
-                                                                    this.changeCardZTwo02(
-                                                                        e,
-                                                                        'statdate',
-                                                                        true);
-                                                                }}/>
+                                                            <DatePicker
+                                                                style={{width: '25%'}}
+                                                                value={cardFTwo02.statdate ? moment(cardFTwo02.statdate, 'YYYY-MM-DD') : null}
+                                                                format='YYYY-MM-DD'
+                                                                onChange={(val) => this.changePicker(val, 'cardFTwo02', 'statdate')}
+                                                                placeholder='请选择日期'
+                                                            />
                                                             <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
                                                         </Col>
                                                         <Col span={12}>身份证号：
@@ -4884,29 +4856,21 @@ class preloanAccess extends React.Component {
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
                                                     <Col span={12}>有效截止日：
-                                                        <Input
-                                                            style={{width: '24%'}}
-                                                            value={cardFThree
-                                                                ? cardFThree.startDate
-                                                                : ''}
-                                                            onChange={(e) => {
-                                                                this.changeCardZThree(
-                                                                    e,
-                                                                    'startDate',
-                                                                    true);
-                                                            }}/>
+                                                        <DatePicker
+                                                            style={{width: '25%'}}
+                                                            value={cardFThree.startDate ? moment(cardFThree.startDate, 'YYYY-MM-DD') : null}
+                                                            format='YYYY-MM-DD'
+                                                            onChange={(val) => this.changePicker(val, 'cardFThree', 'startDate')}
+                                                            placeholder='请选择日期'
+                                                        />
                                                         -
-                                                        <Input
-                                                            style={{width: '24%'}}
-                                                            value={cardFThree
-                                                                ? cardFThree.statdate
-                                                                : ''}
-                                                            onChange={(e) => {
-                                                                this.changeCardZThree(
-                                                                    e,
-                                                                    'statdate',
-                                                                    true);
-                                                            }}/>
+                                                        <DatePicker
+                                                            style={{width: '25%'}}
+                                                            value={cardFThree.statdate ? moment(cardFThree.statdate, 'YYYY-MM-DD') : null}
+                                                            format='YYYY-MM-DD'
+                                                            onChange={(val) => this.changePicker(val, 'cardFThree', 'statdate')}
+                                                            placeholder='请选择日期'
+                                                        />
                                                         <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
                                                     </Col>
                                                     <Col span={12}>身份证号：
@@ -5058,29 +5022,21 @@ class preloanAccess extends React.Component {
                                                 </Row>
                                                 <Row style={{marginTop: '16px'}}>
                                                     <Col span={12}>有效截止日：
-                                                        <Input
-                                                            style={{width: '24%'}}
-                                                            value={cardFThree02
-                                                                ? cardFThree02.startDate
-                                                                : ''}
-                                                            onChange={(e) => {
-                                                                this.changeCardZThree02(
-                                                                    e,
-                                                                    'startDate',
-                                                                    true);
-                                                            }}/>
+                                                        <DatePicker
+                                                            style={{width: '25%'}}
+                                                            value={cardFThree02.startDate ? moment(cardFThree02.startDate, 'YYYY-MM-DD') : null}
+                                                            format='YYYY-MM-DD'
+                                                            onChange={(val) => this.changePicker(val, 'cardFThree02', 'startDate')}
+                                                            placeholder='请选择日期'
+                                                        />
                                                         -
-                                                        <Input
-                                                            style={{width: '24%'}}
-                                                            value={cardFThree02
-                                                                ? cardFThree02.statdate
-                                                                : ''}
-                                                            onChange={(e) => {
-                                                                this.changeCardZThree02(
-                                                                    e,
-                                                                    'statdate',
-                                                                    true);
-                                                            }}/>
+                                                        <DatePicker
+                                                            style={{width: '25%'}}
+                                                            value={cardFThree02.statdate ? moment(cardFThree02.statdate, 'YYYY-MM-DD') : null}
+                                                            format='YYYY-MM-DD'
+                                                            onChange={(val) => this.changePicker(val, 'cardFThree02', 'statdate')}
+                                                            placeholder='请选择日期'
+                                                        />
                                                         <span style={{color: '#F75151'}}>（有效期不能小于60天）</span>
                                                     </Col>
                                                     <Col span={12}>身份证号：
@@ -5484,12 +5440,16 @@ class preloanAccess extends React.Component {
                                             <input type="number" value={loanInfoArrIpt.discountAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'discountAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
+                                            <span className="preLoan-body-title">发票价格：</span>
+                                            <input type="text" value={carInfoArrIpt.invoicePrice} onChange={(e) => { this.iptCarInfoArr(e, 'invoicePrice'); }} className="preLoan-body-input" />
+                                        </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={6}>
                                             <span className="preLoan-body-title">贷款成数：</span>
                                             <br />
                                             <input type="number" value={loanInfoArrIpt.loanRatio} onChange={(e) => { this.iptLoanInfoPp(e, 'loanRatio'); }} className="preLoan-body-input" />
                                         </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
                                         <Col span={6}>
                                             <span className="preLoan-body-title">万元系数：</span>
                                             <br />
@@ -5505,13 +5465,13 @@ class preloanAccess extends React.Component {
                                             <br />
                                             <input type="number" value={loanInfoArrIpt.repayFirstMonthAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'repayFirstMonthAmount'); }} className="preLoan-body-input" />
                                         </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
                                         <Col span={6}>
                                             <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>开卡金额：</span>
                                             <br />
                                             <input type="number" value={loanInfoArrIpt.openCardAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'openCardAmount'); }} className="preLoan-body-input" />
                                         </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
                                         <Col span={6}>
                                             <span className="preLoan-body-title">高抛金额：</span>
                                             <br />
@@ -5527,13 +5487,13 @@ class preloanAccess extends React.Component {
                                             <br />
                                             <input type="number" value={loanInfoArrIpt.customerBearRate} onChange={(e) => { this.iptLoanInfoPp(e, 'customerBearRate'); }} className="preLoan-body-input" />
                                         </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
                                         <Col span={6}>
                                             <span className="preLoan-body-title" style={{width: '120px'}}>附加费费率(%)：</span>
                                             <br />
                                             <input type="number" value={loanInfoArrIpt.surchargeRate} onChange={(e) => { this.iptLoanInfoPp(e, 'surchargeRate'); }} className="preLoan-body-input" />
                                         </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
                                         <Col span={6}>
                                             <span className="preLoan-body-title">附加费：</span>
                                             <br />
@@ -5616,39 +5576,35 @@ class preloanAccess extends React.Component {
                                     </Row>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
-                                            <span className="preLoan-body-title">发票价格：</span>
-                                            <input type="text" value={carInfoArrIpt.invoicePrice} onChange={(e) => { this.iptCarInfoArr(e, 'invoicePrice'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={12}>
                                             <span className="preLoan-body-title">车架号：</span>
                                             <input type="text" value={carInfoArrIpt.carFrameNo} onChange={(e) => { this.iptCarInfoArr(e, 'carFrameNo'); }} className="preLoan-body-input" />
                                         </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">车牌号：</span>
                                             <input type="text" value={carInfoArrIpt.carNumber} onChange={(e) => { this.iptCarInfoArr(e, 'carNumber'); }} className="preLoan-body-input" />
                                         </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">评估价格：</span>
                                             <input type="text" value={carInfoArrIpt.evalPrice} onChange={(e) => { this.iptCarInfoArr(e, 'evalPrice'); }} className="preLoan-body-input" />
                                         </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">上牌年份：</span>
                                             <input type="text" value={carInfoArrIpt.regDate} onChange={(e) => { this.iptCarInfoArr(e, 'regDate'); }} className="preLoan-body-input" />
                                         </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">上牌地：</span>
                                             <input type="text" value={carInfoArrIpt.regAddress} onChange={(e) => { this.iptCarInfoArr(e, 'regAddress'); }} className="preLoan-body-input" />
                                         </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">行驶里程：</span>
                                             <input type="text" value={carInfoArrIpt.mile} onChange={(e) => { this.iptCarInfoArr(e, 'mile'); }} className="preLoan-body-input" />
                                         </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title" style={{width: '100px'}}>是否加装GPS：</span>
                                             <Select className="preLoan-body-select" value={carInfoIsNotGPSCode} style={{width: '220px'}} onChange={this.handleChangecarInfoIsNotGPS}>

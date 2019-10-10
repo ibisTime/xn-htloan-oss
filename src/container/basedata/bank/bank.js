@@ -17,6 +17,14 @@ import {
     showSucMsg
 } from 'common/js/util';
 
+function outRate(rate) {
+    if(rate) {
+        return (Math.floor(+rate * 1e6) / 1e4).toFixed(4);
+    }else {
+        return '';
+    }
+}
+
 @listWrapper(
     state => ({
         ...state.bizBank,
@@ -36,7 +44,10 @@ class Bank extends React.Component {
     render() {
         const fields = [{
             title: '银行编号',
-            field: 'bankCode'
+            field: 'bankCode1',
+            render: (v, d) => {
+                return d.bankCode;
+            }
         }, {
             title: '银行名称',
             field: 'bankCode',
@@ -54,16 +65,28 @@ class Bank extends React.Component {
             search: true
         }, {
             title: '12期利率',
-            field: 'rate12'
+            field: 'rate12',
+            render(v) {
+                return outRate(v);
+            }
         }, {
             title: '18期利率',
-            field: 'rate18'
+            field: 'rate18',
+            render(v) {
+                return outRate(v);
+            }
         }, {
             title: '24期利率',
-            field: 'rate24'
+            field: 'rate24',
+            render(v) {
+                return outRate(v);
+            }
         }, {
             title: '36期利率',
-            field: 'rate36'
+            field: 'rate36',
+            render(v) {
+                return outRate(v);
+            }
         }, {
             title: '最新修改人',
             field: 'updaterName'

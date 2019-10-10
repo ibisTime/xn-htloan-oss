@@ -12,6 +12,22 @@ import {
 } from 'common/js/util';
 import { DetailWrapper } from 'common/js/build-detail';
 
+function inRate(rate) {
+    if(rate) {
+        return +rate / 100;
+    }else {
+        return '';
+    }
+}
+
+function outRate(rate) {
+    if(rate) {
+        return (Math.floor(+rate * 1e6) / 1e4).toFixed(4);
+    }else {
+        return '';
+    }
+}
+
 @DetailWrapper(
     state => state.bizBankAddEdit, {
         initStates,
@@ -56,51 +72,75 @@ class bankAddedit extends React.Component {
         }, {
             title: '12期利率',
             field: 'rate12',
-            number5: true,
-            help: '请输入0～1之间的数值',
-            required: true
+            number50: true,
+            help: '请输入0～50之间的数值',
+            required: true,
+            formatter(v) {
+                return outRate(v);
+            }
         }, {
             title: '18期利率',
             field: 'rate18',
-            number5: true,
-            help: '请输入0～1之间的数值',
-            required: true
+            number50: true,
+            help: '请输入0～50之间的数值',
+            required: true,
+            formatter(v) {
+                return outRate(v);
+            }
         }, {
             title: '24期利率',
             field: 'rate24',
-            number5: true,
-            help: '请输入0～1之间的数值',
-            required: true
+            number50: true,
+            help: '请输入0～50之间的数值',
+            required: true,
+            formatter(v) {
+                return outRate(v);
+            }
         }, {
             title: '36期利率',
             field: 'rate36',
-            number5: true,
-            help: '请输入0～1之间的小数',
-            required: true
+            number50: true,
+            help: '请输入0～50之间的小数',
+            required: true,
+            formatter(v) {
+                return outRate(v);
+            }
         }, {
             title: '12期直客利率',
             field: 'zkRate12',
-            number5: true,
-            help: '请输入0～1之间的数值',
-            required: true
+            number50: true,
+            help: '请输入0～50之间的数值',
+            required: true,
+            formatter(v) {
+                return outRate(v);
+            }
         }, {
             title: '18期直客利率',
             field: 'zkRate18',
-            number5: true,
-            help: '请输入0～1之间的数值',
-            required: true
+            number50: true,
+            help: '请输入0～50之间的数值',
+            required: true,
+            formatter(v) {
+                return outRate(v);
+            }
         }, {
             title: '24期直客利率',
             field: 'zkRate24',
-            number5: true,
-            help: '请输入0～1之间的数值',
-            required: true
+            number50: true,
+            help: '请输入0～50之间的数值',
+            required: true,
+            formatter(v) {
+                return outRate(v);
+            }
         }, {
             title: '36期直客利率',
             field: 'zkRate36',
-            number5: true,
-            help: '请输入0～1之间的小数',
-            required: true
+            number50: true,
+            help: '请输入0～50之间的小数',
+            required: true,
+            formatter(v) {
+                return outRate(v);
+            }
         }, {
             title: '邮编',
             field: 'postCode'
@@ -148,6 +188,14 @@ class bankAddedit extends React.Component {
             beforeSubmit: (param) => {
                 let bank = this.props.selectData.bankCode.find(v => v.bankCode === param.bankCode);
                 param.bankName = bank.bankName;
+                param.rate12 = inRate(param.rate12);
+                param.rate18 = inRate(param.rate18);
+                param.rate24 = inRate(param.rate24);
+                param.rate36 = inRate(param.rate36);
+                param.zkRate12 = inRate(param.zkRate12);
+                param.zkRate18 = inRate(param.zkRate18);
+                param.zkRate24 = inRate(param.zkRate24);
+                param.zkRate36 = inRate(param.zkRate36);
                 return param;
             }
         });

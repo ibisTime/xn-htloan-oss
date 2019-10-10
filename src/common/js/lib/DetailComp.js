@@ -1573,6 +1573,12 @@ export default class DetailComponent extends React.Component {
                 message: '请输入大于0小于等于1的数字，且小数点后最多4位'
             });
         }
+        if (item.number50) {
+            rules.push({
+                pattern: /^([0-4]?\d(\.\d{1,4})?|50(\.0+)?)$/,
+                message: '请输入大于0小于等于50的数字，且小数点后最多4位'
+            });
+        }
         if (item.positive) {
             rules.push({
                 pattern: /^\d+(\.\d+)?$/,
