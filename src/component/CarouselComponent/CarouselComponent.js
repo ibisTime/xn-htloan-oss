@@ -35,7 +35,22 @@ const styles = {
         width: '30px',
         height: '60px',
         cursor: 'pointer'
+    },
+    carousel_btn: {
+        marginTop: 40,
+        marginBottom: 20,
+        display: 'flex',
+        jujustifyContent: 'center',
+        alignItems: 'center'
     }
+};
+
+const categoryObj = {
+    'credit_user': '人员信息',
+    'car_procedure': '车辆手续',
+    'loan_material': '贷款材料',
+    'door_investigate': '上门调查',
+    'car_photo': '车辆照片'
 };
 
 export default class CarouselComponent extends React.Component {
@@ -43,7 +58,9 @@ export default class CarouselComponent extends React.Component {
         visible: false,
         title: '轮播图',
         carousePic: '',
-        attachmentsList: []
+        attachmentsList: [],
+        carouselBtnList: [],
+        attachmentsObj: {}
     };
     welcome = null;
     onChange = (a) => {
@@ -64,13 +81,22 @@ export default class CarouselComponent extends React.Component {
                 carousePic: nextProps.carousePic
             }, () => {
                 const {attachments} = this.props;
+                const {carouselBtnList, attachmentsObj} = this.state;
                 let attachmentsList = [];
                 if(Array.isArray(attachments)) {
                     attachments.forEach(item => {
+                        if(carouselBtnList.indexOf(item.category) === -1) {
+                            carouselBtnList.push(item.category);
+                            attachmentsObj[item.category] = [];
+                        }
                         if((item.dvalue).indexOf('||') !== -1) {
                             const urlList = item.dvalue.split('||');
                             urlList.forEach(itemUrl => {
                                 attachmentsList.push({
+                                    ...item,
+                                    dvalue: itemUrl
+                                });
+                                attachmentsObj[item.category].push({
                                     ...item,
                                     dvalue: itemUrl
                                 });
@@ -79,10 +105,12 @@ export default class CarouselComponent extends React.Component {
                             attachmentsList.push({
                                 ...item
                             });
+                            attachmentsObj[item.category].push({
+                                ...item
+                            });
                         }
                     });
                 }
-                console.log(attachmentsList);
                 attachmentsList.forEach((item, index) => {
                     if(item.dvalue === this.state.carousePic) {
                         setTimeout(() => {
@@ -100,8 +128,13 @@ export default class CarouselComponent extends React.Component {
         }
         return true;
     }
+    changeCarousel = (category) => {
+        this.setState({
+            attachmentsList: this.state.attachmentsObj[category]
+        });
+    };
     render() {
-        const {attachmentsList, visible, title} = this.state;
+        const {attachmentsList, visible, title, carouselBtnList} = this.state;
         return (
             <Modal
                 title={title}
@@ -130,6 +163,24 @@ export default class CarouselComponent extends React.Component {
                         </Carousel>
                     )
                 }
+                <div style={styles.carousel_btn}>
+                    {
+                        carouselBtnList.map(item => (
+                            <span
+                                key={item}
+                                style={{
+                                    fontSize: 16,
+                                    color: '#1791FF',
+                                    marginRight: 20,
+                                    cursor: 'pointer'
+                                }}
+                                onClick={() => {
+                                    this.changeCarousel(item);
+                                }}
+                            >{categoryObj[item]}</span>
+                        ))
+                    }
+                </div>
                 <div style={styles.leftBox}>
                     <img src={require('./left.png')} style={styles.toLeft} onClick={() => {
                         this.welcome.prev();

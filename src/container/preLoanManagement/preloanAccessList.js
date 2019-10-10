@@ -79,6 +79,7 @@ class preloanAccessList extends React.Component {
     getAccessSlip = (pageNumber) => {
         const hasMsg = message.loading('', 100);
         const {code, customerName, curNodeCode} = this.state;
+        this.checkBoxGroup = [];
         accessSlip(pageNumber, 4, code === '' ? '' : code, customerName === '' ? '' : customerName, curNodeCode === '' ? '' : curNodeCode, ['a1', 'a2', 'a1x']).then(data => {
             hasMsg();
             let arr = [];
@@ -140,6 +141,9 @@ class preloanAccessList extends React.Component {
         }else{
             this.checkBoxGroup.splice(this.checkBoxGroup.findIndex(index => index === e.target.value), 1);
         }
+        this.setState({
+            curNodeCode: this.state.curNodeCode
+        });
     }
     sendDetail = () => {
         if(this.checkBoxGroup.length <= 0) {
@@ -260,7 +264,12 @@ class preloanAccessList extends React.Component {
                         : accessSlipList.map(d => {
                             return (<Row className="preLoan-access-list-item">
                                 <Col span={1} style={{lineHeight: '130px'}}>
-                                    <Checkbox value={d.code + '|' + d.curNodeCode} onChange={this.onChange}/>
+                                    <Checkbox
+                                        value={d.code + '|' + d.curNodeCode}
+                                        checked={
+                                            this.checkBoxGroup && this.checkBoxGroup.indexOf(d.code + '|' + d.curNodeCode) !== -1
+                                        }
+                                        onChange={this.onChange}/>
                                 </Col>
                                 <Col span={23}>
                                     <Row>

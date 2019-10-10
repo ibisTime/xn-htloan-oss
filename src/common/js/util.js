@@ -757,7 +757,8 @@ export function dsctImgList(array) {
         arr.push({
             dkey: array[i].kname,
             dvalue: array[i].url,
-            vname: array[i].vname
+            vname: array[i].vname,
+            category: array[i].category
         });
     }
   }

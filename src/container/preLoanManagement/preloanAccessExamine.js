@@ -14,7 +14,7 @@ import {
     queryGps
 } from '../../api/preLoan.js';
 import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
-import {Row, Col} from 'antd';
+import {Row, Col, message} from 'antd';
 import CarouselComponent from 'component/CarouselComponent/CarouselComponent';
 import './preloanAccessDetail.css';
 import './preloanAccess.css';
@@ -83,7 +83,9 @@ class preloanAccessDetail extends React.Component {
         return fileList;
     };
     componentDidMount() {
-        getCityList(1, 1000).then(async data => {
+        const hasMsg = message.loading('');
+        getCityList(1, 1000).then(data => {
+            hasMsg();
             let arr = [];
             for (let i = 0; i < data.list.length; i++) {
                 arr.push({
@@ -94,7 +96,7 @@ class preloanAccessDetail extends React.Component {
             this.setState({
                 cityList: arr
             });
-        });
+        }, hasMsg);
         accessSlipDetail(this.code).then(data => {
             const card = data.creditUserList.filter(item => item.loanRole === '1');
             const cardZTwo01 = data.creditUserList.filter(item => item.loanRole === '2');
@@ -157,7 +159,8 @@ class preloanAccessDetail extends React.Component {
                         attachList.push({
                             dkey: item.code,
                             dvalue: item.azPhotos,
-                            vname: gpsObj[item.code]
+                            vname: gpsObj[item.code],
+                            category: item.category
                         });
                         return {
                             code: item.code,
