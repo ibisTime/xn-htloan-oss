@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-    showWarnMsg,
-    showSucMsg,
-    getQueryString,
     dsctImgList,
+    dsctList,
     findDsct,
-    dsctList
+    getQueryString,
+    showSucMsg,
+    showWarnMsg
 } from 'common/js/util';
 import {
     accessSlipDetail,
@@ -13,8 +13,8 @@ import {
     getGpsAll,
     queryGps
 } from '../../api/preLoan.js';
-import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
-import {Row, Col} from 'antd';
+import {PIC_PREFIX} from '../../common/js/config.js';
+import {Col, Row} from 'antd';
 import {getDictList} from 'api/dict';
 import './preloanAccessDetail.css';
 import './preloanAccess.css';
@@ -791,7 +791,8 @@ class preloanAccessDetail extends React.Component {
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={12}>上牌地：{carInfo ? carInfo.regAddress : ''}</Col>
-                            <Col span={12}>购车车行：{carInfo ? carInfo.shopCarGarage : ''}</Col>
+                            <Col span={12}>购车车行：{carInfo
+                                ? carInfo.shopCarGarageName : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={12}>车辆型号：{carInfo ? carInfo.model : ''}</Col>

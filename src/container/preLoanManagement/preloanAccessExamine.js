@@ -824,7 +824,7 @@ class preloanAccessDetail extends React.Component {
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={12}>上牌地：{carInfo ? carInfo.regAddress : ''}</Col>
-                            <Col span={12}>购车车行：{carInfo ? carInfo.shopCarGarage : ''}</Col>
+                            <Col span={12}>购车车行：{carInfo ? carInfo.shopCarGarageName : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={12}>车辆型号：{carInfo ? carInfo.model : ''}</Col>
