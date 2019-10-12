@@ -927,7 +927,7 @@ class preloanAccess extends React.Component {
                             carFrameNo: '',
                             carNumber: '',
                             evalPrice: '',
-                            regDate: '',
+                            regDate: data.bizType === '1' ? data.carInfo ? data.carInfo.regDate : '' : '',
                             mile: ''
                         },
                         // 驾驶证
@@ -1610,7 +1610,9 @@ class preloanAccess extends React.Component {
                 // 计算返点金额
                 const {loanInfoArrIpt, costSettlementInfoArrIpt} = this.state;
                 let amount = 0;
-                amount = loanInfoArrIpt.loanAmount * loanInfoArrIpt.rebateRate;
+                if(loanInfoArrIpt.rebateRate && loanInfoArrIpt.loanAmount) {
+                    amount = loanInfoArrIpt.loanAmount * loanInfoArrIpt.rebateRate / 100;
+                }
                 costSettlementInfoArrIpt['repointAmount'] = amount;
                 this.setState({
                     costSettlementInfoArrIpt
