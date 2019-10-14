@@ -311,11 +311,11 @@ class preloanAccessDetail extends React.Component {
                         </Row>
                         <Row style={{marginTop: '32px'}}>
                             <Col span={12}>购车途径：{headInfo.bizType}</Col>
-                            <Col span={12}>品牌：{carInfo.carBrandName}</Col>
+                            <Col span={12}>品牌：{carInfo ? carInfo.carBrandName : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '32px'}}>
-                            <Col span={12}>车系：{carInfo.carSeriesName}</Col>
-                            <Col span={12}>车型：{carInfo.carModelName}</Col>
+                            <Col span={12}>车系：{carInfo ? carInfo.carSeriesName : ''}</Col>
+                            <Col span={12}>车型：{carInfo ? carInfo.carModelName : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '32px'}}>
                             <Col span={12}>上牌地：{headInfo.regAddress}</Col>
