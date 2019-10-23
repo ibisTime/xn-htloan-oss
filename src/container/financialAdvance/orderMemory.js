@@ -4,9 +4,10 @@ import {
     showSucMsg,
     getQueryString,
     findDsct,
-    dsctList1
+    dsctList1,
+    getNowTime
 } from 'common/js/util';
-import {Row, Col, Select, Upload, Button, Icon, DatePicker} from 'antd';
+import {Row, Col, Upload, Button, Icon, DatePicker} from 'antd';
 import { Link } from 'react-router-dom';
 import {
     accessSlipStatus,
@@ -16,11 +17,10 @@ import {
     recall,
     getQiNiu
 } from '../../api/preLoan.js';
-import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
+import {UPLOAD_URL} from '../../common/js/config.js';
 import './applicationForPayment.css';
+import moment from 'moment';
 
-const {Option} = Select;
-const { MonthPicker } = DatePicker;
 class orderMemory extends React.Component {
     constructor(props) {
         super(props);
@@ -122,12 +122,12 @@ class orderMemory extends React.Component {
                 picHashJF = fileListJF[0].response.hash;
             }
         }
-        if(regDate === '' || iptInfoArr.amount === '' || iptInfoArr.rmk === '' || picHashJF === '') {
+        if(regDate === '' || iptInfoArr.amount === '' || picHashJF === '') {
             showWarnMsg('请将信息填写完整!');
         }else {
             let arr = {
                 code: this.code,
-                advanceFundDatetime: regDate,
+                advanceFundDatetime: regDate === '' ? getNowTime() : regDate,
                 advanceFundAmount: iptInfoArr.amount,
                 billPdf: picHashJF,
                 advanceNote: iptInfoArr.rmk
@@ -238,7 +238,7 @@ class orderMemory extends React.Component {
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>垫资日期：</span>
-                        <DatePicker format={'YYYY-MM-DD'} style={{width: '220px', float: 'left'}} onChange={this.onChangeTime}/>
+                        <DatePicker format={'YYYY-MM-DD'} defaultValue={moment(new Date(), 'YYYY-MM-DD')} style={{width: '220px', float: 'left'}} onChange={this.onChangeTime}/>
                         <div className="clear"></div>
                     </Col>
                     <Col span={12}></Col>
@@ -265,7 +265,7 @@ class orderMemory extends React.Component {
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={14}>
-                        <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>垫资说明：</span>
+                        <span className="afp-body-title" style={{width: '120px'}}>垫资说明：</span>
                         <textarea value={iptInfoArr.rmk} ref={input => this.rmkIpt = input} onChange={(e) => { this.iupChange(e, 'rmk'); }} className="afp-body-textarea"></textarea>
                     </Col>
                 </Row>

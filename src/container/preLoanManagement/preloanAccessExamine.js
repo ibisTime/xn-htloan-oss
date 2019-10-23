@@ -364,18 +364,34 @@ class preloanAccessDetail extends React.Component {
                                 <Col span={2}
                                      className={isMain ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'}
                                      onClick={() => this.getTag('main')}>主贷人信息</Col>
-                                <Col span={2}
-                                     className={isCommon ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'}
-                                     style={{marginLeft: '20px'}} onClick={() => this.getTag('common')}>共还人1</Col>
-                                <Col span={2}
-                                     className={isCommon02 ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'}
-                                     style={{marginLeft: '20px'}} onClick={() => this.getTag('common02')}>共还人2</Col>
-                                <Col span={2}
-                                     className={isBack ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'}
-                                     style={{marginLeft: '20px'}} onClick={() => this.getTag('back')}>反担保人1</Col>
-                                <Col span={2}
-                                     className={isBack02 ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'}
-                                     style={{marginLeft: '20px'}} onClick={() => this.getTag('back02')}>反担保人2</Col>
+                                {
+                                    JSON.stringify(creditUserList2) !== '{}' ? (
+                                        <Col span={2}
+                                             className={isCommon ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'}
+                                             style={{marginLeft: '20px'}} onClick={() => this.getTag('common')}>共还人1</Col>
+                                    ) : null
+                                }
+                                {
+                                    JSON.stringify(creditUserList202) !== '{}' ? (
+                                        <Col span={2}
+                                             className={isCommon02 ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'}
+                                             style={{marginLeft: '20px'}} onClick={() => this.getTag('common02')}>共还人2</Col>
+                                    ) : null
+                                }
+                                {
+                                    JSON.stringify(creditUserList3) !== '{}' ? (
+                                        <Col span={2}
+                                             className={isBack ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'}
+                                             style={{marginLeft: '20px'}} onClick={() => this.getTag('back')}>反担保人1</Col>
+                                    ) : null
+                                }
+                                {
+                                    JSON.stringify(creditUserList302) !== '{}' ? (
+                                        <Col span={2}
+                                             className={isBack02 ? 'preLoan-body-table-content-tab-in' : 'preLoan-body-table-content-tab-out'}
+                                             style={{marginLeft: '20px'}} onClick={() => this.getTag('back02')}>反担保人2</Col>
+                                    ) : null
+                                }
                             </Row>
                         </Row>
                         {
