@@ -39,7 +39,7 @@ class Beforedot extends React.Component {
             field: 'id',
             hidden: true
         }, {
-            title: '返点比例',
+            title: '车款2比例',
             field: 'cvalue',
             positives: true,
             required: true,

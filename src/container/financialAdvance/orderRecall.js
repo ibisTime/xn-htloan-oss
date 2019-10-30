@@ -103,7 +103,7 @@ class orderRecall extends React.Component {
         }else {
             let arr = {
                 code: this.code,
-                advanceCardCode: bankCode
+                advanceOutCardCode: bankCode
             };
             sendApplicationForPaymentBack(arr).then(data => {
                 if(data.isSuccess) {
@@ -161,7 +161,7 @@ class orderRecall extends React.Component {
                     </Col>
                 </Row>
                 <div className="afp-body-line"></div>
-                <span className="afp-body-tag">垫资信息</span>
+                <span className="afp-body-tag">收款信息</span>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={8}>
                         <span>收款账户户名：{collectBankcard.realName}</span>
@@ -178,7 +178,7 @@ class orderRecall extends React.Component {
                 <div className="afp-body-line"></div>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={20}>
-                        <span className="afp-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>收款账号：</span>
+                        <span className="afp-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>付款账号：</span>
                         <Select className="afp-body-select" onChange={this.handleChange}>
                             {
                                 bankListArr.map(item => {
@@ -188,17 +188,17 @@ class orderRecall extends React.Component {
                                 })
                             }
                         </Select>
-                        <span style={{color: 'red', marginTop: '5px', display: 'block'}}>（选择后将覆盖原收款账号）</span>
+                        <span style={{color: 'red', marginTop: '5px', display: 'block'}}></span>
                         <div className="clear"></div>
                     </Col>
                     <Col span={4}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={12}>收款账户户名：{bankObject ? bankObject.companyName : ''}</Col>
+                    <Col span={12}>付款账户户名：{bankObject ? bankObject.companyName : ''}</Col>
                     <Col span={12}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={12}>收款账户账号：{bankObject ? bankObject.bankcardNumber : ''}</Col>
+                    <Col span={12}>付款账户账号：{bankObject ? bankObject.bankcardNumber : ''}</Col>
                     <Col span={12}></Col>
                 </Row>
                 <div className="afp-body-btn-group">

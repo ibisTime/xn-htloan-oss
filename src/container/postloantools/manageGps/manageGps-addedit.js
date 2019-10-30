@@ -33,20 +33,6 @@ class manageGpsAddedit extends React.Component {
   }
   render() {
     const fields = [{
-      title: 'GPS类型',
-      field: 'gpsType',
-      type: 'select',
-      data: [{
-        key: '1',
-        value: '有线'
-      }, {
-        key: '0',
-        value: '无线'
-      }],
-      keyName: 'key',
-      valueName: 'value',
-      required: true
-    }, {
       title: 'GPS设备号',
       field: 'gpsDevNo',
       required: true

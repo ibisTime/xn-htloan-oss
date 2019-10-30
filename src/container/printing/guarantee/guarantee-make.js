@@ -30,6 +30,7 @@ import { exportCCBFwf } from '../../../common/js/contract/CCB-fwf';
 import { exportBOCFjd } from '../../../common/js/contract/CCB-fjd';
 import { exportCCBJc } from '../../../common/js/contract/CCB-jc';
 import { exportCCBXydb } from '../../../common/js/contract/CCB-xydb';
+import './guarantee.css';
 
 @CollapseWrapper(
   state => state.printingGuaranteeMake, {

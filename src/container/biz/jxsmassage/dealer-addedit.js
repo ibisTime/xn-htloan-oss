@@ -166,7 +166,7 @@ class DealerAddedit extends React.Component {
       dataIndex: 'bankcardNumber',
       editable: true
     }, {
-      title: '返点比例',
+      title: '车款2比例',
       dataIndex: 'pointRate',
       editable: true
     }];
@@ -550,7 +550,7 @@ class DealerAddedit extends React.Component {
           </Row>
           <Row gutter={54}>
             <Col {...col2Props}>
-              <FormItem label="返点税点">
+              <FormItem label="车款2税点">
                 <Row gutter={8}>
                   <Col span={12}>
                     {
@@ -874,7 +874,7 @@ class DealerAddedit extends React.Component {
     }
     if (values['returnPointType_' + tab]) {
       if (isUndefined(values['returnPointFee_' + tab])) {
-        showWarnMsg(map[tab] + '返点税点不能为空');
+        showWarnMsg(map[tab] + '车款2税点不能为空');
         result.flag = false;
         return result;
       }

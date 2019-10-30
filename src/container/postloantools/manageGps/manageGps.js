@@ -96,7 +96,12 @@ class manageGps extends React.Component {
         ];
         return this.props.buildList({
             fields,
-            pageCode: 632705
+            pageCode: 632705,
+            btnEvent: {
+                import: (selectedRowKeys, selectedRows) => {
+                    this.props.history.push(`/postloantools/manageGps/import`);
+                }
+            }
         });
     }
 }

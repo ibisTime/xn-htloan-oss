@@ -2129,7 +2129,7 @@ class ArchivesAddEdit extends React.Component {
                                 </Row>
                             </Card>
                         </TabPane>
-                        <TabPane tab="返点信息" key="11">
+                        <TabPane tab="车款2信息" key="11">
                             <Card>
                                 <Row gutter={54}>
                                     {this.getInputCol({field: 'teamName', title: '业务团队'}, 4)}

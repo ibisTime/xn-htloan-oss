@@ -1,0 +1,12 @@
+.ant-col {
+    position: relative;
+    min-height: 1px;
+    float: left!important;
+}
+
+.ant-select-selection--single {
+    position: relative;
+    height: 32px;
+    cursor: pointer;
+    width: 200px!important;
+}

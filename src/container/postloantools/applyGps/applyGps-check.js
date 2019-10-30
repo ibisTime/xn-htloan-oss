@@ -49,26 +49,6 @@ class applyGpsCheck extends DetailUtil {
         add: true,
         delete: true,
         fields: [{
-          field: 'gpsType',
-          title: 'GPS类型',
-          type: 'select',
-          data: [{
-            dkey: '0',
-            dvalue: '无线'
-          }, {
-            dkey: '1',
-            dvalue: '有线'
-          }],
-          keyName: 'dkey',
-          valueName: 'dvalue',
-          required: true,
-          onChange: (v, l, updateSelectData) => {
-            if (updateSelectData && this.state.oSelectData['gpsList']) {
-              let list = this.state.oSelectData['gpsList'].code.filter((c) => c.gpsType === v);
-              updateSelectData('code', list);
-            }
-          }
-        }, {
           title: 'GPS设备号',
           field: 'code',
           type: 'select',

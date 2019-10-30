@@ -783,7 +783,7 @@ class preloanAccessDetail extends React.Component {
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={8}>总利率：{bankLoan ? (Math.floor(bankLoan.totalRate * 10e6) / 10e4).toFixed(4) : ''}</Col>
-                            <Col span={8}>返点利率：{bankLoan ? (Math.floor(bankLoan.rebateRate * 10e6) / 10e4).toFixed(4) : ''}</Col>
+                            <Col span={8}>车款2利率：{bankLoan ? (Math.floor(bankLoan.rebateRate * 10e6) / 10e4).toFixed(4) : ''}</Col>
                             <Col span={8}>服务费：{bankLoan ? bankLoan.fee / 1000 : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
@@ -818,7 +818,7 @@ class preloanAccessDetail extends React.Component {
                         <Row style={{marginTop: '34px'}}>
                             <Col span={8}>担保风险金：{costSettlement.fxAmount ? costSettlement.fxAmount / 1000 : ''}</Col>
                             <Col span={8}>履约押金：{costSettlement.lyDeposit ? costSettlement.lyDeposit / 1000 : ''}</Col>
-                            <Col span={8}>返点金额：{costSettlement.repointAmount ? costSettlement.repointAmount / 1000 : ''}</Col>
+                            <Col span={8}>车款2金额：{costSettlement.repointAmount ? costSettlement.repointAmount / 1000 : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={8}>GPS费：{costSettlement.gpsFee ? costSettlement.gpsFee / 1000 : ''}</Col>

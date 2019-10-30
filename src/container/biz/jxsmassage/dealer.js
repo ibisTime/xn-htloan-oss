@@ -90,7 +90,7 @@ class Dealer extends React.Component {
             keyName: 'code',
             valueName: 'name'
         }, {
-            title: '返点利率(%)',
+            title: '车款2利率(%)',
             field: 'rebateRate',
             render(v) {
                 return v && +v * 100;

@@ -32,26 +32,24 @@ export function createHt(data) {
     createD6(wb);
     createD7(wb);
     createD11(wb);
-    wb.downloadXls('担保合同-工商银行');
+    wb.downloadXls(`${data.creditUser.userName}-担保合同-工商银行`);
 }
 // 数据
 function createData(wb, data) {
-    let year = data.creditUser.customerBirth.substr(0, 4);
-    let month = data.creditUser.customerBirth.substr(4, 2) - 0;
     let nowAddress = (data.creditUser.nowAddressProvince || '') + (data.creditUser.nowAddressArea || '') + (data.creditUser.nowAddress || '');
     let dbNowAddress = (data.dbUser1.nowAddressProvince || '') + (data.dbUser1.nowAddressArea || '') + (data.dbUser1.nowAddress || '');
     let arr = [
         ['工行姓名', data.creditUser.userName],
-        ['出生年月', year + '.' + month],
+        ['出生年月', data.creditUser.customerBirth],
         ['性别', data.creditUser.gender],
         ['身份证号码', data.creditUser.idNo],
         ['手机号码', data.creditUser.mobile],
-        ['工作单位', data.creditUser.applyUserCompany],
+        ['工作单位', data.creditUser.companyName],
         ['现住址', nowAddress],
-        ['配偶姓名', data.mateUser.userName],
-        ['身份证号码', data.mateUser.idNo],
-        ['工作单位', data.mateUser.applyUserCompany],
-        ['手机号码', data.mateUser.mobile],
+        ['配偶姓名', data.creditUserList[1].userName],
+        ['身份证号码', data.creditUserList[1].customerBirth],
+        ['工作单位', data.creditUserList[1].companyName],
+        ['手机号码', data.creditUserList[1].mobile],
         ['费利率（银行利率）', (data.bankLoan.bankRate * 100).toFixed(4)],
         ['贷款额', moneyFormat(data.loanAmount)],
         ['服务费', moneyReplaceComma(moneyFormat(data.bankLoan.fee))],
@@ -70,11 +68,11 @@ function createData(wb, data) {
         ['车辆总价大写带元整', ''],
         ['首付额', ''],
         ['首付额（大写无元）', ''],
-        ['车辆品牌', data.carInfo.carBrandName],
+        ['车辆品牌', `${data.carInfo.carBrandName}-${data.carInfo.carSeriesName}牌`],
         ['经销商', data.carInfo.shopCarGarageName],
         ['发动机号', data.carInfo.carEngineNo],
         ['车架号', data.carInfo.carFrameNo],
-        ['品牌型号', data.carInfo.carModelName],
+        ['品牌型号', `${data.carInfo.carBrandName}-${data.carInfo.carSeriesName}-${data.carInfo.carModelName}`],
         ['担保人姓名', data.dbUser1.userName],
         ['性别', data.dbUser1.gender],
         ['身份证号码', data.dbUser1.idNo],

@@ -11,53 +11,53 @@ class applyGpsApply extends DetailUtil {
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
     this.type = !!getQueryString('type', this.props.location.search); // 公司0 个人1
-    // console.log(this.type);
     this.state = {
       ...this.state,
       applyType: '',
-      haveUser: false
+      haveUser: false,
+      userInfo: {}
     };
     this.applyCount = '';
     this.applyReason = '';
   }
+  componentDidMount(): void {
+    fetch(630067, {
+      userId: getUserId()
+    }).then(data => {
+      this.setState({
+        userInfo: data
+      });
+    });
+  }
+
   render() {
-    const fields = [
-    //     {
-    //   title: '归属公司',
-    //   field: 'companyCode',
-    //   detailCode: 630067,
-    //   params: {
-    //     userId: getUserId()
-    //   },
-    //   type: 'select',
-    //   keyName: 'code',
-    //   valueName: 'name',
-    //   hiddden: true,
-    //   formatter: (v, d) => {
-    //     console.log('用户');
-    //     console.log(d);
-    //     this.companyCode = d.companyCode;
-    //   }
-    // },
-    //   {
-    //   title: '申领个数',
-    //   field: 'applyCount',
-    //   required: true
-    //  },
+    const {userInfo} = this.state;
+    const fields = [{
+        title: '所在团队',
+        field: 'teamName',
+        formatter: (v, d) => {
+          return userInfo.teanName ? userInfo.teanName : '暂不存在';
+        },
+        readonly: true
+      },
       {
-        title: '申领有线个数',
-        field: 'applyWiredCount',
-        required: true
-      }, {
-        title: '申领无线个数',
-        field: 'applyWirelessCount',
+        title: '申领人',
+        field: 'teamName',
+        formatter: (v, d) => {
+          return userInfo.departmentName ? `${userInfo.departmentName}-${userInfo.postName}-${userInfo.realName}` : '暂不存在';
+        },
+        readonly: true
+      },
+      {
+        title: '申领个数',
+        field: 'applyCount',
         required: true
       },
       {
-      title: '备注',
-      field: 'applyReason',
-      required: true
-    }];
+        title: '申领原因',
+        field: 'applyReason',
+        required: true
+      }];
     return this.buildDetail({
       fields,
       code: this.code,

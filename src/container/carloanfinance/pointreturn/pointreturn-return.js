@@ -83,7 +83,7 @@ class pointreturnReturn extends React.Component {
             amount: true,
             readonly: true
         }, {
-            title: '返点账号列表',
+            title: '车款2账号列表',
             field: 'repointAccountList',
             type: 'o2m',
             options: {
@@ -91,7 +91,7 @@ class pointreturnReturn extends React.Component {
                 edit: true,
                 delete: true,
                 fields: [{
-                    title: '返点账号',
+                    title: '车款2账号',
                     field: 'repointCardCode',
                     type: 'select',
                     listCode: '632007',

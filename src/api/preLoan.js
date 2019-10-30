@@ -70,8 +70,8 @@ export function getQiNiu() {
 }
 
 // 品牌管理列表
-export function brandMng(status, type) {
-    return fetch(630406, {status, type});
+export function brandMng(status, type, name) {
+    return fetch(630406, {status, type, name});
 }
 
 // 车系管理 brandCode(品牌编号)

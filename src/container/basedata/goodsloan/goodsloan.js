@@ -54,7 +54,7 @@ class Goodsloan extends React.Component {
             title: '公证费利率',
             field: 'authRate'
         }, {
-            title: '返点利率',
+            title: '车款2利率',
             field: 'returnPointRate'
         }, {
             title: '前置利率',

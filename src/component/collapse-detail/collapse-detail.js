@@ -43,7 +43,7 @@ class CollapseDetail extends DetailComp {
           <Panel header={field.title} key={i} className={field.hidden ? 'hidden' : ''}>
             {
               field.items.map((fld, k) => (
-                <Row gutter={24} key={k}>
+                <Row key={k}>
                   {
                     fld.map((f, j) => {
                       this.fields.push(f);
@@ -79,7 +79,7 @@ class CollapseDetail extends DetailComp {
                                 ? j < 4 ? col5Props : col55Props
                                 : col1Props;
                       return (
-                        <Col {...props} key={f.field}>
+                        <Col {...props} span={12} key={f.field}>
                           {this.getItemByType(f.type, f)}
                         </Col>
                       );

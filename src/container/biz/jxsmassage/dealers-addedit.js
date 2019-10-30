@@ -122,7 +122,7 @@ class BankTypeAddedit extends React.Component {
             required: true,
             field: 'businessArea'
         }, {
-            title: '返点利率(%)',
+            title: '车款2利率(%)',
             required: true,
             field: 'rebateRate',
             type: 'number',
