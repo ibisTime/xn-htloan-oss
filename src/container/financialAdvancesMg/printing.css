@@ -1,0 +1,12 @@
+.table-style{
+    margin: 30px auto;
+}
+.table-style, .table-style tr, .table-style tr td{
+    border: 1px solid #000;
+}
+.table-style tr td{
+    width: 200px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}

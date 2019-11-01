@@ -1053,6 +1053,11 @@ const ROUTES = [
       path: '/loan/advMoney',
       component: asyncComponent(() => import('container/financialAdvancesMg/preloanAccessList1'))
   },
+  // 垫资打印
+  {
+    path: '/loan/printing',
+    component: asyncComponent(() => import('container/financialAdvancesMg/printing'))
+  },
   // 财务垫资 垫资
   {
       path: '/loan/advMoney/addedit',

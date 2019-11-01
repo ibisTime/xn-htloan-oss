@@ -83,7 +83,7 @@ class ywCx extends React.Component {
             fields,
             pageCode: 632519,
             btnEvent: {
-                detail: (selectedRowKeys, selectedRows) => {
+                admittance: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
                     } else if (selectedRowKeys.length > 1) {

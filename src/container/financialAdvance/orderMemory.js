@@ -122,7 +122,7 @@ class orderMemory extends React.Component {
                 picHashJF = fileListJF[0].response.hash;
             }
         }
-        if(regDate === '' || iptInfoArr.amount === '' || picHashJF === '') {
+        if(iptInfoArr.amount === '' || picHashJF === '') {
             showWarnMsg('请将信息填写完整!');
         }else {
             let arr = {

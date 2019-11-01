@@ -36,7 +36,8 @@ class preloanAccessList1 extends React.Component {
             toexamines: false,
             zdhl: false,
             edit: false,
-            detail: false
+            detail: false,
+            printing: false
         };
         this.checkBoxGroup = [];
         this.statusName = '';
@@ -74,6 +75,10 @@ class preloanAccessList1 extends React.Component {
                 }else if(data[i].url === '/detail') {
                     this.setState({
                         detail: true
+                    });
+                }else if(data[i].url === '/printing') {
+                    this.setState({
+                        printing: true
                     });
                 }
             }
@@ -255,6 +260,17 @@ class preloanAccessList1 extends React.Component {
             this.props.history.push(`/financial/advance/orderMemory?code=${this.checkBoxGroup[0].split('|')[0]}`);
         }
     }
+    // 垫资打印
+    skPrint = () => {
+        if(this.checkBoxGroup.length <= 0) {
+            showWarnMsg('请选择信息');
+        }else if(this.checkBoxGroup.length >= 2) {
+            showWarnMsg('请选择不大于一条记录');
+        }else {
+            // this.props.history.push(`/financial/advance/orderMemory?code=${this.checkBoxGroup[0].split('|')[0]}`);
+            this.props.history.push(`/loan/printing?code=${this.checkBoxGroup[0].split('|')[0]}`);
+        }
+    }
     render() {
         const {
             accessSlipList,
@@ -268,7 +284,8 @@ class preloanAccessList1 extends React.Component {
             toexamines,
             zdhl,
             edit,
-            detail
+            detail,
+            printing
         } = this.state;
         return (
             <div className="preLoan-access-list-global">
@@ -323,6 +340,11 @@ class preloanAccessList1 extends React.Component {
                     {
                         edit ? (
                             <span className="preLoan-access-list-btn-gray" onClick={this.skForBack2} style={{marginRight: '30px', width: '80px'}}>垫资回录</span>
+                        ) : null
+                    }
+                    {
+                        printing ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.skPrint} style={{marginRight: '30px', width: '80px'}}>垫资打印</span>
                         ) : null
                     }
                     {

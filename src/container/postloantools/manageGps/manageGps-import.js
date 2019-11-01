@@ -6,7 +6,7 @@ import {
 import { readXls } from 'common/js/xlsx-util';
 import { Form, Select, Upload, Button, Icon, Table } from 'antd';
 import fetch from 'common/js/fetch';
-import { tailFormItemLayout } from 'common/js/config';
+import { tailFormItemLayout, PIC_PREFIX } from 'common/js/config';
 
 const {Item: FormItem} = Form;
 
@@ -18,9 +18,6 @@ class ContractImport extends React.Component {
         let gpscols = [{
             title: 'gps编号',
             dataIndex: 'gpsDevNo'
-        }, {
-            title: ' gps类型',
-            dataIndex: 'gpsType'
         }];
         this.state = {
             data: [],
@@ -102,6 +99,8 @@ class ContractImport extends React.Component {
 
         return (
             <Form>
+                <h3>下载模板</h3>
+                <a href="/download/gps.xlsx" download="GPS导入模板.xlsx">下载</a>
                 <FormItem label='gps清单' >
                     <Upload {...props}>
                         <Button>
@@ -110,9 +109,9 @@ class ContractImport extends React.Component {
                     </Upload>
                 </FormItem>
                 <div className="table-wrapper">
-                {
-                    <Table bordered rowKey={record => record['id']} dataSource={this.state.data} columns={this.state.gpscols} />
-                }
+                    {
+                        <Table bordered rowKey={record => record['id']} dataSource={this.state.data} columns={this.state.gpscols} />
+                    }
                 </div>
                 <FormItem style={{marginTop: 30}} {...tailFormItemLayout}>
                     <Button type="primary" key="importBtn" onClick={() => {
