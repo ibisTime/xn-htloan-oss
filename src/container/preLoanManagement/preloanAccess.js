@@ -1184,7 +1184,6 @@ class preloanAccess extends React.Component {
                             this.findCarTypeFn(this.state.seriesCode, true);
                         }
                     });
-                    console.log('fileList1', this.state.fileList1[0]['url']);
                     // 购车途径 显示隐藏
                     if (data.bizType === '0') {
                         this.setState({
@@ -4589,12 +4588,12 @@ class preloanAccess extends React.Component {
                                                                     style={{height: '113px'}}
                                                                     listType="picture-card"
                                                                     data={{token: uploadToken}}
-                                                                    fileList={fileListG1[0]['url'] === zanwu ? [] : fileListG1}
+                                                                    fileList={fileListG1[0] ? (fileListG1[0]['url'] === zanwu ? [] : fileListG1) : fileListG1}
                                                                     action={UPLOAD_URL}
                                                                     onPreview={this.handlePreviewCardZG}
                                                                     onChange={this.handleChangeCardZG}
                                                                 >
-                                                                    {fileListG1[0]['url'] === zanwu ? uploadButtonZ : (fileListG1.length >= 1 ? null : uploadButtonZ)}
+                                                                    {fileListG1[0] ? (fileListG1[0]['url'] === zanwu ? uploadButtonZ : (fileListG1.length >= 1 ? null : uploadButtonZ)) : uploadButtonZ}
                                                                 </Upload>
                                                                 <Modal visible={previewVisibleG} footer={null} onCancel={this.handleCancelCardZG}>
                                                                     <img alt="example" style={{ width: '100%' }} src={previewImageG} />
@@ -4607,12 +4606,12 @@ class preloanAccess extends React.Component {
                                                                     style={{height: '113px'}}
                                                                     listType="picture-card"
                                                                     data={{token: uploadToken}}
-                                                                    fileList={fileListG2[0]['url'] === zanwu ? [] : fileListG2}
+                                                                    fileList={fileListG2[0] ? (fileListG2[0]['url'] === zanwu ? [] : fileListG2) : fileListG2}
                                                                     action={UPLOAD_URL}
                                                                     onPreview={this.handlePreviewCardFG}
                                                                     onChange={this.handleChangeCardFG}
                                                                 >
-                                                                    {fileListG2[0]['url'] === zanwu ? uploadButtonF : (fileListG2.length >= 1 ? null : uploadButtonF)}
+                                                                    {fileListG2[0] ? (fileListG2[0]['url'] === zanwu ? uploadButtonF : (fileListG2.length >= 1 ? null : uploadButtonF)) : uploadButtonF}
                                                                 </Upload>
                                                                 <Modal visible={previewVisibleG2} footer={null} onCancel={this.handleCancelCardFG}>
                                                                     <img alt="example" style={{ width: '100%' }} src={previewImageG2} />
@@ -4625,12 +4624,12 @@ class preloanAccess extends React.Component {
                                                                     style={{height: '113px'}}
                                                                     listType="picture-card"
                                                                     data={{token: uploadToken}}
-                                                                    fileList={fileListG3[0]['url'] === zanwu ? [] : fileListG3}
+                                                                    fileList={fileListG3[0] ? (fileListG3[0]['url'] === zanwu ? [] : fileListG3) : fileListG3}
                                                                     action={UPLOAD_URL}
                                                                     onPreview={this.handlePreviewCardSCG}
                                                                     onChange={this.handleChangeCardSCG}
                                                                 >
-                                                                    {fileListG3[0]['url'] === zanwu ? uploadButtonHz : (fileListG3.length >= 1 ? null : uploadButtonHz)}
+                                                                    {fileListG3[0] ? (fileListG3[0]['url'] === zanwu ? uploadButtonHz : (fileListG3.length >= 1 ? null : uploadButtonHz)) : uploadButtonHz}
                                                                 </Upload>
                                                                 <Modal visible={previewVisibleG3} footer={null} onCancel={this.handleCancelCardSCG}>
                                                                     <img alt="example" style={{ width: '100%' }} src={previewImageG3} />
@@ -4755,12 +4754,12 @@ class preloanAccess extends React.Component {
                                                                     style={{height: '113px'}}
                                                                     listType="picture-card"
                                                                     data={{token: uploadToken}}
-                                                                    fileList={fileListG102[0]['url'] === zanwu ? [] : fileListG102}
+                                                                    fileList={fileListG102[0] ? (fileListG102[0]['url'] === zanwu ? [] : fileListG102) : fileListG102}
                                                                     action={UPLOAD_URL}
                                                                     onPreview={this.handlePreviewCardZG02}
                                                                     onChange={this.handleChangeCardZG02}
                                                                 >
-                                                                    {fileListG102[0]['url'] === zanwu ? uploadButtonZ : (fileListG102.length >= 1 ? null : uploadButtonZ)}
+                                                                    {fileListG102[0] ? (fileListG102[0]['url'] === zanwu ? uploadButtonZ : (fileListG102.length >= 1 ? null : uploadButtonZ)) : uploadButtonZ}
                                                                 </Upload>
                                                                 <Modal visible={previewVisibleG02} footer={null} onCancel={this.handleCancelCardZG02}>
                                                                     <img alt="example" style={{ width: '100%' }} src={previewImageG02} />
@@ -4773,12 +4772,12 @@ class preloanAccess extends React.Component {
                                                                     style={{height: '113px'}}
                                                                     listType="picture-card"
                                                                     data={{token: uploadToken}}
-                                                                    fileList={fileListG202[0]['url'] === zanwu ? [] : fileListG202}
+                                                                    fileList={fileListG202[0] ? (fileListG202[0]['url'] === zanwu ? [] : fileListG202) : fileListG202}
                                                                     action={UPLOAD_URL}
                                                                     onPreview={this.handlePreviewCardFG02}
                                                                     onChange={this.handleChangeCardFG02}
                                                                 >
-                                                                    {fileListG202[0]['url'] === zanwu ? uploadButtonF : (fileListG202.length >= 1 ? null : uploadButtonF)}
+                                                                    {fileListG202[0] ? (fileListG202[0]['url'] === zanwu ? uploadButtonF : (fileListG202.length >= 1 ? null : uploadButtonF)) : uploadButtonF}
                                                                 </Upload>
                                                                 <Modal visible={previewVisibleG202} footer={null} onCancel={this.handleCancelCardFG02}>
                                                                     <img alt="example" style={{ width: '100%' }} src={previewImageG202} />
@@ -4791,12 +4790,12 @@ class preloanAccess extends React.Component {
                                                                     style={{height: '113px'}}
                                                                     listType="picture-card"
                                                                     data={{token: uploadToken}}
-                                                                    fileList={fileListG302[0]['url'] === zanwu ? [] : fileListG302}
+                                                                    fileList={fileListG302[0] ? (fileListG302[0]['url'] === zanwu ? [] : fileListG302) : fileListG302}
                                                                     action={UPLOAD_URL}
                                                                     onPreview={this.handlePreviewCardSCG02}
                                                                     onChange={this.handleChangeCardSCG02}
                                                                 >
-                                                                    {fileListG302[0]['url'] === zanwu ? uploadButtonHz : fileListG302.length >= 1 ? null : uploadButtonHz}
+                                                                    {fileListG302[0] ? (fileListG302[0]['url'] === zanwu ? uploadButtonHz : fileListG302.length >= 1 ? null : uploadButtonHz) : fileListG302}
                                                                 </Upload>
                                                                 <Modal visible={previewVisibleG302} footer={null} onCancel={this.handleCancelCardSCG02}>
                                                                     <img alt="example" style={{ width: '100%' }} src={previewImageG302} />
@@ -4904,12 +4903,12 @@ class preloanAccess extends React.Component {
                                                                 style={{height: '113px'}}
                                                                 listType="picture-card"
                                                                 data={{token: uploadToken}}
-                                                                fileList={fileListB1[0]['url'] === zanwu ? [] : fileListB1}
+                                                                fileList={fileListB1[0] ? (fileListB1[0]['url'] === zanwu ? [] : fileListB1) : fileListB1}
                                                                 action={UPLOAD_URL}
                                                                 onPreview={this.handlePreviewCardZB}
                                                                 onChange={this.handleChangeCardZB}
                                                             >
-                                                                {fileListB1[0]['url'] === zanwu ? uploadButtonZ : (fileListB1.length >= 1 ? null : uploadButtonZ)}
+                                                                {fileListB1[0] ? (fileListB1[0]['url'] === zanwu ? uploadButtonZ : (fileListB1.length >= 1 ? null : uploadButtonZ)) : uploadButtonZ}
                                                             </Upload>
                                                             <Modal visible={previewVisibleB} footer={null} onCancel={this.handleCancelCardZB}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImageB} />
@@ -4922,12 +4921,12 @@ class preloanAccess extends React.Component {
                                                                 style={{height: '113px'}}
                                                                 listType="picture-card"
                                                                 data={{token: uploadToken}}
-                                                                fileList={fileListB2[0]['url'] === zanwu ? [] : fileListB2}
+                                                                fileList={fileListB2[0] ? (fileListB2[0]['url'] === zanwu ? [] : fileListB2) : fileListB2}
                                                                 action={UPLOAD_URL}
                                                                 onPreview={this.handlePreviewCardFB}
                                                                 onChange={this.handleChangeCardFB}
                                                             >
-                                                                {fileListB2[0]['url'] === zanwu ? uploadButtonF : (fileListB2.length >= 1 ? null : uploadButtonF)}
+                                                                {fileListB2[0] ? (fileListB2[0]['url'] === zanwu ? uploadButtonF : (fileListB2.length >= 1 ? null : uploadButtonF)) : uploadButtonF}
                                                             </Upload>
                                                             <Modal visible={previewVisibleB2} footer={null} onCancel={this.handleCancelCardFB}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImageB2} />
@@ -4940,12 +4939,12 @@ class preloanAccess extends React.Component {
                                                                 style={{height: '113px'}}
                                                                 listType="picture-card"
                                                                 data={{token: uploadToken}}
-                                                                fileList={fileListB3[0]['url'] === zanwu ? [] : fileListB3}
+                                                                fileList={fileListB3[0] ? (fileListB3[0]['url'] === zanwu ? [] : fileListB3) : fileListB3}
                                                                 action={UPLOAD_URL}
                                                                 onPreview={this.handlePreviewCardSCB}
                                                                 onChange={this.handleChangeCardSCB}
                                                             >
-                                                                {fileListB3[0]['url'] === zanwu ? uploadButtonHz : (fileListB3.length >= 1 ? null : uploadButtonHz)}
+                                                                {fileListB3[0] ? (fileListB3[0]['url'] === zanwu ? uploadButtonHz : (fileListB3.length >= 1 ? null : uploadButtonHz)) : uploadButtonHz}
                                                             </Upload>
                                                             <Modal visible={previewVisibleB3} footer={null} onCancel={this.handleCancelCardSCB}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImageB3} />
@@ -5070,12 +5069,12 @@ class preloanAccess extends React.Component {
                                                                 style={{height: '113px'}}
                                                                 listType="picture-card"
                                                                 data={{token: uploadToken}}
-                                                                fileList={fileListB102[0]['url'] === zanwu ? [] : fileListB102}
+                                                                fileList={fileListB102[0] ? (fileListB102[0]['url'] === zanwu ? [] : fileListB102) : fileListB102}
                                                                 action={UPLOAD_URL}
                                                                 onPreview={this.handlePreviewCardZB02}
                                                                 onChange={this.handleChangeCardZB02}
                                                             >
-                                                                {fileListB102[0]['url'] === zanwu ? uploadButtonZ : (fileListB102.length >= 1 ? null : uploadButtonZ)}
+                                                                {fileListB102[0] ? (fileListB102[0]['url'] === zanwu ? uploadButtonZ : (fileListB102.length >= 1 ? null : uploadButtonZ)) : uploadButtonZ}
                                                             </Upload>
                                                             <Modal visible={previewVisibleB02} footer={null} onCancel={this.handleCancelCardZB02}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImageB02} />
@@ -5088,12 +5087,12 @@ class preloanAccess extends React.Component {
                                                                 style={{height: '113px'}}
                                                                 listType="picture-card"
                                                                 data={{token: uploadToken}}
-                                                                fileList={fileListB202[0]['url'] === zanwu ? [] : fileListB202}
+                                                                fileList={fileListB202[0] ? (fileListB202[0]['url'] === zanwu ? [] : fileListB202) : fileListB202}
                                                                 action={UPLOAD_URL}
                                                                 onPreview={this.handlePreviewCardFB02}
                                                                 onChange={this.handleChangeCardFB02}
                                                             >
-                                                                {fileListB202[0]['url'] === zanwu ? uploadButtonF : (fileListB202.length >= 1 ? null : uploadButtonF)}
+                                                                {fileListB202[0] ? (fileListB202[0]['url'] === zanwu ? uploadButtonF : (fileListB202.length >= 1 ? null : uploadButtonF)) : uploadButtonF}
                                                             </Upload>
                                                             <Modal visible={previewVisibleB202} footer={null} onCancel={this.handleCancelCardFB02}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImageB202} />
@@ -5106,12 +5105,12 @@ class preloanAccess extends React.Component {
                                                                 style={{height: '113px'}}
                                                                 listType="picture-card"
                                                                 data={{token: uploadToken}}
-                                                                fileList={fileListB302[0]['url'] === zanwu ? [] : fileListB302}
+                                                                fileList={fileListB302[0] ? (fileListB302[0]['url'] === zanwu ? [] : fileListB302) : fileListB302}
                                                                 action={UPLOAD_URL}
                                                                 onPreview={this.handlePreviewCardSCB02}
                                                                 onChange={this.handleChangeCardSCB02}
                                                             >
-                                                                {fileListB302[0]['url'] === zanwu ? uploadButtonHz : (fileListB302.length >= 1 ? null : uploadButtonHz)}
+                                                                {fileListB302[0] ? (fileListB302[0]['url'] === zanwu ? uploadButtonHz : (fileListB302.length >= 1 ? null : uploadButtonHz)) : uploadButtonHz}
                                                             </Upload>
                                                             <Modal visible={previewVisibleB302} footer={null} onCancel={this.handleCancelCardSCB02}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImageB302} />
@@ -5885,12 +5884,12 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListJSZ[0]['url'] === zanwu ? [] : fileListJSZ}
+                                                    fileList={fileListJSZ[0] ? (fileListJSZ[0]['url'] === zanwu ? [] : fileListJSZ) : fileListJSZ}
                                                     action={UPLOAD_URL}
                                                     onPreview={this.handlePreviewCardJSZ}
                                                     onChange={this.handleChangeCardJSZ}
                                                 >
-                                                    {fileListJSZ[0]['url'] === zanwu ? uploadButton : (fileListJSZ.length >= 1 ? null : uploadButton)}
+                                                    {fileListJSZ[0] ? (fileListJSZ[0]['url'] === zanwu ? uploadButton : (fileListJSZ.length >= 1 ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleJSZ} footer={null} onCancel={this.handleCancelCardJSZ}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageJSZ} />
@@ -5911,12 +5910,12 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListJHZ[0]['url'] === zanwu ? [] : fileListJHZ}
+                                                    fileList={fileListJHZ[0] ? (fileListJHZ[0]['url'] === zanwu ? [] : fileListJHZ) : fileListJHZ}
                                                     action={UPLOAD_URL}
                                                     onPreview={this.handlePreviewCardJHZ}
                                                     onChange={this.handleChangeCardJHZ}
                                                 >
-                                                    {fileListJHZ[0]['url'] === zanwu ? uploadButton : (fileListJHZ.length >= 1 ? null : uploadButton)}
+                                                    {fileListJHZ[0] ? (fileListJHZ[0]['url'] === zanwu ? uploadButton : (fileListJHZ.length >= 1 ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleJHZ} footer={null} onCancel={this.handleCancelCardJHZ}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageJHZ} />
@@ -5931,12 +5930,12 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListLHZ[0]['url'] === zanwu ? [] : fileListLHZ}
+                                                    fileList={fileListLHZ[0] ? (fileListLHZ[0]['url'] === zanwu ? [] : fileListLHZ) : fileListLHZ}
                                                     action={UPLOAD_URL}
                                                     onPreview={this.handlePreviewCardLHZ}
                                                     onChange={this.handleChangeCardLHZ}
                                                 >
-                                                    {fileListLHZ[0]['url'] === zanwu ? uploadButton : (fileListLHZ.length >= 1 ? null : uploadButton)}
+                                                    {fileListLHZ[0] ? (fileListLHZ[0]['url'] === zanwu ? uploadButton : (fileListLHZ.length >= 1 ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleLHZ} footer={null} onCancel={this.handleCancelCardLHZ}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageLHZ} />
@@ -5951,12 +5950,12 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListDSZ[0]['url'] === zanwu ? [] : fileListDSZ}
+                                                    fileList={fileListDSZ[0] ? (fileListDSZ[0]['url'] === zanwu ? [] : fileListDSZ) : fileListDSZ}
                                                     action={UPLOAD_URL}
                                                     onPreview={this.handlePreviewCardDSZ}
                                                     onChange={this.handleChangeCardDSZ}
                                                 >
-                                                    {fileListDSZ[0]['url'] === zanwu ? uploadButton : (fileListDSZ.length >= 1 ? null : uploadButton)}
+                                                    {fileListDSZ[0] ? (fileListDSZ[0]['url'] === zanwu ? uploadButton : (fileListDSZ.length >= 1 ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleDSZ} footer={null} onCancel={this.handleCancelCardDSZ}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageDSZ} />
@@ -5971,12 +5970,12 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListSRZ[0]['url'] === zanwu ? [] : fileListSRZ}
+                                                    fileList={fileListSRZ[0] ? (fileListSRZ[0]['url'] === zanwu ? [] : fileListSRZ) : fileListSRZ}
                                                     action={UPLOAD_URL}
                                                     onPreview={this.handlePreviewCardSRZ}
                                                     onChange={this.handleChangeCardSRZ}
                                                 >
-                                                    {fileListSRZ[0]['url'] === zanwu ? uploadButton : (fileListSRZ.length >= 1 ? null : uploadButton)}
+                                                    {fileListSRZ[0] ? (fileListSRZ[0]['url'] === zanwu ? uploadButton : (fileListSRZ.length >= 1 ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleSRZ} footer={null} onCancel={this.handleCancelCardSRZ}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageSRZ} />
@@ -5994,12 +5993,12 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListJZZ[0]['url'] === zanwu ? [] : fileListJZZ}
+                                                    fileList={fileListJZZ[0] ? (fileListJZZ[0]['url'] === zanwu ? [] : fileListJZZ) : fileListJZZ}
                                                     action={UPLOAD_URL}
                                                     onPreview={this.handlePreviewCardJZZ}
                                                     onChange={this.handleChangeCardJZZ}
                                                 >
-                                                    {fileListJZZ[0]['url'] === zanwu ? uploadButton : (fileListJZZ.length >= 1 ? null : uploadButton)}
+                                                    {fileListJZZ[0] ? (fileListJZZ[0]['url'] === zanwu ? uploadButton : (fileListJZZ.length >= 1 ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleJZZ} footer={null} onCancel={this.handleCancelCardJZZ}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageJZZ} />
@@ -6014,12 +6013,12 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListFZZ[0]['url'] === zanwu ? [] : fileListFZZ}
+                                                    fileList={fileListFZZ[0] ? (fileListFZZ[0]['url'] === zanwu ? [] : fileListFZZ) : fileListFZZ}
                                                     action={UPLOAD_URL}
                                                     onPreview={this.handlePreviewCardFZZ}
                                                     onChange={this.handleChangeCardFZZ}
                                                 >
-                                                    {fileListFZZ[0]['url'] === zanwu ? uploadButton : (fileListFZZ.length >= 1 ? null : uploadButton)}
+                                                    {fileListFZZ[0] ? (fileListFZZ[0]['url'] === zanwu ? uploadButton : (fileListFZZ.length >= 1 ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleFZZ} footer={null} onCancel={this.handleCancelCardFZZ}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageFZZ} />
@@ -6036,13 +6035,13 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListHKBSY[0]['url'] === zanwu ? [] : fileListHKBSY}
+                                                    fileList={fileListHKBSY[0] ? (fileListHKBSY[0]['url'] === zanwu ? [] : fileListHKBSY) : fileListHKBSY}
                                                     action={UPLOAD_URL}
                                                     multiple={true}
                                                     onPreview={this.handlePreviewCardHKBSY}
                                                     onChange={this.handleChangeCardHKBSY}
                                                 >
-                                                    {fileListHKBSY[0]['url'] === zanwu ? uploadButton : ((fileListHKBSY.length > 0 && fileListHKBSY[0].uid === '-2') ? null : uploadButton)}
+                                                    {fileListHKBSY[0] ? (fileListHKBSY[0]['url'] === zanwu ? uploadButton : ((fileListHKBSY.length > 0 && fileListHKBSY[0].uid === '-2') ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleHKBSY} footer={null} onCancel={this.handleCancelCardHKBSY}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageHKBSY} />
@@ -6060,13 +6059,13 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListYHS[0]['url'] === zanwu ? [] : fileListYHS}
+                                                    fileList={fileListYHS[0] ? (fileListYHS[0]['url'] === zanwu ? [] : fileListYHS) : fileListYHS}
                                                     action={UPLOAD_URL}
                                                     multiple={true}
                                                     onPreview={this.handlePreviewCardYHS}
                                                     onChange={this.handleChangeCardYHS}
                                                 >
-                                                    {fileListYHS[0]['url'] === zanwu ? uploadButton : (fileListYHS.length >= 1 && fileListYHS[0].uid === 'yhs-2' ? null : uploadButton)}
+                                                    {fileListYHS[0] ? (fileListYHS[0]['url'] === zanwu ? uploadButton : (fileListYHS.length >= 1 && fileListYHS[0].uid === 'yhs-2' ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleYHS} footer={null} onCancel={this.handleCancelCardYHS}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageYHS} />
@@ -6084,13 +6083,13 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListZFB[0]['url'] === zanwu ? [] : fileListZFB}
+                                                    fileList={fileListZFB[0] ? (fileListZFB[0]['url'] === zanwu ? [] : fileListZFB) : fileListZFB}
                                                     multiple={true}
                                                     action={UPLOAD_URL}
                                                     onPreview={this.handlePreviewCardZFB}
                                                     onChange={this.handleChangeCardZFB}
                                                 >
-                                                    {fileListZFB[0]['url'] === zanwu ? uploadButton : ((fileListZFB.length >= 1 && fileListZFB[0].uid === 'zfb-2') ? null : uploadButton)}
+                                                    {fileListZFB[0] ? (fileListZFB[0]['url'] === zanwu ? uploadButton : ((fileListZFB.length >= 1 && fileListZFB[0].uid === 'zfb-2') ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleZFB} footer={null} onCancel={this.handleCancelCardZFB}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageZFB} />
@@ -6108,13 +6107,13 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListWX[0]['url'] === zanwu ? [] : fileListWX}
+                                                    fileList={fileListWX[0] ? (fileListWX[0]['url'] === zanwu ? [] : fileListWX) : fileListWX}
                                                     multiple={true}
                                                     action={UPLOAD_URL}
                                                     onPreview={this.handlePreviewCardWX}
                                                     onChange={this.handleChangeCardWX}
                                                 >
-                                                    {fileListWX[0]['url'] === zanwu ? uploadButton : ((fileListWX.length > 0 && fileListWX[0].uid === 'wx-2') ? null : uploadButton)}
+                                                    {fileListWX[0] ? (fileListWX[0]['url'] === zanwu ? uploadButton : ((fileListWX.length > 0 && fileListWX[0].uid === 'wx-2') ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleWX} footer={null} onCancel={this.handleCancelCardWX}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageWX} />
@@ -6132,13 +6131,13 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListQT[0]['url'] === zanwu ? [] : fileListQT}
+                                                    fileList={fileListQT[0] ? (fileListQT[0]['url'] === zanwu ? [] : fileListQT) : fileListQT}
                                                     action={UPLOAD_URL}
                                                     multiple={true}
                                                     onPreview={this.handlePreviewCardQT}
                                                     onChange={this.handleChangeCardQT}
                                                 >
-                                                    {fileListQT[0]['url'] === zanwu ? uploadButton : ((fileListQT.length > 0 && fileListQT[0].uid === 'qt-2') ? null : uploadButton)}
+                                                    {fileListQT[0] ? (fileListQT[0]['url'] === zanwu ? uploadButton : ((fileListQT.length > 0 && fileListQT[0].uid === 'qt-2') ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleQT} footer={null} onCancel={this.handleCancelCardQT}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageQT} />
@@ -6166,12 +6165,12 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListSM[0]['url'] === zanwu ? [] : fileListSM}
+                                                    fileList={fileListSM[0] ? (fileListSM[0]['url'] === zanwu ? [] : fileListSM) : fileListSM}
                                                     action={UPLOAD_URL}
                                                     onPreview={this.handlePreviewCardSM}
                                                     onChange={this.handleChangeCardSM}
                                                 >
-                                                    {fileListSM[0]['url'] === zanwu ? uploadButton : (fileListSM.length >= 1 ? null : uploadButton)}
+                                                    {fileListSM[0] ? (fileListSM[0]['url'] === zanwu ? uploadButton : (fileListSM.length >= 1 ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleSM} footer={null} onCancel={this.handleCancelCardSM}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageSM} />
@@ -6192,12 +6191,12 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListHZ[0]['url'] === zanwu ? [] : fileListHZ}
+                                                    fileList={fileListHZ[0] ? (fileListHZ[0]['url'] === zanwu ? [] : fileListHZ) : fileListHZ}
                                                     action={UPLOAD_URL}
                                                     onPreview={this.handlePreviewCardHZ}
                                                     onChange={this.handleChangeCardHZ}
                                                 >
-                                                    {fileListHZ[0]['url'] === zanwu ? uploadButton : (fileListHZ.length >= 1 ? null : uploadButton)}
+                                                    {fileListHZ[0] ? (fileListHZ[0]['url'] === zanwu ? uploadButton : (fileListHZ.length >= 1 ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleHZ} footer={null} onCancel={this.handleCancelCardHZ}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageHZ} />
@@ -6238,13 +6237,13 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListCT[0]['url'] === zanwu ? [] : fileListCT}
+                                                    fileList={fileListCT[0] ? (fileListCT[0]['url'] === zanwu ? [] : fileListCT) : fileListCT}
                                                     action={UPLOAD_URL}
                                                     multiple={true}
                                                     onPreview={this.handlePreviewCardCT}
                                                     onChange={this.handleChangeCardCT}
                                                 >
-                                                    {fileListCT[0]['url'] === zanwu ? [] : ((fileListCT.length >= 1 && fileListCT[0].uid === 'ct-2') ? null : uploadButton)}
+                                                    {fileListCT[0] ? (fileListCT[0]['url'] === zanwu ? [] : ((fileListCT.length >= 1 && fileListCT[0].uid === 'ct-2') ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleCT} footer={null} onCancel={this.handleCancelCardCT}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageCT} />
@@ -6262,13 +6261,13 @@ class preloanAccess extends React.Component {
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
-                                                    fileList={fileListDJZS[0]['url'] === zanwu ? [] : fileListDJZS}
+                                                    fileList={fileListDJZS[0] ? (fileListDJZS[0]['url'] === zanwu ? [] : fileListDJZS) : fileListDJZS}
                                                     action={UPLOAD_URL}
                                                     multiple={true}
                                                     onPreview={this.handlePreviewCardDJZS}
                                                     onChange={this.handleChangeCardDJZS}
                                                 >
-                                                    {fileListDJZS[0]['url'] === zanwu ? uploadButton : ((fileListDJZS.length >= 1 && fileListDJZS[0].uid === 'djzs-2') ? null : uploadButton)}
+                                                    {fileListDJZS[0] ? (fileListDJZS[0]['url'] === zanwu ? uploadButton : ((fileListDJZS.length >= 1 && fileListDJZS[0].uid === 'djzs-2') ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleDJZS} footer={null} onCancel={this.handleCancelCardDJZS}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageDJZS} />
