@@ -39,12 +39,6 @@ class enterArchives extends React.Component {
                     align: 'center'
                 },
                 {
-                    title: '份数',
-                    dataIndex: 'fileCount',
-                    width: '20%',
-                    align: 'center'
-                },
-                {
                     title: '存放人',
                     dataIndex: 'operator',
                     width: '20%',
@@ -207,7 +201,7 @@ class enterArchives extends React.Component {
             for(let i = 0; i < data.list.length; i++) {
                 arr.push({
                     dkey: data.list[i].id,
-                    dvalue: data.list[i].vname
+                    dvalue: `${data.list[i].vname} - ${data.list[i].number}份`
                 });
                 countArr.push({
                     dkey: data.list[i].id,
@@ -569,22 +563,6 @@ class enterArchives extends React.Component {
                         </Row>
                         <Row style={{marginTop: '30px'}}>
                             <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>份数：</span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '10px'}}>
-                            <Col span={6}>
-                                <span>
-                                  <input value={information.count} ref={input => this.countIpt = input} onChange={(e) => { this.iupChange(e, 'count'); }} type="text" className="dealer-user-detail-edit-input" />
-                                </span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '30px'}}>
-                            <Col span={6}>
                                 <span><span className="dealer-color-read-must-fill">* </span>存放人：</span>
                             </Col>
                             <Col span={18}>
@@ -678,22 +656,6 @@ class enterArchives extends React.Component {
                                             })
                                         }
                                     </Select>
-                                </span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '30px'}}>
-                            <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>份数：</span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '10px'}}>
-                            <Col span={6}>
-                                <span>
-                                  <input value={information.count} ref={input => this.countIpt = input} onChange={(e) => { this.iupChange(e, 'count'); }} type="text" className="dealer-user-detail-edit-input" />
                                 </span>
                             </Col>
                             <Col span={18}>

@@ -4795,7 +4795,7 @@ class preloanAccess extends React.Component {
                                                                     onPreview={this.handlePreviewCardSCG02}
                                                                     onChange={this.handleChangeCardSCG02}
                                                                 >
-                                                                    {fileListG302[0] ? (fileListG302[0]['url'] === zanwu ? uploadButtonHz : fileListG302.length >= 1 ? null : uploadButtonHz) : fileListG302}
+                                                                    {fileListG302[0] ? (fileListG302[0]['url'] === zanwu ? uploadButtonHz : fileListG302.length >= 1 ? null : uploadButtonHz) : uploadButtonHz}
                                                                 </Upload>
                                                                 <Modal visible={previewVisibleG302} footer={null} onCancel={this.handleCancelCardSCG02}>
                                                                     <img alt="example" style={{ width: '100%' }} src={previewImageG302} />
@@ -6243,7 +6243,7 @@ class preloanAccess extends React.Component {
                                                     onPreview={this.handlePreviewCardCT}
                                                     onChange={this.handleChangeCardCT}
                                                 >
-                                                    {fileListCT[0] ? (fileListCT[0]['url'] === zanwu ? [] : ((fileListCT.length >= 1 && fileListCT[0].uid === 'ct-2') ? null : uploadButton)) : uploadButton}
+                                                    {fileListCT[0] ? (fileListCT[0]['url'] === zanwu ? uploadButton : ((fileListCT.length >= 1 && fileListCT[0].uid === 'ct-2') ? null : uploadButton)) : uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleCT} footer={null} onCancel={this.handleCancelCardCT}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageCT} />

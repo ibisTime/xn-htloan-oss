@@ -39,12 +39,6 @@ class enterArchives extends React.Component {
                     align: 'center'
                 },
                 {
-                    title: '份数',
-                    dataIndex: 'fileCount',
-                    width: '20%',
-                    align: 'center'
-                },
-                {
                     title: '存放人',
                     dataIndex: 'operator',
                     width: '20%',
@@ -112,6 +106,10 @@ class enterArchives extends React.Component {
             })
         };
         this.arr = [];
+        this.codeListArr = [];
+        this.children = [];
+        this.setLs = [];
+        this.codeArr = [];
     }
     componentDidMount(): void {
         executorList(1, 1000).then(data => {
@@ -187,7 +185,7 @@ class enterArchives extends React.Component {
             for(let i = 0; i < data.list.length; i++) {
                 arr.push({
                     dkey: data.list[i].id,
-                    dvalue: data.list[i].vname
+                    dvalue: `${data.list[i].vname} - ${data.list[i].number}份`
                 });
                 countArr.push({
                     dkey: data.list[i].id,
@@ -198,6 +196,9 @@ class enterArchives extends React.Component {
                 fileCtListArr: arr,
                 countArr: countArr
             });
+            for(let j = 0; j < arr.length; j++) {
+                this.children.push(<Option key={arr[j].dkey}>{arr[j].dvalue}</Option>);
+            }
         });
     }
     // 以下是关于对话框的相关
@@ -262,17 +263,18 @@ class enterArchives extends React.Component {
     }
     // missionList添加
     addMission = () => {
-        const {information, count, regDate} = this.state;
-        this.arr.push({
-            key: this.count++,
-            content: information.contentName,
-            contentCode: information.content,
-            fileCount: information.count,
-            operator: information.savePp,
-            getUserCode: information.getUserCode,
-            depositDateTime: regDate === '' ? getNowTime() : regDate,
-            remark: information.rmk
-        });
+        const {information, regDate} = this.state;
+        for(let i = 0; i < this.setLs.length; i++) {
+            this.arr.push({
+                key: this.count++,
+                content: this.setLs[i],
+                contentCode: this.codeArr[i],
+                operator: information.savePp,
+                getUserCode: information.getUserCode,
+                depositDateTime: regDate === '' ? getNowTime() : regDate,
+                remark: information.rmk
+            });
+        }
         this.setState({
             missionList: this.arr
         });
@@ -412,10 +414,24 @@ class enterArchives extends React.Component {
         });
     }
     handleChangeFile = (value, event) => {
-        const {information, countArr} = this.state;
-        let count = countArr.find(item => item.dkey === value).dvalue;
-        console.log(count);
-        information['count'] = count;
+        // const {information} = this.state;
+        // information['contentName'] = event.props.children;
+        // information['content'] = value;
+        let arr = [];
+        let arr2 = [];
+        for(let i = 0; i < event.length; i++) {
+            arr.push(
+                event[i].key
+            );
+            arr2.push(
+                event[i].props.children
+            );
+        }
+        this.codeArr = arr;
+        this.setLs = arr2;
+    }
+    handleChangeFileChange = (value, event) => {
+        const {information} = this.state;
         information['contentName'] = event.props.children;
         information['content'] = value;
         this.setState({
@@ -539,31 +555,11 @@ class enterArchives extends React.Component {
                         <Row style={{marginTop: '10px'}}>
                             <Col span={6}>
                                 <span>
-                                    <Select className="preLoan-body-select" style={{width: '300px'}} value={fileName} onChange={this.handleChangeFile}>
+                                    <Select mode="multiple" className="preLoan-body-select" style={{width: '300px'}} defaultValue={this.codeListArr} onChange={this.handleChangeFile}>
                                         {
-                                            fileCtListArr.map(data => {
-                                                return (
-                                                    <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
-                                                );
-                                            })
+                                            this.children
                                         }
                                     </Select>
-                                </span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '30px'}}>
-                            <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>份数：</span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '10px'}}>
-                            <Col span={6}>
-                                <span>
-                                  <input value={information.count} ref={input => this.countIpt = input} onChange={(e) => { this.iupChange(e, 'count'); }} type="text" className="dealer-user-detail-edit-input" />
                                 </span>
                             </Col>
                             <Col span={18}>
@@ -656,7 +652,7 @@ class enterArchives extends React.Component {
                         <Row style={{marginTop: '10px'}}>
                             <Col span={6}>
                                 <span>
-                                    <Select className="preLoan-body-select" style={{width: '300px'}} value={fileName} onChange={this.handleChangeFile}>
+                                    <Select className="preLoan-body-select" style={{width: '300px'}} value={fileName} onChange={this.handleChangeFileChange}>
                                         {
                                             fileCtListArr.map(data => {
                                                 return (
@@ -665,22 +661,6 @@ class enterArchives extends React.Component {
                                             })
                                         }
                                     </Select>
-                                </span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '30px'}}>
-                            <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>份数：</span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '10px'}}>
-                            <Col span={6}>
-                                <span>
-                                  <input value={information.count} ref={input => this.countIpt = input} onChange={(e) => { this.iupChange(e, 'count'); }} type="text" className="dealer-user-detail-edit-input" />
                                 </span>
                             </Col>
                             <Col span={18}>
