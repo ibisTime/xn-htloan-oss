@@ -18,6 +18,7 @@ import {
     executorList,
     fileCtList
 } from '../../../api/preLoan.js';
+import '../../financialAdvance/applicationForPayment.css';
 
 const {Option} = Select;
 class fileDetail extends React.Component {
@@ -91,19 +92,6 @@ class fileDetail extends React.Component {
         this.selectedRowKeys = [];
         this.selectedRowKeysArr = [];
         this.selectedRows = [];
-        this.rowSelection = {
-            type: 'radio',
-            onChange: (selectedRowKeys, selectedRows) => {
-                this.selectedRowKeysArr = selectedRowKeys;
-                this.selectedRows = selectedRows;
-                console.log('selectedRowKeysArr', this.selectedRowKeysArr);
-                console.log('selectedRows', this.selectedRows);
-            },
-            getCheckboxProps: record => ({
-                disabled: record.name === 'Disabled User',
-                name: record.name
-            })
-        };
         this.arr = [];
     }
     componentDidMount(): void {
@@ -353,7 +341,6 @@ class fileDetail extends React.Component {
                     className="afp-body-table"
                     style={{width: '900px'}}
                     dataSource={missionList}
-                    rowSelection={this.rowSelection}
                     columns={this.state.columns}
                 />
                 <div className="afp-body-btn-group">

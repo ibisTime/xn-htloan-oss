@@ -105,8 +105,17 @@ class advancesDetail extends React.Component {
                         readonly: true
                     }, {
                         title: '水单',
-                        field: 'file',
-                        _keys: ['advance', 'advanceOutCard', 'realName'],
+                        field: 'advanceBillPdf',
+                        type: 'img',
+                        formatter: (v, d) => {
+                            let url = '';
+                            d.attachments.forEach(item => {
+                                if(item.kname === 'advance_bill_pdf') {
+                                    url = item.url;
+                                }
+                            });
+                            return url;
+                        },
                         readonly: true
                     }, {
                         title: '收款账户账号',
