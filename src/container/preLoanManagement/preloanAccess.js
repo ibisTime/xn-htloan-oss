@@ -313,7 +313,8 @@ class preloanAccess extends React.Component {
                 totalFee: '',
                 customerBearRate: '',
                 surchargeRate: '',
-                surchargeAmount: ''
+                surchargeAmount: '',
+                notes: ''
             },
             loanIptArr: {
                 bankCreditResult: '',
@@ -386,7 +387,11 @@ class preloanAccess extends React.Component {
                 lyDeposit: '',
                 repointAmount: '',
                 gpsFee: '',
-                otherFee: ''
+                otherFee: '',
+                loanAmount: '',
+                carFunds3: '',
+                carFunds4: '',
+                carFunds5: ''
             },
             // 车辆信息
             carInfo: {
@@ -948,7 +953,8 @@ class preloanAccess extends React.Component {
                             fee: data.bankLoan.fee ? data.bankLoan.fee / 1000 : '',
                             totalFee: data.bankLoan.totalFee ? data.bankLoan.totalFee / 1000 : '',
                             discountAmount: data.bankLoan.discountAmount ? data.bankLoan.discountAmount / 1000 : '',
-                            surchargeAmount: data.bankLoan.surchargeAmount ? data.bankLoan.surchargeAmount / 1000 : ''
+                            surchargeAmount: data.bankLoan.surchargeAmount ? data.bankLoan.surchargeAmount / 1000 : '',
+                            notes: data.bankLoan.notes
                         } : {
                             loanAmount: '',
                             periods: '',
@@ -974,7 +980,11 @@ class preloanAccess extends React.Component {
                             lyDeposit: data.lyDeposit ? data.lyDeposit / 1000 : '',
                             repointAmount: data.repointAmount ? data.repointAmount / 1000 : '',
                             gpsFee: data.gpsFee ? data.gpsFee / 1000 : '',
-                            otherFee: data.otherFee ? data.otherFee / 1000 : ''
+                            otherFee: data.otherFee ? data.otherFee / 1000 : '',
+                            loanAmount: data.bankLoan.loanAmount ? data.bankLoan.loanAmount / 1000 : '',
+                            carFunds3: data.carFunds3 ? data.carFunds3 / 1000 : '',
+                            carFunds4: data.carFunds4 ? data.carFunds4 / 1000 : '',
+                            carFunds5: data.carFunds5 ? data.carFunds5 / 1000 : ''
                         },
                         carInfoArrIpt: data.carInfo ? data.carInfo : {
                             carEngineNo: '',
@@ -1178,6 +1188,9 @@ class preloanAccess extends React.Component {
                         dbryzdgx2: data.creditUserList[4] ? data.creditUserList[4].relation : ''
                     }, () => {
                         if(this.state.brandCode) {
+                            this.setState({
+                                value: this.state.brandCode
+                            });
                             this.fandCarTypeMng(this.state.brandCode, true);
                         }
                         if(this.state.seriesCode) {
@@ -1709,6 +1722,7 @@ class preloanAccess extends React.Component {
                     amount = loanInfoArrIpt.loanAmount * loanInfoArrIpt.rebateRate / 100;
                 }
                 costSettlementInfoArrIpt['repointAmount'] = amount;
+                costSettlementInfoArrIpt['carFunds3'] = ((loanInfoArrIpt.totalRate - loanInfoArrIpt.rebateRate - loanInfoArrIpt.bankRate) / 100) * loanInfoArrIpt.loanAmount;
                 this.setState({
                     costSettlementInfoArrIpt
                 });
@@ -2380,7 +2394,8 @@ class preloanAccess extends React.Component {
             surchargeAmount: loanInfoArrIpt.surchargeAmount * 1000,
             rateType: loanInfoRateTypeCode,
             isAdvanceFund: loanInfoIsNotAdvanceCode,
-            isDiscount: loanInfoIsNotInterestCode
+            isDiscount: loanInfoIsNotInterestCode,
+            notes: loanInfoArrIpt.notes ? loanInfoArrIpt.notes : ''
         };
         preLoanInfoLs(arr).then(data => {
             // 基本信息
@@ -2391,7 +2406,7 @@ class preloanAccess extends React.Component {
     }
     // 费用结算
     addCostSettlementInfo = (code) => {
-        const {costSettlementInfoArrIpt} = this.state;
+        const {costSettlementInfoArrIpt, loanInfoArrIpt} = this.state;
         if (costSettlementInfoArrIpt.gpsFee === '') {
             showWarnMsg('请将费用结算信息填写完整');
         }else {
@@ -2402,7 +2417,11 @@ class preloanAccess extends React.Component {
                 lyDeposit: costSettlementInfoArrIpt.lyDeposit * 1000,
                 repointAmount: costSettlementInfoArrIpt.repointAmount * 1000,
                 gpsFee: costSettlementInfoArrIpt.gpsFee * 1000,
-                otherFee: costSettlementInfoArrIpt.otherFee * 1000
+                otherFee: costSettlementInfoArrIpt.otherFee * 1000,
+                loanAmount: loanInfoArrIpt.loanAmount * 1000,
+                carFunds3: costSettlementInfoArrIpt.carFunds3 * 1000,
+                carFunds4: costSettlementInfoArrIpt.carFunds4 * 1000,
+                carFunds5: costSettlementInfoArrIpt.carFunds5 * 1000
             };
             costSettlementInfoLs(arr).then(data => {
                 showSucMsg('操作成功!');
@@ -3936,7 +3955,12 @@ class preloanAccess extends React.Component {
         }
     };
     handleChange1 = value => {
-        this.setState({ value });
+        console.log('value7', value);
+        this.fandCarTypeMng(value, true);
+        this.setState({
+            value,
+            brandCode: value
+        });
     };
 
     handleSearch2 = value => {
@@ -4312,14 +4336,20 @@ class preloanAccess extends React.Component {
                 <Row className="preLoan-body-row-top">
                     <Col span={12}>
                         <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>品牌：</span>
-                        <Select placeholder="请选择品牌" className="preLoan-body-select" style={{width: '220px'}} value={brandCode} onChange={this.handleChangeCarType1}>
-                            {
-                                brandList.map(data => {
-                                    return (
-                                        <Option key={data.code} value={data.code}>{data.name}</Option>
-                                    );
-                                })
-                            }
+                        <Select
+                            showSearch
+                            value={this.state.value}
+                            defaultValue={this.state.value}
+                            placeholder={this.props.placeholder}
+                            style={{width: '220px'}}
+                            defaultActiveFirstOption={false}
+                            showArrow={false}
+                            filterOption={false}
+                            onSearch={this.handleSearch1}
+                            onChange={this.handleChange1}
+                            notFoundContent={null}
+                        >
+                            {options}
                         </Select>
                         <div className="clear"></div>
                     </Col>
@@ -5623,7 +5653,7 @@ class preloanAccess extends React.Component {
                                             </Select>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">贴息利率(%)：</span>
+                                            <span className="preLoan-body-title" style={{width: '120px'}}>贴息利率(%)：</span>
                                             <br />
                                             <input type="number" value={loanInfoArrIpt.discountRate} onChange={(e) => { this.iptLoanInfoPp(e, 'discountRate'); }} className="preLoan-body-input" />
                                         </Col>
@@ -5692,6 +5722,11 @@ class preloanAccess extends React.Component {
                                             <br />
                                             <input type="number" value={loanInfoArrIpt.surchargeAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'surchargeAmount'); }} className="preLoan-body-input" />
                                         </Col>
+                                        <Col span={6}>
+                                            <span className="preLoan-body-title">备注事项：</span>
+                                            <br />
+                                            <input value={loanInfoArrIpt.notes} onChange={(e) => { this.iptLoanInfoPp(e, 'notes'); }} className="preLoan-body-input" />
+                                        </Col>
                                     </Row>
                                 </div>
                             ) : null
@@ -5713,27 +5748,43 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={costSettlementInfoArrIpt.lyDeposit} ref={input => this.lyDepositIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'lyDeposit'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">返点金额：</span>
-                                            <br />
-                                            <input type="text" readOnly="readonly" value={costSettlementInfoArrIpt.repointAmount} ref={input => this.repointAmountIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'repointAmount'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={6}>
                                             <span className="preLoan-body-title"><span style={{color: 'red'}}>* </span>GPS费：</span>
                                             <br />
                                             <input type="text" value={costSettlementInfoArrIpt.gpsFee} ref={input => this.gpsFeeIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'gpsFee'); }} className="preLoan-body-input" />
                                         </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
                                         <Col span={6}>
                                             <span className="preLoan-body-title">其他费用：</span>
                                             <br />
                                             <input type="text" value={costSettlementInfoArrIpt.otherFee} ref={input => this.gpsFeeIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'otherFee'); }} className="preLoan-body-input" />
                                         </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
                                         <Col span={6}>
+                                            <span className="preLoan-body-title">车款1：</span>
+                                            <br />
+                                            <input type="text" value={loanInfoArrIpt.loanAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'loanAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
+                                            <span className="preLoan-body-title">车款2：</span>
+                                            <br />
+                                            <input type="text" value={costSettlementInfoArrIpt.repointAmount} ref={input => this.repointAmountIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'repointAmount'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
+                                            <span className="preLoan-body-title">车款3：</span>
+                                            <br />
+                                            <input type="text" value={costSettlementInfoArrIpt.carFunds3} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'carFunds3'); }} className="preLoan-body-input" />
+                                        </Col>
+                                        <Col span={6}>
+                                            <span className="preLoan-body-title">车款4：</span>
+                                            <br />
+                                            <input type="text" value={costSettlementInfoArrIpt.carFunds4} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'carFunds4'); }} className="preLoan-body-input" />
+                                        </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={6}>
+                                            <span className="preLoan-body-title">车款5：</span>
+                                            <br />
+                                            <input type="text" value={costSettlementInfoArrIpt.carFunds5} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'carFunds5'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
                                 </div>

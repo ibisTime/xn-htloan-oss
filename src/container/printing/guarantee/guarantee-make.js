@@ -31,6 +31,7 @@ import { exportBOCFjd } from '../../../common/js/contract/CCB-fjd';
 import { exportCCBJc } from '../../../common/js/contract/CCB-jc';
 import { exportCCBXydb } from '../../../common/js/contract/CCB-xydb';
 import './guarantee.css';
+import {accessSlipDetail} from '../../../api/preLoan';
 
 @CollapseWrapper(
   state => state.printingGuaranteeMake, {
@@ -47,8 +48,20 @@ class GuaranteeMake extends React.Component {
     super(props);
     this.code = getQueryString('code', this.props.location.search);
     this.view = !!getQueryString('v', this.props.location.search);
+    this.state = {
+      bankCode: ''
+    };
+  }
+  componentDidMount(): void {
+    accessSlipDetail(this.code).then(data => {
+      console.log('fileList', data.fileList);
+      this.setState({
+        bankCode: data.bank.bankCode
+      });
+    });
   }
   render() {
+    const {bankCode} = this.state;
     const fields = [{
       title: '用户信息',
       items: [
@@ -357,7 +370,7 @@ class GuaranteeMake extends React.Component {
           title: '套打模板',
           field: 'guarantPrintTemplateId',
           type: 'select',
-          key: 'guarant_print_template_id',
+          key: bankCode === 'ICBC' ? 'gh_master_plate' : (bankCode === 'CCB' ? 'jh_master_plate' : 'zh_master_plate'),
           required: true
         }]
       ]

@@ -103,7 +103,7 @@ class orderRecall extends React.Component {
         }else {
             let arr = {
                 code: this.code,
-                advanceCardCode: bankCode
+                advanceOutCardCode: bankCode
             };
             sendApplicationForPaymentBack(arr).then(data => {
                 if(data.isSuccess) {

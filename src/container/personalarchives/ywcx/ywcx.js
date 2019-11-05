@@ -83,6 +83,7 @@ class ywCx extends React.Component {
             fields,
             pageCode: 632519,
             btnEvent: {
+                // 准入详情
                 admittance: (selectedRowKeys, selectedRows) => {
                     if (!selectedRowKeys.length) {
                         showWarnMsg('请选择记录');
@@ -90,6 +91,46 @@ class ywCx extends React.Component {
                         showWarnMsg('请选择一条记录');
                     } else {
                         this.props.history.push(`/preLoan/Access/detail?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                // 垫资详情
+                advance: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/statisticalManagement/advancesDetail?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                // 理件详情
+                rationale: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/statisticalManagement/rationaleDetail?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                // 放款详情
+                Loan: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/statisticalManagement/loanDetail?code=${selectedRowKeys[0]}`);
+                    }
+                },
+                // 入档详情
+                putInAFile: (selectedRowKeys, selectedRows) => {
+                    if (!selectedRowKeys.length) {
+                        showWarnMsg('请选择记录');
+                    } else if (selectedRowKeys.length > 1) {
+                        showWarnMsg('请选择一条记录');
+                    } else {
+                        this.props.history.push(`/statisticalManagement/fileDetail?code=${selectedRowKeys[0]}`);
                     }
                 }
             }

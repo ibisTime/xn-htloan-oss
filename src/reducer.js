@@ -638,6 +638,14 @@ import {lala} from './redux/circulationLog/lala';
 
 import {openBankLoanEnterBankInfo} from './redux/openBankLoan/enterBankInfo';
 
+// 统计查询
+// 垫资详情
+import {advancesDetail} from './redux/statisticalManagement/advancesDetail/advancesDetail';
+// 理件打件详情
+import {rationaleDetail} from './redux/statisticalManagement/rationaleDetail/rationaleDetail';
+// 银行放款
+import {loanDetail} from './redux/statisticalManagement/loanDetail/loanDetail';
+
 export default combineReducers({
     accessorypool,
     user,
@@ -1013,5 +1021,8 @@ export default combineReducers({
     bizTdunzhengxing,
     rationale,
     lala,
-    openBankLoanEnterBankInfo
+    openBankLoanEnterBankInfo,
+    advancesDetail,
+    rationaleDetail,
+    loanDetail
 });

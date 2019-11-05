@@ -2199,6 +2199,26 @@ const ROUTES = [
   {
     path: '/rationale/list/typingOk',
     component: asyncComponent(() => import('container/rationale/typingOk'))
+  },
+  // 统计查询 - 垫资详情
+  {
+    path: '/statisticalManagement/advancesDetail',
+    component: asyncComponent(() => import('container/statisticalManagement/advancesDetail/advancesDetail'))
+  },
+  // 统计查询 - 打件理件详情
+  {
+    path: '/statisticalManagement/rationaleDetail',
+    component: asyncComponent(() => import('container/statisticalManagement/rationaleDetail/rationaleDetail'))
+  },
+  // 统计查询 - 银行放款详情
+  {
+    path: '/statisticalManagement/loanDetail',
+    component: asyncComponent(() => import('container/statisticalManagement/loanDetail/loanDetail'))
+  },
+  // 统计查询 - 入档
+  {
+    path: '/statisticalManagement/fileDetail',
+    component: asyncComponent(() => import('container/statisticalManagement/fileDetail/fileDetail'))
   }
 ];
 

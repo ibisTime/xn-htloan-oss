@@ -23,7 +23,7 @@ import './../financialAdvance/applicationForPayment.css';
 import add from './add.png';
 import edit from './edit.png';
 import deletes from './delete.png';
-import moment from 'moment';
+import fetch from 'common/js/fetch';
 
 const {Option} = Select;
 class enterArchives extends React.Component {
@@ -112,6 +112,13 @@ class enterArchives extends React.Component {
         this.codeArr = [];
     }
     componentDidMount(): void {
+        const {iptInfoArr} = this.state;
+        fetch('632592').then(data => {
+            iptInfoArr['code'] = data;
+            this.setState({
+                iptInfoArr
+            });
+        });
         executorList(1, 1000).then(data => {
             let arr = [];
             for(let i = 0; i < data.list.length; i++) {

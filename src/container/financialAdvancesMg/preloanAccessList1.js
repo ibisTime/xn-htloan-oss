@@ -329,7 +329,7 @@ class preloanAccessList1 extends React.Component {
                     }
                     {
                         toexamines ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.skFor2} style={{marginRight: '30px', width: '80px'}}>用款二审</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.skFor2} style={{marginRight: '30px', width: '80px'}}>用款审核</span>
                         ) : null
                     }
                     {
