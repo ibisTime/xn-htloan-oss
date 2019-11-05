@@ -49,15 +49,6 @@ class applyGps extends React.Component {
         }, {
             title: '申领个数',
             field: 'applyCount'
-        },
-            {
-            title: '发货时间',
-            field: 'sendDatetime',
-            type: 'datetime'
-        }, {
-            title: '收货时间',
-            field: 'receiveDatetime',
-            type: 'datetime'
         }, {
             title: '状态',
             field: 'status',

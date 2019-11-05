@@ -85,7 +85,6 @@ class applyGpsCheck extends DetailUtil {
           this.doFetching();
           fetch(632711, param).then((data) => {
             showSucMsg('操作成功');
-            isExpressConfirm(data);
             this.cancelFetching();
             setTimeout(() => {
               this.props.history.go(-1);
