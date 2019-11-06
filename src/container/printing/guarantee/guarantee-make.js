@@ -51,15 +51,17 @@ class GuaranteeMake extends React.Component {
     this.state = {
       bankCode: ''
     };
+    this.bankCode = '';
   }
   componentDidMount(): void {
     accessSlipDetail(this.code).then(data => {
-      console.log('fileList', data.fileList);
       this.setState({
         bankCode: data.bank.bankCode
       });
+      this.bankCode = data.bank.bankCode;
     });
   }
+
   render() {
     const {bankCode} = this.state;
     const fields = [{
@@ -375,78 +377,87 @@ class GuaranteeMake extends React.Component {
         }]
       ]
     }];
-    return this.props.buildDetail({
-      fields,
-      code: this.code,
-      view: this.view,
-      detailCode: 632516,
-      beforeSetDetail: (data) => {
-        // loanRole: 2共还人，3担保人
-        if (data.creditUserList) {
-          data.creditUserList.forEach(user => {
-            if (user.loanRole === '2') {
-              data.mateUser = user;
-            } else if (user.loanRole === '3') {
-              if (!data.dbUser1) {
-                data.dbUser1 = user;
-              } else {
-                data.dbUser2 = user;
-              }
-            }
-          });
-        }
-        return data;
-      },
-      buttons: [{
-          title: '打印',
-          check: true,
-          handler: (param) => {
-            const data = this.props.pageData;
-            let num = param.guarantPrintTemplateId;
-            data.mateUser = data.mateUser || {};
-            data.dbUser1 = data.dbUser1 || {};
-            data.bankLoan = data.bankLoan || {};
-            data.carInfo = data.carInfo || {};
-            this.props.doFetching();
-            setTimeout(() => {
-              this.props.cancelFetching();
-              // this.props.history.go(-1);
-            }, 1000);
-            if (num === '1') {
-              createHt(data);
-            } else if(num === '2') {
-              exportBOCZdzsxffq(data);
-            } else if(num === '3') {
-              exportBOCSxfycx(data);
-            } else if(num === '4') {
-              exportBOCDy(data);
-            } else if(num === '5') {
-              exportBOCCt(data);
-            } else if(num === '6') {
-              exportBOCJcdy(data);
-            } else if(num === '8') {
-              exportBOCZdzfjf(data);
-            } else if(num === '9') {
-              exportCCBDy(data);
-            } else if(num === '10') {
-              exportCCBFwf(data);
-            } else if(num === '11') {
-              exportBOCFjd(data);
-            } else if(num === '12') {
-              exportCCBJc(data);
-            } else if(num === '13') {
-              exportCCBXydb(data);
-            }
+    console.log(fields);
+    // bankCode === 'ICBC' ? 'gh_master_plate' : (bankCode === 'CCB' ? 'jh_master_plate' : 'zh_master_plate'),
+    return (
+        <div>
+          {
+            bankCode ? (
+                this.props.buildDetail({
+                  fields,
+                  code: this.code,
+                  view: this.view,
+                  detailCode: 632516,
+                  beforeSetDetail: (data) => {
+                    // loanRole: 2共还人，3担保人
+                    if (data.creditUserList) {
+                      data.creditUserList.forEach(user => {
+                        if (user.loanRole === '2') {
+                          data.mateUser = user;
+                        } else if (user.loanRole === '3') {
+                          if (!data.dbUser1) {
+                            data.dbUser1 = user;
+                          } else {
+                            data.dbUser2 = user;
+                          }
+                        }
+                      });
+                    }
+                    return data;
+                  },
+                  buttons: [{
+                    title: '打印',
+                    check: true,
+                    handler: (param) => {
+                      const data = this.props.pageData;
+                      let num = param.guarantPrintTemplateId;
+                      data.mateUser = data.mateUser || {};
+                      data.dbUser1 = data.dbUser1 || {};
+                      data.bankLoan = data.bankLoan || {};
+                      data.carInfo = data.carInfo || {};
+                      this.props.doFetching();
+                      setTimeout(() => {
+                        this.props.cancelFetching();
+                        // this.props.history.go(-1);
+                      }, 1000);
+                      if (num === '1') {
+                        createHt(data);
+                      } else if(num === '2') {
+                        exportBOCZdzsxffq(data);
+                      } else if(num === '3') {
+                        exportBOCSxfycx(data);
+                      } else if(num === '4') {
+                        exportBOCDy(data);
+                      } else if(num === '5') {
+                        exportBOCCt(data);
+                      } else if(num === '6') {
+                        exportBOCJcdy(data);
+                      } else if(num === '8') {
+                        exportBOCZdzfjf(data);
+                      } else if(num === '9') {
+                        exportCCBDy(data);
+                      } else if(num === '10') {
+                        exportCCBFwf(data);
+                      } else if(num === '11') {
+                        exportBOCFjd(data);
+                      } else if(num === '12') {
+                        exportCCBJc(data);
+                      } else if(num === '13') {
+                        exportCCBXydb(data);
+                      }
+                    }
+                  },
+                    {
+                      title: '返回',
+                      handler: (param) => {
+                        this.props.history.go(-1);
+                      }
+                    }
+                  ]
+                })) : null
           }
-        },
-        {
-          title: '返回',
-          handler: (param) => {
-            this.props.history.go(-1);
-          }
-        }
-      ]
-    });
+        </div>
+    );
   }
 }
 
