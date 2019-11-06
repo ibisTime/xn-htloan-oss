@@ -5348,190 +5348,214 @@ class preloanAccess extends React.Component {
                                         </Col>
                                     </Row>
                                     <div className="preLoan-body-row-line"></div>
-                                    <span className="preLoan-body-tag">共还人1</span>
-                                    <div style={{marginTop: '24px'}}><span>姓名：{cardZTwo ? (cardZTwo.userName === '' ? '暂无人员信息' : cardZTwo.userName) : ''}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr ? (loanIptArr.mobile2 === '' ? '暂无手机号信息' : loanIptArr.mobile2) : ''}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZTwo ? (cardZTwo.idNo === '' ? '暂无身份证号信息' : cardZTwo.idNo) : ''}</span></div>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">工作单位：</span>
-                                            <input type="text" value={altogetherPpIptArr.companyName} onChange={(e) => { this.iptaltogetherPp(e, 'companyName'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">职业：</span>
-                                            <Select className="preLoan-body-select" style={{width: '220px'}} value={altogetherPpIptArr.position} onChange={this.handleChangeAltogetherPpIptArr}>
-                                                {
-                                                    workProfession.map(data => {
-                                                        return (
-                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
-                                                        );
-                                                    })
-                                                }
-                                            </Select>
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">现住地址：</span>
-                                            <input type="text" value={altogetherPpIptArr.nowAddress} onChange={(e) => { this.iptaltogetherPp(e, 'nowAddress'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">单位地址：</span>
-                                            <input type="text" value={altogetherPpIptArr.companyAddress} onChange={(e) => { this.iptaltogetherPp(e, 'companyAddress'); }} className="preLoan-body-input" />
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}>与主贷人关系：</span>
-                                            <Select className="preLoan-body-select" value={ghyzdgx1} style={{width: '220px'}} onChange={this.handleChangeGhyzdgx1}>
-                                                {
-                                                    creditUserRelation.map(data => {
-                                                        return (
-                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
-                                                        );
-                                                    })
-                                                }
-                                            </Select>
-                                        </Col>
-                                        <Col span={12}></Col>
-                                    </Row>
-                                    <div className="preLoan-body-row-line"></div>
-                                    <span className="preLoan-body-tag">共还人2</span>
-                                    <div style={{marginTop: '24px'}}><span>姓名：{cardZTwo02 ? (cardZTwo02.userName === '' ? '暂无人员信息' : cardZTwo02.userName) : ''}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr ? (loanIptArr.mobile202 === '' ? '暂无手机号信息' : loanIptArr.mobile202) : ''}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZTwo02 ? (cardZTwo02.idNo === '' ? '暂无身份证号信息' : cardZTwo02.idNo) : ''}</span></div>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">工作单位：</span>
-                                            <input type="text" value={altogetherPpIptArr02.companyName} onChange={(e) => { this.iptaltogetherPp02(e, 'companyName'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">职业：</span>
-                                            <Select className="preLoan-body-select" style={{width: '220px'}} value={altogetherPpIptArr02.position} onChange={this.handleChangeAltogetherPpIptArr02}>
-                                                {
-                                                    workProfession.map(data => {
-                                                        return (
-                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
-                                                        );
-                                                    })
-                                                }
-                                            </Select>
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">现住地址：</span>
-                                            <input type="text" value={altogetherPpIptArr02.nowAddress} onChange={(e) => { this.iptaltogetherPp02(e, 'nowAddress'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">单位地址：</span>
-                                            <input type="text" value={altogetherPpIptArr02.companyAddress} onChange={(e) => { this.iptaltogetherPp02(e, 'companyAddress'); }} className="preLoan-body-input" />
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}>与主贷人关系：</span>
-                                            <Select className="preLoan-body-select" value={ghyzdgx2} style={{width: '220px'}} onChange={this.handleChangeGhyzdgx2}>
-                                                {
-                                                    creditUserRelation.map(data => {
-                                                        return (
-                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
-                                                        );
-                                                    })
-                                                }
-                                            </Select>
-                                        </Col>
-                                        <Col span={12}></Col>
-                                    </Row>
-                                    <div className="preLoan-body-row-line"></div>
-                                    <span className="preLoan-body-tag">反担保人1</span>
-                                    <div style={{marginTop: '24px'}}><span>姓名：{cardZThree ? (cardZThree.userName === '' ? '暂无人员信息' : cardZThree.userName) : cardZThree}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr ? (loanIptArr.mobile3 === '' ? '暂无手机号信息' : loanIptArr.mobile3) : ''}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZThree ? (cardZThree.idNo === '' ? '暂无身份证号信息' : cardZThree.idNo) : ''}</span></div>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">工作单位：</span>
-                                            <input type="text" value={bkGuaranteePpArr.companyName} onChange={(e) => { this.iptBkGtPp(e, 'companyName'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">职业：</span>
-                                            <Select className="preLoan-body-select" style={{width: '220px'}} value={bkGuaranteePpArr.position} onChange={this.handleChangeBkGuaranteePpArr}>
-                                                {
-                                                    workProfession.map(data => {
-                                                        return (
-                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
-                                                        );
-                                                    })
-                                                }
-                                            </Select>
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">现住地址：</span>
-                                            <input type="text" value={bkGuaranteePpArr.nowAddress} ref={input => this.bkGtNowAddressIpt = input} onChange={(e) => { this.iptBkGtPp(e, 'nowAddress'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">单位地址：</span>
-                                            <input type="text" value={bkGuaranteePpArr.companyAddress} ref={input => this.bkGtCompanyAddressIpt = input} onChange={(e) => { this.iptBkGtPp(e, 'companyAddress'); }} className="preLoan-body-input" />
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}>与主贷人关系：</span>
-                                            <Select className="preLoan-body-select" value={dbryzdgx1} style={{width: '220px'}} onChange={this.handleChangeDbryzdgx1}>
-                                                {
-                                                    creditUserRelation.map(data => {
-                                                        return (
-                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
-                                                        );
-                                                    })
-                                                }
-                                            </Select>
-                                        </Col>
-                                        <Col span={12}></Col>
-                                    </Row>
-                                    <div className="preLoan-body-row-line"></div>
-                                    <span className="preLoan-body-tag">反担保人2</span>
-                                    <div style={{marginTop: '24px'}}><span>姓名：{cardZThree02 ? (cardZThree02.userName === '' ? '暂无人员信息' : cardZThree02.userName) : ''}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr ? (loanIptArr.mobile302 === '' ? '暂无手机号信息' : loanIptArr.mobile302) : ''}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZThree02 ? (cardZThree02.idNo === '' ? '暂无身份证号信息' : cardZThree02.idNo) : ''}</span></div>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">工作单位：</span>
-                                            <input type="text" value={bkGuaranteePpArr02.companyName} onChange={(e) => { this.iptBkGtPp02(e, 'companyName'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">职业：</span>
-                                            <Select className="preLoan-body-select" style={{width: '220px'}} value={bkGuaranteePpArr02.position} onChange={this.handleChangeBkGuaranteePpArr02}>
-                                                {
-                                                    workProfession.map(data => {
-                                                        return (
-                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
-                                                        );
-                                                    })
-                                                }
-                                            </Select>
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">现住地址：</span>
-                                            <input type="text" value={bkGuaranteePpArr02.nowAddress} onChange={(e) => { this.iptBkGtPp02(e, 'nowAddress'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title">单位地址：</span>
-                                            <input type="text" value={bkGuaranteePpArr02.companyAddress} onChange={(e) => { this.iptBkGtPp02(e, 'companyAddress'); }} className="preLoan-body-input" />
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={12}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}>与主贷人关系：</span>
-                                            <Select className="preLoan-body-select" value={dbryzdgx2} style={{width: '220px'}} onChange={this.handleChangeDbryzdgx2}>
-                                                {
-                                                    creditUserRelation.map(data => {
-                                                        return (
-                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
-                                                        );
-                                                    })
-                                                }
-                                            </Select>
-                                        </Col>
-                                        <Col span={12}></Col>
-                                    </Row>
-                                    <div className="preLoan-body-row-line"></div>
+                                    {
+                                        cardZTwo && cardZTwo.userName ? (
+                                            <div>
+                                                <span className="preLoan-body-tag">共还人1</span>
+                                                <div style={{marginTop: '24px'}}><span>姓名：{cardZTwo ? (cardZTwo.userName === '' ? '暂无人员信息' : cardZTwo.userName) : ''}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr ? (loanIptArr.mobile2 === '' ? '暂无手机号信息' : loanIptArr.mobile2) : ''}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZTwo ? (cardZTwo.idNo === '' ? '暂无身份证号信息' : cardZTwo.idNo) : ''}</span></div>
+                                                <Row className="preLoan-body-row-top">
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">工作单位：</span>
+                                                        <input type="text" value={altogetherPpIptArr.companyName} onChange={(e) => { this.iptaltogetherPp(e, 'companyName'); }} className="preLoan-body-input" />
+                                                    </Col>
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">职业：</span>
+                                                        <Select className="preLoan-body-select" style={{width: '220px'}} value={altogetherPpIptArr.position} onChange={this.handleChangeAltogetherPpIptArr}>
+                                                            {
+                                                                workProfession.map(data => {
+                                                                    return (
+                                                                        <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </Select>
+                                                    </Col>
+                                                </Row>
+                                                <Row className="preLoan-body-row-top">
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">现住地址：</span>
+                                                        <input type="text" value={altogetherPpIptArr.nowAddress} onChange={(e) => { this.iptaltogetherPp(e, 'nowAddress'); }} className="preLoan-body-input" />
+                                                    </Col>
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">单位地址：</span>
+                                                        <input type="text" value={altogetherPpIptArr.companyAddress} onChange={(e) => { this.iptaltogetherPp(e, 'companyAddress'); }} className="preLoan-body-input" />
+                                                    </Col>
+                                                </Row>
+                                                <Row className="preLoan-body-row-top">
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title" style={{width: '120px'}}>与主贷人关系：</span>
+                                                        <Select className="preLoan-body-select" value={ghyzdgx1} style={{width: '220px'}} onChange={this.handleChangeGhyzdgx1}>
+                                                            {
+                                                                creditUserRelation.map(data => {
+                                                                    return (
+                                                                        <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </Select>
+                                                    </Col>
+                                                    <Col span={12}></Col>
+                                                </Row>
+                                                <div className="preLoan-body-row-line"></div>
+                                            </div>
+                                        ) : null
+                                    }
+                                    {
+                                        cardZTwo02 && cardZTwo02.userName ? (
+                                            <div>
+                                                <span className="preLoan-body-tag">共还人2</span>
+                                                <div style={{marginTop: '24px'}}><span>姓名：{cardZTwo02 ? (cardZTwo02.userName === '' ? '暂无人员信息' : cardZTwo02.userName) : ''}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr ? (loanIptArr.mobile202 === '' ? '暂无手机号信息' : loanIptArr.mobile202) : ''}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZTwo02 ? (cardZTwo02.idNo === '' ? '暂无身份证号信息' : cardZTwo02.idNo) : ''}</span></div>
+                                                <Row className="preLoan-body-row-top">
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">工作单位：</span>
+                                                        <input type="text" value={altogetherPpIptArr02.companyName} onChange={(e) => { this.iptaltogetherPp02(e, 'companyName'); }} className="preLoan-body-input" />
+                                                    </Col>
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">职业：</span>
+                                                        <Select className="preLoan-body-select" style={{width: '220px'}} value={altogetherPpIptArr02.position} onChange={this.handleChangeAltogetherPpIptArr02}>
+                                                            {
+                                                                workProfession.map(data => {
+                                                                    return (
+                                                                        <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </Select>
+                                                    </Col>
+                                                </Row>
+                                                <Row className="preLoan-body-row-top">
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">现住地址：</span>
+                                                        <input type="text" value={altogetherPpIptArr02.nowAddress} onChange={(e) => { this.iptaltogetherPp02(e, 'nowAddress'); }} className="preLoan-body-input" />
+                                                    </Col>
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">单位地址：</span>
+                                                        <input type="text" value={altogetherPpIptArr02.companyAddress} onChange={(e) => { this.iptaltogetherPp02(e, 'companyAddress'); }} className="preLoan-body-input" />
+                                                    </Col>
+                                                </Row>
+                                                <Row className="preLoan-body-row-top">
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title" style={{width: '120px'}}>与主贷人关系：</span>
+                                                        <Select className="preLoan-body-select" value={ghyzdgx2} style={{width: '220px'}} onChange={this.handleChangeGhyzdgx2}>
+                                                            {
+                                                                creditUserRelation.map(data => {
+                                                                    return (
+                                                                        <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </Select>
+                                                    </Col>
+                                                    <Col span={12}></Col>
+                                                </Row>
+                                                <div className="preLoan-body-row-line"></div>
+                                            </div>
+                                        ) : null
+                                    }
+                                    {
+                                        cardZThree && cardZThree.userName ? (
+                                            <div>
+                                                <span className="preLoan-body-tag">反担保人1</span>
+                                                <div style={{marginTop: '24px'}}><span>姓名：{cardZThree ? (cardZThree.userName === '' ? '暂无人员信息' : cardZThree.userName) : cardZThree}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr ? (loanIptArr.mobile3 === '' ? '暂无手机号信息' : loanIptArr.mobile3) : ''}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZThree ? (cardZThree.idNo === '' ? '暂无身份证号信息' : cardZThree.idNo) : ''}</span></div>
+                                                <Row className="preLoan-body-row-top">
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">工作单位：</span>
+                                                        <input type="text" value={bkGuaranteePpArr.companyName} onChange={(e) => { this.iptBkGtPp(e, 'companyName'); }} className="preLoan-body-input" />
+                                                    </Col>
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">职业：</span>
+                                                        <Select className="preLoan-body-select" style={{width: '220px'}} value={bkGuaranteePpArr.position} onChange={this.handleChangeBkGuaranteePpArr}>
+                                                            {
+                                                                workProfession.map(data => {
+                                                                    return (
+                                                                        <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </Select>
+                                                    </Col>
+                                                </Row>
+                                                <Row className="preLoan-body-row-top">
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">现住地址：</span>
+                                                        <input type="text" value={bkGuaranteePpArr.nowAddress} ref={input => this.bkGtNowAddressIpt = input} onChange={(e) => { this.iptBkGtPp(e, 'nowAddress'); }} className="preLoan-body-input" />
+                                                    </Col>
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">单位地址：</span>
+                                                        <input type="text" value={bkGuaranteePpArr.companyAddress} ref={input => this.bkGtCompanyAddressIpt = input} onChange={(e) => { this.iptBkGtPp(e, 'companyAddress'); }} className="preLoan-body-input" />
+                                                    </Col>
+                                                </Row>
+                                                <Row className="preLoan-body-row-top">
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title" style={{width: '120px'}}>与主贷人关系：</span>
+                                                        <Select className="preLoan-body-select" value={dbryzdgx1} style={{width: '220px'}} onChange={this.handleChangeDbryzdgx1}>
+                                                            {
+                                                                creditUserRelation.map(data => {
+                                                                    return (
+                                                                        <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </Select>
+                                                    </Col>
+                                                    <Col span={12}></Col>
+                                                </Row>
+                                                <div className="preLoan-body-row-line"></div>
+                                            </div>
+                                        ) : null
+                                    }
+                                    {
+                                        cardZThree02 && cardZThree02.userName ? (
+                                            <div>
+                                                <span className="preLoan-body-tag">反担保人2</span>
+                                                <div style={{marginTop: '24px'}}><span>姓名：{cardZThree02 ? (cardZThree02.userName === '' ? '暂无人员信息' : cardZThree02.userName) : ''}</span><span style={{marginLeft: '90px'}}>手机号：{loanIptArr ? (loanIptArr.mobile302 === '' ? '暂无手机号信息' : loanIptArr.mobile302) : ''}</span><span style={{marginLeft: '90px'}}>身份证号：{cardZThree02 ? (cardZThree02.idNo === '' ? '暂无身份证号信息' : cardZThree02.idNo) : ''}</span></div>
+                                                <Row className="preLoan-body-row-top">
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">工作单位：</span>
+                                                        <input type="text" value={bkGuaranteePpArr02.companyName} onChange={(e) => { this.iptBkGtPp02(e, 'companyName'); }} className="preLoan-body-input" />
+                                                    </Col>
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">职业：</span>
+                                                        <Select className="preLoan-body-select" style={{width: '220px'}} value={bkGuaranteePpArr02.position} onChange={this.handleChangeBkGuaranteePpArr02}>
+                                                            {
+                                                                workProfession.map(data => {
+                                                                    return (
+                                                                        <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </Select>
+                                                    </Col>
+                                                </Row>
+                                                <Row className="preLoan-body-row-top">
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">现住地址：</span>
+                                                        <input type="text" value={bkGuaranteePpArr02.nowAddress} onChange={(e) => { this.iptBkGtPp02(e, 'nowAddress'); }} className="preLoan-body-input" />
+                                                    </Col>
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title">单位地址：</span>
+                                                        <input type="text" value={bkGuaranteePpArr02.companyAddress} onChange={(e) => { this.iptBkGtPp02(e, 'companyAddress'); }} className="preLoan-body-input" />
+                                                    </Col>
+                                                </Row>
+                                                <Row className="preLoan-body-row-top">
+                                                    <Col span={12}>
+                                                        <span className="preLoan-body-title" style={{width: '120px'}}>与主贷人关系：</span>
+                                                        <Select className="preLoan-body-select" value={dbryzdgx2} style={{width: '220px'}} onChange={this.handleChangeDbryzdgx2}>
+                                                            {
+                                                                creditUserRelation.map(data => {
+                                                                    return (
+                                                                        <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </Select>
+                                                    </Col>
+                                                    <Col span={12}></Col>
+                                                </Row>
+                                                <div className="preLoan-body-row-line"></div>
+                                            </div>
+                                        ) : null
+                                    }
                                     <span className="preLoan-body-tag">紧急联系人</span>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
