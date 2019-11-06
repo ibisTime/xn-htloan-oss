@@ -343,9 +343,9 @@ class preloanAccessList1 extends React.Component {
                         ) : null
                     }
                     {
-                        printing ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.skPrint} style={{marginRight: '30px', width: '80px'}}>垫资打印</span>
-                        ) : null
+                        // printing ? (
+                        //     <span className="preLoan-access-list-btn-gray" onClick={this.skPrint} style={{marginRight: '30px', width: '80px'}}>垫资打印</span>
+                        // ) : null
                     }
                     {
                         detail ? (

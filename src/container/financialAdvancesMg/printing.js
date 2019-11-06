@@ -71,12 +71,12 @@ class printing extends React.Component {
                 smallLetter: data.loanAmount / 1000,
                 capitalization: numUppercase(data.loanAmount / 1000),
                 loanBank: data.loanBankName,
-                collectionUnit: data.advance.collectBankcard.bankName,
-                accountNumber: data.advance.collectBankcard.bankcardNumber,
-                bankOfDeposit: data.advance.collectBankcard.subbranch,
+                collectionUnit: data.advance.collectBankcard ? data.advance.collectBankcard.bankName : '',
+                accountNumber: data.advance.collectBankcard ? data.advance.collectBankcard.bankcardNumber : '',
+                bankOfDeposit: data.advance.collectBankcard ? data.advance.collectBankcard.subbranch : '',
                 applicant: getUserName(),
                 dateOfApplication: getNowTime(),
-                auditOpinion: `${findDsct(arr, 'b3').split('，')[0]}  ${getUserName()}  ${findDsct(arr, 'b3').split('，')[3]}`,
+                auditOpinion: `${findDsct(arr, 'b3').split('，')[0] ? findDsct(arr, 'b3').split('，')[0] : ''}  ${getUserName()}  ${findDsct(arr, 'b3').split('，')[3] ? findDsct(arr, 'b3').split('，')[3] : ''}`,
                 Opinion: findDsct(arr, 'b3').split('，')[2]
             });
         });
@@ -86,7 +86,10 @@ class printing extends React.Component {
             });
         });
     }
-
+    // 返回
+    goBack = () => {
+        this.props.history.go(-1);
+    }
     render() {
         const {
             // 用款用途
@@ -175,7 +178,8 @@ class printing extends React.Component {
                         </tr>
                     </table>
                 </div>
-                <ReactToPrint trigger={() => <a href='#' style={{float: 'right'}}><Button type='primary'>打印</Button></a>} content={() => this.refs}></ReactToPrint>
+                <ReactToPrint trigger={() => <a href='#' style={{float: 'right', marginRight: '10px'}}><Button type='primary'>打印</Button></a>} content={() => this.refs}></ReactToPrint>
+                <Button onClick={this.goBack} style={{float: 'right', marginRight: '60px'}}>返回</Button>
             </div>
         );
     }

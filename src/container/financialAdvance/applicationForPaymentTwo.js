@@ -20,6 +20,7 @@ import './applicationForPayment.css';
 import add from './add.png';
 import edit from './edit.png';
 import deletes from './delete.png';
+import print from '../../images/print.png';
 
 const {Option} = Select;
 class applicationForPayment extends React.Component {
@@ -374,15 +375,20 @@ class applicationForPayment extends React.Component {
             getUserNames: event.props.children
         });
     }
+    // 打印
+    openPrint = () => {
+        this.props.history.push(`/loan/printing?code=${this.code}`);
+    }
     render() {
         const {carBuyingListArrs, baseInfo, accessSlipStatusArr, rmkText, collectBankcard, missionList, information, executorListArr, getUserNames} = this.state;
         return (
             <div className="afp-body">
-                <span className="afp-body-tag">业务基本信息</span>
+                <span className="afp-body-tag">业务基本信息</span><div onClick={this.openPrint} style={{float: 'right', color: '#1791FF'}}><img src={print} style={{width: '20px', height: '20px'}} /><span>去打印</span></div>
                 <Row className="afp-body-user-detail">
                     <Col span={8}>
                         <span>业务编号：{baseInfo.code}</span>
-                        <a target="_blank" style={{color: '#1791FF', marginLeft: '15px'}} href={`/preLoan/Access/detail?code=${this.code}`}>查看详情</a>                    </Col>
+                        <a target="_blank" style={{color: '#1791FF', marginLeft: '15px'}} href={`/preLoan/Access/detail?code=${this.code}`}>查看详情</a>
+                    </Col>
                     <Col span={8}>
                         <span>客户名称：{baseInfo.customerName}</span>
                     </Col>

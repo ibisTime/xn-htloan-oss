@@ -14,6 +14,9 @@ import {
 } from 'common/js/util';
 import fetch from 'common/js/fetch';
 import { DetailWrapper } from 'common/js/build-detail';
+import {
+    accessSlipDetail
+} from '../../../api/preLoan.js';
 
 @DetailWrapper(
     state => state.carloanfinancePointreturnReturn, {
@@ -34,7 +37,13 @@ class pointreturnReturn extends React.Component {
             realName: '',
             bankName: '',
             subbranch: '',
-            bankcardNumber: ''
+            bankcardNumber: '',
+            arr: [],
+            accountNoNow: '',
+            repointAmount: '',
+            carFunds3: '',
+            carFunds4: '',
+            carFunds5: ''
         };
         this.buttons = [];
         if(this.view) {
@@ -68,7 +77,70 @@ class pointreturnReturn extends React.Component {
             }];
         }
     }
+    componentDidMount(): void {
+        fetch('632316', {code: this.code}).then(data => {
+            let code = data.bizCode;
+            fetch('632319', {code: code}).then(data => {
+                accessSlipDetail(code).then(data => {
+                    this.setState({
+                        repointAmount: data.repointAmount ? data.repointAmount / 1000 : '',
+                        carFunds3: data.carFunds3 ? data.carFunds3 / 1000 : '',
+                        carFunds4: data.carFunds4 ? data.carFunds4 / 1000 : '',
+                        carFunds5: data.carFunds5 ? data.carFunds5 / 1000 : ''
+                    });
+                });
+                let arr = [];
+                for(let i = 0; i < 4; i++) {
+                    switch (i) {
+                        case 0:
+                            if(data.carFunds2) {
+                                arr.push({
+                                    key: '车款2',
+                                    value: '车款2'
+                                });
+                            }
+                            break;
+                        case 1:
+                            if(data.carFunds3) {
+                                arr.push({
+                                    key: '车款3',
+                                    value: '车款3'
+                                });
+                            }
+                            break;
+                        case 2:
+                            if(data.carFunds4) {
+                                arr.push({
+                                    key: '车款4',
+                                    value: '车款4'
+                                });
+                            }
+                            break;
+                        case 3:
+                            if(data.carFunds5) {
+                                arr.push({
+                                    key: '车款5',
+                                    value: '车款5'
+                                });
+                            }
+                            break;
+                    }
+                }
+                this.setState({
+                    arr
+                });
+            });
+            this.setState({
+                accountNoNow: data.accountNo
+            });
+        });
+    }
     render() {
+        // repointAmount: '',
+        // carFunds3: '',
+        // carFunds4: '',
+        // carFunds5: ''
+        const {arr, accountNoNow, repointAmount, carFunds3, carFunds4, carFunds5} = this.state;
         const fields = [{
             title: '业务团队长',
             field: 'captainName',
@@ -78,12 +150,39 @@ class pointreturnReturn extends React.Component {
             field: 'bizCode',
             readonly: true
         }, {
-            title: '应返金额',
-            field: 'shouldAmount',
-            amount: true,
+            title: '车款2',
+            field: 'repointAmount',
+            formatter: (v, d) => {
+                return repointAmount;
+            },
+            hidden: repointAmount === '',
             readonly: true
         }, {
-            title: '车款2账号列表',
+            title: '车款3',
+            field: 'repointAmount',
+            formatter: (v, d) => {
+                return carFunds3;
+            },
+            hidden: carFunds3 === '',
+            readonly: true
+        }, {
+            title: '车款4',
+            field: 'repointAmount',
+            formatter: (v, d) => {
+                return carFunds4;
+            },
+            hidden: carFunds4 === '',
+            readonly: true
+        }, {
+            title: '车款5',
+            field: 'repointAmount',
+            formatter: (v, d) => {
+                return carFunds5;
+            },
+            hidden: carFunds5 === '',
+            readonly: true
+        }, {
+            title: '账号列表',
             field: 'repointAccountList',
             type: 'o2m',
             options: {
@@ -91,72 +190,49 @@ class pointreturnReturn extends React.Component {
                 edit: true,
                 delete: true,
                 fields: [{
-                    title: '车款2账号',
-                    field: 'repointCardCode',
+                    title: '车款类型',
+                    field: 'type',
                     type: 'select',
-                    listCode: '632007',
-                    params: {
-                        type: '3'
-                    },
-                    keyName: 'code',
-                    valueName: '{{bankName.DATA}}-{{bankcardNumber.DATA}}-{{companyName.DATA}}',
-                    required: true,
-                    onChange: (v, d) => {
-                        this.setState({
-                            realName: d.realName,
-                            bankName: d.bankName,
-                            subbranch: d.subbranch,
-                            bankcardNumber: d.bankcardNumber
-                        });
-                    }
+                    data: [{
+                        key: '车款1',
+                        value: '车款1'
+                    }, {
+                        key: '车款2',
+                        value: '车款2'
+                    }, {
+                        key: '车款3',
+                        value: '车款3'
+                    }, {
+                        key: '车款4',
+                        value: '车款4'
+                    }, {
+                        key: '车款5',
+                        value: '车款5'
+                    }],
+                    keyName: 'key',
+                    valueName: 'value',
+                    hidden: !this.view
                 }, {
-                    title: '户名',
-                    field: 'realName',
-                    readonly: true,
-                    hidden: !this.view,
-                    render: (v, d) => {
-                        if(this.state.realName) {
-                            return this.state.realName;
-                        }else {
-                            return d.collectBankcard.realName;
-                        }
-                    }
-                }, {
-                    title: '银行',
-                    field: 'bankName',
-                    readonly: true,
-                    hidden: !this.view,
-                    render: (v, d) => {
-                        if(this.state.bankName) {
-                            return this.state.bankName;
-                        }else {
-                            return d.collectBankcard.bankName;
-                        }
-                    }
-                }, {
-                    title: '支行',
-                    field: 'subbranch',
-                    readonly: true,
-                    hidden: !this.view,
-                    render: (v, d) => {
-                        if(this.state.subbranch) {
-                            return this.state.subbranch;
-                        }else {
-                            return d.collectBankcard.subbranch;
-                        }
-                    }
+                    title: '车款类型',
+                    field: 'type',
+                    type: 'select',
+                    data: arr,
+                    keyName: 'key',
+                    valueName: 'value',
+                    noVisible: true
                 }, {
                     title: '收款账号',
-                    field: 'bankcardNumber',
-                    readonly: true,
+                    field: 'repointCardCode',
                     hidden: !this.view,
-                    render: (v, d) => {
-                        if(this.state.bankcardNumber) {
-                            return this.state.bankcardNumber;
-                        }else {
-                            return d.collectBankcard.bankcardNumber;
-                        }
-                    }
+                    required: true
+                }, {
+                    title: '收款账号2',
+                    field: 'repointCardCode',
+                    required: true,
+                    formatter: (v, d) => {
+                        return accountNoNow;
+                    },
+                    noVisible: true
                 }, {
                     title: '实返金额',
                     field: 'actualAmount',

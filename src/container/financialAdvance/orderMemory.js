@@ -20,6 +20,7 @@ import {
 import {UPLOAD_URL} from '../../common/js/config.js';
 import './applicationForPayment.css';
 import moment from 'moment';
+import print from '../../images/print.png';
 
 class orderMemory extends React.Component {
     constructor(props) {
@@ -176,6 +177,10 @@ class orderMemory extends React.Component {
     showDetail = () => {
         this.props.history.push(`/preLoan/Access/detail?code=${this.code}`);
     }
+    // 打印
+    openPrint = () => {
+        this.props.history.push(`/loan/printing?code=${this.code}`);
+    }
     render() {
         const {carBuyingListArrs, baseInfo, accessSlipStatusArr, collectBankcard, fileListJF, uploadToken, iptInfoArr} = this.state;
         const propsJF = {
@@ -185,7 +190,7 @@ class orderMemory extends React.Component {
         };
         return (
             <div className="afp-body">
-                <span className="afp-body-tag">业务基本信息</span>
+                <span className="afp-body-tag">业务基本信息</span><div onClick={this.openPrint} style={{float: 'right', color: '#1791FF'}}><img src={print} style={{width: '20px', height: '20px'}} /><span>去打印</span></div>
                 <Row className="afp-body-user-detail">
                     <Col span={8}>
                         <span>业务编号：{baseInfo.code}</span>
