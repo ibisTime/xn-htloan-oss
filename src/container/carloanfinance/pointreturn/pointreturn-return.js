@@ -150,7 +150,7 @@ class pointreturnReturn extends React.Component {
             field: 'bizCode',
             readonly: true
         }, {
-            title: '车款2',
+            title: '车款2应返金额',
             field: 'repointAmount',
             formatter: (v, d) => {
                 return repointAmount;
@@ -158,7 +158,7 @@ class pointreturnReturn extends React.Component {
             hidden: repointAmount === '',
             readonly: true
         }, {
-            title: '车款3',
+            title: '车款3应返金额',
             field: 'repointAmount',
             formatter: (v, d) => {
                 return carFunds3;
@@ -166,7 +166,7 @@ class pointreturnReturn extends React.Component {
             hidden: carFunds3 === '',
             readonly: true
         }, {
-            title: '车款4',
+            title: '车款4应返金额',
             field: 'repointAmount',
             formatter: (v, d) => {
                 return carFunds4;
@@ -174,7 +174,7 @@ class pointreturnReturn extends React.Component {
             hidden: carFunds4 === '',
             readonly: true
         }, {
-            title: '车款5',
+            title: '车款5应返金额',
             field: 'repointAmount',
             formatter: (v, d) => {
                 return carFunds5;
