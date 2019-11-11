@@ -787,7 +787,7 @@ class preloanAccessDetail extends React.Component {
                             <Col span={8}>服务费：{bankLoan ? bankLoan.fee / 1000 : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={8}>利率类型：{bankLoan ? bankLoan.rateType : ''}</Col>
+                            <Col span={8}>利率类型：{bankLoan ? (bankLoan.rateType === '1' ? '传统' : '直客') : ''}</Col>
                             <Col span={8}>是否垫资：{bankLoan ? (bankLoan.isAdvanceFund === '0' ? '否' : '是') : ''}</Col>
                             <Col span={8}>是否贴息：{bankLoan ? (bankLoan.isDiscount === '0' ? '否' : '是') : ''}</Col>
                         </Row>
