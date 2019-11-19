@@ -700,6 +700,18 @@ class preloanAccess extends React.Component {
         // this.bankCreditResult3Ipt = '';
         this.code = getQueryString('code', this.props.location.search);
         this.typeEdit = getQueryString('type', this.props.location.search);
+        let datas = [];
+        brandMng(1, 1, '').then(data => {
+            for(let i = 0; i < data.length; i++) {
+                datas.push({
+                    value: data[i].code,
+                    text: data[i].name
+                });
+            }
+            this.setState({
+                data: datas
+            });
+        });
         // getCityList
         getCityList(1, 1000).then(async data => {
             let arr = [];
@@ -981,7 +993,7 @@ class preloanAccess extends React.Component {
                             repointAmount: data.repointAmount ? data.repointAmount / 1000 : '',
                             gpsFee: data.gpsFee ? data.gpsFee / 1000 : '',
                             otherFee: data.otherFee ? data.otherFee / 1000 : '',
-                            loanAmount: data.bankLoan.loanAmount ? data.bankLoan.loanAmount / 1000 : '',
+                            loanAmount: data.bankLoan ? data.bankLoan.loanAmount / 1000 : '',
                             carFunds3: data.carFunds3 ? data.carFunds3 / 1000 : '',
                             carFunds4: data.carFunds4 ? data.carFunds4 / 1000 : '',
                             carFunds5: data.carFunds5 ? data.carFunds5 / 1000 : ''
@@ -1164,8 +1176,10 @@ class preloanAccess extends React.Component {
                         regDate: data.carInfo ? data.carInfo.regDate : '',
                         // 品牌
                         brandCode: data.carInfo ? data.carInfo.carBrand : '',
+                        brandName1: data.carInfo ? data.carInfo.carBrandName : '',
                         // 车系
                         seriesCode: data.carInfo ? data.carInfo.carSeries : '',
+                        seriesName1: data.carInfo ? data.carInfo.carSeriesName : '',
                         // 车型
                         carCode: data.carInfo ? data.carInfo.carModel : '',
                         carUrl: data.carInfo ? data.carInfo.secondCarReport : '',
@@ -1188,9 +1202,9 @@ class preloanAccess extends React.Component {
                         dbryzdgx2: data.creditUserList[4] ? data.creditUserList[4].relation : ''
                     }, () => {
                         if(this.state.brandCode) {
-                            this.setState({
-                                value: this.state.brandCode
-                            });
+                            // this.setState({
+                            //     value: this.state.brandCode
+                            // });
                             this.fandCarTypeMng(this.state.brandCode, true);
                         }
                         if(this.state.seriesCode) {
@@ -3968,7 +3982,18 @@ class preloanAccess extends React.Component {
         if (value) {
             fetch(value, data => this.setState({ data }));
         } else {
-            this.setState({ data: [] });
+            let datas = [];
+            brandMng(1, 1, '').then(data => {
+                for(let i = 0; i < data.length; i++) {
+                    datas.push({
+                        value: data[i].code,
+                        text: data[i].name
+                    });
+                }
+                this.setState({
+                    data: datas
+                });
+            });
         }
     };
     handleChange1 = value => {
@@ -4249,8 +4274,10 @@ class preloanAccess extends React.Component {
             regDate,
             // 品牌
             brandCode,
+            brandName1,
             // 车系
             seriesCode,
+            seriesName1,
             // 车型
             carCode,
             // 公里
@@ -4355,7 +4382,7 @@ class preloanAccess extends React.Component {
                         <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>品牌：</span>
                         <Select
                             showSearch
-                            value={this.state.value}
+                            value={this.state.value ? this.state.value : brandName1}
                             defaultValue={this.state.value}
                             placeholder={this.props.placeholder}
                             style={{width: '220px'}}
@@ -4501,12 +4528,12 @@ class preloanAccess extends React.Component {
                                                                 style={{height: '113px'}}
                                                                 listType="picture-card"
                                                                 data={{token: uploadToken}}
-                                                                fileList={fileList1}
+                                                                fileList={fileList1[0] ? (fileList1[0]['url'] === zanwu ? [] : fileList1) : fileList1}
                                                                 action={UPLOAD_URL}
                                                                 onPreview={this.handlePreviewCardZ}
                                                                 onChange={this.handleChangeCardZ}
                                                             >
-                                                                {fileList1.length >= 1 ? null : uploadButtonZ}
+                                                                {fileList1[0] ? (fileList1[0]['url'] === zanwu ? uploadButtonZ : (fileList1.length >= 1 ? null : uploadButtonZ)) : uploadButtonZ}
                                                             </Upload>
                                                             <Modal visible={previewVisible} footer={null} onCancel={this.handleCancelCardZ}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImage} />
@@ -4519,12 +4546,12 @@ class preloanAccess extends React.Component {
                                                                 style={{height: '113px'}}
                                                                 listType="picture-card"
                                                                 data={{token: uploadToken}}
-                                                                fileList={fileList2}
+                                                                fileList={fileList2[0] ? (fileList2[0]['url'] === zanwu ? [] : fileList2) : fileList2}
                                                                 action={UPLOAD_URL}
                                                                 onPreview={this.handlePreviewCardF}
                                                                 onChange={this.handleChangeCardF}
                                                             >
-                                                                {fileList2.length >= 1 ? null : uploadButtonF}
+                                                                {fileList2[0] ? (fileList2[0]['url'] === zanwu ? uploadButtonF : (fileList2.length >= 1 ? null : uploadButtonF)) : uploadButtonF}
                                                             </Upload>
                                                             <Modal visible={previewVisible2} footer={null} onCancel={this.handleCancelCardF}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImage2} />
@@ -4537,12 +4564,12 @@ class preloanAccess extends React.Component {
                                                                 style={{height: '113px'}}
                                                                 listType="picture-card"
                                                                 data={{token: uploadToken}}
-                                                                fileList={fileList3}
+                                                                fileList={fileList3[0] ? (fileList3[0]['url'] === zanwu ? [] : fileList3) : fileList3}
                                                                 action={UPLOAD_URL}
                                                                 onPreview={this.handlePreviewCardSC}
                                                                 onChange={this.handleChangeCardSC}
                                                             >
-                                                                {fileList3.length >= 1 ? null : uploadButtonHz}
+                                                                {fileList3[0] ? (fileList3[0]['url'] === zanwu ? uploadButtonHz : (fileList3.length >= 1 ? null : uploadButtonHz)) : uploadButtonHz}
                                                             </Upload>
                                                             <Modal visible={previewVisible3} footer={null} onCancel={this.handleCancelCardSC}>
                                                                 <img alt="example" style={{ width: '100%' }} src={previewImage3} />
