@@ -52,9 +52,6 @@ class Notice extends React.Component {
         key: '1',
         value: '提醒'
       }, {
-        key: '2',
-        value: '通知'
-      }, {
         key: '3',
         value: '公告'
       }],
