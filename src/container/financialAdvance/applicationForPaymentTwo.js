@@ -14,7 +14,8 @@ import {
     carBuyingList,
     accountBlankList,
     examineTwo,
-    executorList
+    executorList,
+    findTeamInfo
 } from '../../api/preLoan.js';
 import './applicationForPayment.css';
 import add from './add.png';
@@ -55,7 +56,6 @@ class applicationForPayment extends React.Component {
             bankCode: '',
             bankObject: {},
             rmkText: '',
-            collectBankcard: {},
             isDz: '',
             missionList: [],
             information: {
@@ -68,7 +68,8 @@ class applicationForPayment extends React.Component {
             visible: false,
             visibleEdit: false,
             executorListArr: [],
-            getUserNames: ''
+            getUserNames: '',
+            findTeamInfoObject: {}
         };
         this.count = 1;
         this.selectedRows = [];
@@ -114,8 +115,13 @@ class applicationForPayment extends React.Component {
                     shopCarGarage: data.carInfo ? data.carInfo.shopCarGarageName : '',
                     saleGroup: data.saleUserCompanyName + '-' + data.saleUserDepartMentName + '-' + data.saleUserPostName + '-' + data.saleUserName,
                     curNodeCode: data.curNodeCode ? data.curNodeCode : ''
-                },
-                collectBankcard: data.advance.collectBankcard
+                }
+            });
+            findTeamInfo(data.teamCode).then(data => {
+                // accountNo bankName subbranch
+                this.setState({
+                    findTeamInfoObject: data
+                });
             });
         });
         accountBlankList(1, 1000, '').then(data => {
@@ -380,7 +386,7 @@ class applicationForPayment extends React.Component {
         this.props.history.push(`/loan/printing?code=${this.code}`);
     }
     render() {
-        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, rmkText, collectBankcard, missionList, information, executorListArr, getUserNames} = this.state;
+        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, rmkText, missionList, information, executorListArr, getUserNames, findTeamInfoObject} = this.state;
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">业务基本信息</span><div onClick={this.openPrint} style={{float: 'right', color: '#1791FF'}}><img src={print} style={{width: '20px', height: '20px'}} /><span>去打印</span></div>
@@ -422,13 +428,13 @@ class applicationForPayment extends React.Component {
                 <span className="afp-body-tag">垫资信息</span>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={8}>
-                        <span>收款账户户名：{collectBankcard.realName}</span>
+                        <span>业务团队的团队账号：{findTeamInfoObject.accountNo}</span>
                     </Col>
                     <Col span={8}>
-                        <span>收款账户银行：{collectBankcard.bankName}</span>
+                        <span>收款银行名：{findTeamInfoObject.bankName}</span>
                     </Col>
                     <Col span={8}>
-                        <span>收款账户账号：{collectBankcard.bankcardNumber}</span>
+                        <span>收款支行名：{findTeamInfoObject.subbranch}</span>
                     </Col>
                 </Row>
                 <div className="afp-body-line"></div>

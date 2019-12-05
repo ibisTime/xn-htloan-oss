@@ -13,7 +13,8 @@ import {
     accessSlipDetail,
     carBuyingList,
     accountBlankList,
-    sendApplicationForPaymentBack
+    sendApplicationForPaymentBack,
+    findTeamInfo
 } from '../../api/preLoan.js';
 import './applicationForPayment.css';
 import print from '../../images/print.png';
@@ -29,7 +30,7 @@ class orderRecall extends React.Component {
             bankListArr: [],
             bankCode: '',
             bankObject: {},
-            collectBankcard: {}
+            findTeamInfoObject: {}
         };
         this.code = getQueryString('code', this.props.location.search);
     }
@@ -59,8 +60,13 @@ class orderRecall extends React.Component {
                     shopCarGarage: data.carInfo ? data.carInfo.shopCarGarageName : '',
                     saleGroup: data.saleUserCompanyName + '-' + data.saleUserDepartMentName + '-' + data.saleUserPostName + '-' + data.saleUserName,
                     curNodeCode: data.curNodeCode ? data.curNodeCode : ''
-                },
-                collectBankcard: data.advance.collectBankcard
+                }
+            });
+            findTeamInfo(data.teamCode).then(data => {
+                // accountNo bankName subbranch
+                this.setState({
+                    findTeamInfoObject: data
+                });
             });
         });
         accountBlankList(1, 1000, '').then(data => {
@@ -128,7 +134,7 @@ class orderRecall extends React.Component {
         this.props.history.push(`/loan/printing?code=${this.code}`);
     }
     render() {
-        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, bankListArr, bankObject, collectBankcard} = this.state;
+        const {findTeamInfoObject, baseInfo, accessSlipStatusArr, bankListArr, bankObject} = this.state;
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">业务基本信息</span><div onClick={this.openPrint} style={{float: 'right', color: '#1791FF'}}><img src={print} style={{width: '20px', height: '20px'}} /><span>去打印</span></div>
@@ -169,13 +175,13 @@ class orderRecall extends React.Component {
                 <span className="afp-body-tag">收款信息</span>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={8}>
-                        <span>收款账户户名：{collectBankcard.realName}</span>
+                        <span>业务团队的团队账号：{findTeamInfoObject.accountNo}</span>
                     </Col>
                     <Col span={8}>
-                        <span>收款账户银行：{collectBankcard.bankName}</span>
+                        <span>收款银行名：{findTeamInfoObject.bankName}</span>
                     </Col>
                     <Col span={8}>
-                        <span>收款账户账号：{collectBankcard.bankcardNumber}</span>
+                        <span>收款支行名：{findTeamInfoObject.subbranch}</span>
                     </Col>
                 </Row>
                 <div className="afp-body-line"></div>
@@ -199,7 +205,7 @@ class orderRecall extends React.Component {
                     <Col span={4}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={12}>付款账户户名：{bankObject ? bankObject.companyName : ''}</Col>
+                    <Col span={12}>付款账户户名：{bankObject ? bankObject.realName : ''}</Col>
                     <Col span={12}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>

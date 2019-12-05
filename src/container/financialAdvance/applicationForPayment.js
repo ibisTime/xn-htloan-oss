@@ -13,7 +13,8 @@ import {
     accessSlipDetail,
     carBuyingList,
     accountBlankList,
-    sendApplicationForPayment
+    sendApplicationForPayment,
+    findTeamInfo
 } from '../../api/preLoan.js';
 import './applicationForPayment.css';
 import print from '../../images/print.png';
@@ -29,6 +30,7 @@ class applicationForPayment extends React.Component {
             bankListArr: [],
             bankCode: '',
             bankObject: {},
+            findTeamInfoObject: {},
             columns: [
                 {
                     title: '团队名称',
@@ -85,6 +87,12 @@ class applicationForPayment extends React.Component {
                 },
                 amountList: [...arr]
             });
+            findTeamInfo(data.teamCode).then(data => {
+                // accountNo bankName subbranch
+                this.setState({
+                    findTeamInfoObject: data
+                });
+            });
         });
         accountBlankList(1, 1000, '').then(data => {
             let arr = [];
@@ -121,23 +129,17 @@ class applicationForPayment extends React.Component {
     }
     // 提交
     sendSave = () => {
-        const {bankCode} = this.state;
-        if(bankCode === '' || bankCode === undefined) {
-            showWarnMsg('银行账户不能为空!');
-        }else {
-            let arr = {
-                code: this.code,
-                advanceCardCode: bankCode
-            };
-            sendApplicationForPayment(arr).then(data => {
-                if(data.isSuccess) {
-                    showSucMsg('操作成功');
-                    setTimeout(() => {
-                        this.props.history.go(-1);
-                    }, 1000);
-                }
-            });
-        }
+        let arr = {
+            code: this.code
+        };
+        sendApplicationForPayment(arr).then(data => {
+            if(data.isSuccess) {
+                showSucMsg('操作成功');
+                setTimeout(() => {
+                    this.props.history.go(-1);
+                }, 1000);
+            }
+        });
     }
     // 返回
     goBack = () => {
@@ -151,7 +153,7 @@ class applicationForPayment extends React.Component {
         this.props.history.push(`/loan/printing?code=${this.code}`);
     }
     render() {
-        const {amountList, baseInfo, accessSlipStatusArr, bankListArr, bankObject} = this.state;
+        const {amountList, baseInfo, accessSlipStatusArr, bankListArr, bankObject, findTeamInfoObject} = this.state;
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">业务基本信息</span><div onClick={this.openPrint} style={{float: 'right', color: '#1791FF'}}><img src={print} style={{width: '20px', height: '20px'}} /><span>去打印</span></div>
@@ -194,26 +196,16 @@ class applicationForPayment extends React.Component {
                 <div className="afp-body-line"></div>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
-                        <span className="afp-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>收款账号：</span>
-                        <Select className="afp-body-select" onChange={this.handleChange}>
-                            {
-                                bankListArr.map(item => {
-                                    return (
-                                        <Option key={item.dkey} value={item.dkey}>{item.dvalue}</Option>
-                                    );
-                                })
-                            }
-                        </Select>
-                        <div className="clear"></div>
+                        <span className="afp-body-title">业务团队的团队账号：{findTeamInfoObject.accountNo}</span>
                     </Col>
                     <Col span={12}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={12}>收款账户户名：{bankObject ? bankObject.companyName : ''}</Col>
+                    <Col span={12}>收款银行名：{findTeamInfoObject.bankName}</Col>
                     <Col span={12}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={12}>收款账户账号：{bankObject ? bankObject.bankcardNumber : ''}</Col>
+                    <Col span={12}>收款支行名：{findTeamInfoObject.subbranch}</Col>
                     <Col span={12}></Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>

@@ -15,7 +15,8 @@ import {
     carBuyingList,
     accountBlankList,
     recall,
-    getQiNiu
+    getQiNiu,
+    findTeamInfo
 } from '../../api/preLoan.js';
 import {UPLOAD_URL} from '../../common/js/config.js';
 import './applicationForPayment.css';
@@ -32,7 +33,6 @@ class orderMemory extends React.Component {
             bankListArr: [],
             bankCode: '',
             bankObject: {},
-            collectBankcard: {},
             fileListJF: [],
             uploadToken: '',
             iptInfoArr: {
@@ -40,7 +40,8 @@ class orderMemory extends React.Component {
                 amount: '',
                 rmk: ''
             },
-            regDate: ''
+            regDate: '',
+            findTeamInfoObject: {}
         };
         this.code = getQueryString('code', this.props.location.search);
     }
@@ -70,8 +71,13 @@ class orderMemory extends React.Component {
                     shopCarGarage: data.carInfo ? data.carInfo.shopCarGarageName : '',
                     saleGroup: data.saleUserCompanyName + '-' + data.saleUserDepartMentName + '-' + data.saleUserPostName + '-' + data.saleUserName,
                     curNodeCode: data.curNodeCode ? data.curNodeCode : ''
-                },
-                collectBankcard: data.advance.collectBankcard
+                }
+            });
+            findTeamInfo(data.teamCode).then(data => {
+                // accountNo bankName subbranch
+                this.setState({
+                    findTeamInfoObject: data
+                });
             });
         });
         accountBlankList(1, 1000, '').then(data => {
@@ -182,7 +188,7 @@ class orderMemory extends React.Component {
         this.props.history.push(`/loan/printing?code=${this.code}`);
     }
     render() {
-        const {carBuyingListArrs, baseInfo, accessSlipStatusArr, collectBankcard, fileListJF, uploadToken, iptInfoArr} = this.state;
+        const {findTeamInfoObject, baseInfo, accessSlipStatusArr, fileListJF, uploadToken, iptInfoArr} = this.state;
         const propsJF = {
             action: UPLOAD_URL,
             onChange: this.handleChangeUploadJF,
@@ -228,13 +234,13 @@ class orderMemory extends React.Component {
                 <span className="afp-body-tag">垫资信息</span>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={8}>
-                        <span>收款账户户名：{collectBankcard.realName}</span>
+                        <span>收款账户户名：{findTeamInfoObject.accountNo}</span>
                     </Col>
                     <Col span={8}>
-                        <span>收款账户银行：{collectBankcard.bankName}</span>
+                        <span>收款账户银行：{findTeamInfoObject.bankName}</span>
                     </Col>
                     <Col span={8}>
-                        <span>收款账户账号：{collectBankcard.bankcardNumber}</span>
+                        <span>收款账户账号：{findTeamInfoObject.subbranch}</span>
                     </Col>
                 </Row>
                 <div className="afp-body-line"></div>

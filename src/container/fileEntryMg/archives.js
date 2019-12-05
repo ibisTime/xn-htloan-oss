@@ -78,7 +78,7 @@ class archives extends React.Component {
     // 分页接口
     getAccessSlip = (pageNumber) => {
         const {code, customerName, curNodeCode} = this.state;
-        accessSlip(pageNumber, 4, code === '' ? '' : code, customerName === '' ? '' : customerName, curNodeCode === '' ? '' : curNodeCode, ['f1', 'f2']).then(data => {
+        accessSlip(pageNumber, 4, code === '' ? '' : code, customerName === '' ? '' : customerName, curNodeCode === '' ? '' : curNodeCode, ['f1', 'f3']).then(data => {
             let arr = [];
             for(let i = 0; i < data.list.length; i++) {
                 arr.push({
@@ -187,7 +187,11 @@ class archives extends React.Component {
         }else if(this.checkBoxGroup.length >= 2) {
             showWarnMsg('请选择不大于一条记录');
         }else {
-            this.props.history.push(`/biz/archives/add?code=${this.checkBoxGroup[0].split('|')[0]}`);
+            if(this.checkBoxGroup[0].split('|')[1] === 'f1' || this.checkBoxGroup[0].split('|')[1] === 'f1') {
+                this.props.history.push(`/biz/archives/add?code=${this.checkBoxGroup[0].split('|')[0]}`);
+            }else {
+                showWarnMsg('当前状态不能操作!');
+            }
         }
     }
     // 确认入档
@@ -198,6 +202,16 @@ class archives extends React.Component {
             showWarnMsg('请选择不大于一条记录');
         }else {
             this.props.history.push(`/biz/archives/cmAdd?code=${this.checkBoxGroup[0].split('|')[0]}`);
+        }
+    }
+    // 打印日期
+    printInfo = () => {
+        if(this.checkBoxGroup.length <= 0) {
+            showWarnMsg('请选择车辆信息');
+        }else if(this.checkBoxGroup.length >= 2) {
+            showWarnMsg('请选择不大于一条记录');
+        }else {
+            this.props.history.push(`/biz/archives/print?code=${this.checkBoxGroup[0].split('|')[0]}`);
         }
     }
     render() {
@@ -248,15 +262,11 @@ class archives extends React.Component {
                         ) : null
                     }
                     {
-                        certain ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.sendQrrd} style={{marginLeft: '30px', width: '80px'}}>确认入档</span>
-                        ) : null
-                    }
-                    {
                         detail ? (
                             <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginLeft: '30px'}}>详情</span>
                         ) : null
                     }
+                    <span className="preLoan-access-list-btn-gray" onClick={this.printInfo} style={{marginLeft: '30px'}}>打印</span>
                     <div className="clear"></div>
                 </div>
                 {

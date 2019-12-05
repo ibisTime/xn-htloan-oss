@@ -90,6 +90,21 @@ export function accessSlip(start, limit, code, customerName, curNodeCode, curNod
 }
 
 // 分页查准入单
+export function accessSlipNotAdvance(start, limit, code, customerName) {
+    return fetch(632515, {start, limit, code, customerName, userId: getUserId(), isAdvanceFund: '0'});
+}
+
+// 分页查准入单
+export function accessSlipNotFinance(start, limit, code, customerName, financeStatusList) {
+    return fetch(632515, {start, limit, code, customerName, financeStatusList});
+}
+
+// 统计查询
+export function accessSlipNot(start, limit, code, customerName, applyDatetimeStart, applyDatetimeEnd) {
+    return fetch(632519, {start, limit, code, customerName, applyDatetimeStart, applyDatetimeEnd});
+}
+
+// 分页查准入单
 export function accessSlipCar(start, limit, code, customerName, curNodeCode, pledgeNodeCodeList) {
     return fetch(632515, {start, limit, code, customerName, curNodeCode, pledgeNodeCodeList});
 }
@@ -138,7 +153,7 @@ export function sendApplicationForPaymentBack(params) {
 
 // 收款账号列表
 export function accountBlankList(start, limit, code) {
-    return fetch(632005, {start, limit, code, type: '2'});
+    return fetch(632005, {start, limit, code, type: '4'});
 }
 
 // 购车车行
@@ -291,4 +306,9 @@ export function getGpsAll() {
 // 查询GPS
 export function queryGps(code) {
     return fetch(632542, {code});
+}
+
+// 查询业务团队信息
+export function findTeamInfo(code) {
+    return fetch(630196, {code});
 }

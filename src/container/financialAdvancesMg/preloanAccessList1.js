@@ -184,7 +184,7 @@ class preloanAccessList1 extends React.Component {
         }
     }
     sendDetailCode = (code) => {
-        this.props.history.push(`/preLoan/Access/detail?code=${code.split('|')[0]}`);
+        this.props.history.push(`/loan/advMoney/detailPrint?code=${code.split('|')[0]}`);
     }
     searchSend = () => {
         this.getAccessSlip(1);

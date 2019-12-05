@@ -31,6 +31,7 @@ class refundCertain extends React.Component {
         const fields = [{
             title: '客户姓名',
             field: 'applyUserName',
+            _keys: ['creditUser', 'userName'],
             readonly: true
         }, {
             title: '业务编号',
@@ -39,7 +40,7 @@ class refundCertain extends React.Component {
         }, {
             title: '贷款银行',
             field: 'loanBankName',
-            formatter: (v, d) => d.loanBankName ? d.loanBankName + d.repaySubbranch : '',
+            formatter: (v, d) => d.loanBankName ? d.loanBankName + d.bank.subbranch : '',
             readonly: true
         }, {
             title: '贷款金额',

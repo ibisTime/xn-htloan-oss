@@ -326,7 +326,7 @@ const ROUTES = [
   // 车贷财务 退客户垫资款
   {
     path: '/finance/refund',
-    component: asyncComponent(() => import('container/loanstools/refund/refund'))
+    component: asyncComponent(() => import('container/loanstools/refund/refund-list'))
   },
   // 车贷财务 退客户垫资款 详情
   {
@@ -499,6 +499,10 @@ const ROUTES = [
   {
     path: '/biz/archives',
     component: asyncComponent(() => import('container/fileEntryMg/archives'))
+  },
+  {
+    path: '/biz/archives/print',
+    component: asyncComponent(() => import('container/fileEntryMg/print'))
   },
   //  档案入党 详情
   {
@@ -1053,6 +1057,11 @@ const ROUTES = [
       path: '/loan/advMoney',
       component: asyncComponent(() => import('container/financialAdvancesMg/preloanAccessList1'))
   },
+  // 财务垫资详情打印
+  {
+    path: '/loan/advMoney/detailPrint',
+    component: asyncComponent(() => import('container/financialAdvancesMg/detailPrint'))
+  },
   // 垫资打印
   {
     path: '/loan/printing',
@@ -1364,9 +1373,14 @@ const ROUTES = [
     component: asyncComponent(() => import('container/personalarchives/quitarchives/quitarchives-addedit'))
   },
   //  车贷档案  业务查询
+  // component: asyncComponent(() => import('container/personalarchives/ywcx/ywcx'))
   {
     path: '/ywcx/ywcx',
-    component: asyncComponent(() => import('container/personalarchives/ywcx/ywcx'))
+    component: asyncComponent(() => import('container/businessEnquiry/vp-list'))
+  },
+  {
+    path: '/ywcx/ywcx/detail',
+    component: asyncComponent(() => import('container/businessEnquiry/vp-detail'))
   },
   //  车贷档案  业务查询  详情
   {
@@ -2219,6 +2233,11 @@ const ROUTES = [
   {
     path: '/statisticalManagement/fileDetail',
     component: asyncComponent(() => import('container/statisticalManagement/fileDetail/fileDetail'))
+  },
+  // 车款3
+  {
+    path: '/vehiclePayment/list',
+    component: asyncComponent(() => import('container/vehiclePayment/vp-list'))
   }
 ];
 

@@ -5,9 +5,10 @@ import {
     getQueryString,
     findDsct,
     dsctList1,
-    getNowTime
+    getNowTime,
+    getUserId
 } from 'common/js/util';
-import {Row, Col, Select, Table, Modal, DatePicker} from 'antd';
+import {Row, Col, Select, DatePicker, Icon, Modal, Upload} from 'antd';
 import { Link } from 'react-router-dom';
 import {
     accessSlipStatus,
@@ -17,20 +18,39 @@ import {
     sendEnterArchives,
     archivesPath,
     fileCtList,
-    executorList
+    executorList,
+    getQiNiu
 } from '../../api/preLoan.js';
 import './../financialAdvance/applicationForPayment.css';
-import add from './add.png';
-import edit from './edit.png';
-import deletes from './delete.png';
 import fetch from 'common/js/fetch';
-
+import moment from 'moment';
+import {UPLOAD_URL} from '../../common/js/config';
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
 const {Option} = Select;
 class enterArchives extends React.Component {
     constructor(props) {
         super(props);
         this.code = getQueryString('code', this.props.location.search);
         this.state = {
+            fileList: [],
+            previewVisible: false,
+            previewImage: '',
+            fileList2: [],
+            previewVisible2: false,
+            previewImage2: '',
+            fileList3: [],
+            previewVisible3: false,
+            previewImage3: '',
+            fileList4: [],
+            previewVisible4: false,
+            previewImage4: '',
             columns: [
                 {
                     title: '文件内容',
@@ -67,6 +87,7 @@ class enterArchives extends React.Component {
             collectBankcard: {},
             isDz: '',
             missionList: [],
+            insuranceArr: [],
             information: {
                 key: '',
                 content: '',
@@ -88,7 +109,10 @@ class enterArchives extends React.Component {
             executorListArr: [],
             getUserNames: '',
             fileName: '',
-            fileCtListArr: []
+            fileCtListArr: [],
+            regDate: '',
+            regDate2: '',
+            insuranceCode: ''
         };
         this.count = 1;
         this.selectedRowKeys = [];
@@ -119,6 +143,11 @@ class enterArchives extends React.Component {
                 iptInfoArr
             });
         });
+        getQiNiu().then(data => {
+            this.setState({
+                uploadToken: data.uploadToken
+            });
+        });
         executorList(1, 1000).then(data => {
             let arr = [];
             for(let i = 0; i < data.list.length; i++) {
@@ -146,7 +175,6 @@ class enterArchives extends React.Component {
         });
         this.getAccessSlipStatus();
         accessSlipDetail(this.code).then(data => {
-            console.log('accessSlipDetail', data);
             this.setState({
                 baseInfo: {
                     code: data.code,
@@ -185,8 +213,19 @@ class enterArchives extends React.Component {
                 archivesPathArr: arr
             });
         });
+        fetch(632045, {start: 1, limit: 1000}).then(data => {
+            let arr = [];
+            for(let i = 0; i < data.list.length; i++) {
+                arr.push({
+                    dkey: data.list[i].code,
+                    dvalue: data.list[i].name
+                });
+            }
+            this.setState({
+                insuranceArr: arr
+            });
+        });
         fileCtList(1, 1000).then(data => {
-            console.log('fileCtList', data);
             let arr = [];
             let countArr = [];
             for(let i = 0; i < data.list.length; i++) {
@@ -263,34 +302,9 @@ class enterArchives extends React.Component {
             });
         }
     };
-    iptChange = (e) => {
-        this.setState({
-            rmkText: e.target.value
-        });
-    }
-    // missionList添加
-    addMission = () => {
-        const {information, regDate} = this.state;
-        for(let i = 0; i < this.setLs.length; i++) {
-            this.arr.push({
-                key: this.count++,
-                content: this.setLs[i],
-                contentCode: this.codeArr[i],
-                operator: information.savePp,
-                getUserCode: information.getUserCode,
-                depositDateTime: regDate === '' ? getNowTime() : regDate,
-                remark: information.rmk
-            });
-        }
-        this.setState({
-            missionList: this.arr
-        });
-        this.hideModal('dataEdit');
-    }
     // missionList修改
     editMission = () => {
         const {regDate} = this.state;
-        console.log(this.selectedRows[0]);
         this.setState({
             information: {
                 key: this.selectedRows[0].key,
@@ -306,74 +320,85 @@ class enterArchives extends React.Component {
             fileName: this.selectedRows[0].content
         });
     }
-    // missionList删除
-    deleteMission = () => {
-        if(this.selectedRowKeysArr.length < 0) {
-            showWarnMsg('请选择记录');
-        }else {
-            const {missionList} = this.state;
-            let missionListArr = missionList;
-            missionListArr.forEach((value, index, array) => {
-                if(value.key == this.selectedRows[0].key) {
-                    array.splice(value, 1);
-                }
-            });
-            this.setState({
-                missionList: missionListArr
-            });
-            this.selectedRows = [];
-            this.selectedRowKeys = [];
-            this.selectedRowKeysArr = [];
-        }
-    }
-    // 点击修改
-    sendEdit = () => {
-        if(this.selectedRowKeysArr.length < 0) {
-            showWarnMsg('请选择记录');
-        }else {
-            const {information, missionList, regDate} = this.state;
-            // 新数据
-            let arr = {
-                key: information.key,
-                content: information.contentName,
-                contentCode: information.content,
-                fileCount: information.count,
-                operator: information.savePp,
-                getUserCode: information.getUserCode,
-                depositDateTime: regDate === '' ? getNowTime() : regDate,
-                remark: information.rmk
-            };
-            // 源数据
-            let missionListArr = missionList;
-            for (let i = 0, len = missionListArr.length; i < len; i++) {
-                if (missionListArr[i].key === arr.key) {
-                    missionListArr[i] = arr;
-                }
-            }
-            this.setState({
-                missionList: missionListArr
-            });
-            this.hideModal('dataChange');
-        }
-    }
     // 确认
     adopt = () => {
-        const {missionList, iptInfoArr, information, loanBankCode, regDate} = this.state;
-        let arr = [];
-        for(let i = 0; i < missionList.length; i++) {
-            arr.push({
-                content: missionList[i].contentCode,
-                fileCount: missionList[i].fileCount,
-                depositDateTime: regDate === '' ? getNowTime() : regDate,
-                operator: missionList[i].getUserCode,
-                remark: missionList[i].remark
-            });
+        const {iptInfoArr, loanBankCode, regDate, regDate2, fileList, fileList2, fileList3, fileList4, insuranceCode} = this.state;
+        // 垫资合同
+        let picHash = '';
+        if(fileList) {
+            if (fileList[0] === undefined || fileList[0] === '') {
+                picHash = '';
+            } else {
+                let len = fileList.length;
+                fileList.forEach((item, index) => {
+                    if(index === len - 1) {
+                        picHash += item.response.hash;
+                    }else {
+                        picHash += item.response.hash + '||';
+                    }
+                });
+            }
+        }
+        // 担保和反担保合同
+        let picHash2 = '';
+        if(fileList2) {
+            if (fileList2[0] === undefined || fileList2[0] === '') {
+                picHash2 = '';
+            } else {
+                let len = fileList2.length;
+                fileList2.forEach((item, index) => {
+                    if(index === len - 1) {
+                        picHash2 += item.response.hash;
+                    }else {
+                        picHash2 += item.response.hash + '||';
+                    }
+                });
+            }
+        }
+        // 抵押合同
+        let picHash3 = '';
+        if(fileList3) {
+            if (fileList3[0] === undefined || fileList3[0] === '') {
+                picHash3 = '';
+            } else {
+                let len = fileList3.length;
+                fileList3.forEach((item, index) => {
+                    if(index === len - 1) {
+                        picHash3 += item.response.hash;
+                    }else {
+                        picHash3 += item.response.hash + '||';
+                    }
+                });
+            }
+        }
+        // 其他
+        let picHash4 = '';
+        if(fileList4) {
+            if (fileList4[0] === undefined || fileList4[0] === '') {
+                picHash4 = '';
+            } else {
+                let len = fileList4.length;
+                fileList4.forEach((item, index) => {
+                    if(index === len - 1) {
+                        picHash4 += item.response.hash;
+                    }else {
+                        picHash4 += item.response.hash + '||';
+                    }
+                });
+            }
         }
         let params = {
             code: this.code,
             enterCode: iptInfoArr.code,
             enterLocation: loanBankCode,
-            fileList: arr
+            operator: getUserId(),
+            insuranceCompany: insuranceCode,
+            syxDateStart: regDate === '' ? getNowTime() : regDate,
+            syxDateEnd: regDate2 === '' ? getNowTime() : regDate2,
+            advanceContract: picHash,
+            guarantorContract: picHash2,
+            pledgeContract: picHash3,
+            enterOtherPdf: picHash4
         };
         sendEnterArchives(params).then(data => {
             showSucMsg('操作成功!');
@@ -420,56 +445,96 @@ class enterArchives extends React.Component {
             loanBankCode: value
         });
     }
-    handleChangeFile = (value, event) => {
-        // const {information} = this.state;
-        // information['contentName'] = event.props.children;
-        // information['content'] = value;
-        let arr = [];
-        let arr2 = [];
-        for(let i = 0; i < event.length; i++) {
-            arr.push(
-                event[i].key
-            );
-            arr2.push(
-                event[i].props.children
-            );
-        }
-        this.codeArr = arr;
-        this.setLs = arr2;
-    }
-    handleChangeFileChange = (value, event) => {
-        const {information} = this.state;
-        information['contentName'] = event.props.children;
-        information['content'] = value;
+    handleChangeInsurance = (value) => {
         this.setState({
-            information,
-            fileName: event.props.children
+            insuranceCode: value
         });
     }
     showDetail = () => {
         this.props.history.push(`/preLoan/Access/detail?code=${this.code}`);
     }
-    // 执行人编号
-    handleChangeExecutorListArr = (value, event) => {
-        const {information} = this.state;
-        information['savePp'] = event.props.children;
-        information['getUserCode'] = value;
-        this.setState({
-            information,
-            getUserNames: event.props.children
-        });
-    }
     onChangeTime = (date, dateString) => {
-        if(new Date(dateString).getTime() > new Date().getTime()) {
-            showWarnMsg('请选择小于今天的日期');
-        }else {
-            this.setState({
-                regDate: dateString
-            });
+        this.setState({
+            regDate: dateString
+        });
+    };
+    onChangeTime2 = (date, dateString) => {
+        this.setState({
+            regDate2: dateString
+        });
+    };
+    // 垫资合同
+    handleCancelCard = () => this.setState({ previewVisible: false });
+    handlePreviewCard = async file => {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
         }
+        this.setState({
+            previewImage: file.url || file.preview,
+            previewVisible: true
+        });
+    };
+    handleChangeCard = ({ fileList }) => {
+        this.setState({
+            fileList
+        });
+    };
+    // 担保和反担保
+    handleCancelCard2 = () => this.setState({ previewVisible2: false });
+    handlePreviewCard2 = async file => {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+        this.setState({
+            previewImage2: file.url || file.preview,
+            previewVisible2: true
+        });
+    };
+    handleChangeCard2 = ({ fileList }) => {
+        this.setState({
+            fileList2: fileList
+        });
+    };
+    // 抵押合同
+    handleCancelCard3 = () => this.setState({ previewVisible3: false });
+    handlePreviewCard3 = async file => {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+        this.setState({
+            previewImage3: file.url || file.preview,
+            previewVisible3: true
+        });
+    };
+    handleChangeCard3 = ({ fileList }) => {
+        this.setState({
+            fileList3: fileList
+        });
+    };
+    // 其他
+    handleCancelCard4 = () => this.setState({ previewVisible4: false });
+    handlePreviewCard4 = async file => {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+        this.setState({
+            previewImage4: file.url || file.preview,
+            previewVisible4: true
+        });
+    };
+    handleChangeCard4 = ({ fileList }) => {
+        this.setState({
+            fileList4: fileList
+        });
     };
     render() {
-        const {getUserNames, fileName, fileCtListArr, carBuyingListArrs, baseInfo, accessSlipStatusArr, missionList, information, iptInfoArr, archivesPathArr, executorListArr} = this.state;
+        const {insuranceArr, baseInfo, accessSlipStatusArr, iptInfoArr, archivesPathArr, uploadToken, fileList, previewVisible, previewImage, fileList2, previewVisible2, previewImage2, fileList3, previewVisible3, previewImage3, fileList4, previewVisible4, previewImage4} = this.state;
+        const uploadButton = (
+            <div>
+                <Icon type="plus" />
+                <div className="ant-upload-text">Upload</div>
+            </div>
+        );
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">档案入档</span>
@@ -511,14 +576,14 @@ class enterArchives extends React.Component {
                 <div className="afp-body-line"></div>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
-                        <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>档案编号：</span>
+                        <span className="afp-body-title" style={{width: '160px'}}><span style={{color: 'red'}}>* </span>档案编号：</span>
                         <input type="text" value={iptInfoArr.code} ref={input => this.codeIpt = input} onChange={(e) => { this.iptChange1(e, 'code'); }} className="dealer-user-detail-edit-input" />
                         <div className="clear"></div>
                     </Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
-                        <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>档案存放位置：</span>
+                        <span className="afp-body-title" style={{width: '160px'}}><span style={{color: 'red'}}>* </span>档案存放位置：</span>
                         <Select className="preLoan-body-select" style={{width: '300px'}} onChange={this.handleChangeBank}>
                             {
                                 archivesPathArr.map(data => {
@@ -532,221 +597,110 @@ class enterArchives extends React.Component {
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
-                        <span className="afp-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>本次存放清单：</span>
+                        <span className="afp-body-title" style={{width: '160px'}}><span style={{color: 'red'}}>* </span>保险公司：</span>
+                        <Select className="preLoan-body-select" style={{width: '300px'}} onChange={this.handleChangeInsurance}>
+                            {
+                                insuranceArr.map(data => {
+                                    return (
+                                        <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                    );
+                                })
+                            }
+                        </Select>
                     </Col>
                 </Row>
-                <Table
-                    className="afp-body-table"
-                    style={{width: '900px'}}
-                    dataSource={missionList}
-                    rowSelection={this.rowSelection}
-                    columns={this.state.columns}
-                />
-                <Modal
-                    visible={this.state.visible}
-                    onOk={type => this.hideModal('dataEdit')}
-                    onCancel={type => this.hideModal('dataEdit')}
-                    footer={null}
-                    width={400}
-                    style={{ top: 60 }}
-                >
-                    <div className="dealer-user-detail-edit-dialog-body">
-                        <strong className="dealer-user-detail-edit-dialog-title">新增</strong>
-                        <Row style={{marginTop: '30px'}}>
-                            <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>文件内容：</span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '10px'}}>
-                            <Col span={6}>
-                                <span>
-                                    <Select mode="multiple" className="preLoan-body-select" style={{width: '300px'}} defaultValue={this.codeListArr} onChange={this.handleChangeFile}>
-                                        {
-                                            this.children
-                                        }
-                                    </Select>
-                                </span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '30px'}}>
-                            <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>存放人：</span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '10px'}}>
-                            <Col span={6}>
-                                <span>
-                                    <Select className="afp-body-select" style={{width: '300px'}} value={getUserNames} onChange={this.handleChangeExecutorListArr}>
-                                        {
-                                            executorListArr.map(item => {
-                                                return (
-                                                    <Option key={item.dkey} value={item.dkey}>{item.dvalue}</Option>
-                                                );
-                                            })
-                                        }
-                                    </Select>
-                                </span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '30px'}}>
-                            <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>存放时间：</span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '10px'}}>
-                            <Col span={6}>
-                                <span>
-                                    {/* defaultValue={moment(new Date(), 'YYYY-MM-DD HH:mm:ss')} */}
-                                  <DatePicker format={'YYYY-MM-DD HH:mm:ss'} style={{width: '300px', float: 'left'}} onChange={this.onChangeTime}/>
-                                </span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '30px'}}>
-                            <Col span={6}>
-                                <span>备注：</span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '10px'}}>
-                            <Col span={6}>
-                                <span>
-                                  <input value={information.rmk} ref={input => this.rmkIpt = input} onChange={(e) => { this.iupChange(e, 'rmk'); }} type="text" className="dealer-user-detail-edit-input" />
-                                </span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span={2}></Col>
-                            <Col span={20}>
-                                <span className="editBtnBack" onClick={type => this.hideModal('dataEdit')}>返回</span>
-                                <span className="editDefine" onClick={this.addMission}>保存</span>
-                            </Col>
-                            <Col span={2}></Col>
-                        </Row>
-                    </div>
-                </Modal>
-                <Modal
-                    visible={this.state.visibleChange}
-                    onOk={type => this.hideModal('dataChange')}
-                    onCancel={type => this.hideModal('dataChange')}
-                    footer={null}
-                    width={400}
-                    style={{ top: 60 }}
-                >
-                    <div className="dealer-user-detail-edit-dialog-body">
-                        <strong className="dealer-user-detail-edit-dialog-title">修改</strong>
-                        <Row style={{marginTop: '30px'}}>
-                            <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>文件内容：</span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '10px'}}>
-                            <Col span={6}>
-                                <span>
-                                    <Select className="preLoan-body-select" style={{width: '300px'}} value={fileName} onChange={this.handleChangeFileChange}>
-                                        {
-                                            fileCtListArr.map(data => {
-                                                return (
-                                                    <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
-                                                );
-                                            })
-                                        }
-                                    </Select>
-                                </span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '30px'}}>
-                            <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>存放人：</span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '10px'}}>
-                            <Col span={6}>
-                                <span>
-                                    <Select className="afp-body-select" style={{width: '300px'}} value={getUserNames} onChange={this.handleChangeExecutorListArr}>
-                                        {
-                                            executorListArr.map(item => {
-                                                return (
-                                                    <Option key={item.dkey} value={item.dkey}>{item.dvalue}</Option>
-                                                );
-                                            })
-                                        }
-                                    </Select>
-                                </span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '30px'}}>
-                            <Col span={6}>
-                                <span><span className="dealer-color-read-must-fill">* </span>存放时间：</span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '10px'}}>
-                            <Col span={6}>
-                                <span>
-                                  <DatePicker format={'YYYY-MM-DD HH:mm:ss'} style={{width: '300px', float: 'left'}} onChange={this.onChangeTime}/>
-                                </span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '30px'}}>
-                            <Col span={6}>
-                                <span>备注：</span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row style={{marginTop: '10px'}}>
-                            <Col span={6}>
-                                <span>
-                                  <input value={information.rmk} ref={input => this.rmkIpt = input} onChange={(e) => { this.iupChange(e, 'rmk'); }} type="text" className="dealer-user-detail-edit-input" />
-                                </span>
-                            </Col>
-                            <Col span={18}>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col span={2}></Col>
-                            <Col span={20}>
-                                <span className="editBtnBack" onClick={type => this.hideModal('dataChange')}>返回</span>
-                                <span className="editDefine" onClick={this.sendEdit}>修改</span>
-                            </Col>
-                            <Col span={2}></Col>
-                        </Row>
-                    </div>
-                </Modal>
-                <div style={{marginTop: '10px'}}>
-                    <img src={add} />
-                    <span style={{color: '#29C456'}} onClick={type => this.showModal('dataEdit')}> 新增</span>
-                    <img src={edit} style={{marginLeft: '30px'}} />
-                    <span style={{color: '#999999'}} onClick={type => this.showModal('dataChange')}> 修改</span>
-                    <img src={deletes} style={{marginLeft: '30px'}} />
-                    <span style={{color: '#999999'}} onClick={this.deleteMission}> 删除</span>
-                </div>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>
+                        <span className="afp-body-title" style={{width: '160px'}}><span style={{color: 'red'}}>* </span>商业险开始日期：</span>
+                        <DatePicker format={'YYYY-MM-DD'} defaultValue={moment(new Date(), 'YYYY-MM-DD')} style={{width: '220px', float: 'left'}} onChange={this.onChangeTime}/>
+                    </Col>
+                </Row>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>
+                        <span className="afp-body-title" style={{width: '160px'}}><span style={{color: 'red'}}>* </span>商业险结束日期：</span>
+                        <DatePicker format={'YYYY-MM-DD'} defaultValue={moment(new Date(), 'YYYY-MM-DD')} style={{width: '220px', float: 'left'}} onChange={this.onChangeTime2}/>
+                    </Col>
+                </Row>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>
+                        <span className="afp-body-title" style={{width: '160px'}}><span style={{color: 'red'}}>* </span>垫资合同：</span>
+                        <Upload
+                            style={{height: '113px'}}
+                            listType="picture-card"
+                            data={{token: uploadToken}}
+                            fileList={fileList}
+                            action={UPLOAD_URL}
+                            multiple={true}
+                            onPreview={this.handlePreviewCard}
+                            onChange={this.handleChangeCard}
+                        >
+                            {uploadButton}
+                        </Upload>
+                        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancelCard}>
+                            <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                        </Modal>
+                    </Col>
+                </Row>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>
+                        <span className="afp-body-title" style={{width: '160px'}}><span style={{color: 'red'}}>* </span>担保和反担保合同：</span>
+                        <Upload
+                            style={{height: '113px'}}
+                            listType="picture-card"
+                            data={{token: uploadToken}}
+                            fileList={fileList2}
+                            action={UPLOAD_URL}
+                            multiple={true}
+                            onPreview={this.handlePreviewCard2}
+                            onChange={this.handleChangeCard2}
+                        >
+                            {uploadButton}
+                        </Upload>
+                        <Modal visible={previewVisible2} footer={null} onCancel={this.handleCancelCard2}>
+                            <img alt="example" style={{ width: '100%' }} src={previewImage2} />
+                        </Modal>
+                    </Col>
+                </Row>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>
+                        <span className="afp-body-title" style={{width: '160px'}}><span style={{color: 'red'}}>* </span>抵押合同：</span>
+                        <Upload
+                            style={{height: '113px'}}
+                            listType="picture-card"
+                            data={{token: uploadToken}}
+                            fileList={fileList3}
+                            action={UPLOAD_URL}
+                            multiple={true}
+                            onPreview={this.handlePreviewCard3}
+                            onChange={this.handleChangeCard3}
+                        >
+                            {uploadButton}
+                        </Upload>
+                        <Modal visible={previewVisible3} footer={null} onCancel={this.handleCancelCard3}>
+                            <img alt="example" style={{ width: '100%' }} src={previewImage3} />
+                        </Modal>
+                    </Col>
+                </Row>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>
+                        <span className="afp-body-title" style={{width: '160px'}}><span style={{color: 'red'}}>* </span>其他材料：</span>
+                        <Upload
+                            style={{height: '113px'}}
+                            listType="picture-card"
+                            data={{token: uploadToken}}
+                            fileList={fileList4}
+                            action={UPLOAD_URL}
+                            multiple={true}
+                            onPreview={this.handlePreviewCard4}
+                            onChange={this.handleChangeCard4}
+                        >
+                            {uploadButton}
+                        </Upload>
+                        <Modal visible={previewVisible4} footer={null} onCancel={this.handleCancelCard4}>
+                            <img alt="example" style={{ width: '100%' }} src={previewImage4} />
+                        </Modal>
+                    </Col>
+                </Row>
                 <div className="afp-body-btn-group">
                     <span className="afp-body-btn-gray" onClick={this.goBack} style={{width: '72px'}}>返回</span>
                     <span className="afp-body-btn-blue" onClick={this.adopt} style={{marginLeft: '40px'}}>确认</span>

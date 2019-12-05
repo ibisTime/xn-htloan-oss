@@ -4358,6 +4358,21 @@ class preloanAccess extends React.Component {
                 </Row>
                 <Row className="preLoan-body-row-top">
                     <Col span={12}>
+                        <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>业务员：</span>
+                        <Select placeholder="请选择业务员" value={carCode} className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCar3Type}>
+                            {
+                                carType3.map(data => {
+                                    return (
+                                        <Option key={data.code} value={data.code}>{data.name}</Option>
+                                    );
+                                })
+                            }
+                        </Select>
+                        <div className="clear"></div>
+                    </Col>
+                </Row>
+                <Row className="preLoan-body-row-top">
+                    <Col span={12}>
                         <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>汽车经销商：</span>
                         <Select style={{ width: '220px' }} value={shopCarGarage} onChange={ this.showRebateRate }>
                             {
@@ -5685,7 +5700,7 @@ class preloanAccess extends React.Component {
                                     </Row>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>返点利率(%)：</span>
+                                            <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>留存利率(%)：</span>
                                             <br />
                                             <input type="number" value={loanInfoArrIpt.rebateRate} onChange={(e) => { this.iptLoanInfoPp(e, 'rebateRate'); }} className="preLoan-body-input" />
                                         </Col>
@@ -5771,7 +5786,7 @@ class preloanAccess extends React.Component {
                                         <Col span={6}>
                                             <span className="preLoan-body-title">费用总额：</span>
                                             <br />
-                                            <input type="number" value={loanInfoArrIpt.totalFee} onChange={(e) => { this.iptLoanInfoPp(e, 'totalFee'); }} className="preLoan-body-input" />
+                                            <input type="number" value={loanInfoArrIpt.totalFee = parseInt(loanInfoArrIpt.loanAmount) + parseInt(loanInfoArrIpt.fee)} onChange={(e) => { this.iptLoanInfoPp(e, 'totalFee'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
                                             <span className="preLoan-body-title" style={{width: '140px'}}>客户承担利率(%)：</span>
