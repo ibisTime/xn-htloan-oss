@@ -122,7 +122,8 @@ class vpDetail extends React.Component {
                     }
                     {
                         isShowNot.enter === '1' ? (
-                            <span className={item5 ? 'contain-header-nav-item-in' : 'contain-header-nav-item-out'} onClick={(value) => this.setInOrOut('item5')}>入档详情</span>                        ) : null
+                            <span className={item5 ? 'contain-header-nav-item-in' : 'contain-header-nav-item-out'} onClick={(value) => this.setInOrOut('item5')}>入档详情</span>
+                        ) : null
                     }
                 </div>
                 <Layout>
