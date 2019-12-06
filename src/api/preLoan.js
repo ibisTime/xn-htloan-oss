@@ -312,3 +312,8 @@ export function queryGps(code) {
 export function findTeamInfo(code) {
     return fetch(630196, {code});
 }
+
+// 获取业务员列表
+export function findSalesmanList() {
+    return fetch(630066, {roleCode: 'SR201800000000000000YWY'});
+}

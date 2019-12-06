@@ -293,7 +293,7 @@ class preloanAccessDetail extends React.Component {
             gpsAzList
         } = this.state;
         return (
-            <div>
+            <div style={{background: '#fff'}}>
                 <div className="sendRmk">
                     <div className="box">
                         <div className="btnGray" onClick={this.goBack}>返回</div>

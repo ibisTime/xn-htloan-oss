@@ -8,7 +8,7 @@ import {
     getNowTime,
     dateTimeFormat
 } from 'common/js/util';
-import {Row, Col, Select, Table, Button} from 'antd';
+import {Row, Col, Select, Modal, Button} from 'antd';
 import {
     accessSlipStatus,
     accessSlipDetail,
@@ -19,6 +19,7 @@ import {
     fileCtList
 } from '../../../api/preLoan.js';
 import '../../financialAdvance/applicationForPayment.css';
+import {PIC_PREFIX} from '../../../common/js/config';
 
 const {Option} = Select;
 class fileDetail extends React.Component {
@@ -86,7 +87,8 @@ class fileDetail extends React.Component {
             fileCtListArr: [],
             getUserNames: '',
             fileName: '',
-            fileCode: ''
+            fileCode: '',
+            imgSrc: ''
         };
         this.count = 1;
         this.selectedRowKeys = [];
@@ -123,6 +125,29 @@ class fileDetail extends React.Component {
                     remark: data.fileList[i].remark
                 });
             }
+            data.attachments.forEach(pic => {
+                if (pic.kname === 'advance_contract') {
+                    // 垫资合同
+                     this.setState({
+                         advanceContract: pic.url
+                     });
+                } else if (pic.kname === 'guarantor_contract') {
+                    // 担保和反担保合同
+                    this.setState({
+                        guarantorContract: pic.url
+                    });
+                } else if (pic.kname === 'pledge_contract') {
+                    // 抵押合同
+                    this.setState({
+                        pledgeContract: pic.url
+                    });
+                } else if (pic.kname === 'enter_other_pdf') {
+                    // 其他资料
+                    this.setState({
+                        enterOtherPdf: pic.url
+                    });
+                }
+            });
             this.arr = arr;
             this.setState({
                 baseInfo: {
@@ -138,8 +163,11 @@ class fileDetail extends React.Component {
                 collectBankcard: data.advance ? data.advance.collectBankcard : '',
                 fileLists: data.fileList,
                 missionList: [...arr],
-                enterLocationCode: data.enterLocation,
-                fileCode: data.enterCode
+                enterLocationCode: data.enterLocationName,
+                fileCode: data.enterCode,
+                insuranceCompanyName: data.insuranceCompanyName ? data.insuranceCompanyName : '',
+                syxDateStart: data.syxDateStart ? data.syxDateStart : '',
+                syxDateEnd: data.syxDateEnd ? data.syxDateEnd : ''
             });
         });
         accountBlankList(1, 1000, '').then(data => {
@@ -199,59 +227,16 @@ class fileDetail extends React.Component {
         });
     }
     // 以下是关于对话框的相关
-    showModal = (type) => {
-        if(type === 'dataEdit') {
-            this.setState({
-                visible: true
-            });
-        }else if(type === 'dataDetail') {
-            this.setState({
-                visibleDetail: true
-            });
-        }else if(type === 'dataChange') {
-            if(this.selectedRowKeysArr.length < 0) {
-                showWarnMsg('请选择记录');
-            }else {
-                this.setState({
-                    visibleChange: true
-                });
-                this.editMission();
-            }
-        }
+    showModal = (pic) => {
+        this.setState({
+            visible: true,
+            imgSrc: pic
+        });
     };
-    hideModal = (type) => {
-        if(type === 'dataEdit') {
-            this.setState({
-                visible: false,
-                information: {
-                    content: '',
-                    contentName: '',
-                    count: '',
-                    savePp: '',
-                    getUserCode: '',
-                    time: '',
-                    rmk: ''
-                },
-                getUserNames: '',
-                fileName: ''
-            });
-        }else if(type === 'dataChange') {
-            this.setState({
-                visibleChange: false,
-                information: {
-                    key: '',
-                    content: '',
-                    contentName: '',
-                    count: '',
-                    savePp: '',
-                    getUserCode: '',
-                    time: '',
-                    rmk: ''
-                },
-                getUserNames: '',
-                fileName: ''
-            });
-        }
+    hideModal = () => {
+        this.setState({
+            visible: false
+        });
     };
     // missionList修改
     editMission = () => {
@@ -307,10 +292,20 @@ class fileDetail extends React.Component {
     showDetail = () => {
         this.props.history.push(`/preLoan/Access/detail?code=${this.code}`);
     }
+    handleCancel = e => {
+        this.setState({
+            visible: false
+        });
+    };
+    handleOk = e => {
+        this.setState({
+            visible: false
+        });
+    };
     render() {
-        const {missionList, archivesPathArr, enterLocationCode, fileCode} = this.state;
+        const {imgSrc, missionList, archivesPathArr, enterLocationCode, fileCode, insuranceCompanyName, syxDateStart, syxDateEnd, advanceContract, guarantorContract, pledgeContract, enterOtherPdf} = this.state;
         return (
-            <div className="afp-body">
+            <div className="afp-body" style={{background: '#fff'}}>
                 <span className="afp-body-tag">档案入档</span>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
@@ -321,31 +316,58 @@ class fileDetail extends React.Component {
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span className="afp-body-title" style={{width: '120px'}}>档案存放位置：</span>
-                        <Select className="preLoan-body-select" value={enterLocationCode} style={{width: '300px'}} onChange={this.handleChangeBank}>
-                            {
-                                archivesPathArr.map(data => {
-                                    return (
-                                        <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
-                                    );
-                                })
-                            }
-                        </Select>
+                        {enterLocationCode}
                     </Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
-                        <span className="afp-body-title" style={{width: '120px'}}>本次存放清单：</span>
+                        <span className="afp-body-title" style={{width: '120px'}}>保险公司：</span>
+                        <span>{insuranceCompanyName}</span>
                     </Col>
                 </Row>
-                <Table
-                    className="afp-body-table"
-                    style={{width: '900px'}}
-                    dataSource={missionList}
-                    columns={this.state.columns}
-                />
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>
+                        <span className="afp-body-title" style={{width: '120px'}}>商业险日期：</span>
+                        <span>{dateTimeFormat(syxDateStart)} ~ {dateTimeFormat(syxDateEnd)}</span>
+                    </Col>
+                </Row>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>
+                        <span className="afp-body-title" style={{width: '120px'}}>垫资合同：</span>
+                        <img onClick={value => this.showModal(PIC_PREFIX + advanceContract)} style={{width: '100px', height: '100px'}} src={PIC_PREFIX + advanceContract} />
+                    </Col>
+                </Row>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>
+                        <span className="afp-body-title" style={{width: '150px'}}>担保和反担保合同：</span>
+                        <img onClick={value => this.showModal(PIC_PREFIX + guarantorContract)} style={{width: '100px', height: '100px'}} src={PIC_PREFIX + guarantorContract} />
+                    </Col>
+                </Row>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>
+                        <span className="afp-body-title" style={{width: '120px'}}>抵押合同：</span>
+                        <img onClick={value => this.showModal(PIC_PREFIX + pledgeContract)} style={{width: '100px', height: '100px'}} src={PIC_PREFIX + pledgeContract} />
+                    </Col>
+                </Row>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>
+                        <span className="afp-body-title" style={{width: '120px'}}>其他材料：</span>
+                        <img onClick={value => this.showModal(PIC_PREFIX + enterOtherPdf)} style={{width: '100px', height: '100px'}} src={PIC_PREFIX + enterOtherPdf} />
+                    </Col>
+                </Row>
                 <div className="afp-body-btn-group">
                     <Button onClick={this.goBack} style={{marginLeft: '30%'}}>返回</Button>
                 </div>
+                <Modal
+                    title="图片"
+                    visible={this.state.visible}
+                    onCancel={this.handleCancel}
+                    footer={null}
+                >
+                    <div className="ant-modal-body" style={{width: '200px', height: '400px'}}>
+                        <img style={{width: '400px', height: '300px', margin: '0px auto'}} src={imgSrc} />
+                    </div>
+                </Modal>
             </div>
         );
     }

@@ -50,7 +50,8 @@ import {
     preLoanInfoLs,
     queryGps,
     sendCreditReportingLs,
-    sendPjPost
+    sendPjPost,
+    findSalesmanList
 } from '../../api/preLoan.js';
 import {PIC_PREFIX, UPLOAD_URL} from '../../common/js/config.js';
 
@@ -690,7 +691,9 @@ class preloanAccess extends React.Component {
             // 利率
             rebateRate: '',
             // 汽车经销商
-            shopCarGarage: ''
+            shopCarGarage: '',
+            ywyList: [],
+            ywyCode: ''
         };
         // this.mobileIpt = '';
         // this.bankCreditResultIpt = '';
@@ -710,6 +713,19 @@ class preloanAccess extends React.Component {
             }
             this.setState({
                 data: datas
+            });
+        });
+        // 获取业务员列表
+        findSalesmanList().then(data => {
+            let arr = [];
+            for (let i = 0; i < data.length; i++) {
+                arr.push({
+                    dkey: data[i].userId,
+                    dvalue: data[i].realName
+                });
+            }
+            this.setState({
+                ywyList: arr
             });
         });
         // getCityList
@@ -1199,7 +1215,9 @@ class preloanAccess extends React.Component {
                         ghyzdgx1: data.creditUserList[1] ? data.creditUserList[1].relation : '',
                         ghyzdgx2: data.creditUserList[2] ? data.creditUserList[2].relation : '',
                         dbryzdgx1: data.creditUserList[3] ? data.creditUserList[3].relation : '',
-                        dbryzdgx2: data.creditUserList[4] ? data.creditUserList[4].relation : ''
+                        dbryzdgx2: data.creditUserList[4] ? data.creditUserList[4].relation : '',
+                        ywyCode: data.saleUserId ? data.saleUserId : '',
+                        ywyUserName: data.saleUserName ? data.saleUserName : ''
                     }, () => {
                         if(this.state.brandCode) {
                             // this.setState({
@@ -1648,6 +1666,12 @@ class preloanAccess extends React.Component {
             carCode: value
         });
     }
+    handleChangeYwy = (value, event) => {
+        this.setState({
+            ywyCode: value,
+            ywyUserName: event.props.children
+        });
+    }
     // 发起征信文件上传
     handleChangeUpload = info => {
         let fileList = [...info.fileList];
@@ -1957,7 +1981,7 @@ class preloanAccess extends React.Component {
     }
     // 发起征信
     addSendCreditReporting = () => {
-        const {fileList, loanBankCode, brandCode, seriesCode, carCode, bizType, shopCarGarage, accessInfoCode, nowAddressCode, regDate, carUrl, isLoanPpInfo, isBaseInfo, isLoanInfo, isCostSettlement, isCarInfo, isMaterialInfo, isInvestigation, isCarImg} = this.state;
+        const {ywyCode, fileList, loanBankCode, brandCode, seriesCode, carCode, bizType, shopCarGarage, accessInfoCode, nowAddressCode, regDate, carUrl, isLoanPpInfo, isBaseInfo, isLoanInfo, isCostSettlement, isCarInfo, isMaterialInfo, isInvestigation, isCarImg} = this.state;
         let picHash = '';
         if(fileList[0] === undefined) {
             picHash = '';
@@ -1979,7 +2003,8 @@ class preloanAccess extends React.Component {
             carBrand: brandCode,
             carSeries: seriesCode,
             carModel: carCode,
-            code: accessInfoCode
+            code: accessInfoCode,
+            saleUserId: ywyCode
         };
         sendCreditReportingLs(arr).then(data => {
             this.setState({
@@ -4290,7 +4315,10 @@ class preloanAccess extends React.Component {
             gpsList,
             gpsAzList,
             isHideGpsAz,
-            attachmentsList
+            attachmentsList,
+            ywyList,
+            ywyCode,
+            ywyUserName
         } = this.state;
         const options = this.state.data.map(d => <Option key={d.value}>{d.text}</Option>);
         const options2 = this.state.data2.map(d => <Option key={d.value}>{d.text}</Option>);
@@ -4359,11 +4387,11 @@ class preloanAccess extends React.Component {
                 <Row className="preLoan-body-row-top">
                     <Col span={12}>
                         <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>业务员：</span>
-                        <Select placeholder="请选择业务员" value={carCode} className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeCar3Type}>
+                        <Select placeholder="请选择业务员" value={ywyUserName} className="preLoan-body-select" style={{width: '220px'}} onChange={this.handleChangeYwy}>
                             {
-                                carType3.map(data => {
+                                ywyList.map(item => {
                                     return (
-                                        <Option key={data.code} value={data.code}>{data.name}</Option>
+                                        <Option key={item.dkey} value={item.dkey}>{item.dvalue}</Option>
                                     );
                                 })
                             }

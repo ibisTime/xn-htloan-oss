@@ -162,7 +162,7 @@ class refundList extends React.Component {
             this.props.history.push(`/ywcx/ywcx/detail?code=${this.checkBoxGroup[0].split('|')[0]}`);
         }
     }
-    onChange = (date, dateString) => {
+    onChangeTime = (date, dateString) => {
         console.log(date, dateString);
         this.setState({
             applyDatetimeStart: dateString[0],
@@ -192,7 +192,7 @@ class refundList extends React.Component {
                     </Col>
                     <Col span={10}>
                         <span className="preLoan-body-title">生成时间：</span>
-                        <RangePicker onChange={this.onChange} />
+                        <RangePicker onChange={this.onChangeTime} />
                     </Col>
                 </Row>
                 <div className="preLoan-access-list-btn-group">

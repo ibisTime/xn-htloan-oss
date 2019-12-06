@@ -73,17 +73,17 @@ class detailPrint extends React.Component {
                     // 审核意见
                     auditOpinion: data.advance ? data.advance.makeBillNote : '',
                     // 收款单位名称
-                    nameOfPayee: data.advance.advanceOutCard ? data.advance.advanceOutCard.companyName : '',
+                    nameOfPayee: data.advance ? (data.advance.advanceOutCard ? data.advance.advanceOutCard.companyName : '') : '',
                     // 收款单位账户,
-                    unitAccount: data.advance.advanceOutCard ? data.advance.advanceOutCard.bankcardNumber : '',
+                    unitAccount: data.advance ? (data.advance.advanceOutCard ? data.advance.advanceOutCard.bankcardNumber : '') : '',
                     // 收款单位开户银行
-                    unitBankName: data.advance.advanceOutCard ? data.advance.advanceOutCard.bankName : '',
+                    unitBankName: data.advance ? (data.advance.advanceOutCard ? data.advance.advanceOutCard.bankName : '') : '',
                     // 申请人
                     applicant: data.advance ? data.advance.applyUser : '',
                     // 申请日期
                     dateOfApplication: data.advance ? data.advance.applyDatetime : '',
                     // 申请部门
-                    applicationDepartment: data.advance.applyDepartment === undefined ? '' : data.advance.applyDepartment
+                    applicationDepartment: data.advance === undefined ? '' : data.advance.applyDepartment
                 }
             });
         });
@@ -101,7 +101,7 @@ class detailPrint extends React.Component {
     render() {
         const {accessSlipDetailInfo} = this.state;
         return (
-            <div>
+            <div style={{background: '#fff'}}>
                 <div ref={(el) => this.refs = el}>
                     <h1 style={{textAlign: 'center', fontSize: '24px'}}>垫资详情</h1>
                     <div style={{width: '100%', textAlign: 'left', fontSize: '18px', fontWeight: '600'}}>业务编号:{this.code}</div>

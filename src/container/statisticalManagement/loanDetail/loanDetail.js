@@ -42,13 +42,13 @@ class loanDetail extends React.Component {
                     [{
                         title: '收件时间',
                         field: 'bankFkDatetime',
-                        _key: ['bankLoan', 'bankFkDatetime'],
+                        _keys: ['bankLoan', 'bankFkDatetime'],
                         type: 'datetime',
                         readonly: true
                     }, {
                         title: '收件说明',
                         field: 'bankFkNote',
-                        _key: ['bankLoan', 'bankFkNote'],
+                        _keys: ['bankLoan', 'bankFkNote'],
                         readonly: true
                     }]
                 ]
@@ -59,13 +59,13 @@ class loanDetail extends React.Component {
                     [{
                         title: '确认提交时间',
                         field: 'bankCommitDatetime',
-                        _key: ['bankLoan', 'bankCommitDatetime'],
+                        _keys: ['bankLoan', 'bankCommitDatetime'],
                         type: 'datetime',
                         readonly: true
                     }, {
                         title: '打件说明',
                         field: 'bankCommitNote',
-                        _key: ['bankLoan', 'bankCommitNote'],
+                        _keys: ['bankLoan', 'bankCommitNote'],
                         readonly: true
                     }]
                 ]
@@ -76,18 +76,18 @@ class loanDetail extends React.Component {
                     [{
                         title: '银行还款日',
                         field: 'repayBillDate',
-                        _key: ['bankLoan', 'repayBillDate'],
+                        _keys: ['bankLoan', 'repayBillDate'],
                         type: 'datetime',
                         readonly: true
                     }, {
                         title: '账单日',
                         field: 'repayBankDate',
-                        _key: ['bankLoan', 'repayBankDate'],
+                        _keys: ['bankLoan', 'repayBankDate'],
                         readonly: true
                     }, {
                         title: '卡号',
                         field: 'repayBankcardNumber',
-                        _key: ['bankLoan', 'repayBankcardNumber'],
+                        _keys: ['bankLoan', 'repayBankcardNumber'],
                         readonly: true
                     }]
                 ]
