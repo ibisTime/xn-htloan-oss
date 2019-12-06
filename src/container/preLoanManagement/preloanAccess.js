@@ -4322,7 +4322,7 @@ class preloanAccess extends React.Component {
         } = this.state;
         const options = this.state.data.map(d => <Option key={d.value}>{d.text}</Option>);
         const options2 = this.state.data2.map(d => <Option key={d.value}>{d.text}</Option>);
-        carInfoArrIpt['mile'] = sendCreditReporting.mile;
+        // sendCreditReporting.mile === '' ? null : carInfoArrIpt['mile'] = sendCreditReporting.mile;
         carInfoArrIpt['regAddress'] = '浙江-温州';
         const propsJF = {
             action: UPLOAD_URL,
