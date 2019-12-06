@@ -259,7 +259,7 @@ class refundList extends React.Component {
                                             <span className={d.bizType === '0' ? 'preLoan-access-list-btn-blue' : 'preLoan-access-list-row-orange'}>{d.bizType === '0' ? '新车' : '二手车'}</span>
                                         </Col>
                                         <Col span={17} style={{textAlign: 'right'}}>
-                                            <span>状态：{d.curNodeCode === '1' ? '待财务退款' : '财务已退款'}</span>
+                                            <span>状态：{d.curNodeCode === '1' ? '待财务退款' : (d.curNodeCode === '2' ? '财务已退款' : '')}</span>
                                         </Col>
                                     </Row>
                                     <div className="preLoan-access-list-row-line"></div>
