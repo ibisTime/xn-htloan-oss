@@ -41,7 +41,7 @@ class print extends React.Component {
                     // 联系电话
                     mobile: data.creditUser ? data.creditUser.mobile : '',
                     // 车型
-                    model: data.carInfo ? data.carInfo.model : '',
+                    model: data.carInfo ? data.carInfo.carModelName : '',
                     // 贷款金额
                     loanAmount: data.loanAmount ? data.loanAmount / 1000 : '',
                     // 贷款期数

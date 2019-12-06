@@ -294,8 +294,10 @@ class preloanAccessDetail extends React.Component {
             carRegisterCertificateFirst,
             gpsAzList,
             shopCarGarage,
-            saleUserName
+            saleUserName,
+            workProfession
         } = this.state;
+        console.log(workProfession);
         return (
             <div style={{background: '#fff'}}>
                 <div className="sendRmk">
@@ -633,7 +635,7 @@ class preloanAccessDetail extends React.Component {
                             <Col span={12}>单位地址：{creditUser ? creditUser.companyAddress : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
-                            <Col span={12}>职业：{creditUser ? creditUser.position : ''}</Col>
+                            <Col span={12}>职业：{creditUser ? (workProfession ? findDsct(workProfession, creditUser.position) : '') : ''}</Col>
                             <Col
                                 span={12}>年收入：{creditUser ? (creditUser.yearIncome ? creditUser.yearIncome : '') : ''}</Col>
                         </Row>
@@ -649,7 +651,7 @@ class preloanAccessDetail extends React.Component {
                         </Row>
                         <Row style={{marginTop: '16px'}}>
                             <Col span={12}>手机号：{creditUserList2 ? creditUserList2.mobile : ''}</Col>
-                            <Col span={12}>职业：{creditUserList2 ? creditUserList2.position : ''}</Col>
+                            <Col span={12}>职业：{creditUserList2 ? (workProfession ? findDsct(workProfession, creditUserList2.position) : '') : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
                             <Col span={12}>工作单位：{creditUserList2 ? creditUserList2.companyName : ''}</Col>
@@ -667,7 +669,7 @@ class preloanAccessDetail extends React.Component {
                         </Row>
                         <Row style={{marginTop: '16px'}}>
                             <Col span={12}>手机号：{creditUserList202 ? creditUserList202.mobile : ''}</Col>
-                            <Col span={12}>职业：{creditUserList202 ? creditUserList202.position : ''}</Col>
+                            <Col span={12}>职业：{creditUserList202 ? (workProfession ? findDsct(workProfession, creditUserList202.position) : '') : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
                             <Col span={12}>工作单位：{creditUserList202 ? creditUserList202.companyName : ''}</Col>
@@ -685,7 +687,7 @@ class preloanAccessDetail extends React.Component {
                         </Row>
                         <Row style={{marginTop: '16px'}}>
                             <Col span={12}>手机号：{creditUserList3 ? creditUserList3.mobile : ''}</Col>
-                            <Col span={12}>职业：{creditUserList3 ? creditUserList3.position : ''}</Col>
+                            <Col span={12}>职业：{creditUserList3 ? (workProfession ? findDsct(workProfession, creditUserList3.position) : '') : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
                             <Col span={12}>工作单位：{creditUserList3 ? creditUserList3.companyName : ''}</Col>
@@ -703,7 +705,7 @@ class preloanAccessDetail extends React.Component {
                         </Row>
                         <Row style={{marginTop: '16px'}}>
                             <Col span={12}>手机号：{creditUserList302 ? creditUserList302.mobile : ''}</Col>
-                            <Col span={12}>职业：{creditUserList302 ? creditUserList302.position : ''}</Col>
+                            <Col span={12}>职业：{creditUserList302 ? (workProfession ? findDsct(workProfession, creditUserList302.position) : '') : ''}</Col>
                         </Row>
                         <Row style={{marginTop: '16px'}}>
                             <Col span={12}>工作单位：{creditUserList302 ? creditUserList302.companyName : ''}</Col>
