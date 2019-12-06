@@ -11,7 +11,7 @@ app.use(bodyParser.json({limit: '6468360mb'}));
 app.use(bodyParser.urlencoded({limit: '6468360mb', extended: true}));
 app.use('/api', function (req, res) {
   // var url = 'http://47.99.80.106:2401/forward-service/api';
-  var url = 'http://api.carloan.hichengdai.com/api';
+  var url = 'http://car.wzhaoyuan.com/api';
   // var url = 'http://m.wzcddev.hichengdai.com/api';
   // var url = 'http://192.168.8.108:8080/forward-service/api';
  // var url = 'http://47.110.249.120:2401/forward-service/api'; // 线上

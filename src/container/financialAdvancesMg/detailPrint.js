@@ -44,7 +44,7 @@ class detailPrint extends React.Component {
                     // 贷款银行
                     loanBankName: data.loanBankName ? data.loanBankName : '',
                     // 贷款人信息
-                    creditUserList1: card.length > 0 ? card[0].userName : {},
+                    creditUserList1: card.length > 0 ? card[0].userName : '',
                     // 贷款总额
                     totalFee: data.loanAmount ? data.loanAmount / 1000 : '',
                     rate: data.bankLoan ? data.bankLoan.bankRate : '',
