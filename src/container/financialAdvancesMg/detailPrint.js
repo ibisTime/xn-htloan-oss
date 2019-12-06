@@ -33,12 +33,12 @@ class detailPrint extends React.Component {
         accessSlipDetail(this.code).then(data => {
             const card = data.creditUserList.filter(item => item.loanRole === '1');
             let vehiclePayment1 = data.loanAmount ? data.loanAmount : 0;
-            let vehiclePayment2 = data.rebateRate ? data.rebateRate : 0;
+            let vehiclePayment2 = data.repointAmount ? data.repointAmount : 0;
             let vehiclePayment3 = data.carFunds3 ? data.carFunds3 : 0;
             let vehiclePayment4 = data.carFunds4 ? data.carFunds4 : 0;
             let vehiclePayment5 = data.carFunds5 ? data.carFunds5 : 0;
-            let gpsFee = data.costSettlement ? data.costSettlement.gpsFee : 0;
-            let otherFee = data.costSettlement ? data.costSettlement.otherFee : 0;
+            let gpsFee = data.gpsFee ? data.gpsFee : 0;
+            let otherFee = data.otherFee ? data.otherFee : 0;
             this.setState({
                 accessSlipDetailInfo: {
                     // 贷款银行
@@ -58,14 +58,14 @@ class detailPrint extends React.Component {
                     Retain: data.bankLoan ? data.bankLoan.rebateRate : '',
                     // 车款
                     vehiclePayment1: data.loanAmount ? data.loanAmount / 1000 : '',
-                    vehiclePayment2: data.rebateRate ? data.rebateRate / 1000 : '',
+                    vehiclePayment2: data.repointAmount ? data.repointAmount / 1000 : '',
                     vehiclePayment3: data.carFunds3 ? data.carFunds3 / 1000 : '',
                     vehiclePayment4: data.carFunds4 ? data.carFunds4 / 1000 : '',
                     vehiclePayment5: data.carFunds5 ? data.carFunds5 / 1000 : '',
                     // GPS费用
-                    gpsFee: data.costSettlement ? data.costSettlement.gpsFee / 1000 : '',
+                    gpsFee: data.gpsFee ? data.gpsFee / 1000 : '',
                     // 其他费用
-                    otherFee: data.costSettlement ? data.costSettlement.otherFee / 1000 : '',
+                    otherFee: data.otherFee ? data.otherFee / 1000 : '',
                     // 支付合计
                     totalPayment: ((parseInt(vehiclePayment1) + parseInt(vehiclePayment2) + parseInt(vehiclePayment4) + parseInt(vehiclePayment5)) - parseInt(gpsFee) - parseInt(otherFee)) / 1000,
                     // 打款日期
@@ -83,7 +83,9 @@ class detailPrint extends React.Component {
                     // 申请日期
                     dateOfApplication: data.advance ? data.advance.applyDatetime : '',
                     // 申请部门
-                    applicationDepartment: data.advance === undefined ? '' : data.advance.applyDepartment
+                    applicationDepartment: data.advance === undefined ? '' : data.advance.applyDepartment,
+                    printUserName: data.advance ? (data.advance.printUserName ? data.advance.printUserName : '') : '',
+                    printDatetime: data.advance ? (data.advance.printDatetime ? data.advance.printDatetime : '') : ''
                 }
             });
         });
@@ -118,7 +120,7 @@ class detailPrint extends React.Component {
                             <td>{accessSlipDetailInfo.totalFee}</td>
                             <td colSpan="2"></td>
                             <td>利率:</td>
-                            <td>{accessSlipDetailInfo.rate}</td>
+                            <td>{accessSlipDetailInfo.rate * 100}</td>
                         </tr>
                         <tr>
                             <td>服务费:</td>
@@ -132,7 +134,7 @@ class detailPrint extends React.Component {
                             <td>{accessSlipDetailInfo.totalRate}</td>
                             <td colSpan="2"></td>
                             <td>留存:</td>
-                            <td>{accessSlipDetailInfo.Retain}</td>
+                            <td>{accessSlipDetailInfo.Retain * 100}</td>
                         </tr>
                         <tr>
                             <td>支出项:</td>
@@ -206,6 +208,10 @@ class detailPrint extends React.Component {
                             <td>{accessSlipDetailInfo.applicationDepartment}</td>
                         </tr>
                     </table>
+                </div>
+                <div style={{width: '100%', marginTop: '10px'}}>
+                    <span>打印人:{accessSlipDetailInfo.printUserName}</span>
+                    <span style={{marginLeft: '20px'}}>打印时间:{dateTimeFormat(accessSlipDetailInfo.printDatetime)}</span>
                 </div>
                 <div onClick={this.printDate}><ReactToPrint trigger={() => <a href='#' style={{float: 'right', marginRight: '10px'}}><Button type='primary'>打印</Button></a>} content={() => this.refs}></ReactToPrint></div>
                 <Button onClick={this.goBack} style={{float: 'right', marginRight: '60px'}}>返回</Button>

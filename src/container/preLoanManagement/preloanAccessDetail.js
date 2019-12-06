@@ -129,6 +129,8 @@ class preloanAccessDetail extends React.Component {
                     gpsFee: data.gpsFee,
                     otherFee: data.otherFee
                 },
+                shopCarGarage: data.carInfo ? data.carInfo.shopCarGarageName : '',
+                saleUserName: data.saleUserName ? data.saleUserName : '',
                 hkBookFirstPage,
                 bankJourFirstPage,
                 zfbJour,
@@ -290,7 +292,9 @@ class preloanAccessDetail extends React.Component {
             otherPdf,
             carHead,
             carRegisterCertificateFirst,
-            gpsAzList
+            gpsAzList,
+            shopCarGarage,
+            saleUserName
         } = this.state;
         return (
             <div style={{background: '#fff'}}>
@@ -308,6 +312,10 @@ class preloanAccessDetail extends React.Component {
                         <Row>
                             <Col span={12}>经办银行：{headInfo.loanBankName}</Col>
                             <Col span={12}>业务发生地：{findDsct(cityList, parseInt(headInfo.region))}</Col>
+                        </Row>
+                        <Row style={{marginTop: '32px'}}>
+                            <Col span={12}>业务员：{saleUserName}</Col>
+                            <Col span={12}>汽车经销商：{shopCarGarage}</Col>
                         </Row>
                         <Row style={{marginTop: '32px'}}>
                             <Col span={12}>购车途径：{headInfo.bizType}</Col>

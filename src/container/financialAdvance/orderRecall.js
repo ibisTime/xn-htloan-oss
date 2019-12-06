@@ -137,7 +137,7 @@ class orderRecall extends React.Component {
         const {findTeamInfoObject, baseInfo, accessSlipStatusArr, bankListArr, bankObject} = this.state;
         return (
             <div className="afp-body">
-                <span className="afp-body-tag">业务基本信息</span><div onClick={this.openPrint} style={{float: 'right', color: '#1791FF'}}><img src={print} style={{width: '20px', height: '20px'}} /><span>去打印</span></div>
+                <span className="afp-body-tag">业务基本信息</span><div onClick={this.openPrint} style={{float: 'right', color: '#1791FF'}}></div>
                 <Row className="afp-body-user-detail">
                     <Col span={8}>
                         <span>业务编号：{baseInfo.code}</span>
@@ -161,10 +161,10 @@ class orderRecall extends React.Component {
                     </Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
-                    <Col span={8}>
+                    <Col span={10}>
                         <span>业务归属：{baseInfo.saleGroup}</span>
                     </Col>
-                    <Col span={8}>
+                    <Col span={6}>
                         <span></span>
                     </Col>
                     <Col span={8}>

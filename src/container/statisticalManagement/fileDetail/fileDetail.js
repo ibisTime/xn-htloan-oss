@@ -88,7 +88,11 @@ class fileDetail extends React.Component {
             getUserNames: '',
             fileName: '',
             fileCode: '',
-            imgSrc: ''
+            imgSrc: '',
+            advanceContract: [],
+            guarantorContract: [],
+            pledgeContract: [],
+            enterOtherPdf: []
         };
         this.count = 1;
         this.selectedRowKeys = [];
@@ -129,22 +133,22 @@ class fileDetail extends React.Component {
                 if (pic.kname === 'advance_contract') {
                     // 垫资合同
                      this.setState({
-                         advanceContract: pic.url
+                         advanceContract: pic.url.split('||')
                      });
                 } else if (pic.kname === 'guarantor_contract') {
                     // 担保和反担保合同
                     this.setState({
-                        guarantorContract: pic.url
+                        guarantorContract: pic.url.split('||')
                     });
                 } else if (pic.kname === 'pledge_contract') {
                     // 抵押合同
                     this.setState({
-                        pledgeContract: pic.url
+                        pledgeContract: pic.url.split('||')
                     });
                 } else if (pic.kname === 'enter_other_pdf') {
                     // 其他资料
                     this.setState({
-                        enterOtherPdf: pic.url
+                        enterOtherPdf: pic.url.split('||')
                     });
                 }
             });
@@ -228,6 +232,7 @@ class fileDetail extends React.Component {
     }
     // 以下是关于对话框的相关
     showModal = (pic) => {
+        console.log(pic);
         this.setState({
             visible: true,
             imgSrc: pic
@@ -334,25 +339,49 @@ class fileDetail extends React.Component {
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span className="afp-body-title" style={{width: '120px'}}>垫资合同：</span>
-                        <img onClick={value => this.showModal(PIC_PREFIX + advanceContract)} style={{width: '100px', height: '100px'}} src={PIC_PREFIX + advanceContract} />
+                        {
+                            advanceContract.length > 0 ? (
+                                advanceContract.map((data) => (
+                                    <img onClick={value => this.showModal(PIC_PREFIX + data)} style={{width: '100px', height: '100px', marginRight: '10px'}} src={PIC_PREFIX + data} />
+                                ))
+                            ) : null
+                        }
                     </Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span className="afp-body-title" style={{width: '150px'}}>担保和反担保合同：</span>
-                        <img onClick={value => this.showModal(PIC_PREFIX + guarantorContract)} style={{width: '100px', height: '100px'}} src={PIC_PREFIX + guarantorContract} />
+                        {
+                            guarantorContract.length > 0 ? (
+                                guarantorContract.map((data) => (
+                                    <img onClick={value => this.showModal(PIC_PREFIX + data)} style={{width: '100px', height: '100px', marginRight: '10px'}} src={PIC_PREFIX + data} />
+                                ))
+                            ) : null
+                        }
                     </Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span className="afp-body-title" style={{width: '120px'}}>抵押合同：</span>
-                        <img onClick={value => this.showModal(PIC_PREFIX + pledgeContract)} style={{width: '100px', height: '100px'}} src={PIC_PREFIX + pledgeContract} />
+                        {
+                            pledgeContract.length > 0 ? (
+                                pledgeContract.map((data) => (
+                                    <img onClick={value => this.showModal(PIC_PREFIX + data)} style={{width: '100px', height: '100px', marginRight: '10px'}} src={PIC_PREFIX + data} />
+                                ))
+                            ) : null
+                        }
                     </Col>
                 </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span className="afp-body-title" style={{width: '120px'}}>其他材料：</span>
-                        <img onClick={value => this.showModal(PIC_PREFIX + enterOtherPdf)} style={{width: '100px', height: '100px'}} src={PIC_PREFIX + enterOtherPdf} />
+                        {
+                            enterOtherPdf.length > 0 ? (
+                                enterOtherPdf.map((data) => (
+                                    <img onClick={value => this.showModal(PIC_PREFIX + data)} style={{width: '100px', height: '100px', marginRight: '10px'}} src={PIC_PREFIX + data} />
+                                ))
+                            ) : null
+                        }
                     </Col>
                 </Row>
                 <div className="afp-body-btn-group">
