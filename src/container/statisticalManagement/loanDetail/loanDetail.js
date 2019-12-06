@@ -75,14 +75,14 @@ class loanDetail extends React.Component {
                 items: [
                     [{
                         title: '银行还款日',
-                        field: 'repayBillDate',
+                        field: 'repayBankDate',
                         _keys: ['bankLoan', 'repayBankDate'],
                         type: 'datetime',
                         readonly: true
                     }, {
                         title: '账单日',
-                        field: 'repayBankDate',
-                        _keys: ['bankLoan', 'repayBankDate'],
+                        field: 'repayBillDate',
+                        _keys: ['bankLoan', 'repayBillDate'],
                         readonly: true
                     }, {
                         title: '卡号',
