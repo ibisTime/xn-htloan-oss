@@ -44,6 +44,7 @@ class refundList extends React.Component {
         };
         this.checkBoxGroup = [];
         this.statusName = '';
+        this.hgo = '';
     }
     showModal = (value) => {
         if(value === 'model1') {
@@ -64,7 +65,7 @@ class refundList extends React.Component {
             });
             fetch(632320, {code: this.checkBoxGroup[0].split('|')[0], paymentDatetime: regDate === '' ? getNowTime() : regDate}).then(data => {
                 showSucMsg('操作成功!');
-                this.getAccessSlip(1);
+                this.getAccessSlip(1, this.checkBoxGroup[0].split('|')[0]);
             });
         }else if(value === 'model2') {
             this.setState({
@@ -72,7 +73,7 @@ class refundList extends React.Component {
             });
             fetch(632321, {code: this.checkBoxGroup[0].split('|')[0], backDatetime: regDate2 === '' ? getNowTime() : regDate2}).then(data => {
                 showSucMsg('操作成功!');
-                this.getAccessSlip(1);
+                this.getAccessSlip(1, this.checkBoxGroup[0].split('|')[0]);
             });
         }
     };
@@ -127,7 +128,7 @@ class refundList extends React.Component {
     }
 
     // 分页接口
-    getAccessSlip = (pageNumber) => {
+    getAccessSlip = (pageNumber, cd) => {
         const {code, customerName} = this.state;
         accessSlipNotFinance(pageNumber, 4, code === '' ? '' : code, customerName === '' ? '' : customerName, ['0', '1', '2']).then(data => {
             let arr = [];
@@ -155,6 +156,9 @@ class refundList extends React.Component {
                     // 贷款金额
                     loanAmount: data.list[i].loanAmount ? data.list[i].loanAmount : ''
                 });
+                if(cd !== '' && cd === data.list[i].code) {
+                    this.checkBoxGroup[0] = cd + '|' + data.list[i].financeStatus;
+                }
             }
             this.setState({
                 accessSlipList: [...arr],
@@ -199,6 +203,7 @@ class refundList extends React.Component {
         this.statusName = '';
     }
     cpMg1 = () => {
+        console.log('fk', this.checkBoxGroup);
         if(this.checkBoxGroup.length <= 0) {
             showWarnMsg('请选择车辆信息');
         }else if(this.checkBoxGroup.length >= 2) {
@@ -254,6 +259,10 @@ class refundList extends React.Component {
             regDate2: dateString
         });
     };
+    vs = (vs) => {
+        this.checkBoxGroup = vs;
+        return vs;
+    }
     render() {
         const {
             accessSlipList,
