@@ -57,15 +57,15 @@ class detailPrint extends React.Component {
                     // 留存
                     Retain: data.bankLoan ? data.bankLoan.rebateRate : '',
                     // 车款
-                    vehiclePayment1: data.loanAmount ? data.loanAmount / 1000 : '',
-                    vehiclePayment2: data.repointAmount ? data.repointAmount / 1000 : '',
-                    vehiclePayment3: data.carFunds3 ? data.carFunds3 / 1000 : '',
-                    vehiclePayment4: data.carFunds4 ? data.carFunds4 / 1000 : '',
-                    vehiclePayment5: data.carFunds5 ? data.carFunds5 / 1000 : '',
+                    vehiclePayment1: data.loanAmount ? data.loanAmount / 1000 : '0',
+                    vehiclePayment2: data.repointAmount ? data.repointAmount / 1000 : '0',
+                    vehiclePayment3: data.carFunds3 ? data.carFunds3 / 1000 : '0',
+                    vehiclePayment4: data.carFunds4 ? data.carFunds4 / 1000 : '0',
+                    vehiclePayment5: data.carFunds5 ? data.carFunds5 / 1000 : '0',
                     // GPS费用
-                    gpsFee: data.gpsFee ? data.gpsFee / 1000 : '',
+                    gpsFee: data.gpsFee ? data.gpsFee / 1000 : '0',
                     // 其他费用
-                    otherFee: data.otherFee ? data.otherFee / 1000 : '',
+                    otherFee: data.otherFee ? data.otherFee / 1000 : '0',
                     // 支付合计
                     totalPayment: ((parseInt(vehiclePayment1) + parseInt(vehiclePayment2) + parseInt(vehiclePayment4) + parseInt(vehiclePayment5)) - parseInt(gpsFee) - parseInt(otherFee)) / 1000,
                     // 打款日期
