@@ -50,7 +50,7 @@ class redCardDetail extends React.Component {
                     // 手机号码
                     mobile: data.creditUser ? data.creditUser.mobile : '',
                     // 住宅(省/市/区)
-                    nowAddressProvince: data.creditUser ? data.creditUser.nowAddressProvince + '/' + data.creditUser.nowAddressCity + '/' + data.creditUser.nowAddressArea : '',
+                    nowAddressProvince: data.creditUser ? (data.creditUser.nowAddressProvince ? data.creditUser.nowAddressProvince + '/' : '') + (data.creditUser.nowAddressCity ? data.creditUser.nowAddressCity + '/' : '') + (data.creditUser.nowAddressArea ? data.creditUser.nowAddressArea : '') : '',
                     // 住宅详情地址
                     nowAddress: data.creditUser ? data.creditUser.nowAddress : '',
                     // 住宅电话
@@ -66,7 +66,7 @@ class redCardDetail extends React.Component {
                     // 单位名称
                     companyName: data.creditUser ? data.creditUser.companyName : '',
                     // 单位地址(省市区)
-                    companyProvince: data.creditUser ? data.creditUser.companyProvince + '/' + data.creditUser.companyCity + '/' + data.creditUser.companyArea : '',
+                    companyProvince: data.creditUser ? (data.creditUser.companyProvince ? data.creditUser.companyProvince + '/' : '') + (data.creditUser.companyCity ? data.creditUser.companyCity + '/' : '') + (data.creditUser.companyArea ? data.creditUser.companyArea : '') : '',
                     // 单位性质
                     workCompanyProperty: data.creditUser ? data.creditUser.workCompanyPropertyName : '',
                     // 职业

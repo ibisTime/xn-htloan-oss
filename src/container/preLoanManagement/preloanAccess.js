@@ -5459,7 +5459,7 @@ class preloanAccess extends React.Component {
                                             <span className="preLoan-body-title" style={{width: '140px'}}>住宅：</span>
                                             <AreaCascader
                                                 type="text"
-                                                placeholder={`${mainLoanPpIptArr.nowAddressProvince}-${mainLoanPpIptArr.nowAddressCity}-${mainLoanPpIptArr.nowAddressArea}`}
+                                                placeholder={`${mainLoanPpIptArr.nowAddressProvince ? mainLoanPpIptArr.nowAddressProvince : ''}-${mainLoanPpIptArr.nowAddressCity ? mainLoanPpIptArr.nowAddressCity : ''}-${mainLoanPpIptArr.nowAddressArea ? mainLoanPpIptArr.nowAddressArea : ''}`}
                                                 onChange={this.selectedChange}
                                                 level={1}
                                                 data={pcaa}
@@ -5522,7 +5522,7 @@ class preloanAccess extends React.Component {
                                         </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title" style={{width: '140px'}}>单位地址：</span>
-                                            <AreaCascader width={200} type="text" placeholder={`${mainLoanPpIptArr.companyProvince}-${mainLoanPpIptArr.companyCity}-${mainLoanPpIptArr.companyArea}`} onChange={this.selectedChange2} level={1} data={pcaa} />
+                                            <AreaCascader width={200} type="text" placeholder={`${mainLoanPpIptArr.companyProvince ? mainLoanPpIptArr.companyProvince : ''}-${mainLoanPpIptArr.companyCity ? mainLoanPpIptArr.companyCity : ''}-${mainLoanPpIptArr.companyArea ? mainLoanPpIptArr.companyArea : ''}`} onChange={this.selectedChange2} level={1} data={pcaa} />
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">

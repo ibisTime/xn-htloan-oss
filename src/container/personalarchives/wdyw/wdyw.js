@@ -159,8 +159,7 @@ class wdyw extends React.Component {
         }else if(this.checkBoxGroup.length >= 2) {
             showWarnMsg('请选择不大于一条记录');
         }else {
-            // this.props.history.push(`/ywcx/ywcx/detail?code=${this.checkBoxGroup[0].split('|')[0]}`);
-            this.props.history.push(`/preLoan/Access/detail?code=${this.checkBoxGroup[0].split('|')[0]}`);
+            this.props.history.push(`/ywcx/ywcx/detail?code=${this.checkBoxGroup[0].split('|')[0]}`);
         }
     }
     onChangeTime = (date, dateString) => {
