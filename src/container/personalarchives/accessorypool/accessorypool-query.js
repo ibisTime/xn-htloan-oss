@@ -21,6 +21,7 @@ import {
     dbrzfbls, dbrwxls
 } from '../../loan/admittance-addedit/config';
 import JSZip from 'jszip';
+import saveAs from 'file-saver';
 
 const FormItem = Form.Item;
 const col2Props = {xs: 32, sm: 24, md: 12, lg: 12};
@@ -637,52 +638,46 @@ class ArchivesAddEdit extends React.Component {
     }
     // 打包下载
     downLoadBiz = () => {
-        const {picList} = this.state;
+        const {pageData} = this.state;
         let picArr = [];
         let laseTime = null;
         const hasMsg = message.loading('');
-        picList.forEach((arrItem, i) => {
-            picArr.push({title: arrItem.title, arr: []});
-            if (arrItem.arr.length > 0) {
-                arrItem.arr.forEach((item) => {
-                    if (!item.kname.match(/video/) && item.url) {
-                        const img = new Image();
-                        img.crossOrigin = '';
-                        img.width = 200;
-                        img.height = 200;
-                        img.onload = function () {
-                            picArr[i].arr.push({
-                                name: item.vname,
-                                url: getBase64Image(img)
+        if (pageData.attachments && Array.isArray(pageData.attachments)) {
+            pageData.attachments.map((item, index) => {
+                if (!item.kname.match(/video/) && item.url) {
+                    const img = new Image();
+                    img.crossOrigin = '';
+                    img.width = 200;
+                    img.height = 200;
+                    img.onload = function () {
+                        picArr.push({
+                            name: item.vname,
+                            url: getBase64Image(img)
+                        });
+                        if (laseTime) {
+                            clearTimeout(laseTime);
+                        }
+                        laseTime = setTimeout(() => {
+                            hasMsg();
+                            const ZIP = new JSZip();
+                            picArr.forEach((arrItem) => {
+                                const file = ZIP.folder(arrItem.name);
+                                if (arrItem.url) {
+                                    file.file(`${arrItem.name}.png`, arrItem.url, {base64: true});
+                                }
                             });
-                            if (laseTime) {
-                                clearTimeout(laseTime);
-                            }
-                            laseTime = setTimeout(() => {
-                                hasMsg();
-                                const ZIP = new JSZip();
-                                picArr.forEach((arrItem) => {
-                                    const file = ZIP.folder(arrItem.title);
-                                    arrItem.arr.forEach(item => {
-                                        if (item.url) {
-                                            file.file(`${item.name}.png`,
-                                                item.url, {base64: true});
-                                        }
-                                    });
+                            ZIP.generateAsync({type: 'blob'}).then(
+                                function (content) {
+                                    saveAs(content, '附件池.zip');
                                 });
-                                ZIP.generateAsync({type: 'blob'}).then(
-                                    function (content) {
-                                        saveAs(content, '附件池.zip');
-                                    });
-                            }, 1000);
-                        };
-                        img.src = PIC_PREFIX + item.url;
-                    } else {
-                        return false;
-                    }
-                });
-            }
-        });
+                        }, 1000);
+                    };
+                    img.src = PIC_PREFIX + item.url;
+                }else {
+                    return false;
+                }
+            });
+        }
         function getBase64Image(img, width, height) {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -778,7 +773,7 @@ class ArchivesAddEdit extends React.Component {
                 <Form>
                     <Card style={{ marginTop: 16 }} title="所有附件">
                         {this.getAccessorypool()}
-                        <strong style={{float: 'right', marginTop: '20px'}} onClick={this.packageDownload}>文件打包下载</strong>
+                        <strong style={{float: 'right', marginTop: '20px'}} onClick={this.downLoadBiz}>文件打包下载</strong>
                     </Card>
                     <FormItem {...tailFormItemLayout} style={{marginTop: 20}}>
                             <Button style={{marginLeft: 20}} onClick={this.onCancel}>返回</Button>
