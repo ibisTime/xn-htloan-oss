@@ -61,6 +61,8 @@ class orderMemory extends React.Component {
         });
         this.getAccessSlipStatus();
         accessSlipDetail(this.code).then(data => {
+            const {iptInfoArr} = this.state;
+            iptInfoArr['amount'] = data.loanAmount / 1000;
             this.setState({
                 baseInfo: {
                     code: data.code,

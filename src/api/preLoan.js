@@ -99,6 +99,11 @@ export function accessSlipNotFinance(start, limit, code, customerName, financeSt
     return fetch(632515, {start, limit, code, customerName, financeStatusList});
 }
 
+// 分页查我的业务
+export function myBusinessPage(start, limit, code, customerName, applyDatetimeStart, applyDatetimeEnd) {
+    return fetch(632515, {start, limit, code, customerName, isMy: '1', userId: getUserId(), applyDatetimeStart, applyDatetimeEnd});
+}
+
 // 统计查询
 export function accessSlipNot(start, limit, code, customerName, applyDatetimeStart, applyDatetimeEnd) {
     return fetch(632519, {start, limit, code, customerName, applyDatetimeStart, applyDatetimeEnd});
@@ -316,4 +321,9 @@ export function findTeamInfo(code) {
 // 获取业务员列表
 export function findSalesmanList() {
     return fetch(630066, {roleCode: 'SR201800000000000000YWY'});
+}
+
+// 流程回退
+export function giveBack(code, node) {
+    return fetch(632593, {code, node});
 }

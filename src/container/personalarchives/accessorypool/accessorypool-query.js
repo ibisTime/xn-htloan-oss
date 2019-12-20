@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Row, Tabs, Col, Spin, Button, Table, Card, Icon, Tooltip} from 'antd';
+import {Form, Row, Tabs, Col, Spin, Button, Table, Card, Icon, Tooltip, message} from 'antd';
 import moment from 'moment';
 import CUpload from 'component/cUpload/cUpload';
 import CInput from 'component/cInput/cInput';
@@ -8,7 +8,7 @@ import CNormalTextArea from 'component/cNormalTextArea/cNormalTextArea';
 import CMonth from 'component/cMonth/cMonth';
 import CRangeDate from 'component/cRangeDate/cRangeDate';
 import CDate from 'component/cDate/cDate';
-import {tailFormItemLayout, validateFieldsAndScrollOption} from 'common/js/config';
+import {tailFormItemLayout, validateFieldsAndScrollOption, PIC_PREFIX} from 'common/js/config';
 import {
     getQueryString, showSucMsg, isUndefined, getUserId, getRules,
     getRealValue, dateTimeFormat, moneyFormat
@@ -20,6 +20,8 @@ import {
     sqryhls, sqrzfbls, sqrwxls, poyhls, pozfbls, powxls, dbryhls,
     dbrzfbls, dbrwxls
 } from '../../loan/admittance-addedit/config';
+import JSZip from 'jszip';
+import saveAs from 'file-saver';
 
 const FormItem = Form.Item;
 const col2Props = {xs: 32, sm: 24, md: 12, lg: 12};
@@ -110,7 +112,8 @@ class ArchivesAddEdit extends React.Component {
             records: [],
             // 所有节点（用于解析节点）
             dealNodeList: [],
-            isFiles: true
+            isFiles: true,
+            picList: []
         };
         this.columns = [{
             title: '操作人',
@@ -137,6 +140,70 @@ class ArchivesAddEdit extends React.Component {
     }
 
     componentDidMount() {
+        fetch(632516, {code: this.code}).then(data => {
+            // 征信
+            let creditUserArr = [];
+            // 准入
+            let carConfigArr = [];
+            // 发保和
+            let carProcedureArr = [];
+            // 面签
+            let interviewArr = [];
+            // 抵押
+            let carPledgeArr = [];
+            // 垫资
+            let advanceArr = [];
+            // 其他
+            let otherArr = [];
+            for(let i = 0; i < data.attachments.length; i++) {
+                if(data.attachments[i]['category'] === 'credit_user') {
+                    creditUserArr.push(data.attachments[i]);
+                } else if(data.attachments[i]['category'] === 'car_config') {
+                    carConfigArr.push(data.attachments[i]);
+                } else if(data.attachments[i]['category'] === 'car_procedure') {
+                    carProcedureArr.push(data.attachments[i]);
+                } else if(data.attachments[i]['category'] === 'interview') {
+                    interviewArr.push(data.attachments[i]);
+                } else if(data.attachments[i]['category'] === 'car_pledge') {
+                    carPledgeArr.push(data.attachments[i]);
+                } else if(data.attachments[i]['category'] === 'advance') {
+                    advanceArr.push(data.attachments[i]);
+                } else if(data.attachments[i]['category'] != 'credit_user' &&
+                    data.attachments[i]['category'] != 'car_config' &&
+                    data.attachments[i]['category'] != 'car_procedure' &&
+                    data.attachments[i]['category'] != 'interview' &&
+                    data.attachments[i]['category'] != 'car_pledge' &&
+                    data.attachments[i]['category'] != 'advance'
+                ) {
+                    otherArr.push(data.attachments[i]);
+                }
+            }
+            this.setState({
+                attachments: data.attachments,
+                picList: [{
+                    title: '征信资料',
+                    arr: creditUserArr
+                }, {
+                    title: '准入资料',
+                    arr: carConfigArr
+                }, {
+                    title: '发保和资料',
+                    arr: carProcedureArr
+                }, {
+                    title: '面签资料',
+                    arr: interviewArr
+                }, {
+                    title: '抵押资料',
+                    arr: carPledgeArr
+                }, {
+                    title: '垫资资料',
+                    arr: advanceArr
+                }, {
+                    title: '其他资料',
+                    arr: otherArr
+                }]
+            });
+        });
         Promise.all([
             fetch(632177, {status: '2'}),
             getDictList({parentKey: 'attachment_name'}),
@@ -569,7 +636,68 @@ class ArchivesAddEdit extends React.Component {
             rowKey: record => record.id
         };
     }
-
+    // 打包下载
+    downLoadBiz = () => {
+        const {pageData} = this.state;
+        let picArr = [];
+        let laseTime = null;
+        const hasMsg = message.loading('');
+        if (pageData.attachments && Array.isArray(pageData.attachments)) {
+            pageData.attachments.map((item, index) => {
+                if (!item.kname.match(/video/) && item.url) {
+                    const img = new Image();
+                    img.crossOrigin = '';
+                    img.width = 200;
+                    img.height = 200;
+                    img.onload = function () {
+                        picArr.push({
+                            name: item.vname,
+                            url: getBase64Image(img)
+                        });
+                        if (laseTime) {
+                            clearTimeout(laseTime);
+                        }
+                        laseTime = setTimeout(() => {
+                            hasMsg();
+                            const ZIP = new JSZip();
+                            picArr.forEach((arrItem) => {
+                                const file = ZIP.folder(arrItem.name);
+                                if (arrItem.url) {
+                                    file.file(`${arrItem.name}.png`, arrItem.url, {base64: true});
+                                }
+                            });
+                            ZIP.generateAsync({type: 'blob'}).then(
+                                function (content) {
+                                    saveAs(content, '附件池.zip');
+                                });
+                        }, 1000);
+                    };
+                    img.src = PIC_PREFIX + item.url;
+                }else {
+                    return false;
+                }
+            });
+        }
+        function getBase64Image(img, width, height) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = width || img.width;
+            canvas.height = height || img.height;
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            return convertBase64UrlToBlob(canvas.toDataURL('image/jpeg', 1));
+        }
+        function convertBase64UrlToBlob(urlData) {
+            const arr = urlData.split(',');
+            const mime = arr[0].match(/:(.*?);/)[1];
+            const bstr = atob(arr[1]);
+            let n = bstr.length;
+            const u8arr = new Uint8Array(n);
+            while(n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], {type: mime});
+        }
+    };
     getAccessorypool() {
         const {pageData, attAchment} = this.state;
         if (pageData.attachments && Array.isArray(pageData.attachments)) {
@@ -644,7 +772,8 @@ class ArchivesAddEdit extends React.Component {
             <Spin spinning={this.state.fetching}>
                 <Form>
                     <Card style={{ marginTop: 16 }} title="所有附件">
-                            {this.getAccessorypool()}
+                        {this.getAccessorypool()}
+                        <strong style={{float: 'right', marginTop: '20px'}} onClick={this.downLoadBiz}>文件打包下载</strong>
                     </Card>
                     <FormItem {...tailFormItemLayout} style={{marginTop: 20}}>
                             <Button style={{marginLeft: 20}} onClick={this.onCancel}>返回</Button>
