@@ -20,7 +20,6 @@ import {
     sqryhls, sqrzfbls, sqrwxls, poyhls, pozfbls, powxls, dbryhls,
     dbrzfbls, dbrwxls
 } from '../../loan/admittance-addedit/config';
-import toZip from '../../../common/js/jszip';
 
 const FormItem = Form.Item;
 const col2Props = {xs: 32, sm: 24, md: 12, lg: 12};
@@ -576,13 +575,77 @@ class ArchivesAddEdit extends React.Component {
         let imgListObject = [];
         if (pageData.attachments && Array.isArray(pageData.attachments)) {
             pageData.attachments.map((item, index) => {
-                if(item.attachType === '图片' && item.url) {
-                    imgListObject.push(PIC_PREFIX + item.url);
-                    toZip(imgListObject, 'test');
-                }
+
             });
         }
     }
+    downLoadBiz = () => {
+        const {picList} = this.state;
+        let picArr = [];
+        let laseTime = null;
+        const hasMsg = message.loading('');
+        picList.forEach((arrItem, i) => {
+            picArr.push({title: arrItem.title, arr: []});
+            if (arrItem.arr.length > 0) {
+                arrItem.arr.forEach((item) => {
+                    if (!item.kname.match(/video/) && item.url) {
+                        const img = new Image();
+                        img.crossOrigin = '';
+                        img.width = 200;
+                        img.height = 200;
+                        img.onload = function () {
+                            picArr[i].arr.push({
+                                name: item.vname,
+                                url: getBase64Image(img)
+                            });
+                            if (laseTime) {
+                                clearTimeout(laseTime);
+                            }
+                            laseTime = setTimeout(() => {
+                                hasMsg();
+                                const ZIP = new JSZip();
+                                picArr.forEach((arrItem) => {
+                                    const file = ZIP.folder(arrItem.title);
+                                    arrItem.arr.forEach(item => {
+                                        if (item.url) {
+                                            file.file(`${item.name}.png`,
+                                                item.url, {base64: true});
+                                        }
+                                    });
+                                });
+                                ZIP.generateAsync({type: 'blob'}).then(
+                                    function (content) {
+                                        saveAs(content, '附件池.zip');
+                                    });
+                            }, 1000);
+                        };
+                        img.src = PIC_PREFIX + item.url;
+                    } else {
+                        return false;
+                    }
+                });
+            }
+        });
+        function getBase64Image(img, width, height) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = width || img.width;
+            canvas.height = height || img.height;
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            return convertBase64UrlToBlob(canvas.toDataURL('image/jpeg', 1));
+        }
+        function convertBase64UrlToBlob(urlData) {
+            const arr = urlData.split(',');
+            const mime = arr[0].match(/:(.*?);/)[1];
+            const bstr = atob(arr[1]);
+            let n = bstr.length;
+            const u8arr = new Uint8Array(n);
+            while(n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], {type: mime});
+        }
+    };
     getAccessorypool() {
         const {pageData, attAchment} = this.state;
         if (pageData.attachments && Array.isArray(pageData.attachments)) {
