@@ -115,7 +115,7 @@ class applyGpsCheck extends DetailUtil {
               {
                 this.state.checkboxItems.map((ele, index) => {
                   return (
-                      <span key={index} style={{marginRight: '30px', display: 'block', width: '60px', float: 'left'}}>
+                      <span key={index} style={{marginRight: '30px', display: 'block', float: 'left'}}>
                        <input
                            type="checkbox"
                            name=""
