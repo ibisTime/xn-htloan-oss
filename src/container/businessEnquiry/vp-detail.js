@@ -60,7 +60,8 @@ class vpDetail extends React.Component {
                     item2: false,
                     item3: false,
                     item4: false,
-                    item5: false
+                    item5: false,
+                    item6: false
                 });
                 this.cpt = admittance;
                 break;
@@ -70,7 +71,8 @@ class vpDetail extends React.Component {
                     item2: true,
                     item3: false,
                     item4: false,
-                    item5: false
+                    item5: false,
+                    item6: false
                 });
                 this.cpt = advance;
                 break;
@@ -80,7 +82,8 @@ class vpDetail extends React.Component {
                     item2: false,
                     item3: true,
                     item4: false,
-                    item5: false
+                    item5: false,
+                    item6: false
                 });
                 this.cpt = rationale;
                 break;
@@ -90,7 +93,8 @@ class vpDetail extends React.Component {
                     item2: false,
                     item3: false,
                     item4: true,
-                    item5: false
+                    item5: false,
+                    item6: false
                 });
                 this.cpt = loan;
                 break;
@@ -100,7 +104,8 @@ class vpDetail extends React.Component {
                     item2: false,
                     item3: false,
                     item4: false,
-                    item5: true
+                    item5: true,
+                    item6: false
                 });
                 this.cpt = putInAFile;
                 break;
