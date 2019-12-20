@@ -1,5 +1,5 @@
 import React from 'react';
-import { Carousel, Modal } from 'antd';
+import {Carousel, Modal} from 'antd';
 import {PIC_PREFIX} from 'common/js/config';
 
 const styles = {
@@ -37,6 +37,8 @@ const styles = {
         cursor: 'pointer'
     },
     carousel_btn: {
+        position: 'relative',
+        zIndex: 99,
         marginTop: 40,
         marginBottom: 20,
         display: 'flex',
@@ -60,13 +62,15 @@ export default class CarouselComponent extends React.Component {
         carousePic: '',
         attachmentsList: [],
         carouselBtnList: [],
-        attachmentsObj: {}
+        attachmentsObj: {},
+        selePicIndex: -1
     };
     welcome = null;
-    onChange = (a) => {
+    onChange = (a, b, c) => {
         const {attachmentsList} = this.state;
         this.setState({
-            title: attachmentsList[a].vname
+            title: attachmentsList[a].vname,
+            selePicIndex: a
         });
     };
     handleCancel = () => {
@@ -92,27 +96,27 @@ export default class CarouselComponent extends React.Component {
                         if((item.dvalue).indexOf('||') !== -1) {
                             const urlList = item.dvalue.split('||');
                             urlList.forEach(itemUrl => {
-                                attachmentsList.push({
+                                attachmentsList.unshift({
                                     ...item,
                                     dvalue: itemUrl
                                 });
-                                attachmentsObj[item.category].push({
+                                attachmentsObj[item.category].unshift({
                                     ...item,
                                     dvalue: itemUrl
                                 });
                             });
                         }else {
-                            attachmentsList.push({
+                            attachmentsList.unshift({
                                 ...item
                             });
-                            attachmentsObj[item.category].push({
+                            attachmentsObj[item.category].unshift({
                                 ...item
                             });
                         }
                     });
                 }
                 attachmentsList.forEach((item, index) => {
-                    if(item.dvalue === this.state.carousePic) {
+                    if (item.dkey === nextProps.selectPicKey) {
                         setTimeout(() => {
                             this.setState({
                                 title: attachmentsList[index].vname
@@ -129,8 +133,13 @@ export default class CarouselComponent extends React.Component {
         return true;
     }
     changeCarousel = (category) => {
+        const {selePicIndex} = this.state;
+        const list = this.state.attachmentsObj[category];
+        const len = list.length - 1;
         this.setState({
-            attachmentsList: this.state.attachmentsObj[category]
+            attachmentsList: list,
+            title: list[selePicIndex] ? list[selePicIndex].vname
+                : list[len].vname
         });
     };
     render() {
@@ -155,7 +164,7 @@ export default class CarouselComponent extends React.Component {
                         >
                             {
                                 Array.isArray(attachmentsList) && attachmentsList.map((item, index) => (
-                                    <div key={`attac_${index}`}>
+                                    <div key={item.dkey}>
                                         <img src={PIC_PREFIX + item.dvalue} alt="" style={{maxWidth: '100%', height: '550px', margin: '0 auto'}}/>
                                     </div>
                                 ))

@@ -41,6 +41,7 @@ import {
     carTypeMng,
     costSettlementInfoLs,
     findCarType,
+    findSalesmanList,
     getCityList,
     getGps,
     getQiNiu,
@@ -52,8 +53,7 @@ import {
     preLoanInfoLs,
     queryGps,
     sendCreditReportingLs,
-    sendPjPost,
-    findSalesmanList
+    sendPjPost
 } from '../../api/preLoan.js';
 import {PIC_PREFIX, UPLOAD_URL} from '../../common/js/config.js';
 import 'react-area-linkage/dist/index.css';
@@ -6064,7 +6064,8 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={carInfoArrIpt.model} onChange={(e) => { this.iptCarInfoArr(e, 'model'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title">厂商指导价：</span>
+                                            <span className="preLoan-body-title"
+                                                  style={{width: '85px'}}>厂商指导价：</span>
                                             <input type="text" value={carInfoArrIpt.carPrice} onChange={(e) => { this.iptCarInfoArr(e, 'carPrice'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
@@ -6143,7 +6144,13 @@ class preloanAccess extends React.Component {
                                                 </Col>
                                                 <Col span={12} style={{display: 'flex'}}>
                                                     <span className="preLoan-body-title" style={{width: '100px'}}>GPS图片：</span>
-                                                    <div className="preLoan-body-table-content-tab-card">
+                                                    <div
+                                                        className="preLoan-body-table-content-tab-card"
+                                                        style={{
+                                                            flex: 1,
+                                                            height: 'auto'
+                                                        }}
+                                                    >
                                                         <Upload
                                                             style={{height: '113px'}}
                                                             listType="picture-card"
@@ -6155,7 +6162,7 @@ class preloanAccess extends React.Component {
                                                                 this.handleChangeCardGPS(ev, index);
                                                             }}
                                                         >
-                                                            {gpsItem.fileListGPS.length >= 1 ? null : uploadButton}
+                                                            {uploadButton}
                                                         </Upload>
                                                         <Modal visible={previewVisibleGPS} footer={null} onCancel={this.handleCancelCardGPS}>
                                                             <img alt="example" style={{ width: '100%' }} src={previewImageGPS} />
