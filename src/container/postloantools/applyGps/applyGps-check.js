@@ -107,7 +107,7 @@ class applyGpsCheck extends DetailUtil {
           </div>
           <div style={{marginLeft: '36%'}}>
             <strong>请选择GPS编号:</strong>
-            <div style={{width: '400px', height: '200px', padding: '10px', border: '1px solid #ccc', borderRadius: '4px', marginTop: '20px'}}>
+            <div style={{width: '400px', height: '300px', padding: '10px', border: '1px solid #ccc', borderRadius: '4px', marginTop: '20px'}}>
               {
                 this.state.checkboxItems.map((ele, index) => {
                   return (

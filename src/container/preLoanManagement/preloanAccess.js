@@ -25,6 +25,8 @@ import {getDictList} from 'api/dict';
 import './preloanAccess.css';
 import moment from 'moment';
 import zanwu from './zanwu1.png';
+import {AreaCascader} from 'react-area-linkage';
+import { pca, pcaa } from 'area-data';
 import {
     accessInfoSend,
     accessSlipDetail,
@@ -54,6 +56,7 @@ import {
     findSalesmanList
 } from '../../api/preLoan.js';
 import {PIC_PREFIX, UPLOAD_URL} from '../../common/js/config.js';
+import 'react-area-linkage/dist/index.css';
 
 const { Option } = Select;
 const { MonthPicker } = DatePicker;
@@ -348,7 +351,18 @@ class preloanAccess extends React.Component {
                 position: '',
                 companyAddress: '',
                 companyName: '',
-                nowAddress: ''
+                nowAddress: '',
+                nowAddressMobile: '',
+                nowAddressDate: '',
+                nowAddressState: '',
+                workCompanyProperty: '',
+                workDatetime: '',
+                nowAddressProvince: '',
+                nowAddressCity: '',
+                nowAddressArea: '',
+                companyProvince: '',
+                companyCity: '',
+                companyArea: ''
             },
             altogetherPpIptArr: {
                 companyName: '',
@@ -631,6 +645,8 @@ class preloanAccess extends React.Component {
             carTypeData: [],
             genderData: [],
             marryState: [],
+            nowAddressStateList: [],
+            workCompanyPropertyList: [],
             education: [],
             isCardMailAddress: [],
             creditContactsRelation: [],
@@ -780,6 +796,8 @@ class preloanAccess extends React.Component {
                             bankCreditResultRemark3: cardZThree01.length > 0 ? cardZThree01[0].bankCreditResultRemark : '',
                             bankCreditResultRemark302: cardZThree02.length > 0 ? cardZThree02[0].bankCreditResultRemark : ''
                         },
+                        regDate2: data.creditUser ? data.creditUser.nowAddressDate : '',
+                        regDate3: data.creditUser ? data.creditUser.workDatetime : '',
                         mainLoanPpIptArr: data.creditUser ? data.creditUser : {
                             emergencyMobile2: '',
                             emergencyRelation2: '',
@@ -792,7 +810,18 @@ class preloanAccess extends React.Component {
                             position: '',
                             companyAddress: '',
                             companyName: '',
-                            nowAddress: ''
+                            nowAddress: '',
+                            nowAddressProvince: '',
+                            nowAddressCity: '',
+                            nowAddressArea: '',
+                            nowAddressMobile: '',
+                            nowAddressDate: '',
+                            nowAddressState: '',
+                            companyProvince: '',
+                            companyCity: '',
+                            companyArea: '',
+                            workCompanyProperty: '',
+                            workDatetime: ''
                         },
                         altogetherPpIptArr: cardZTwo01.length > 0 ? cardZTwo01[0] : {
                             companyName: '',
@@ -1161,6 +1190,8 @@ class preloanAccess extends React.Component {
                         // 车辆登记证书（首页）
                         fileListDJZS: fileListDjzs,
                         hyzt: data.creditUser ? data.creditUser.marryState : '',
+                        zzzk: data.creditUser ? data.creditUser.nowAddressState : '',
+                        dwxz: data.creditUser ? data.creditUser.workCompanyProperty : '',
                         zxjgName1: card.length > 0 ? (card[0].bankCreditResult === '0' ? '不通过' : '通过') : '',
                         zxjgName2: cardZTwo01.length > 0 ? (cardZTwo01[0].bankCreditResult === '0' ? '不通过' : '通过') : '',
                         zxjgName202: cardZTwo02.length > 0 ? (cardZTwo02[0].bankCreditResult === '0' ? '不通过' : '通过') : '',
@@ -1205,6 +1236,8 @@ class preloanAccess extends React.Component {
                         permanentResidenceCode: data.creditUser ? data.creditUser.permanentType : '',
                         housingTypeCode: data.creditUser ? data.creditUser.nowHouseType : '',
                         marriageStatusCode: data.creditUser ? data.creditUser.marryState : '',
+                        nowAddressStateCode: data.creditUser ? data.creditUser.nowAddressState : '',
+                        workCompanyPropertyCode: data.creditUser ? data.creditUser.workCompanyProperty : '',
                         edtCode: data.creditUser ? data.creditUser.education : '',
                         emergencyRelationCode1: data.creditUser ? data.creditUser.emergencyRelation1 : '',
                         emergencyRelationCode2: data.creditUser ? data.creditUser.emergencyRelation2 : '',
@@ -1291,6 +1324,8 @@ class preloanAccess extends React.Component {
     componentDidMount() {
         const hasMsg = message.loading('', 100);
         Promise.all([
+            getDictList({ parentKey: 'now_address_state' }),
+            getDictList({ parentKey: 'work_company_property' }),
             getDictList({ parentKey: 'budget_orde_biz_typer' }),
             getDictList({ parentKey: 'loan_period' }),
             getDictList({ parentKey: 'car_type' }),
@@ -1309,6 +1344,8 @@ class preloanAccess extends React.Component {
             getDictList({ parentKey: 'permanent_type' }),
             getDictList({ parentKey: 'credit_user_relation' })
         ]).then(([
+                     nowAddressState,
+                     workCompanyProperty1,
                      budgetOrdeBizTyper,
                      loanPeriod,
                      carTypeData,
@@ -1329,6 +1366,8 @@ class preloanAccess extends React.Component {
                  ]) => {
             hasMsg();
             this.setState({
+                nowAddressStateList: dsctList(nowAddressState),
+                workCompanyPropertyList: dsctList(workCompanyProperty1),
                 budgetOrdeBizTyper: dsctList(budgetOrdeBizTyper),
                 loanPeriod: dsctList(loanPeriod),
                 carTypeData: dsctList(carTypeData),
@@ -1417,6 +1456,24 @@ class preloanAccess extends React.Component {
                     ...this.state.carInfoArrIpt,
                     regDate: dateString === '' ? getNowTime() : dateString
                 }
+            });
+        }
+    };
+    onChangeTime2 = (date, dateString) => {
+        if(new Date(dateString).getTime() > new Date().getTime()) {
+            showWarnMsg('请选择小于今天的日期');
+        }else {
+            this.setState({
+                regDate2: dateString === '' ? getNowTime() : dateString
+            });
+        }
+    };
+    onChangeTime3 = (date, dateString) => {
+        if(new Date(dateString).getTime() > new Date().getTime()) {
+            showWarnMsg('请选择小于今天的日期');
+        }else {
+            this.setState({
+                regDate3: dateString === '' ? getNowTime() : dateString
             });
         }
     };
@@ -1536,6 +1593,20 @@ class preloanAccess extends React.Component {
         this.setState({
             hyzt: event.props.children,
             marriageStatusCode: value
+        });
+    }
+    // 获取住宅状况code
+    handleChangeNowAddressState = (value, event) => {
+        this.setState({
+            zzzk: event.props.children,
+            nowAddressStateCode: value
+        });
+    }
+    // 获取单位性质code
+    handleChangeWorkCompanyProperty = (value, event) => {
+        this.setState({
+            dwxz: event.props.children,
+            workCompanyPropertyCode: value
         });
     }
     // 获取住房类型code
@@ -2347,7 +2418,7 @@ class preloanAccess extends React.Component {
     }
     // 基本信息
     addBaseInfo = (code) => {
-        const {permanentResidenceCode, housingTypeCode, marriageStatusCode, edtCode, mainLoanPpIptArr, altogetherPpIptArr, altogetherPpIptArr02, bkGuaranteePpArr, bkGuaranteePpArr02, emergencyRelationCode1, emergencyRelationCode2, emergencyRelationghyzdgx1, emergencyRelationghyzdgx2, emergencyRelationdbryzdgx1, emergencyRelationdbryzdgx2} = this.state;
+        const {permanentResidenceCode, housingTypeCode, marriageStatusCode, edtCode, mainLoanPpIptArr, altogetherPpIptArr, altogetherPpIptArr02, bkGuaranteePpArr, bkGuaranteePpArr02, emergencyRelationCode1, emergencyRelationCode2, emergencyRelationghyzdgx1, emergencyRelationghyzdgx2, emergencyRelationdbryzdgx1, emergencyRelationdbryzdgx2, nowAddressStateCode, workCompanyPropertyCode, regDate2, regDate3} = this.state;
         let creditUserList = [];
         for(let i = 1; i <= 5; i++) {
             if(i === 1) {
@@ -2373,7 +2444,18 @@ class preloanAccess extends React.Component {
                     emergencyName2: mainLoanPpIptArr.emergencyName2,
                     emergencyRelation2: emergencyRelationCode2,
                     emergencyMobile2: mainLoanPpIptArr.emergencyMobile2,
-                    localResidencePermit: 'FrLh-zbku8RLBn0Uf2FOmRLgZKoD'
+                    localResidencePermit: 'FrLh-zbku8RLBn0Uf2FOmRLgZKoD',
+                    nowAddressProvince: mainLoanPpIptArr.nowAddressProvince,
+                    nowAddressCity: mainLoanPpIptArr.nowAddressCity,
+                    nowAddressArea: mainLoanPpIptArr.nowAddressArea,
+                    nowAddressMobile: mainLoanPpIptArr.nowAddressMobile,
+                    nowAddressDate: regDate2,
+                    nowAddressState: nowAddressStateCode,
+                    companyProvince: mainLoanPpIptArr.companyProvince,
+                    companyCity: mainLoanPpIptArr.companyCity,
+                    companyArea: mainLoanPpIptArr.companyArea,
+                    workCompanyProperty: workCompanyPropertyCode,
+                    workDatetime: regDate3
                 });
             }else if(i === 2) {
                 creditUserList.push({
@@ -4040,6 +4122,24 @@ class preloanAccess extends React.Component {
     handleChange2 = value => {
         this.setState({ value2: value });
     };
+    selectedChange = (e) => {
+        const {mainLoanPpIptArr} = this.state;
+        mainLoanPpIptArr['nowAddressProvince'] = e[0];
+        mainLoanPpIptArr['nowAddressCity'] = e[1];
+        mainLoanPpIptArr['nowAddressArea'] = e[2];
+        this.setState({
+            mainLoanPpIptArr
+        });
+    };
+    selectedChange2 = (e) => {
+        const {mainLoanPpIptArr} = this.state;
+        mainLoanPpIptArr['companyProvince'] = e[0];
+        mainLoanPpIptArr['companyCity'] = e[1];
+        mainLoanPpIptArr['companyArea'] = e[2];
+        this.setState({
+            mainLoanPpIptArr
+        });
+    };
     render() {
         const {
             isMain,
@@ -4248,6 +4348,10 @@ class preloanAccess extends React.Component {
             carBuyingListArrs,
             // 字典
             marryState,
+            nowAddressStateList,
+            workCompanyPropertyList,
+            zzzk,
+            dwxz,
             education,
             permanentType,
             creditUserRelation,
@@ -4318,7 +4422,9 @@ class preloanAccess extends React.Component {
             attachmentsList,
             ywyList,
             ywyCode,
-            ywyUserName
+            ywyUserName,
+            regDate2,
+            regDate3
         } = this.state;
         const options = this.state.data.map(d => <Option key={d.value}>{d.text}</Option>);
         const options2 = this.state.data2.map(d => <Option key={d.value}>{d.text}</Option>);
@@ -5346,8 +5452,36 @@ class preloanAccess extends React.Component {
                                             </Select>
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title">现住地址：</span>
+                                            <span className="preLoan-body-title" style={{width: '140px'}}>住宅(省/市/区、县)：</span>
+                                            <AreaCascader width={200} type="text" placeholder={`${mainLoanPpIptArr.nowAddressProvince}-${mainLoanPpIptArr.nowAddressCity}-${mainLoanPpIptArr.nowAddressArea}`} onChange={this.selectedChange} level={1} data={pcaa} />
+                                        </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">住宅(详细地址)：</span>
                                             <input type="text" value={mainLoanPpIptArr.nowAddress} ref={input => this.nowAddressProvinceIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'nowAddress'); }} className="preLoan-body-input" />
+                                        </Col>
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title" style={{width: '140px'}}>住宅电话：</span>
+                                            <input type="text" value={mainLoanPpIptArr.nowAddressMobile} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'nowAddressMobile'); }} className="preLoan-body-input" />
+                                        </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">入住日期：</span>
+                                            <MonthPicker format={'YYYY-MM'} style={{width: '220px', float: 'left'}} defaultValue={moment(regDate2)} onChange={this.onChangeTime2}/>
+                                        </Col>
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title" style={{width: '140px'}}>住宅状况：</span>
+                                            <Select className="preLoan-body-select" style={{width: '220px'}} value={zzzk} onChange={this.handleChangeNowAddressState}>
+                                                {
+                                                    nowAddressStateList.map(data => {
+                                                        return (
+                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                        );
+                                                    })
+                                                }
+                                            </Select>
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
@@ -5364,7 +5498,7 @@ class preloanAccess extends React.Component {
                                             </Select>
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title">住房类型：</span>
+                                            <span className="preLoan-body-title" style={{width: '140px'}}>住房类型：</span>
                                             <Select className="preLoan-body-select" value={zflx} style={{width: '220px'}} onChange={this.handleChangeHousingType}>
                                                 <Option value="0">自有</Option>
                                                 <Option value="1">租用</Option>
@@ -5377,8 +5511,26 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={mainLoanPpIptArr.companyName} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'companyName'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title">单位地址：</span>
-                                            <input type="text" value={mainLoanPpIptArr.companyAddress} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'companyAddress'); }} className="preLoan-body-input" />
+                                            <span className="preLoan-body-title" style={{width: '140px'}}>单位地址(省/市/区、县)：</span>
+                                            <AreaCascader width={200} type="text" placeholder={`${mainLoanPpIptArr.companyProvince}-${mainLoanPpIptArr.companyCity}-${mainLoanPpIptArr.companyArea}`} onChange={this.selectedChange2} level={1} data={pcaa} />
+                                        </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">单位性质：</span>
+                                            <Select className="preLoan-body-select" style={{width: '220px'}} value={dwxz} onChange={this.handleChangeWorkCompanyProperty}>
+                                                {
+                                                    workCompanyPropertyList.map(data => {
+                                                        return (
+                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                        );
+                                                    })
+                                                }
+                                            </Select>
+                                        </Col>
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title" style={{width: '140px'}}>何时进入现单位工作：</span>
+                                            <MonthPicker format={'YYYY-MM'} style={{width: '220px', float: 'left'}} defaultValue={moment(regDate3)} onChange={this.onChangeTime3}/>
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
@@ -5395,7 +5547,7 @@ class preloanAccess extends React.Component {
                                             </Select>
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title">月收入：</span>
+                                            <span className="preLoan-body-title" style={{width: '140px'}}>月收入：</span>
                                             <input type="text" value={mainLoanPpIptArr.yearIncome} ref={input => this.yearIncomeIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'yearIncome'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
@@ -5405,7 +5557,7 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={mainLoanPpIptArr.presentJobYears} ref={input => this.currentPostYearsIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'presentJobYears'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title">常住类型：</span>
+                                            <span className="preLoan-body-title" style={{width: '140px'}}>常住类型：</span>
                                             <Select className="preLoan-body-select" value={czlx} style={{width: '220px'}} onChange={this.handleChangePermanentResidence}>
                                                 {
                                                     permanentType.map(data => {

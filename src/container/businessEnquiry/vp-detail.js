@@ -27,6 +27,8 @@ const rationale = asyncComponent(() => import('../../container/statisticalManage
 const loan = asyncComponent(() => import('../../container/statisticalManagement/loanDetail/loanDetail'));
 // 入档详情
 const putInAFile = asyncComponent(() => import('../../container/statisticalManagement/fileDetail/fileDetail'));
+// 红卡信息
+const redCardDetail = asyncComponent(() => import('../../container/financialAdvancesMg/redCardDetail'));
 class vpDetail extends React.Component {
     constructor(props) {
         super(props);
@@ -36,6 +38,7 @@ class vpDetail extends React.Component {
             item3: false,
             item4: false,
             item5: false,
+            item6: false,
             isShowNot: {}
         };
         this.code = getQueryString('code', this.props.location.search);
@@ -101,10 +104,21 @@ class vpDetail extends React.Component {
                 });
                 this.cpt = putInAFile;
                 break;
+            case 'item6':
+                this.setState({
+                    item1: false,
+                    item2: false,
+                    item3: false,
+                    item4: false,
+                    item5: false,
+                    item6: true
+                });
+                this.cpt = redCardDetail;
+                break;
         }
     }
     render() {
-        const {item1, item2, item3, item4, item5, isShowNot} = this.state;
+        const {item1, item2, item3, item4, item5, item6, isShowNot} = this.state;
         return (
             <div style={{background: '#fff'}}>
                 <div className="contain-header-nav">
@@ -125,6 +139,7 @@ class vpDetail extends React.Component {
                             <span className={item5 ? 'contain-header-nav-item-in' : 'contain-header-nav-item-out'} onClick={(value) => this.setInOrOut('item5')}>入档详情</span>
                         ) : null
                     }
+                    <span className={item6 ? 'contain-header-nav-item-in' : 'contain-header-nav-item-out'} onClick={(value) => this.setInOrOut('item6')}>红卡详情</span>
                 </div>
                 <Layout>
                     <Content>
