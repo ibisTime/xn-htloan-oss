@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "antd": "^3.1.0",
-    "area-data": "^5.0.6",
     "autoprefixer": "7.1.6",
     "axios": "^0.17.1",
     "babel-core": "6.26.0",
@@ -48,7 +47,6 @@
     "promise": "8.0.1",
     "raf": "3.4.0",
     "react": "^16.2.0",
-    "react-area-linkage": "^3.0.0",
     "react-dev-utils": "^4.2.1",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
@@ -66,10 +64,12 @@
   },
   "devDependencies": {
     "@antv/data-set": "^0.8.9",
+    "area-data": "^5.0.6",
     "bizcharts": "^3.1.8",
     "file-saver": "^2.0.2",
     "jszip": "^3.2.2",
     "prop-types": "^15.6.2",
+    "react-area-linkage": "^3.0.0",
     "react-to-print": "^2.5.0",
     "xlsx": "^0.12.9"
   },

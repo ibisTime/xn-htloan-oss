@@ -926,6 +926,7 @@ class preloanAccessDetail extends React.Component {
                                         GPS图片：
                                         <img
                                             src={PIC_PREFIX + item.azPhotos}
+                                            ß
                                             className="preLoan-body-table-content-tab-card"
                                             onClick={() => {
                                                 this.showCarousePic(
@@ -1159,7 +1160,9 @@ class preloanAccessDetail extends React.Component {
                                     src={findDsct(attachments, 'door_photo') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'door_photo')}
                                     className="preLoan-body-table-content-tab-card"
                                     onClick={() => {
-                                        this.showCarousePic(findDsct(attachments, 'door_photo'));
+                                        this.showCarousePic(
+                                            findDsct(attachments, 'door_photo'),
+                                            'door_photo');
                                     }}
                                 />
                             </Col>
@@ -1176,7 +1179,9 @@ class preloanAccessDetail extends React.Component {
                                     src={findDsct(attachments, 'group_photo') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'group_photo')}
                                     className="preLoan-body-table-content-tab-card"
                                     onClick={() => {
-                                        this.showCarousePic(findDsct(attachments, 'group_photo'));
+                                        this.showCarousePic(
+                                            findDsct(attachments,
+                                                'group_photo'), 'group_photo');
                                     }}
                                 />
                             </Col>

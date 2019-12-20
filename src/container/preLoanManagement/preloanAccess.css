@@ -168,3 +168,7 @@
     border:1px solid rgba(230,230,230,1);
     padding-left: 10px;
 }
+
+.area-cascader-wrap .area-select.medium {
+    width: 220px;
+}

@@ -26,7 +26,7 @@ import './preloanAccess.css';
 import moment from 'moment';
 import zanwu from './zanwu1.png';
 import {AreaCascader} from 'react-area-linkage';
-import { pca, pcaa } from 'area-data';
+import {pcaa} from 'area-data';
 import {
     accessInfoSend,
     accessSlipDetail,
@@ -5457,7 +5457,13 @@ class preloanAccess extends React.Component {
                                         </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title" style={{width: '140px'}}>住宅：</span>
-                                            <AreaCascader width={200} type="text" placeholder={`${mainLoanPpIptArr.nowAddressProvince}-${mainLoanPpIptArr.nowAddressCity}-${mainLoanPpIptArr.nowAddressArea}`} onChange={this.selectedChange} level={1} data={pcaa} />
+                                            <AreaCascader
+                                                type="text"
+                                                placeholder={`${mainLoanPpIptArr.nowAddressProvince}-${mainLoanPpIptArr.nowAddressCity}-${mainLoanPpIptArr.nowAddressArea}`}
+                                                onChange={this.selectedChange}
+                                                level={1}
+                                                data={pcaa}
+                                            />
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">

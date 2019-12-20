@@ -1,19 +1,19 @@
 import React from 'react';
 import {
-    showWarnMsg,
-    showSucMsg,
-    moneyFormat,
     dateTimeFormat,
     dsctList1,
     findDsct,
-    getRoleCode
+    getRoleCode,
+    moneyFormat,
+    showSucMsg,
+    showWarnMsg
 } from 'common/js/util';
-import {Row, Col, Checkbox, Pagination, Select, Modal} from 'antd';
+import {Checkbox, Col, Modal, Pagination, Row, Select} from 'antd';
 import {
     accessSlip,
     accessSlipStatus,
-    showButton,
-    giveBack
+    giveBack,
+    showButton
 } from '../../api/preLoan.js';
 import './preloanAccess.css';
 import './preloanAccessList.css';
@@ -252,7 +252,7 @@ class bankMoney extends React.Component {
             Modal.confirm({
                 okText: '确定',
                 cancelText: '取消',
-                content: '发送抵押？',
+                content: '确定退回？',
                 onOk: () => {
                     giveBack(this.checkBoxGroup[0].split('|')[0], this.checkBoxGroup[0].split('|')[1]).then(data => {
                         showSucMsg('操作成功');
