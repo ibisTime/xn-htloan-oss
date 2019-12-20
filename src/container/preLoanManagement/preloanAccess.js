@@ -1779,7 +1779,7 @@ class preloanAccess extends React.Component {
                 isShowCarGroup: true,
                 carInfoArrIpt: {
                     ...this.state.carInfoArrIpt,
-                    regDate: new Date().getFullYear()
+                    regDate: getNowTime().split('-')[0] + '-' + getNowTime().split('-')[1]
                 }
             });
         }
@@ -3111,10 +3111,14 @@ class preloanAccess extends React.Component {
     // 数据双向绑定
     // 发起征信
     iptChangeSendCreditReporting = (e, name) => {
-        const {sendCreditReporting} = this.state;
+        const {sendCreditReporting, carInfoArrIpt} = this.state;
+        if(name === 'mile') {
+            carInfoArrIpt['mile'] = e.target.value;
+        }
         sendCreditReporting[name] = e.target.value;
         this.setState({
-            sendCreditReporting
+            sendCreditReporting,
+            carInfoArrIpt
         });
     }
     // 贷款信息数组
@@ -5452,13 +5456,13 @@ class preloanAccess extends React.Component {
                                             </Select>
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title" style={{width: '140px'}}>住宅(省/市/区、县)：</span>
+                                            <span className="preLoan-body-title" style={{width: '140px'}}>住宅：</span>
                                             <AreaCascader width={200} type="text" placeholder={`${mainLoanPpIptArr.nowAddressProvince}-${mainLoanPpIptArr.nowAddressCity}-${mainLoanPpIptArr.nowAddressArea}`} onChange={this.selectedChange} level={1} data={pcaa} />
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={12}>
-                                            <span className="preLoan-body-title">住宅(详细地址)：</span>
+                                            <span className="preLoan-body-title">住宅详细地址：</span>
                                             <input type="text" value={mainLoanPpIptArr.nowAddress} ref={input => this.nowAddressProvinceIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'nowAddress'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
@@ -5511,7 +5515,7 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={mainLoanPpIptArr.companyName} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'companyName'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title" style={{width: '140px'}}>单位地址(省/市/区、县)：</span>
+                                            <span className="preLoan-body-title" style={{width: '140px'}}>单位地址：</span>
                                             <AreaCascader width={200} type="text" placeholder={`${mainLoanPpIptArr.companyProvince}-${mainLoanPpIptArr.companyCity}-${mainLoanPpIptArr.companyArea}`} onChange={this.selectedChange2} level={1} data={pcaa} />
                                         </Col>
                                     </Row>
@@ -6095,7 +6099,7 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={carInfoArrIpt.evalPrice} onChange={(e) => { this.iptCarInfoArr(e, 'evalPrice'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title">上牌年份：</span>
+                                            <span className="preLoan-body-title">上牌时间：</span>
                                             <input type="text" value={carInfoArrIpt.regDate} onChange={(e) => { this.iptCarInfoArr(e, 'regDate'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>

@@ -74,13 +74,17 @@ class applyGpsCheck extends DetailUtil {
   }
   sendError = () => {
       const {remark} = this.state;
-      fetch(632712, {code: this.code, oprator: getUserId(), remark: remark}).then((data) => {
+      fetch(632712, {code: this.code, operator: getUserId(), remark: remark}).then((data) => {
           showSucMsg('操作成功');
           setTimeout(() => {
               this.props.history.go(-1);
           }, 1000);
       });
   }
+    // 返回
+    toBack = () => {
+        this.props.history.go(-1);
+    };
   render() {
     const {remark, userInfoObject} = this.state;
     return (

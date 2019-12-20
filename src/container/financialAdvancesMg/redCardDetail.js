@@ -161,11 +161,11 @@ class redCardDetail extends React.Component {
                         <tr>
                             <td>单位名称:</td>
                             <td>{accessSlipDetailInfo.companyName}</td>
-                            <td>单位地址(省/市/区、县)</td>
+                            <td>单位地址(省/市/区、县):</td>
                             <td>{accessSlipDetailInfo.companyProvince}</td>
                         </tr>
                         <tr>
-                            <td>单位性质</td>
+                            <td>单位性质:</td>
                             <td>{accessSlipDetailInfo.workCompanyProperty}</td>
                             <td></td>
                             <td></td>
@@ -173,7 +173,7 @@ class redCardDetail extends React.Component {
                         <tr>
                             <td>职业:</td>
                             <td>{accessSlipDetailInfo.position}</td>
-                            <td>何时进入现单位工作</td>
+                            <td>何时进入现单位工作:</td>
                             <td>{accessSlipDetailInfo.workDatetime}</td>
                         </tr>
                         <tr>
