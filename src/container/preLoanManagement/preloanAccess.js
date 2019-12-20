@@ -39,6 +39,7 @@ import {
     carTypeMng,
     costSettlementInfoLs,
     findCarType,
+    findSalesmanList,
     getCityList,
     getGps,
     getQiNiu,
@@ -50,8 +51,7 @@ import {
     preLoanInfoLs,
     queryGps,
     sendCreditReportingLs,
-    sendPjPost,
-    findSalesmanList
+    sendPjPost
 } from '../../api/preLoan.js';
 import {PIC_PREFIX, UPLOAD_URL} from '../../common/js/config.js';
 
@@ -5925,7 +5925,8 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={carInfoArrIpt.model} onChange={(e) => { this.iptCarInfoArr(e, 'model'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title">厂商指导价：</span>
+                                            <span className="preLoan-body-title"
+                                                  style={{width: '85px'}}>厂商指导价：</span>
                                             <input type="text" value={carInfoArrIpt.carPrice} onChange={(e) => { this.iptCarInfoArr(e, 'carPrice'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
