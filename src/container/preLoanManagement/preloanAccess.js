@@ -5992,7 +5992,13 @@ class preloanAccess extends React.Component {
                                                 </Col>
                                                 <Col span={12} style={{display: 'flex'}}>
                                                     <span className="preLoan-body-title" style={{width: '100px'}}>GPS图片：</span>
-                                                    <div className="preLoan-body-table-content-tab-card">
+                                                    <div
+                                                        className="preLoan-body-table-content-tab-card"
+                                                        style={{
+                                                            flex: 1,
+                                                            height: 'auto'
+                                                        }}
+                                                    >
                                                         <Upload
                                                             style={{height: '113px'}}
                                                             listType="picture-card"
@@ -6004,7 +6010,7 @@ class preloanAccess extends React.Component {
                                                                 this.handleChangeCardGPS(ev, index);
                                                             }}
                                                         >
-                                                            {gpsItem.fileListGPS.length >= 1 ? null : uploadButton}
+                                                            {uploadButton}
                                                         </Upload>
                                                         <Modal visible={previewVisibleGPS} footer={null} onCancel={this.handleCancelCardGPS}>
                                                             <img alt="example" style={{ width: '100%' }} src={previewImageGPS} />

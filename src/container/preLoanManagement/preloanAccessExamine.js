@@ -1,20 +1,20 @@
 import React from 'react';
 import {
-    showWarnMsg,
-    showSucMsg,
-    getQueryString,
     dsctImgList,
-    findDsct
+    findDsct,
+    getQueryString,
+    showSucMsg,
+    showWarnMsg
 } from 'common/js/util';
 import {
-    accessSlipDetail,
     accessExamine,
+    accessSlipDetail,
     getCityList,
     getGpsAll,
     queryGps
 } from '../../api/preLoan.js';
-import {UPLOAD_URL, PIC_PREFIX} from '../../common/js/config.js';
-import {Row, Col, message} from 'antd';
+import {PIC_PREFIX} from '../../common/js/config.js';
+import {Col, message, Row} from 'antd';
 import CarouselComponent from 'component/CarouselComponent/CarouselComponent';
 import './preloanAccessDetail.css';
 import './preloanAccess.css';
@@ -58,6 +58,7 @@ class preloanAccessDetail extends React.Component {
             carRegisterCertificateFirst: [],
             visibleCarouse: false,
             carousePic: '',
+            selectPicKey: '',
             gpsAzList: []
         };
     }
@@ -235,11 +236,12 @@ class preloanAccessDetail extends React.Component {
             rmkText: e.target.value
         });
     };
-    showCarousePic = (carousePic) => {
+    showCarousePic = (carousePic, selectPicKey) => {
         if(carousePic) {
             this.setState({
                 visibleCarouse: !this.state.visibleCarouse,
-                carousePic
+                carousePic,
+                selectPicKey
             });
         }
     };
@@ -312,7 +314,8 @@ class preloanAccessDetail extends React.Component {
             carousePic,
             gpsAzList,
             shopCarGarage,
-            saleUserName
+            saleUserName,
+            selectPicKey
         } = this.state;
         return (
             <div>
@@ -410,7 +413,10 @@ class preloanAccessDetail extends React.Component {
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_front_apply')}
                                                  className="preLoan-body-table-content-tab-card"
                                                  onClick={() => {
-                                                     this.showCarousePic(findDsct(attachments, 'id_no_front_apply'));
+                                                     this.showCarousePic(
+                                                         findDsct(attachments,
+                                                             'id_no_front_apply'),
+                                                         'id_no_front_apply');
                                                  }}
                                             />
                                         </Col>
@@ -418,7 +424,10 @@ class preloanAccessDetail extends React.Component {
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_reverse_apply')}
                                                  className="preLoan-body-table-content-tab-card"
                                                  onClick={() => {
-                                                     this.showCarousePic(findDsct(attachments, 'id_no_reverse_apply'));
+                                                     this.showCarousePic(
+                                                         findDsct(attachments,
+                                                             'id_no_reverse_apply'),
+                                                         'id_no_reverse_apply');
                                                  }}
                                             />
                                         </Col>
@@ -426,7 +435,10 @@ class preloanAccessDetail extends React.Component {
                                             <img src={PIC_PREFIX + findDsct(attachments, 'hold_id_card_apply')}
                                                  className="preLoan-body-table-content-tab-card"
                                                  onClick={() => {
-                                                     this.showCarousePic(findDsct(attachments, 'hold_id_card_apply'));
+                                                     this.showCarousePic(
+                                                         findDsct(attachments,
+                                                             'hold_id_card_apply'),
+                                                         'hold_id_card_apply');
                                                  }}
                                             />
                                         </Col>
@@ -464,7 +476,10 @@ class preloanAccessDetail extends React.Component {
                                                 src={findDsct(attachments, 'id_no_front_gh') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_front_gh')}
                                                 className="preLoan-body-table-content-tab-card"
                                                 onClick={() => {
-                                                    this.showCarousePic(findDsct(attachments, 'id_no_front_gh'));
+                                                    this.showCarousePic(
+                                                        findDsct(attachments,
+                                                            'id_no_front_gh'),
+                                                        'id_no_front_gh');
                                                 }}
                                             />
                                         </Col>
@@ -473,7 +488,10 @@ class preloanAccessDetail extends React.Component {
                                                 src={findDsct(attachments, 'id_no_reverse_gh') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gh')}
                                                 className="preLoan-body-table-content-tab-card"
                                                 onClick={() => {
-                                                    this.showCarousePic(findDsct(attachments, 'id_no_reverse_gh'));
+                                                    this.showCarousePic(
+                                                        findDsct(attachments,
+                                                            'id_no_reverse_gh'),
+                                                        'id_no_reverse_gh');
                                                 }}
                                             />
                                         </Col>
@@ -482,7 +500,10 @@ class preloanAccessDetail extends React.Component {
                                                 src={findDsct(attachments, 'hold_id_card_gh') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hold_id_card_gh')}
                                                 className="preLoan-body-table-content-tab-card"
                                                 onClick={() => {
-                                                    this.showCarousePic(findDsct(attachments, 'hold_id_card_gh'));
+                                                    this.showCarousePic(
+                                                        findDsct(attachments,
+                                                            'hold_id_card_gh'),
+                                                        'hold_id_card_gh');
                                                 }}
                                             />
                                         </Col>
@@ -520,7 +541,10 @@ class preloanAccessDetail extends React.Component {
                                                 src={findDsct(attachments, 'id_no_front_gh1') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_front_gh1')}
                                                 className="preLoan-body-table-content-tab-card"
                                                 onClick={() => {
-                                                    this.showCarousePic(findDsct(attachments, 'id_no_front_gh1'));
+                                                    this.showCarousePic(
+                                                        findDsct(attachments,
+                                                            'id_no_front_gh1'),
+                                                        'id_no_front_gh1');
                                                 }}
                                             />
                                         </Col>
@@ -529,7 +553,10 @@ class preloanAccessDetail extends React.Component {
                                                 src={findDsct(attachments, 'id_no_reverse_gh1') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gh1')}
                                                 className="preLoan-body-table-content-tab-card"
                                                 onClick={() => {
-                                                    this.showCarousePic(findDsct(attachments, 'id_no_reverse_gh1'));
+                                                    this.showCarousePic(
+                                                        findDsct(attachments,
+                                                            'id_no_reverse_gh1'),
+                                                        'id_no_reverse_gh1');
                                                 }}
                                             />
                                         </Col>
@@ -538,7 +565,10 @@ class preloanAccessDetail extends React.Component {
                                                 src={findDsct(attachments, 'hold_id_card_gh1') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hold_id_card_gh1')}
                                                 className="preLoan-body-table-content-tab-card"
                                                 onClick={() => {
-                                                    this.showCarousePic(findDsct(attachments, 'hold_id_card_gh1'));
+                                                    this.showCarousePic(
+                                                        findDsct(attachments,
+                                                            'hold_id_card_gh1'),
+                                                        'hold_id_card_gh1');
                                                 }}
                                             />
                                         </Col>
@@ -580,7 +610,10 @@ class preloanAccessDetail extends React.Component {
                                                 src={findDsct(attachments, 'id_no_front_gua') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_front_gua')}
                                                 className="preLoan-body-table-content-tab-card"
                                                 onClick={() => {
-                                                    this.showCarousePic(findDsct(attachments, 'id_no_front_gua'));
+                                                    this.showCarousePic(
+                                                        findDsct(attachments,
+                                                            'id_no_front_gua'),
+                                                        'id_no_front_gua');
                                                 }}
                                             />
                                         </Col>
@@ -589,7 +622,10 @@ class preloanAccessDetail extends React.Component {
                                                 src={findDsct(attachments, 'id_no_reverse_gua') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gua')}
                                                 className="preLoan-body-table-content-tab-card"
                                                 onClick={() => {
-                                                    this.showCarousePic(findDsct(attachments, 'id_no_reverse_gua'));
+                                                    this.showCarousePic(
+                                                        findDsct(attachments,
+                                                            'id_no_reverse_gua'),
+                                                        'id_no_reverse_gua');
                                                 }}
                                             />
                                         </Col>
@@ -598,7 +634,10 @@ class preloanAccessDetail extends React.Component {
                                                 src={findDsct(attachments, 'hold_id_card_gua') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hold_id_card_gua')}
                                                 className="preLoan-body-table-content-tab-card"
                                                 onClick={() => {
-                                                    this.showCarousePic(findDsct(attachments, 'hold_id_card_gua'));
+                                                    this.showCarousePic(
+                                                        findDsct(attachments,
+                                                            'hold_id_card_gua'),
+                                                        'hold_id_card_gua');
                                                 }}
                                             />
                                         </Col>
@@ -636,7 +675,10 @@ class preloanAccessDetail extends React.Component {
                                                 src={findDsct(attachments, 'id_no_front_gua1') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_front_gua1')}
                                                 className="preLoan-body-table-content-tab-card"
                                                 onClick={() => {
-                                                    this.showCarousePic(findDsct(attachments, 'id_no_front_gua1'));
+                                                    this.showCarousePic(
+                                                        findDsct(attachments,
+                                                            'id_no_front_gua1'),
+                                                        'id_no_front_gua1');
                                                 }}
                                             />
                                         </Col>
@@ -645,7 +687,10 @@ class preloanAccessDetail extends React.Component {
                                                 src={findDsct(attachments, 'id_no_reverse_gua1') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'id_no_reverse_gua1')}
                                                 className="preLoan-body-table-content-tab-card"
                                                 onClick={() => {
-                                                    this.showCarousePic(findDsct(attachments, 'id_no_reverse_gua1'));
+                                                    this.showCarousePic(
+                                                        findDsct(attachments,
+                                                            'id_no_reverse_gua1'),
+                                                        'id_no_reverse_gua1');
                                                 }}
                                             />
                                         </Col>
@@ -654,7 +699,10 @@ class preloanAccessDetail extends React.Component {
                                                 src={findDsct(attachments, 'hold_id_card_gua1') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'hold_id_card_gua1')}
                                                 className="preLoan-body-table-content-tab-card"
                                                 onClick={() => {
-                                                    this.showCarousePic(findDsct(attachments, 'hold_id_card_gua1'));
+                                                    this.showCarousePic(
+                                                        findDsct(attachments,
+                                                            'hold_id_card_gua1'),
+                                                        'hold_id_card_gua1');
                                                 }}
                                             />
                                         </Col>
@@ -880,7 +928,8 @@ class preloanAccessDetail extends React.Component {
                                             src={PIC_PREFIX + item.azPhotos}
                                             className="preLoan-body-table-content-tab-card"
                                             onClick={() => {
-                                                this.showCarousePic(item.azPhotos);
+                                                this.showCarousePic(
+                                                    item.azPhotos, item.code);
                                             }}
                                         />
                                     </Col>
@@ -904,7 +953,9 @@ class preloanAccessDetail extends React.Component {
                                     src={findDsct(attachments, 'drive_card') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'drive_card')}
                                     className="preLoan-body-table-content-tab-card"
                                     onClick={() => {
-                                        this.showCarousePic(findDsct(attachments, 'drive_card'));
+                                        this.showCarousePic(
+                                            findDsct(attachments, 'drive_card'),
+                                            'drive_card');
                                     }}
                                 />
                             </Col>
@@ -921,7 +972,9 @@ class preloanAccessDetail extends React.Component {
                                     src={findDsct(attachments, 'marry_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'marry_pdf')}
                                     className="preLoan-body-table-content-tab-card"
                                     onClick={() => {
-                                        this.showCarousePic(findDsct(attachments, 'marry_pdf'));
+                                        this.showCarousePic(
+                                            findDsct(attachments, 'marry_pdf'),
+                                            'marry_pdf');
                                     }}
                                 />
                             </Col>
@@ -932,7 +985,9 @@ class preloanAccessDetail extends React.Component {
                                     src={findDsct(attachments, 'divorce_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'divorce_pdf')}
                                     className="preLoan-body-table-content-tab-card"
                                     onClick={() => {
-                                        this.showCarousePic(findDsct(attachments, 'divorce_pdf'));
+                                        this.showCarousePic(
+                                            findDsct(attachments,
+                                                'divorce_pdf'), 'divorce_pdf');
                                     }}
                                 />
                             </Col>
@@ -943,7 +998,10 @@ class preloanAccessDetail extends React.Component {
                                     src={findDsct(attachments, 'single_prove') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'single_prove')}
                                     className="preLoan-body-table-content-tab-card"
                                     onClick={() => {
-                                        this.showCarousePic(findDsct(attachments, 'single_prove'));
+                                        this.showCarousePic(
+                                            findDsct(attachments,
+                                                'single_prove'),
+                                            'single_prove');
                                     }}
                                 />
                             </Col>
@@ -954,7 +1012,10 @@ class preloanAccessDetail extends React.Component {
                                     src={findDsct(attachments, 'income_prove') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'income_prove')}
                                     className="preLoan-body-table-content-tab-card"
                                     onClick={() => {
-                                        this.showCarousePic(findDsct(attachments, 'income_prove'));
+                                        this.showCarousePic(
+                                            findDsct(attachments,
+                                                'income_prove'),
+                                            'income_prove');
                                     }}
                                 />
                             </Col>
@@ -970,7 +1031,8 @@ class preloanAccessDetail extends React.Component {
                                             src={item.url}
                                             className="preLoan-body-table-content-tab-card" style={{marginRight: '20px', 'marginBottom': '20px'}}
                                             onClick={() => {
-                                                this.showCarousePic(item.dkey);
+                                                this.showCarousePic(item.dkey,
+                                                    'hk_book_first_page');
                                             }}
                                         />
                                     ))
@@ -985,7 +1047,10 @@ class preloanAccessDetail extends React.Component {
                                     src={findDsct(attachments, 'live_prove_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'live_prove_pdf')}
                                     className="preLoan-body-table-content-tab-card"
                                     onClick={() => {
-                                        this.showCarousePic(findDsct(attachments, 'live_prove_pdf'));
+                                        this.showCarousePic(
+                                            findDsct(attachments,
+                                                'live_prove_pdf'),
+                                            'live_prove_pdf');
                                     }}
                                 />
                             </Col>
@@ -1006,7 +1071,8 @@ class preloanAccessDetail extends React.Component {
                                             className="preLoan-body-table-content-tab-card"
                                             style={{marginRight: '20px', 'marginBottom': '20px'}}
                                             onClick={() => {
-                                                this.showCarousePic(item.dkey);
+                                                this.showCarousePic(item.dkey,
+                                                    'bank_jour_first_page');
                                             }}
                                         />
                                     ))
@@ -1026,7 +1092,8 @@ class preloanAccessDetail extends React.Component {
                                             className="preLoan-body-table-content-tab-card"
                                             style={{marginRight: '20px', 'marginBottom': '20px'}}
                                             onClick={() => {
-                                                this.showCarousePic(item.dkey);
+                                                this.showCarousePic(item.dkey,
+                                                    'zfb_jour');
                                             }}
                                         />
                                     ))
@@ -1046,7 +1113,8 @@ class preloanAccessDetail extends React.Component {
                                             className="preLoan-body-table-content-tab-card"
                                             style={{marginRight: '20px', 'marginBottom': '20px'}}
                                             onClick={() => {
-                                                this.showCarousePic(item.dkey);
+                                                this.showCarousePic(item.dkey,
+                                                    'wx_jour');
                                             }}
                                         />
                                     ))
@@ -1066,7 +1134,8 @@ class preloanAccessDetail extends React.Component {
                                             className="preLoan-body-table-content-tab-card"
                                             style={{marginRight: '20px', 'marginBottom': '20px'}}
                                             onClick={() => {
-                                                this.showCarousePic(item.dkey);
+                                                this.showCarousePic(item.dkey,
+                                                    'other_pdf');
                                             }}
                                         />
                                     ))
@@ -1144,7 +1213,8 @@ class preloanAccessDetail extends React.Component {
                                             className="preLoan-body-table-content-tab-card"
                                             style={{marginRight: '20px', 'marginBottom': '20px'}}
                                             onClick={() => {
-                                                this.showCarousePic(item.dkey);
+                                                this.showCarousePic(item.dkey,
+                                                    'car_head');
                                             }}
                                         />
                                     ))
@@ -1164,7 +1234,8 @@ class preloanAccessDetail extends React.Component {
                                             className="preLoan-body-table-content-tab-card"
                                             style={{marginRight: '20px', 'marginBottom': '20px'}}
                                             onClick={() => {
-                                                this.showCarousePic(item.dkey);
+                                                this.showCarousePic(item.dkey,
+                                                    'car_register_certificate_first');
                                             }}
                                         />
                                     ))
@@ -1173,7 +1244,10 @@ class preloanAccessDetail extends React.Component {
                         </Row>
                     </div>
                 </div>
-                <CarouselComponent attachments={attachments} visibleCarouse={visibleCarouse} carousePic={carousePic}/>
+                <CarouselComponent attachments={attachments}
+                                   visibleCarouse={visibleCarouse}
+                                   carousePic={carousePic}
+                                   selectPicKey={selectPicKey}/>
             </div>
         );
     }

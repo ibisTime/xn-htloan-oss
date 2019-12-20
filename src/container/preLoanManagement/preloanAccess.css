@@ -131,6 +131,11 @@
     border-radius: 2%;
 }
 
+.preLoan-body-table-content-tab-card > span {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .preLoan-body-row-line{
     width:90%;
     height:1px;
