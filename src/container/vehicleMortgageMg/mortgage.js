@@ -14,7 +14,8 @@ import fetch from 'common/js/fetch';
 import {
     accessSlipCar,
     accessSlipStatus,
-    showButton
+    showButton,
+    giveBack
 } from '../../api/preLoan.js';
 import './preloanAccess.css';
 import './preloanAccessList.css';
@@ -62,6 +63,10 @@ class mortgage extends React.Component {
                     this.setState({
                         detail: true
                     });
+                }else if(data[i].url === '/back') {
+                    this.setState({
+                        back: true
+                    });
                 }
             }
         });
@@ -104,7 +109,8 @@ class mortgage extends React.Component {
                     // 状态
                     curNodeCode: data.list[i].pledgeNodeCode ? data.list[i].pledgeNodeCode : '',
                     // 贷款金额
-                    loanAmount: data.list[i].loanAmount ? data.list[i].loanAmount : ''
+                    loanAmount: data.list[i].loanAmount ? data.list[i].loanAmount : '',
+                    pledgeNodeCode: data.list[i].pledgeNodeCode ? data.list[i].pledgeNodeCode : ''
                 });
             }
             this.setState({
@@ -230,6 +236,25 @@ class mortgage extends React.Component {
             });
         }
     }
+    processReturn = () => {
+        if(this.checkBoxGroup.length <= 0) {
+            showWarnMsg('请选择车辆信息');
+        }else if(this.checkBoxGroup.length >= 2) {
+            showWarnMsg('请选择不大于一条记录');
+        }else {
+            Modal.confirm({
+                okText: '确定',
+                cancelText: '取消',
+                content: '发送抵押？',
+                onOk: () => {
+                    giveBack(this.checkBoxGroup[0].split('|')[0], this.checkBoxGroup[0].split('|')[2]).then(data => {
+                        showSucMsg('操作成功');
+                        this.getAccessSlip(1);
+                    });
+                }
+            });
+        }
+    }
     render() {
         const {
             accessSlipList,
@@ -240,7 +265,8 @@ class mortgage extends React.Component {
             paginationCurrent,
             isMortgage,
             sub,
-            detail
+            detail,
+            back
         } = this.state;
 
         return (
@@ -275,17 +301,22 @@ class mortgage extends React.Component {
                 <div className="preLoan-access-list-btn-group">
                     {
                         isMortgage ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.sendQrdy} style={{width: '80px'}}>发送抵押</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendQrdy} style={{width: '80px', marginRight: '30px'}}>发送抵押</span>
                         ) : null
                     }
                     {
                         sub ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.sendFsdy} style={{marginLeft: '30px', width: '120px'}}>确认抵押完成</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendFsdy} style={{marginRight: '30px', width: '120px'}}>确认抵押完成</span>
+                        ) : null
+                    }
+                    {
+                        back ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.processReturn} style={{marginRight: '30px', width: '80px'}}>流程退回</span>
                         ) : null
                     }
                     {
                         detail ? (
-                            <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginLeft: '30px'}}>详情</span>
+                            <span className="preLoan-access-list-btn-gray" onClick={this.sendDetail} style={{marginRight: '30px'}}>详情</span>
                         ) : null
                     }
                     <div className="clear"></div>
@@ -299,7 +330,7 @@ class mortgage extends React.Component {
                         : accessSlipList.map(d => {
                             return (<Row className="preLoan-access-list-item">
                                 <Col span={1} style={{lineHeight: '130px'}}>
-                                    <Checkbox value={d.code + '|' + d.curNodeCode} onChange={this.onChange} />
+                                    <Checkbox value={d.code + '|' + d.curNodeCode + '|' + d.pledgeNodeCode} onChange={this.onChange} />
                                 </Col>
                                 <Col span={23}>
                                     <Row>

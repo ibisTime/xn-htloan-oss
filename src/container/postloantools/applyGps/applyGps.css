@@ -1,0 +1,32 @@
+.title-line{
+    height: 80px;
+    line-height: 80px;
+    margin-left: 36%;
+}
+.title-line strong{
+    margin-right: 10px;
+}
+.preLoan-body-input{
+    width:220px;
+    height:32px;
+    border-radius:2px;
+    border:1px solid rgba(230,230,230,1);
+    padding-left: 10px;
+}
+
+.preLoan-body-btn-group{
+    width: 300px;
+    margin: 20px auto;
+}
+
+.preLoan-body-btn-gray{
+    display: block;
+    width:64px;
+    height:32px;
+    line-height: 32px;
+    float: left;
+    color: #999999;
+    text-align: center;
+    border-radius:2px;
+    border:1px solid rgba(204,204,204,1);
+}

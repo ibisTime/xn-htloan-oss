@@ -8,7 +8,7 @@ import CNormalTextArea from 'component/cNormalTextArea/cNormalTextArea';
 import CMonth from 'component/cMonth/cMonth';
 import CRangeDate from 'component/cRangeDate/cRangeDate';
 import CDate from 'component/cDate/cDate';
-import {tailFormItemLayout, validateFieldsAndScrollOption} from 'common/js/config';
+import {tailFormItemLayout, validateFieldsAndScrollOption, PIC_PREFIX} from 'common/js/config';
 import {
     getQueryString, showSucMsg, isUndefined, getUserId, getRules,
     getRealValue, dateTimeFormat, moneyFormat
@@ -20,6 +20,7 @@ import {
     sqryhls, sqrzfbls, sqrwxls, poyhls, pozfbls, powxls, dbryhls,
     dbrzfbls, dbrwxls
 } from '../../loan/admittance-addedit/config';
+import toZip from '../../../common/js/jszip';
 
 const FormItem = Form.Item;
 const col2Props = {xs: 32, sm: 24, md: 12, lg: 12};
@@ -569,7 +570,19 @@ class ArchivesAddEdit extends React.Component {
             rowKey: record => record.id
         };
     }
-
+    // 打包下载
+    packageDownload = () => {
+        const {pageData} = this.state;
+        let imgListObject = [];
+        if (pageData.attachments && Array.isArray(pageData.attachments)) {
+            pageData.attachments.map((item, index) => {
+                if(item.attachType === '图片' && item.url) {
+                    imgListObject.push(PIC_PREFIX + item.url);
+                    toZip(imgListObject, 'test');
+                }
+            });
+        }
+    }
     getAccessorypool() {
         const {pageData, attAchment} = this.state;
         if (pageData.attachments && Array.isArray(pageData.attachments)) {
@@ -644,7 +657,8 @@ class ArchivesAddEdit extends React.Component {
             <Spin spinning={this.state.fetching}>
                 <Form>
                     <Card style={{ marginTop: 16 }} title="所有附件">
-                            {this.getAccessorypool()}
+                        {this.getAccessorypool()}
+                        <strong style={{float: 'right', marginTop: '20px'}} onClick={this.packageDownload}>文件打包下载</strong>
                     </Card>
                     <FormItem {...tailFormItemLayout} style={{marginTop: 20}}>
                             <Button style={{marginLeft: 20}} onClick={this.onCancel}>返回</Button>

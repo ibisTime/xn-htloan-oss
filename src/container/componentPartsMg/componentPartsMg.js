@@ -8,11 +8,12 @@ import {
     findDsct,
     getRoleCode
 } from 'common/js/util';
-import {Row, Col, Checkbox, Pagination, Select} from 'antd';
+import {Row, Col, Checkbox, Pagination, Select, Modal} from 'antd';
 import {
     accessSlip,
     accessSlipStatus,
-    showButton
+    showButton,
+    giveBack
 } from '../../api/preLoan.js';
 import './preloanAccess.css';
 import './preloanAccessList.css';
@@ -59,6 +60,10 @@ class componentPartsMg extends React.Component {
                 }else if(data[i].url === '/detail') {
                     this.setState({
                         detail: true
+                    });
+                }else if(data[i].url === '/back') {
+                    this.setState({
+                        back: true
                     });
                 }
             }
@@ -204,6 +209,25 @@ class componentPartsMg extends React.Component {
             this.props.history.push(`/rationale/list/typingOk?code=${this.checkBoxGroup[0].split('|')[0]}`);
         }
     }
+    processReturn = () => {
+        if(this.checkBoxGroup.length <= 0) {
+            showWarnMsg('请选择车辆信息');
+        }else if(this.checkBoxGroup.length >= 2) {
+            showWarnMsg('请选择不大于一条记录');
+        }else {
+            Modal.confirm({
+                okText: '确定',
+                cancelText: '取消',
+                content: '发送抵押？',
+                onOk: () => {
+                    giveBack(this.checkBoxGroup[0].split('|')[0], this.checkBoxGroup[0].split('|')[1]).then(data => {
+                        showSucMsg('操作成功');
+                        this.getAccessSlip(1);
+                    });
+                }
+            });
+        }
+    }
     render() {
         const {
             accessSlipList,
@@ -214,7 +238,8 @@ class componentPartsMg extends React.Component {
             paginationCurrent,
             rationaleOk,
             typingOk,
-            detail
+            detail,
+            back
         } = this.state;
         return (
             <div className="preLoan-access-list-global">
@@ -254,6 +279,11 @@ class componentPartsMg extends React.Component {
                     {
                         typingOk ? (
                             <span className="preLoan-access-list-btn-gray" onClick={this.cpMg2} style={{marginRight: '30px', width: '80px'}}>打件</span>
+                        ) : null
+                    }
+                    {
+                        back ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.processReturn} style={{marginRight: '30px', width: '80px'}}>流程退回</span>
                         ) : null
                     }
                     {

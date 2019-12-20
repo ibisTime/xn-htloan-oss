@@ -52,36 +52,14 @@ class manageGps extends React.Component {
             title: 'GPS领用人',
             field: 'applyUserName'
         }, {
-            title: 'GPS领用状态',
-            field: 'applyStatus',
-            type: 'select',
-            data: [{
-                key: '1',
-                value: '已领用'
-            }, {
-                key: '0',
-                value: '未领用'
-            }],
-            keyName: 'key',
-            valueName: 'value',
-            search: true
-        }, {
             title: '领用日期',
             field: 'applyDatetime',
             type: 'datetime'
         }, {
-            title: 'GPS使用状态',
+            title: 'GPS状态',
             field: 'useStatus',
             type: 'select',
-            data: [{
-                key: '1',
-                value: '已使用'
-            }, {
-                key: '0',
-                value: '未使用'
-            }],
-            keyName: 'key',
-            valueName: 'value',
+            key: 'gps_status',
             search: true
         }, {
             title: '使用日期',

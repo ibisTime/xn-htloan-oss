@@ -64,7 +64,8 @@ class enterBankInfo extends React.Component {
             regDate2: '',
             bankcardNumber: '',
             customerName: '',
-            idNo: ''
+            idNo: '',
+            loanNumber: ''
         };
         this.zdList = [];
         this.code = getQueryString('code', this.props.location.search);
@@ -138,13 +139,14 @@ class enterBankInfo extends React.Component {
     }
     // 提交
     sendSave = () => {
-        const {iptArr, regDate, regDate2, bankcardNumber} = this.state;
+        const {iptArr, regDate, regDate2, bankcardNumber, loanNumber} = this.state;
         let arr = {
             code: this.code,
             bankcardNumber,
             repayBankDate: regDate,
             repayBillDate: regDate2,
-            bankFkRemark: iptArr.rmk
+            bankFkRemark: iptArr.rmk,
+            loanNumber
         };
         enterBankAmountInfo(arr).then(data => {
             showSucMsg('操作成功');
@@ -187,6 +189,11 @@ class enterBankInfo extends React.Component {
             bankcardNumber: e.target.value
         });
     };
+    changeLoanNumber = (e) => {
+        this.setState({
+            loanNumber: e.target.value
+        });
+    }
     render() {
         const fields = [{
             title: '客户姓名',
@@ -219,7 +226,7 @@ class enterBankInfo extends React.Component {
             title: '放款日期',
             field: 'fkDatetime'
         }];
-        const {baseInfo, accessSlipStatusArr, iptArr, bankcardNumber, customerName, idNo} = this.state;
+        const {baseInfo, accessSlipStatusArr, iptArr, bankcardNumber, customerName, idNo, loanNumber} = this.state;
         return (
             <div className="afp-body">
                 <span className="afp-body-tag">银行放款</span>
@@ -272,6 +279,13 @@ class enterBankInfo extends React.Component {
                     }) : null
                 }
                 <div className="afp-body-line"></div>
+                <Row style={{marginTop: '20px'}}>
+                    <Col span={12}>
+                        <span style={{float: 'left'}}><span style={{color: 'red'}}>* </span>贷款编号：</span>
+                        <Input value={loanNumber} style={{width: '60%'}} onChange={this.changeLoanNumber}/>
+                    </Col>
+                    <Col span={12}></Col>
+                </Row>
                 <Row style={{marginTop: '20px'}}>
                     <Col span={12}>
                         <span style={{float: 'left'}}><span style={{color: 'red'}}>* </span>银行还款日：</span>
