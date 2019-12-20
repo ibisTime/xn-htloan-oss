@@ -796,8 +796,8 @@ class preloanAccess extends React.Component {
                             bankCreditResultRemark3: cardZThree01.length > 0 ? cardZThree01[0].bankCreditResultRemark : '',
                             bankCreditResultRemark302: cardZThree02.length > 0 ? cardZThree02[0].bankCreditResultRemark : ''
                         },
-                        regDate2: data.creditUser ? data.creditUser.nowAddressDate : '',
-                        regDate3: data.creditUser ? data.creditUser.workDatetime : '',
+                        regDate2: data.creditUser ? (data.creditUser.nowAddressDate ? data.creditUser.nowAddressDate : getNowTime()) : getNowTime(),
+                        regDate3: data.creditUser ? (data.creditUser.workDatetime ? data.creditUser.workDatetime : getNowTime()) : getNowTime(),
                         mainLoanPpIptArr: data.creditUser ? data.creditUser : {
                             emergencyMobile2: '',
                             emergencyRelation2: '',
