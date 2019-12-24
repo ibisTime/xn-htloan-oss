@@ -157,7 +157,7 @@ class importContractImport extends React.Component {
         return (
             <Form>
                 <FormItem label='银行合同信息模版'>
-                    <div className="readonly-text"><a href="/download/qcfq.xls" download="银行合同信息模版.xls">下载</a></div>
+                    <div className="readonly-text"><a href="/download/qcfq.xlsx" download="银行合同信息模版.xlsx">下载</a></div>
                 </FormItem>
                 <FormItem label='银行合同信息'>
                     <Upload {...props}>
