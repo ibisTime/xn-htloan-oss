@@ -639,48 +639,70 @@ class ArchivesAddEdit extends React.Component {
     // 打包下载
     downLoadBiz = () => {
         const {pageData} = this.state;
+        let picList = [];
+        pageData.attachments.map((item, index) => {
+            if (!item.kname.match(/second_car_report/) && !item.kname.match(/video/) && item.url) {
+                let picArr = item.url.split('||');
+                let arr = [];
+                for(let i = 0; i < picArr.length; i++) {
+                    arr.push({
+                        vname: i,
+                        kname: item.kname,
+                        url: picArr[i]
+                    });
+                }
+                picList.push({
+                    title: item.vname,
+                    arr: arr
+                });
+            }
+        });
+        console.log(picList);
         let picArr = [];
         let laseTime = null;
         const hasMsg = message.loading('');
-        if (pageData.attachments && Array.isArray(pageData.attachments)) {
-            pageData.attachments.map((item, index) => {
-                if (!item.kname.match(/video/) && item.url) {
-                    const urlList = item.url.split('||');
-                    const img = new Image();
-                    img.crossOrigin = '';
-                    img.width = 200;
-                    img.height = 200;
-                    img.onload = function () {
-                        picArr.push({
-                            name: item.vname,
-                            url: getBase64Image(img)
-                        });
-                        if (laseTime) {
-                            clearTimeout(laseTime);
-                        }
-                        laseTime = setTimeout(() => {
-                            hasMsg();
-                            const ZIP = new JSZip();
-                            picArr.forEach((arrItem) => {
-                                const file = ZIP.folder(arrItem.name);
-                                if (arrItem.url) {
-                                    file.file(`${arrItem.name}.png`, arrItem.url, {base64: true});
-                                }
+        picList.forEach((arrItem, i) => {
+            picArr.push({title: arrItem.title, arr: []});
+            if (arrItem.arr.length > 0) {
+                arrItem.arr.forEach((item) => {
+                    if (!item.kname.match(/video/) && item.url) {
+                        const img = new Image();
+                        img.crossOrigin = '';
+                        img.width = 200;
+                        img.height = 200;
+                        img.onload = function () {
+                            picArr[i].arr.push({
+                                name: item.vname,
+                                url: getBase64Image(img)
                             });
-                            ZIP.generateAsync({type: 'blob'}).then(
-                                function (content) {
-                                    saveAs(content, '附件池.zip');
+                            if (laseTime) {
+                                clearTimeout(laseTime);
+                            }
+                            laseTime = setTimeout(() => {
+                                hasMsg();
+                                const ZIP = new JSZip();
+                                picArr.forEach((arrItem) => {
+                                    const file = ZIP.folder(arrItem.title);
+                                    arrItem.arr.forEach(item => {
+                                        if (item.url) {
+                                            file.file(`${item.name}.png`,
+                                                item.url, {base64: true});
+                                        }
+                                    });
                                 });
-                        }, 1000);
-                    };
-                    urlList.forEach(pic => {
-                        img.src = PIC_PREFIX + pic;
-                    });
-                }else {
-                    return false;
-                }
-            });
-        }
+                                ZIP.generateAsync({type: 'blob'}).then(
+                                    function (content) {
+                                        saveAs(content, '附件池.zip');
+                                    });
+                            }, 1000);
+                        };
+                        img.src = PIC_PREFIX + item.url;
+                    } else {
+                        return false;
+                    }
+                });
+            }
+        });
         function getBase64Image(img, width, height) {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');

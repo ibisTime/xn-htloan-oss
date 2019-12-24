@@ -63,7 +63,7 @@ class loanDetail extends React.Component {
                         type: 'datetime',
                         readonly: true
                     }, {
-                        title: '打件说明',
+                        title: '提交说明',
                         field: 'bankCommitNote',
                         _keys: ['bankLoan', 'bankCommitNote'],
                         readonly: true
@@ -87,6 +87,23 @@ class loanDetail extends React.Component {
                         title: '卡号',
                         field: 'repayBankcardNumber',
                         _keys: ['bankLoan', 'repayBankcardNumber'],
+                        readonly: true
+                    }]
+                ]
+            },
+            {
+                title: '确认收款',
+                items: [
+                    [{
+                        title: '放款日期',
+                        field: 'bankFkDatetime',
+                        _keys: ['bankLoan', 'bankFkDatetime'],
+                        type: 'datetime',
+                        readonly: true
+                    }, {
+                        title: '备注',
+                        field: 'receiptRemark',
+                        _keys: ['bankLoan', 'receiptRemark'],
                         readonly: true
                     }]
                 ]

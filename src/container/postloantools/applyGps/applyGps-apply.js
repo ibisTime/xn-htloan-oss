@@ -36,7 +36,7 @@ class applyGpsApply extends DetailUtil {
         title: '所在团队',
         field: 'teamName',
         formatter: (v, d) => {
-          return userInfo.teanName ? userInfo.teanName : '暂不存在';
+          return userInfo.teamName ? userInfo.teamName : '暂不存在';
         },
         readonly: true
       },
