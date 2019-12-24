@@ -3,7 +3,7 @@ export const SYSTEM_CODE = 'CD-HTWT000020';
 // 七牛上传地址
 export const UPLOAD_URL = 'http://up-z0.qiniup.com';
 // 七牛图片前缀
-export const PIC_PREFIX = 'http://img.fhcdzx.com/';
+export const PIC_PREFIX = 'http://img.wzhaoyuan.com/';
 export const PIC_BASEURL_M = '?imageMogr2/auto-orient/thumbnail/!200x200';
 export const PIC_BASEURL_L = '?imageMogr2/auto-orient/thumbnail/!1000x1000r';
 
