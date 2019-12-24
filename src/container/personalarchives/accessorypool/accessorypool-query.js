@@ -645,12 +645,11 @@ class ArchivesAddEdit extends React.Component {
         if (pageData.attachments && Array.isArray(pageData.attachments)) {
             pageData.attachments.map((item, index) => {
                 if (!item.kname.match(/video/) && item.url) {
-                    console.log(item.vname, item.url);
+                    const urlList = item.url.split('||');
                     const img = new Image();
                     img.crossOrigin = '';
                     img.width = 200;
                     img.height = 200;
-                    img.src = PIC_PREFIX + item.url;
                     img.onload = function () {
                         picArr.push({
                             name: item.vname,
@@ -663,7 +662,6 @@ class ArchivesAddEdit extends React.Component {
                             hasMsg();
                             const ZIP = new JSZip();
                             picArr.forEach((arrItem) => {
-                                console.log(arrItem);
                                 const file = ZIP.folder(arrItem.name);
                                 if (arrItem.url) {
                                     file.file(`${arrItem.name}.png`, arrItem.url, {base64: true});
@@ -675,6 +673,9 @@ class ArchivesAddEdit extends React.Component {
                                 });
                         }, 1000);
                     };
+                    urlList.forEach(pic => {
+                        img.src = PIC_PREFIX + pic;
+                    });
                 }else {
                     return false;
                 }
