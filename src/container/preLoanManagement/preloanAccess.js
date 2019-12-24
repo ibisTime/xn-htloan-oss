@@ -773,6 +773,8 @@ class preloanAccess extends React.Component {
                     const fileListYHS = findDsct(dsctImgList(data.attachments), 'bank_jour_first_page');
                     const fileListQT = findDsct(dsctImgList(data.attachments), 'other_pdf');
                     const fileListCT = findDsct(dsctImgList(data.attachments), 'car_head');
+                    const fileListHZ = findDsct(dsctImgList(data.attachments), 'group_photo');
+                    const fileListSM = findDsct(dsctImgList(data.attachments), 'door_photo');
                     const fileListDJZS = findDsct(dsctImgList(data.attachments), 'car_register_certificate_first');
                     const fileList = this.dealWithPic(fileListHKBSY);
                     const fileListZfb = this.dealWithPic(fileListZFB, 'zfb');
@@ -781,6 +783,8 @@ class preloanAccess extends React.Component {
                     const fileListCt = this.dealWithPic(fileListCT, 'ct');
                     const fileListDjzs = this.dealWithPic(fileListDJZS, 'djzs');
                     const fileListYhs = this.dealWithPic(fileListYHS, 'yhs');
+                    const fileListHZs = this.dealWithPic(fileListHZ, 'hzs');
+                    const fileListSMs = this.dealWithPic(fileListSM, 'sms');
                     this.setState({
                         isCommon02Vis: cardZTwo02.length > 0,
                         isBack02Vis: cardZThree02.length > 0,
@@ -1156,25 +1160,9 @@ class preloanAccess extends React.Component {
                         // 其他
                         fileListQT: fileListQt,
                         // 上门照片
-                        fileListSM: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'door_photo') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'door_photo')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'door_photo')
-                            }
-                        }],
+                        fileListSM: fileListSMs,
                         // 合照
-                        fileListHZ: [{
-                            uid: '-2',
-                            name: 'ot.png',
-                            status: 'done',
-                            url: findDsct(dsctImgList(data.attachments), 'group_photo') === '' ? zanwu : (PIC_PREFIX + findDsct(dsctImgList(data.attachments), 'group_photo')),
-                            response: {
-                                hash: findDsct(dsctImgList(data.attachments), 'group_photo')
-                            }
-                        }],
+                        fileListHZ: fileListHZs,
                         // 家访视频
                         fileListJF: [{
                             uid: '-2',
@@ -2800,23 +2788,37 @@ class preloanAccess extends React.Component {
             //
             fileListJF
         } = this.state;
-
         // 上门照片
         let picHashSM = '';
         if(fileListSM) {
             if (fileListSM[0] === undefined || fileListSM[0] === '') {
                 picHashSM = '';
             } else {
-                picHashSM = fileListSM[0].response.hash;
+                let len = fileListSM.length;
+                fileListSM.forEach((item, index) => {
+                    if(index === len - 1) {
+                        picHashSM += item.response.hash;
+                    }else {
+                        picHashSM += item.response.hash + '||';
+                    }
+                });
             }
         }
+
         // 合照
         let picHashHZ = '';
         if(fileListHZ) {
             if (fileListHZ[0] === undefined || fileListHZ[0] === '') {
                 picHashHZ = '';
             } else {
-                picHashHZ = fileListHZ[0].response.hash;
+                let len = fileListHZ.length;
+                fileListHZ.forEach((item, index) => {
+                    if(index === len - 1) {
+                        picHashHZ += item.response.hash;
+                    }else {
+                        picHashHZ += item.response.hash + '||';
+                    }
+                });
             }
         }
         // 家访视频
@@ -4523,7 +4525,7 @@ class preloanAccess extends React.Component {
                         </Select>
                     </Col>
                     <Col span={12}>
-                        <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>购车途径：</span>
+                        <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>购车途径：</span>
                         <Select className="preLoan-body-select" style={{width: '220px'}} value={bizType} onChange={this.handleChangeCarBuying}>
                             <Option key="2" value="0">新车</Option>
                             <Option value="1">二手车</Option>
@@ -5456,7 +5458,7 @@ class preloanAccess extends React.Component {
                                             </Select>
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title" style={{width: '140px'}}>住宅：</span>
+                                            <span className="preLoan-body-title">住宅：</span>
                                             <AreaCascader
                                                 type="text"
                                                 placeholder={`${mainLoanPpIptArr.nowAddressProvince ? mainLoanPpIptArr.nowAddressProvince : ''}-${mainLoanPpIptArr.nowAddressCity ? mainLoanPpIptArr.nowAddressCity : ''}-${mainLoanPpIptArr.nowAddressArea ? mainLoanPpIptArr.nowAddressArea : ''}`}
@@ -5472,7 +5474,7 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={mainLoanPpIptArr.nowAddress} ref={input => this.nowAddressProvinceIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'nowAddress'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title" style={{width: '140px'}}>住宅电话：</span>
+                                            <span className="preLoan-body-title">住宅电话：</span>
                                             <input type="text" value={mainLoanPpIptArr.nowAddressMobile} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'nowAddressMobile'); }} className="preLoan-body-input" />
                                         </Col>
                                     </Row>
@@ -5482,7 +5484,7 @@ class preloanAccess extends React.Component {
                                             <MonthPicker format={'YYYY-MM'} style={{width: '220px', float: 'left'}} defaultValue={moment(regDate2)} onChange={this.onChangeTime2}/>
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title" style={{width: '140px'}}>住宅状况：</span>
+                                            <span className="preLoan-body-title">住宅状况：</span>
                                             <Select className="preLoan-body-select" style={{width: '220px'}} value={zzzk} onChange={this.handleChangeNowAddressState}>
                                                 {
                                                     nowAddressStateList.map(data => {
@@ -5508,7 +5510,7 @@ class preloanAccess extends React.Component {
                                             </Select>
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title" style={{width: '140px'}}>住房类型：</span>
+                                            <span className="preLoan-body-title">住房类型：</span>
                                             <Select className="preLoan-body-select" value={zflx} style={{width: '220px'}} onChange={this.handleChangeHousingType}>
                                                 <Option value="0">自有</Option>
                                                 <Option value="1">租用</Option>
@@ -5521,11 +5523,15 @@ class preloanAccess extends React.Component {
                                             <input type="text" value={mainLoanPpIptArr.companyName} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'companyName'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={12}>
-                                            <span className="preLoan-body-title" style={{width: '140px'}}>单位地址：</span>
+                                            <span className="preLoan-body-title">单位地址：</span>
                                             <AreaCascader width={200} type="text" placeholder={`${mainLoanPpIptArr.companyProvince ? mainLoanPpIptArr.companyProvince : ''}-${mainLoanPpIptArr.companyCity ? mainLoanPpIptArr.companyCity : ''}-${mainLoanPpIptArr.companyArea ? mainLoanPpIptArr.companyArea : ''}`} onChange={this.selectedChange2} level={1} data={pcaa} />
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
+                                        <Col span={12}>
+                                            <span className="preLoan-body-title">单位详细地址：</span>
+                                            <input type="text" value={mainLoanPpIptArr.companyAddress} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'companyAddress'); }} className="preLoan-body-input" />
+                                        </Col>
                                         <Col span={12}>
                                             <span className="preLoan-body-title">单位性质：</span>
                                             <Select className="preLoan-body-select" style={{width: '220px'}} value={dwxz} onChange={this.handleChangeWorkCompanyProperty}>
@@ -5538,12 +5544,12 @@ class preloanAccess extends React.Component {
                                                 }
                                             </Select>
                                         </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title" style={{width: '140px'}}>何时进入现单位工作：</span>
                                             <MonthPicker format={'YYYY-MM'} style={{width: '220px', float: 'left'}} defaultValue={moment(regDate3)} onChange={this.onChangeTime3}/>
                                         </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">职业：</span>
                                             <Select className="preLoan-body-select" style={{width: '220px'}} value={mainLoanPpIptArr.position} onChange={this.handleChangeIptBaseInfoMainLoanPp}>
@@ -5556,16 +5562,18 @@ class preloanAccess extends React.Component {
                                                 }
                                             </Select>
                                         </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title" style={{width: '140px'}}>月收入：</span>
                                             <input type="text" value={mainLoanPpIptArr.yearIncome} ref={input => this.yearIncomeIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'yearIncome'); }} className="preLoan-body-input" />
                                         </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title">现职年数：</span>
                                             <input type="text" value={mainLoanPpIptArr.presentJobYears} ref={input => this.currentPostYearsIpt = input} onChange={(e) => { this.iptBaseInfoMainLoanPp(e, 'presentJobYears'); }} className="preLoan-body-input" />
                                         </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
                                         <Col span={12}>
                                             <span className="preLoan-body-title" style={{width: '140px'}}>常住类型：</span>
                                             <Select className="preLoan-body-select" value={czlx} style={{width: '220px'}} onChange={this.handleChangePermanentResidence}>
@@ -5578,6 +5586,7 @@ class preloanAccess extends React.Component {
                                                 }
                                             </Select>
                                         </Col>
+                                        <Col span={12}></Col>
                                     </Row>
                                     <div className="preLoan-body-row-line"></div>
                                     {
@@ -5855,150 +5864,219 @@ class preloanAccess extends React.Component {
                                     <span className="preLoan-body-tag">贷款信息</span>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>贷款本金：</span>
-                                            <br />
-                                            <input
-                                                type="number"
-                                                value={loanInfoArrIpt.loanAmount}
-                                                onChange={(e) => { this.iptLoanInfoPp(e, 'loanAmount'); }}
-                                                className="preLoan-body-input"
-                                            />
+                                            <div><span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>贷款本金：</span></div>
+                                            <div>
+                                                <input
+                                                    type="number"
+                                                    value={loanInfoArrIpt.loanAmount}
+                                                    onChange={(e) => { this.iptLoanInfoPp(e, 'loanAmount'); }}
+                                                    className="preLoan-body-input"
+                                                />
+                                            </div>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>贷款期数：</span>
-                                            <br />
-                                            <Select className="preLoan-body-select" value={loanPeriodCode} style={{width: '220px'}} onChange={this.handleChangeLoanPeriod}>
-                                                {
-                                                    loanPeriod.map(data => {
-                                                        return (
-                                                            <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
-                                                        );
-                                                    })
-                                                }
-                                            </Select>
+                                            <div><span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>贷款期数：</span></div>
+                                            <div>
+                                                <Select className="preLoan-body-select" value={loanPeriodCode} style={{width: '220px'}} onChange={this.handleChangeLoanPeriod}>
+                                                    {
+                                                        loanPeriod.map(data => {
+                                                            return (
+                                                                <Option key={data.dkey} value={data.dkey}>{data.dvalue}</Option>
+                                                            );
+                                                        })
+                                                    }
+                                                </Select>
+                                            </div>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>银行利率(%)：</span>
-                                            <br />
-                                            <input type="number" readOnly="readonly" value={loanInfoArrIpt.bankRate} onChange={(e) => { this.iptLoanInfoPp(e, 'bankRate'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>银行利率(%)：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" readOnly="readonly" value={loanInfoArrIpt.bankRate} onChange={(e) => { this.iptLoanInfoPp(e, 'bankRate'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>总利率(%)：</span>
-                                            <br />
-                                            <input type="number" value={loanInfoArrIpt.totalRate} onChange={(e) => { this.iptLoanInfoPp(e, 'totalRate'); }} className="preLoan-body-input" />
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>返存利率(%)：</span>
-                                            <br />
-                                            <input type="number" value={loanInfoArrIpt.rebateRate} onChange={(e) => { this.iptLoanInfoPp(e, 'rebateRate'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>是否垫资：</span>
-                                            <br />
-                                            <Select className="preLoan-body-select" value={sfdz} style={{width: '220px'}} onChange={this.handleChangeLoanInfoIsNotAdvance}>
-                                                <Option value="0">否</Option>
-                                                <Option value="1">是</Option>
-                                            </Select>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>月供：</span>
-                                            <br />
-                                            <input type="number" value={loanInfoArrIpt.monthAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'monthAmount'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>首月还款额：</span>
-                                            <br />
-                                            <input type="number" value={loanInfoArrIpt.repayFirstMonthAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'repayFirstMonthAmount'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>总利率(%)：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" value={loanInfoArrIpt.totalRate} onChange={(e) => { this.iptLoanInfoPp(e, 'totalRate'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>开卡金额：</span>
-                                            <br />
-                                            <input type="number" value={loanInfoArrIpt.openCardAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'openCardAmount'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>返存利率(%)：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" value={loanInfoArrIpt.rebateRate} onChange={(e) => { this.iptLoanInfoPp(e, 'rebateRate'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}>贴息利率(%)：</span>
-                                            <br />
-                                            <input type="number" value={loanInfoArrIpt.discountRate} onChange={(e) => { this.iptLoanInfoPp(e, 'discountRate'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>是否垫资：</span>
+                                            </div>
+                                            <div>
+                                                <Select className="preLoan-body-select" value={sfdz} style={{width: '220px'}} onChange={this.handleChangeLoanInfoIsNotAdvance}>
+                                                    <Option value="0">否</Option>
+                                                    <Option value="1">是</Option>
+                                                </Select>
+                                            </div>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">贴息金额：</span>
-                                            <br />
-                                            <input type="number" value={loanInfoArrIpt.discountAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'discountAmount'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>月供：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" value={loanInfoArrIpt.monthAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'monthAmount'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">发票价格：</span>
-                                            <input type="text" value={carInfoArrIpt.invoicePrice} onChange={(e) => { this.iptCarInfoArr(e, 'invoicePrice'); }} className="preLoan-body-input" />
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={6}>
-                                            <span className="preLoan-body-title">贷款成数：</span>
-                                            <br />
-                                            <input type="number" value={loanInfoArrIpt.loanRatio} onChange={(e) => { this.iptLoanInfoPp(e, 'loanRatio'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={6}>
-                                            <span className="preLoan-body-title">万元系数：</span>
-                                            <br />
-                                            <input type="text" value={loanInfoArrIpt.wanFactor} onChange={(e) => { this.iptLoanInfoPp(e, 'wanFactor'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={6}>
-                                            <span className="preLoan-body-title">利率类型：</span>
-                                            <br />
-                                            <Select className="preLoan-body-select" value={loanInfoRateTypeCode} style={{width: '220px'}} onChange={this.handleChangeLoanInfoRateType}>
-                                                <Option value="1">传统</Option>
-                                                <Option value="2">直客</Option>
-                                            </Select>
-                                        </Col>
-                                        <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '100px'}}>服务费：</span>
-                                            <br />
-                                            <input type="number" value={loanInfoArrIpt.fee} onChange={(e) => { this.iptLoanInfoPp(e, 'fee'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>首月还款额：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" value={loanInfoArrIpt.repayFirstMonthAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'repayFirstMonthAmount'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">是否贴息：</span>
-                                            <br />
-                                            <Select className="preLoan-body-select" value={sftx} style={{width: '220px'}} onChange={this.handleChangeLoanInfoIsNotInterest}>
-                                                <Option value="0">否</Option>
-                                                <Option value="1">是</Option>
-                                            </Select>
+                                            <div>
+                                                <span className="preLoan-body-title" style={{width: '120px'}}><span style={{color: 'red'}}>* </span>开卡金额：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" value={loanInfoArrIpt.openCardAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'openCardAmount'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">高抛金额：</span>
-                                            <br />
-                                            <input type="number" value={loanInfoArrIpt.highCashAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'highCashAmount'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title" style={{width: '120px'}}>贴息利率(%)：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" value={loanInfoArrIpt.discountRate} onChange={(e) => { this.iptLoanInfoPp(e, 'discountRate'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">费用总额：</span>
-                                            <br />
-                                            <input type="number" value={loanInfoArrIpt.totalFee = parseInt(loanInfoArrIpt.loanAmount) + parseInt(loanInfoArrIpt.fee)} onChange={(e) => { this.iptLoanInfoPp(e, 'totalFee'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title">贴息金额：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" value={loanInfoArrIpt.discountAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'discountAmount'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '140px'}}>客户承担利率(%)：</span>
-                                            <br />
-                                            <input type="number" value={loanInfoArrIpt.customerBearRate} onChange={(e) => { this.iptLoanInfoPp(e, 'customerBearRate'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title">发票价格：</span>
+                                            </div>
+                                            <div>
+                                                <input type="text" value={carInfoArrIpt.invoicePrice} onChange={(e) => { this.iptCarInfoArr(e, 'invoicePrice'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}>附加费费率(%)：</span>
-                                            <br />
-                                            <input type="number" value={loanInfoArrIpt.surchargeRate} onChange={(e) => { this.iptLoanInfoPp(e, 'surchargeRate'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title">贷款成数：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" value={loanInfoArrIpt.loanRatio} onChange={(e) => { this.iptLoanInfoPp(e, 'loanRatio'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">附加费：</span>
-                                            <br />
-                                            <input type="number" value={loanInfoArrIpt.surchargeAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'surchargeAmount'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title">万元系数：</span>
+                                            </div>
+                                            <div>
+                                                <input type="text" value={loanInfoArrIpt.wanFactor} onChange={(e) => { this.iptLoanInfoPp(e, 'wanFactor'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">备注事项：</span>
-                                            <br />
-                                            <input value={loanInfoArrIpt.notes} onChange={(e) => { this.iptLoanInfoPp(e, 'notes'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title">利率类型：</span>
+                                            </div>
+                                            <div>
+                                                <Select className="preLoan-body-select" value={loanInfoRateTypeCode} style={{width: '220px'}} onChange={this.handleChangeLoanInfoRateType}>
+                                                    <Option value="1">传统</Option>
+                                                    <Option value="2">直客</Option>
+                                                </Select>
+                                            </div>
+                                        </Col>
+                                        <Col span={6}>
+                                            <div>
+                                                <span className="preLoan-body-title" style={{width: '100px'}}>服务费：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" value={loanInfoArrIpt.fee} onChange={(e) => { this.iptLoanInfoPp(e, 'fee'); }} className="preLoan-body-input" />
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={6}>
+                                            <div>
+                                                <span className="preLoan-body-title">是否贴息：</span>
+                                            </div>
+                                            <div>
+                                                <Select className="preLoan-body-select" value={sftx} style={{width: '220px'}} onChange={this.handleChangeLoanInfoIsNotInterest}>
+                                                    <Option value="0">否</Option>
+                                                    <Option value="1">是</Option>
+                                                </Select>
+                                            </div>
+                                        </Col>
+                                        <Col span={6}>
+                                            <div>
+                                                <span className="preLoan-body-title">高抛金额：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" value={loanInfoArrIpt.highCashAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'highCashAmount'); }} className="preLoan-body-input" />
+                                            </div>
+                                        </Col>
+                                        <Col span={6}>
+                                            <div>
+                                                <span className="preLoan-body-title">费用总额：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" value={loanInfoArrIpt.totalFee = parseInt(loanInfoArrIpt.loanAmount) + parseInt(loanInfoArrIpt.fee)} onChange={(e) => { this.iptLoanInfoPp(e, 'totalFee'); }} className="preLoan-body-input" />
+                                            </div>
+                                        </Col>
+                                        <Col span={6}>
+                                            <div>
+                                                <span className="preLoan-body-title" style={{width: '140px'}}>客户承担利率(%)：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" value={loanInfoArrIpt.customerBearRate} onChange={(e) => { this.iptLoanInfoPp(e, 'customerBearRate'); }} className="preLoan-body-input" />
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={6}>
+                                            <div>
+                                                <span className="preLoan-body-title" style={{width: '120px'}}>附加费费率(%)：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" value={loanInfoArrIpt.surchargeRate} onChange={(e) => { this.iptLoanInfoPp(e, 'surchargeRate'); }} className="preLoan-body-input" />
+                                            </div>
+                                        </Col>
+                                        <Col span={6}>
+                                            <div>
+                                                <span className="preLoan-body-title">附加费：</span>
+                                            </div>
+                                            <div>
+                                                <input type="number" value={loanInfoArrIpt.surchargeAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'surchargeAmount'); }} className="preLoan-body-input" />
+                                            </div>
+                                        </Col>
+                                        <Col></Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={6}>
+                                            <div>
+                                                <span className="preLoan-body-title">备注事项：</span>
+                                            </div>
+                                            <div>
+                                                <textarea value={loanInfoArrIpt.notes} onChange={(e) => { this.iptLoanInfoPp(e, 'notes'); }} className="afp-body-textarea" />
+                                            </div>
                                         </Col>
                                     </Row>
                                 </div>
@@ -6011,53 +6089,80 @@ class preloanAccess extends React.Component {
                                     <span className="preLoan-body-tag">费用结算</span>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
-                                            <span className="preLoan-body-title"><span style={{color: 'red'}}>* </span>GPS费：</span>
-                                            <br />
-                                            <input type="text" value={costSettlementInfoArrIpt.gpsFee} ref={input => this.gpsFeeIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'gpsFee'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title"><span style={{color: 'red'}}>* </span>GPS费：</span>
+                                            </div>
+                                            <div>
+                                                <input type="text" value={costSettlementInfoArrIpt.gpsFee} ref={input => this.gpsFeeIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'gpsFee'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}>担保风险金：</span>
-                                            <br />
-                                            <input type="text" value={costSettlementInfoArrIpt.fxAmount} ref={input => this.fxAmountIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'fxAmount'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title" style={{width: '120px'}}>担保风险金：</span>
+                                            </div>
+                                            <div>
+                                                <input type="text" value={costSettlementInfoArrIpt.fxAmount} ref={input => this.fxAmountIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'fxAmount'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title" style={{width: '120px'}}>履约押金：</span>
-                                            <br />
-                                            <input type="text" value={costSettlementInfoArrIpt.lyDeposit} ref={input => this.lyDepositIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'lyDeposit'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title" style={{width: '120px'}}>履约押金：</span>
+                                            </div>
+                                            <div>
+                                                <input type="text" value={costSettlementInfoArrIpt.lyDeposit} ref={input => this.lyDepositIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'lyDeposit'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">其他费用：</span>
-                                            <br />
-                                            <input type="text" value={costSettlementInfoArrIpt.otherFee} ref={input => this.gpsFeeIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'otherFee'); }} className="preLoan-body-input" />
-                                        </Col>
-                                    </Row>
-                                    <Row className="preLoan-body-row-top">
-                                        <Col span={6}>
-                                            <span className="preLoan-body-title">车款1：</span>
-                                            <br />
-                                            <input type="text" value={loanInfoArrIpt.loanAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'loanAmount'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={6}>
-                                            <span className="preLoan-body-title">车款2：</span>
-                                            <br />
-                                            <input type="text" value={costSettlementInfoArrIpt.repointAmount} ref={input => this.repointAmountIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'repointAmount'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={6}>
-                                            <span className="preLoan-body-title">车款3：</span>
-                                            <br />
-                                            <input type="text" value={costSettlementInfoArrIpt.carFunds3} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'carFunds3'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={6}>
-                                            <span className="preLoan-body-title">车款4：</span>
-                                            <br />
-                                            <input type="text" value={costSettlementInfoArrIpt.carFunds4} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'carFunds4'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title">其他费用：</span>
+                                            </div>
+                                            <div>
+                                                <input type="text" value={costSettlementInfoArrIpt.otherFee} ref={input => this.gpsFeeIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'otherFee'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                     </Row>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
-                                            <span className="preLoan-body-title">车款5：</span>
-                                            <br />
-                                            <input type="text" value={costSettlementInfoArrIpt.carFunds5} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'carFunds5'); }} className="preLoan-body-input" />
+                                            <div>
+                                                <span className="preLoan-body-title">车款1：</span>
+                                            </div>
+                                            <div>
+                                                <input type="text" value={loanInfoArrIpt.loanAmount} onChange={(e) => { this.iptLoanInfoPp(e, 'loanAmount'); }} className="preLoan-body-input" />
+                                            </div>
+                                        </Col>
+                                        <Col span={6}>
+                                            <div>
+                                                <span className="preLoan-body-title">车款2：</span>
+                                            </div>
+                                            <div>
+                                                <input type="text" value={costSettlementInfoArrIpt.repointAmount} ref={input => this.repointAmountIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'repointAmount'); }} className="preLoan-body-input" />
+                                            </div>
+                                        </Col>
+                                        <Col span={6}>
+                                            <div>
+                                                <span className="preLoan-body-title">车款3：</span>
+                                            </div>
+                                            <div>
+                                                <input type="text" value={costSettlementInfoArrIpt.carFunds3} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'carFunds3'); }} className="preLoan-body-input" />
+                                            </div>
+                                        </Col>
+                                        <Col span={6}>
+                                            <div>
+                                                <span className="preLoan-body-title">车款4：</span>
+                                            </div>
+                                            <div>
+                                                <input type="text" value={costSettlementInfoArrIpt.carFunds4} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'carFunds4'); }} className="preLoan-body-input" />
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <Row className="preLoan-body-row-top">
+                                        <Col span={6}>
+                                            <div>
+                                                <span className="preLoan-body-title">车款5：</span>
+                                            </div>
+                                            <div>
+                                                <input type="text" value={costSettlementInfoArrIpt.carFunds5} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'carFunds5'); }} className="preLoan-body-input" />
+                                            </div>
                                         </Col>
                                     </Row>
                                 </div>
@@ -6135,7 +6240,7 @@ class preloanAccess extends React.Component {
                                         isHideGpsAz && gpsAzList.map((gpsItem, index) => (
                                             <Row className="preLoan-body-row-top" style={{marginBottom: '30px', 'position': 'relative'}} key={`gps_${index}`}>
                                                 <Col span={12}>
-                                                    <span className="preLoan-body-title">GPS：</span>
+                                                    <span className="preLoan-body-title"><span style={{color: 'red'}}>* </span>GPS：</span>
                                                     <Select
                                                         className="preLoan-body-select"
                                                         value={gpsItem.code} style={{width: '220px'}}
@@ -6153,7 +6258,7 @@ class preloanAccess extends React.Component {
                                                     </Select>
                                                 </Col>
                                                 <Col span={12} style={{display: 'flex'}}>
-                                                    <span className="preLoan-body-title" style={{width: '100px'}}>GPS图片：</span>
+                                                    <span className="preLoan-body-title" style={{width: '100px'}}><span style={{color: 'red'}}>* </span>GPS图片：</span>
                                                     <div
                                                         className="preLoan-body-table-content-tab-card"
                                                         style={{
@@ -6488,55 +6593,51 @@ class preloanAccess extends React.Component {
                                 <div>
                                     <span className="preLoan-body-tag">上门调查照片</span>
                                     <Row className="preLoan-body-row-top">
-                                        <Col span={6}>
-                                            <span>上门照片</span>
+                                        <Col span={24}>
+                                            <span>上门照片(多选)</span>
                                             <br />
-                                            <div className="preLoan-body-table-content-tab-card">
+                                            <div className="preLoan-body-table-content-tab-card" style={{display: 'inline'}}>
                                                 <Upload
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
                                                     fileList={fileListSM[0] ? (fileListSM[0]['url'] === zanwu ? [] : fileListSM) : fileListSM}
                                                     action={UPLOAD_URL}
+                                                    multiple={true}
                                                     onPreview={this.handlePreviewCardSM}
                                                     onChange={this.handleChangeCardSM}
                                                 >
-                                                    {fileListSM[0] ? (fileListSM[0]['url'] === zanwu ? uploadButton : (fileListSM.length >= 1 ? null : uploadButton)) : uploadButton}
+                                                    {uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleSM} footer={null} onCancel={this.handleCancelCardSM}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageSM} />
                                                 </Modal>
                                             </div>
                                         </Col>
-                                        <Col span={6}></Col>
-                                        <Col span={6}></Col>
-                                        <Col span={6}></Col>
                                     </Row>
                                     <div className="preLoan-body-row-line"></div>
                                     <Row className="preLoan-body-row-top">
-                                        <Col span={6}>
-                                            <span>合照</span>
+                                        <Col span={24}>
+                                            <span>合照(多选)</span>
                                             <br />
-                                            <div className="preLoan-body-table-content-tab-card">
+                                            <div className="preLoan-body-table-content-tab-card" style={{display: 'inline'}}>
                                                 <Upload
                                                     style={{height: '113px'}}
                                                     listType="picture-card"
                                                     data={{token: uploadToken}}
                                                     fileList={fileListHZ[0] ? (fileListHZ[0]['url'] === zanwu ? [] : fileListHZ) : fileListHZ}
                                                     action={UPLOAD_URL}
+                                                    multiple={true}
                                                     onPreview={this.handlePreviewCardHZ}
                                                     onChange={this.handleChangeCardHZ}
                                                 >
-                                                    {fileListHZ[0] ? (fileListHZ[0]['url'] === zanwu ? uploadButton : (fileListHZ.length >= 1 ? null : uploadButton)) : uploadButton}
+                                                    {uploadButton}
                                                 </Upload>
                                                 <Modal visible={previewVisibleHZ} footer={null} onCancel={this.handleCancelCardHZ}>
                                                     <img alt="example" style={{ width: '100%' }} src={previewImageHZ} />
                                                 </Modal>
                                             </div>
                                         </Col>
-                                        <Col span={6}></Col>
-                                        <Col span={6}></Col>
-                                        <Col span={6}></Col>
                                     </Row>
                                     <div className="preLoan-body-row-line"></div>
                                     <Row className="preLoan-body-row-top">
@@ -6560,10 +6661,12 @@ class preloanAccess extends React.Component {
                         {
                             isCarImg ? (
                                 <div>
-                                    <span className="preLoan-body-tag">车辆评估图(多选)</span>
+                                    <span className="preLoan-body-tag">车辆评估图</span>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={24}>
                                             <div className="preLoan-body-table-content-tab-card" style={{display: 'inline'}}>
+                                                <span>车辆评估图(多选)</span>
+                                                <br />
                                                 <Upload
                                                     style={{height: '113px'}}
                                                     listType="picture-card"

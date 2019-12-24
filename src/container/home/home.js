@@ -184,7 +184,7 @@ class Home extends React.Component {
                                 <div className="content-item" key={d.id}>
                                     <Link to={`/home/toDoList`}>
                                         <img className="icon" src={iconLi}/>
-                                        <p className="txt">{d.content}</p>
+                                        <p className="txt">{d.content} - {d.userName}</p>
                                         <samp className="date">{dateFormat(d.createDatetime)}</samp>
                                     </Link>
                                 </div>
