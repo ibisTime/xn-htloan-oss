@@ -143,6 +143,9 @@ class importContractImport extends React.Component {
                 if (info.file.status === 'done') {
                 } else if (info.file.status === 'error') {
                 }
+                console.log(info);
+                if(info.fileList.length < 0) {
+                }
             },
             beforeUpload(file) {
                 if (!file) {

@@ -6011,6 +6011,11 @@ class preloanAccess extends React.Component {
                                     <span className="preLoan-body-tag">费用结算</span>
                                     <Row className="preLoan-body-row-top">
                                         <Col span={6}>
+                                            <span className="preLoan-body-title"><span style={{color: 'red'}}>* </span>GPS费：</span>
+                                            <br />
+                                            <input type="text" value={costSettlementInfoArrIpt.gpsFee} ref={input => this.gpsFeeIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'gpsFee'); }} className="preLoan-body-input" />
+                                        </Col>
+                                        <Col span={6}>
                                             <span className="preLoan-body-title" style={{width: '120px'}}>担保风险金：</span>
                                             <br />
                                             <input type="text" value={costSettlementInfoArrIpt.fxAmount} ref={input => this.fxAmountIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'fxAmount'); }} className="preLoan-body-input" />
@@ -6019,11 +6024,6 @@ class preloanAccess extends React.Component {
                                             <span className="preLoan-body-title" style={{width: '120px'}}>履约押金：</span>
                                             <br />
                                             <input type="text" value={costSettlementInfoArrIpt.lyDeposit} ref={input => this.lyDepositIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'lyDeposit'); }} className="preLoan-body-input" />
-                                        </Col>
-                                        <Col span={6}>
-                                            <span className="preLoan-body-title"><span style={{color: 'red'}}>* </span>GPS费：</span>
-                                            <br />
-                                            <input type="text" value={costSettlementInfoArrIpt.gpsFee} ref={input => this.gpsFeeIpt = input} onChange={(e) => { this.iptCostSettlementInfoPp(e, 'gpsFee'); }} className="preLoan-body-input" />
                                         </Col>
                                         <Col span={6}>
                                             <span className="preLoan-body-title">其他费用：</span>
