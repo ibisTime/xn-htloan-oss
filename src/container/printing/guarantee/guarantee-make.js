@@ -124,7 +124,7 @@ class GuaranteeMake extends React.Component {
         }, {
           title: '职务',
           field: 'position',
-          _keys: ['creditUser', 'position'],
+          _keys: ['creditUser', 'positionName'],
           readonly: true
         }, {
           title: '单位电话',
@@ -140,34 +140,70 @@ class GuaranteeMake extends React.Component {
         [{
           title: '客户姓名',
           field: 'ghRealName',
-          _keys: ['mateUser', 'userName'],
+          formatter: (v, data) => {
+            data.creditUserList.forEach(user => {
+              if (user.loanRole === '2') {
+                return user.UserName;
+              }
+            });
+          },
           readonly: true
         }, {
           title: '身份证',
           field: 'ghIdNo',
-          _keys: ['mateUser', 'idNo'],
+          formatter: (v, data) => {
+            data.creditUserList.forEach(user => {
+              if (user.loanRole === '2') {
+                return user.idNo;
+              }
+            });
+          },
           readonly: true
         }, {
           title: '性别',
           field: 'ghSex',
-          _keys: ['mateUser', 'gender'],
+          formatter: (v, data) => {
+            data.creditUserList.forEach(user => {
+              if (user.loanRole === '2') {
+                return user.gender;
+              }
+            });
+          },
           readonly: true
         }, {
           title: '手机电话',
           field: 'ghMobile',
-          _keys: ['mateUser', 'mobile'],
+          formatter: (v, data) => {
+            data.creditUserList.forEach(user => {
+              if (user.loanRole === '2') {
+                return user.mobile;
+              }
+            });
+          },
           readonly: true
         }, {
           title: '共还人公司名称',
           field: 'ghCompanyName',
-          _keys: ['mateUser', 'companyName'],
+          formatter: (v, data) => {
+            data.creditUserList.forEach(user => {
+              if (user.loanRole === '2') {
+                return user.companyName;
+              }
+            });
+          },
           readonly: true
         }, {
           title: '与客户关系',
           field: 'applyUserGhrRelation',
           type: 'select',
           key: 'credit_contacts_relation',
-          _key: ['mateUser', 'relation'],
+          formatter: (v, data) => {
+            data.creditUserList.forEach(user => {
+              if (user.loanRole === '2') {
+                return user.relationName;
+              }
+            });
+          },
           readonly: true
         }, {
           title: '是否垫资',
@@ -315,51 +351,67 @@ class GuaranteeMake extends React.Component {
         [{
           title: '担保人姓名',
           field: 'guarantor1Name',
-          _keys: ['dbUser1', 'userName'],
+          formatter: (v, data) => {
+            data.creditUserList.forEach(user => {
+              if (user.loanRole === '3') {
+                return user.userName;
+              }
+            });
+          },
           readonly: true
         }, {
           title: '身份证',
           field: 'guarantor1IdNo',
-          _keys: ['dbUser1', 'idNo'],
+          formatter: (v, data) => {
+            data.creditUserList.forEach(user => {
+              if (user.loanRole === '3') {
+                return user.idNo;
+              }
+            });
+          },
           readonly: true
         }, {
           title: '性别',
           field: 'guarantor1Sex',
-          _keys: ['dbUser1', 'gender'],
-          readonly: true
-        }, {
-          title: '家庭电话',
-          field: 'guarantorFamilyPhone',
-          _keys: ['dbUser1', 'familyPhone'],
+          formatter: (v, data) => {
+            data.creditUserList.forEach(user => {
+              if (user.loanRole === '3') {
+                return user.gender;
+              }
+            });
+          },
           readonly: true
         }, {
           title: '手机电话',
           field: 'guarantor1Mobile',
-          _keys: ['dbUser1', 'mobile'],
+          formatter: (v, data) => {
+            data.creditUserList.forEach(user => {
+              if (user.loanRole === '3') {
+                return user.mobile;
+              }
+            });
+          },
           readonly: true
         }, {
           title: '工作单位',
           field: 'guarantorCompanyName',
-          _keys: ['dbUser1', 'companyName'],
-          readonly: true
-        }, {
-          title: '担保人单位电话',
-          field: 'guarantorCompanyPhone',
-          _keys: ['dbUser1', 'companyContactNo'],
+          formatter: (v, data) => {
+            data.creditUserList.forEach(user => {
+              if (user.loanRole === '3') {
+                return user.companyName;
+              }
+            });
+          },
           readonly: true
         }, {
           title: '担保人单位地址',
           field: 'guarantorCompanyAddress',
-          _keys: ['dbUser1', 'companyName'],
-          readonly: true
-        }, {
-          title: '担保人现地址',
-          field: 'guarantorNowAddress',
-          formatter: (v, d) => {
-            if (d && d.dbUser1) {
-              return `${d.dbUser1.nowAddressProvince || ''} ${d.dbUser1.nowAddressCity || ''} ${d.dbUser1.nowAddressArea || ''} ${d.dbUser1.nowAddress || ''}`;
-            }
-            return '-';
+          formatter: (v, data) => {
+            data.creditUserList.forEach(user => {
+              if (user.loanRole === '3') {
+                return user.companyAddress;
+              }
+            });
           },
           readonly: true
         }]
@@ -406,7 +458,7 @@ class GuaranteeMake extends React.Component {
                     return data;
                   },
                   buttons: [{
-                    title: '打印',
+                    title: '套打',
                     check: true,
                     handler: (param) => {
                       const data = this.props.pageData;

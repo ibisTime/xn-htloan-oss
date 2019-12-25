@@ -4605,8 +4605,9 @@ class preloanAccess extends React.Component {
                                 <Col span={12}>
                                     <span className="preLoan-body-title">评估报告：</span>
                                     <span className="preLoan-body-title" style={{width: '140px'}} onClick={this.sendAssessment}>点击生成评报告</span>
-                                    <a target="_blank" className="preLoan-body-title" style={{width: '300px'}} href={carUrl === '' ? '' : carUrl}>{modelName === '' ? '' : modelName}</a>
-                                    <a></a>
+                                    {
+                                        carUrl === '' ? null : (<a target="_blank" className="preLoan-body-title" style={{width: '300px'}} href={carUrl === '' ? '' : carUrl}>{modelName === '' ? '' : modelName}</a>)
+                                    }
                                 </Col>
                                 <Col span={12}>
                                 </Col>

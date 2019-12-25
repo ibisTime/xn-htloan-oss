@@ -38,6 +38,17 @@ export function createHt(data) {
 function createData(wb, data) {
     let nowAddress = (data.creditUser.nowAddressProvince || '') + (data.creditUser.nowAddressArea || '') + (data.creditUser.nowAddress || '');
     let dbNowAddress = (data.dbUser1.nowAddressProvince || '') + (data.dbUser1.nowAddressArea || '') + (data.dbUser1.nowAddress || '');
+    data.creditUserList.forEach(user => {
+        if (user.loanRole === '2') {
+            data.mateUser = user;
+        } else if (user.loanRole === '3') {
+            if (!data.dbUser1) {
+                data.dbUser1 = user;
+            } else {
+                data.dbUser2 = user;
+            }
+        }
+    });
     let arr = [
         ['工行姓名', data.creditUser.userName],
         ['出生年月', data.creditUser.customerBirth],
@@ -46,10 +57,10 @@ function createData(wb, data) {
         ['手机号码', data.creditUser.mobile],
         ['工作单位', data.creditUser.companyName],
         ['现住址', nowAddress],
-        ['配偶姓名', data.creditUserList[1].userName],
-        ['身份证号码', data.creditUserList[1].customerBirth],
-        ['工作单位', data.creditUserList[1].companyName],
-        ['手机号码', data.creditUserList[1].mobile],
+        ['配偶姓名', data.mateUser ? data.mateUser.userName : ''],
+        ['身份证号码', data.mateUser ? data.mateUser.customerBirth : ''],
+        ['工作单位', data.mateUser ? data.mateUser.companyName : ''],
+        ['手机号码', data.mateUser ? data.mateUser.mobile : ''],
         ['费利率（银行利率）', (data.bankLoan.bankRate * 100).toFixed(4)],
         ['贷款额', moneyFormat(data.loanAmount)],
         ['服务费', moneyReplaceComma(moneyFormat(data.bankLoan.fee))],
@@ -64,21 +75,21 @@ function createData(wb, data) {
         ['月还款额', ''],
         ['总贷款额和手续费总额', ''],
         ['车辆总价', moneyReplaceComma(moneyFormat(data.carInfo.originalPrice))],
-        ['车辆总价大写不带元', ''],
-        ['车辆总价大写带元整', ''],
-        ['首付额', ''],
-        ['首付额（大写无元）', ''],
+        ['车辆总价大写不带元', data.carInfo ? data.carInfo.carPrice : ''],
+        ['车辆总价大写带元整', data.carInfo ? data.carInfo.carPrice : ''],
+        ['首付额', data.bankLoan ? parseFloat(data.bankLoan.repayFirstMonthAmount / 1000).toFixed(2) : ''],
+        ['首付额（大写无元）', data.bankLoan ? parseFloat(data.bankLoan.repayFirstMonthAmount / 1000).toFixed(2) : ''],
         ['车辆品牌', `${data.carInfo.carBrandName}-${data.carInfo.carSeriesName}牌`],
         ['经销商', data.carInfo.shopCarGarageName],
         ['发动机号', data.carInfo.carEngineNo],
         ['车架号', data.carInfo.carFrameNo],
         ['品牌型号', `${data.carInfo.carBrandName}-${data.carInfo.carSeriesName}-${data.carInfo.carModelName}`],
-        ['担保人姓名', data.dbUser1.userName],
-        ['性别', data.dbUser1.gender],
-        ['身份证号码', data.dbUser1.idNo],
-        ['手机号码', data.dbUser1.mobile],
+        ['担保人姓名', data.dbUser1 ? data.dbUser1.userName : ''],
+        ['性别', data.dbUser1 ? data.dbUser1.gender : ''],
+        ['身份证号码', data.dbUser1 ? data.dbUser1.idNo : ''],
+        ['手机号码', data.dbUser1 ? data.dbUser1.mobile : ''],
         ['现住址', dbNowAddress],
-        ['工作单位', data.dbUser1.applyUserCompany],
+        ['工作单位', data.dbUser1 ? data.dbUser1.applyUserCompany : ''],
         ['总的首期还款金额', ''],
         ['总的每期还款金额', ''],
         ['原车发票价格', moneyReplaceComma(moneyFormat(data.carInfo.invoicePrice))],

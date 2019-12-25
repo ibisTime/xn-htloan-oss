@@ -639,6 +639,7 @@ class ArchivesAddEdit extends React.Component {
     // 打包下载
     downLoadBiz = () => {
         const {pageData} = this.state;
+        console.log(pageData);
         let picList = [];
         pageData.attachments.map((item, index) => {
             if (!item.kname.match(/second_car_report/) && !item.kname.match(/video/) && item.url) {
