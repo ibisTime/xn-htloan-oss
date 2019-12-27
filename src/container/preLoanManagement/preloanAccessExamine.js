@@ -1026,14 +1026,14 @@ class preloanAccessDetail extends React.Component {
                                 <span>户口本</span>
                                 <br />
                                 {
-                                    hkBookFirstPage.map(item => (
+                                    hkBookFirstPage.map((item, index) => (
                                         <img
                                             key={item.url}
                                             src={item.url}
                                             className="preLoan-body-table-content-tab-card" style={{marginRight: '20px', 'marginBottom': '20px'}}
                                             onClick={() => {
                                                 this.showCarousePic(item.dkey,
-                                                    'hk_book_first_page');
+                                                    `hk_book_first_page_${index}`);
                                             }}
                                         />
                                     ))
@@ -1065,7 +1065,7 @@ class preloanAccessDetail extends React.Component {
                                 <span>银行流水</span>
                                 <br />
                                 {
-                                    bankJourFirstPage.map(item => (
+                                    bankJourFirstPage.map((item, index) => (
                                         <img
                                             key={item.url}
                                             src={item.url}
@@ -1073,7 +1073,7 @@ class preloanAccessDetail extends React.Component {
                                             style={{marginRight: '20px', 'marginBottom': '20px'}}
                                             onClick={() => {
                                                 this.showCarousePic(item.dkey,
-                                                    'bank_jour_first_page');
+                                                    `bank_jour_first_page_${index}`);
                                             }}
                                         />
                                     ))
@@ -1086,7 +1086,7 @@ class preloanAccessDetail extends React.Component {
                                 <span>支付宝流水</span>
                                 <br/>
                                 {
-                                    zfbJour.map(item => (
+                                    zfbJour.map((item, index) => (
                                         <img
                                             key={item.url}
                                             src={item.url}
@@ -1094,7 +1094,7 @@ class preloanAccessDetail extends React.Component {
                                             style={{marginRight: '20px', 'marginBottom': '20px'}}
                                             onClick={() => {
                                                 this.showCarousePic(item.dkey,
-                                                    'zfb_jour');
+                                                    `zfb_jour_${index}`);
                                             }}
                                         />
                                     ))
@@ -1107,7 +1107,7 @@ class preloanAccessDetail extends React.Component {
                                 <span>微信流水</span>
                                 <br/>
                                 {
-                                    wxJour.map(item => (
+                                    wxJour.map((item, index) => (
                                         <img
                                             key={item.url}
                                             src={item.url}
@@ -1115,7 +1115,7 @@ class preloanAccessDetail extends React.Component {
                                             style={{marginRight: '20px', 'marginBottom': '20px'}}
                                             onClick={() => {
                                                 this.showCarousePic(item.dkey,
-                                                    'wx_jour');
+                                                    `wx_jour_${index}`);
                                             }}
                                         />
                                     ))
@@ -1128,7 +1128,7 @@ class preloanAccessDetail extends React.Component {
                                 <span>其他</span>
                                 <br />
                                 {
-                                    otherPdf.map(item => (
+                                    otherPdf.map((item, index) => (
                                         <img
                                             key={item.url}
                                             src={item.url}
@@ -1136,7 +1136,7 @@ class preloanAccessDetail extends React.Component {
                                             style={{marginRight: '20px', 'marginBottom': '20px'}}
                                             onClick={() => {
                                                 this.showCarousePic(item.dkey,
-                                                    'other_pdf');
+                                                    `other_pdf_${index}`);
                                             }}
                                         />
                                     ))
@@ -1211,7 +1211,7 @@ class preloanAccessDetail extends React.Component {
                         <Row style={{marginTop: '34px'}}>
                             <Col span={24}>
                                 {
-                                    carHead.map(item => (
+                                    carHead.map((item, index) => (
                                         <img
                                             key={item.url}
                                             src={item.url}
@@ -1219,7 +1219,7 @@ class preloanAccessDetail extends React.Component {
                                             style={{marginRight: '20px', 'marginBottom': '20px'}}
                                             onClick={() => {
                                                 this.showCarousePic(item.dkey,
-                                                    'car_head');
+                                                    `car_head_${index}`);
                                             }}
                                         />
                                     ))
@@ -1232,7 +1232,8 @@ class preloanAccessDetail extends React.Component {
                                 <span>车辆登记证书</span>
                                 <br />
                                 {
-                                    carRegisterCertificateFirst.map(item => (
+                                    carRegisterCertificateFirst.map(
+                                        (item, index) => (
                                         <img
                                             key={item.url}
                                             src={item.url}
@@ -1240,7 +1241,7 @@ class preloanAccessDetail extends React.Component {
                                             style={{marginRight: '20px', 'marginBottom': '20px'}}
                                             onClick={() => {
                                                 this.showCarousePic(item.dkey,
-                                                    'car_register_certificate_first');
+                                                    `car_register_certificate_first_${index}`);
                                             }}
                                         />
                                     ))
