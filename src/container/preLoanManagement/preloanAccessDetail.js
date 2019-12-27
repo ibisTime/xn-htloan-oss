@@ -55,7 +55,10 @@ class preloanAccessDetail extends React.Component {
             otherPdf: [],
             carHead: [],
             carRegisterCertificateFirst: [],
-            gpsAzList: []
+            gpsAzList: [],
+            smImg: [],
+            carImg: [],
+            groupImg: []
         };
     }
     dealWithPic = (fileListPic, type = '') => {
@@ -104,6 +107,9 @@ class preloanAccessDetail extends React.Component {
             const otherPdf = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'other_pdf'), 'other');
             const carHead = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'car_head'), 'ch');
             const carRegisterCertificateFirst = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'car_register_certificate_first'), 'crc');
+            const smImg = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'door_photo'), 'door');
+            const carImg = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'car_head'), 'car');
+            const groupImg = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'group_photo'), 'group');
             this.setState({
                 creditUserList1: card.length > 0 ? card[0] : {},
                 creditUserList2: cardZTwo01.length > 0 ? cardZTwo01[0] : {},
@@ -137,7 +143,10 @@ class preloanAccessDetail extends React.Component {
                 wxJour,
                 otherPdf,
                 carHead,
-                carRegisterCertificateFirst
+                carRegisterCertificateFirst,
+                smImg,
+                carImg,
+                groupImg
             });
         });
         Promise.all([
@@ -295,7 +304,10 @@ class preloanAccessDetail extends React.Component {
             gpsAzList,
             shopCarGarage,
             saleUserName,
-            workProfession
+            workProfession,
+            smImg,
+            carImg,
+            groupImg
         } = this.state;
         console.log(workProfession);
         return (
@@ -1008,29 +1020,45 @@ class preloanAccessDetail extends React.Component {
                     </div>
                     <div className="preLoan-detail-box-content">
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={6}>
+                            <Col span={24}>
                                 <span>上门照片</span>
-                                <br/>
-                                <img
-                                    src={findDsct(attachments, 'door_photo') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'door_photo')}
-                                    className="preLoan-body-table-content-tab-card"/>
+                                <br />
+                                {
+                                    smImg.map((item, index) => (
+                                        <img
+                                            key={item.url}
+                                            src={item.url}
+                                            className="preLoan-body-table-content-tab-card"
+                                            style={{marginRight: '20px', 'marginBottom': '20px'}}
+                                            onClick={() => {
+                                                this.showCarousePic(item.dkey,
+                                                    `door_photo_${index}`);
+                                            }}
+                                        />
+                                    ))
+                                }
                             </Col>
-                            <Col span={6}></Col>
-                            <Col span={6}></Col>
-                            <Col span={6}></Col>
                         </Row>
                         <div className="preLoan-detail-row-line"></div>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={6}>
+                            <Col span={24}>
                                 <span>合照</span>
-                                <br/>
-                                <img
-                                    src={findDsct(attachments, 'group_photo') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'group_photo')}
-                                    className="preLoan-body-table-content-tab-card"/>
+                                <br />
+                                {
+                                    groupImg.map((item, index) => (
+                                        <img
+                                            key={item.url}
+                                            src={item.url}
+                                            className="preLoan-body-table-content-tab-card"
+                                            style={{marginRight: '20px', 'marginBottom': '20px'}}
+                                            onClick={() => {
+                                                this.showCarousePic(item.dkey,
+                                                    `group_photo_${index}`);
+                                            }}
+                                        />
+                                    ))
+                                }
                             </Col>
-                            <Col span={6}></Col>
-                            <Col span={6}></Col>
-                            <Col span={6}></Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={6}>

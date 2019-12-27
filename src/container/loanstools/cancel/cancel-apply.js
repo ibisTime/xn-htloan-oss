@@ -45,7 +45,7 @@ class CancelApply extends React.Component {
       },
       searchName: 'keyword',
       keyName: 'code',
-      valueName: '{{code.DATA}}',
+      valueName: '{{customerName.DATA}}-{{code.DATA}}',
       required: true
     }, {
       title: '作废原因',

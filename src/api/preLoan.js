@@ -295,9 +295,9 @@ export function installationGps(params) {
 }
 
 // 获取GPS
-export function getGps() {
+export function getGps(code) {
     return fetch(632707, {
-        applyUser: getUserId(),
+        applyUser: code,
         useStatus: '1'
     });
 }

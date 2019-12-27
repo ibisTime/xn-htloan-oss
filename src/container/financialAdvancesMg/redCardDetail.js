@@ -17,9 +17,9 @@ import {Button} from 'antd';
 import {
     accessSlipDetail
 } from '../../api/preLoan.js';
-import ReactToPrint from 'react-to-print';
 import './printing.css';
 import fetch from 'common/js/fetch';
+import {exportExcel} from 'common/js/xlsx-util.js';
 
 class redCardDetail extends React.Component {
     constructor(props) {
@@ -62,7 +62,7 @@ class redCardDetail extends React.Component {
                     // 住宅状况
                     nowAddressState: data.creditUser ? data.creditUser.nowAddressStateName : '',
                     // 本人年收入
-                    yearIncome: data.creditUser ? data.creditUser.yearIncome * 12 : '',
+                    yearIncome: data.creditUser ? (data.creditUser.yearIncome ? data.creditUser.yearIncome * 12 : '') : '',
                     // 单位名称
                     companyName: data.creditUser ? data.creditUser.companyName : '',
                     // 单位地址(省市区)
@@ -87,6 +87,164 @@ class redCardDetail extends React.Component {
     // 返回
     goBack = () => {
         this.props.history.go(-1);
+    }
+    importE = () => {
+        const {accessSlipDetailInfo} = this.state;
+        const initColumn = [{
+            title: '基本资料',
+            dataIndex: 'baseInfo',
+            key: 'baseInfo'
+        }, {
+            title: '',
+            dataIndex: 'value1',
+            key: 'value1'
+        }, {
+            title: '',
+            dataIndex: 'none',
+            key: 'none'
+        }, {
+            title: '',
+            dataIndex: 'title',
+            key: 'title'
+        }, {
+            title: '',
+            dataIndex: 'value2',
+            key: 'value2'
+        }];
+        let attendanceInfoList = [{
+            baseInfo: '中文名',
+            value1: accessSlipDetailInfo.customerName,
+            none: '',
+            title: '姓名拼音',
+            value2: ''
+        }, {
+            baseInfo: '性别',
+            value1: accessSlipDetailInfo.gender,
+            none: '',
+            title: '证件类型',
+            value2: '身份证'
+        }, {
+            baseInfo: '证件号码',
+            value1: accessSlipDetailInfo.idNo,
+            none: '',
+            title: '发证机关',
+            value2: accessSlipDetailInfo.authref
+        }, {
+            baseInfo: '证件有效期截止',
+            value1: accessSlipDetailInfo.startDate,
+            none: '',
+            title: '婚姻状况',
+            value2: accessSlipDetailInfo.marryState
+        }, {
+            baseInfo: '手机号码',
+            value1: accessSlipDetailInfo.mobile,
+            none: '',
+            title: '住宅(省)',
+            value2: accessSlipDetailInfo.nowAddressProvince.split('/')[0]
+        }, {
+            baseInfo: '住宅(市)',
+            value1: accessSlipDetailInfo.nowAddressProvince.split('/')[1],
+            none: '',
+            title: '住宅(区/县)',
+            value2: accessSlipDetailInfo.nowAddressProvince.split('/')[2]
+        }, {
+            baseInfo: '住宅(详细地址)',
+            value1: accessSlipDetailInfo.nowAddress,
+            none: '',
+            title: '住宅电话',
+            value2: accessSlipDetailInfo.nowAddressMobile
+        }, {
+            baseInfo: '邮政编码',
+            value1: '',
+            none: '',
+            title: '入住日期',
+            value2: accessSlipDetailInfo.nowAddressDate
+        }, {
+            baseInfo: '教育程度',
+            value1: accessSlipDetailInfo.education,
+            none: '',
+            title: '住宅状况',
+            value2: accessSlipDetailInfo.nowAddressState
+        }, {
+            baseInfo: '本人年收入',
+            value1: accessSlipDetailInfo.yearIncome,
+            none: '',
+            title: '',
+            value2: ''
+        }, {
+            baseInfo: '',
+            value1: '',
+            none: '',
+            title: '',
+            value2: ''
+        }, {
+            baseInfo: '职业资料',
+            value1: '',
+            none: '',
+            title: '',
+            value2: ''
+        }, {
+            baseInfo: '单位名称',
+            value1: accessSlipDetailInfo.companyName,
+            none: '',
+            title: '单位地址（省）',
+            value2: accessSlipDetailInfo.companyProvince.split('/')[0]
+        }, {
+            baseInfo: '单位地址（市）',
+            value1: accessSlipDetailInfo.companyProvince.split('/')[1],
+            none: '',
+            title: '单位地址（区/县）',
+            value2: accessSlipDetailInfo.companyProvince.split('/')[2]
+        }, {
+            baseInfo: '邮政编码',
+            value1: '',
+            none: '',
+            title: '单位性质',
+            value2: accessSlipDetailInfo.workCompanyProperty
+        }, {
+            baseInfo: '职业',
+            value1: accessSlipDetailInfo.position,
+            none: '',
+            title: '何时进入现单位工作',
+            value2: accessSlipDetailInfo.workDatetime
+        }, {
+            baseInfo: '',
+            value1: '',
+            none: '',
+            title: '',
+            value2: ''
+        }, {
+            baseInfo: '紧急联系人资料',
+            value1: '',
+            none: '',
+            title: '',
+            value2: ''
+        }, {
+            baseInfo: '紧急联系人1姓名',
+            value1: accessSlipDetailInfo.emergencyName1,
+            none: '',
+            title: '与您的关系',
+            value2: accessSlipDetailInfo.emergencyRelation1
+        }, {
+            baseInfo: '紧急1手机',
+            value1: accessSlipDetailInfo.emergencyMobile1,
+            none: '',
+            title: '紧1联系电话',
+            value2: accessSlipDetailInfo.emergencyMobile1
+        }, {
+            baseInfo: '紧急联系人2姓名',
+            value1: accessSlipDetailInfo.emergencyName2,
+            none: '',
+            title: '与您的关系',
+            value2: accessSlipDetailInfo.emergencyRelation2
+        }, {
+            baseInfo: '紧急2手机',
+            value1: accessSlipDetailInfo.emergencyMobile2,
+            none: '',
+            title: '紧2联系电话',
+            value2: accessSlipDetailInfo.emergencyMobile2
+        }];
+        exportExcel(initColumn, attendanceInfoList, 'test.xlsx');
     }
     render() {
         const {accessSlipDetailInfo} = this.state;
@@ -206,8 +364,7 @@ class redCardDetail extends React.Component {
                         </tr>
                     </table>
                 </div>
-                <div style={{background: '#fff'}}><ReactToPrint trigger={() => <a href='#' style={{float: 'right', marginRight: '10px'}}><Button type='primary'>打印</Button></a>} content={() => this.refs}></ReactToPrint></div>
-                <Button onClick={this.goBack} style={{float: 'right', marginRight: '60px'}}>返回</Button>
+                <div style={{background: '#fff', float: 'right'}}><Button type='primary' onClick={this.importE}>导出</Button><Button onClick={this.goBack} style={{marginLeft: '60px'}}>返回</Button></div>
             </div>
         );
     }
