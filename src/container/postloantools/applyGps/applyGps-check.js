@@ -16,7 +16,8 @@ class applyGpsCheck extends DetailUtil {
     this.state = {
       checkboxItems: [],
       remark: '',
-      userInfoObject: {}
+      userInfoObject: {},
+        searchValue: ''
     };
     fetch(632707, {applyStatus: '0', useStatus: '0'}).then(data => {
       console.log(data);
@@ -51,6 +52,11 @@ class applyGpsCheck extends DetailUtil {
         remark: e.target.value
     });
   }
+    handleChangeSearch = (e) => {
+        this.setState({
+            searchValue: e.target.value
+        });
+    }
   sendOk = () => {
       const {checkboxItems, remark} = this.state;
       let gpsList = [];
@@ -85,8 +91,27 @@ class applyGpsCheck extends DetailUtil {
     toBack = () => {
         this.props.history.go(-1);
     };
+    searchInfo = () => {
+        const {searchValue} = this.state;
+        this.setState({
+            checkboxItems: []
+        });
+        fetch(632707, {gpsDevNo: searchValue, applyStatus: '0', useStatus: '0'}).then(data => {
+            let gpsList = [];
+            data.map((item, index) => {
+                gpsList.push({
+                    code: item.code,
+                    gpsDevNo: item.gpsDevNo,
+                    checked: false
+                });
+                this.setState({
+                    checkboxItems: gpsList
+                });
+            });
+        });
+    }
   render() {
-    const {remark, userInfoObject} = this.state;
+    const {remark, userInfoObject, searchValue, checkboxItems} = this.state;
     return (
         <div style={{width: '100%'}}>
           <div className="title-line">
@@ -111,9 +136,13 @@ class applyGpsCheck extends DetailUtil {
           </div>
           <div style={{marginLeft: '36%'}}>
             <strong>请选择GPS编号:</strong>
+            <div>
+                <input type="text" value={searchValue} onChange={(e) => this.handleChangeSearch(e)} className="preLoan-body-input" />
+                <button onClick={this.searchInfo} style={{width: '80px', height: '32px', marginLeft: '20px', borderRadius: '2px'}}>搜索</button>
+            </div>
             <div style={{width: '400px', height: '300px', padding: '10px', border: '1px solid #ccc', borderRadius: '4px', marginTop: '20px'}}>
               {
-                this.state.checkboxItems.map((ele, index) => {
+                checkboxItems.map((ele, index) => {
                   return (
                       <span key={index} style={{marginRight: '30px', display: 'block', float: 'left'}}>
                        <input

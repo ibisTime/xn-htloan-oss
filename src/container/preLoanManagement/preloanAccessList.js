@@ -8,11 +8,12 @@ import {
     findDsct,
     getRoleCode
 } from 'common/js/util';
-import {Row, Col, Checkbox, Pagination, Select, message} from 'antd';
+import {Row, Col, Checkbox, Pagination, Select, message, Modal} from 'antd';
 import {
     accessSlip,
     accessSlipStatus,
-    showButton
+    showButton,
+    giveBack
 } from '../../api/preLoan.js';
 import './preloanAccess.css';
 import './preloanAccessList.css';
@@ -59,6 +60,10 @@ class preloanAccessList extends React.Component {
                 }else if(data[i].url === '/detail') {
                     this.setState({
                         showDetail: true
+                    });
+                }else if(data[i].url === '/back') {
+                    this.setState({
+                        back: true
                     });
                 }
             }
@@ -210,8 +215,27 @@ class preloanAccessList extends React.Component {
         });
         this.statusName = '';
     }
+    processReturn = () => {
+        if(this.checkBoxGroup.length <= 0) {
+            showWarnMsg('请选择车辆信息');
+        }else if(this.checkBoxGroup.length >= 2) {
+            showWarnMsg('请选择不大于一条记录');
+        }else {
+            Modal.confirm({
+                okText: '确定',
+                cancelText: '取消',
+                content: '确定退回？',
+                onOk: () => {
+                    giveBack(this.checkBoxGroup[0].split('|')[0], this.checkBoxGroup[0].split('|')[1]).then(data => {
+                        showSucMsg('操作成功');
+                        this.getAccessSlip(1);
+                    });
+                }
+            });
+        }
+    }
     render() {
-        const {accessSlipList, total, accessSlipStatusArr, code, customerName, paginationCurrent, showZrzl, showZrsk, showDetail} = this.state;
+        const {accessSlipList, total, accessSlipStatusArr, code, customerName, paginationCurrent, showZrzl, showZrsk, showDetail, back} = this.state;
         return (
             <div className="preLoan-access-list-global">
                 <Row>
@@ -250,6 +274,14 @@ class preloanAccessList extends React.Component {
                     {
                         showZrsk ? (
                             <span className="preLoan-access-list-btn-gray" onClick={this.sendExamine} style={{marginRight: '30px', width: '80px', 'cursor': 'pointer'}}>准入审核</span>
+                        ) : null
+                    }
+                    {
+                        // printing ? (
+                        //     <span className="preLoan-access-list-btn-gray" onClick={this.skPrint} style={{marginRight: '30px', width: '80px'}}>垫资打印</span>
+                        // ) : null
+                        back ? (
+                            <span className="preLoan-access-list-btn-gray" onClick={this.processReturn} style={{marginRight: '30px', width: '80px'}}>流程退回</span>
                         ) : null
                     }
                     {
