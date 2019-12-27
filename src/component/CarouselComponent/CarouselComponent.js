@@ -95,21 +95,23 @@ export default class CarouselComponent extends React.Component {
                         }
                         if((item.dvalue).indexOf('||') !== -1) {
                             const urlList = item.dvalue.split('||');
-                            urlList.forEach(itemUrl => {
-                                attachmentsList.unshift({
+                            urlList.forEach((itemUrl, index) => {
+                                attachmentsList.push({
                                     ...item,
-                                    dvalue: itemUrl
+                                    dvalue: itemUrl,
+                                    dkey: `${item.dkey}_${index}`
                                 });
-                                attachmentsObj[item.category].unshift({
+                                attachmentsObj[item.category].push({
                                     ...item,
-                                    dvalue: itemUrl
+                                    dvalue: itemUrl,
+                                    dkey: `${item.dkey}_${index}`
                                 });
                             });
                         }else {
-                            attachmentsList.unshift({
+                            attachmentsList.push({
                                 ...item
                             });
-                            attachmentsObj[item.category].unshift({
+                            attachmentsObj[item.category].push({
                                 ...item
                             });
                         }
