@@ -20,6 +20,8 @@ import './preloanAccessDetail.css';
 import './preloanAccess.css';
 import zanwu from './zanwu.png';
 
+let picKeyObj = {};
+
 class preloanAccessDetail extends React.Component {
     constructor(props) {
         super(props);
@@ -59,7 +61,9 @@ class preloanAccessDetail extends React.Component {
             visibleCarouse: false,
             carousePic: '',
             selectPicKey: '',
-            gpsAzList: []
+            gpsAzList: [],
+            doorPhotoList: [],
+            groupPhotoList: []
         };
     }
     dealWithPic = (fileListPic, type = '') => {
@@ -111,6 +115,8 @@ class preloanAccessDetail extends React.Component {
             const otherPdf = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'other_pdf'), 'other');
             const carHead = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'car_head'), 'ch');
             const carRegisterCertificateFirst = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'car_register_certificate_first'), 'crc');
+            const doorPhotoList = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'door_photo'), 'door_photo');
+            const groupPhotoList = this.dealWithPic(findDsct(dsctImgList(data.attachments), 'group_photo'), 'group_photo');
             this.setState({
                 creditUserList1: card.length > 0 ? card[0] : {},
                 creditUserList2: cardZTwo01.length > 0 ? cardZTwo01[0] : {},
@@ -147,6 +153,8 @@ class preloanAccessDetail extends React.Component {
                 wxJour,
                 otherPdf,
                 carHead,
+                doorPhotoList,
+                groupPhotoList,
                 carRegisterCertificateFirst
             });
         });
@@ -245,6 +253,12 @@ class preloanAccessDetail extends React.Component {
             });
         }
     };
+    addPicKey = (key, url) => {
+        if(!picKeyObj[key]) {
+            picKeyObj[key] = url;
+        }
+        return null;
+    };
     // 不通过
     notAdopt = () => {
         const {rmkText} = this.state;
@@ -283,6 +297,9 @@ class preloanAccessDetail extends React.Component {
             });
         }
     }
+    componentWillUnmount() {
+        picKeyObj = null;
+    }
     render() {
         const {
             isMain,
@@ -315,8 +332,11 @@ class preloanAccessDetail extends React.Component {
             gpsAzList,
             shopCarGarage,
             saleUserName,
-            selectPicKey
+            selectPicKey,
+            doorPhotoList,
+            groupPhotoList
         } = this.state;
+        let picIndex = 0;
         return (
             <div>
                 <div className="sendRmk">
@@ -419,6 +439,9 @@ class preloanAccessDetail extends React.Component {
                                                          'id_no_front_apply');
                                                  }}
                                             />
+                                            {
+                                                this.addPicKey(picIndex, 'id_no_front_apply')
+                                            }
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
                                             <img src={PIC_PREFIX + findDsct(attachments, 'id_no_reverse_apply')}
@@ -430,6 +453,9 @@ class preloanAccessDetail extends React.Component {
                                                          'id_no_reverse_apply');
                                                  }}
                                             />
+                                            {
+                                                this.addPicKey(++picIndex, 'id_no_reverse_apply')
+                                            }
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
                                             <img src={PIC_PREFIX + findDsct(attachments, 'hold_id_card_apply')}
@@ -441,6 +467,9 @@ class preloanAccessDetail extends React.Component {
                                                          'hold_id_card_apply');
                                                  }}
                                             />
+                                            {
+                                                this.addPicKey(++picIndex, 'hold_id_card_apply')
+                                            }
                                         </Col>
                                         <Col span={8}></Col>
                                     </Row>
@@ -482,6 +511,9 @@ class preloanAccessDetail extends React.Component {
                                                         'id_no_front_gh');
                                                 }}
                                             />
+                                            {
+                                                this.addPicKey(++picIndex, 'id_no_front_gh')
+                                            }
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
                                             <img
@@ -494,6 +526,9 @@ class preloanAccessDetail extends React.Component {
                                                         'id_no_reverse_gh');
                                                 }}
                                             />
+                                            {
+                                                this.addPicKey(++picIndex, 'id_no_reverse_gh')
+                                            }
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
                                             <img
@@ -506,6 +541,9 @@ class preloanAccessDetail extends React.Component {
                                                         'hold_id_card_gh');
                                                 }}
                                             />
+                                            {
+                                                this.addPicKey(++picIndex, 'hold_id_card_gh')
+                                            }
                                         </Col>
                                         <Col span={8}></Col>
                                     </Row>
@@ -547,6 +585,9 @@ class preloanAccessDetail extends React.Component {
                                                         'id_no_front_gh1');
                                                 }}
                                             />
+                                            {
+                                                this.addPicKey(++picIndex, 'id_no_front_gh1')
+                                            }
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
                                             <img
@@ -559,6 +600,9 @@ class preloanAccessDetail extends React.Component {
                                                         'id_no_reverse_gh1');
                                                 }}
                                             />
+                                            {
+                                                this.addPicKey(++picIndex, 'id_no_reverse_gh1')
+                                            }
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
                                             <img
@@ -571,6 +615,9 @@ class preloanAccessDetail extends React.Component {
                                                         'hold_id_card_gh1');
                                                 }}
                                             />
+                                            {
+                                                this.addPicKey(++picIndex, 'hold_id_card_gh1')
+                                            }
                                         </Col>
                                         <Col span={8}></Col>
                                     </Row>
@@ -616,6 +663,9 @@ class preloanAccessDetail extends React.Component {
                                                         'id_no_front_gua');
                                                 }}
                                             />
+                                            {
+                                                this.addPicKey(++picIndex, 'id_no_front_gua')
+                                            }
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
                                             <img
@@ -628,6 +678,9 @@ class preloanAccessDetail extends React.Component {
                                                         'id_no_reverse_gua');
                                                 }}
                                             />
+                                            {
+                                                this.addPicKey(++picIndex, 'id_no_reverse_gua')
+                                            }
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
                                             <img
@@ -640,6 +693,9 @@ class preloanAccessDetail extends React.Component {
                                                         'hold_id_card_gua');
                                                 }}
                                             />
+                                            {
+                                                this.addPicKey(++picIndex, 'hold_id_card_gua')
+                                            }
                                         </Col>
                                         <Col span={8}></Col>
                                     </Row>
@@ -681,6 +737,9 @@ class preloanAccessDetail extends React.Component {
                                                         'id_no_front_gua1');
                                                 }}
                                             />
+                                            {
+                                                this.addPicKey(++picIndex, 'id_no_front_gua1')
+                                            }
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
                                             <img
@@ -693,6 +752,9 @@ class preloanAccessDetail extends React.Component {
                                                         'id_no_reverse_gua1');
                                                 }}
                                             />
+                                            {
+                                                this.addPicKey(++picIndex, 'id_no_reverse_gua1')
+                                            }
                                         </Col>
                                         <Col span={4} style={{marginLeft: '60px'}}>
                                             <img
@@ -706,6 +768,9 @@ class preloanAccessDetail extends React.Component {
                                                 }}
                                             />
                                         </Col>
+                                        {
+                                            this.addPicKey(++picIndex, 'hold_id_card_gua1')
+                                        }
                                         <Col span={8}></Col>
                                     </Row>
                                     <Row style={{marginTop: '34px'}}>
@@ -919,20 +984,22 @@ class preloanAccessDetail extends React.Component {
                             <Col span={12}></Col>
                         </Row>
                         {
-                            carInfo && carInfo.isAzGps === '1' && gpsAzList.map(item => (
+                            carInfo && carInfo.isAzGps === '1' && gpsAzList.map((item, index) => (
                                 <Row key={item.code} style={{marginTop: '34px'}}>
                                     <Col span={12}>GPS：{item.name}</Col>
                                     <Col span={12}>
                                         GPS图片：
                                         <img
                                             src={PIC_PREFIX + item.azPhotos}
-                                            ß
                                             className="preLoan-body-table-content-tab-card"
                                             onClick={() => {
                                                 this.showCarousePic(
                                                     item.azPhotos, item.code);
                                             }}
                                         />
+                                        {
+                                            this.addPicKey(++picIndex, item.code)
+                                        }
                                     </Col>
                                 </Row>
                             ))
@@ -959,6 +1026,9 @@ class preloanAccessDetail extends React.Component {
                                             'drive_card');
                                     }}
                                 />
+                                {
+                                    this.addPicKey(++picIndex, 'drive_card')
+                                }
                             </Col>
                             <Col span={6}></Col>
                             <Col span={6}></Col>
@@ -978,6 +1048,9 @@ class preloanAccessDetail extends React.Component {
                                             'marry_pdf');
                                     }}
                                 />
+                                {
+                                    this.addPicKey(++picIndex, 'marry_pdf')
+                                }
                             </Col>
                             <Col span={6}>
                                 <span>离婚证</span>
@@ -991,6 +1064,9 @@ class preloanAccessDetail extends React.Component {
                                                 'divorce_pdf'), 'divorce_pdf');
                                     }}
                                 />
+                                {
+                                    this.addPicKey(++picIndex, 'divorce_pdf')
+                                }
                             </Col>
                             <Col span={6}>
                                 <span>单身证明</span>
@@ -1005,6 +1081,9 @@ class preloanAccessDetail extends React.Component {
                                             'single_prove');
                                     }}
                                 />
+                                {
+                                    this.addPicKey(++picIndex, 'single_prove')
+                                }
                             </Col>
                             <Col span={6}>
                                 <span>收入证明</span>
@@ -1019,24 +1098,42 @@ class preloanAccessDetail extends React.Component {
                                             'income_prove');
                                     }}
                                 />
+                                {
+                                    this.addPicKey(++picIndex, 'income_prove')
+                                }
                             </Col>
                         </Row>
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={24}>
-                                <span>户口本</span>
+                            <Col span={6}>
+                                <span>本地居住证</span>
                                 <br />
+                                <img
+                                    src={findDsct(attachments, 'local_residence_permit') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'local_residence_permit')}
+                                    className="preLoan-body-table-content-tab-card"
+                                    onClick={() => {
+                                        this.showCarousePic(
+                                            findDsct(attachments, 'local_residence_permit'),
+                                            'local_residence_permit');
+                                    }}
+                                />
                                 {
-                                    hkBookFirstPage.map((item, index) => (
-                                        <img
-                                            key={item.url}
-                                            src={item.url}
-                                            className="preLoan-body-table-content-tab-card" style={{marginRight: '20px', 'marginBottom': '20px'}}
-                                            onClick={() => {
-                                                this.showCarousePic(item.dkey,
-                                                    `hk_book_first_page_${index}`);
-                                            }}
-                                        />
-                                    ))
+                                    this.addPicKey(++picIndex, 'local_residence_permit')
+                                }
+                            </Col>
+                            <Col span={6}>
+                                <span>房产证内容页</span>
+                                <br />
+                                <img
+                                    src={findDsct(attachments, 'house_property_card_pdf') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'house_property_card_pdf')}
+                                    className="preLoan-body-table-content-tab-card"
+                                    onClick={() => {
+                                        this.showCarousePic(
+                                            findDsct(attachments,
+                                                'house_property_card_pdf'), 'house_property_card_pdf');
+                                    }}
+                                />
+                                {
+                                    this.addPicKey(++picIndex, 'house_property_card_pdf')
                                 }
                             </Col>
                         </Row>
@@ -1054,10 +1151,33 @@ class preloanAccessDetail extends React.Component {
                                             'live_prove_pdf');
                                     }}
                                 />
+                                {
+                                    this.addPicKey(++picIndex, `live_prove_pdf`)
+                                }
                             </Col>
                             <Col span={6}></Col>
                             <Col span={6}></Col>
                             <Col span={6}></Col>
+                        </Row>
+                        <Row style={{marginTop: '34px'}}>
+                            <Col span={24}>
+                                <span>户口本</span>
+                                <br />
+                                {
+                                    hkBookFirstPage.map((item, index) => {
+                                        this.addPicKey(++picIndex, `hk_book_first_page_${index}`);
+                                        return <img
+                                            key={item.url}
+                                            src={item.url}
+                                            className="preLoan-body-table-content-tab-card" style={{marginRight: '20px', 'marginBottom': '20px'}}
+                                            onClick={() => {
+                                                this.showCarousePic(item.dkey,
+                                                    `hk_book_first_page_${index}`);
+                                            }}
+                                        />;
+                                    })
+                                }
+                            </Col>
                         </Row>
                         <div className="preLoan-detail-row-line"></div>
                         <Row style={{marginTop: '34px'}}>
@@ -1065,8 +1185,9 @@ class preloanAccessDetail extends React.Component {
                                 <span>银行流水</span>
                                 <br />
                                 {
-                                    bankJourFirstPage.map((item, index) => (
-                                        <img
+                                    bankJourFirstPage.map((item, index) => {
+                                        this.addPicKey(++picIndex, `bank_jour_first_page_${index}`);
+                                        return <img
                                             key={item.url}
                                             src={item.url}
                                             className="preLoan-body-table-content-tab-card"
@@ -1075,8 +1196,8 @@ class preloanAccessDetail extends React.Component {
                                                 this.showCarousePic(item.dkey,
                                                     `bank_jour_first_page_${index}`);
                                             }}
-                                        />
-                                    ))
+                                        />;
+                                    })
                                 }
                             </Col>
                         </Row>
@@ -1086,8 +1207,9 @@ class preloanAccessDetail extends React.Component {
                                 <span>支付宝流水</span>
                                 <br/>
                                 {
-                                    zfbJour.map((item, index) => (
-                                        <img
+                                    zfbJour.map((item, index) => {
+                                        this.addPicKey(++picIndex, `zfb_jour_${index}`);
+                                        return <img
                                             key={item.url}
                                             src={item.url}
                                             className="preLoan-body-table-content-tab-card"
@@ -1096,8 +1218,8 @@ class preloanAccessDetail extends React.Component {
                                                 this.showCarousePic(item.dkey,
                                                     `zfb_jour_${index}`);
                                             }}
-                                        />
-                                    ))
+                                        />;
+                                    })
                                 }
                             </Col>
                         </Row>
@@ -1107,8 +1229,9 @@ class preloanAccessDetail extends React.Component {
                                 <span>微信流水</span>
                                 <br/>
                                 {
-                                    wxJour.map((item, index) => (
-                                        <img
+                                    wxJour.map((item, index) => {
+                                        this.addPicKey(++picIndex, `wx_jour_${index}`);
+                                        return <img
                                             key={item.url}
                                             src={item.url}
                                             className="preLoan-body-table-content-tab-card"
@@ -1117,8 +1240,8 @@ class preloanAccessDetail extends React.Component {
                                                 this.showCarousePic(item.dkey,
                                                     `wx_jour_${index}`);
                                             }}
-                                        />
-                                    ))
+                                        />;
+                                    })
                                 }
                             </Col>
                         </Row>
@@ -1128,8 +1251,9 @@ class preloanAccessDetail extends React.Component {
                                 <span>其他</span>
                                 <br />
                                 {
-                                    otherPdf.map((item, index) => (
-                                        <img
+                                    otherPdf.map((item, index) => {
+                                        this.addPicKey(++picIndex, `other_pdf_${index}`);
+                                        return <img
                                             key={item.url}
                                             src={item.url}
                                             className="preLoan-body-table-content-tab-card"
@@ -1138,8 +1262,8 @@ class preloanAccessDetail extends React.Component {
                                                 this.showCarousePic(item.dkey,
                                                     `other_pdf_${index}`);
                                             }}
-                                        />
-                                    ))
+                                        />;
+                                    })
                                 }
                             </Col>
                         </Row>
@@ -1153,47 +1277,59 @@ class preloanAccessDetail extends React.Component {
                     </div>
                     <div className="preLoan-detail-box-content">
                         <Row style={{marginTop: '34px'}}>
-                            <Col span={6}>
+                            <Col span={24}>
                                 <span>上门照片</span>
                                 <br />
-                                <img
-                                    src={findDsct(attachments, 'door_photo') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'door_photo')}
-                                    className="preLoan-body-table-content-tab-card"
-                                    onClick={() => {
-                                        this.showCarousePic(
-                                            findDsct(attachments, 'door_photo'),
-                                            'door_photo');
-                                    }}
-                                />
+                                {
+                                    doorPhotoList.map((item, index) => {
+                                        this.addPicKey(++picIndex, `door_photo_${index}`);
+                                        return <img
+                                            key={item.url}
+                                            src={item.url}
+                                            className="preLoan-body-table-content-tab-card"
+                                            style={{marginRight: '20px', 'marginBottom': '20px'}}
+                                            onClick={() => {
+                                                this.showCarousePic(item.dkey,
+                                                    `door_photo_${index}`);
+                                            }}
+                                        />;
+                                    })
+                                }
                             </Col>
-                            <Col span={6}></Col>
-                            <Col span={6}></Col>
-                            <Col span={6}></Col>
+                        </Row>
+                        <div className="preLoan-detail-row-line"></div>
+                        <Row style={{marginTop: '34px'}}>
+                            <Col span={24}>
+                                <span>合照</span>
+                                <br />
+                                {
+                                    groupPhotoList.map((item, index) => {
+                                        this.addPicKey(++picIndex, `group_photo_${index}`);
+                                        return <img
+                                            key={item.url}
+                                            src={item.url}
+                                            className="preLoan-body-table-content-tab-card"
+                                            style={{marginRight: '20px', 'marginBottom': '20px'}}
+                                            onClick={() => {
+                                                this.showCarousePic(item.dkey,
+                                                    `group_photo_${index}`);
+                                            }}
+                                        />;
+                                    })
+                                }
+                            </Col>
                         </Row>
                         <div className="preLoan-detail-row-line"></div>
                         <Row style={{marginTop: '34px'}}>
                             <Col span={6}>
-                                <span>合照</span>
-                                <br />
-                                <img
-                                    src={findDsct(attachments, 'group_photo') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'group_photo')}
-                                    className="preLoan-body-table-content-tab-card"
-                                    onClick={() => {
-                                        this.showCarousePic(
-                                            findDsct(attachments,
-                                                'group_photo'), 'group_photo');
-                                    }}
-                                />
-                            </Col>
-                            <Col span={6}></Col>
-                            <Col span={6}></Col>
-                            <Col span={6}></Col>
-                        </Row>
-                        <Row style={{marginTop: '34px'}}>
-                            <Col span={6}>
                                 <span>家访视频</span>
                                 <br />
-                                <div><a src={findDsct(attachments, 'house_video') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'house_video')}>点击家访视频</a></div>
+                                <div>
+                                    <a src={findDsct(attachments, 'house_video') === '' ? zanwu : PIC_PREFIX + findDsct(attachments, 'house_video')}>点击家访视频</a>
+                                    {
+                                        !!findDsct(attachments, 'house_video') && this.addPicKey(`house_video`)
+                                    }
+                                </div>
                             </Col>
                             <Col span={6}></Col>
                             <Col span={6}></Col>
@@ -1211,8 +1347,9 @@ class preloanAccessDetail extends React.Component {
                         <Row style={{marginTop: '34px'}}>
                             <Col span={24}>
                                 {
-                                    carHead.map((item, index) => (
-                                        <img
+                                    carHead.map((item, index) => {
+                                        this.addPicKey(++picIndex, `car_head_${index}`);
+                                        return <img
                                             key={item.url}
                                             src={item.url}
                                             className="preLoan-body-table-content-tab-card"
@@ -1221,8 +1358,8 @@ class preloanAccessDetail extends React.Component {
                                                 this.showCarousePic(item.dkey,
                                                     `car_head_${index}`);
                                             }}
-                                        />
-                                    ))
+                                        />;
+                                    })
                                 }
                             </Col>
                         </Row>
@@ -1232,9 +1369,9 @@ class preloanAccessDetail extends React.Component {
                                 <span>车辆登记证书</span>
                                 <br />
                                 {
-                                    carRegisterCertificateFirst.map(
-                                        (item, index) => (
-                                        <img
+                                    carRegisterCertificateFirst.map((item, index) => {
+                                        this.addPicKey(++picIndex, `car_register_certificate_first_${index}`);
+                                        return <img
                                             key={item.url}
                                             src={item.url}
                                             className="preLoan-body-table-content-tab-card"
@@ -1243,17 +1380,20 @@ class preloanAccessDetail extends React.Component {
                                                 this.showCarousePic(item.dkey,
                                                     `car_register_certificate_first_${index}`);
                                             }}
-                                        />
-                                    ))
+                                        />;
+                                    })
                                 }
                             </Col>
                         </Row>
                     </div>
                 </div>
-                <CarouselComponent attachments={attachments}
-                                   visibleCarouse={visibleCarouse}
-                                   carousePic={carousePic}
-                                   selectPicKey={selectPicKey}/>
+                <CarouselComponent
+                    attachments={attachments}
+                    visibleCarouse={visibleCarouse}
+                    carousePic={carousePic}
+                    selectPicKey={selectPicKey}
+                    picKeyObj={picKeyObj}
+                />
             </div>
         );
     }

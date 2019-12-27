@@ -84,7 +84,8 @@ export default class CarouselComponent extends React.Component {
                 visible: true,
                 carousePic: nextProps.carousePic
             }, () => {
-                const {attachments} = this.props;
+                const {attachments, picKeyObj} = this.props;
+                const keyList = Object.values(picKeyObj);
                 const {carouselBtnList, attachmentsObj} = this.state;
                 let attachmentsList = [];
                 if(Array.isArray(attachments)) {
@@ -117,19 +118,34 @@ export default class CarouselComponent extends React.Component {
                         }
                     });
                 }
-                attachmentsList.forEach((item, index) => {
-                    if (item.dkey === nextProps.selectPicKey) {
-                        setTimeout(() => {
-                            this.setState({
-                                title: attachmentsList[index].vname
-                            });
-                            this.welcome.goTo(index);
-                        }, 100);
+                let obj = {};
+                let arr = [];
+                attachmentsList.forEach((item) => {
+                    if(obj[item.dkey]) {
+                        obj[item.dkey].push(item);
+                    }else {
+                        obj[item.dkey] = [item];
                     }
                 });
-                this.setState({
-                    attachmentsList
+                keyList.forEach(item => {
+                    !!obj[item] && arr.push(obj[item]);
                 });
+                arr = arr.flat();
+                if(arr.length > 0) {
+                    arr.forEach((item, index) => {
+                        if (item.dkey === nextProps.selectPicKey) {
+                            setTimeout(() => {
+                                this.setState({
+                                    title: attachmentsList[index].vname
+                                });
+                                this.welcome.goTo(index);
+                            }, 200);
+                        }
+                    });
+                    this.setState({
+                        attachmentsList: arr
+                    });
+                }
             });
         }
         return true;
