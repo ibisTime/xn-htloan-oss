@@ -65,7 +65,7 @@
     "@antv/data-set": "^0.8.9",
     "bizcharts": "^3.1.8",
     "prop-types": "^15.6.2",
-    "xlsx": "^0.12.9"
+    "xlsx": "^0.17.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
